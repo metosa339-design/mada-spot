@@ -1,0 +1,349 @@
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
+import {
+  Hotel,
+  UtensilsCrossed,
+  Mountain,
+  Briefcase,
+  ChevronDown,
+  ArrowRight,
+  Sparkles,
+  Compass,
+  Heart,
+  CalendarCheck,
+  Star,
+  Building2,
+  MapPin,
+  TrendingUp,
+  Shield,
+} from 'lucide-react'
+import { REGISTRATION_CATEGORIES, type RegistrationCategory } from '@/data/registration-types'
+
+const ICONS: Record<string, any> = {
+  Hotel,
+  UtensilsCrossed,
+  Mountain,
+  Briefcase,
+}
+
+type Mode = 'choose' | 'pro'
+
+export default function RegisterChooserPage() {
+  const router = useRouter()
+  const [mode, setMode] = useState<Mode>('choose')
+  const [expandedType, setExpandedType] = useState<string | null>(null)
+  const [selectedSubtype, setSelectedSubtype] = useState<{ type: string; subtype: string } | null>(null)
+
+  const handleToggle = (type: string) => {
+    setExpandedType(expandedType === type ? null : type)
+    setSelectedSubtype(null)
+  }
+
+  const handleSelectSubtype = (category: RegistrationCategory, subtypeValue: string) => {
+    setSelectedSubtype({ type: category.type, subtype: subtypeValue })
+  }
+
+  const handleContinuePro = () => {
+    if (!selectedSubtype) return
+    sessionStorage.setItem(
+      'mada-spot-registration-intent',
+      JSON.stringify(selectedSubtype)
+    )
+    router.push(
+      `/register-client?type=${selectedSubtype.type}&subtype=${encodeURIComponent(selectedSubtype.subtype)}`
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0f] text-white">
+      {/* Header minimaliste */}
+      <div className="border-b border-[#2a2a36]">
+        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            <Image src="/logo.png" alt="Mada Spot" width={36} height={36} className="w-9 h-9 object-contain" />
+            <span className="text-xl font-bold text-white">
+              Mada<span className="text-orange-500"> Spot</span>
+            </span>
+          </Link>
+          <Link
+            href="/login"
+            className="text-sm text-gray-400 hover:text-white transition-colors"
+          >
+            Déjà un compte ? <span className="text-orange-400 font-medium">Se connecter</span>
+          </Link>
+        </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+        <AnimatePresence mode="wait">
+          {mode === 'choose' ? (
+            <motion.div
+              key="choose"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Titre */}
+              <div className="text-center mb-10">
+                <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">
+                  Rejoignez Mada Spot
+                </h1>
+                <p className="text-gray-400 max-w-lg mx-auto">
+                  Comment souhaitez-vous utiliser Mada Spot ?
+                </p>
+              </div>
+
+              {/* 2 gros choix */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto mb-8">
+                {/* Carte Voyageur */}
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -4 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => router.push('/register-client')}
+                  className="group relative bg-[#1a1a24] rounded-2xl border-2 border-[#2a2a36] hover:border-cyan-500/50 p-8 text-left transition-all overflow-hidden"
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-cyan-500/10 to-transparent rounded-bl-full" />
+                  <div className="relative">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center mb-5">
+                      <Compass className="w-8 h-8 text-white" />
+                    </div>
+                    <h2 className="text-xl font-bold text-white mb-2">Je suis voyageur</h2>
+                    <p className="text-gray-400 text-sm mb-5">
+                      Je veux découvrir Madagascar, réserver des hébergements et restaurants
+                    </p>
+                    <div className="space-y-2">
+                      {[
+                        { icon: Heart, text: 'Sauvegarder mes favoris' },
+                        { icon: CalendarCheck, text: 'Réserver en ligne' },
+                        { icon: Star, text: 'Laisser des avis' },
+                      ].map((item) => (
+                        <div key={item.text} className="flex items-center gap-2 text-sm text-gray-500">
+                          <item.icon className="w-4 h-4 text-cyan-400" />
+                          {item.text}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-6 flex items-center gap-2 text-cyan-400 font-medium text-sm group-hover:gap-3 transition-all">
+                      Créer mon compte voyageur
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                </motion.button>
+
+                {/* Carte Professionnel */}
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -4 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setMode('pro')}
+                  className="group relative bg-[#1a1a24] rounded-2xl border-2 border-[#2a2a36] hover:border-[#ff6b35]/50 p-8 text-left transition-all overflow-hidden"
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#ff6b35]/10 to-transparent rounded-bl-full" />
+                  <div className="relative">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#ff6b35] to-pink-500 flex items-center justify-center mb-5">
+                      <Building2 className="w-8 h-8 text-white" />
+                    </div>
+                    <h2 className="text-xl font-bold text-white mb-2">Je suis professionnel</h2>
+                    <p className="text-gray-400 text-sm mb-5">
+                      Je veux référencer mon hôtel, restaurant, attraction ou service
+                    </p>
+                    <div className="space-y-2">
+                      {[
+                        { icon: MapPin, text: 'Publier mon établissement' },
+                        { icon: TrendingUp, text: 'Gérer mes réservations' },
+                        { icon: Shield, text: 'Dashboard professionnel' },
+                      ].map((item) => (
+                        <div key={item.text} className="flex items-center gap-2 text-sm text-gray-500">
+                          <item.icon className="w-4 h-4 text-[#ff6b35]" />
+                          {item.text}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-6 flex items-center gap-2 text-[#ff6b35] font-medium text-sm group-hover:gap-3 transition-all">
+                      Inscrire mon établissement
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                </motion.button>
+              </div>
+
+              {/* Texte rassurant */}
+              <p className="text-center text-gray-600 text-sm">
+                Inscription gratuite — Vous pourrez toujours changer plus tard
+              </p>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="pro"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Bouton retour */}
+              <button
+                onClick={() => { setMode('choose'); setSelectedSubtype(null); setExpandedType(null) }}
+                className="flex items-center gap-2 text-sm text-gray-400 hover:text-white mb-6 transition-colors"
+              >
+                <ArrowRight className="w-4 h-4 rotate-180" />
+                Retour au choix
+              </button>
+
+              {/* Étapes indicateur */}
+              <div className="flex items-center justify-center gap-2 mb-8">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-[#ff6b35] text-white flex items-center justify-center text-sm font-bold">
+                    1
+                  </div>
+                  <span className="text-sm font-medium text-white">Type</span>
+                </div>
+                <div className="w-8 h-px bg-[#2a2a36]" />
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-[#2a2a36] text-gray-500 flex items-center justify-center text-sm font-bold">
+                    2
+                  </div>
+                  <span className="text-sm text-gray-500">Compte</span>
+                </div>
+                <div className="w-8 h-px bg-[#2a2a36]" />
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-[#2a2a36] text-gray-500 flex items-center justify-center text-sm font-bold">
+                    3
+                  </div>
+                  <span className="text-sm text-gray-500">Publication</span>
+                </div>
+              </div>
+
+              {/* Titre */}
+              <div className="text-center mb-10">
+                <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">
+                  Quel type d'établissement ?
+                </h1>
+                <p className="text-gray-400 max-w-lg mx-auto">
+                  Choisissez votre catégorie et sous-type pour personnaliser votre inscription
+                  et publier votre établissement sur Mada Spot.
+                </p>
+              </div>
+
+              {/* Catégories */}
+              <div className="space-y-4 mb-8">
+                {REGISTRATION_CATEGORIES.map((category) => {
+                  const Icon = ICONS[category.icon] || Mountain
+                  const isExpanded = expandedType === category.type
+                  const hasSelection = selectedSubtype?.type === category.type
+
+                  return (
+                    <motion.div
+                      key={category.type}
+                      layout
+                      className={`bg-[#1a1a24] rounded-2xl border overflow-hidden transition-colors ${
+                        hasSelection
+                          ? 'border-[#ff6b35]/50 shadow-lg shadow-[#ff6b35]/5'
+                          : 'border-[#2a2a36] hover:border-[#3a3a46]'
+                      }`}
+                    >
+                      <button
+                        onClick={() => handleToggle(category.type)}
+                        className="w-full flex items-center gap-4 p-5 sm:p-6 text-left"
+                      >
+                        <div
+                          className={`w-14 h-14 rounded-xl flex items-center justify-center bg-gradient-to-br ${category.gradient} shrink-0`}
+                        >
+                          <Icon className="w-7 h-7 text-white" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h2 className="text-lg font-semibold text-white">{category.label}</h2>
+                            <span className="text-xs text-gray-500 bg-[#2a2a36] px-2 py-0.5 rounded-full">
+                              {category.subtypes.length} types
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-400 mt-0.5 truncate">{category.description}</p>
+                          {hasSelection && (
+                            <p className="text-xs text-[#ff6b35] mt-1 font-medium">
+                              {category.subtypes.find((s) => s.value === selectedSubtype?.subtype)?.label}
+                            </p>
+                          )}
+                        </div>
+                        <ChevronDown
+                          className={`w-5 h-5 text-gray-500 transition-transform shrink-0 ${
+                            isExpanded ? 'rotate-180' : ''
+                          }`}
+                        />
+                      </button>
+
+                      <AnimatePresence>
+                        {isExpanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="px-5 pb-5 sm:px-6 sm:pb-6 pt-0">
+                              <div className="border-t border-[#2a2a36] pt-4">
+                                <p className="text-xs text-gray-500 mb-3 uppercase tracking-wider font-medium">
+                                  Sélectionnez votre sous-type
+                                </p>
+                                <div className="flex flex-wrap gap-2">
+                                  {category.subtypes.map((subtype) => {
+                                    const isSelected =
+                                      selectedSubtype?.type === category.type &&
+                                      selectedSubtype?.subtype === subtype.value
+
+                                    return (
+                                      <button
+                                        key={subtype.value}
+                                        onClick={() => handleSelectSubtype(category, subtype.value)}
+                                        className={`group relative px-3.5 py-2 rounded-xl text-sm font-medium transition-all ${
+                                          isSelected
+                                            ? 'bg-[#ff6b35] text-white shadow-lg shadow-[#ff6b35]/20'
+                                            : 'bg-[#0a0a0f] border border-[#2a2a36] text-gray-300 hover:border-[#ff6b35]/40 hover:text-white'
+                                        }`}
+                                        title={subtype.description}
+                                      >
+                                        {subtype.label}
+                                      </button>
+                                    )
+                                  })}
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  )
+                })}
+              </div>
+
+              {/* Bouton continuer */}
+              <div className="flex flex-col items-center gap-4">
+                <motion.button
+                  whileHover={selectedSubtype ? { scale: 1.02 } : {}}
+                  whileTap={selectedSubtype ? { scale: 0.98 } : {}}
+                  onClick={handleContinuePro}
+                  disabled={!selectedSubtype}
+                  className={`w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl text-base font-semibold transition-all ${
+                    selectedSubtype
+                      ? 'bg-gradient-to-r from-[#ff6b35] to-pink-500 text-white shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30'
+                      : 'bg-[#2a2a36] text-gray-500 cursor-not-allowed'
+                  }`}
+                >
+                  <Sparkles className="w-5 h-5" />
+                  Continuer l'inscription
+                  <ArrowRight className="w-5 h-5" />
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  )
+}

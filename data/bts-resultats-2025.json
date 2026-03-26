@@ -1,0 +1,423 @@
+{
+  "titre": "Résultats du Brevet de Technicien Supérieur - Session Juin 2025",
+  "academie": "Nice",
+  "source": "Académie de Nice - Direction Inter-Académique des Statistiques, des Etudes et de la Prospective",
+  "edition": "Octobre 2025",
+  "resultats_globaux": {
+    "total_academie": {
+      "admis": 4020,
+      "presentes": 5107,
+      "taux_reussite": 78.7
+    },
+    "alpes_maritimes": {
+      "total": {
+        "admis": 2419,
+        "presentes": 3091,
+        "taux_reussite": 78.3
+      },
+      "production": {
+        "admis": 363,
+        "presentes": 453,
+        "taux_reussite": 80.1
+      },
+      "services": {
+        "admis": 2056,
+        "presentes": 2638,
+        "taux_reussite": 77.9
+      }
+    },
+    "var": {
+      "total": {
+        "admis": 1601,
+        "presentes": 2016,
+        "taux_reussite": 79.4
+      },
+      "production": {
+        "admis": 237,
+        "presentes": 306,
+        "taux_reussite": 77.5
+      },
+      "services": {
+        "admis": 1364,
+        "presentes": 1710,
+        "taux_reussite": 79.8
+      }
+    }
+  },
+  "alpes_maritimes": {
+    "public": [
+      {
+        "ville": "ANTIBES",
+        "etablissement": "LPO LEONARD DE VINCI",
+        "formations": [
+          {"nom": "Bâtiment", "admis": 21, "presentes": 28, "taux": 75.0},
+          {"nom": "Fluides énergies domotique option A : génie climatique et fluidique", "admis": 7, "presentes": 8, "taux": 87.5},
+          {"nom": "Fluides énergies domotique option B : froid et conditionnement d'air", "admis": 7, "presentes": 9, "taux": 77.8},
+          {"nom": "Maintenance des systèmes option B : Systèmes énergétiques et fluidiques", "admis": 11, "presentes": 14, "taux": 78.6},
+          {"nom": "Management économique de la construction", "admis": 31, "presentes": 34, "taux": 91.2},
+          {"nom": "Métiers du géomètre-topographe et de la modélisation numérique", "admis": 18, "presentes": 19, "taux": 94.7},
+          {"nom": "Travaux Publics", "admis": 17, "presentes": 22, "taux": 77.3}
+        ],
+        "total": {"admis": 112, "presentes": 134, "taux": 83.6}
+      },
+      {
+        "ville": "ANTIBES",
+        "etablissement": "LGT J. AUDIBERTI",
+        "formations": [
+          {"nom": "Assurance", "admis": 10, "presentes": 10, "taux": 100.0},
+          {"nom": "Banque - conseiller de clientèle", "admis": 19, "presentes": 22, "taux": 86.4},
+          {"nom": "Comptabilité et gestion", "admis": 8, "presentes": 13, "taux": 61.5},
+          {"nom": "Négociation et digitalisation de la relation client", "admis": 21, "presentes": 21, "taux": 100.0},
+          {"nom": "Professions immobilières", "admis": 13, "presentes": 18, "taux": 72.2},
+          {"nom": "Support à l'action managériale", "admis": 15, "presentes": 15, "taux": 100.0}
+        ],
+        "total": {"admis": 86, "presentes": 99, "taux": 86.9}
+      },
+      {
+        "ville": "CAGNES SUR MER",
+        "etablissement": "LGT AUGUSTE RENOIR",
+        "formations": [
+          {"nom": "Management commercial opérationnel", "admis": 23, "presentes": 26, "taux": 88.5}
+        ],
+        "total": {"admis": 23, "presentes": 26, "taux": 88.5}
+      },
+      {
+        "ville": "CANNES",
+        "etablissement": "CFA FACULTE DES METIERS",
+        "formations": [
+          {"nom": "Management commercial opérationnel", "admis": 6, "presentes": 9, "taux": 66.7},
+          {"nom": "Tourisme", "admis": 16, "presentes": 19, "taux": 84.2}
+        ],
+        "total": {"admis": 22, "presentes": 28, "taux": 78.6}
+      },
+      {
+        "ville": "CANNES",
+        "etablissement": "LP LES COTEAUX",
+        "formations": [
+          {"nom": "Métiers de la mode-vêtements", "admis": 8, "presentes": 8, "taux": 100.0},
+          {"nom": "Management commercial opérationnel", "admis": 12, "presentes": 13, "taux": 92.3}
+        ],
+        "total": {"admis": 20, "presentes": 21, "taux": 95.2}
+      },
+      {
+        "ville": "CANNES",
+        "etablissement": "LG CARNOT",
+        "formations": [
+          {"nom": "Métiers de l'audiovisuel, option Gestion de production", "admis": 8, "presentes": 8, "taux": 100.0},
+          {"nom": "Métiers de l'audiovisuel, option Métiers de l'image", "admis": 8, "presentes": 8, "taux": 100.0},
+          {"nom": "Métiers de l'audiovisuel, option Métiers du montage et de la postproduction", "admis": 8, "presentes": 8, "taux": 100.0},
+          {"nom": "Métiers de l'audiovisuel, option Métiers du son", "admis": 6, "presentes": 6, "taux": 100.0},
+          {"nom": "Métiers de l'audiovisuel, option Techniques d'ingénierie et exploitation des équipements", "admis": 6, "presentes": 7, "taux": 85.7}
+        ],
+        "total": {"admis": 36, "presentes": 37, "taux": 97.3}
+      },
+      {
+        "ville": "CANNES",
+        "etablissement": "LGT BRISTOL",
+        "formations": [
+          {"nom": "Commerce international", "admis": 25, "presentes": 26, "taux": 96.2},
+          {"nom": "Communication", "admis": 10, "presentes": 12, "taux": 83.3},
+          {"nom": "Gestion des transports et logistique associée", "admis": 14, "presentes": 19, "taux": 73.7}
+        ],
+        "total": {"admis": 49, "presentes": 57, "taux": 86.0}
+      },
+      {
+        "ville": "CANNES",
+        "etablissement": "LGT JULES FERRY",
+        "formations": [
+          {"nom": "Biotechnologies", "admis": 16, "presentes": 20, "taux": 80.0},
+          {"nom": "Cybersécurité, Informatique et réseaux, Électronique Option B : Électronique et réseaux", "admis": 21, "presentes": 27, "taux": 77.8},
+          {"nom": "Maintenance des systèmes option A : Systèmes de production", "admis": 16, "presentes": 22, "taux": 72.7},
+          {"nom": "Analyses de biologie médicale", "admis": 17, "presentes": 22, "taux": 77.3}
+        ],
+        "total": {"admis": 70, "presentes": 91, "taux": 76.9}
+      },
+      {
+        "ville": "CANNES LA BOCCA",
+        "etablissement": "LP ALFRED HUTINEL",
+        "formations": [
+          {"nom": "Management opérationnel de la sécurité", "admis": 17, "presentes": 17, "taux": 100.0}
+        ],
+        "total": {"admis": 17, "presentes": 17, "taux": 100.0}
+      },
+      {
+        "ville": "GRASSE",
+        "etablissement": "LP FRANCIS CROISSET",
+        "formations": [
+          {"nom": "Management en hôtellerie-restauration option A : Management d'unité de restauration", "admis": 0, "presentes": 3, "taux": 0.0},
+          {"nom": "Management en hôtellerie-restauration option B : Management d'unité de production culinaire", "admis": 10, "presentes": 10, "taux": 100.0},
+          {"nom": "Management en hôtellerie-restauration option C : Management d'unité d'hébergement", "admis": 1, "presentes": 1, "taux": 100.0}
+        ],
+        "total": {"admis": 11, "presentes": 14, "taux": 78.6}
+      },
+      {
+        "ville": "GRASSE",
+        "etablissement": "LP LEON CHIRIS",
+        "formations": [
+          {"nom": "Étude et réalisation d'agencement", "admis": 6, "presentes": 9, "taux": 66.7},
+          {"nom": "Fluides énergies domotique option C : domotique et bâtiments communicants", "admis": 11, "presentes": 18, "taux": 61.1},
+          {"nom": "Maintenance des véhicules option A : Voitures particulières", "admis": 5, "presentes": 8, "taux": 62.5}
+        ],
+        "total": {"admis": 22, "presentes": 35, "taux": 62.9}
+      },
+      {
+        "ville": "GRASSE",
+        "etablissement": "LGT AMIRAL DE GRASSE",
+        "formations": [
+          {"nom": "Conseil et commercialisation de solutions techniques", "admis": 7, "presentes": 9, "taux": 77.8},
+          {"nom": "Management commercial opérationnel", "admis": 18, "presentes": 27, "taux": 66.7}
+        ],
+        "total": {"admis": 25, "presentes": 36, "taux": 69.4}
+      },
+      {
+        "ville": "GRASSE",
+        "etablissement": "LGT ALEXIS DE TOCQUEVILLE",
+        "formations": [
+          {"nom": "Bioanalyses et contrôles", "admis": 15, "presentes": 15, "taux": 100.0},
+          {"nom": "Gestion de la PME", "admis": 12, "presentes": 15, "taux": 80.0}
+        ],
+        "total": {"admis": 27, "presentes": 30, "taux": 90.0}
+      },
+      {
+        "ville": "MENTON",
+        "etablissement": "LP PAUL VALERY",
+        "formations": [
+          {"nom": "Management commercial opérationnel", "admis": 8, "presentes": 8, "taux": 100.0}
+        ],
+        "total": {"admis": 8, "presentes": 8, "taux": 100.0}
+      },
+      {
+        "ville": "MENTON",
+        "etablissement": "LGT P. ET M. CURIE",
+        "formations": [
+          {"nom": "Gestion de la PME", "admis": 16, "presentes": 17, "taux": 94.1},
+          {"nom": "Support à l'action managériale", "admis": 7, "presentes": 7, "taux": 100.0}
+        ],
+        "total": {"admis": 23, "presentes": 24, "taux": 95.8}
+      },
+      {
+        "ville": "NICE",
+        "etablissement": "LP LES PALMIERS",
+        "formations": [
+          {"nom": "Négociation et digitalisation de la relation client", "admis": 22, "presentes": 22, "taux": 100.0}
+        ],
+        "total": {"admis": 22, "presentes": 22, "taux": 100.0}
+      },
+      {
+        "ville": "NICE",
+        "etablissement": "LP MAGNAN",
+        "formations": [
+          {"nom": "Métiers de l'esthétique, de la cosmétique et de la parfumerie Option A : Management", "admis": 1, "presentes": 3, "taux": 33.3}
+        ],
+        "total": {"admis": 1, "presentes": 3, "taux": 33.3}
+      },
+      {
+        "ville": "NICE",
+        "etablissement": "LPO PAUL AUGIER",
+        "formations": [
+          {"nom": "Management en hôtellerie-restauration option A : Management d'unité de restauration", "admis": 20, "presentes": 25, "taux": 80.0},
+          {"nom": "Management en hôtellerie-restauration option B : Management d'unité de production culinaire", "admis": 36, "presentes": 40, "taux": 90.0},
+          {"nom": "Management en hôtellerie-restauration option C : Management d'unité d'hébergement", "admis": 31, "presentes": 32, "taux": 96.9},
+          {"nom": "Tourisme", "admis": 68, "presentes": 78, "taux": 87.2}
+        ],
+        "total": {"admis": 155, "presentes": 175, "taux": 88.6}
+      },
+      {
+        "ville": "NICE",
+        "etablissement": "CFA CFA CCINCA NICE",
+        "formations": [
+          {"nom": "Maintenance des véhicules option A : Voitures particulières", "admis": 10, "presentes": 12, "taux": 83.3},
+          {"nom": "Prothésiste dentaire", "admis": 12, "presentes": 14, "taux": 85.7},
+          {"nom": "Services et prestations des secteurs sanitaire et social", "admis": 5, "presentes": 6, "taux": 83.3}
+        ],
+        "total": {"admis": 27, "presentes": 32, "taux": 84.4}
+      },
+      {
+        "ville": "NICE",
+        "etablissement": "GRETA Côte d'Azur",
+        "formations": [
+          {"nom": "Électrotechnique", "admis": 9, "presentes": 10, "taux": 90.0},
+          {"nom": "Banque - conseiller de clientèle", "admis": 7, "presentes": 8, "taux": 87.5},
+          {"nom": "Tourisme", "admis": 4, "presentes": 5, "taux": 80.0}
+        ],
+        "total": {"admis": 20, "presentes": 23, "taux": 87.0}
+      },
+      {
+        "ville": "NICE",
+        "etablissement": "LGT ALBERT CALMETTE",
+        "formations": [
+          {"nom": "Management commercial opérationnel", "admis": 17, "presentes": 19, "taux": 89.5}
+        ],
+        "total": {"admis": 17, "presentes": 19, "taux": 89.5}
+      },
+      {
+        "ville": "NICE",
+        "etablissement": "LGT G. APOLLINAIRE",
+        "formations": [
+          {"nom": "Assistance technique d'ingénieur", "admis": 10, "presentes": 15, "taux": 66.7},
+          {"nom": "Cybersécurité, Informatique et réseaux, Électronique Option B : Électronique et réseaux", "admis": 12, "presentes": 14, "taux": 85.7}
+        ],
+        "total": {"admis": 22, "presentes": 29, "taux": 75.9}
+      },
+      {
+        "ville": "NICE",
+        "etablissement": "LYCEE DU PARC IMPERIAL",
+        "formations": [
+          {"nom": "Commerce international", "admis": 29, "presentes": 31, "taux": 93.5},
+          {"nom": "Communication", "admis": 18, "presentes": 22, "taux": 81.8},
+          {"nom": "Management commercial opérationnel", "admis": 16, "presentes": 17, "taux": 94.1},
+          {"nom": "Négociation et digitalisation de la relation client", "admis": 34, "presentes": 35, "taux": 97.1},
+          {"nom": "Professions immobilières", "admis": 10, "presentes": 13, "taux": 76.9}
+        ],
+        "total": {"admis": 107, "presentes": 118, "taux": 90.7}
+      },
+      {
+        "ville": "NICE",
+        "etablissement": "LGT D'ESTIENNE D'ORVES",
+        "formations": [
+          {"nom": "Collaborateur juriste notarial", "admis": 20, "presentes": 23, "taux": 87.0},
+          {"nom": "Comptabilité et gestion", "admis": 60, "presentes": 65, "taux": 92.3},
+          {"nom": "Économie sociale familiale", "admis": 6, "presentes": 6, "taux": 100.0},
+          {"nom": "Gestion de la PME", "admis": 43, "presentes": 44, "taux": 97.7},
+          {"nom": "Services et prestations des secteurs sanitaire et social", "admis": 14, "presentes": 16, "taux": 87.5},
+          {"nom": "Services informatiques aux organisations option A : Solutions d'infrastructure, systèmes et réseaux", "admis": 18, "presentes": 22, "taux": 81.8},
+          {"nom": "Services informatiques aux organisations option B : Solutions logicielles et applications métiers", "admis": 10, "presentes": 10, "taux": 100.0},
+          {"nom": "Support à l'action managériale", "admis": 20, "presentes": 21, "taux": 95.2}
+        ],
+        "total": {"admis": 191, "presentes": 207, "taux": 92.3}
+      },
+      {
+        "ville": "NICE",
+        "etablissement": "LGT LES EUCALYPTUS",
+        "formations": [
+          {"nom": "Conception des processus de réalisation de produits option B : production sérielle", "admis": 13, "presentes": 22, "taux": 59.1},
+          {"nom": "Conception des produits industriels", "admis": 17, "presentes": 22, "taux": 77.3},
+          {"nom": "Cybersécurité, Informatique et réseaux, Électronique Option A : Informatique et réseaux", "admis": 16, "presentes": 18, "taux": 88.9},
+          {"nom": "Électrotechnique", "admis": 17, "presentes": 22, "taux": 77.3},
+          {"nom": "Maintenance des véhicules option A : Voitures particulières", "admis": 13, "presentes": 13, "taux": 100.0}
+        ],
+        "total": {"admis": 76, "presentes": 97, "taux": 78.4}
+      },
+      {
+        "ville": "NICE",
+        "etablissement": "LGT MELINEE ET MISSAK MANOUCHIAN",
+        "formations": [
+          {"nom": "Métiers de la chimie", "admis": 18, "presentes": 18, "taux": 100.0}
+        ],
+        "total": {"admis": 18, "presentes": 18, "taux": 100.0}
+      },
+      {
+        "ville": "NICE",
+        "etablissement": "LP VAUBAN",
+        "formations": [
+          {"nom": "Finitions, aménagement des bâtiments: conception et réalisation", "admis": 5, "presentes": 6, "taux": 83.3}
+        ],
+        "total": {"admis": 5, "presentes": 6, "taux": 83.3}
+      }
+    ],
+    "prive_sous_contrat": [
+      {
+        "ville": "CANNES",
+        "etablissement": "LP PR LES FAUVETTES",
+        "formations": [
+          {"nom": "Management commercial opérationnel", "admis": 9, "presentes": 9, "taux": 100.0},
+          {"nom": "Professions immobilières", "admis": 7, "presentes": 10, "taux": 70.0}
+        ],
+        "total": {"admis": 16, "presentes": 19, "taux": 84.2}
+      },
+      {
+        "ville": "CANNES",
+        "etablissement": "LGT PT STE MARIE",
+        "formations": [
+          {"nom": "Tourisme", "admis": 51, "presentes": 55, "taux": 92.7}
+        ],
+        "total": {"admis": 51, "presentes": 55, "taux": 92.7}
+      },
+      {
+        "ville": "CANNES",
+        "etablissement": "LT PR LES FAUVETTES",
+        "formations": [
+          {"nom": "Économie sociale familiale", "admis": 11, "presentes": 14, "taux": 78.6}
+        ],
+        "total": {"admis": 11, "presentes": 14, "taux": 78.6}
+      },
+      {
+        "ville": "CANNES",
+        "etablissement": "LGT PR STANISLAS",
+        "formations": [
+          {"nom": "Management commercial opérationnel", "admis": 28, "presentes": 29, "taux": 96.6}
+        ],
+        "total": {"admis": 28, "presentes": 29, "taux": 96.6}
+      },
+      {
+        "ville": "GRASSE",
+        "etablissement": "LGT PR FENELON",
+        "formations": [
+          {"nom": "Commerce international", "admis": 20, "presentes": 21, "taux": 95.2}
+        ],
+        "total": {"admis": 20, "presentes": 21, "taux": 95.2}
+      },
+      {
+        "ville": "GRASSE",
+        "etablissement": "PBAC FENELON SUP'",
+        "formations": [
+          {"nom": "Gestion de la PME", "admis": 9, "presentes": 9, "taux": 100.0}
+        ],
+        "total": {"admis": 9, "presentes": 9, "taux": 100.0}
+      },
+      {
+        "ville": "NICE",
+        "etablissement": "CFA REGIONAL DON BOSCO",
+        "formations": [
+          {"nom": "Électrotechnique", "admis": 8, "presentes": 8, "taux": 100.0},
+          {"nom": "Maintenance des systèmes option A : Systèmes de production", "admis": 4, "presentes": 9, "taux": 44.4}
+        ],
+        "total": {"admis": 12, "presentes": 17, "taux": 70.6}
+      },
+      {
+        "ville": "NICE",
+        "etablissement": "LPO PR ST JOSEPH",
+        "formations": [
+          {"nom": "Comptabilité et gestion", "admis": 8, "presentes": 9, "taux": 88.9},
+          {"nom": "Gestion de la PME", "admis": 12, "presentes": 14, "taux": 85.7}
+        ],
+        "total": {"admis": 20, "presentes": 23, "taux": 87.0}
+      },
+      {
+        "ville": "NICE",
+        "etablissement": "LP PR ST VINCENT PAUL",
+        "formations": [
+          {"nom": "Assurance", "admis": 7, "presentes": 9, "taux": 77.8},
+          {"nom": "Management commercial opérationnel", "admis": 10, "presentes": 10, "taux": 100.0},
+          {"nom": "Négociation et digitalisation de la relation client", "admis": 13, "presentes": 14, "taux": 92.9},
+          {"nom": "Professions immobilières", "admis": 7, "presentes": 8, "taux": 87.5},
+          {"nom": "Support à l'action managériale", "admis": 2, "presentes": 2, "taux": 100.0}
+        ],
+        "total": {"admis": 39, "presentes": 43, "taux": 90.7}
+      },
+      {
+        "ville": "NICE",
+        "etablissement": "LGT PR SASSERNO",
+        "formations": [
+          {"nom": "Diététique", "admis": 19, "presentes": 25, "taux": 76.0}
+        ],
+        "total": {"admis": 19, "presentes": 25, "taux": 76.0}
+      }
+    ],
+    "prive_hors_contrat": [
+      {
+        "ville": "NICE",
+        "etablissement": "ISIM",
+        "formations": [
+          {"nom": "Comptabilité et gestion", "admis": 3, "presentes": 9, "taux": 33.3},
+          {"nom": "Gestion de la PME", "admis": 9, "presentes": 18, "taux": 50.0},
+          {"nom": "Management commercial opérationnel", "admis": 29, "presentes": 37, "taux": 78.4},
+          {"nom": "Négociation et digitalisation de la relation client", "admis": 6, "presentes": 6, "taux": 100.0},
+          {"nom": "Support à l'action managériale", "admis": 5, "presentes": 10, "taux": 50.0}
+        ],
+        "total": {"admis": 52, "presentes": 80, "taux": 65.0}
+      }
+    ]
+  },
+  "note": "Les élèves Transférés sont pris en compte dans ce calcul (candidats passant leurs diplôme dans une autre académie)"
+}

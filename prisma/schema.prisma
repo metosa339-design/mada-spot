@@ -1,0 +1,1791 @@
+// Mada Spot - Plateforme de bons plans à Madagascar
+// Prisma Schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
+}
+
+// ============================================
+// UTILISATEURS & AUTHENTIFICATION
+// ============================================
+
+enum UserRole {
+  CLIENT
+  ADMIN
+}
+
+enum UserType {
+  HOTEL
+  RESTAURANT
+  ATTRACTION
+  PROVIDER
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum ScanAlertStatus {
+  PENDING
+  REVIEWED
+  MASKED
+  DISMISSED
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  WAITING_USER
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum BadgeType {
+  EXPLORATEUR
+  GUIDE_LOCAL
+  EXPERT_MADAGASCAR
+}
+
+model User {
+  id       String   @id @default(cuid())
+  email    String?  @unique
+  phone    String?  @unique
+  password String // bcrypt hashed
+  role     UserRole @default(CLIENT)
+
+  // Informations de base
+  firstName String
+  lastName  String
+  avatar    String?
+
+  // Vérification
+  emailVerified Boolean @default(false)
+  phoneVerified Boolean @default(false)
+
+  // Statut du compte
+  isActive  Boolean @default(true)
+  isBanned  Boolean @default(false)
+  banReason String?
+
+  // Timestamps
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  lastLoginAt DateTime?
+
+  // Pro account type
+  userType UserType?
+
+  // Loyalty
+  loyaltyPoints Int @default(0)
+
+  // Notification preferences (JSON: { [NotificationType]: boolean }), null = all enabled
+  notificationPreferences Json?
+
+  // OTP Verification
+  isVerified Boolean @default(false)
+
+  // Relations
+  clientProfile          ClientProfile?
+  sessions               Session[]
+  notifications          Notification[]
+  bookings               Booking[]
+  establishmentFavorites EstablishmentFavorite[]
+  sentMessages           Message[]           @relation("SentMessages")
+  receivedMessages       Message[]           @relation("ReceivedMessages")
+  verificationDocuments  VerificationDocument[]
+  quickReplies           QuickReply[]
+  establishmentReviews   EstablishmentReview[] @relation("ReviewAuthor")
+  reviewVotes            ReviewVote[]
+  pushSubscriptions      PushSubscription[]
+  presence               UserPresence?
+  loyaltyTransactions    LoyaltyTransaction[]
+  otpCodes               OTPCode[]
+  supportTickets         SupportTicket[]
+  badges                 UserBadge[]
+
+  @@index([email])
+  @@index([phone])
+  @@index([role])
+  @@index([userType])
+}
+
+model Session {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token      String   @unique
+  deviceInfo String?
+  ipAddress  String?
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+
+  @@index([token])
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model PasswordReset {
+  id        String    @id @default(cuid())
+  email     String
+  token     String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([token])
+  @@index([email])
+}
+
+// ============================================
+// PROFILS
+// ============================================
+
+model ClientProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Localisation
+  city     String?
+  district String? // Quartier
+  address  String?
+
+  // Préférences
+  preferredContact String @default("email") // email, phone, whatsapp
+
+  // Entreprise (optionnel)
+  companyName String?
+  nif         String? // Numéro d'Identification Fiscale
+  stat        String? // Numéro Statistique
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([city])
+}
+
+model EstablishmentFavorite {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  establishmentId String
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+  createdAt       DateTime      @default(now())
+
+  @@unique([userId, establishmentId])
+  @@index([userId])
+  @@index([establishmentId])
+}
+
+// ============================================
+// NOTIFICATIONS
+// ============================================
+
+enum NotificationType {
+  SYSTEM // Notification système
+  CLAIM_SUBMITTED // Admin: nouvelle revendication de fiche
+  CLAIM_APPROVED // User: sa revendication a été approuvée
+  CLAIM_REJECTED // User: sa revendication a été refusée
+  IMPORT_COMPLETED // Admin: import batch terminé
+  BOOKING_NEW // Client: nouvelle réservation
+  BOOKING_CONFIRMED // Client: réservation confirmée
+  BOOKING_CANCELLED // Client: réservation annulée
+  BOOKING_COMPLETED // Client: réservation terminée
+  REVIEW_NEW // Propriétaire: nouvel avis reçu
+  MESSAGE_NEW // User: nouveau message reçu
+  EVENT_NEW // User: nouvel événement à proximité
+  GHOST_CREATED // Admin: nouveau lieu communautaire créé par un voyageur
+}
+
+model Notification {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type    NotificationType
+  title   String
+  message String
+
+  // Lien vers l'entité concernée
+  entityType String? // "request", "quote", "review"
+  entityId   String?
+
+  // Statut
+  isRead Boolean   @default(false)
+  readAt DateTime?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+
+  @@index([userId, isRead])
+  @@index([userId, createdAt(sort: Desc)])
+}
+
+// ============================================
+// PUSH SUBSCRIPTIONS (Web Push API)
+// ============================================
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// ============================================
+// MÉDIAS & FICHIERS
+// ============================================
+
+model Media {
+  id           String  @id @default(cuid())
+  filename     String
+  originalName String
+  mimeType     String
+  size         Int // Taille en bytes
+  url          String
+  thumbnailUrl String?
+  alt          String?
+  caption      String?
+
+  // Organisation
+  folder     String  @default("general")
+  uploadedBy String? // ID de l'utilisateur
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([folder])
+  @@index([uploadedBy])
+}
+
+// ============================================
+// PARAMÈTRES & CONFIGURATION
+// ============================================
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  type      String   @default("string") // string, number, boolean, json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ============================================
+// BONS PLANS - LIFESTYLE / VOYAGE
+// ============================================
+
+enum EstablishmentType {
+  HOTEL
+  RESTAURANT
+  ATTRACTION
+  PROVIDER
+}
+
+enum ProviderServiceType {
+  GUIDE
+  DRIVER
+  TOUR_OPERATOR
+  CAR_RENTAL
+  PHOTOGRAPHER
+  TRANSLATOR
+  TRAVEL_AGENCY
+  TRANSFER
+  BOAT_EXCURSION
+  OTHER
+}
+
+enum RestaurantCategory {
+  GARGOTE
+  RESTAURANT
+  LOUNGE
+  CAFE
+  FAST_FOOD
+  STREET_FOOD
+}
+
+enum ClaimStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum PriceRange {
+  BUDGET // <20,000 MGA
+  MODERATE // 20,000-50,000 MGA
+  UPSCALE // 50,000-150,000 MGA
+  LUXURY // >150,000 MGA
+}
+
+// Base model for all lifestyle establishments
+model Establishment {
+  id               String            @id @default(cuid())
+  type             EstablishmentType
+  name             String
+  slug             String            @unique
+  description      String?           @db.Text
+  shortDescription String? // For cards and previews
+
+  // Multilingual fields
+  nameEn             String?
+  descriptionEn      String? @db.Text
+  shortDescriptionEn String?
+
+  // Location
+  address   String?
+  city      String
+  district  String?
+  region    String?
+  latitude  Float?
+  longitude Float?
+
+  // Contact
+  phone     String?
+  phone2    String?
+  email     String?
+  website   String?
+  facebook  String?
+  instagram String?
+  whatsapp  String?
+
+  // Media
+  coverImage String?
+  images     String? // JSON array of image URLs
+
+  // Ratings
+  rating      Float @default(0)
+  reviewCount Int   @default(0)
+
+  // Status
+  isActive   Boolean @default(true)
+  isFeatured Boolean @default(false)
+  isPremium  Boolean @default(false)
+
+  // SEO
+  metaTitle       String?
+  metaDescription String?
+
+  // Stats
+  viewCount    Int @default(0)
+  displayOrder Int @default(0) // Manual ranking: higher = appears first
+
+  // Import & Source
+  dataSource        String? // "manual", "csv_import", "nominatim", "google_places"
+  sourceUrl         String? // URL source pour attribution légale
+  sourceAttribution String? // "TripAdvisor", "PetitFuté", etc.
+  moderationStatus  String    @default("approved") // "pending_review", "approved", "rejected"
+  moderationNote    String?
+  importedAt        DateTime?
+  importBatchId     String?
+
+  // Revendication (Claim)
+  isClaimed       Boolean   @default(false)
+  claimedByUserId String?
+  claimedAt       DateTime?
+
+  // Ghost (fiche communautaire créée par un voyageur)
+  isGhost         Boolean   @default(false)
+  createdByUserId String?
+
+  // Archive (soft delete)
+  archivedAt DateTime?
+
+  // Physical verification
+  lastPhysicalVisit        DateTime?
+  verifiedByAgent          String?
+  physicalVerificationNote String?   @db.Text
+
+  // Trust score
+  trustScore          Float?
+  trustScoreUpdatedAt DateTime?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  hotel            Hotel?
+  restaurant       Restaurant?
+  attraction       Attraction?
+  provider         Provider?
+  reviews          EstablishmentReview[]
+  claims           EstablishmentClaim[]
+  bookings         Booking[]
+  favorites        EstablishmentFavorite[]
+  messages         Message[]
+  seasonalPricings SeasonalPricing[]
+  availabilities   Availability[]
+  views            EstablishmentView[]
+  events           Event[]
+  promotions       Promotion[]
+  outboundClicks   OutboundClick[]
+
+  @@index([type])
+  @@index([city])
+  @@index([isActive, isFeatured])
+  @@index([type, city])
+  @@index([type, isActive, moderationStatus, rating])
+  @@index([moderationStatus])
+  @@index([claimedByUserId])
+  @@index([importBatchId])
+  @@index([createdAt])
+}
+
+// Hotel-specific data
+model Hotel {
+  id              String        @id @default(cuid())
+  establishmentId String        @unique
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+
+  // Classification
+  starRating Int? // 1-5 stars
+  hotelType  String? // boutique, resort, guesthouse, auberge, etc.
+
+  // Amenities (JSON array)
+  amenities String? // ["wifi", "generator", "parking", "pool", "restaurant", "spa", "ac", "tv"]
+
+  // Check-in/out
+  checkInTime  String? // "14:00"
+  checkOutTime String? // "11:00"
+
+  // Opening hours (JSON)
+  openingHours String? // {"monday":{"open":"07:00","close":"22:00","closed":false},...}
+
+  // Relations
+  roomTypes RoomType[]
+
+  @@index([starRating])
+}
+
+model RoomType {
+  id      String @id @default(cuid())
+  hotelId String
+  hotel   Hotel  @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+
+  name        String // "Chambre Double", "Suite Deluxe", "Familiale"
+  description String?
+  capacity    Int     @default(2)
+
+  // Pricing in MGA
+  pricePerNight Float
+  priceWeekend  Float? // Optional weekend price
+
+  // Features
+  amenities String? // JSON array
+  images    String? // JSON array
+
+  isAvailable Boolean @default(true)
+
+  @@index([hotelId])
+}
+
+// Restaurant-specific data
+model Restaurant {
+  id              String        @id @default(cuid())
+  establishmentId String        @unique
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+
+  // Classification
+  category     RestaurantCategory
+  cuisineTypes String? // JSON array: ["malgache", "francais", "chinois", "italien"]
+  priceRange   PriceRange
+
+  // Menu-Scope feature - Photos of actual menus
+  menuImages String? // JSON array of menu photos
+  menuPdfUrl String? // PDF menu if available
+
+  // Operating hours (JSON)
+  openingHours String? // {"lundi": {"open": "11:00", "close": "22:00"}, "mardi": {...}}
+
+  // Features
+  hasDelivery    Boolean @default(false)
+  hasTakeaway    Boolean @default(false)
+  hasReservation Boolean @default(false)
+  hasParking     Boolean @default(false)
+  hasWifi        Boolean @default(false)
+  hasGenerator   Boolean @default(false)
+
+  // Specialties
+  specialties String? // JSON array of dish names
+
+  // Average prices
+  avgMainCourse Float? // Prix moyen plat principal en MGA
+  avgBeer       Float? // Prix moyen bière THB en MGA
+
+  @@index([category])
+  @@index([priceRange])
+}
+
+// Tourist attractions
+model Attraction {
+  id              String        @id @default(cuid())
+  establishmentId String        @unique
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+
+  // Classification
+  attractionType String // "park", "museum", "beach", "waterfall", "historical", "viewpoint", "reserve"
+
+  // Pricing
+  isFree          Boolean @default(false)
+  entryFeeForeign Float? // Price for foreigners in MGA
+  entryFeeLocal   Float? // Price for locals in MGA
+
+  // Visiting info
+  visitDuration   String? // "2-3 heures", "Journée entière"
+  bestTimeToVisit String? // "Saison sèche (Avril-Octobre)"
+  bestSeason      String? // "avril-octobre"
+
+  // Features
+  isAccessible  Boolean @default(false) // Accessible PMR
+  hasGuide      Boolean @default(false)
+  hasParking    Boolean @default(false)
+  hasRestaurant Boolean @default(false)
+
+  // Opening hours (JSON)
+  openingHours String? // {"monday":{"open":"07:00","close":"22:00","closed":false},...}
+
+  // Availability
+  isAvailable Boolean @default(true)
+
+  // Highlights
+  highlights String? // JSON array of key features
+
+  @@index([attractionType])
+  @@index([isFree])
+}
+
+// Tourism service providers
+model Provider {
+  id              String        @id @default(cuid())
+  establishmentId String        @unique
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+
+  serviceType     ProviderServiceType
+  languages       String?       // JSON array: ["français", "anglais", "malgache"]
+  experience      String?       // "5 ans", "10+ ans"
+
+  // Tarification
+  priceRange      PriceRange?
+  priceFrom       Float?        // Prix minimum en MGA
+  priceTo         Float?        // Prix maximum en MGA
+  priceUnit       String?       // "par jour", "par trajet", "par personne"
+
+  // Disponibilité
+  isAvailable     Boolean       @default(true)
+  operatingZone   String?       // JSON array: ["Antananarivo", "Nosy Be", ...]
+
+  // Véhicule (pour chauffeurs/location)
+  vehicleType     String?       // "berline", "4x4", "minibus", "van"
+  vehicleCapacity Int?
+
+  // Certifications
+  licenseNumber   String?
+  certifications  String?       // JSON array
+
+  @@index([serviceType])
+  @@index([isAvailable])
+}
+
+// Reviews for establishments
+model EstablishmentReview {
+  id              String        @id @default(cuid())
+  establishmentId String
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+
+  // Author (can be anonymous or logged in user)
+  authorName  String?
+  authorEmail String?
+  userId      String? // If logged in user
+  user        User?   @relation("ReviewAuthor", fields: [userId], references: [id], onDelete: SetNull)
+
+  // Rating (1-5)
+  rating Int
+
+  // Content
+  title   String?
+  comment String  @db.Text
+
+  // Photos
+  images String? // JSON array
+
+  // Linked booking (verified review)
+  bookingId   String?  @unique
+  booking     Booking? @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+
+  // Verification & moderation
+  isVerified  Boolean @default(false)
+  isPublished Boolean @default(true)
+  isFlagged   Boolean @default(false)
+  flagReason  String?
+
+  // Helpfulness votes (denormalized counts for fast reads)
+  helpfulCount   Int @default(0)
+  unhelpfulCount Int @default(0)
+  votes          ReviewVote[]
+
+  // Response from establishment owner
+  ownerResponse String?
+  respondedAt   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([establishmentId])
+  @@index([rating])
+  @@index([isPublished])
+  @@index([isFlagged])
+}
+
+// Review helpfulness votes
+model ReviewVote {
+  id        String  @id @default(cuid())
+  reviewId  String
+  review    EstablishmentReview @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isHelpful Boolean // true = helpful, false = not helpful
+
+  createdAt DateTime @default(now())
+
+  @@unique([reviewId, userId])
+  @@index([reviewId])
+  @@index([userId])
+}
+
+// Promotions (flash deals)
+model Promotion {
+  id              String        @id @default(cuid())
+  establishmentId String
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+
+  title           String
+  description     String?       @db.Text
+  discountPercent Int           // 5–80
+  startDate       DateTime
+  endDate         DateTime
+  isActive        Boolean       @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([establishmentId])
+  @@index([isActive, startDate, endDate])
+}
+
+// Loyalty system
+enum LoyaltyTransactionType {
+  BOOKING_COMPLETE
+  REVIEW_POSTED
+  FAVORITE_ADDED
+  FAVORITE_REMOVED
+  BONUS
+}
+
+model LoyaltyTransaction {
+  id          String                  @id @default(cuid())
+  userId      String
+  user        User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type        LoyaltyTransactionType
+  points      Int
+  description String
+  entityId    String?
+
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([userId, createdAt(sort: Desc)])
+}
+
+// ============================================
+// CONTENU ÉDITORIAL - MORA MORA DU MOIS
+// ============================================
+
+model EditorialContent {
+  id   String @id @default(cuid())
+  type String // "mora_mora", "spotlight", "guide", "itinerary"
+
+  title    String
+  slug     String  @unique
+  subtitle String?
+  content  String  @db.Text
+  excerpt  String?
+
+  // Featured entity (optional)
+  establishmentId String? // Featured establishment if applicable
+
+  // Budget info for travel guides
+  budgetMin Float? // Budget minimum en MGA
+  budgetMax Float? // Budget maximum en MGA
+  duration  String? // "1 jour", "2 jours", "Week-end"
+
+  // Location
+  city   String?
+  region String?
+
+  // Media
+  coverImage String?
+  images     String? // JSON array
+
+  // Author
+  authorName   String?
+  authorAvatar String?
+
+  // Status
+  status      String    @default("draft") // draft, published, archived
+  publishedAt DateTime?
+
+  // SEO
+  metaTitle       String?
+  metaDescription String?
+
+  // Stats
+  viewCount Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([type])
+  @@index([status, publishedAt])
+  @@index([slug])
+  @@index([city])
+}
+
+// ============================================
+// VILLES - PAGES SEO GÉOGRAPHIQUES
+// ============================================
+
+model City {
+  id     String  @id @default(cuid())
+  name   String  @unique
+  slug   String  @unique
+  region String?
+
+  // SEO
+  description     String? @db.Text
+  metaTitle       String?
+  metaDescription String?
+
+  // Coordinates for map centering
+  latitude  Float?
+  longitude Float?
+
+  // Cover image for city page
+  coverImage String?
+
+  // Stats (updated periodically)
+  hotelCount      Int @default(0)
+  restaurantCount Int @default(0)
+  attractionCount Int @default(0)
+  providerCount   Int @default(0)
+
+  isActive   Boolean @default(true)
+  isFeatured Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([isActive])
+  @@index([isFeatured])
+}
+
+// ============================================
+// REVENDICATION DE FICHE (CLAIM SYSTEM)
+// ============================================
+
+model EstablishmentClaim {
+  id              String        @id @default(cuid())
+  establishmentId String
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+
+  // Informations du demandeur
+  claimantName  String
+  claimantEmail String
+  claimantPhone String?
+  claimantRole  String // "owner", "manager", "employee"
+
+  // Preuve
+  proofDescription String? @db.Text
+  proofDocuments   String? // JSON array of document URLs
+
+  // Statut
+  status          ClaimStatus @default(PENDING)
+  reviewedAt      DateTime?
+  reviewedBy      String? // Admin user ID
+  rejectionReason String?
+
+  // Invitation (Ghost Hunter)
+  invitationToken  String?   @unique
+  invitationExpiry DateTime?
+  invitedAt        DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([establishmentId])
+  @@index([status])
+  @@index([claimantEmail])
+}
+
+// ============================================
+// IMPORT EN MASSE (BATCH IMPORT)
+// ============================================
+
+model ImportBatch {
+  id           String  @id @default(cuid())
+  source       String // "csv", "json", "google_places"
+  fileName     String?
+  totalRecords Int     @default(0)
+  successCount Int     @default(0)
+  errorCount   Int     @default(0)
+  errors       String? @db.Text // JSON array of error details
+  status       String  @default("processing") // "processing", "completed", "failed"
+  importedBy   String? // Admin user ID
+
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+// ============================================
+// SYSTÈME DE RÉSERVATION
+// ============================================
+
+model Booking {
+  id              String        @id @default(cuid())
+  establishmentId String
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Type de réservation
+  bookingType String // "hotel", "restaurant", "attraction"
+
+  // Dates
+  checkIn  DateTime
+  checkOut DateTime? // Null pour restaurant/attraction (une seule date)
+
+  // Détails
+  guestCount      Int     @default(1)
+  roomTypeId      String? // Pour les hôtels
+  specialRequests String? @db.Text
+
+  // Contact
+  guestName  String
+  guestEmail String?
+  guestPhone String?
+
+  // Prix
+  totalPrice Float?
+  currency   String @default("MGA")
+
+  // Statut
+  status       String    @default("pending") // "pending", "confirmed", "cancelled", "completed", "no_show"
+  cancelledAt  DateTime?
+  cancelReason String?
+  confirmedAt  DateTime?
+  confirmedBy  String? // userId de celui qui confirme
+
+  // Relance automatique
+  lastRelanceAt DateTime? // Date de la dernière relance envoyée
+  relanceCount  Int       @default(0) // Nombre de relances envoyées
+  expiredAt     DateTime? // Date d'expiration automatique
+
+  // Référence
+  reference String @unique // Code de réservation unique (ex: "BK-ABC123")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relation vers l'avis vérifié
+  review EstablishmentReview?
+
+  @@index([establishmentId])
+  @@index([userId])
+  @@index([status])
+  @@index([checkIn])
+  @@index([reference])
+}
+
+// ============================================
+// TAUX DE CHANGE
+// ============================================
+
+model ExchangeRate {
+  id             String   @id @default(cuid())
+  baseCurrency   String // "MGA"
+  targetCurrency String // "EUR", "USD"
+  rate           Float // 1 EUR = 4950 MGA → rate = 4950
+  source         String? // "manual", "api"
+  fetchedAt      DateTime @default(now())
+
+  @@unique([baseCurrency, targetCurrency])
+  @@index([baseCurrency, targetCurrency])
+}
+
+// ============================================
+// NEWSLETTER
+// ============================================
+
+model NewsletterSubscriber {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  isActive       Boolean   @default(true)
+  subscribedAt   DateTime  @default(now())
+  unsubscribedAt DateTime?
+
+  @@index([email])
+  @@index([isActive])
+}
+
+// ============================================
+// ARTICLES & CONTENU ÉDITORIAL
+// ============================================
+
+model ArticleCategory {
+  id       String    @id @default(cuid())
+  name     String
+  slug     String    @unique
+  color    String?
+  order    Int       @default(0)
+  isActive Boolean   @default(true)
+  articles Article[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+}
+
+model Article {
+  id               String           @id @default(cuid())
+  title            String
+  slug             String           @unique
+  summary          String?          @db.Text
+  content          String           @db.Text
+  imageUrl         String?
+  additionalImages String?          // JSON array
+
+  // Source
+  sourceName String?
+  sourceUrl  String?
+  isFromRSS  Boolean @default(false)
+
+  // AI Enhancement
+  isAiEnhanced Boolean @default(false)
+
+  // Status
+  status      String  @default("draft") // draft, published, scheduled, archived
+  isFeatured  Boolean @default(false)
+  isBreaking  Boolean @default(false)
+
+  // Layout
+  layoutFormat Int     @default(1)
+  titleBold    Boolean @default(false)
+
+  // Scheduling
+  scheduledAt DateTime?
+  publishedAt DateTime?
+
+  // Category
+  categoryId String?
+  category   ArticleCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, publishedAt(sort: Desc)])
+  @@index([categoryId])
+  @@index([isBreaking])
+  @@index([isFromRSS])
+  @@index([slug])
+}
+
+// ============================================
+// PHARMACIES
+// ============================================
+
+model Pharmacy {
+  id        String  @id @default(cuid())
+  name      String
+  city      String
+  district  String?
+  address   String?
+  phone     String?
+  phone2    String?
+  email     String?
+  latitude  Float?
+  longitude Float?
+  isOnGuard Boolean @default(false)
+  isActive  Boolean @default(true)
+  guardDate DateTime?
+  openingHours String? // JSON
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([city])
+  @@index([isOnGuard])
+  @@index([isActive])
+}
+
+// ============================================
+// CONTACTS D'URGENCE
+// ============================================
+
+model EmergencyContact {
+  id          String  @id @default(cuid())
+  name        String
+  phone       String
+  phone2      String?
+  type        String  // police, gendarmerie, pompiers, samu, hopital, ambassade
+  city        String?
+  address     String?
+  description String?
+  latitude    Float?
+  longitude   Float?
+  order       Int     @default(0)
+  isActive    Boolean @default(true)
+  is24h       Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([city])
+  @@index([type])
+  @@index([isActive])
+}
+
+// ============================================
+// OFFRES D'EMPLOI
+// ============================================
+
+model Job {
+  id          String   @id @default(cuid())
+  title       String
+  company     String
+  companyLogo String?
+  description String?  @db.Text
+  location    String?
+  salary      String?
+  type        String?  // CDI, CDD, Stage, Freelance
+  url         String?
+  isActive    Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([createdAt])
+}
+
+// ============================================
+// INDICATEURS ÉCONOMIQUES
+// ============================================
+
+model EconomicIndicator {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  type        String    // price, rate, export, import, gdp, inflation
+  category    String?   // vanilla, coffee, rice, mining, tourism
+  value       Float?
+  previousValue Float?
+  unit        String?
+  description String?   @db.Text
+  source      String?
+  lastUpdated DateTime?
+  isActive    Boolean   @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([type])
+  @@index([category])
+  @@index([slug])
+}
+
+// ============================================
+// PRODUITS D'EXPORTATION
+// ============================================
+
+model ExportProduct {
+  id                String  @id @default(cuid())
+  name              String
+  slug              String  @unique
+  category          String  // agriculture, mining, textile, seafood, handicraft
+  description       String? @db.Text
+  imageUrl          String?
+  annualExportValue Float?
+  worldRanking      Int?
+  mainDestinations  String? // JSON array
+  isFeatured        Boolean @default(false)
+  isActive          Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+  @@index([slug])
+}
+
+// ============================================
+// HISTOIRE DE MADAGASCAR
+// ============================================
+
+model HistoricalEra {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  description String? @db.Text
+  startYear   Int?
+  endYear     Int?
+  coverImage  String?
+  order       Int     @default(0)
+  isActive    Boolean @default(true)
+
+  events  HistoricalEvent[]
+  figures HistoricalFigure[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([order])
+}
+
+model HistoricalEvent {
+  id           String  @id @default(cuid())
+  title        String
+  description  String? @db.Text
+  year         Int
+  month        Int?
+  day          Int?
+  imageUrl     String?
+  isMadagascar Boolean @default(true)
+  isFeatured   Boolean @default(false)
+  isActive     Boolean @default(true)
+
+  eraId String?
+  era   HistoricalEra? @relation(fields: [eraId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([eraId])
+  @@index([day, month])
+  @@index([year])
+  @@index([isMadagascar])
+}
+
+model HistoricalFigure {
+  id          String  @id @default(cuid())
+  name        String
+  title       String? // ex: "Roi", "Reine", "Premier Ministre"
+  description String? @db.Text
+  imageUrl    String?
+  birthYear   Int?
+  deathYear   Int?
+  isActive    Boolean @default(true)
+
+  eraId String?
+  era   HistoricalEra? @relation(fields: [eraId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([eraId])
+  @@index([birthYear])
+}
+
+// ============================================
+// DÉCOUVRIR MADAGASCAR - ÉLÉMENTS CÉLÈBRES
+// ============================================
+
+model FamousThing {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  category    String  // fauna, flora, culture, landmark, tradition, cuisine, sport
+  description String? @db.Text
+  imageUrl    String?
+  endemic     Boolean @default(false)
+  isFeatured  Boolean @default(false)
+  isActive    Boolean @default(true)
+  order       Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+  @@index([slug])
+  @@index([endemic])
+}
+
+// ============================================
+// AUTOMATISATION - TÂCHES PLANIFIÉES
+// ============================================
+
+model ScheduledTask {
+  id        String    @id @default(cuid())
+  type      String    // sync_rss, enhance_articles, publish_scheduled, fix_images
+  status    String    @default("pending") // pending, running, completed, failed
+  error     String?   @db.Text
+  result    String?   @db.Text
+  duration  Int?      // Durée en millisecondes
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([type])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model RSSSource {
+  id            String    @id @default(cuid())
+  name          String
+  url           String
+  category      String?
+  isActive      Boolean   @default(true)
+  autoPublish   Boolean   @default(false)
+  lastFetchedAt DateTime?
+  articleCount  Int       @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+}
+
+// ============================================
+// AUDIT TRAIL - LOGS ADMIN
+// ============================================
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String? // Admin user ID (null si système)
+  action     String // "create", "update", "delete", "approve", "reject", "login", "logout"
+  entityType String // "establishment", "provider", "review", "booking", "user", "claim"
+  entityId   String? // ID de l'entité concernée
+  details    String?  @db.Text // JSON avec les détails de l'action
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([entityType])
+  @@index([createdAt])
+  @@index([entityType, entityId])
+}
+
+// ============================================
+// MESSAGERIE DIRECTE (CHAT CLIENT-HÔTE)
+// ============================================
+
+model Message {
+  id       String @id @default(cuid())
+
+  senderId   String
+  sender     User   @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiverId String
+  receiver   User   @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  // Lié à un établissement (contexte de la conversation)
+  establishmentId String?
+  establishment   Establishment? @relation(fields: [establishmentId], references: [id], onDelete: SetNull)
+
+  content   String  @db.Text
+  isRead    Boolean @default(false)
+  readAt    DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([senderId, receiverId])
+  @@index([receiverId, isRead])
+  @@index([establishmentId])
+  @@index([createdAt])
+}
+
+// ============================================
+// RÉPONSES RAPIDES PRÉ-ENREGISTRÉES
+// ============================================
+
+model QuickReply {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  title   String // "Confirmation réservation", "Merci pour votre avis"
+  content String @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// ============================================
+// TARIFICATION SAISONNIÈRE
+// ============================================
+
+model SeasonalPricing {
+  id              String        @id @default(cuid())
+  establishmentId String
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+
+  name      String  // "Haute saison", "Basse saison", "Fêtes"
+  startDate DateTime
+  endDate   DateTime
+
+  // Multiplicateur de prix global (fallback)
+  priceMultiplier  Float   @default(1.0)
+  // Multiplicateurs par type de prix — JSON: {"Chambre Simple / nuit": 1.1, "Chambre Double / nuit": 1.2}
+  priceMultipliers String?
+
+  isActive  Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([establishmentId])
+  @@index([startDate, endDate])
+}
+
+// ============================================
+// DISPONIBILITÉS (CALENDRIER)
+// ============================================
+
+model Availability {
+  id              String        @id @default(cuid())
+  establishmentId String
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+
+  date       DateTime
+  isBlocked  Boolean @default(false) // Date bloquée manuellement
+
+  // Pour hôtels
+  roomsAvailable Int?
+
+  // Pour restaurants
+  tablesAvailable Int?
+
+  // Pour attractions
+  spotsAvailable Int?
+
+  note String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([establishmentId, date])
+  @@index([establishmentId, date])
+}
+
+// ============================================
+// DOCUMENTS DE VÉRIFICATION
+// ============================================
+
+model VerificationDocument {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Type de document
+  documentType String // "nif", "stat", "business_license", "id_card"
+  documentUrl  String
+
+  status     VerificationStatus @default(PENDING)
+  reviewedAt DateTime?
+  reviewedBy String?
+  note       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+// ============================================
+// STATISTIQUES DE VUES (ANALYTICS)
+// ============================================
+
+model EstablishmentView {
+  id              String @id @default(cuid())
+  establishmentId String
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+
+  // Tracking
+  visitorId String? // Anonyme cookie-based
+  userId    String? // Si connecté
+  source    String? // "search", "direct", "map", "featured"
+
+  createdAt DateTime @default(now())
+
+  @@index([establishmentId])
+  @@index([establishmentId, createdAt])
+  @@index([createdAt])
+}
+
+// ============================================
+// CALENDRIER D'ÉVÉNEMENTS
+// ============================================
+
+enum EventCategory {
+  FESTIVAL
+  CULTURAL
+  SPORT
+  NATURE
+  MARKET
+  OTHER
+}
+
+enum EventStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum EventType {
+  EVENT
+  PROMOTION
+  ADVERTISEMENT
+}
+
+enum EventBadge {
+  NOUVEAU
+  PROMO
+  EXCLUSIF
+  OFFICIEL
+}
+
+enum TargetAudience {
+  ALL
+  TRAVELERS
+  PROVIDERS
+}
+
+model Event {
+  id                String          @id @default(cuid())
+  title             String
+  slug              String          @unique
+  description       String?         @db.Text
+  startDate         DateTime
+  endDate           DateTime?
+  location          String?
+  city              String
+  region            String?
+  category          EventCategory
+  coverImage        String?
+  organizer         String?
+  isRecurring       Boolean         @default(false)
+  recurrenceRule    String?
+  establishmentId   String?
+  establishment     Establishment?  @relation(fields: [establishmentId], references: [id], onDelete: SetNull)
+  submittedByUserId String?
+  status            EventStatus     @default(PENDING)
+
+  // Event & Promo Advertising fields
+  eventType         EventType       @default(EVENT)
+  badge             EventBadge?
+  isPinned          Boolean         @default(false)
+  targetAudience    TargetAudience  @default(ALL)
+  ctaLabel          String?
+  ctaLink           String?
+
+  // Régie Pub & Monetization fields
+  isPromotion       Boolean         @default(false)
+  priorityScore     Int             @default(0)        // Higher = shown first, VIP card format
+  linkedProductType String?                             // "LOCATION_VOITURE", "RESTAURANT", "HOTEL", "ATTRACTION"
+  linkedProductId   String?                             // ID of linked feature/product
+
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  @@index([startDate])
+  @@index([city])
+  @@index([category])
+  @@index([status, startDate])
+  @@index([isPinned, status])
+  @@index([priorityScore])
+}
+
+// ============================================
+// PRÉSENCE UTILISATEUR (en ligne, saisie)
+// ============================================
+
+model UserPresence {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  isOnline   Boolean  @default(false)
+  lastSeenAt DateTime @default(now())
+
+  // Typing state
+  typingThreadId String?
+  typingAt       DateTime?
+
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([isOnline])
+}
+
+// ============================================
+// SYSTÈME PUBLICITAIRE
+// ============================================
+
+model Advertisement {
+  id       String @id @default(cuid())
+  name     String // Libellé interne
+
+  // Placement
+  position String // top_banner | sidebar_top | sidebar_middle | sidebar_bottom | mobile_banner | mobile_square
+  format   String @default("auto") // auto | 300x300 | 300x250 | 300x600 | 320x100
+
+  // Contenu
+  imageUrl String
+  linkUrl  String?
+  altText  String?
+
+  // Contrôle
+  isActive Boolean @default(true)
+  priority Int     @default(0) // Higher = shown first
+
+  // Planification
+  startDate DateTime?
+  endDate   DateTime?
+
+  // Métriques dénormalisées
+  impressions Int @default(0)
+  clicks      Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([position, isActive])
+  @@index([isActive, startDate, endDate])
+}
+
+// ============================================
+// ALERTES MÉTÉO
+// ============================================
+
+model WeatherAlert {
+  id      String @id @default(cuid())
+  type    String // cyclone, flood, storm, heatwave
+  level   String // green, yellow, orange, red
+  title   String
+  message String @db.Text
+  regions String? // Comma-separated: "Nosy Be, Antananarivo"
+
+  startDate DateTime
+  endDate   DateTime?
+  isActive  Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive, startDate, endDate])
+  @@index([level])
+}
+
+// ============================================
+// RESSOURCES MINIÈRES
+// ============================================
+
+model MiningResource {
+  id       String  @id @default(cuid())
+  name     String
+  nameEn   String?
+  nameMg   String?
+  slug     String  @unique
+  type     String  // precious_stone, mineral, metal, energy
+  subType  String? // sapphire, ruby, nickel, graphite, etc.
+
+  description         String?  @db.Text
+  region              String?
+  locations           String?  // JSON array: [{name, coordinates}]
+  discoveryYear       Int?
+  exploitationStart   Int?
+  productionVolume    String?
+  worldRank           Int?
+  percentWorld        Float?
+  operators           String?  // JSON array of operator names
+  environmentalImpact String?  @db.Text
+
+  imageUrl   String?
+  isFeatured Boolean @default(false)
+  isActive   Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([type])
+  @@index([slug])
+  @@index([isFeatured])
+}
+
+// ============================================
+// OTP CODES (Vérification Email)
+// ============================================
+
+model OTPCode {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  code      String    // 6 digits
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([code, userId])
+  @@index([expiresAt])
+}
+
+// ============================================
+// ANTI-CONTOURNEMENT (Scan des messages)
+// ============================================
+
+model MessageScanAlert {
+  id          String          @id @default(cuid())
+  messageId   String
+  senderId    String
+  receiverId  String
+  content     String          @db.Text
+  matchType   String          // "phone", "whatsapp", "email"
+  matchValue  String          // La valeur détectée
+  status      ScanAlertStatus @default(PENDING)
+  reviewedBy  String?
+  actionTaken String?         // "masked", "suspended", "dismissed"
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([status])
+  @@index([senderId])
+  @@index([createdAt])
+}
+
+// ============================================
+// CLICK TRACKING (Appels, WhatsApp, Email sortants)
+// ============================================
+
+model OutboundClick {
+  id              String        @id @default(cuid())
+  establishmentId String
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+  clickType       String        // "phone", "whatsapp", "email", "website", "facebook", "instagram"
+  userId          String?
+  sessionId       String?
+  createdAt       DateTime      @default(now())
+
+  @@index([establishmentId])
+  @@index([clickType])
+  @@index([createdAt])
+  @@index([establishmentId, createdAt])
+}
+
+// ============================================
+// SUPPORT TICKETS
+// ============================================
+
+model SupportTicket {
+  id          String         @id @default(cuid())
+  userId      String?
+  user        User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  email       String
+  subject     String
+  description String         @db.Text
+  category    String         // "bug", "billing", "feature", "complaint", "other"
+  status      TicketStatus   @default(OPEN)
+  priority    TicketPriority @default(MEDIUM)
+  assignedTo  String?
+  reference   String         @unique // "TK-XXXXXX"
+
+  replies   TicketReply[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([priority])
+  @@index([reference])
+  @@index([createdAt])
+}
+
+model TicketReply {
+  id         String @id @default(cuid())
+  ticketId   String
+  ticket     SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  authorId   String?
+  authorType String // "user", "admin", "system"
+  content    String @db.Text
+
+  createdAt DateTime @default(now())
+
+  @@index([ticketId])
+  @@index([createdAt])
+}
+
+// ============================================
+// SEO SEARCH LOGS
+// ============================================
+
+model SearchLog {
+  id          String   @id @default(cuid())
+  query       String
+  userId      String?
+  resultCount Int      @default(0)
+  filters     String?  // JSON: { type, city, ... }
+  createdAt   DateTime @default(now())
+
+  @@index([query])
+  @@index([createdAt])
+  @@index([resultCount])
+}
+
+// ============================================
+// GAMIFICATION BADGES
+// ============================================
+
+model UserBadge {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge     BadgeType
+  awardedAt DateTime  @default(now())
+
+  @@unique([userId, badge])
+  @@index([userId])
+}

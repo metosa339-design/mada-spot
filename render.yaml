@@ -1,0 +1,104 @@
+services:
+  # Main web service
+  - type: web
+    name: mada-flash
+    runtime: node
+    buildCommand: npm install && npx prisma generate && npx prisma migrate deploy && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false  # Set manually in Render dashboard (Neon PostgreSQL)
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GOOGLE_GEMINI_API_KEY
+        sync: false
+      - key: PIXABAY_API_KEY
+        sync: false
+      - key: PEXELS_API_KEY
+        sync: false
+      - key: AUTOMATION_API_KEY
+        sync: false
+      - key: CRON_SECRET
+        sync: false
+
+  # ============================================
+  # CRON JOBS - Automatisation des actualités
+  # ============================================
+
+  # Cron job: Sync RSS feeds (every 30 minutes)
+  # Scrape les sources RSS et publie automatiquement avec IA
+  - type: cron
+    name: mada-flash-sync-rss
+    runtime: node
+    schedule: "*/30 * * * *"
+    buildCommand: echo "RSS Sync ready"
+    startCommand: curl -s -X GET "$RENDER_EXTERNAL_URL/api/cron/sync-rss" -H "User-Agent: Render-Cron"
+    envVars:
+      - key: RENDER_EXTERNAL_URL
+        fromService:
+          type: web
+          name: mada-flash
+          property: url
+
+  # Cron job: Enhance articles with AI (every 2 hours)
+  # Améliore les articles non-traités avec l'IA
+  - type: cron
+    name: mada-flash-enhance
+    runtime: node
+    schedule: "15 */2 * * *"
+    buildCommand: echo "AI Enhancement ready"
+    startCommand: curl -s -X GET "$RENDER_EXTERNAL_URL/api/cron/enhance-articles?limit=15" -H "User-Agent: Render-Cron"
+    envVars:
+      - key: RENDER_EXTERNAL_URL
+        fromService:
+          type: web
+          name: mada-flash
+          property: url
+
+  # Cron job: Publish scheduled articles (every 15 minutes)
+  # Publie les articles programmés
+  - type: cron
+    name: mada-flash-publish
+    runtime: node
+    schedule: "*/15 * * * *"
+    buildCommand: echo "Publisher ready"
+    startCommand: curl -s -X GET "$RENDER_EXTERNAL_URL/api/cron/publish" -H "User-Agent: Render-Cron"
+    envVars:
+      - key: RENDER_EXTERNAL_URL
+        fromService:
+          type: web
+          name: mada-flash
+          property: url
+
+  # Cron job: Morning boost (6h00 local Madagascar = 3h00 UTC)
+  # Sync supplémentaire le matin pour les news fraîches
+  - type: cron
+    name: mada-flash-morning
+    runtime: node
+    schedule: "0 3 * * *"
+    buildCommand: echo "Morning sync ready"
+    startCommand: curl -s -X GET "$RENDER_EXTERNAL_URL/api/cron/sync-rss" -H "User-Agent: Render-Cron"
+    envVars:
+      - key: RENDER_EXTERNAL_URL
+        fromService:
+          type: web
+          name: mada-flash
+          property: url
+
+  # Cron job: Evening boost (18h00 local Madagascar = 15h00 UTC)
+  # Sync supplémentaire le soir
+  - type: cron
+    name: mada-flash-evening
+    runtime: node
+    schedule: "0 15 * * *"
+    buildCommand: echo "Evening sync ready"
+    startCommand: curl -s -X GET "$RENDER_EXTERNAL_URL/api/cron/sync-rss" -H "User-Agent: Render-Cron"
+    envVars:
+      - key: RENDER_EXTERNAL_URL
+        fromService:
+          type: web
+          name: mada-flash
+          property: url

@@ -1,0 +1,201 @@
+{
+  "titre": "Veille sectorielle : positionnement CFA ISIM 83 - VAR",
+  "date": "23/12/2024",
+  "source": "chiffrescles2025-bts-18492.pdf - Académie de Nice - Session juin 2025",
+
+  "part_de_marche_global": {
+    "2025": {
+      "academie_nice": {"admis": 4020, "presentes": 5107, "taux_reussite": "78.7%"},
+      "var": {"admis": 1601, "presentes": 2016, "taux_reussite": "79.4%"},
+      "var_production": {"admis": 237, "presentes": 306, "taux_reussite": "77.5%"},
+      "var_services": {"admis": 1364, "presentes": 1710, "taux_reussite": "79.8%"},
+      "part_isim_83": {
+        "sur_var": "2.03%",
+        "sur_prive_hors_contrat_83": "5.51%"
+      },
+      "marche_accessible_isim": {
+        "description": "Marché privé hors contrat VAR limité aux 5 BTS ISIM (CG, GPME, MCO, NDRC, SAM)",
+        "total_presentes": 471,
+        "detail": {
+          "NDRC": 109,
+          "MCO": 224,
+          "GPME": 93,
+          "SAM": 10,
+          "CG": 35
+        },
+        "presentes_isim": 41,
+        "part_isim": "8.70%"
+      }
+    }
+  },
+
+  "classement_general_cfa_prive_hors_contrat_var_2025": [
+    {"rang": 1, "cfa": "TSGE ECOLE SUPERIEURE ARISTEE (LA VALETTE)", "admis": 7, "presentes": 7, "taux_reussite": 100.0, "ville": "LA VALETTE DU VAR"},
+    {"rang": 1, "cfa": "CFA FIRST LINE FORMATION (ROQUEBRUNE)", "admis": 4, "presentes": 4, "taux_reussite": 100.0, "ville": "ROQUEBRUNE SUR ARGENS"},
+    {"rang": 1, "cfa": "AECD (TOULON)", "admis": 5, "presentes": 5, "taux_reussite": 100.0, "ville": "TOULON"},
+    {"rang": 4, "cfa": "ALPHA COMMUNICATION IFA SUD (TOULON)", "admis": 57, "presentes": 60, "taux_reussite": 95.0, "ville": "TOULON"},
+    {"rang": 5, "cfa": "CFA CHAMBRE DES METIERS (LES ARCS)", "admis": 14, "presentes": 15, "taux_reussite": 93.3, "ville": "LES ARCS"},
+    {"rang": 6, "cfa": "CFA INTEGRALE SECURITE (PUGET SUR ARGENS)", "admis": 10, "presentes": 11, "taux_reussite": 90.9, "ville": "PUGET SUR ARGENS"},
+    {"rang": 7, "cfa": "MY BUSINESS SCHOOL (FREJUS)", "admis": 27, "presentes": 31, "taux_reussite": 87.1, "ville": "FREJUS"},
+    {"rang": 8, "cfa": "URMA - CFAR CAMPUS (LA SEYNE)", "admis": 19, "presentes": 22, "taux_reussite": 86.4, "ville": "LA SEYNE SUR MER"},
+    {"rang": 9, "cfa": "SUP-IPGV (LA GARDE)", "admis": 26, "presentes": 31, "taux_reussite": 83.9, "ville": "LA GARDE"},
+    {"rang": 10, "cfa": "FORMAVAR (LA VALETTE)", "admis": 71, "presentes": 86, "taux_reussite": 82.6, "ville": "LA VALETTE DU VAR"},
+    {"rang": 11, "cfa": "CFA B2H 83 (LA VALETTE)", "admis": 23, "presentes": 28, "taux_reussite": 82.1, "ville": "LA VALETTE DU VAR"},
+    {"rang": 12, "cfa": "CFA OPTIMA (TOULON)", "admis": 22, "presentes": 27, "taux_reussite": 81.5, "ville": "TOULON"},
+    {"rang": 13, "cfa": "CFA CAPFORMA CCI DU VAR (TOULON)", "admis": 30, "presentes": 37, "taux_reussite": 81.1, "ville": "TOULON"},
+    {"rang": 14, "cfa": "FORMABEAUTE (LA VALETTE)", "admis": 12, "presentes": 15, "taux_reussite": 80.0, "ville": "LA VALETTE DU VAR"},
+    {"rang": 15, "cfa": "CFA B.FACTORY SCHOOL (DRAGUIGNAN)", "admis": 15, "presentes": 19, "taux_reussite": 78.9, "ville": "DRAGUIGNAN"},
+    {"rang": 16, "cfa": "FORMAPLUS (PUGET SUR ARGENS)", "admis": 67, "presentes": 89, "taux_reussite": 75.3, "ville": "PUGET SUR ARGENS"},
+    {"rang": 17, "cfa": "CFA ALTERNANCE VAR VAUCLUSE (LA GARDE)", "admis": 24, "presentes": 32, "taux_reussite": 75.0, "ville": "LA GARDE"},
+    {"rang": 18, "cfa": "ACAMAN (FREJUS)", "admis": 28, "presentes": 39, "taux_reussite": 71.8, "ville": "FREJUS"},
+    {"rang": 19, "cfa": "ESID (FREJUS)", "admis": 14, "presentes": 21, "taux_reussite": 66.7, "ville": "FREJUS"},
+    {"rang": 20, "cfa": "MAESTRIS (TOULON)", "admis": 51, "presentes": 81, "taux_reussite": 63.0, "ville": "TOULON"},
+    {"rang": 21, "cfa": "SILVYA TERRADE (TOULON)", "admis": 5, "presentes": 8, "taux_reussite": 62.5, "ville": "TOULON"},
+    {"rang": 22, "cfa": "CFA ISIM 83 (LA VALETTE)", "admis": 24, "presentes": 41, "taux_reussite": 58.5, "ville": "LA VALETTE DU VAR"},
+    {"rang": 23, "cfa": "CFA PERFORMANCE BUSINESS SCHOOL (BANDOL)", "admis": 16, "presentes": 29, "taux_reussite": 55.2, "ville": "BANDOL"},
+    {"rang": 24, "cfa": "INDIVIDUEL (VAR)", "admis": 42, "presentes": 78, "taux_reussite": 53.8, "ville": "TOULON"},
+    {"rang": 25, "cfa": "CFA CFD (DRAGUIGNAN)", "admis": 1, "presentes": 2, "taux_reussite": 50.0, "ville": "DRAGUIGNAN"},
+    {"rang": 25, "cfa": "OF-CFA TETE D'AFFICHE (FREJUS)", "admis": 13, "presentes": 26, "taux_reussite": 50.0, "ville": "FREJUS"},
+    {"rang": 27, "cfa": "CFA AZUR ENERJ FORMATION (SOLLIES PONT)", "admis": 10, "presentes": 27, "taux_reussite": 37.0, "ville": "SOLLIES PONT"}
+  ],
+
+  "resultats_isim_83_detail": {
+    "total": {"admis": 24, "presentes": 41, "taux_reussite": "58.5%"},
+    "par_formation": {
+      "CG": {"admis": 4, "presentes": 7, "taux_reussite": "57.1%"},
+      "GPME": {"admis": 6, "presentes": 12, "taux_reussite": "50.0%"},
+      "MCO": {"admis": 6, "presentes": 12, "taux_reussite": "50.0%"},
+      "NDRC": {"admis": 6, "presentes": 6, "taux_reussite": "100.0%"},
+      "SAM": {"admis": 2, "presentes": 4, "taux_reussite": "50.0%"}
+    }
+  },
+
+  "resultats_par_formation": {
+    "NDRC": {
+      "description": "Négociation et digitalisation de la relation client",
+      "marche_var_prive_hors_contrat": {
+        "total_presentes": 109,
+        "part_isim": "5.50%"
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "CFA ISIM 83 (LA VALETTE)", "admis": 6, "presentes": 6, "taux": 100.0},
+        {"rang": 1, "etablissement": "CFA ALTERNANCE VAR VAUCLUSE (LA GARDE)", "admis": 12, "presentes": 12, "taux": 100.0},
+        {"rang": 1, "etablissement": "URMA - CFAR CAMPUS (LA SEYNE)", "admis": 4, "presentes": 4, "taux": 100.0},
+        {"rang": 4, "etablissement": "FORMAVAR (LA VALETTE)", "admis": 16, "presentes": 17, "taux": 94.1},
+        {"rang": 5, "etablissement": "CFA B2H 83 (LA VALETTE)", "admis": 11, "presentes": 12, "taux": 91.7},
+        {"rang": 6, "etablissement": "ACAMAN (FREJUS)", "admis": 9, "presentes": 10, "taux": 90.0},
+        {"rang": 7, "etablissement": "ESID (FREJUS)", "admis": 7, "presentes": 8, "taux": 87.5},
+        {"rang": 8, "etablissement": "ALPHA COMMUNICATION IFA SUD (TOULON)", "admis": 13, "presentes": 15, "taux": 86.7},
+        {"rang": 9, "etablissement": "FORMAPLUS (PUGET SUR ARGENS)", "admis": 13, "presentes": 20, "taux": 65.0},
+        {"rang": 10, "etablissement": "OF-CFA TETE D'AFFICHE (FREJUS)", "admis": 0, "presentes": 5, "taux": 0.0}
+      ],
+      "position_isim": "1er ex-aequo sur 10 CFA"
+    },
+
+    "MCO": {
+      "description": "Management commercial opérationnel",
+      "marche_var_prive_hors_contrat": {
+        "total_presentes": 224,
+        "part_isim": "5.36%"
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "CFA CHAMBRE DES METIERS (LES ARCS)", "admis": 8, "presentes": 8, "taux": 100.0},
+        {"rang": 1, "etablissement": "MAESTRIS (TOULON)", "admis": 5, "presentes": 5, "taux": 100.0},
+        {"rang": 3, "etablissement": "ALPHA COMMUNICATION IFA SUD (TOULON)", "admis": 44, "presentes": 45, "taux": 97.8},
+        {"rang": 4, "etablissement": "URMA - CFAR CAMPUS (LA SEYNE)", "admis": 7, "presentes": 8, "taux": 87.5},
+        {"rang": 5, "etablissement": "MY BUSINESS SCHOOL (FREJUS)", "admis": 11, "presentes": 14, "taux": 78.6},
+        {"rang": 6, "etablissement": "FORMAPLUS (PUGET SUR ARGENS)", "admis": 16, "presentes": 21, "taux": 76.2},
+        {"rang": 7, "etablissement": "FORMAVAR (LA VALETTE)", "admis": 22, "presentes": 30, "taux": 73.3},
+        {"rang": 8, "etablissement": "CFA B2H 83 (LA VALETTE)", "admis": 7, "presentes": 10, "taux": 70.0},
+        {"rang": 9, "etablissement": "CFA ALTERNANCE VAR VAUCLUSE (LA GARDE)", "admis": 7, "presentes": 11, "taux": 63.6},
+        {"rang": 10, "etablissement": "CFA OPTIMA (TOULON)", "admis": 3, "presentes": 5, "taux": 60.0},
+        {"rang": 11, "etablissement": "ACAMAN (FREJUS)", "admis": 7, "presentes": 13, "taux": 53.8},
+        {"rang": 12, "etablissement": "CFA ISIM 83 (LA VALETTE)", "admis": 6, "presentes": 12, "taux": 50.0},
+        {"rang": 12, "etablissement": "CFA CAPFORMA CCI DU VAR (TOULON)", "admis": 6, "presentes": 12, "taux": 50.0},
+        {"rang": 14, "etablissement": "OF-CFA TETE D'AFFICHE (FREJUS)", "admis": 4, "presentes": 9, "taux": 44.4},
+        {"rang": 15, "etablissement": "CFA B.FACTORY SCHOOL (DRAGUIGNAN)", "admis": 3, "presentes": 7, "taux": 42.9},
+        {"rang": 16, "etablissement": "CFA PERFORMANCE BUSINESS SCHOOL (BANDOL)", "admis": 4, "presentes": 10, "taux": 40.0},
+        {"rang": 17, "etablissement": "ESID (FREJUS)", "admis": 1, "presentes": 4, "taux": 25.0}
+      ],
+      "position_isim": "12ème ex-aequo sur 17 CFA"
+    },
+
+    "GPME": {
+      "description": "Gestion de la PME",
+      "marche_var_prive_hors_contrat": {
+        "total_presentes": 93,
+        "part_isim": "12.90%"
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "MY BUSINESS SCHOOL (FREJUS)", "admis": 6, "presentes": 6, "taux": 100.0},
+        {"rang": 1, "etablissement": "ACAMAN (FREJUS)", "admis": 1, "presentes": 1, "taux": 100.0},
+        {"rang": 1, "etablissement": "CFA PERFORMANCE BUSINESS SCHOOL (BANDOL)", "admis": 4, "presentes": 4, "taux": 100.0},
+        {"rang": 1, "etablissement": "CFA OPTIMA (TOULON)", "admis": 3, "presentes": 3, "taux": 100.0},
+        {"rang": 5, "etablissement": "SUP-IPGV (LA GARDE)", "admis": 6, "presentes": 7, "taux": 85.7},
+        {"rang": 5, "etablissement": "CFA CHAMBRE DES METIERS (LES ARCS)", "admis": 6, "presentes": 7, "taux": 85.7},
+        {"rang": 7, "etablissement": "FORMAVAR (LA VALETTE)", "admis": 10, "presentes": 12, "taux": 83.3},
+        {"rang": 8, "etablissement": "CFA B2H 83 (LA VALETTE)", "admis": 3, "presentes": 4, "taux": 75.0},
+        {"rang": 8, "etablissement": "FORMAPLUS (PUGET SUR ARGENS)", "admis": 12, "presentes": 16, "taux": 75.0},
+        {"rang": 10, "etablissement": "CFA ALTERNANCE VAR VAUCLUSE (LA GARDE)", "admis": 5, "presentes": 9, "taux": 55.6},
+        {"rang": 10, "etablissement": "MAESTRIS (TOULON)", "admis": 5, "presentes": 9, "taux": 55.6},
+        {"rang": 12, "etablissement": "CFA ISIM 83 (LA VALETTE)", "admis": 6, "presentes": 12, "taux": 50.0},
+        {"rang": 13, "etablissement": "OF-CFA TETE D'AFFICHE (FREJUS)", "admis": 1, "presentes": 3, "taux": 33.3}
+      ],
+      "position_isim": "12ème sur 13 CFA"
+    },
+
+    "SAM": {
+      "description": "Support à l'action managériale",
+      "marche_var_prive_hors_contrat": {
+        "total_presentes": 10,
+        "part_isim": "40.00%"
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "CFA B2H 83 (LA VALETTE)", "admis": 2, "presentes": 2, "taux": 100.0},
+        {"rang": 2, "etablissement": "URMA - CFAR CAMPUS (LA SEYNE)", "admis": 3, "presentes": 4, "taux": 75.0},
+        {"rang": 3, "etablissement": "CFA ISIM 83 (LA VALETTE)", "admis": 2, "presentes": 4, "taux": 50.0}
+      ],
+      "position_isim": "3ème sur 3 CFA"
+    },
+
+    "CG": {
+      "description": "Comptabilité et gestion",
+      "marche_var_prive_hors_contrat": {
+        "total_presentes": 35,
+        "part_isim": "20.00%"
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "URMA - CFAR CAMPUS (LA SEYNE)", "admis": 4, "presentes": 4, "taux": 100.0},
+        {"rang": 1, "etablissement": "CFA FIRST LINE FORMATION (ROQUEBRUNE)", "admis": 3, "presentes": 3, "taux": 100.0},
+        {"rang": 1, "etablissement": "CFA CAPFORMA CCI DU VAR (TOULON)", "admis": 5, "presentes": 5, "taux": 100.0},
+        {"rang": 4, "etablissement": "SUP-IPGV (LA GARDE)", "admis": 13, "presentes": 14, "taux": 92.9},
+        {"rang": 5, "etablissement": "CFA ISIM 83 (LA VALETTE)", "admis": 4, "presentes": 7, "taux": 57.1},
+        {"rang": 6, "etablissement": "CFA CFD (DRAGUIGNAN)", "admis": 1, "presentes": 2, "taux": 50.0}
+      ],
+      "position_isim": "5ème sur 6 CFA"
+    }
+  },
+
+  "synthese_positionnement_isim_83": {
+    "rang_general": "22ème sur 27 établissements privés hors contrat du VAR",
+    "taux_reussite_global": "58.5%",
+    "moyenne_var_prive_hors_contrat": "75.8%",
+    "ecart_moyenne": "-17.3 points",
+    "points_forts": [
+      "NDRC: 100% de réussite (6/6) - 1er ex-aequo"
+    ],
+    "points_amelioration": [
+      "MCO: 50% (6/12) - 12ème sur 17",
+      "GPME: 50% (6/12) - 12ème sur 13",
+      "SAM: 50% (2/4) - 3ème sur 3",
+      "CG: 57.1% (4/7) - 5ème sur 6"
+    ],
+    "concurrents_directs_la_valette": [
+      {"nom": "TSGE ECOLE SUPERIEURE ARISTEE", "taux": "100.0%", "presentes": 7},
+      {"nom": "FORMAVAR", "taux": "82.6%", "presentes": 86},
+      {"nom": "CFA B2H 83", "taux": "82.1%", "presentes": 28},
+      {"nom": "FORMABEAUTE", "taux": "80.0%", "presentes": 15},
+      {"nom": "CFA ISIM 83", "taux": "58.5%", "presentes": 41}
+    ]
+  }
+}

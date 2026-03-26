@@ -1,0 +1,266 @@
+{
+  "titre": "Veille sectorielle : positionnement ISIM - Alpes-Maritimes",
+  "date": "23/12/2025",
+  "source": "chiffrescles BTS - Academie de Nice - Sessions 2023, 2024, 2025",
+
+  "part_de_marche_global": {
+    "2023": {
+      "academie_nice": {"presentes": 4711},
+      "alpes_maritimes": {"presentes": 2790},
+      "prive_hors_contrat_am": {"presentes": 1005},
+      "part_isim": {"sur_am": "3.41%", "sur_prive_hors_contrat": "9.45%"}
+    },
+    "2024": {
+      "academie_nice": {"presentes": 4859, "evolution": "+3.14%"},
+      "alpes_maritimes": {"presentes": 2920, "evolution": "+4.66%"},
+      "prive_hors_contrat_am": {"presentes": 1191, "evolution": "+18.50%"},
+      "part_isim": {"sur_am": "2.36%", "sur_prive_hors_contrat": "5.79%"}
+    },
+    "2025": {
+      "academie_nice": {"admis": 4020, "presentes": 5107, "taux_reussite": "78.7%", "evolution": "+5.10%"},
+      "alpes_maritimes": {"admis": 2419, "presentes": 3091, "taux_reussite": "78.3%", "evolution": "+5.86%"},
+      "prive_hors_contrat_am": {"presentes": 792, "taux_reussite": "70.3%"},
+      "part_isim": {"sur_am": "2.59%", "sur_prive_hors_contrat": "10.10%"},
+      "marche_accessible_isim": {
+        "description": "Marché privé hors contrat AM limité aux 5 BTS ISIM",
+        "total_presentes": 630,
+        "detail": {"NDRC": 95, "MCO": 307, "GPME": 136, "SAM": 10, "CG": 82},
+        "presentes_isim": 80,
+        "part_isim": "12.70%"
+      }
+    }
+  },
+
+  "resultats_isim_historique": {
+    "2023": {
+      "total": {"admis": 55, "presentes": 95, "taux_reussite": "57.9%"},
+      "rang_general": "14eme",
+      "par_formation": {
+        "NDRC": {"admis": 8, "presentes": 9, "taux_reussite": "88.9%", "rang": 6},
+        "MCO": {"admis": 18, "presentes": 30, "taux_reussite": "60.0%", "rang": 15},
+        "GPME": {"admis": 7, "presentes": 9, "taux_reussite": "77.8%", "rang": 6},
+        "SAM": {"admis": 2, "presentes": 5, "taux_reussite": "40.0%", "rang": 4},
+        "CG": {"admis": 4, "presentes": 8, "taux_reussite": "50.0%", "rang": 7}
+      }
+    },
+    "2024": {
+      "total": {"admis": 39, "presentes": 69, "taux_reussite": "56.5%"},
+      "rang_general": "22eme",
+      "par_formation": {
+        "NDRC": {"admis": 10, "presentes": 14, "taux_reussite": "71.4%", "rang": 5},
+        "MCO": {"admis": 14, "presentes": 24, "taux_reussite": "58.3%", "rang": 20},
+        "GPME": {"admis": 10, "presentes": 14, "taux_reussite": "71.4%", "rang": 7},
+        "SAM": {"admis": 10, "presentes": 12, "taux_reussite": "83.3%", "rang": 4},
+        "CG": {"admis": 4, "presentes": 7, "taux_reussite": "57.1%", "rang": 5}
+      }
+    },
+    "2025": {
+      "total": {"admis": 52, "presentes": 80, "taux_reussite": "65.0%"},
+      "rang_general": "18eme sur 31",
+      "par_formation": {
+        "NDRC": {"admis": 6, "presentes": 6, "taux_reussite": "100.0%", "rang": 1},
+        "MCO": {"admis": 29, "presentes": 37, "taux_reussite": "78.4%", "rang": 7},
+        "GPME": {"admis": 9, "presentes": 18, "taux_reussite": "50.0%", "rang": 10},
+        "SAM": {"admis": 5, "presentes": 10, "taux_reussite": "50.0%", "rang": 1},
+        "CG": {"admis": 3, "presentes": 9, "taux_reussite": "33.3%", "rang": 6}
+      }
+    }
+  },
+
+  "evolution_isim": {
+    "taux_reussite": {
+      "2023": "57.9%",
+      "2024": "56.5%",
+      "2025": "65.0%",
+      "evolution_2024_vs_2023": "-1.4%",
+      "evolution_2025_vs_2024": "+8.5%"
+    },
+    "presentes": {
+      "2023": 95,
+      "2024": 69,
+      "2025": 80,
+      "evolution_2024_vs_2023": -26,
+      "evolution_2025_vs_2024": 11
+    }
+  },
+
+  "resultats_par_formation": {
+    "NDRC": {
+      "description": "Negociation et digitalisation de la relation client",
+      "marche_am_prive_hors_contrat": {"total_presentes": 95, "part_isim": "6.32%"},
+      "evolution_isim": {
+        "2023": {"admis": 8, "presentes": 9, "taux": "88.9%", "rang": 6},
+        "2024": {"admis": 10, "presentes": 14, "taux": "71.4%", "rang": 5},
+        "2025": {"admis": 6, "presentes": 6, "taux": "100.0%", "rang": 1}
+      },
+      "classement_2023": [
+        {"rang": 1, "etablissement": "GPEI", "admis": 8, "presentes": 8, "taux": 100.0},
+        {"rang": 1, "etablissement": "NEVEN EDUCATION", "admis": 12, "presentes": 12, "taux": 100.0},
+        {"rang": 1, "etablissement": "JEUNE AIGLON", "admis": 1, "presentes": 1, "taux": 100.0},
+        {"rang": 1, "etablissement": "CAMPUS RIERA", "admis": 6, "presentes": 6, "taux": 100.0},
+        {"rang": 5, "etablissement": "IDRAC", "admis": 18, "presentes": 21, "taux": 85.7},
+        {"rang": 6, "etablissement": "ISIM", "admis": 8, "presentes": 9, "taux": 88.9},
+        {"rang": 7, "etablissement": "UFIP", "admis": 15, "presentes": 18, "taux": 83.3},
+        {"rang": 8, "etablissement": "INDIVIDUEL", "admis": 5, "presentes": 7, "taux": 71.4},
+        {"rang": 9, "etablissement": "ILEC CANNES", "admis": 8, "presentes": 12, "taux": 66.7},
+        {"rang": 10, "etablissement": "ILEC NICE", "admis": 8, "presentes": 15, "taux": 53.3}
+      ],
+      "classement_2024": [
+        {"rang": 1, "etablissement": "LP ESCOM", "admis": 11, "presentes": 12, "taux": 91.7},
+        {"rang": 2, "etablissement": "TSGE ESCOM CANNES", "admis": 10, "presentes": 11, "taux": 90.9},
+        {"rang": 3, "etablissement": "INDIVIDUEL", "admis": 3, "presentes": 4, "taux": 75.0},
+        {"rang": 4, "etablissement": "GPEI", "admis": 10, "presentes": 14, "taux": 71.4},
+        {"rang": 5, "etablissement": "ISIM", "admis": 10, "presentes": 14, "taux": 71.4},
+        {"rang": 6, "etablissement": "LYC ILEC", "admis": 2, "presentes": 5, "taux": 40.0},
+        {"rang": 7, "etablissement": "CFA ALTERNANCE SUDAZUR", "admis": 3, "presentes": 8, "taux": 37.5}
+      ],
+      "classement_2025": [
+        {"rang": 1, "etablissement": "ISIM (NICE)", "admis": 6, "presentes": 6, "taux": 100.0},
+        {"rang": 1, "etablissement": "NEVEN EDUCATION", "admis": 10, "presentes": 10, "taux": 100.0},
+        {"rang": 3, "etablissement": "CFA UFIP NICE", "admis": 18, "presentes": 19, "taux": 94.7},
+        {"rang": 4, "etablissement": "CFA ALTERNANCE SUD AZUR", "admis": 22, "presentes": 24, "taux": 91.7},
+        {"rang": 5, "etablissement": "PBAC GROUPE IDRAC", "admis": 10, "presentes": 11, "taux": 90.9},
+        {"rang": 6, "etablissement": "PIGIER", "admis": 11, "presentes": 12, "taux": 91.7},
+        {"rang": 7, "etablissement": "CFA ACAD. AVENIR AZUREEN", "admis": 25, "presentes": 32, "taux": 78.1},
+        {"rang": 8, "etablissement": "LYC ILEC (NICE)", "admis": 6, "presentes": 9, "taux": 66.7},
+        {"rang": 8, "etablissement": "LYC ILEC (CANNES)", "admis": 2, "presentes": 3, "taux": 66.7},
+        {"rang": 10, "etablissement": "GPEI", "admis": 4, "presentes": 8, "taux": 50.0}
+      ],
+      "position_isim_2025": "1er ex-aequo sur 10 CFA"
+    },
+
+    "MCO": {
+      "description": "Management commercial operationnel",
+      "marche_am_prive_hors_contrat": {"total_presentes": 307, "part_isim": "12.05%"},
+      "evolution_isim": {
+        "2023": {"admis": 18, "presentes": 30, "taux": "60.0%", "rang": 15},
+        "2024": {"admis": 14, "presentes": 24, "taux": "58.3%", "rang": 20},
+        "2025": {"admis": 29, "presentes": 37, "taux": "78.4%", "rang": 7}
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "TSGE EC SUP EUROPEENNE", "admis": 1, "presentes": 1, "taux": 100.0},
+        {"rang": 2, "etablissement": "TSGE ISCAE", "admis": 12, "presentes": 13, "taux": 92.3},
+        {"rang": 3, "etablissement": "TSGE E.S.C.C.O.M CANNES", "admis": 19, "presentes": 21, "taux": 90.5},
+        {"rang": 4, "etablissement": "PBAC GROUPE IDRAC", "admis": 12, "presentes": 14, "taux": 85.7},
+        {"rang": 5, "etablissement": "PBAC INST. PREPA. GESTION", "admis": 22, "presentes": 26, "taux": 84.6},
+        {"rang": 6, "etablissement": "LP E.S.C.C.O.M.", "admis": 15, "presentes": 18, "taux": 83.3},
+        {"rang": 7, "etablissement": "ISIM (NICE)", "admis": 29, "presentes": 37, "taux": 78.4},
+        {"rang": 8, "etablissement": "PIGIER", "admis": 18, "presentes": 23, "taux": 78.3},
+        {"rang": 9, "etablissement": "NEVEN EDUCATION", "admis": 14, "presentes": 18, "taux": 77.8},
+        {"rang": 10, "etablissement": "CFA ALTERNANCE SUD AZUR", "admis": 18, "presentes": 24, "taux": 75.0},
+        {"rang": 11, "etablissement": "CFA ACAD. AVENIR AZUREEN", "admis": 17, "presentes": 23, "taux": 73.9},
+        {"rang": 12, "etablissement": "LP ELYSEES CANNES", "admis": 13, "presentes": 18, "taux": 72.2},
+        {"rang": 13, "etablissement": "TSGE ESID NICE", "admis": 2, "presentes": 3, "taux": 66.7},
+        {"rang": 14, "etablissement": "GPEI", "admis": 8, "presentes": 13, "taux": 61.5},
+        {"rang": 15, "etablissement": "CFA EUROPEAN BACHELORS", "admis": 10, "presentes": 17, "taux": 58.8},
+        {"rang": 16, "etablissement": "LYC ILEC (NICE)", "admis": 6, "presentes": 22, "taux": 27.3},
+        {"rang": 17, "etablissement": "LYC ILEC (CANNES)", "admis": 3, "presentes": 15, "taux": 20.0}
+      ],
+      "position_isim_2025": "7eme sur 17 CFA"
+    },
+
+    "GPME": {
+      "description": "Gestion de la PME",
+      "marche_am_prive_hors_contrat": {"total_presentes": 136, "part_isim": "13.24%"},
+      "evolution_isim": {
+        "2023": {"admis": 7, "presentes": 9, "taux": "77.8%", "rang": 6},
+        "2024": {"admis": 10, "presentes": 14, "taux": "71.4%", "rang": 7},
+        "2025": {"admis": 9, "presentes": 18, "taux": "50.0%", "rang": 10}
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "CFA ACAD. AVENIR AZUREEN", "admis": 9, "presentes": 9, "taux": 100.0},
+        {"rang": 1, "etablissement": "NEVEN EDUCATION", "admis": 5, "presentes": 5, "taux": 100.0},
+        {"rang": 1, "etablissement": "PBAC INST. PREPA. GESTION", "admis": 9, "presentes": 9, "taux": 100.0},
+        {"rang": 4, "etablissement": "TSGE E.S.C.C.O.M CANNES", "admis": 14, "presentes": 17, "taux": 82.4},
+        {"rang": 5, "etablissement": "LYC ILEC (NICE)", "admis": 8, "presentes": 10, "taux": 80.0},
+        {"rang": 6, "etablissement": "PIGIER", "admis": 22, "presentes": 28, "taux": 78.6},
+        {"rang": 7, "etablissement": "GPEI", "admis": 6, "presentes": 8, "taux": 75.0},
+        {"rang": 7, "etablissement": "LP E.S.C.C.O.M.", "admis": 6, "presentes": 8, "taux": 75.0},
+        {"rang": 9, "etablissement": "CFA ALTERNANCE SUD AZUR", "admis": 11, "presentes": 15, "taux": 73.3},
+        {"rang": 10, "etablissement": "ISIM (NICE)", "admis": 9, "presentes": 18, "taux": 50.0},
+        {"rang": 10, "etablissement": "LYC ILEC (CANNES)", "admis": 2, "presentes": 4, "taux": 50.0},
+        {"rang": 12, "etablissement": "ECOSUP", "admis": 2, "presentes": 5, "taux": 40.0}
+      ],
+      "position_isim_2025": "10eme ex-aequo sur 12 CFA"
+    },
+
+    "SAM": {
+      "description": "Support a l'action manageriale",
+      "marche_am_prive_hors_contrat": {"total_presentes": 10, "part_isim": "100.00%"},
+      "evolution_isim": {
+        "2023": {"admis": 2, "presentes": 5, "taux": "40.0%", "rang": 4},
+        "2024": {"admis": 10, "presentes": 12, "taux": "83.3%", "rang": 4},
+        "2025": {"admis": 5, "presentes": 10, "taux": "50.0%", "rang": 1}
+      },
+      "classement_2023": [
+        {"rang": 1, "etablissement": "LP ESCOM", "admis": 5, "presentes": 5, "taux": 100.0},
+        {"rang": 2, "etablissement": "INDIVIDUEL", "admis": 1, "presentes": 1, "taux": 100.0},
+        {"rang": 3, "etablissement": "ARDRESS", "admis": 2, "presentes": 2, "taux": 100.0},
+        {"rang": 4, "etablissement": "ISIM", "admis": 2, "presentes": 5, "taux": 40.0}
+      ],
+      "classement_2024": [
+        {"rang": 1, "etablissement": "LP ESCOM", "admis": 5, "presentes": 5, "taux": 100.0},
+        {"rang": 2, "etablissement": "INDIVIDUEL", "admis": 1, "presentes": 1, "taux": 100.0},
+        {"rang": 3, "etablissement": "ARDRESS", "admis": 2, "presentes": 2, "taux": 100.0},
+        {"rang": 4, "etablissement": "ISIM", "admis": 10, "presentes": 12, "taux": 83.3},
+        {"rang": 5, "etablissement": "CAMPUS RIERA", "admis": 1, "presentes": 3, "taux": 33.3}
+      ],
+      "classement_2025": [
+        {"rang": 1, "etablissement": "ISIM (NICE)", "admis": 5, "presentes": 10, "taux": 50.0}
+      ],
+      "position_isim_2025": "1er sur 1 CFA (seul etablissement prive HC)"
+    },
+
+    "CG": {
+      "description": "Comptabilite et gestion",
+      "marche_am_prive_hors_contrat": {"total_presentes": 82, "part_isim": "10.98%"},
+      "evolution_isim": {
+        "2023": {"admis": 4, "presentes": 8, "taux": "50.0%", "rang": 7},
+        "2024": {"admis": 4, "presentes": 7, "taux": "57.1%", "rang": 5},
+        "2025": {"admis": 3, "presentes": 9, "taux": "33.3%", "rang": 6}
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "NEVEN EDUCATION", "admis": 8, "presentes": 8, "taux": 100.0},
+        {"rang": 2, "etablissement": "LP E.S.C.C.O.M.", "admis": 11, "presentes": 13, "taux": 84.6},
+        {"rang": 3, "etablissement": "TSGE E.S.C.C.O.M CANNES", "admis": 9, "presentes": 11, "taux": 81.8},
+        {"rang": 4, "etablissement": "INSECC", "admis": 18, "presentes": 23, "taux": 78.3},
+        {"rang": 5, "etablissement": "PIGIER", "admis": 7, "presentes": 11, "taux": 63.6},
+        {"rang": 6, "etablissement": "ISIM (NICE)", "admis": 3, "presentes": 9, "taux": 33.3},
+        {"rang": 6, "etablissement": "LYC ILEC (CANNES)", "admis": 1, "presentes": 3, "taux": 33.3},
+        {"rang": 8, "etablissement": "LYC ILEC (NICE)", "admis": 1, "presentes": 4, "taux": 25.0}
+      ],
+      "position_isim_2025": "6eme ex-aequo sur 8 CFA"
+    }
+  },
+
+  "synthese_positionnement_isim": {
+    "rang_general_2025": "18eme sur 31 etablissements prives hors contrat",
+    "taux_reussite_2025": "65.0%",
+    "moyenne_am_prive_hors_contrat": "70.3%",
+    "ecart_moyenne": "-5.3 points",
+    "evolution_3_ans": {
+      "tendance": "Amelioration en 2025 apres baisse en 2024",
+      "taux_2023": "57.9%",
+      "taux_2024": "56.5%",
+      "taux_2025": "65.0%"
+    },
+    "points_forts_2025": [
+      "NDRC: 100% de reussite (6/6) - 1er ex-aequo (+28.6% vs 2024)",
+      "MCO: 78.4% (29/37) - 7eme sur 17 (+20.1% vs 2024)"
+    ],
+    "points_amelioration_2025": [
+      "CG: 33.3% (3/9) - 6eme sur 8 (-23.8% vs 2024)",
+      "GPME: 50% (9/18) - 10eme sur 12 (-21.4% vs 2024)",
+      "SAM: 50% (5/10) - seul etablissement (-33.3% vs 2024)"
+    ],
+    "concurrents_directs_nice": [
+      {"nom": "PBAC INST. PREPA. GESTION", "taux": "87.1%", "presentes": 85},
+      {"nom": "LP E.S.C.C.O.M.", "taux": "85.7%", "presentes": 49},
+      {"nom": "TSGE ISCAE", "taux": "84.5%", "presentes": 71},
+      {"nom": "CFA ALTERNANCE SUD AZUR", "taux": "81.0%", "presentes": 63},
+      {"nom": "CFA UFIP NICE", "taux": "80.5%", "presentes": 77},
+      {"nom": "PIGIER NICE", "taux": "71.6%", "presentes": 109},
+      {"nom": "ISIM", "taux": "65.0%", "presentes": 80}
+    ]
+  }
+}

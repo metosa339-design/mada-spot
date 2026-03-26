@@ -1,0 +1,42 @@
+DOSSIERS D'IMAGES À COMPLÉTER - Nouvelles activités touristiques
+================================================================
+
+Les dossiers suivants sont VIDES et nécessitent des photos :
+
+1. foulpointe/        → Plage de Foulpointe (plage, mer, récif corallien)
+2. ampefy/            → Ampefy & Région Itasy (geysers, chutes de la Lily, lac Itasy)
+3. moraingy/          → Le Moraingy - lutte traditionnelle malgache (combat, spectacle)
+4. nosy-mangabe/      → Réserve de Nosy Mangabe (forêt tropicale, Aye-aye, île)
+5. ambatolampy/       → Fonderie d'aluminium d'Ambatolampy (artisanat, marmites)
+6. sava-vanille/      → Route de la Vanille - Sambava & Antalaha (plantations, vanille)
+7. lavanono/          → Surf à Lavanono (vagues, plage, surf)
+8. ilakaka/           → Ilakaka - Ville du Saphir (mines, pierres précieuses)
+9. gastronomie/       → Mofo Gasy + Vary sy Anana (cuisine malgache, street food)
+10. midongy/          → Parc National de Midongy du Sud (forêt, faune endémique)
+11. soatanana/        → Soie sauvage de Soatanana (tissage, artisanat, soie)
+12. famadihana/       → Le Famadihana - retournement des morts (cérémonie, culture)
+13. kimony-beach/     → Kimony Beach (plage, détente, coucher de soleil)
+14. tsaranoro/        → Falaises de Tsaranoro (escalade, randonnée, massif)
+15. ankaratra/        → Massif de l'Ankaratra (volcan, montagne, trekking)
+16. rn7/              → Route Nationale 7 (paysages, route, villages)
+17. artisanat-rn1/    → Routes de l'Artisanat RN1 (broderie, marqueterie, artisans)
+18. piscines-ankarana/ → Piscines naturelles de l'Ankarana (piscines, tsingy, grotte)
+19. requins-baleines/ → Nager avec les requins-baleines (plongée, requin-baleine, mer)
+
+--- VOLUME 2 (Fiches 46-57) ---
+
+20. zombitse-vohibasia/ → Parc National Zombitse-Vohibasia (forêt sèche, oiseaux, lémuriens)
+21. tsimanampesotse/    → Parc National Tsimanampesotse (lac salé, flamants roses, grottes)
+22. kirindy-mitea/      → Parc National Kirindy Mitea (dunes, lagons, baobabs, Fossa)
+23. baie-de-baly/       → Parc National Baie de Baly (tortue à soc, mangroves, plages)
+24. namoroka/           → Tsingy de Namoroka (tsingy sauvages, grottes, lacs souterrains)
+25. kirindy-foret/      → Forêt de Kirindy (Fossa, safari nocturne, lémuriens)
+26. berenty/            → Réserve de Berenty (lémuriens Catta, Sifaka danseurs)
+27. peyrieras/          → Réserve Peyrieras Exotic (caméléons, grenouilles Mantella)
+28. nosy-komba/         → Nosy Komba (lémuriens noirs, artisanat, village pêcheurs)
+29. ifaty-mangily/      → Ifaty-Mangily (Grand Récif, snorkeling, baobabs, pêcheurs Vezo)
+
+Note : Les dossiers montagne-ambre/, fort-dauphin/ et ifaty/ ont déjà des photos.
+
+FORMAT RECOMMANDÉ : .jpg ou .webp, résolution min 800x600px
+NOMMAGE : utiliser des noms descriptifs (ex: plage-foulpointe-1.jpg)

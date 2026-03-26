@@ -1,0 +1,27 @@
+# Mada Flash Automation - Dépendances Python
+# Installation: pip install -r requirements.txt
+
+# Async HTTP
+aiohttp>=3.9.0
+aiofiles>=23.2.0
+
+# Scraping & Parsing
+beautifulsoup4>=4.12.0
+feedparser>=6.0.0
+lxml>=5.0.0
+
+# Images
+Pillow>=10.0.0
+
+# Claude AI API
+anthropic>=0.40.0
+
+# Configuration
+python-dotenv>=1.0.0
+
+# Base de données (inclus dans Python stdlib)
+# sqlite3 - déjà inclus
+
+# Optionnel - pour le développement
+# rich>=13.0.0  # Meilleur affichage console
+# tqdm>=4.66.0  # Barres de progression

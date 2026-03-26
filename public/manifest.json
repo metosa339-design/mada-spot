@@ -1,0 +1,33 @@
+{
+  "name": "Mada Spot — Bons Plans & Prestataires à Madagascar",
+  "short_name": "Mada Spot",
+  "description": "Trouvez les meilleurs restaurants, hôtels, attractions et prestataires à Madagascar.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafbfc",
+  "theme_color": "#ff6b35",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["travel", "lifestyle"],
+  "lang": "fr-MG",
+  "prefer_related_applications": false
+}

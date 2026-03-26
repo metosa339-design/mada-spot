@@ -1,0 +1,251 @@
+{
+  "titre": "Veille sectorielle : positionnement CFA PACA Alpes-Maritimes",
+  "date": "08/08/2024",
+  "source": "Veille secteurielle positonnement CFA PACA AM.pptx",
+
+  "part_de_marche_global": {
+    "2023": {
+      "academie_nice": {"presentes": 4711, "part_isim": "2.02%"},
+      "alpes_maritimes": {"presentes": 2790, "part_isim": "3.41%"},
+      "prive_hors_contrat_06": {"presentes": 1005, "part_isim": "9.45%"}
+    },
+    "2024": {
+      "academie_nice": {"presentes": 4859, "evolution": "+3.14%"},
+      "alpes_maritimes": {"presentes": 2920, "evolution": "+4.66%"},
+      "prive_hors_contrat_06": {"presentes": 1191, "evolution": "+18.50%"}
+    },
+    "2025": {
+      "academie_nice": {"presentes": 5107, "evolution": "+1.56%"},
+      "alpes_maritimes": {"presentes": 3091, "evolution": "+2.58%"},
+      "prive_hors_contrat_06": {"presentes": 2016, "evolution": "+3.97%"}
+    }
+  },
+
+  "classement_general_cfa_2024": [
+    {"rang": 1, "rang_presentation": 30, "cfa": "JEUNE AIGLON", "taux_reussite": 100, "candidats": 1},
+    {"rang": 2, "rang_presentation": 29, "cfa": "TSGE", "taux_reussite": 100, "candidats": 2},
+    {"rang": 3, "rang_presentation": 26, "cfa": "TSGE ESID", "taux_reussite": 100, "candidats": 3},
+    {"rang": 4, "rang_presentation": 27, "cfa": "CEFOR G", "taux_reussite": 100, "candidats": 3},
+    {"rang": 5, "rang_presentation": 15, "cfa": "CAMPUS RIERA", "taux_reussite": 86.7, "candidats": 30},
+    {"rang": 6, "rang_presentation": 23, "cfa": "CFA BANQUE", "taux_reussite": 85.7, "candidats": 7},
+    {"rang": 7, "rang_presentation": 3, "cfa": "PBAC", "taux_reussite": 83, "candidats": 94},
+    {"rang": 8, "rang_presentation": 16, "cfa": "CCINA", "taux_reussite": 80.8, "candidats": 26},
+    {"rang": 9, "rang_presentation": 4, "cfa": "TSGE ISCAE", "taux_reussite": 80.6, "candidats": 93},
+    {"rang": 10, "rang_presentation": 9, "cfa": "ESCCOM Cannes", "taux_reussite": 79.6, "candidats": 54},
+    {"rang": 11, "rang_presentation": 8, "cfa": "CFA UFIP", "taux_reussite": 78.2, "candidats": 55},
+    {"rang": 12, "rang_presentation": 13, "cfa": "GPEI", "taux_reussite": 76.5, "candidats": 34},
+    {"rang": 13, "rang_presentation": 10, "cfa": "ACAD DE L'AVENIR AZUREEN", "taux_reussite": 75.5, "candidats": 53},
+    {"rang": 14, "rang_presentation": 11, "cfa": "NEVEN EDUCATION", "taux_reussite": 74, "candidats": 50},
+    {"rang": 15, "rang_presentation": 19, "cfa": "LP EC TECH D'ESTHETI", "taux_reussite": 73.7, "candidats": 19},
+    {"rang": 16, "rang_presentation": 18, "cfa": "ECOLE INTERNATIONALE TUNON", "taux_reussite": 68.2, "candidats": 22},
+    {"rang": 17, "rang_presentation": 12, "cfa": "LP ESCCOM", "taux_reussite": 63, "candidats": 46},
+    {"rang": 18, "rang_presentation": 14, "cfa": "IDRAC", "taux_reussite": 62.5, "candidats": 32},
+    {"rang": 19, "rang_presentation": 2, "cfa": "ILEC CANNES", "taux_reussite": 59.6, "candidats": 104},
+    {"rang": 20, "rang_presentation": 24, "cfa": "EFCAM SUD", "taux_reussite": 57.1, "candidats": 7},
+    {"rang": 21, "rang_presentation": 5, "cfa": "ILEC NICE", "taux_reussite": 57, "candidats": 93},
+    {"rang": 22, "rang_presentation": 6, "cfa": "ISIM", "taux_reussite": 56.5, "candidats": 69},
+    {"rang": 23, "rang_presentation": 7, "cfa": "ALTERNANCE SUD AZUR", "taux_reussite": 54.4, "candidats": 57},
+    {"rang": 24, "rang_presentation": 1, "cfa": "INDIVIDUEL", "taux_reussite": 49.1, "candidats": 161},
+    {"rang": 25, "rang_presentation": 17, "cfa": "NOVETEDU SANTE", "taux_reussite": 48, "candidats": 25},
+    {"rang": 26, "rang_presentation": 25, "cfa": "UFCM", "taux_reussite": 42.9, "candidats": 7},
+    {"rang": 27, "rang_presentation": 21, "cfa": "PROGRESS SUP", "taux_reussite": 33.3, "candidats": 12},
+    {"rang": 28, "rang_presentation": 28, "cfa": "EC SUP DE MANAGEMENT", "taux_reussite": 33.3, "candidats": 3},
+    {"rang": 29, "rang_presentation": 22, "cfa": "ASSOCIATION REFLETS", "taux_reussite": 30, "candidats": 10},
+    {"rang": 30, "rang_presentation": 20, "cfa": "CFA EUROPEAN BACHELORS", "taux_reussite": 21.1, "candidats": 19}
+  ],
+
+  "classement_general_cfa_2025": [
+    {"rang": 1, "rang_presentation": 15, "cfa": "CFA ESBANQUE (NICE)", "taux_reussite": 100.0, "candidats": 9},
+    {"rang": 1, "rang_presentation": 19, "cfa": "TSGE EC SUP EUROPEENNE (NICE)", "taux_reussite": 100.0, "candidats": 2},
+    {"rang": 3, "rang_presentation": 9, "cfa": "CFA CFA CCINCA (NICE)", "taux_reussite": 84.4, "candidats": 32},
+    {"rang": 4, "rang_presentation": 5, "cfa": "CFA ACAD. AVENIR AZURÉEN (MANDELIEU)", "taux_reussite": 83.1, "candidats": 77},
+    {"rang": 5, "rang_presentation": 6, "cfa": "CFA ALTERNANCE SUD AZUR (NICE)", "taux_reussite": 81.0, "candidats": 63},
+    {"rang": 6, "rang_presentation": 4, "cfa": "CFA UFIP NICE (SARL LES ANGLADES)", "taux_reussite": 80.5, "candidats": 77},
+    {"rang": 7, "rang_presentation": 1, "cfa": "PIGIER (NICE)", "taux_reussite": 71.6, "candidats": 109},
+    {"rang": 8, "rang_presentation": 12, "cfa": "CFA REGIONAL DON BOSCO (NICE)", "taux_reussite": 70.6, "candidats": 17},
+    {"rang": 9, "rang_presentation": 3, "cfa": "ISIM (NICE)", "taux_reussite": 65.0, "candidats": 80},
+    {"rang": 10, "rang_presentation": 14, "cfa": "CFA AFTRAL (CARROS)", "taux_reussite": 63.6, "candidats": 11},
+    {"rang": 11, "rang_presentation": 7, "cfa": "CFA PROGRESS SUP (NICE)", "taux_reussite": 62.8, "candidats": 43},
+    {"rang": 12, "rang_presentation": 10, "cfa": "GPEI (ANTIBES)", "taux_reussite": 62.1, "candidats": 29},
+    {"rang": 13, "rang_presentation": 11, "cfa": "CFA EUROPEAN BACHELORS MASTERS (NICE)", "taux_reussite": 58.8, "candidats": 17},
+    {"rang": 14, "rang_presentation": 13, "cfa": "CFA UFCM (CANNES)", "taux_reussite": 58.3, "candidats": 12},
+    {"rang": 15, "rang_presentation": 15, "cfa": "PBAC INST. PREPA. ADMINIST. GESTION", "taux_reussite": 57.1, "candidats": 7},
+    {"rang": 16, "rang_presentation": 2, "cfa": "LYC ILEC (NICE)", "taux_reussite": 47.3, "candidats": 93},
+    {"rang": 17, "rang_presentation": 8, "cfa": "CFA NOVETUDE SANTE PRO (NICE)", "taux_reussite": 43.2, "candidats": 37},
+    {"rang": 18, "rang_presentation": 17, "cfa": "ECOSUP (NICE)", "taux_reussite": 40.0, "candidats": 5},
+    {"rang": 19, "rang_presentation": 18, "cfa": "FORMATION ET METIER (NICE)", "taux_reussite": 33.3, "candidats": 3}
+  ],
+
+  "evolution_isim": {
+    "2024_vs_2025": {
+      "taux_reussite": {"evolution": "+8.5%"},
+      "nb_etudiants_presentes": {"evolution": "-5"}
+    }
+  },
+
+  "resultats_par_formation": {
+    "NDRC": {
+      "marche_alpes_maritimes": {
+        "total": 540,
+        "prive_hors_contrat": 95,
+        "part_isim": {"total": "1.11%", "prive_hors_contrat": "6.32%"}
+      },
+      "classement_2024": [
+        {"rang": 1, "etablissement": "LP ESCOM", "admis": 11, "presentes": 12, "taux": 91.7},
+        {"rang": 2, "etablissement": "TSGE ESCOM CANNES", "admis": 10, "presentes": 11, "taux": 90.9},
+        {"rang": 3, "etablissement": "INDIVIDUEL", "admis": 3, "presentes": 4, "taux": 75},
+        {"rang": 4, "etablissement": "GPEI", "admis": 10, "presentes": 14, "taux": 71.4},
+        {"rang": 5, "etablissement": "ISIM", "admis": 10, "presentes": 14, "taux": 71.4},
+        {"rang": 6, "etablissement": "LYC ILEC", "admis": 2, "presentes": 5, "taux": 40},
+        {"rang": 7, "etablissement": "CFA ALTERNANCE SUD AZUR NICE", "admis": 3, "presentes": 8, "taux": 37.5}
+      ],
+      "classement_2025": [
+        {"rang": 1, "etablissement": "ISIM", "admis": 6, "presentes": 6, "taux": 100.0},
+        {"rang": 1, "etablissement": "CFA ESBANQUE (NICE)", "admis": 5, "presentes": 5, "taux": 100.0},
+        {"rang": 3, "etablissement": "CFA ACAD. AVENIR AZURÉEN (MANDELIEU)", "admis": 16, "presentes": 17, "taux": 94.1},
+        {"rang": 4, "etablissement": "CFA UFIP NICE (SARL LES ANGLADES)", "admis": 13, "presentes": 14, "taux": 92.9},
+        {"rang": 5, "etablissement": "CFA ALTERNANCE SUD AZUR (NICE)", "admis": 12, "presentes": 13, "taux": 92.3},
+        {"rang": 6, "etablissement": "PIGIER (NICE)", "admis": 16, "presentes": 19, "taux": 84.2},
+        {"rang": 7, "etablissement": "CFA CFA CCINCA (NICE)", "admis": 6, "presentes": 8, "taux": 75.0},
+        {"rang": 8, "etablissement": "CFA PROGRESS SUP (NICE)", "admis": 5, "presentes": 7, "taux": 71.4},
+        {"rang": 9, "etablissement": "LYC ILEC (NICE)", "admis": 4, "presentes": 6, "taux": 66.7}
+      ],
+      "evolution_isim": {
+        "2024_vs_2025": {
+          "candidats_presentes": "-3",
+          "candidats_admis": "-2",
+          "taux_reussite": "+11.1%"
+        }
+      }
+    },
+
+    "MCO": {
+      "marche_alpes_maritimes": {
+        "total": 775,
+        "prive_hors_contrat": 324,
+        "part_isim": {"total": "4.77%", "prive_hors_contrat": "11.42%"}
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "TSGE EC SUP EUROPEENNE", "admis": 1, "presentes": 1, "taux": 100.0},
+        {"rang": 2, "etablissement": "TSGE ISCAE", "admis": 12, "presentes": 13, "taux": 92.3},
+        {"rang": 3, "etablissement": "TSGE E.S.C.C.O.M CANNES", "admis": 19, "presentes": 21, "taux": 90.5},
+        {"rang": 4, "etablissement": "PBAC GROUPE IDRAC", "admis": 12, "presentes": 14, "taux": 85.7},
+        {"rang": 5, "etablissement": "PBAC INST. PREPA. ADMINIST. GESTION", "admis": 22, "presentes": 26, "taux": 84.6},
+        {"rang": 6, "etablissement": "LP E.S.C.C.O.M.", "admis": 15, "presentes": 18, "taux": 83.3},
+        {"rang": 7, "etablissement": "ISIM (NICE)", "admis": 29, "presentes": 37, "taux": 78.4},
+        {"rang": 8, "etablissement": "PIGIER", "admis": 18, "presentes": 23, "taux": 78.3},
+        {"rang": 9, "etablissement": "NEVEN EDUCATION", "admis": 14, "presentes": 18, "taux": 77.8},
+        {"rang": 9, "etablissement": "CFA UFIP NICE", "admis": 14, "presentes": 18, "taux": 77.8},
+        {"rang": 11, "etablissement": "CFA ALTERNANCE SUD AZUR", "admis": 18, "presentes": 24, "taux": 75.0},
+        {"rang": 12, "etablissement": "CFA ACAD. DE L'AVENIR AZUREEN", "admis": 17, "presentes": 23, "taux": 73.9},
+        {"rang": 13, "etablissement": "LP ELYSEES CANNES", "admis": 13, "presentes": 18, "taux": 72.2},
+        {"rang": 14, "etablissement": "TSGE ESID NICE", "admis": 2, "presentes": 3, "taux": 66.7},
+        {"rang": 15, "etablissement": "GPEI (ANTIBES)", "admis": 8, "presentes": 13, "taux": 61.5},
+        {"rang": 16, "etablissement": "CFA EUROPEAN BACHELORS MASTERS (NICE)", "admis": 10, "presentes": 17, "taux": 58.8},
+        {"rang": 17, "etablissement": "LYC ILEC (NICE)", "admis": 6, "presentes": 22, "taux": 27.3},
+        {"rang": 18, "etablissement": "LYC ILEC", "admis": 3, "presentes": 15, "taux": 20.0}
+      ],
+      "evolution_isim": {
+        "2024_vs_2025": {
+          "candidats_presentes": "-1",
+          "candidats_admis": "+11",
+          "taux_reussite": "+31%"
+        }
+      }
+    },
+
+    "GPME": {
+      "marche_alpes_maritimes": {
+        "total": 438,
+        "prive_hors_contrat": 136,
+        "part_isim": {"total": "4.11%", "prive_hors_contrat": "13.24%"}
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "CFA ACAD. AVENIR AZURÉEN", "admis": 9, "presentes": 9, "taux": 100.0},
+        {"rang": 1, "etablissement": "NEVEN EDUCATION", "admis": 5, "presentes": 5, "taux": 100.0},
+        {"rang": 1, "etablissement": "PBAC INST. PREPA. ADMINIST. GESTION", "admis": 9, "presentes": 9, "taux": 100.0},
+        {"rang": 4, "etablissement": "TSGE E.S.C.C.O.M CANNES", "admis": 14, "presentes": 17, "taux": 82.4},
+        {"rang": 5, "etablissement": "LYC ILEC (NICE)", "admis": 8, "presentes": 10, "taux": 80.0},
+        {"rang": 6, "etablissement": "PIGIER (NICE)", "admis": 22, "presentes": 28, "taux": 78.6},
+        {"rang": 7, "etablissement": "GPEI (ANTIBES)", "admis": 6, "presentes": 8, "taux": 75.0},
+        {"rang": 7, "etablissement": "LP E.S.C.C.O.M. (NICE)", "admis": 6, "presentes": 8, "taux": 75.0},
+        {"rang": 9, "etablissement": "CFA ALTERNANCE SUD AZUR (NICE)", "admis": 11, "presentes": 15, "taux": 73.3},
+        {"rang": 10, "etablissement": "ISIM (NICE)", "admis": 9, "presentes": 18, "taux": 50.0},
+        {"rang": 10, "etablissement": "LYC ILEC (CANNES)", "admis": 2, "presentes": 4, "taux": 50.0},
+        {"rang": 12, "etablissement": "ECOSUP (NICE)", "admis": 2, "presentes": 5, "taux": 40.0}
+      ],
+      "evolution_isim": {
+        "2024_vs_2025": {
+          "candidats_presentes": "+10",
+          "candidats_admis": "+2",
+          "taux_reussite": "-27.8%"
+        }
+      }
+    },
+
+    "SAM": {
+      "marche_alpes_maritimes": {
+        "total": 237,
+        "prive_hors_contrat": 66,
+        "part_isim": {"total": "4.22%", "prive_hors_contrat": "15.15%"}
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "LGT J. AUDIBERTI", "admis": 15, "presentes": 15, "taux": 100.0},
+        {"rang": 1, "etablissement": "LGT P. ET M. CURIE", "admis": 7, "presentes": 7, "taux": 100.0},
+        {"rang": 1, "etablissement": "LP PR ST VINCENT DE PAUL", "admis": 2, "presentes": 2, "taux": 100.0},
+        {"rang": 4, "etablissement": "LGT D'ESTIENNE D'ORVES", "admis": 20, "presentes": 21, "taux": 95.2},
+        {"rang": 6, "etablissement": "ISIM", "admis": 5, "presentes": 10, "taux": 50.0},
+        {"rang": 7, "etablissement": "INDIVIDUELS (06)", "admis": 5, "presentes": 11, "taux": 45.5}
+      ],
+      "evolution_isim": {
+        "2024_vs_2025": {
+          "candidats_presentes": "+5",
+          "candidats_admis": "+3",
+          "taux_reussite": "+10%"
+        }
+      }
+    },
+
+    "CG": {
+      "marche_alpes_maritimes": {
+        "total": 422,
+        "prive_hors_contrat": 82,
+        "part_isim": {"total": "2.13%", "prive_hors_contrat": "10.98%"}
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "NEVEN EDUCATION", "admis": 8, "presentes": 8, "taux": 100.0},
+        {"rang": 2, "etablissement": "LP E.S.C.C.O.M.", "admis": 11, "presentes": 13, "taux": 84.6},
+        {"rang": 3, "etablissement": "TSGE E.S.C.C.O.M CANNES", "admis": 9, "presentes": 11, "taux": 81.8},
+        {"rang": 4, "etablissement": "INSECC", "admis": 18, "presentes": 23, "taux": 78.3},
+        {"rang": 5, "etablissement": "PIGIER NICE", "admis": 7, "presentes": 11, "taux": 63.6},
+        {"rang": 6, "etablissement": "ISIM", "admis": 3, "presentes": 9, "taux": 33.3},
+        {"rang": 6, "etablissement": "LYC ILEC", "admis": 1, "presentes": 3, "taux": 33.3},
+        {"rang": 8, "etablissement": "LYC ILEC", "admis": 1, "presentes": 4, "taux": 25.0}
+      ],
+      "evolution_isim": {
+        "2024_vs_2025": {
+          "candidats_presentes": "+1",
+          "candidats_admis": "-1",
+          "taux_reussite": "-16.7%"
+        }
+      }
+    }
+  },
+
+  "recap_evolution_isim": {
+    "part_de_marche_prive_hors_contrat_06": {
+      "NDRC": {"2024": "6.52%", "2025": "6.32%", "evolution": "-0.20%"},
+      "MCO": {"2024": "12.54%", "2025": "11.42%", "evolution": "-1.12%"},
+      "GPME": {"2024": "9%", "2025": "13.24%", "evolution": "+4.24%"},
+      "SAM": {"2024": "35.71%", "2025": "15.15%", "evolution": "-20.56%"},
+      "CG": {"2024": "15.38%", "2025": "10.98%", "evolution": "-4.4%"}
+    },
+    "taux_de_reussite": {
+      "NDRC": {"2024": "88.9%", "2025": "100%", "evolution": "+11.1%"},
+      "MCO": {"2024": "47.4%", "2025": "78.4%", "evolution": "+31%"},
+      "GPME": {"2024": "77.8%", "2025": "50%", "evolution": "-27.8%"},
+      "SAM": {"2024": "40%", "2025": "50%", "evolution": "+10%"},
+      "CG": {"2024": "50%", "2025": "33.3%", "evolution": "-16%"}
+    }
+  }
+}

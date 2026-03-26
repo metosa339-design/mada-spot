@@ -1,0 +1,206 @@
+{
+  "titre": "Veille sectorielle : positionnement ISIM - Alpes-Maritimes",
+  "date": "23/12/2025",
+  "source": "chiffrescles2025-bts-18492.pdf - Academie de Nice - Session juin 2025",
+
+  "part_de_marche_global": {
+    "2025": {
+      "academie_nice": {"admis": 4020, "presentes": 5107, "taux_reussite": "78.7%"},
+      "alpes_maritimes": {"admis": 2419, "presentes": 3091, "taux_reussite": "78.3%"},
+      "am_production": {"admis": 363, "presentes": 453, "taux_reussite": "80.1%"},
+      "am_services": {"admis": 2056, "presentes": 2638, "taux_reussite": "77.9%"},
+      "part_isim": {
+        "sur_am": "2.59%",
+        "sur_prive_hors_contrat_06": "6.56%"
+      },
+      "marche_accessible_isim": {
+        "description": "Marché privé hors contrat AM limité aux 5 BTS ISIM (CG, GPME, MCO, NDRC, SAM)",
+        "total_presentes": 630,
+        "detail": {
+          "NDRC": 95,
+          "MCO": 307,
+          "GPME": 136,
+          "SAM": 10,
+          "CG": 82
+        },
+        "presentes_isim": 80,
+        "part_isim": "12.70%"
+      }
+    }
+  },
+
+  "classement_general_cfa_prive_hors_contrat_am_2025": [
+    {"rang": 1, "cfa": "CFA ESBANQUE NICE", "admis": 9, "presentes": 9, "taux_reussite": 100.0, "ville": "NICE"},
+    {"rang": 1, "cfa": "TSGE EC SUP EUROPEENNE", "admis": 2, "presentes": 2, "taux_reussite": 100.0, "ville": "NICE"},
+    {"rang": 3, "cfa": "NEVEN EDUCATION", "admis": 47, "presentes": 52, "taux_reussite": 90.4, "ville": "MANDELIEU"},
+    {"rang": 4, "cfa": "TSGE ESID NICE", "admis": 7, "presentes": 8, "taux_reussite": 87.5, "ville": "NICE"},
+    {"rang": 5, "cfa": "PBAC INST. PREPA. ADMINIST. GESTION", "admis": 74, "presentes": 85, "taux_reussite": 87.1, "ville": "NICE"},
+    {"rang": 6, "cfa": "TSGE E.S.C.C.O.M CANNES", "admis": 42, "presentes": 49, "taux_reussite": 85.7, "ville": "CANNES"},
+    {"rang": 6, "cfa": "LP E.S.C.C.O.M. NICE", "admis": 42, "presentes": 49, "taux_reussite": 85.7, "ville": "NICE"},
+    {"rang": 8, "cfa": "TSGE ISCAE", "admis": 60, "presentes": 71, "taux_reussite": 84.5, "ville": "NICE"},
+    {"rang": 9, "cfa": "LP EC TECH D'ESTHETIQUE", "admis": 16, "presentes": 19, "taux_reussite": 84.2, "ville": "NICE"},
+    {"rang": 10, "cfa": "CFA ACAD. DE L'AVENIR AZUREEN", "admis": 64, "presentes": 77, "taux_reussite": 83.1, "ville": "MANDELIEU"},
+    {"rang": 11, "cfa": "CFA ALTERNANCE SUD AZUR", "admis": 51, "presentes": 63, "taux_reussite": 81.0, "ville": "NICE"},
+    {"rang": 11, "cfa": "ECOLE INTERNATIONALE TUNON", "admis": 17, "presentes": 21, "taux_reussite": 81.0, "ville": "NICE"},
+    {"rang": 13, "cfa": "CFA UFIP NICE", "admis": 62, "presentes": 77, "taux_reussite": 80.5, "ville": "NICE"},
+    {"rang": 14, "cfa": "INSECC", "admis": 18, "presentes": 23, "taux_reussite": 78.3, "ville": "NICE"},
+    {"rang": 15, "cfa": "PIGIER NICE", "admis": 78, "presentes": 109, "taux_reussite": 71.6, "ville": "NICE"},
+    {"rang": 16, "cfa": "TSGE COURS DIDEROT", "admis": 2, "presentes": 3, "taux_reussite": 66.7, "ville": "NICE"},
+    {"rang": 17, "cfa": "PBAC GROUPE IDRAC", "admis": 31, "presentes": 47, "taux_reussite": 66.0, "ville": "NICE"},
+    {"rang": 18, "cfa": "ISIM", "admis": 52, "presentes": 80, "taux_reussite": 65.0, "ville": "NICE"},
+    {"rang": 19, "cfa": "CFA AFTRAL", "admis": 7, "presentes": 11, "taux_reussite": 63.6, "ville": "CARROS"},
+    {"rang": 20, "cfa": "CFA PROGRESS SUP", "admis": 27, "presentes": 43, "taux_reussite": 62.8, "ville": "NICE"},
+    {"rang": 21, "cfa": "GPEI", "admis": 18, "presentes": 29, "taux_reussite": 62.1, "ville": "ANTIBES"},
+    {"rang": 22, "cfa": "CFA EUROPEAN BACHELORS MASTERS", "admis": 10, "presentes": 17, "taux_reussite": 58.8, "ville": "NICE"},
+    {"rang": 23, "cfa": "CFA UFCM", "admis": 7, "presentes": 12, "taux_reussite": 58.3, "ville": "CANNES"},
+    {"rang": 24, "cfa": "LP ELYSEES CANNES", "admis": 18, "presentes": 31, "taux_reussite": 58.1, "ville": "CANNES"},
+    {"rang": 25, "cfa": "ASSOCIATION REFLETS", "admis": 5, "presentes": 9, "taux_reussite": 55.6, "ville": "CAGNES SUR MER"},
+    {"rang": 26, "cfa": "INDIVIDUEL", "admis": 121, "presentes": 225, "taux_reussite": 53.8, "ville": "NICE"},
+    {"rang": 27, "cfa": "LYC ILEC NICE", "admis": 44, "presentes": 93, "taux_reussite": 47.3, "ville": "NICE"},
+    {"rang": 28, "cfa": "LYC ILEC CANNES", "admis": 31, "presentes": 68, "taux_reussite": 45.6, "ville": "CANNES"},
+    {"rang": 29, "cfa": "CFA NOVETUDE SANTE PRO", "admis": 16, "presentes": 37, "taux_reussite": 43.2, "ville": "NICE"},
+    {"rang": 30, "cfa": "ECOSUP NICE", "admis": 2, "presentes": 5, "taux_reussite": 40.0, "ville": "NICE"},
+    {"rang": 31, "cfa": "LP SILVYA TERRADE", "admis": 2, "presentes": 6, "taux_reussite": 33.3, "ville": "NICE"}
+  ],
+
+  "resultats_isim_detail": {
+    "total": {"admis": 52, "presentes": 80, "taux_reussite": "65.0%"},
+    "par_formation": {
+      "CG": {"admis": 3, "presentes": 9, "taux_reussite": "33.3%"},
+      "GPME": {"admis": 9, "presentes": 18, "taux_reussite": "50.0%"},
+      "MCO": {"admis": 29, "presentes": 37, "taux_reussite": "78.4%"},
+      "NDRC": {"admis": 6, "presentes": 6, "taux_reussite": "100.0%"},
+      "SAM": {"admis": 5, "presentes": 10, "taux_reussite": "50.0%"}
+    }
+  },
+
+  "resultats_par_formation": {
+    "NDRC": {
+      "description": "Negociation et digitalisation de la relation client",
+      "marche_am_prive_hors_contrat": {
+        "total_presentes": 95,
+        "part_isim": "6.32%"
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "ISIM (NICE)", "admis": 6, "presentes": 6, "taux": 100.0},
+        {"rang": 1, "etablissement": "NEVEN EDUCATION (MANDELIEU)", "admis": 10, "presentes": 10, "taux": 100.0},
+        {"rang": 3, "etablissement": "CFA UFIP NICE", "admis": 18, "presentes": 19, "taux": 94.7},
+        {"rang": 4, "etablissement": "CFA ALTERNANCE SUD AZUR (NICE)", "admis": 22, "presentes": 24, "taux": 91.7},
+        {"rang": 5, "etablissement": "PBAC GROUPE IDRAC (NICE)", "admis": 10, "presentes": 11, "taux": 90.9},
+        {"rang": 6, "etablissement": "PIGIER (NICE)", "admis": 11, "presentes": 12, "taux": 91.7},
+        {"rang": 7, "etablissement": "CFA ACAD. DE L'AVENIR AZUREEN (MANDELIEU)", "admis": 25, "presentes": 32, "taux": 78.1},
+        {"rang": 8, "etablissement": "LYC ILEC (NICE)", "admis": 6, "presentes": 9, "taux": 66.7},
+        {"rang": 8, "etablissement": "LYC ILEC (CANNES)", "admis": 2, "presentes": 3, "taux": 66.7},
+        {"rang": 10, "etablissement": "GPEI (ANTIBES)", "admis": 4, "presentes": 8, "taux": 50.0}
+      ],
+      "position_isim": "1er ex-aequo sur 10 CFA"
+    },
+
+    "MCO": {
+      "description": "Management commercial operationnel",
+      "marche_am_prive_hors_contrat": {
+        "total_presentes": 307,
+        "part_isim": "12.05%"
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "TSGE EC SUP EUROPEENNE (NICE)", "admis": 1, "presentes": 1, "taux": 100.0},
+        {"rang": 2, "etablissement": "TSGE ISCAE (NICE)", "admis": 12, "presentes": 13, "taux": 92.3},
+        {"rang": 3, "etablissement": "TSGE E.S.C.C.O.M CANNES", "admis": 19, "presentes": 21, "taux": 90.5},
+        {"rang": 4, "etablissement": "PBAC GROUPE IDRAC (NICE)", "admis": 12, "presentes": 14, "taux": 85.7},
+        {"rang": 5, "etablissement": "PBAC INST. PREPA. GESTION (NICE)", "admis": 22, "presentes": 26, "taux": 84.6},
+        {"rang": 6, "etablissement": "LP E.S.C.C.O.M. (NICE)", "admis": 15, "presentes": 18, "taux": 83.3},
+        {"rang": 7, "etablissement": "ISIM (NICE)", "admis": 29, "presentes": 37, "taux": 78.4},
+        {"rang": 8, "etablissement": "PIGIER (NICE)", "admis": 18, "presentes": 23, "taux": 78.3},
+        {"rang": 9, "etablissement": "NEVEN EDUCATION (MANDELIEU)", "admis": 14, "presentes": 18, "taux": 77.8},
+        {"rang": 10, "etablissement": "CFA ALTERNANCE SUD AZUR (NICE)", "admis": 18, "presentes": 24, "taux": 75.0},
+        {"rang": 11, "etablissement": "CFA ACAD. DE L'AVENIR AZUREEN (MANDELIEU)", "admis": 17, "presentes": 23, "taux": 73.9},
+        {"rang": 12, "etablissement": "LP ELYSEES CANNES", "admis": 13, "presentes": 18, "taux": 72.2},
+        {"rang": 13, "etablissement": "TSGE ESID NICE", "admis": 2, "presentes": 3, "taux": 66.7},
+        {"rang": 14, "etablissement": "GPEI (ANTIBES)", "admis": 8, "presentes": 13, "taux": 61.5},
+        {"rang": 15, "etablissement": "CFA EUROPEAN BACHELORS (NICE)", "admis": 10, "presentes": 17, "taux": 58.8},
+        {"rang": 16, "etablissement": "LYC ILEC (NICE)", "admis": 6, "presentes": 22, "taux": 27.3},
+        {"rang": 17, "etablissement": "LYC ILEC (CANNES)", "admis": 3, "presentes": 15, "taux": 20.0}
+      ],
+      "position_isim": "7eme sur 17 CFA"
+    },
+
+    "GPME": {
+      "description": "Gestion de la PME",
+      "marche_am_prive_hors_contrat": {
+        "total_presentes": 136,
+        "part_isim": "13.24%"
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "CFA ACAD. DE L'AVENIR AZUREEN (MANDELIEU)", "admis": 9, "presentes": 9, "taux": 100.0},
+        {"rang": 1, "etablissement": "NEVEN EDUCATION (MANDELIEU)", "admis": 5, "presentes": 5, "taux": 100.0},
+        {"rang": 1, "etablissement": "PBAC INST. PREPA. GESTION (NICE)", "admis": 9, "presentes": 9, "taux": 100.0},
+        {"rang": 4, "etablissement": "TSGE E.S.C.C.O.M CANNES", "admis": 14, "presentes": 17, "taux": 82.4},
+        {"rang": 5, "etablissement": "LYC ILEC (NICE)", "admis": 8, "presentes": 10, "taux": 80.0},
+        {"rang": 6, "etablissement": "PIGIER (NICE)", "admis": 22, "presentes": 28, "taux": 78.6},
+        {"rang": 7, "etablissement": "GPEI (ANTIBES)", "admis": 6, "presentes": 8, "taux": 75.0},
+        {"rang": 7, "etablissement": "LP E.S.C.C.O.M. (NICE)", "admis": 6, "presentes": 8, "taux": 75.0},
+        {"rang": 9, "etablissement": "CFA ALTERNANCE SUD AZUR (NICE)", "admis": 11, "presentes": 15, "taux": 73.3},
+        {"rang": 10, "etablissement": "ISIM (NICE)", "admis": 9, "presentes": 18, "taux": 50.0},
+        {"rang": 10, "etablissement": "LYC ILEC (CANNES)", "admis": 2, "presentes": 4, "taux": 50.0},
+        {"rang": 12, "etablissement": "ECOSUP (NICE)", "admis": 2, "presentes": 5, "taux": 40.0}
+      ],
+      "position_isim": "10eme ex-aequo sur 12 CFA"
+    },
+
+    "SAM": {
+      "description": "Support a l'action manageriale",
+      "marche_am_prive_hors_contrat": {
+        "total_presentes": 10,
+        "part_isim": "100.00%"
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "ISIM (NICE)", "admis": 5, "presentes": 10, "taux": 50.0}
+      ],
+      "position_isim": "1er sur 1 CFA (seul etablissement)"
+    },
+
+    "CG": {
+      "description": "Comptabilite et gestion",
+      "marche_am_prive_hors_contrat": {
+        "total_presentes": 82,
+        "part_isim": "10.98%"
+      },
+      "classement_2025": [
+        {"rang": 1, "etablissement": "NEVEN EDUCATION (MANDELIEU)", "admis": 8, "presentes": 8, "taux": 100.0},
+        {"rang": 2, "etablissement": "LP E.S.C.C.O.M. (NICE)", "admis": 11, "presentes": 13, "taux": 84.6},
+        {"rang": 3, "etablissement": "TSGE E.S.C.C.O.M CANNES", "admis": 9, "presentes": 11, "taux": 81.8},
+        {"rang": 4, "etablissement": "INSECC (NICE)", "admis": 18, "presentes": 23, "taux": 78.3},
+        {"rang": 5, "etablissement": "PIGIER (NICE)", "admis": 7, "presentes": 11, "taux": 63.6},
+        {"rang": 6, "etablissement": "ISIM (NICE)", "admis": 3, "presentes": 9, "taux": 33.3},
+        {"rang": 6, "etablissement": "LYC ILEC (CANNES)", "admis": 1, "presentes": 3, "taux": 33.3},
+        {"rang": 8, "etablissement": "LYC ILEC (NICE)", "admis": 1, "presentes": 4, "taux": 25.0}
+      ],
+      "position_isim": "6eme ex-aequo sur 8 CFA"
+    }
+  },
+
+  "synthese_positionnement_isim": {
+    "rang_general": "18eme sur 31 etablissements prives hors contrat des Alpes-Maritimes",
+    "taux_reussite_global": "65.0%",
+    "moyenne_am_prive_hors_contrat": "70.3%",
+    "ecart_moyenne": "-5.3 points",
+    "points_forts": [
+      "NDRC: 100% de reussite (6/6) - 1er ex-aequo",
+      "MCO: 78.4% (29/37) - 7eme sur 17"
+    ],
+    "points_amelioration": [
+      "CG: 33.3% (3/9) - 6eme sur 8",
+      "GPME: 50% (9/18) - 10eme sur 12",
+      "SAM: 50% (5/10) - seul etablissement"
+    ],
+    "concurrents_directs_nice": [
+      {"nom": "PBAC INST. PREPA. GESTION", "taux": "87.1%", "presentes": 85},
+      {"nom": "LP E.S.C.C.O.M.", "taux": "85.7%", "presentes": 49},
+      {"nom": "TSGE ISCAE", "taux": "84.5%", "presentes": 71},
+      {"nom": "CFA ALTERNANCE SUD AZUR", "taux": "81.0%", "presentes": 63},
+      {"nom": "CFA UFIP NICE", "taux": "80.5%", "presentes": 77},
+      {"nom": "PIGIER NICE", "taux": "71.6%", "presentes": 109},
+      {"nom": "ISIM", "taux": "65.0%", "presentes": 80}
+    ]
+  }
+}

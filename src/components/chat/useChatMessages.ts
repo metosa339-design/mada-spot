@@ -21,6 +21,10 @@ export function useChatMessages(userId: string) {
   const [loading, setLoading] = useState(true)
   const [messagesLoading, setMessagesLoading] = useState(false)
   const [sending, setSending] = useState(false)
+  const [attachmentPreview, setAttachmentPreview] = useState<{ type: 'video' | 'audio' | 'file'; url: string; name: string } | null>(null)
+  const [isRecording, setIsRecording] = useState(false)
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+  const audioChunksRef = useRef<Blob[]>([])
 
   const selectedThreadRef = useRef<Thread | null>(null)
   const messagesPollingRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -204,11 +208,43 @@ export function useChatMessages(userId: string) {
     finally { setMessagesLoading(false) }
   }, [])
 
+  // Upload a file to the server and return its URL
+  const uploadFile = useCallback(async (file: File): Promise<string | null> => {
+    try {
+      // Get CSRF token
+      const csrfRes = await fetch('/api/csrf', { credentials: 'include' })
+      const { token: csrfToken } = await csrfRes.json()
+
+      const formData = new FormData()
+      formData.append('files', file)
+      formData.append('csrfToken', csrfToken)
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
+      })
+      if (res.ok) {
+        const data = await res.json()
+        return data.files?.[0]?.url || null
+      }
+    } catch { /* ignore */ }
+    return null
+  }, [])
+
   // Send a message
   const sendMsg = useCallback(async () => {
-    const content = imagePreview
-      ? `[IMAGE]${imagePreview}[/IMAGE]${newMessage.trim() ? '\n' + newMessage.trim() : ''}`
-      : newMessage.trim()
+    let content = ''
+
+    if (imagePreview) {
+      content = `[IMAGE]${imagePreview}[/IMAGE]${newMessage.trim() ? '\n' + newMessage.trim() : ''}`
+    } else if (attachmentPreview) {
+      const tag = attachmentPreview.type === 'video' ? 'VIDEO' : attachmentPreview.type === 'audio' ? 'AUDIO' : 'FILE'
+      content = `[${tag}]${attachmentPreview.url}[/${tag}]${newMessage.trim() ? '\n' + newMessage.trim() : ''}`
+    } else {
+      content = newMessage.trim()
+    }
+
     if (!content || !selectedThread || sending) return
 
     setSending(true)
@@ -239,12 +275,13 @@ export function useChatMessages(userId: string) {
         )
         setNewMessage('')
         setImagePreview(null)
+        setAttachmentPreview(null)
         sendTyping(false)
         broadcast({ type: 'message-sent', threadId: selectedThread.id })
       }
     } catch { /* ignore */ }
     finally { setSending(false) }
-  }, [newMessage, selectedThread, sending, imagePreview, userId, broadcast, sendTyping])
+  }, [newMessage, selectedThread, sending, imagePreview, attachmentPreview, userId, broadcast, sendTyping])
 
   // Handle input changes (with typing indicator)
   const handleInputChange = useCallback((value: string) => {
@@ -258,6 +295,63 @@ export function useChatMessages(userId: string) {
     const reader = new FileReader()
     reader.onload = () => setImagePreview(reader.result as string)
     reader.readAsDataURL(file)
+  }, [])
+
+  // Handle file attachment (video, audio, PDF)
+  const handleFileAttach = useCallback(async (file: File) => {
+    setSending(true)
+    const url = await uploadFile(file)
+    setSending(false)
+    if (!url) return
+
+    if (file.type.startsWith('video/')) {
+      setAttachmentPreview({ type: 'video', url, name: file.name })
+    } else if (file.type.startsWith('audio/')) {
+      setAttachmentPreview({ type: 'audio', url, name: file.name })
+    } else {
+      setAttachmentPreview({ type: 'file', url, name: file.name })
+    }
+  }, [uploadFile])
+
+  // Voice recording
+  const startRecording = useCallback(async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      const recorder = new MediaRecorder(stream, { mimeType: MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/mp4' })
+      audioChunksRef.current = []
+
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) audioChunksRef.current.push(e.data)
+      }
+
+      recorder.onstop = async () => {
+        stream.getTracks().forEach(t => t.stop())
+        const blob = new Blob(audioChunksRef.current, { type: recorder.mimeType })
+        const ext = recorder.mimeType.includes('webm') ? 'webm' : 'm4a'
+        const file = new File([blob], `vocal-${Date.now()}.${ext}`, { type: recorder.mimeType })
+
+        setSending(true)
+        const url = await uploadFile(file)
+        setSending(false)
+
+        if (url) {
+          setAttachmentPreview({ type: 'audio', url, name: file.name })
+        }
+        setIsRecording(false)
+      }
+
+      mediaRecorderRef.current = recorder
+      recorder.start()
+      setIsRecording(true)
+    } catch {
+      setIsRecording(false)
+    }
+  }, [uploadFile])
+
+  const stopRecording = useCallback(() => {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+      mediaRecorderRef.current.stop()
+    }
   }, [])
 
   // Deselect thread
@@ -277,6 +371,9 @@ export function useChatMessages(userId: string) {
     newMessage,
     imagePreview,
     setImagePreview,
+    attachmentPreview,
+    setAttachmentPreview,
+    isRecording,
     loading,
     messagesLoading,
     sending,
@@ -285,5 +382,8 @@ export function useChatMessages(userId: string) {
     sendMessage: sendMsg,
     handleInputChange,
     handleImageSelect,
+    handleFileAttach,
+    startRecording,
+    stopRecording,
   }
 }

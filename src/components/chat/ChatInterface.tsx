@@ -4,7 +4,8 @@ import { useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
   MessageSquare, Send, Image as ImageIcon,
-  Loader2, ArrowLeft, X
+  Loader2, ArrowLeft, X, Mic, MicOff,
+  Paperclip, FileText, Video, Volume2
 } from 'lucide-react'
 import { useChatMessages } from './useChatMessages'
 import { ThreadList } from './ThreadList'
@@ -28,6 +29,9 @@ export default function ChatInterface({ userId, variant }: ChatInterfaceProps) {
     newMessage,
     imagePreview,
     setImagePreview,
+    attachmentPreview,
+    setAttachmentPreview,
+    isRecording,
     loading,
     messagesLoading,
     sending,
@@ -36,10 +40,14 @@ export default function ChatInterface({ userId, variant }: ChatInterfaceProps) {
     sendMessage,
     handleInputChange,
     handleImageSelect,
+    handleFileAttach,
+    startRecording,
+    stopRecording,
   } = useChatMessages(userId)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const attachInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -57,6 +65,12 @@ export default function ChatInterface({ userId, variant }: ChatInterfaceProps) {
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) handleImageSelect(file)
+    e.target.value = ''
+  }
+
+  const handleAttachSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) handleFileAttach(file)
     e.target.value = ''
   }
 
@@ -194,9 +208,35 @@ export default function ChatInterface({ userId, variant }: ChatInterfaceProps) {
                 </div>
               )}
 
+              {/* Attachment preview (video, audio, file) */}
+              {attachmentPreview && (
+                <div className="px-4 py-2 border-t border-white/5">
+                  <div className="relative inline-flex items-center gap-2 bg-white/5 rounded-lg px-3 py-2">
+                    {attachmentPreview.type === 'video' && <Video className="w-5 h-5 text-blue-400" />}
+                    {attachmentPreview.type === 'audio' && <Volume2 className="w-5 h-5 text-green-400" />}
+                    {attachmentPreview.type === 'file' && <FileText className="w-5 h-5 text-red-400" />}
+                    <span className="text-sm text-gray-300 truncate max-w-[200px]">{attachmentPreview.name}</span>
+                    <button
+                      onClick={() => setAttachmentPreview(null)}
+                      className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0"
+                    >
+                      <X className="w-3 h-3 text-white" />
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {/* Input area */}
               <div className="p-4 border-t border-white/10">
+                {/* Recording indicator */}
+                {isRecording && (
+                  <div className="flex items-center gap-2 mb-2 px-3 py-1.5 bg-red-500/10 border border-red-500/20 rounded-lg">
+                    <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                    <span className="text-xs text-red-400">Enregistrement en cours...</span>
+                  </div>
+                )}
                 <div className="flex items-end gap-2">
+                  {/* Photo button */}
                   <button
                     onClick={() => fileInputRef.current?.click()}
                     className="p-2.5 bg-white/5 border border-white/10 hover:bg-white/10 rounded-xl transition-colors"
@@ -212,6 +252,38 @@ export default function ChatInterface({ userId, variant }: ChatInterfaceProps) {
                     onChange={handleFileSelect}
                   />
 
+                  {/* Attachment button (video, PDF, etc.) */}
+                  <button
+                    onClick={() => attachInputRef.current?.click()}
+                    className="p-2.5 bg-white/5 border border-white/10 hover:bg-white/10 rounded-xl transition-colors"
+                    title="Joindre un fichier (vidéo, PDF...)"
+                  >
+                    <Paperclip className="w-4 h-4 text-gray-400" />
+                  </button>
+                  <input
+                    ref={attachInputRef}
+                    type="file"
+                    accept="video/*,audio/*,.pdf,.doc,.docx"
+                    className="hidden"
+                    onChange={handleAttachSelect}
+                  />
+
+                  {/* Voice record button */}
+                  <button
+                    onClick={isRecording ? stopRecording : startRecording}
+                    className={`p-2.5 border rounded-xl transition-colors ${
+                      isRecording
+                        ? 'bg-red-500/20 border-red-500/40 hover:bg-red-500/30'
+                        : 'bg-white/5 border-white/10 hover:bg-white/10'
+                    }`}
+                    title={isRecording ? 'Arrêter l\'enregistrement' : 'Message vocal'}
+                  >
+                    {isRecording
+                      ? <MicOff className="w-4 h-4 text-red-400" />
+                      : <Mic className="w-4 h-4 text-gray-400" />
+                    }
+                  </button>
+
                   <div className="flex-1">
                     <textarea
                       value={newMessage}
@@ -226,7 +298,7 @@ export default function ChatInterface({ userId, variant }: ChatInterfaceProps) {
 
                   <button
                     onClick={sendMessage}
-                    disabled={(!newMessage.trim() && !imagePreview) || sending}
+                    disabled={(!newMessage.trim() && !imagePreview && !attachmentPreview) || sending}
                     className="p-2.5 bg-[#ff6b35] hover:bg-[#ff6b35]/80 disabled:bg-white/5 disabled:text-gray-600 text-white rounded-xl transition-colors"
                   >
                     {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}

@@ -86,7 +86,7 @@ function LoginForm() {
     <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-8">
       <div className="text-center mb-8">
         <Image src="/logo.png" alt="Mada Spot" width={56} height={56} className="w-14 h-14 mx-auto mb-4 object-contain" />
-        <h2 className="text-2xl font-bold text-white mb-2">Connexion</h2>
+        <h1 className="text-2xl font-bold text-white mb-2">Connexion</h1>
         <p className="text-slate-400">
           Accédez à votre espace Mada Spot
         </p>

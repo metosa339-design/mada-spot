@@ -79,7 +79,7 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
       <div className="min-h-screen bg-[#080810] flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-8 text-center">
           <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
-          <h1 className="text-xl font-bold text-white mb-2">Invitation invalide</h1>
+          <h2 className="text-xl font-bold text-white mb-2">Invitation invalide</h2>
           <p className="text-gray-400">{error}</p>
         </div>
       </div>
@@ -91,7 +91,7 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
       <div className="min-h-screen bg-[#080810] flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-8 text-center">
           <CheckCircle className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
-          <h1 className="text-xl font-bold text-white mb-2">Revendication acceptée !</h1>
+          <h2 className="text-xl font-bold text-white mb-2">Revendication acceptée !</h2>
           <p className="text-gray-400 mb-6">
             Votre fiche <strong className="text-white">{establishment?.name}</strong> a été revendiquée avec succès.
           </p>

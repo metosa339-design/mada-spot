@@ -131,6 +131,7 @@ function SearchPageContent() {
       {/* Search bar header */}
       <div className="border-b border-[#1e1e2e] bg-[#0c0c16]">
         <div className="max-w-7xl mx-auto px-4 py-6">
+          <h1 className="sr-only">Recherche</h1>
           <form onSubmit={handleSearchSubmit}>
             <div className="flex gap-3">
               <div className="relative flex-1">

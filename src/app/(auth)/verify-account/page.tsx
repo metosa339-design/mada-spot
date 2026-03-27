@@ -208,7 +208,7 @@ export default function VerifyAccountPage() {
         <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-orange-500/20 flex items-center justify-center">
           <Mail className="w-8 h-8 text-orange-400" />
         </div>
-        <h2 className="text-2xl font-bold text-white mb-2">Vérifiez votre email</h2>
+        <h1 className="text-2xl font-bold text-white mb-2">Vérifiez votre email</h1>
         <p className="text-gray-400 text-sm">
           Nous avons envoyé un code à 6 chiffres à votre adresse email.
           <br />

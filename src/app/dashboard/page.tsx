@@ -622,7 +622,7 @@ export default function DashboardHome() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">{greeting()}, {user?.firstName} !</h1>
+          <h2 className="text-2xl font-bold text-white">{greeting()}, {user?.firstName} !</h2>
           <p className="text-gray-400 mt-1">Voici un aperçu de votre activité.</p>
         </div>
         <div className="flex flex-wrap gap-2">

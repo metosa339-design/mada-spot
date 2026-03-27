@@ -220,9 +220,9 @@ export default function RegisterChooserPage() {
 
               {/* Titre */}
               <div className="text-center mb-10">
-                <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">
+                <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">
                   Quel type d'établissement ?
-                </h1>
+                </h2>
                 <p className="text-gray-400 max-w-lg mx-auto">
                   Choisissez votre catégorie et sous-type pour personnaliser votre inscription
                   et publier votre établissement sur Mada Spot.

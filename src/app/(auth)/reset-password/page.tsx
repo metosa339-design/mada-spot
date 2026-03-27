@@ -87,7 +87,7 @@ function ResetPasswordForm() {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
       className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-8 w-full max-w-md mx-auto">
-      <h2 className="text-xl font-bold text-white mb-2">Nouveau mot de passe</h2>
+      <h1 className="text-xl font-bold text-white mb-2">Nouveau mot de passe</h1>
       <p className="text-sm text-slate-400 mb-6">Choisissez un nouveau mot de passe pour votre compte.</p>
 
       {error && (

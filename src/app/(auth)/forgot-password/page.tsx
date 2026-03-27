@@ -57,7 +57,7 @@ export default function ForgotPasswordPage() {
             <ArrowLeft className="w-4 h-4" /> Retour
           </Link>
 
-          <h2 className="text-xl font-bold text-white mb-2">Mot de passe oublié ?</h2>
+          <h1 className="text-xl font-bold text-white mb-2">Mot de passe oublié ?</h1>
           <p className="text-sm text-slate-400 mb-6">
             Entrez votre adresse email et nous vous enverrons un lien de réinitialisation.
           </p>

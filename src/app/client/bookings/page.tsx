@@ -96,7 +96,7 @@ export default function ClientBookingsPage() {
       .header{text-align:center;border-bottom:2px solid #f97316;padding-bottom:16px;margin-bottom:20px}
       .ref{font-family:monospace;font-size:20px;color:#f97316}
       @media print{body{margin:0}}</style></head><body>
-      <div class="header"><h1>Mada Spot</h1><p class="ref">${booking.reference}</p></div>
+      <div class="header"><h2>Mada Spot</h2><p class="ref">${booking.reference}</p></div>
       <h2>${booking.establishment.name}</h2>
       <p style="color:#666">${booking.establishment.city}</p>
       <div class="info"><span class="label">Date</span><span class="value">${formatDate(booking.checkIn)}${booking.checkOut ? ' → ' + formatDate(booking.checkOut) : ''}</span></div>

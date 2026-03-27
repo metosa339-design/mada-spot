@@ -358,9 +358,9 @@ function RegisterClientForm() {
         <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center">
           <User className="w-7 h-7 text-white" />
         </div>
-        <h2 className="text-2xl font-bold text-white mb-2">
+        <h1 className="text-2xl font-bold text-white mb-2">
           {category ? 'Créer votre compte professionnel' : 'Créer un compte'}
-        </h2>
+        </h1>
         <p className="text-slate-400">
           {category
             ? `Étape 2/3 — Après inscription, vous pourrez publier votre ${category.label.toLowerCase()}`

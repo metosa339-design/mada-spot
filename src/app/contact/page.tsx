@@ -114,7 +114,7 @@ export default function ContactPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="text-center max-w-md">
           <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Message envoyé !</h1>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Message envoyé !</h2>
           <p className="text-gray-500 mb-6">Nous avons bien reçu votre message et reviendrons vers vous dans les plus brefs délais.</p>
           <Link href="/" className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
             Retour à l'accueil

@@ -721,7 +721,7 @@ export default function PublierLieuPage() {
           <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-10 h-10 text-green-400" />
           </div>
-          <h1 className="text-2xl font-bold text-white mb-3">Lieu soumis avec succes !</h1>
+          <h2 className="text-2xl font-bold text-white mb-3">Lieu soumis avec succes !</h2>
           <p className="text-gray-400 mb-8">
             Votre lieu sera visible sur Mada Spot apres validation par notre equipe.
             Vous serez notifie du resultat.

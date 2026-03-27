@@ -15,6 +15,7 @@ import {
   Sparkles,
   Compass,
   Heart,
+  Handshake,
   CalendarCheck,
   Star,
   Building2,
@@ -95,7 +96,7 @@ export default function RegisterChooserPage() {
                   Rejoignez Mada Spot
                 </h1>
                 <p className="text-gray-400 max-w-lg mx-auto">
-                  Comment souhaitez-vous utiliser Mada Spot ?
+                  Qui êtes-vous ? Choisissez votre profil pour une expérience personnalisée.
                 </p>
               </div>
 
@@ -106,67 +107,71 @@ export default function RegisterChooserPage() {
                   whileHover={{ scale: 1.02, y: -4 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => router.push('/register-client')}
+                  aria-label="S'inscrire en tant que voyageur pour découvrir Madagascar"
                   className="group relative bg-[#1a1a24] rounded-2xl border-2 border-[#2a2a36] hover:border-cyan-500/50 p-8 text-left transition-all overflow-hidden"
                 >
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-cyan-500/10 to-transparent rounded-bl-full" />
                   <div className="relative">
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center mb-5">
-                      <Compass className="w-8 h-8 text-white" />
+                      <Compass className="w-8 h-8 text-white" aria-hidden="true" />
                     </div>
-                    <h2 className="text-xl font-bold text-white mb-2">Je suis voyageur</h2>
+                    <h2 className="text-xl font-bold text-white mb-2">Je suis un Voyageur</h2>
                     <p className="text-gray-400 text-sm mb-5">
-                      Je veux découvrir Madagascar, réserver des hébergements et restaurants
+                      Je souhaite découvrir des pépites à Madagascar et réserver des hôtels, restaurants et activités locales.
                     </p>
                     <div className="space-y-2">
                       {[
-                        { icon: Heart, text: 'Sauvegarder mes favoris' },
-                        { icon: CalendarCheck, text: 'Réserver en ligne' },
-                        { icon: Star, text: 'Laisser des avis' },
+                        { icon: Heart, text: 'Sauvegarder mes coups de cœur' },
+                        { icon: CalendarCheck, text: 'Réserver hôtels et restaurants en ligne' },
+                        { icon: Star, text: 'Partager mes avis et guider les voyageurs' },
+                        { icon: MapPin, text: 'Découvrir la carte interactive de Madagascar' },
                       ].map((item) => (
                         <div key={item.text} className="flex items-center gap-2 text-sm text-gray-500">
-                          <item.icon className="w-4 h-4 text-cyan-400" />
+                          <item.icon className="w-4 h-4 text-cyan-400" aria-hidden="true" />
                           {item.text}
                         </div>
                       ))}
                     </div>
                     <div className="mt-6 flex items-center gap-2 text-cyan-400 font-medium text-sm group-hover:gap-3 transition-all">
-                      Créer mon compte voyageur
-                      <ArrowRight className="w-4 h-4" />
+                      Commencer l&apos;aventure
+                      <ArrowRight className="w-4 h-4" aria-hidden="true" />
                     </div>
                   </div>
                 </motion.button>
 
-                {/* Carte Professionnel */}
+                {/* Carte Prestataire */}
                 <motion.button
                   whileHover={{ scale: 1.02, y: -4 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setMode('pro')}
+                  aria-label="S'inscrire en tant que prestataire touristique à Madagascar"
                   className="group relative bg-[#1a1a24] rounded-2xl border-2 border-[#2a2a36] hover:border-[#ff6b35]/50 p-8 text-left transition-all overflow-hidden"
                 >
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#ff6b35]/10 to-transparent rounded-bl-full" />
                   <div className="relative">
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#ff6b35] to-pink-500 flex items-center justify-center mb-5">
-                      <Building2 className="w-8 h-8 text-white" />
+                      <Handshake className="w-8 h-8 text-white" aria-hidden="true" />
                     </div>
-                    <h2 className="text-xl font-bold text-white mb-2">Je suis professionnel</h2>
+                    <h2 className="text-xl font-bold text-white mb-2">Je suis un Prestataire</h2>
                     <p className="text-gray-400 text-sm mb-5">
-                      Je veux référencer mon hôtel, restaurant, attraction ou service
+                      Je souhaite proposer mes services touristiques, gérer mes réservations et être visible à l&apos;international.
                     </p>
                     <div className="space-y-2">
                       {[
-                        { icon: MapPin, text: 'Publier mon établissement' },
-                        { icon: TrendingUp, text: 'Gérer mes réservations' },
-                        { icon: Shield, text: 'Dashboard professionnel' },
+                        { icon: Building2, text: 'Référencer gratuitement mon établissement' },
+                        { icon: TrendingUp, text: 'Recevoir des réservations en ligne' },
+                        { icon: Shield, text: 'Dashboard professionnel avec statistiques' },
+                        { icon: Sparkles, text: 'Visibilité auprès de voyageurs internationaux' },
                       ].map((item) => (
                         <div key={item.text} className="flex items-center gap-2 text-sm text-gray-500">
-                          <item.icon className="w-4 h-4 text-[#ff6b35]" />
+                          <item.icon className="w-4 h-4 text-[#ff6b35]" aria-hidden="true" />
                           {item.text}
                         </div>
                       ))}
                     </div>
                     <div className="mt-6 flex items-center gap-2 text-[#ff6b35] font-medium text-sm group-hover:gap-3 transition-all">
-                      Inscrire mon établissement
-                      <ArrowRight className="w-4 h-4" />
+                      Inscrire mon établissement gratuitement
+                      <ArrowRight className="w-4 h-4" aria-hidden="true" />
                     </div>
                   </div>
                 </motion.button>
@@ -174,7 +179,7 @@ export default function RegisterChooserPage() {
 
               {/* Texte rassurant */}
               <p className="text-center text-gray-600 text-sm">
-                Inscription gratuite — Vous pourrez toujours changer plus tard
+                Inscription 100% gratuite — Sans engagement — Rejoignez +175 établissements référencés
               </p>
             </motion.div>
           ) : (

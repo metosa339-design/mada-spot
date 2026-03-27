@@ -195,7 +195,8 @@ function HotelsPage() {
           sizes="100vw"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 60% 80% at 25% 70%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0) 70%)' }} />
         <div className="relative flex flex-col justify-end h-full min-h-[45vh] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 pt-24">
           <div className="flex items-center gap-2 text-white/70 text-sm mb-4">
             <Link href="/bons-plans" className="hover:text-orange-400 transition-colors">Bons Plans</Link>

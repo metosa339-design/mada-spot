@@ -123,13 +123,14 @@ export async function sendOTPToUser(userId: string, email: string, firstName?: s
       const errorData = await res.text().catch(() => 'unknown')
       console.error(`[OTP] ❌ Échec envoi email via Resend (${res.status}):`, errorData)
       logger.error(`[OTP] Email send failed (${res.status}):`, errorData)
-      // Email is best-effort — the code is still saved in DB
+      return { success: false, error: 'Email non envoyé' }
     } else {
       logger.info(`[OTP] ✓ Code envoyé à ${email}`)
     }
   } catch (err) {
     console.error('[OTP] ❌ Erreur réseau lors de l\'envoi du mail:', err)
     logger.error('[OTP] Network error sending email:', err)
+    return { success: false, error: 'Email non envoyé' }
   }
 
   return { success: true }

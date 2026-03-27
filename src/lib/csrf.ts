@@ -21,7 +21,7 @@ function getCsrfSecret(): string {
   return _csrfSecret;
 }
 
-const TOKEN_EXPIRY = 60 * 60 * 1000; // 1 heure
+const TOKEN_EXPIRY = 4 * 60 * 60 * 1000; // 4 heures
 
 /**
  * Génère un token CSRF signé avec un timestamp

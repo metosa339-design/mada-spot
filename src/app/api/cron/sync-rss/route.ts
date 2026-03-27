@@ -84,7 +84,7 @@ async function parseRSSFeed(feedUrl: string, filterKeywords?: string[]): Promise
   try {
     const response = await fetch(feedUrl, {
       headers: {
-        'User-Agent': 'MadaSpotBot/1.0 (+https://madaspot.mg)',
+        'User-Agent': 'MadaSpotBot/1.0 (+https://madaspot.com)',
         'Accept': 'application/rss+xml, application/xml, text/xml',
       },
       signal: AbortSignal.timeout(15000), // 15 second timeout

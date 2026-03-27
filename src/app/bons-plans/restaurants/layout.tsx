@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Restaurants à Madagascar — Mada Spot',
     description: 'Découvrez où manger à Madagascar : restaurants, street food et spécialités locales.',
-    url: 'https://madaspot.mg/bons-plans/restaurants',
-    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Restaurants à Madagascar — Mada Spot' }],
+    url: 'https://madaspot.com/bons-plans/restaurants',
+    images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'Restaurants à Madagascar — Mada Spot' }],
   },
 };
 

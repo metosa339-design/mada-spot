@@ -492,7 +492,7 @@ export async function extractArticleImage(
   try {
     const response = await fetch(articleUrl, {
       headers: {
-        'User-Agent': 'MadaSpotBot/1.0 (+https://madaspot.mg)',
+        'User-Agent': 'MadaSpotBot/1.0 (+https://madaspot.com)',
         'Accept': 'text/html,application/xhtml+xml',
       },
       signal: AbortSignal.timeout(15000),

@@ -83,7 +83,7 @@ export default function PolitiqueConfidentialitePage() {
               Pour exercer ces droits, rendez-vous dans{' '}
               <Link href="/client/settings" className="text-orange-500 underline">vos paramètres</Link>{' '}
               ou contactez-nous à{' '}
-              <a href="mailto:privacy@madaspot.mg" className="text-orange-500 underline">privacy@madaspot.mg</a>.
+              <a href="mailto:privacy@madaspot.com" className="text-orange-500 underline">privacy@madaspot.com</a>.
             </p>
           </section>
 
@@ -113,7 +113,7 @@ export default function PolitiqueConfidentialitePage() {
             <h2 className="text-xl font-semibold text-gray-800">8. Contact</h2>
             <p>
               Pour toute question relative à la protection de vos données :{' '}
-              <a href="mailto:privacy@madaspot.mg" className="text-orange-500 underline">privacy@madaspot.mg</a>
+              <a href="mailto:privacy@madaspot.com" className="text-orange-500 underline">privacy@madaspot.com</a>
             </p>
           </section>
         </div>

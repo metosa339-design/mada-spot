@@ -70,7 +70,7 @@ function buildOTPEmailHTML(code: string, firstName?: string): string {
 
     <p style="color: #94a3b8; font-size: 12px; line-height: 1.5; margin: 0;">
       Si vous n'avez pas créé de compte sur Mada Spot, ignorez simplement cet email.<br/>
-      Pour toute question, contactez-nous à <a href="mailto:contact@madaspot.mg" style="color: #ff6b35; text-decoration: none;">contact@madaspot.mg</a>
+      Pour toute question, contactez-nous à <a href="mailto:contact@madaspot.com" style="color: #ff6b35; text-decoration: none;">contact@madaspot.com</a>
     </p>
   </div>
 

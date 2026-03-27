@@ -104,7 +104,7 @@ export default function ClientBookingsPage() {
       <div class="info"><span class="label">Personnes</span><span class="value">${booking.guestCount}</span></div>
       ${booking.totalPrice ? `<div class="info"><span class="label">Prix total</span><span class="value">${booking.totalPrice.toLocaleString('fr-FR')} ${booking.currency}</span></div>` : ''}
       ${booking.specialRequests ? `<div class="info"><span class="label">Demandes</span><span class="value">${booking.specialRequests}</span></div>` : ''}
-      <p style="text-align:center;margin-top:30px;color:#999;font-size:12px">Généré depuis madaspot.mg</p>
+      <p style="text-align:center;margin-top:30px;color:#999;font-size:12px">Généré depuis madaspot.com</p>
       </body></html>`);
     w.document.close();
     w.print();

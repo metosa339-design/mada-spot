@@ -78,7 +78,7 @@ export const en: Translations = {
     about: 'About',
     faq: 'FAQ',
     contact: 'Contact',
-    contactEmail: 'contact@madaspot.mg',
+    contactEmail: 'contact@madaspot.com',
     downloadApp: 'Download our app',
     comingSoon: 'Coming soon',
     allRights: 'All rights reserved',

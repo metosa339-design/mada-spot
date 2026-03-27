@@ -144,7 +144,7 @@ export default function ContactPage() {
             <div className="bg-white rounded-xl border p-5">
               <Mail className="w-6 h-6 text-orange-500 mb-2" />
               <h3 className="font-semibold text-sm">Email</h3>
-              <p className="text-sm text-gray-500 mt-1">support@madaspot.mg</p>
+              <p className="text-sm text-gray-500 mt-1">support@madaspot.com</p>
             </div>
             <div className="bg-white rounded-xl border p-5">
               <Phone className="w-6 h-6 text-orange-500 mb-2" />

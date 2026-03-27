@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
         headers: { 'Content-Type': 'application/json' },
         signal: AbortSignal.timeout(10000),
         body: JSON.stringify({
-          to: process.env.ADMIN_EMAIL || 'admin@madaspot.mg',
+          to: process.env.ADMIN_EMAIL || 'admin@madaspot.com',
           subject: `[Contact] ${escapeHtml(subject)}`,
           html: `
             <div style="font-family: system-ui, sans-serif; max-width: 600px;">

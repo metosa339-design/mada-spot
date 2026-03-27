@@ -32,7 +32,7 @@ export async function geocodeAddress(
       `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1&countrycodes=mg`,
       {
         headers: {
-          'User-Agent': 'MadaSpotBot/1.0 (contact@madaspot.mg)',
+          'User-Agent': 'MadaSpotBot/1.0 (contact@madaspot.com)',
         },
       }
     );
@@ -64,7 +64,7 @@ export async function reverseGeocode(
       `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`,
       {
         headers: {
-          'User-Agent': 'MadaSpotBot/1.0 (contact@madaspot.mg)',
+          'User-Agent': 'MadaSpotBot/1.0 (contact@madaspot.com)',
         },
       }
     );

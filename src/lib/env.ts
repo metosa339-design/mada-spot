@@ -30,7 +30,7 @@ const serverEnvSchema = z.object({
 
 // Client-side environment variables schema (NEXT_PUBLIC_*)
 const clientEnvSchema = z.object({
-  NEXT_PUBLIC_SITE_URL: z.string().url().default('https://madaspot.mg'),
+  NEXT_PUBLIC_SITE_URL: z.string().url().default('https://madaspot.com'),
   NEXT_PUBLIC_BASE_URL: z.string().url().optional(),
 });
 

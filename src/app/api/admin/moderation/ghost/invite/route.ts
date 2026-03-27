@@ -57,6 +57,6 @@ export async function POST(request: NextRequest) {
     ...getRequestMeta(request),
   })
 
-  const inviteUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://madaspot.mg'}/invite/${token}`
+  const inviteUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://madaspot.com'}/invite/${token}`
   return NextResponse.json({ success: true, claim, inviteUrl })
 }

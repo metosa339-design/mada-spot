@@ -27,7 +27,7 @@ export default function CGUPage() {
             <section>
               <h2 className="text-xl font-semibold text-gray-800">1. Acceptation des conditions</h2>
               <p>
-                En accédant et en utilisant le site <strong>Mada Spot</strong> (madaspot.mg), vous acceptez
+                En accédant et en utilisant le site <strong>Mada Spot</strong> (madaspot.com), vous acceptez
                 sans réserve les présentes conditions générales d&apos;utilisation. Si vous n&apos;acceptez pas
                 ces conditions, veuillez ne pas utiliser nos services.
               </p>
@@ -137,7 +137,7 @@ export default function CGUPage() {
               <h2 className="text-xl font-semibold text-gray-800">11. Contact</h2>
               <p>
                 Pour toute question relative aux CGU, contactez-nous à :{' '}
-                <a href="mailto:contact@madaspot.mg" className="text-orange-500 underline">contact@madaspot.mg</a>
+                <a href="mailto:contact@madaspot.com" className="text-orange-500 underline">contact@madaspot.com</a>
               </p>
             </section>
           </div>

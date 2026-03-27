@@ -12,7 +12,7 @@ export async function POST(_request: NextRequest) {
   }
 
   try {
-    const adminEmail = process.env.ADMIN_EMAIL || 'admin@madaspot.mg';
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@madaspot.com';
 
     // Vérifier si un admin existe déjà
     const existingAdmin = await prisma.user.findFirst({

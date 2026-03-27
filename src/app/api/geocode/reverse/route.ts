@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
       `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1&accept-language=fr`,
       {
         headers: {
-          'User-Agent': 'MadaSpot/1.0 (contact@madaspot.mg)',
+          'User-Agent': 'MadaSpot/1.0 (contact@madaspot.com)',
           'Accept-Language': 'fr',
         },
         signal: AbortSignal.timeout(8000),

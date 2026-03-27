@@ -16,6 +16,7 @@ export default function OrganizationJsonLd() {
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer service',
+      email: 'contact@madaspot.com',
       url: `${SITE_URL}/contact`,
       availableLanguage: ['fr', 'mg'],
     },

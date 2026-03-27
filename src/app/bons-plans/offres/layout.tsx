@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Offres & Promotions à Madagascar | Mada Spot',
     description: 'Profitez des meilleures offres et promotions à Madagascar.',
-    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Mada Spot — Offres & Promotions' }],
+    images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'Mada Spot — Offres & Promotions' }],
   },
 };
 

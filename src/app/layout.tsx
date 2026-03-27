@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://madaspot.mg"),
+  metadataBase: new URL("https://madaspot.com"),
   title: "Mada Spot — Bons Plans à Madagascar",
   description: "Mada Spot est la plateforme n°1 pour découvrir et réserver les meilleurs hôtels, restaurants et attractions touristiques à Madagascar. Comparez les prix, lisez les avis et réservez en ligne.",
   keywords: ["Madagascar", "tourisme Madagascar", "bons plans Madagascar", "meilleur hôtel Madagascar", "restaurant Antananarivo", "hôtel Nosy Be", "attractions touristiques Madagascar", "parcs nationaux Madagascar", "Mada Spot", "voyage Madagascar", "guide touristique Madagascar", "réservation hôtel Madagascar", "où manger Madagascar", "Tsingy", "Isalo", "baobab Madagascar"],
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Mada Spot — Bons Plans à Madagascar",
     description: "Découvrez les meilleurs restaurants, hôtels et attractions touristiques à Madagascar.",
-    url: "https://madaspot.mg",
+    url: "https://madaspot.com",
     siteName: "Mada Spot",
     locale: "fr_MG",
     type: "website",

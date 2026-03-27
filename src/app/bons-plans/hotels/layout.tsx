@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Hôtels à Madagascar — Mada Spot',
     description: 'Trouvez les meilleurs hôtels et hébergements à Madagascar.',
-    url: 'https://madaspot.mg/bons-plans/hotels',
-    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Hôtels à Madagascar — Mada Spot' }],
+    url: 'https://madaspot.com/bons-plans/hotels',
+    images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'Hôtels à Madagascar — Mada Spot' }],
   },
 };
 

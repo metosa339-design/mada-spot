@@ -88,7 +88,7 @@ export default function OgImage() {
             color: '#64748b',
           }}
         >
-          madaspot.mg
+          madaspot.com
         </div>
       </div>
     ),

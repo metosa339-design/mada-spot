@@ -151,7 +151,7 @@ export async function GET(request: NextRequest) {
           try {
             const response = await fetch(article.sourceUrl, {
               headers: {
-                'User-Agent': 'MadaSpotBot/1.0 (+https://madaspot.mg)',
+                'User-Agent': 'MadaSpotBot/1.0 (+https://madaspot.com)',
                 'Accept': 'text/html',
               },
               signal: AbortSignal.timeout(10000),

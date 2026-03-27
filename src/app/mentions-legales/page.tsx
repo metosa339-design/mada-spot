@@ -25,10 +25,10 @@ export default function MentionsLegalesPage() {
           <section>
             <h2 className="text-xl font-semibold text-gray-800">1. Éditeur du site</h2>
             <p>
-              Le site <strong>Mada Spot</strong> (madaspot.mg) est édité par :<br />
+              Le site <strong>Mada Spot</strong> (madaspot.com) est édité par :<br />
               Mada Spot SARL<br />
-              Siège social : Antananarivo, Madagascar<br />
-              Email : contact@madaspot.mg<br />
+              Siège social : Ampandrana, Antananarivo 101 Madagascar<br />
+              Email : contact@madaspot.com<br />
               Directeur de la publication : L'équipe Mada Spot
             </p>
           </section>
@@ -38,6 +38,7 @@ export default function MentionsLegalesPage() {
             <p>
               Le site est hébergé par Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis.
               La base de données est hébergée par Neon (neon.tech).
+              Le serveur est hébergé par IONOS (82.165.65.111).
             </p>
           </section>
 
@@ -88,7 +89,7 @@ export default function MentionsLegalesPage() {
             <h2 className="text-xl font-semibold text-gray-800">7. Contact</h2>
             <p>
               Pour toute question relative aux mentions légales, contactez-nous à :{' '}
-              <a href="mailto:contact@madaspot.mg" className="text-orange-500 underline">contact@madaspot.mg</a>
+              <a href="mailto:contact@madaspot.com" className="text-orange-500 underline">contact@madaspot.com</a>
             </p>
           </section>
         </div>

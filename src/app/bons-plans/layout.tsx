@@ -14,8 +14,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Bons Plans à Madagascar — Hôtels, Restaurants, Attractions | Mada Spot',
     description: 'Découvrez les meilleurs hôtels, restaurants, attractions et prestataires touristiques de Madagascar.',
-    url: 'https://madaspot.mg/bons-plans',
-    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Mada Spot — Bons Plans Madagascar' }],
+    url: 'https://madaspot.com/bons-plans',
+    images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'Mada Spot — Bons Plans Madagascar' }],
   },
 };
 

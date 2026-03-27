@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Comment ça marche — Mada Spot',
     description: 'Découvrez comment fonctionne Mada Spot.',
-    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Mada Spot — Comment ça marche' }],
+    images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'Mada Spot — Comment ça marche' }],
   },
 };
 

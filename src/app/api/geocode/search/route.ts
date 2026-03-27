@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
       `https://nominatim.openstreetmap.org/search?${params.toString()}`,
       {
         headers: {
-          'User-Agent': 'MadaSpot/1.0 (contact@madaspot.mg)',
+          'User-Agent': 'MadaSpot/1.0 (contact@madaspot.com)',
           'Accept-Language': 'fr',
         },
         signal: AbortSignal.timeout(8000),

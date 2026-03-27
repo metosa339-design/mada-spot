@@ -76,7 +76,7 @@ export async function GET(request: NextRequest) {
     // Récupérer l'image originale
     const response = await fetch(imageUrl, {
       headers: {
-        'User-Agent': 'MadaSpotBot/1.0 (+https://madaspot.mg)',
+        'User-Agent': 'MadaSpotBot/1.0 (+https://madaspot.com)',
         'Accept': 'image/*',
       },
       signal: AbortSignal.timeout(15000),

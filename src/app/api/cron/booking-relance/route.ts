@@ -110,7 +110,7 @@ export async function GET(request: NextRequest) {
           }
 
           // Notifier l'admin
-          const adminEmail = process.env.ADMIN_EMAIL || 'admin@madaspot.mg';
+          const adminEmail = process.env.ADMIN_EMAIL || 'admin@madaspot.com';
           await sendNotification({
             to: adminEmail,
             type: 'reminder' as any,

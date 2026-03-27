@@ -76,7 +76,7 @@ export const fr = {
     about: 'À propos',
     faq: 'FAQ',
     contact: 'Contact',
-    contactEmail: 'contact@madaspot.mg',
+    contactEmail: 'contact@madaspot.com',
     downloadApp: 'Téléchargez notre app',
     comingSoon: 'Bientôt disponible',
     allRights: 'Tous droits réservés',

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Carte interactive — Mada Spot',
     description: 'Visualisez les restaurants, hôtels et attractions de Madagascar sur une carte interactive.',
-    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Mada Spot — Carte interactive' }],
+    images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'Mada Spot — Carte interactive' }],
   },
 };
 

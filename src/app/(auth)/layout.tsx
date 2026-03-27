@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Authentification — Mada Spot',
     description: 'Connectez-vous ou créez votre compte Mada Spot pour accéder à tous nos services.',
-    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Mada Spot — Authentification' }],
+    images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'Mada Spot — Authentification' }],
   },
 };
 

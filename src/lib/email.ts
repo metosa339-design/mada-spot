@@ -62,7 +62,7 @@ type NotificationType =
   | 'weather_alert'
   | 'loyalty_tier_upgrade';
 
-const SITE_BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://madaspot.mg';
+const SITE_BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://madaspot.com';
 
 const baseStyle = `font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto;`;
 const headerHtml = `<div style="background: linear-gradient(135deg, #ff6b35, #ff1493); padding: 20px; border-radius: 12px 12px 0 0; text-align: center;">
@@ -352,7 +352,7 @@ export async function sendGhostCreatedNotificationToAdmin(
   city: string,
   category: string
 ): Promise<boolean> {
-  const adminEmail = process.env.ADMIN_EMAIL || 'admin@madaspot.mg';
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@madaspot.com';
 
   return sendEmail({
     to: adminEmail,
@@ -371,7 +371,7 @@ export async function sendGhostCreatedNotificationToAdmin(
             <p style="margin: 4px 0;"><strong>Créé par :</strong> ${h(creatorName)}</p>
           </div>
           <p style="color: #64748b; font-size: 13px;">Ce lieu est en attente de modération et n'est pas visible publiquement.</p>
-          <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'https://madaspot.mg'}/admin?tab=moderation"
+          <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'https://madaspot.com'}/admin?tab=moderation"
              style="display: inline-block; padding: 12px 24px; background: #7c3aed; color: white; text-decoration: none; border-radius: 8px; margin-top: 12px;">
             Modérer ce lieu
           </a>
@@ -388,7 +388,7 @@ export async function sendClaimNotificationToAdmin(
   claimantEmail: string,
   claimantRole: string
 ): Promise<boolean> {
-  const adminEmail = process.env.ADMIN_EMAIL || 'admin@madaspot.mg';
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@madaspot.com';
 
   return sendEmail({
     to: adminEmail,
@@ -403,7 +403,7 @@ export async function sendClaimNotificationToAdmin(
           <p><strong>Demandeur :</strong> ${h(claimantName)}</p>
           <p><strong>Email :</strong> ${h(claimantEmail)}</p>
           <p><strong>Rôle :</strong> ${h(claimantRole)}</p>
-          <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'https://madaspot.mg'}/admin?tab=claims"
+          <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'https://madaspot.com'}/admin?tab=claims"
              style="display: inline-block; padding: 12px 24px; background: #ff6b35; color: white; text-decoration: none; border-radius: 8px; margin-top: 16px;">
             Voir la revendication
           </a>
@@ -452,7 +452,7 @@ export async function sendClaimRejectedEmail(
         <div style="background: #f8fafc; padding: 24px; border-radius: 0 0 12px 12px;">
           <p>Votre revendication pour <strong>${h(establishmentName)}</strong> n'a pas pu être approuvée.</p>
           ${reason ? `<p><strong>Raison :</strong> ${h(reason)}</p>` : ''}
-          <p>Si vous pensez qu'il s'agit d'une erreur, contactez-nous à support@madaspot.mg.</p>
+          <p>Si vous pensez qu'il s'agit d'une erreur, contactez-nous à support@madaspot.com.</p>
         </div>
       </div>
     `,

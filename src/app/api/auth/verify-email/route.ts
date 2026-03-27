@@ -6,7 +6,7 @@ import { verifySession, SESSION_COOKIE_NAME } from '@/lib/auth';
 import { checkRateLimit, getClientIdentifier, getRateLimitHeaders } from '@/lib/rate-limit';
 
 import { logger } from '@/lib/logger';
-const SITE_BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://madaspot.mg';
+const SITE_BASE = process.env.NEXT_PUBLIC_SITE_URL || 'https://madaspot.com';
 
 // POST /api/auth/verify-email - Send verification email to current user
 export async function POST(request: NextRequest) {

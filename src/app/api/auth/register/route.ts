@@ -108,6 +108,7 @@ export async function POST(request: NextRequest) {
 
     // Envoyer le code OTP de vérification par email (best-effort)
     let needsVerification = false;
+    let emailWarning: string | undefined;
     if (user.email) {
       const otpResult = await sendOTPToUser(user.id, user.email, user.firstName).catch((err) => {
         console.error('[REGISTER] ❌ Échec envoi OTP:', err);
@@ -117,29 +118,33 @@ export async function POST(request: NextRequest) {
       needsVerification = true;
       if (!otpResult.success) {
         logger.error('[REGISTER] OTP non envoyé:', otpResult.error);
+        emailWarning = "Le code de vérification n'a pas pu être envoyé. Utilisez 'Renvoyer le code' sur la page de vérification.";
       }
     }
 
     // Préparer la réponse
-    const response = NextResponse.json(
-      {
-        success: true,
-        message: needsVerification
-          ? 'Inscription réussie. Vérifiez votre email pour activer votre compte.'
-          : 'Inscription réussie',
-        needsVerification,
-        user: {
-          id: user.id,
-          email: user.email,
-          phone: user.phone,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          role: user.role,
-          isVerified: false,
-        },
+    const responseBody: Record<string, unknown> = {
+      success: true,
+      message: needsVerification
+        ? 'Inscription réussie. Vérifiez votre email pour activer votre compte.'
+        : 'Inscription réussie',
+      needsVerification,
+      user: {
+        id: user.id,
+        email: user.email,
+        phone: user.phone,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role,
+        isVerified: false,
       },
-      { status: 201 }
-    );
+    };
+
+    if (emailWarning) {
+      responseBody.emailWarning = emailWarning;
+    }
+
+    const response = NextResponse.json(responseBody, { status: 201 });
 
     // Définir le cookie de session
     const cookieConfig = getSessionCookieConfig(sessionToken);

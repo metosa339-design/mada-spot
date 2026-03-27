@@ -40,36 +40,32 @@ export async function GET(request: NextRequest) {
       ];
     }
 
-    const attractions = await prisma.establishment.findMany({
+    // Filter by attraction-specific fields directly in the query
+    const attractionWhere: any = {};
+    if (attractionType) {
+      attractionWhere.attractionType = attractionType;
+    }
+    if (isFree) {
+      attractionWhere.isFree = true;
+    }
+    where.attraction = Object.keys(attractionWhere).length > 0
+      ? attractionWhere
+      : { isNot: null };
+
+    const orderBy: any[] = [{ displayOrder: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }];
+    if (sortBy === 'price') {
+      orderBy.unshift({ attraction: { entryFeeLocal: 'asc' } });
+    }
+
+    const filteredAttractions = await prisma.establishment.findMany({
       where,
       include: {
         attraction: true,
       },
-      orderBy: [{ displayOrder: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }],
+      orderBy,
       skip: offset,
-      take: limit * 2,
+      take: limit,
     });
-
-    // Filter by attraction-specific fields
-    let filteredAttractions = attractions.filter((attr) => {
-      if (!attr.attraction) return false;
-
-      if (attractionType && attr.attraction.attractionType !== attractionType) return false;
-      if (isFree && !attr.attraction.isFree) return false;
-
-      return true;
-    });
-
-    // Sort
-    if (sortBy === 'price') {
-      filteredAttractions.sort((a, b) => {
-        const priceA = a.attraction?.entryFeeLocal || 0;
-        const priceB = b.attraction?.entryFeeLocal || 0;
-        return priceA - priceB;
-      });
-    }
-
-    filteredAttractions = filteredAttractions.slice(0, limit);
 
     const transformedAttractions = filteredAttractions.map((attr) => ({
       id: attr.id,
@@ -99,9 +95,7 @@ export async function GET(request: NextRequest) {
       highlights: safeJsonParse(attr.attraction?.highlights, []),
     }));
 
-    const total = await prisma.establishment.count({
-      where: { ...where, attraction: { isNot: null } },
-    });
+    const total = await prisma.establishment.count({ where });
 
     return NextResponse.json({
       attractions: transformedAttractions,

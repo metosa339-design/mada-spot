@@ -127,10 +127,7 @@ export async function POST(request: NextRequest) {
     const ipAddress = request.headers.get('x-forwarded-for') || undefined;
 
     await prisma.session.deleteMany({
-      where: {
-        userId: user.id,
-        deviceInfo: deviceInfo || undefined,
-      },
+      where: { userId: user.id },
     });
 
     // Créer une nouvelle session

@@ -460,7 +460,7 @@ function RegisterClientForm() {
             value={formData.phone}
             onChange={(val) => setFormData({ ...formData, phone: val })}
             error={fieldErrors.phone?.[0]}
-            variant="dark"
+            variant="light"
           />
           {fieldErrors.phone && (
             <p className="mt-1 text-xs text-red-400">{fieldErrors.phone[0]}</p>

@@ -457,3 +457,168 @@ body.light-mode [class*="transition-all"],
 body.light-mode [class*="animate-"] {
   transition-property: background-color, border-color, color, box-shadow, transform, opacity;
 }
+
+/* ============================================
+   PHOTO BLOCKS — elegant shadow like photos on a desk
+   ============================================ */
+body.light-mode img[class*="object-cover"] {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+  border-radius: inherit;
+}
+
+body.light-mode .relative.h-40,
+body.light-mode .relative.h-44,
+body.light-mode .relative.h-48,
+body.light-mode .relative.h-52,
+body.light-mode .relative.h-56,
+body.light-mode .relative.h-60 {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+/* ============================================
+   SECONDARY BUTTONS — visible borders on light bg
+   ============================================ */
+body.light-mode .border-white\/20 {
+  border-color: #D1D5DB !important;
+  color: #374151 !important;
+}
+
+body.light-mode .border-white\/20:hover {
+  background: #F3F4F6 !important;
+  border-color: #9CA3AF !important;
+}
+
+body.light-mode .border-emerald-400\/30 {
+  border-color: rgba(5, 150, 105, 0.4) !important;
+  color: #059669 !important;
+}
+
+body.light-mode .border-emerald-400\/30:hover {
+  background: rgba(5, 150, 105, 0.05) !important;
+}
+
+/* ============================================
+   AUTH PAGES (Login, Register, Verify, etc.)
+   ============================================ */
+body.light-mode .min-h-screen.bg-\[\#0a0a0f\].text-white {
+  background: #F9FAFB !important;
+  color: #111827 !important;
+}
+
+body.light-mode .bg-\[\#0a0a0f\] {
+  background: #F9FAFB !important;
+}
+
+/* Auth card containers */
+body.light-mode .bg-\[\#1a1a24\].rounded-2xl.border-2 {
+  background: #ffffff !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Auth form inputs */
+body.light-mode .bg-white\/5 {
+  background: #ffffff !important;
+  border-color: #D1D5DB !important;
+}
+
+body.light-mode .border-white\/10 {
+  border-color: #E5E7EB !important;
+}
+
+body.light-mode .focus\:border-\[\#ff6b35\]\/50:focus {
+  border-color: rgba(255, 107, 53, 0.6) !important;
+}
+
+/* Placeholder text in inputs */
+body.light-mode .placeholder\:text-gray-500::placeholder {
+  color: #9CA3AF !important;
+}
+
+body.light-mode .placeholder\:text-gray-400::placeholder {
+  color: #9CA3AF !important;
+}
+
+/* ============================================
+   SEARCH PAGE
+   ============================================ */
+body.light-mode .bg-\[\#0c0c16\] {
+  background: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+body.light-mode .border-\[\#1e1e2e\] {
+  border-color: #E5E7EB !important;
+}
+
+body.light-mode .hover\:border-\[\#2e2e3e\]:hover {
+  border-color: #D1D5DB !important;
+}
+
+/* ============================================
+   DASHBOARD / CLIENT PAGES
+   ============================================ */
+body.light-mode .bg-\[\#0f0f17\] {
+  background: #F9FAFB !important;
+}
+
+body.light-mode .bg-\[\#12121c\] {
+  background: #F3F4F6 !important;
+}
+
+/* Chat bubbles - keep orange for sent messages */
+body.light-mode .bg-\[\#ff6b35\] {
+  color: #ffffff !important;
+}
+
+/* ============================================
+   CTA SECTION — keep dramatic on light
+   ============================================ */
+body.light-mode .bg-gradient-to-br.from-\[\#1a1a2e\] {
+  background: linear-gradient(to bottom right, #1F2937, #111827) !important;
+}
+
+body.light-mode .bg-gradient-to-br.from-\[\#1a1a2e\] .text-white,
+body.light-mode .bg-gradient-to-br.from-\[\#1a1a2e\] h2,
+body.light-mode .bg-gradient-to-br.from-\[\#1a1a2e\] p {
+  color: #ffffff !important;
+}
+
+body.light-mode .bg-gradient-to-br.from-\[\#1a1a2e\] .text-gray-400 {
+  color: #9CA3AF !important;
+}
+
+body.light-mode .bg-gradient-to-br.from-\[\#1a1a2e\] .text-gray-500 {
+  color: #6B7280 !important;
+}
+
+body.light-mode .bg-gradient-to-br.from-\[\#1a1a2e\] .text-gray-600 {
+  color: #6B7280 !important;
+}
+
+/* ============================================
+   REGISTER CHOOSER PAGE — keep dark cards dramatic
+   ============================================ */
+body.light-mode .bg-\[\#1a1a24\].rounded-2xl.border-2.border-\[\#2a2a36\] {
+  background: #ffffff !important;
+  border-color: #E5E7EB !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Gray background pages */
+body.light-mode .bg-gray-50 {
+  background: #F9FAFB !important;
+}
+
+body.light-mode .text-gray-900 {
+  color: #111827 !important;
+}
+
+body.light-mode .text-gray-800 {
+  color: #1F2937 !important;
+}
+
+body.light-mode .text-gray-700 {
+  color: #374151 !important;
+}

@@ -312,29 +312,21 @@ function AttractionsPageContent() {
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white">
 
-      {/* Hero with background image */}
-      <section className="relative overflow-hidden" style={{ minHeight: '45vh' }}>
-        <Image
-          src="/images/highlights/baobab-couche-de-soleil.jpg"
-          alt="Allée des baobabs au coucher du soleil, attraction emblématique de Madagascar"
-          fill
-          className="object-cover"
-          sizes="100vw"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-        <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 z-10">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            <div className="bg-[#D97706] rounded-2xl px-4 py-3 sm:px-5 sm:py-4 border border-white/20 shadow-lg">
-              <h1 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
-                <Mountain className="w-5 h-5 sm:w-6 sm:h-6 text-white flex-shrink-0" />
-                Attractions Touristiques
-              </h1>
-              <p className="text-white/90 text-[11px] sm:text-xs mt-1">
-                Parcs nationaux, plages paradisiaques et merveilles naturelles
-              </p>
-            </div>
+      {/* Hero */}
+      <section className="relative bg-gradient-to-r from-[#D97706] to-[#B45309] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex-1 py-10 sm:py-14">
+            <h1 className="text-2xl sm:text-4xl font-bold text-white flex items-center gap-3">
+              <Mountain className="w-7 h-7 sm:w-9 sm:h-9 text-white flex-shrink-0" />
+              Attractions Touristiques
+            </h1>
+            <p className="text-white/85 text-sm sm:text-base mt-2 max-w-xl">
+              Parcs nationaux, plages paradisiaques, sites historiques et merveilles naturelles
+            </p>
           </motion.div>
+          <div className="hidden md:block relative w-1/4 h-40 rounded-2xl overflow-hidden shadow-lg flex-shrink-0">
+            <Image src="/images/highlights/baobab-couche-de-soleil.jpg" alt="Allée des baobabs au coucher du soleil à Madagascar" fill className="object-cover" sizes="25vw" />
+          </div>
         </div>
       </section>
 

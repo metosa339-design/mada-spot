@@ -186,17 +186,20 @@ function HotelsPage() {
     <main className="min-h-screen bg-[#0a0a0f]">
 
       {/* Hero */}
-      <section className="relative bg-gradient-to-r from-[#D97706] to-[#B45309] py-10 sm:py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+      <section className="relative bg-gradient-to-r from-[#D97706] to-[#B45309] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex-1 py-10 sm:py-14">
             <h1 className="text-2xl sm:text-4xl font-bold text-white flex items-center gap-3">
               <Building2 className="w-7 h-7 sm:w-9 sm:h-9 text-white flex-shrink-0" />
               Hôtels à Madagascar
             </h1>
-            <p className="text-white/85 text-sm sm:text-base mt-2 max-w-2xl">
+            <p className="text-white/85 text-sm sm:text-base mt-2 max-w-xl">
               Trouvez l&apos;hébergement parfait parmi notre sélection avec les vrais prix en Ariary
             </p>
           </motion.div>
+          <div className="hidden md:block relative w-1/4 h-40 rounded-2xl overflow-hidden shadow-lg flex-shrink-0">
+            <Image src="/images/highlights/plage-ramena-et-les-pirogues-444.jpg" alt="Pirogues sur la plage de Ramena, Madagascar" fill className="object-cover" sizes="25vw" />
+          </div>
         </div>
       </section>
 

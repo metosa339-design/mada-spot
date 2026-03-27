@@ -188,8 +188,8 @@ function HotelsPage() {
       {/* Hero with background image */}
       <section className="relative overflow-hidden" style={{ minHeight: '45vh' }}>
         <Image
-          src="/images/highlights/fond page hotel.png"
-          alt="Bandeau paysage d'un éco-hôtel de luxe à Madagascar, mêlant chambre ouverte, piscine à débordement et accueil sur l'océan"
+          src="/images/highlights/plage-ramena-et-les-pirogues-444.jpg"
+          alt="Pirogues de pêcheurs malgaches sur la plage de Ramena au coucher du soleil, côte nord de Madagascar"
           fill
           className="object-cover"
           sizes="100vw"

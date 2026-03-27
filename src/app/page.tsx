@@ -668,31 +668,40 @@ function HomePage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto text-center"
+          className="max-w-5xl mx-auto"
         >
-          <div className="bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] border border-[#2a2a36] rounded-3xl p-8 sm:p-12 relative overflow-hidden">
-            {/* Halos lumineux */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-[#ff6b35]/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-0 w-48 h-48 bg-pink-500/5 rounded-full blur-3xl" />
+          {/* Documentary photos strip */}
+          <div className="grid grid-cols-3 gap-3 mb-8 rounded-2xl overflow-hidden">
+            <div className="relative h-48 sm:h-56">
+              <Image src="/images/highlights/Guide.png" alt="Guide malgache montrant la faune locale aux voyageurs" fill className="object-cover" sizes="33vw" />
+            </div>
+            <div className="relative h-48 sm:h-56">
+              <Image src="/images/highlights/artisanat.jpg" alt="Artisane malgache tissant sur un marché local" fill className="object-cover" sizes="33vw" />
+            </div>
+            <div className="relative h-48 sm:h-56">
+              <Image src="/images/highlights/pirogue.jpg" alt="Pirogue de pêcheurs malgaches sur une côte sauvage de Madagascar" fill className="object-cover" sizes="33vw" />
+            </div>
+          </div>
 
+          {/* CTA Card */}
+          <div className="bg-[#FDFBF7] border border-[#E5E1D8] rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden shadow-sm">
             <div className="relative">
               <Sparkles className="w-10 h-10 text-[#ff6b35] mx-auto mb-4" />
 
-              {/* Titre percutant */}
-              <h2 className="text-2xl sm:text-4xl font-bold text-white mb-3">
+              <h2 className="text-2xl sm:text-4xl font-bold text-[#1a1a2e] mb-3">
                 Débloquez les secrets de Madagascar
               </h2>
-              <p className="text-gray-400 max-w-xl mx-auto mb-8 text-base sm:text-lg">
-                Des lieux cachés, des expériences uniques et des prestataires locaux de confiance vous attendent.
+              <p className="text-[#6B7280] max-w-xl mx-auto mb-8 text-base sm:text-lg">
+                Des rencontres authentiques, des paysages à couper le souffle et des guides locaux passionnés vous attendent.
               </p>
 
-              {/* Social Proof — Avatar Group */}
+              {/* Social Proof */}
               <div className="flex items-center justify-center gap-3 mb-8">
                 <div className="flex -space-x-3">
                   {['R', 'N', 'H', 'M', 'F'].map((letter, i) => (
                     <div
                       key={letter}
-                      className="w-9 h-9 rounded-full border-2 border-[#1a1a2e] flex items-center justify-center text-white text-xs font-bold"
+                      className="w-9 h-9 rounded-full border-2 border-[#FDFBF7] flex items-center justify-center text-white text-xs font-bold"
                       style={{
                         background: ['linear-gradient(135deg, #ff6b35, #e55a2b)', 'linear-gradient(135deg, #3b82f6, #2563eb)', 'linear-gradient(135deg, #22c55e, #16a34a)', 'linear-gradient(135deg, #f59e0b, #d97706)', 'linear-gradient(135deg, #ec4899, #db2777)'][i],
                         zIndex: 5 - i,
@@ -701,21 +710,18 @@ function HomePage() {
                       {letter}
                     </div>
                   ))}
-                  <div className="w-9 h-9 rounded-full border-2 border-[#1a1a2e] bg-[#2a2a36] flex items-center justify-center text-gray-400 text-[10px] font-bold" style={{ zIndex: 0 }}>
+                  <div className="w-9 h-9 rounded-full border-2 border-[#FDFBF7] bg-[#E5E7EB] flex items-center justify-center text-[#6B7280] text-[10px] font-bold" style={{ zIndex: 0 }}>
                     +500
                   </div>
                 </div>
-                <p className="text-sm text-gray-400">
-                  Déjà <span className="text-white font-semibold">+500 voyageurs et guides locaux</span> nous font confiance
+                <p className="text-sm text-[#6B7280]">
+                  Déjà <span className="text-[#1a1a2e] font-semibold">+500 voyageurs et guides locaux</span> nous font confiance
                 </p>
               </div>
 
               {/* Boutons */}
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.97 }}
-                >
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
                   <Link
                     href="/register"
                     className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2 px-10 py-4 bg-gradient-to-r from-[#ff6b35] to-pink-500 text-white font-semibold rounded-xl text-lg overflow-hidden transition-shadow hover:shadow-xl hover:shadow-orange-500/30"
@@ -729,21 +735,21 @@ function HomePage() {
                 </motion.div>
                 <Link
                   href="/login"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white/80 font-medium rounded-xl hover:bg-white/5 transition-all"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 border border-[#D1D5DB] text-[#374151] font-medium rounded-xl hover:bg-[#F3F4F6] transition-all"
                 >
                   J&apos;ai déjà un compte
                 </Link>
               </div>
 
               {/* Réassurance */}
-              <p className="text-gray-500 text-xs mt-6 flex items-center justify-center gap-2 flex-wrap">
+              <p className="text-[#9CA3AF] text-xs mt-6 flex items-center justify-center gap-2 flex-wrap">
                 <span>Pas de carte bancaire requise</span>
-                <span className="text-gray-700">•</span>
+                <span className="text-[#D1D5DB]">•</span>
                 <span>Inscription en 30 secondes</span>
-                <span className="text-gray-700">•</span>
+                <span className="text-[#D1D5DB]">•</span>
                 <span>100% gratuit</span>
               </p>
-              <p className="text-gray-600 text-[10px] mt-2">
+              <p className="text-[#9CA3AF] text-[10px] mt-2">
                 +175 établissements référencés — Hôtels, restaurants, attractions et prestataires à Madagascar
               </p>
             </div>

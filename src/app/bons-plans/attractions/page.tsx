@@ -334,7 +334,7 @@ function AttractionsPageContent() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-block w-fit"
           >
-            <div className="bg-[#D97706] rounded-md px-6 py-5 sm:px-8 sm:py-6 max-w-2xl">
+            <div className="bg-[#D97706]/60 backdrop-blur-md rounded-2xl px-5 py-4 sm:px-7 sm:py-5 max-w-xl border border-white/20">
               <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2 flex items-center gap-3">
                 <Mountain className="w-7 h-7 sm:w-9 sm:h-9 text-white flex-shrink-0" />
                 Attractions Touristiques

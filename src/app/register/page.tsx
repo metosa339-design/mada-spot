@@ -108,15 +108,31 @@ export default function RegisterChooserPage() {
                   whileTap={{ scale: 0.98 }}
                   onClick={() => router.push('/register-client')}
                   aria-label="S'inscrire en tant que voyageur pour découvrir Madagascar"
-                  className="group relative bg-[#1a1a24] rounded-2xl border-2 border-[#2a2a36] hover:border-cyan-500/50 p-8 text-left transition-all overflow-hidden"
+                  className="group relative bg-[#1a1a24] rounded-2xl border-2 border-[#2a2a36] hover:border-cyan-500/50 text-left transition-all overflow-hidden"
                 >
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-cyan-500/10 to-transparent rounded-bl-full" />
-                  <div className="relative">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center mb-5">
+                  {/* Photo header */}
+                  <div className="relative h-40 w-full overflow-hidden">
+                    <Image
+                      src="/images/highlights/randonnee.jpg"
+                      alt="Voyageur explorant les paysages de Madagascar"
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a24] via-transparent to-transparent" />
+                  </div>
+
+                  {/* Icône flottante à cheval sur la photo */}
+                  <div className="relative flex justify-center -mt-8 z-10">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/30 border-4 border-[#1a1a24]">
                       <Compass className="w-8 h-8 text-white" aria-hidden="true" />
                     </div>
-                    <h2 className="text-xl font-bold text-white mb-2">Je suis un Voyageur</h2>
-                    <p className="text-gray-400 text-sm mb-5">
+                  </div>
+
+                  {/* Contenu */}
+                  <div className="px-8 pb-8 pt-4">
+                    <h2 className="text-xl font-bold text-white mb-2 text-center">Je suis un Voyageur</h2>
+                    <p className="text-gray-400 text-sm mb-5 text-center">
                       Je souhaite découvrir des pépites à Madagascar et réserver des hôtels, restaurants et activités locales.
                     </p>
                     <div className="space-y-2">
@@ -132,7 +148,7 @@ export default function RegisterChooserPage() {
                         </div>
                       ))}
                     </div>
-                    <div className="mt-6 flex items-center gap-2 text-cyan-400 font-medium text-sm group-hover:gap-3 transition-all">
+                    <div className="mt-6 flex items-center justify-center gap-2 text-cyan-400 font-medium text-sm group-hover:gap-3 transition-all">
                       Commencer l&apos;aventure
                       <ArrowRight className="w-4 h-4" aria-hidden="true" />
                     </div>
@@ -145,15 +161,31 @@ export default function RegisterChooserPage() {
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setMode('pro')}
                   aria-label="S'inscrire en tant que prestataire touristique à Madagascar"
-                  className="group relative bg-[#1a1a24] rounded-2xl border-2 border-[#2a2a36] hover:border-[#ff6b35]/50 p-8 text-left transition-all overflow-hidden"
+                  className="group relative bg-[#1a1a24] rounded-2xl border-2 border-[#2a2a36] hover:border-[#ff6b35]/50 text-left transition-all overflow-hidden"
                 >
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#ff6b35]/10 to-transparent rounded-bl-full" />
-                  <div className="relative">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#ff6b35] to-pink-500 flex items-center justify-center mb-5">
+                  {/* Photo header */}
+                  <div className="relative h-40 w-full overflow-hidden">
+                    <Image
+                      src="/images/highlights/place-joffre-422.jpg"
+                      alt="Prestataire touristique professionnel à Madagascar"
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a24] via-transparent to-transparent" />
+                  </div>
+
+                  {/* Icône flottante à cheval sur la photo */}
+                  <div className="relative flex justify-center -mt-8 z-10">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#ff6b35] to-pink-500 flex items-center justify-center shadow-lg shadow-orange-500/30 border-4 border-[#1a1a24]">
                       <Handshake className="w-8 h-8 text-white" aria-hidden="true" />
                     </div>
-                    <h2 className="text-xl font-bold text-white mb-2">Je suis un Prestataire</h2>
-                    <p className="text-gray-400 text-sm mb-5">
+                  </div>
+
+                  {/* Contenu */}
+                  <div className="px-8 pb-8 pt-4">
+                    <h2 className="text-xl font-bold text-white mb-2 text-center">Je suis un Prestataire</h2>
+                    <p className="text-gray-400 text-sm mb-5 text-center">
                       Je souhaite proposer mes services touristiques, gérer mes réservations et être visible à l&apos;international.
                     </p>
                     <div className="space-y-2">
@@ -169,7 +201,7 @@ export default function RegisterChooserPage() {
                         </div>
                       ))}
                     </div>
-                    <div className="mt-6 flex items-center gap-2 text-[#ff6b35] font-medium text-sm group-hover:gap-3 transition-all">
+                    <div className="mt-6 flex items-center justify-center gap-2 text-[#ff6b35] font-medium text-sm group-hover:gap-3 transition-all">
                       Inscrire mon établissement gratuitement
                       <ArrowRight className="w-4 h-4" aria-hidden="true" />
                     </div>

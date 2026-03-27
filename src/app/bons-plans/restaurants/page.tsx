@@ -199,24 +199,15 @@ function RestaurantsPageContent() {
           sizes="100vw"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-        <div className="relative flex flex-col justify-end items-end h-full min-h-[45vh] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 pt-24">
-          <div className="flex items-center gap-2 text-white/80 text-sm mb-4 self-start">
-            <Link href="/bons-plans" className="hover:text-white transition-colors">Bons Plans</Link>
-            <span>/</span>
-            <span className="text-white font-medium">Restaurants</span>
-          </div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-block w-fit ml-auto"
-          >
-            <div className="bg-[#D97706]/60 backdrop-blur-md rounded-2xl px-5 py-4 sm:px-6 sm:py-5 max-w-sm border border-white/20">
-              <h1 className="text-xl sm:text-3xl font-bold text-white mb-2 flex items-center gap-2">
-                <UtensilsCrossed className="w-6 h-6 sm:w-8 sm:h-8 text-white flex-shrink-0" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+        <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 z-10">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+            <div className="bg-[#D97706]/65 backdrop-blur-md rounded-2xl px-4 py-3 sm:px-5 sm:py-4 border border-white/20 shadow-lg">
+              <h1 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
+                <UtensilsCrossed className="w-5 h-5 sm:w-6 sm:h-6 text-white flex-shrink-0" />
                 Restaurants à Madagascar
               </h1>
-              <p className="text-white/90 text-xs sm:text-sm">
+              <p className="text-white/90 text-[11px] sm:text-xs mt-1">
                 Découvrez les meilleurs restaurants avec photos de menus et prix réels
               </p>
             </div>

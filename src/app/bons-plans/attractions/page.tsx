@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
@@ -311,87 +312,84 @@ function AttractionsPageContent() {
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white">
 
-      {/* Header - Dark warm gradient */}
-      <div className="relative pt-20 pb-10 overflow-hidden">
-        {/* Background gradient warm */}
-        <div className="absolute inset-0">
-          <div
-            className="absolute inset-0 opacity-40"
-            style={{
-              background: 'linear-gradient(135deg, rgba(255,107,53,0.3) 0%, rgba(255,20,147,0.2) 50%, rgba(148,0,211,0.3) 100%)'
-            }}
-          />
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-pink-500/20 rounded-full blur-[100px]" />
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
+      {/* Hero with background image */}
+      <section className="relative overflow-hidden" style={{ minHeight: '45vh' }}>
+        <Image
+          src="/images/highlights/baobab-couche-de-soleil.jpg"
+          alt="Allée des baobabs au coucher du soleil, attraction emblématique de Madagascar"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+        <div className="relative flex flex-col justify-end h-full min-h-[45vh] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 pt-24">
+          <div className="flex items-center gap-2 text-white/80 text-sm mb-4">
+            <Link href="/bons-plans" className="hover:text-white transition-colors">Bons Plans</Link>
+            <span>/</span>
+            <span className="text-white font-medium">Attractions</span>
+          </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center"
+            className="inline-block w-fit"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/20 backdrop-blur-sm rounded-full border border-orange-500/30 text-orange-400 text-sm font-medium mb-4">
-              <Sparkles className="w-4 h-4" />
-              Explorez Madagascar
+            <div className="bg-[#D97706] rounded-md px-6 py-5 sm:px-8 sm:py-6 max-w-2xl">
+              <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2 flex items-center gap-3">
+                <Mountain className="w-7 h-7 sm:w-9 sm:h-9 text-white flex-shrink-0" />
+                Attractions Touristiques
+              </h1>
+              <p className="text-white/90 text-sm sm:text-base">
+                Parcs nationaux, plages paradisiaques, sites historiques et merveilles naturelles
+              </p>
             </div>
-            <h1 className="text-3xl md:text-4xl font-black mb-4">
-              Attractions <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">Touristiques</span>
-            </h1>
-            <p className="text-slate-400 max-w-2xl mx-auto">
-              Parcs nationaux, plages paradisiaques, sites historiques et merveilles naturelles
-            </p>
           </motion.div>
+        </div>
+      </section>
 
-          {/* Search bar - Dark style */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="mt-8 max-w-3xl mx-auto"
-          >
-            <div className="flex flex-col md:flex-row gap-3">
-              <div className="flex-1 relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
-                <input
-                  type="text"
-                  placeholder="Rechercher une attraction..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-[#1a1a24] border border-[#2a2a36] rounded-xl text-white placeholder:text-slate-500 focus:border-orange-500/50 focus:outline-none"
-                />
-              </div>
-              <div className="relative">
-                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
-                <select
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
-                  className="w-full md:w-48 pl-12 pr-4 py-4 bg-[#1a1a24] border border-[#2a2a36] rounded-xl text-white appearance-none cursor-pointer focus:border-orange-500/50 focus:outline-none"
-                >
-                  <option value="">Toutes les régions</option>
-                  {cities.map((city) => (
-                    <option key={city} value={city}>{city}</option>
-                  ))}
-                </select>
-                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 pointer-events-none" />
-              </div>
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                aria-label={showFilters ? 'Masquer les filtres' : 'Afficher les filtres'}
-                aria-expanded={showFilters}
-                className={`flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-medium transition-all ${
-                  showFilters
-                    ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                    : 'bg-[#1a1a24] border border-[#2a2a36] text-slate-300 hover:border-orange-500/50'
-                }`}
+      {/* Search & Filters */}
+      <section className="sticky top-16 md:top-20 z-40 bg-[#0a0a0f]/95 backdrop-blur-xl border-b border-[#2a2a36]">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex flex-col md:flex-row gap-3">
+            <div className="flex-1 relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+              <input
+                type="text"
+                placeholder="Rechercher une attraction..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 bg-[#0d1520] border border-[#2a2a36] rounded-xl text-white placeholder:text-slate-500 focus:border-orange-500/50 focus:outline-none"
+              />
+            </div>
+            <div className="relative">
+              <select
+                value={selectedCity}
+                onChange={(e) => setSelectedCity(e.target.value)}
+                className="w-full md:w-48 px-4 py-3 bg-[#0d1520] border border-[#2a2a36] rounded-xl text-white appearance-none cursor-pointer outline-none"
               >
-                <Filter className="w-5 h-5" />
-                Filtres
-              </button>
+                <option value="">Toutes les régions</option>
+                {cities.map((city) => (
+                  <option key={city} value={city}>{city}</option>
+                ))}
+              </select>
+              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
             </div>
-          </motion.div>
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              aria-label={showFilters ? 'Masquer les filtres' : 'Afficher les filtres'}
+              aria-expanded={showFilters}
+              className={`flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-medium transition-all ${
+                showFilters
+                  ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
+                  : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
+              }`}
+            >
+              <Filter className="w-5 h-5" />
+              Filtres
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* Popular Destinations */}
       <div className="border-b border-[#2a2a36]">

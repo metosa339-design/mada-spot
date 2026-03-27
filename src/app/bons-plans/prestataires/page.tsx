@@ -163,46 +163,37 @@ function PrestatairesPageContent() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
-      {/* Hero */}
-      <section className="relative pt-24 pb-12 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-teal-500/10 to-blue-500/20" />
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-teal-500/10 blur-[100px] rounded-full" />
-        <div className="relative max-w-7xl mx-auto px-4">
-          <div className="flex items-center gap-2 text-slate-400 text-sm mb-4">
-            <Link href="/bons-plans" className="hover:text-cyan-400 transition-colors">Bons Plans</Link>
+      {/* Hero with background image */}
+      <section className="relative overflow-hidden" style={{ minHeight: '45vh' }}>
+        <Image
+          src="/images/highlights/Chauffeur.png"
+          alt="Chauffeur guide local à Madagascar, prestataire de services touristiques"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+        <div className="relative flex flex-col justify-end h-full min-h-[45vh] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 pt-24">
+          <div className="flex items-center gap-2 text-white/80 text-sm mb-4">
+            <Link href="/bons-plans" className="hover:text-white transition-colors">Bons Plans</Link>
             <span>/</span>
-            <span className="text-cyan-400">Prestataires</span>
+            <span className="text-white font-medium">Prestataires</span>
           </div>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl md:text-4xl font-bold text-white mb-4"
-          >
-            <Users className="inline-block w-8 h-8 mr-3 text-cyan-400" />
-            Prestataires de services touristiques
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-slate-400 max-w-2xl mb-6"
-          >
-            Guides, chauffeurs, agences de voyage et plus pour votre séjour à Madagascar
-          </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            className="inline-block w-fit"
           >
-            <Link
-              href="/publier-lieu?type=PROVIDER"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-teal-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-cyan-500/25 transition-all"
-            >
-              <Plus className="w-5 h-5" />
-              Devenir prestataire
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            <div className="bg-[#D97706] rounded-md px-6 py-5 sm:px-8 sm:py-6 max-w-2xl">
+              <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2 flex items-center gap-3">
+                <Users className="w-7 h-7 sm:w-9 sm:h-9 text-white flex-shrink-0" />
+                Prestataires de services touristiques
+              </h1>
+              <p className="text-white/90 text-sm sm:text-base">
+                Guides, chauffeurs, agences de voyage et plus pour votre séjour à Madagascar
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>

@@ -176,7 +176,7 @@ function PrestatairesPageContent() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
         <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 z-10">
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            <div className="bg-[#D97706]/65 backdrop-blur-md rounded-2xl px-4 py-3 sm:px-5 sm:py-4 border border-white/20 shadow-lg">
+            <div className="bg-[#D97706] rounded-2xl px-4 py-3 sm:px-5 sm:py-4 border border-white/20 shadow-lg">
               <h1 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
                 <Users className="w-5 h-5 sm:w-6 sm:h-6 text-white flex-shrink-0" />
                 Prestataires touristiques

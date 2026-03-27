@@ -10,7 +10,6 @@ import {
   Instagram,
   Youtube,
   Mail,
-  Phone,
   MapPin,
   Heart,
   Loader2,
@@ -156,18 +155,12 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-center gap-3 text-sm text-gray-400">
                 <MapPin className="w-5 h-5 text-[#ff6b35]" />
-                <span>Antananarivo, Madagascar</span>
+                <span>Ampandrana, Antananarivo 101 Madagascar</span>
               </li>
               <li className="flex items-center gap-3 text-sm text-gray-400">
                 <Mail className="w-5 h-5 text-[#ff6b35]" />
-                <a href="mailto:contact@madaspot.mg" className="hover:text-white transition-colors">
-                  {t.contactEmail}
-                </a>
-              </li>
-              <li className="flex items-center gap-3 text-sm text-gray-400">
-                <Phone className="w-5 h-5 text-[#ff6b35]" />
-                <a href="tel:+261340000000" className="hover:text-white transition-colors">
-                  +261 34 00 000 00
+                <a href="mailto:contact@madaspot.com" className="hover:text-white transition-colors">
+                  contact@madaspot.com
                 </a>
               </li>
             </ul>
@@ -201,7 +194,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-400">
             <div className="flex items-center gap-1">
-              <span>© {currentYear} madaspot.mg</span>
+              <span>© {currentYear} madaspot.com</span>
               <span>•</span>
               <span>{t.madeWith}</span>
               <Heart className="w-4 h-4 text-red-500 fill-current" />

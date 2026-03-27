@@ -185,28 +185,17 @@ function HotelsPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0f]">
 
-      {/* Hero with background image */}
-      <section className="relative overflow-hidden" style={{ minHeight: '45vh' }}>
-        <Image
-          src="/images/highlights/plage-ramena-et-les-pirogues-444.jpg"
-          alt="Pirogues de pêcheurs malgaches sur la plage de Ramena au coucher du soleil, côte nord de Madagascar"
-          fill
-          className="object-cover"
-          sizes="100vw"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-        <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 z-10">
+      {/* Hero */}
+      <section className="relative bg-gradient-to-r from-[#D97706] to-[#B45309] py-10 sm:py-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            <div className="bg-[#D97706] rounded-2xl px-4 py-3 sm:px-5 sm:py-4 border border-white/20 shadow-lg">
-              <h1 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
-                <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-white flex-shrink-0" />
-                Hôtels à Madagascar
-              </h1>
-              <p className="text-white/90 text-[11px] sm:text-xs mt-1">
-                Trouvez l&apos;hébergement parfait parmi notre sélection avec les vrais prix en Ariary
-              </p>
-            </div>
+            <h1 className="text-2xl sm:text-4xl font-bold text-white flex items-center gap-3">
+              <Building2 className="w-7 h-7 sm:w-9 sm:h-9 text-white flex-shrink-0" />
+              Hôtels à Madagascar
+            </h1>
+            <p className="text-white/85 text-sm sm:text-base mt-2 max-w-2xl">
+              Trouvez l&apos;hébergement parfait parmi notre sélection avec les vrais prix en Ariary
+            </p>
           </motion.div>
         </div>
       </section>

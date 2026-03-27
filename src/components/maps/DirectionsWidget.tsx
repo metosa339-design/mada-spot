@@ -142,26 +142,16 @@ export default function DirectionsWidget({
 
   const travelTime = estimateTime();
 
-  // Google Maps directions URL
+  // Google Maps directions URL — use name + city for better routing in Madagascar
   const getGoogleMapsUrl = () => {
-    const hasValidCoords = destinationLat !== 0 && destinationLng !== 0;
-
-    // Always use coordinates when available for reliable results
-    const destination = hasValidCoords
-      ? `${destinationLat},${destinationLng}`
-      : encodeURIComponent(`${destinationName}${city ? `, ${city}` : ''}, Madagascar`);
+    const destination = encodeURIComponent(`${destinationName}${city ? `, ${city}` : ''}, Madagascar`);
 
     if (userPosition) {
       const origin = `${userPosition[0]},${userPosition[1]}`;
-      // Always use driving mode for Madagascar (transit/walking often unsupported)
       return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=driving`;
     }
 
-    // No user position -> open place on Google Maps and let user navigate from there
-    if (hasValidCoords) {
-      return `https://www.google.com/maps/dir/?api=1&destination=${destinationLat},${destinationLng}&travelmode=driving`;
-    }
-    return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${destinationName}${city ? `, ${city}` : ''}, Madagascar`)}&travelmode=driving`;
+    return `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving`;
   };
 
   // Waze URL (driving only)

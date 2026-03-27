@@ -106,7 +106,7 @@ function LoginForm() {
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Email ou Téléphone */}
         <div>
-          <label htmlFor="login-identifier" className="block text-sm font-medium text-slate-300 mb-2">
+          <label htmlFor="login-identifier" className="block text-sm font-medium text-gray-700 mb-2">
             Email ou Téléphone
           </label>
           <div className="relative">
@@ -117,7 +117,7 @@ function LoginForm() {
               value={formData.identifier}
               onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
               placeholder="exemple@email.com ou +261 34 XX XXX XX"
-              className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
+              className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
               required
             />
           </div>
@@ -125,7 +125,7 @@ function LoginForm() {
 
         {/* Mot de passe */}
         <div>
-          <label htmlFor="login-password" className="block text-sm font-medium text-slate-300 mb-2">
+          <label htmlFor="login-password" className="block text-sm font-medium text-gray-700 mb-2">
             Mot de passe
           </label>
           <div className="relative">
@@ -136,7 +136,7 @@ function LoginForm() {
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               placeholder="Votre mot de passe"
-              className="w-full pl-12 pr-12 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
+              className="w-full pl-12 pr-12 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
               required
             />
             <button

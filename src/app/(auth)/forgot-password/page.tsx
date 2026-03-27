@@ -75,7 +75,7 @@ export default function ForgotPasswordPage() {
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" aria-hidden="true" />
                 <input id="forgot-email" type="email" value={email} onChange={e => setEmail(e.target.value)} required
                   placeholder="Votre adresse email"
-                  className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:border-[#ff6b35] focus:outline-none" />
+                  className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:border-[#ff6b35] focus:outline-none" />
               </div>
             </div>
 

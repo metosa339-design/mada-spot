@@ -261,7 +261,7 @@ function RegisterClientForm() {
                   value={digit}
                   onChange={(e) => handleOtpDigit(i, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(i, e)}
-                  className="w-12 h-14 text-center text-2xl font-bold bg-white/5 border border-white/20 rounded-xl text-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none transition-all"
+                  className="w-12 h-14 text-center text-2xl font-bold bg-white border border-gray-300 rounded-xl text-gray-900 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none transition-all"
                 />
               ))}
             </div>
@@ -399,7 +399,7 @@ function RegisterClientForm() {
         {/* Nom et Prénom */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="reg-firstName" className="block text-sm font-medium text-slate-300 mb-2">Prénom</label>
+            <label htmlFor="reg-firstName" className="block text-sm font-medium text-gray-700 mb-2">Prénom</label>
             <div className="relative">
               <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" aria-hidden="true" />
               <input
@@ -408,7 +408,7 @@ function RegisterClientForm() {
                 value={formData.firstName}
                 onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                 placeholder="Prénom"
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
+                className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
                 required
               />
             </div>
@@ -417,14 +417,14 @@ function RegisterClientForm() {
             )}
           </div>
           <div>
-            <label htmlFor="reg-lastName" className="block text-sm font-medium text-slate-300 mb-2">Nom</label>
+            <label htmlFor="reg-lastName" className="block text-sm font-medium text-gray-700 mb-2">Nom</label>
             <input
               id="reg-lastName"
               type="text"
               value={formData.lastName}
               onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
               placeholder="Nom"
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
+              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
               required
             />
             {fieldErrors.lastName && (
@@ -435,7 +435,7 @@ function RegisterClientForm() {
 
         {/* Email */}
         <div>
-          <label htmlFor="reg-email" className="block text-sm font-medium text-slate-300 mb-2">Email</label>
+          <label htmlFor="reg-email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
           <div className="relative">
             <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" aria-hidden="true" />
             <input
@@ -444,7 +444,7 @@ function RegisterClientForm() {
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder="votre@email.com"
-              className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
+              className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
             />
           </div>
           {fieldErrors.email && (
@@ -454,7 +454,7 @@ function RegisterClientForm() {
 
         {/* Téléphone */}
         <div>
-          <label htmlFor="reg-phone" className="block text-sm font-medium text-slate-300 mb-2">Téléphone</label>
+          <label htmlFor="reg-phone" className="block text-sm font-medium text-gray-700 mb-2">Téléphone</label>
           <PhoneInput
             id="reg-phone"
             value={formData.phone}
@@ -469,7 +469,7 @@ function RegisterClientForm() {
 
         {/* Mot de passe */}
         <div>
-          <label htmlFor="reg-password" className="block text-sm font-medium text-slate-300 mb-2">Mot de passe</label>
+          <label htmlFor="reg-password" className="block text-sm font-medium text-gray-700 mb-2">Mot de passe</label>
           <div className="relative">
             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" aria-hidden="true" />
             <input
@@ -478,7 +478,7 @@ function RegisterClientForm() {
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               placeholder="Minimum 8 caractères"
-              className="w-full pl-12 pr-12 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
+              className="w-full pl-12 pr-12 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
               required
             />
             <button
@@ -497,7 +497,7 @@ function RegisterClientForm() {
 
         {/* Confirmation mot de passe */}
         <div>
-          <label htmlFor="reg-confirmPassword" className="block text-sm font-medium text-slate-300 mb-2">Confirmer le mot de passe</label>
+          <label htmlFor="reg-confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">Confirmer le mot de passe</label>
           <div className="relative">
             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" aria-hidden="true" />
             <input
@@ -506,7 +506,7 @@ function RegisterClientForm() {
               value={formData.confirmPassword}
               onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
               placeholder="Confirmez votre mot de passe"
-              className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
+              className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
               required
             />
             {formData.confirmPassword && formData.password === formData.confirmPassword && (

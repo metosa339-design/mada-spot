@@ -671,24 +671,62 @@ function HomePage() {
           className="max-w-4xl mx-auto text-center"
         >
           <div className="bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] border border-[#2a2a36] rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+            {/* Halos lumineux */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-[#ff6b35]/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-0 w-48 h-48 bg-pink-500/5 rounded-full blur-3xl" />
+
             <div className="relative">
               <Sparkles className="w-10 h-10 text-[#ff6b35] mx-auto mb-4" />
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-                Prêt à découvrir Madagascar ?
+
+              {/* Titre percutant */}
+              <h2 className="text-2xl sm:text-4xl font-bold text-white mb-3">
+                Débloquez les secrets de Madagascar
               </h2>
-              <p className="text-gray-400 max-w-xl mx-auto mb-8">
-                Rejoignez des milliers de voyageurs et prestataires qui font confiance à Mada Spot.
-                Inscription gratuite, sans engagement.
+              <p className="text-gray-400 max-w-xl mx-auto mb-8 text-base sm:text-lg">
+                Des lieux cachés, des expériences uniques et des prestataires locaux de confiance vous attendent.
               </p>
+
+              {/* Social Proof — Avatar Group */}
+              <div className="flex items-center justify-center gap-3 mb-8">
+                <div className="flex -space-x-3">
+                  {['R', 'N', 'H', 'M', 'F'].map((letter, i) => (
+                    <div
+                      key={letter}
+                      className="w-9 h-9 rounded-full border-2 border-[#1a1a2e] flex items-center justify-center text-white text-xs font-bold"
+                      style={{
+                        background: ['linear-gradient(135deg, #ff6b35, #e55a2b)', 'linear-gradient(135deg, #3b82f6, #2563eb)', 'linear-gradient(135deg, #22c55e, #16a34a)', 'linear-gradient(135deg, #f59e0b, #d97706)', 'linear-gradient(135deg, #ec4899, #db2777)'][i],
+                        zIndex: 5 - i,
+                      }}
+                    >
+                      {letter}
+                    </div>
+                  ))}
+                  <div className="w-9 h-9 rounded-full border-2 border-[#1a1a2e] bg-[#2a2a36] flex items-center justify-center text-gray-400 text-[10px] font-bold" style={{ zIndex: 0 }}>
+                    +500
+                  </div>
+                </div>
+                <p className="text-sm text-gray-400">
+                  Déjà <span className="text-white font-semibold">+500 voyageurs et guides locaux</span> nous font confiance
+                </p>
+              </div>
+
+              {/* Boutons */}
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link
-                  href="/register"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#ff6b35] to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all text-lg"
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.97 }}
                 >
-                  S&apos;inscrire gratuitement
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
+                  <Link
+                    href="/register"
+                    className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2 px-10 py-4 bg-gradient-to-r from-[#ff6b35] to-pink-500 text-white font-semibold rounded-xl text-lg overflow-hidden transition-shadow hover:shadow-xl hover:shadow-orange-500/30"
+                  >
+                    <span className="absolute inset-0 bg-gradient-to-r from-pink-500 to-[#ff6b35] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <span className="relative flex items-center gap-2">
+                      S&apos;inscrire gratuitement
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </Link>
+                </motion.div>
                 <Link
                   href="/login"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white/80 font-medium rounded-xl hover:bg-white/5 transition-all"
@@ -696,7 +734,16 @@ function HomePage() {
                   J&apos;ai déjà un compte
                 </Link>
               </div>
-              <p className="text-gray-600 text-xs mt-6">
+
+              {/* Réassurance */}
+              <p className="text-gray-500 text-xs mt-6 flex items-center justify-center gap-2 flex-wrap">
+                <span>Pas de carte bancaire requise</span>
+                <span className="text-gray-700">•</span>
+                <span>Inscription en 30 secondes</span>
+                <span className="text-gray-700">•</span>
+                <span>100% gratuit</span>
+              </p>
+              <p className="text-gray-600 text-[10px] mt-2">
                 +175 établissements référencés — Hôtels, restaurants, attractions et prestataires à Madagascar
               </p>
             </div>

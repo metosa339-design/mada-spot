@@ -192,16 +192,16 @@ function RestaurantsPageContent() {
       {/* Hero with background image */}
       <section className="relative overflow-hidden" style={{ minHeight: '45vh' }}>
         <NextImage
-          src="/images/highlights/marche.jpg"
-          alt="Marché local malgache avec épices et produits frais, cuisine authentique de Madagascar"
+          src="/images/highlights/Gemini_Generated_Image_o3vn3xo3vn3xo3vn.png"
+          alt="Vue aérienne colorée et riche de Tananarive avec un case de texte plus petit dans le coin inférieur droit pour MadaSpot Restaurants"
           fill
           className="object-cover"
           sizes="100vw"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-        <div className="relative flex flex-col justify-end h-full min-h-[45vh] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 pt-24">
-          <div className="flex items-center gap-2 text-white/80 text-sm mb-4">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+        <div className="relative flex flex-col justify-end items-end h-full min-h-[45vh] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 pt-24">
+          <div className="flex items-center gap-2 text-white/80 text-sm mb-4 self-start">
             <Link href="/bons-plans" className="hover:text-white transition-colors">Bons Plans</Link>
             <span>/</span>
             <span className="text-white font-medium">Restaurants</span>
@@ -209,14 +209,14 @@ function RestaurantsPageContent() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-block w-fit"
+            className="inline-block w-fit ml-auto"
           >
-            <div className="bg-[#D97706]/60 backdrop-blur-md rounded-2xl px-5 py-4 sm:px-7 sm:py-5 max-w-xl border border-white/20">
-              <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2 flex items-center gap-3">
-                <UtensilsCrossed className="w-7 h-7 sm:w-9 sm:h-9 text-white flex-shrink-0" />
+            <div className="bg-[#D97706]/60 backdrop-blur-md rounded-2xl px-5 py-4 sm:px-6 sm:py-5 max-w-sm border border-white/20">
+              <h1 className="text-xl sm:text-3xl font-bold text-white mb-2 flex items-center gap-2">
+                <UtensilsCrossed className="w-6 h-6 sm:w-8 sm:h-8 text-white flex-shrink-0" />
                 Restaurants à Madagascar
               </h1>
-              <p className="text-white/90 text-sm sm:text-base">
+              <p className="text-white/90 text-xs sm:text-sm">
                 Découvrez les meilleurs restaurants avec photos de menus et prix réels
               </p>
             </div>

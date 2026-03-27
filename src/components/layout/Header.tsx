@@ -201,9 +201,7 @@ export default function Header() {
               className={`flex items-center gap-1.5 px-4 py-2 rounded-lg font-medium transition-all ${
                 pathname?.startsWith('/evenements')
                   ? 'text-orange-500'
-                  : isScrolled
-                    ? 'text-slate-700 hover:bg-slate-100'
-                    : 'text-white/90 hover:bg-white/10'
+                  : 'text-white/90 hover:bg-white/10'
               }`}
             >
               <Calendar className="w-4 h-4" />
@@ -212,11 +210,7 @@ export default function Header() {
 
             <Link
               href="/comment-ca-marche"
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                isScrolled
-                  ? 'text-slate-700 hover:bg-slate-100'
-                  : 'text-white/90 hover:bg-white/10'
-              }`}
+              className="px-4 py-2 rounded-lg font-medium transition-all text-white/90 hover:bg-white/10"
             >
               {t.howItWorks}
             </Link>

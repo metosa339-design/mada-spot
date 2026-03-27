@@ -154,6 +154,13 @@ export async function GET(request: NextRequest) {
       prisma.establishment.count({ where }),
     ]);
 
+    // Re-sort by completeness: prioritize establishments with images and complete profiles
+    establishments.sort((a: any, b: any) => {
+      const scoreA = (a.coverImage ? 10 : 0) + (a.description ? 3 : 0) + (a.rating > 0 ? 2 : 0) + (a.isFeatured ? 5 : 0);
+      const scoreB = (b.coverImage ? 10 : 0) + (b.description ? 3 : 0) + (b.rating > 0 ? 2 : 0) + (b.isFeatured ? 5 : 0);
+      return scoreB - scoreA;
+    });
+
     const response = NextResponse.json({
       success: true,
       establishments,

@@ -18,8 +18,8 @@ export async function GET(request: NextRequest) {
     const where: any = { moderationStatus: 'approved', isActive: true };
     if (type) where.type = type;
 
-    // Top rated + most reviewed = trending
-    const trending = await db.establishment.findMany({
+    // Fetch more than needed so we can re-sort by completeness
+    const raw = await db.establishment.findMany({
       where,
       select: {
         id: true,
@@ -32,6 +32,10 @@ export async function GET(request: NextRequest) {
         reviewCount: true,
         isFeatured: true,
         description: true,
+        phone: true,
+        email: true,
+        address: true,
+        images: true,
         restaurant: { select: { priceRange: true } },
       },
       orderBy: [
@@ -39,14 +43,35 @@ export async function GET(request: NextRequest) {
         { reviewCount: 'desc' },
         { rating: 'desc' },
       ],
-      take: limit,
+      take: limit * 3,
     });
+
+    // Score de completude : prioriser les fiches completes
+    const scored = raw.map((e: any) => {
+      let score = 0;
+      if (e.coverImage) score += 10;       // Image = top priority
+      if (e.images) score += 5;            // Gallery
+      if (e.description) score += 3;       // Description
+      if (e.phone) score += 2;             // Contact
+      if (e.email) score += 1;             // Email
+      if (e.address) score += 1;           // Address
+      if (e.isFeatured) score += 8;        // Featured
+      if (e.rating > 0) score += 4;        // Has rating
+      if (e.reviewCount > 0) score += 3;   // Has reviews
+      return { ...e, _completeness: score };
+    });
+
+    // Sort by completeness then rating
+    scored.sort((a: any, b: any) => b._completeness - a._completeness || b.rating - a.rating || b.reviewCount - a.reviewCount);
+
+    const trending = scored.slice(0, limit);
 
     // Enrichir avec l'URL de la page
     const enriched = trending.map((e: any) => ({
-      ...e,
+      id: e.id, name: e.name, slug: e.slug, type: e.type, city: e.city,
+      coverImage: e.coverImage, rating: e.rating, reviewCount: e.reviewCount,
+      isFeatured: e.isFeatured,
       priceRange: e.restaurant?.priceRange || null,
-      restaurant: undefined,
       url: `/bons-plans/${e.type === 'HOTEL' ? 'hotels' : e.type === 'RESTAURANT' ? 'restaurants' : e.type === 'PROVIDER' ? 'prestataires' : 'attractions'}/${e.slug}`,
       shortDescription: e.description ? e.description.substring(0, 100) + (e.description.length > 100 ? '...' : '') : null,
     }));

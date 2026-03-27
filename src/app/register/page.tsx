@@ -110,15 +110,26 @@ export default function RegisterChooserPage() {
                   aria-label="S'inscrire en tant que voyageur pour découvrir Madagascar"
                   className="group relative bg-[#1a1a24] rounded-2xl border-2 border-[#2a2a36] hover:border-cyan-500/50 text-left transition-all overflow-hidden"
                 >
-                  {/* Photo header */}
-                  <div className="relative h-40 w-full overflow-hidden">
-                    <Image
-                      src="/images/highlights/randonnee.jpg"
-                      alt="Voyageur explorant les paysages de Madagascar"
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      sizes="(max-width: 640px) 100vw, 50vw"
-                    />
+                  {/* Photo header - 2 images side by side */}
+                  <div className="relative h-40 w-full overflow-hidden grid grid-cols-2">
+                    <div className="relative overflow-hidden">
+                      <Image
+                        src="/images/highlights/Voyageur 1.png"
+                        alt="Voyageur découvrant Madagascar"
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        sizes="(max-width: 640px) 50vw, 25vw"
+                      />
+                    </div>
+                    <div className="relative overflow-hidden">
+                      <Image
+                        src="/images/highlights/Voyageur 2.png"
+                        alt="Aventure et exploration à Madagascar"
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        sizes="(max-width: 640px) 50vw, 25vw"
+                      />
+                    </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a24] via-transparent to-transparent" />
                   </div>
 
@@ -163,15 +174,26 @@ export default function RegisterChooserPage() {
                   aria-label="S'inscrire en tant que prestataire touristique à Madagascar"
                   className="group relative bg-[#1a1a24] rounded-2xl border-2 border-[#2a2a36] hover:border-[#ff6b35]/50 text-left transition-all overflow-hidden"
                 >
-                  {/* Photo header */}
-                  <div className="relative h-40 w-full overflow-hidden">
-                    <Image
-                      src="/images/highlights/place-joffre-422.jpg"
-                      alt="Prestataire touristique professionnel à Madagascar"
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      sizes="(max-width: 640px) 100vw, 50vw"
-                    />
+                  {/* Photo header - 2 images side by side */}
+                  <div className="relative h-40 w-full overflow-hidden grid grid-cols-2">
+                    <div className="relative overflow-hidden">
+                      <Image
+                        src="/images/highlights/Guide.png"
+                        alt="Guide touristique professionnel à Madagascar"
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        sizes="(max-width: 640px) 50vw, 25vw"
+                      />
+                    </div>
+                    <div className="relative overflow-hidden">
+                      <Image
+                        src="/images/highlights/Chauffeur.png"
+                        alt="Chauffeur prestataire de services à Madagascar"
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        sizes="(max-width: 640px) 50vw, 25vw"
+                      />
+                    </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a24] via-transparent to-transparent" />
                   </div>
 

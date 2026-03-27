@@ -50,7 +50,6 @@ const USER_TYPE_LABELS: Record<string, string> = {
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isBonsPlansOpen, setIsBonsPlansOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -91,15 +90,6 @@ export default function Header() {
     checkSession();
   }, []);
 
-  // Gérer le scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   // Déconnexion
   const handleLogout = async () => {
     try {
@@ -120,11 +110,7 @@ export default function Header() {
     <SkipToContent />
     <header
       role="banner"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-white/95 backdrop-blur-lg shadow-lg'
-          : 'bg-transparent'
-      }`}
+      className="relative z-50 bg-[#1a1a2e] border-b border-white/10"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
@@ -137,7 +123,7 @@ export default function Header() {
               height={40}
               className="w-9 h-9 md:w-10 md:h-10 object-contain"
             />
-            <span className={`text-xl md:text-2xl font-bold ${isScrolled ? 'text-slate-900' : 'text-white'}`}>
+            <span className={`text-xl md:text-2xl font-bold ${'text-white'}`}>
               Mada<span className="text-orange-500"> Spot</span>
             </span>
           </Link>
@@ -154,9 +140,7 @@ export default function Header() {
                 className={`flex items-center gap-1.5 px-4 py-2 rounded-lg font-medium transition-all ${
                   pathname?.startsWith('/bons-plans')
                     ? 'text-orange-500'
-                    : isScrolled
-                      ? 'text-slate-700 hover:bg-slate-100'
-                      : 'text-white/90 hover:bg-white/10'
+                    : 'text-white/90 hover:bg-white/10'
                 }`}
               >
                 {t.bonsPlans}
@@ -246,9 +230,7 @@ export default function Header() {
               onClick={() => router.push('/search')}
               aria-label={t.searchOnMadaSpot}
               className={`hidden md:flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
-                isScrolled
-                  ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                  : 'bg-white/10 text-white/90 hover:bg-white/20'
+                'bg-white/10 text-white/90 hover:bg-white/20'
               }`}
             >
               <Search className="w-4 h-4" aria-hidden="true" />
@@ -271,9 +253,7 @@ export default function Header() {
                         aria-haspopup="true"
                         aria-label={t.openUserMenu}
                         className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                          isScrolled
-                            ? 'text-slate-700 hover:bg-slate-100'
-                            : 'text-white hover:bg-white/10'
+                          'text-white hover:bg-white/10'
                         }`}
                       >
                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center text-white font-medium text-sm" aria-hidden="true">
@@ -367,9 +347,7 @@ export default function Header() {
                     <Link
                       href="/publier-avis"
                       className={`hidden md:flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all ${
-                        isScrolled
-                          ? 'text-emerald-600 border border-emerald-200 hover:bg-emerald-50'
-                          : 'text-emerald-400 border border-emerald-400/30 hover:bg-emerald-400/10'
+                        'text-emerald-400 border border-emerald-400/30 hover:bg-emerald-400/10'
                       }`}
                     >
                       {t.publish}
@@ -377,9 +355,7 @@ export default function Header() {
                     <Link
                       href="/login"
                       className={`hidden md:flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all ${
-                        isScrolled
-                          ? 'text-slate-700 border border-slate-200 hover:bg-slate-100'
-                          : 'text-white/90 border border-white/20 hover:bg-white/10'
+                        'text-white/90 border border-white/20 hover:bg-white/10'
                       }`}
                     >
                       {t.login}
@@ -387,9 +363,7 @@ export default function Header() {
                     <Link
                       href="/register"
                       className={`hidden md:flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all ${
-                        isScrolled
-                          ? 'text-white bg-gradient-to-r from-orange-500 to-pink-500 hover:shadow-lg hover:shadow-orange-500/25'
-                          : 'text-white bg-gradient-to-r from-orange-500 to-pink-500 hover:shadow-lg hover:shadow-orange-500/25'
+                        'text-white bg-gradient-to-r from-orange-500 to-pink-500 hover:shadow-lg hover:shadow-orange-500/25'
                       }`}
                     >
                       {t.register}
@@ -405,9 +379,7 @@ export default function Header() {
               aria-expanded={isMobileMenuOpen}
               aria-label={isMobileMenuOpen ? t.closeMenu : t.openMenu}
               className={`lg:hidden p-2.5 rounded-lg transition-all min-w-[44px] min-h-[44px] flex items-center justify-center ${
-                isScrolled
-                  ? 'text-slate-700 hover:bg-slate-100'
-                  : 'text-white hover:bg-white/10'
+                'text-white hover:bg-white/10'
               }`}
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}

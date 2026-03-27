@@ -1,0 +1,459 @@
+/*
+ * globals-light.css
+ * Light mode CSS overrides for Mada Spot
+ *
+ * Usage: Add class "light-mode" to <body> to activate.
+ * All rules use body.light-mode as a selector prefix for specificity.
+ * The orange accent (#ff6b35) is preserved as-is.
+ * Footer stays dark for visual contrast.
+ */
+
+/* ============================================
+   CSS VARIABLE OVERRIDES
+   ============================================ */
+body.light-mode {
+  --background: #F9FAFB;
+  --foreground: #111827;
+  --primary: #ff6b35;
+  --primary-light: #ff8f66;
+  --primary-dark: #e55a2b;
+  --secondary: #00d4aa;
+  --secondary-light: #33e0be;
+  --accent: #7c3aed;
+  --accent-light: #a78bfa;
+  --gradient-start: #ff6b35;
+  --gradient-middle: #ff3d7f;
+  --gradient-end: #7c3aed;
+  --card-bg: #ffffff;
+  --card-border: #E5E7EB;
+  --text-muted: #6B7280;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --live-pulse: #ef4444;
+  --input-bg: #ffffff;
+  --input-border: #D1D5DB;
+  --hover-bg: #f3f4f6;
+}
+
+/* ============================================
+   BODY & GLOBAL
+   ============================================ */
+body.light-mode {
+  background: #F9FAFB !important;
+  color: #111827 !important;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+body.light-mode header[role="banner"] {
+  background: #ffffff !important;
+  border-bottom-color: #E5E7EB !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Header logo text */
+body.light-mode header[role="banner"] .text-white {
+  color: #111827 !important;
+}
+
+/* Header nav links */
+body.light-mode header[role="banner"] .text-white\/90 {
+  color: #374151 !important;
+}
+
+body.light-mode header[role="banner"] .text-white\/90:hover {
+  background: #F3F4F6 !important;
+}
+
+body.light-mode header[role="banner"] .hover\:bg-white\/10:hover {
+  background: #F3F4F6 !important;
+}
+
+body.light-mode header[role="banner"] .hover\:bg-white\/20:hover {
+  background: #E5E7EB !important;
+}
+
+/* Header search button */
+body.light-mode header[role="banner"] .bg-white\/10 {
+  background: #F3F4F6 !important;
+  color: #374151 !important;
+}
+
+/* Header auth buttons */
+body.light-mode header[role="banner"] .border-white\/20 {
+  border-color: #D1D5DB !important;
+  color: #374151 !important;
+}
+
+/* Header user menu button */
+body.light-mode header[role="banner"] .text-white.hover\:bg-white\/10 {
+  color: #111827 !important;
+}
+
+body.light-mode header[role="banner"] .text-white.hover\:bg-white\/10:hover {
+  background: #F3F4F6 !important;
+}
+
+/* Emerald publish button in header */
+body.light-mode header[role="banner"] .text-emerald-400 {
+  color: #059669 !important;
+  border-color: rgba(5, 150, 105, 0.3) !important;
+}
+
+/* Mobile menu button */
+body.light-mode header[role="banner"] button.lg\:hidden {
+  color: #111827 !important;
+}
+
+body.light-mode header[role="banner"] button.lg\:hidden:hover {
+  background: #F3F4F6 !important;
+}
+
+/* ============================================
+   SUCCESS TICKER
+   ============================================ */
+body.light-mode .bg-gradient-to-r.from-slate-900 {
+  background: linear-gradient(to right, #F3F4F6, #E5E7EB, #F3F4F6) !important;
+  color: #111827 !important;
+}
+
+body.light-mode .bg-gradient-to-r.from-slate-900 .text-white,
+body.light-mode .bg-gradient-to-r.from-slate-900 .font-medium {
+  color: #374151 !important;
+}
+
+body.light-mode .bg-gradient-to-r.from-slate-900 .text-slate-400 {
+  color: #6B7280 !important;
+}
+
+body.light-mode .bg-gradient-to-r.from-slate-900 .text-slate-500 {
+  color: #9CA3AF !important;
+}
+
+/* ============================================
+   MAIN CONTENT / HOMEPAGE
+   ============================================ */
+
+/* Main page background */
+body.light-mode main#main-content {
+  background: #F9FAFB !important;
+  color: #111827 !important;
+}
+
+/* Loading screen */
+body.light-mode .min-h-screen.bg-\[\#0a0a0f\] {
+  background: #F9FAFB !important;
+}
+
+body.light-mode .min-h-screen.bg-\[\#0a0a0f\] .text-slate-300 {
+  color: #6B7280 !important;
+}
+
+/* Hero section background effects - soften them */
+body.light-mode section.relative.min-h-\[80vh\] .absolute.inset-0 {
+  opacity: 0.15 !important;
+}
+
+body.light-mode section.relative.min-h-\[80vh\] .bg-orange-500\/20 {
+  background: rgba(255, 107, 53, 0.08) !important;
+}
+
+body.light-mode section.relative.min-h-\[80vh\] .bg-pink-500\/20 {
+  background: rgba(236, 72, 153, 0.08) !important;
+}
+
+/* Hero text overrides */
+body.light-mode .text-white {
+  color: #111827;
+}
+
+body.light-mode .text-slate-300 {
+  color: #6B7280;
+}
+
+body.light-mode .text-slate-400 {
+  color: #9CA3AF;
+}
+
+body.light-mode .text-slate-500 {
+  color: #9CA3AF;
+}
+
+/* Keep gradient text as-is (orange/pink/purple still looks great on light) */
+
+/* ============================================
+   CARDS (Category cards, Stats, Trending)
+   ============================================ */
+
+/* Dark cards -> white */
+body.light-mode .bg-\[\#1a1a24\],
+body.light-mode .bg-\[\#1a1a2e\] {
+  background: #ffffff !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Card borders */
+body.light-mode .border-\[\#2a2a36\] {
+  border-color: #E5E7EB !important;
+}
+
+/* Card hover borders - keep the colorful ones */
+body.light-mode .hover\:border-orange-500\/50:hover {
+  border-color: rgba(255, 107, 53, 0.5) !important;
+}
+
+body.light-mode .hover\:border-pink-500\/50:hover {
+  border-color: rgba(236, 72, 153, 0.5) !important;
+}
+
+body.light-mode .hover\:border-purple-500\/50:hover {
+  border-color: rgba(124, 58, 237, 0.5) !important;
+}
+
+body.light-mode .hover\:border-cyan-500\/50:hover {
+  border-color: rgba(6, 182, 212, 0.5) !important;
+}
+
+body.light-mode .hover\:border-\[\#ff6b35\]\/50:hover {
+  border-color: rgba(255, 107, 53, 0.5) !important;
+}
+
+/* Trending card image placeholder */
+body.light-mode .bg-\[\#12121c\] {
+  background: #F3F4F6 !important;
+}
+
+/* ============================================
+   SEARCH BAR / INPUTS
+   ============================================ */
+body.light-mode .bg-\[\#1a1a24\].rounded-2xl {
+  background: #ffffff !important;
+  border-color: #D1D5DB !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode input.bg-transparent {
+  color: #111827 !important;
+}
+
+body.light-mode input.bg-transparent::placeholder {
+  color: #9CA3AF !important;
+}
+
+body.light-mode .bg-\[\#0d1520\] {
+  background: #F9FAFB !important;
+  color: #111827 !important;
+  border-color: #D1D5DB !important;
+}
+
+body.light-mode select.bg-\[\#0d1520\] option {
+  background: #ffffff;
+  color: #111827;
+}
+
+/* Dividers inside search bar */
+body.light-mode .w-px.bg-\[\#2a2a36\] {
+  background: #E5E7EB !important;
+}
+
+/* General input fields */
+body.light-mode input[type="email"],
+body.light-mode input[type="text"],
+body.light-mode input[type="search"],
+body.light-mode textarea,
+body.light-mode select {
+  background: #ffffff;
+  border-color: #D1D5DB;
+  color: #111827;
+}
+
+/* Newsletter input in footer - keep dark since footer stays dark */
+body.light-mode footer input[type="email"] {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+/* ============================================
+   BADGES & PILLS
+   ============================================ */
+
+/* Hero badge */
+body.light-mode .bg-orange-500\/20 {
+  background: rgba(255, 107, 53, 0.1) !important;
+}
+
+body.light-mode .border-orange-500\/30 {
+  border-color: rgba(255, 107, 53, 0.25) !important;
+}
+
+body.light-mode .bg-orange-500\/10 {
+  background: rgba(255, 107, 53, 0.08) !important;
+}
+
+body.light-mode .border-orange-500\/20 {
+  border-color: rgba(255, 107, 53, 0.2) !important;
+}
+
+/* ============================================
+   GLASS EFFECT OVERRIDES
+   ============================================ */
+body.light-mode .glass {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+body.light-mode .glass-dark {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ============================================
+   SPECIFIC TEXT COLORS FINE-TUNING
+   ============================================ */
+
+/* Ensure white text on gradient buttons is preserved */
+body.light-mode .bg-gradient-to-r.from-orange-500 .text-white,
+body.light-mode .bg-gradient-to-r.from-orange-500.to-pink-500,
+body.light-mode .btn-primary,
+body.light-mode [class*="bg-gradient-to-r"][class*="from-orange-500"][class*="to-pink-500"] {
+  color: #ffffff !important;
+}
+
+/* Keep white text inside colored icon containers */
+body.light-mode .bg-gradient-to-br .text-white,
+body.light-mode .bg-gradient-to-r .text-white,
+body.light-mode .gradient-bg .text-white {
+  color: #ffffff !important;
+}
+
+/* Text inside stat cards */
+body.light-mode .text-orange-400 {
+  color: #ea580c;
+}
+
+body.light-mode .text-pink-400 {
+  color: #db2777;
+}
+
+body.light-mode .text-purple-400 {
+  color: #7c3aed;
+}
+
+body.light-mode .text-cyan-400 {
+  color: #0891b2;
+}
+
+/* Gray text adjustments for readability on white */
+body.light-mode .text-gray-400 {
+  color: #6B7280;
+}
+
+body.light-mode .text-gray-500 {
+  color: #9CA3AF;
+}
+
+body.light-mode .text-gray-600 {
+  color: #4B5563;
+}
+
+/* ============================================
+   FOOTER - KEEP DARK
+   ============================================ */
+body.light-mode footer[role="contentinfo"] {
+  background: linear-gradient(to bottom right, #1F2937, #111827) !important;
+  color: #ffffff !important;
+}
+
+body.light-mode footer[role="contentinfo"] .text-white {
+  color: #ffffff !important;
+}
+
+body.light-mode footer[role="contentinfo"] .text-gray-400 {
+  color: #9CA3AF !important;
+}
+
+body.light-mode footer[role="contentinfo"] .text-gray-500 {
+  color: #6B7280 !important;
+}
+
+body.light-mode footer[role="contentinfo"] .border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.light-mode footer[role="contentinfo"] .bg-white\/10 {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.light-mode footer[role="contentinfo"] .bg-white\/5 {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* ============================================
+   SCROLLBAR FOR LIGHT MODE
+   ============================================ */
+body.light-mode ::-webkit-scrollbar-track {
+  background: #F3F4F6;
+}
+
+/* ============================================
+   SHIMMER / LOADING
+   ============================================ */
+body.light-mode .shimmer {
+  background: linear-gradient(90deg, #E5E7EB 25%, #D1D5DB 50%, #E5E7EB 75%);
+  background-size: 200% 100%;
+}
+
+/* ============================================
+   RESPONSIVE - ENSURE WHITE BG ON MAIN
+   ============================================ */
+body.light-mode .bg-\[\#0a0a0f\] {
+  background: #F9FAFB !important;
+}
+
+body.light-mode .bg-\[\#070710\] {
+  background: #F9FAFB !important;
+}
+
+body.light-mode .bg-\[\#0f0f17\] {
+  background: #F9FAFB !important;
+}
+
+/* ============================================
+   TRENDING SECTION
+   ============================================ */
+body.light-mode .text-white.font-semibold.truncate {
+  color: #111827 !important;
+}
+
+body.light-mode h2.text-white {
+  color: #111827 !important;
+}
+
+/* Stats card override */
+body.light-mode .stats-card {
+  background: #ffffff;
+  border-color: #E5E7EB;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
+}
+
+/* ============================================
+   TRANSITIONS - smooth theme switching
+   ============================================ */
+body.light-mode,
+body.light-mode *,
+body.light-mode *::before,
+body.light-mode *::after {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+/* Exclude elements that already have their own transitions (animations, transforms) */
+body.light-mode [class*="transition-transform"],
+body.light-mode [class*="transition-all"],
+body.light-mode [class*="animate-"] {
+  transition-property: background-color, border-color, color, box-shadow, transform, opacity;
+}

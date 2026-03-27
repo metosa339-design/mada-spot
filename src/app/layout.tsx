@@ -12,6 +12,7 @@ import QueryProvider from "@/providers/QueryProvider";
 import ThemeProvider from "@/providers/ThemeProvider";
 import HtmlLangUpdater from "@/components/HtmlLangUpdater";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import ThemeLightPreview from "@/app/theme-light-preview";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -112,6 +113,7 @@ export default function RootLayout({
                 <ToastProvider>
                   {children}
                   <CookieConsent />
+                  <ThemeLightPreview />
                 </ToastProvider>
               </CurrencyProvider>
             </LanguageProvider>

@@ -661,6 +661,49 @@ function HomePage() {
 
       <TrendingSection />
 
+      {/* CTA Final — Inscription */}
+      <section className="py-16 px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="max-w-4xl mx-auto text-center"
+        >
+          <div className="bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] border border-[#2a2a36] rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-[#ff6b35]/10 rounded-full blur-3xl" />
+            <div className="relative">
+              <Sparkles className="w-10 h-10 text-[#ff6b35] mx-auto mb-4" />
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
+                Prêt à découvrir Madagascar ?
+              </h2>
+              <p className="text-gray-400 max-w-xl mx-auto mb-8">
+                Rejoignez des milliers de voyageurs et prestataires qui font confiance à Mada Spot.
+                Inscription gratuite, sans engagement.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link
+                  href="/register"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#ff6b35] to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all text-lg"
+                >
+                  S&apos;inscrire gratuitement
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+                <Link
+                  href="/login"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white/80 font-medium rounded-xl hover:bg-white/5 transition-all"
+                >
+                  J&apos;ai déjà un compte
+                </Link>
+              </div>
+              <p className="text-gray-600 text-xs mt-6">
+                +175 établissements référencés — Hôtels, restaurants, attractions et prestataires à Madagascar
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
       <Footer />
     </main>
   );

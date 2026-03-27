@@ -48,8 +48,7 @@ export async function POST(request: NextRequest) {
         }
         console.error(`[EMAIL] ❌ Resend ERREUR (${res.status}):`, resText);
         logger.error(`[EMAIL] Resend error (${res.status}):`, resText);
-        // Don't fall through silently — return the error
-        return NextResponse.json({ success: false, sent: false, error: `Resend error: ${res.status}`, details: resText }, { status: 502 });
+        // Fall through to SMTP fallback
       } catch (err) {
         console.error('[EMAIL] ❌ Resend fetch error:', err);
         logger.error('[EMAIL] Resend fetch error:', err);

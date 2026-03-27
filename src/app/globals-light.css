@@ -555,6 +555,18 @@ body.light-mode textarea.text-white {
   color: #111827 !important;
 }
 
+/* Force ALL inputs/selects/textareas to have dark text */
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea {
+  color: #111827 !important;
+}
+
+body.light-mode input::placeholder,
+body.light-mode textarea::placeholder {
+  color: #9CA3AF !important;
+}
+
 /* Placeholder text in inputs */
 body.light-mode .placeholder\:text-slate-500::placeholder {
   color: #9CA3AF !important;

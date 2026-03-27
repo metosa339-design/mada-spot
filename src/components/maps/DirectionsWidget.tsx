@@ -144,28 +144,24 @@ export default function DirectionsWidget({
 
   // Google Maps directions URL
   const getGoogleMapsUrl = () => {
-    const modeMap = {
-      driving: 'driving',
-      transit: 'transit',
-      walking: 'walking',
-    };
-
     const hasValidCoords = destinationLat !== 0 && destinationLng !== 0;
+
+    // Always use coordinates when available for reliable results
     const destination = hasValidCoords
       ? `${destinationLat},${destinationLng}`
       : encodeURIComponent(`${destinationName}${city ? `, ${city}` : ''}, Madagascar`);
 
     if (userPosition) {
-      // User shared position -> show directions
       const origin = `${userPosition[0]},${userPosition[1]}`;
-      return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=${modeMap[transportMode]}`;
+      // Always use driving mode for Madagascar (transit/walking often unsupported)
+      return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=driving`;
     }
 
-    // No user position -> show the place on Google Maps
+    // No user position -> open place on Google Maps and let user navigate from there
     if (hasValidCoords) {
-      return `https://www.google.com/maps/search/?api=1&query=${destinationLat},${destinationLng}`;
+      return `https://www.google.com/maps/dir/?api=1&destination=${destinationLat},${destinationLng}&travelmode=driving`;
     }
-    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${destinationName}${city ? `, ${city}` : ''}, Madagascar`)}`;
+    return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${destinationName}${city ? `, ${city}` : ''}, Madagascar`)}&travelmode=driving`;
   };
 
   // Waze URL (driving only)

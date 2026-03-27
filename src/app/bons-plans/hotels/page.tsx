@@ -221,7 +221,7 @@ function HotelsPage() {
       </section>
 
       {/* Search & Filters */}
-      <section className="sticky top-16 md:top-20 z-40 bg-[#0a0a0f]/95 backdrop-blur-xl border-b border-[#2a2a36]">
+      <section className="relative z-10 bg-[#0a0a0f]/95 border-b border-[#2a2a36]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row gap-4">
             {/* Search */}

@@ -195,30 +195,28 @@ function HotelsPage() {
           sizes="100vw"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 60% 80% at 25% 70%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0) 70%)' }} />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
         <div className="relative flex flex-col justify-end h-full min-h-[45vh] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 pt-24">
-          <div className="flex items-center gap-2 text-white/70 text-sm mb-4">
-            <Link href="/bons-plans" className="hover:text-orange-400 transition-colors">Bons Plans</Link>
+          <div className="flex items-center gap-2 text-white/80 text-sm mb-4">
+            <Link href="/bons-plans" className="hover:text-white transition-colors">Bons Plans</Link>
             <span>/</span>
-            <span className="text-orange-400">Hôtels</span>
+            <span className="text-white font-medium">Hôtels</span>
           </div>
-          <motion.h1
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-3xl sm:text-5xl font-bold text-white mb-4 drop-shadow-lg"
+            className="inline-block w-fit"
           >
-            <Building2 className="inline-block w-8 h-8 sm:w-10 sm:h-10 mr-3 text-orange-400" />
-            Hôtels à Madagascar
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-white/80 max-w-2xl text-base sm:text-lg drop-shadow"
-          >
-            Trouvez l&apos;hébergement parfait parmi notre sélection d&apos;hôtels avec les vrais prix en Ariary
-          </motion.p>
+            <div className="bg-[#D97706] rounded-md px-6 py-5 sm:px-8 sm:py-6 max-w-2xl">
+              <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2 flex items-center gap-3">
+                <Building2 className="w-7 h-7 sm:w-9 sm:h-9 text-white flex-shrink-0" />
+                Hôtels à Madagascar
+              </h1>
+              <p className="text-white/90 text-sm sm:text-base">
+                Trouvez l&apos;hébergement parfait parmi notre sélection d&apos;hôtels avec les vrais prix en Ariary
+              </p>
+            </div>
+          </motion.div>
         </div>
       </section>
 

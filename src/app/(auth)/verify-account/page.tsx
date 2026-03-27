@@ -3,8 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ShieldCheck, RefreshCw, Mail, ArrowRight, AlertTriangle } from 'lucide-react';
-import Link from 'next/link';
+import { ShieldCheck, RefreshCw, Mail, ArrowRight } from 'lucide-react';
 
 export default function VerifyAccountPage() {
   const router = useRouter();
@@ -14,20 +13,7 @@ export default function VerifyAccountPage() {
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(60);
-  const [sessionExpired, setSessionExpired] = useState(false);
-  const [sessionChecked, setSessionChecked] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-
-  // Check session on mount
-  useEffect(() => {
-    fetch('/api/auth/session')
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.user) setSessionExpired(true);
-      })
-      .catch(() => setSessionExpired(true))
-      .finally(() => setSessionChecked(true));
-  }, []);
 
   // Cooldown timer
   useEffect(() => {
@@ -152,38 +138,6 @@ export default function VerifyAccountPage() {
       setResendLoading(false);
     }
   };
-
-  // Session expired guard
-  if (sessionChecked && sessionExpired) {
-    return (
-      <div className="text-center">
-        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-500/20 flex items-center justify-center">
-          <AlertTriangle className="w-8 h-8 text-red-400" />
-        </div>
-        <h2 className="text-xl font-bold text-white mb-2">Votre session a expiré</h2>
-        <p className="text-gray-400 text-sm mb-6">
-          Veuillez vous reconnecter pour vérifier votre compte.
-        </p>
-        <Link
-          href="/login"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white
-            bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 transition-all"
-        >
-          Retour à la connexion
-          <ArrowRight className="w-4 h-4" />
-        </Link>
-      </div>
-    );
-  }
-
-  // Wait for session check
-  if (!sessionChecked) {
-    return (
-      <div className="flex justify-center py-12">
-        <div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
 
   if (success) {
     return (

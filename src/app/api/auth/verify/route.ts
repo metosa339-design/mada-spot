@@ -1,14 +1,13 @@
-// POST /api/auth/verify — Vérification du code OTP pour activer le compte
+// POST /api/auth/verify — Verify OTP and create real account
 import { NextRequest, NextResponse } from 'next/server';
-import { verifySession, SESSION_COOKIE_NAME } from '@/lib/auth';
-import { verifyOTP } from '@/lib/otp';
+import { prisma } from '@/lib/db';
+import { createSession, getSessionCookieConfig } from '@/lib/auth';
 import { checkRateLimit, getClientIdentifier, getRateLimitHeaders } from '@/lib/rate-limit';
 import { verifyCsrfToken } from '@/lib/csrf';
 import { logger } from '@/lib/logger';
 
 export async function POST(request: NextRequest) {
   try {
-    // Rate limiting
     const clientId = getClientIdentifier(request);
     const rl = checkRateLimit(clientId, 'auth');
     if (!rl.success) {
@@ -23,7 +22,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'Corps de requête JSON invalide' }, { status: 400 });
     }
 
-    // CSRF verification
     if (!body.csrfToken || !verifyCsrfToken(body.csrfToken)) {
       return NextResponse.json({ success: false, error: 'Token CSRF invalide ou manquant' }, { status: 403 });
     }
@@ -36,33 +34,100 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get user from session
-    const token = request.cookies.get(SESSION_COOKIE_NAME)?.value;
-    if (!token) {
-      return NextResponse.json({ success: false, error: 'Non autorisé' }, { status: 401 });
+    // Get pending token from cookie
+    const pendingToken = request.cookies.get('mada-spot-pending')?.value;
+
+    // Also try session cookie for backward compatibility
+    const sessionToken = request.cookies.get('mada-spot-session')?.value;
+
+    if (pendingToken) {
+      // NEW FLOW: Pending registration
+      const pending = await prisma.pendingRegistration.findUnique({ where: { token: pendingToken } });
+
+      if (!pending) {
+        return NextResponse.json({ success: false, error: 'Inscription expirée. Veuillez recommencer.' }, { status: 401 });
+      }
+
+      if (pending.expiresAt < new Date()) {
+        await prisma.pendingRegistration.delete({ where: { id: pending.id } });
+        return NextResponse.json({ success: false, error: 'Inscription expirée. Veuillez recommencer.' }, { status: 401 });
+      }
+
+      if (pending.otpExpiresAt < new Date()) {
+        return NextResponse.json({ success: false, error: 'Code expiré. Cliquez sur "Renvoyer le code".' }, { status: 400 });
+      }
+
+      if (pending.otpCode !== code) {
+        return NextResponse.json({ success: false, error: 'Code incorrect.' }, { status: 400 });
+      }
+
+      // OTP is correct! Create the real user now
+      const user = await prisma.$transaction(async (tx) => {
+        const newUser = await tx.user.create({
+          data: {
+            email: pending.email,
+            phone: pending.phone,
+            password: pending.password,
+            firstName: pending.firstName,
+            lastName: pending.lastName,
+            role: pending.role,
+            userType: pending.userType,
+            emailVerified: true,
+            isVerified: true,
+          },
+        });
+
+        if (pending.role === 'CLIENT') {
+          await tx.clientProfile.create({ data: { userId: newUser.id } });
+        }
+
+        // Delete pending registration
+        await tx.pendingRegistration.delete({ where: { id: pending.id } });
+
+        return newUser;
+      });
+
+      // Create real session
+      const deviceInfo = request.headers.get('user-agent') || undefined;
+      const ipAddress = request.headers.get('x-forwarded-for') || undefined;
+      const newSessionToken = await createSession(user.id, deviceInfo, ipAddress);
+
+      logger.info(`[VERIFY] ✓ Account created and verified for ${user.email}`);
+
+      const response = NextResponse.json({
+        success: true,
+        message: 'Compte créé et vérifié avec succès ! Bienvenue sur MadaSpot.',
+      });
+
+      // Set real session cookie and clear pending cookie
+      const cookieConfig = getSessionCookieConfig(newSessionToken);
+      response.cookies.set(cookieConfig);
+      response.cookies.set({
+        name: 'mada-spot-pending',
+        value: '',
+        maxAge: 0,
+        path: '/',
+      });
+
+      return response;
     }
 
-    const session = await verifySession(token);
-    if (!session) {
-      return NextResponse.json({ success: false, error: 'Session invalide ou expirée' }, { status: 401 });
+    // BACKWARD COMPATIBILITY: Old flow with session cookie
+    if (sessionToken) {
+      const { verifySession } = await import('@/lib/auth');
+      const { verifyOTP } = await import('@/lib/otp');
+      const session = await verifySession(sessionToken);
+      if (!session) {
+        return NextResponse.json({ success: false, error: 'Session invalide ou expirée' }, { status: 401 });
+      }
+      const result = await verifyOTP(session.id, code);
+      if (!result.success) {
+        return NextResponse.json({ success: false, error: result.error || 'Code invalide ou expiré.' }, { status: 400 });
+      }
+      return NextResponse.json({ success: true, message: 'Compte vérifié avec succès !' });
     }
 
-    // Verify OTP
-    const result = await verifyOTP(session.id, code);
-
-    if (!result.success) {
-      return NextResponse.json(
-        { success: false, error: result.error || 'Code invalide ou expiré.' },
-        { status: 400 }
-      );
-    }
-
-    logger.info(`[AUTH_VERIFICATION_READY] ✓ Compte vérifié pour user ${session.id}`);
-
-    return NextResponse.json({
-      success: true,
-      message: 'Compte vérifié avec succès ! Bienvenue sur MadaSpot.',
-    });
+    return NextResponse.json({ success: false, error: 'Veuillez recommencer l\'inscription.' }, { status: 401 });
   } catch (error) {
     logger.error('Erreur vérification OTP:', error);
     return NextResponse.json(

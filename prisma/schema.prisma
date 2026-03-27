@@ -1673,6 +1673,32 @@ model OTPCode {
   @@index([expiresAt])
 }
 
+model PendingRegistration {
+  id        String   @id @default(cuid())
+  email     String?
+  phone     String?
+  password  String   // bcrypt hashed
+  firstName String
+  lastName  String
+  role      UserRole @default(CLIENT)
+  userType  UserType?
+
+  // OTP verification
+  otpCode   String
+  otpExpiresAt DateTime
+
+  // Token for session-like identification
+  token     String   @unique
+
+  // Cleanup
+  expiresAt DateTime // 24h after creation
+  createdAt DateTime @default(now())
+
+  @@unique([email])
+  @@index([token])
+  @@index([expiresAt])
+}
+
 // ============================================
 // ANTI-CONTOURNEMENT (Scan des messages)
 // ============================================

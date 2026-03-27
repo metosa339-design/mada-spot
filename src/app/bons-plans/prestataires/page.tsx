@@ -175,8 +175,13 @@ function PrestatairesPageContent() {
               Guides, chauffeurs, agences de voyage et plus pour votre séjour à Madagascar
             </p>
           </motion.div>
-          <div className="hidden md:block relative w-1/4 h-40 rounded-2xl overflow-hidden shadow-lg flex-shrink-0">
-            <Image src="/images/highlights/Chauffeur.png" alt="Chauffeur guide local à Madagascar" fill className="object-cover" sizes="25vw" />
+          <div className="hidden md:flex gap-3 w-1/3 flex-shrink-0">
+            <div className="relative w-1/2 h-40 rounded-2xl overflow-hidden shadow-lg">
+              <Image src="/images/highlights/Chauffeur.png" alt="Chauffeur guide local à Madagascar" fill className="object-cover" sizes="15vw" />
+            </div>
+            <div className="relative w-1/2 h-40 rounded-2xl overflow-hidden shadow-lg">
+              <Image src="/images/highlights/Guide.png" alt="Guide touristique malgache avec voyageurs" fill className="object-cover" sizes="15vw" />
+            </div>
           </div>
         </div>
       </section>

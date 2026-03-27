@@ -197,8 +197,13 @@ function HotelsPage() {
               Trouvez l&apos;hébergement parfait parmi notre sélection avec les vrais prix en Ariary
             </p>
           </motion.div>
-          <div className="hidden md:block relative w-1/4 h-40 rounded-2xl overflow-hidden shadow-lg flex-shrink-0">
-            <Image src="/images/highlights/plage-ramena-et-les-pirogues-444.jpg" alt="Pirogues sur la plage de Ramena, Madagascar" fill className="object-cover" sizes="25vw" />
+          <div className="hidden md:flex gap-3 w-1/3 flex-shrink-0">
+            <div className="relative w-1/2 h-40 rounded-2xl overflow-hidden shadow-lg">
+              <Image src="/images/highlights/plage-ramena-et-les-pirogues-444.jpg" alt="Pirogues sur la plage de Ramena, Madagascar" fill className="object-cover" sizes="15vw" />
+            </div>
+            <div className="relative w-1/2 h-40 rounded-2xl overflow-hidden shadow-lg">
+              <Image src="/images/highlights/nosy-be-photo-365.jpg" alt="Vue paradisiaque de Nosy Be, Madagascar" fill className="object-cover" sizes="15vw" />
+            </div>
           </div>
         </div>
       </section>

@@ -324,8 +324,13 @@ function AttractionsPageContent() {
               Parcs nationaux, plages paradisiaques, sites historiques et merveilles naturelles
             </p>
           </motion.div>
-          <div className="hidden md:block relative w-1/4 h-40 rounded-2xl overflow-hidden shadow-lg flex-shrink-0">
-            <Image src="/images/highlights/baobab-couche-de-soleil.jpg" alt="Allée des baobabs au coucher du soleil à Madagascar" fill className="object-cover" sizes="25vw" />
+          <div className="hidden md:flex gap-3 w-1/3 flex-shrink-0">
+            <div className="relative w-1/2 h-40 rounded-2xl overflow-hidden shadow-lg">
+              <Image src="/images/highlights/baobab-couche-de-soleil.jpg" alt="Allée des baobabs au coucher du soleil à Madagascar" fill className="object-cover" sizes="15vw" />
+            </div>
+            <div className="relative w-1/2 h-40 rounded-2xl overflow-hidden shadow-lg">
+              <Image src="/images/highlights/tsingy.jpg" alt="Tsingy de Bemaraha, merveille naturelle de Madagascar" fill className="object-cover" sizes="15vw" />
+            </div>
           </div>
         </div>
       </section>

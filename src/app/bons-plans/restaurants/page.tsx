@@ -201,8 +201,13 @@ function RestaurantsPageContent() {
               Découvrez les meilleurs restaurants avec photos de menus et prix réels
             </p>
           </motion.div>
-          <div className="hidden md:block relative w-1/4 h-40 rounded-2xl overflow-hidden shadow-lg flex-shrink-0">
-            <NextImage src="/images/highlights/marche.jpg" alt="Marché local malgache avec épices et produits frais" fill className="object-cover" sizes="25vw" />
+          <div className="hidden md:flex gap-3 w-1/3 flex-shrink-0">
+            <div className="relative w-1/2 h-40 rounded-2xl overflow-hidden shadow-lg">
+              <NextImage src="/images/highlights/marche.jpg" alt="Marché local malgache avec épices et produits frais" fill className="object-cover" sizes="15vw" />
+            </div>
+            <div className="relative w-1/2 h-40 rounded-2xl overflow-hidden shadow-lg">
+              <NextImage src="/images/highlights/artisanat.jpg" alt="Artisanat culinaire malgache traditionnel" fill className="object-cover" sizes="15vw" />
+            </div>
           </div>
         </div>
       </section>

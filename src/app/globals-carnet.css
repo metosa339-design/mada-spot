@@ -1,0 +1,363 @@
+/*
+ * globals-carnet.css
+ * "Carnet de Voyage Premium & Authentique" theme
+ * Activated by body.carnet-mode class
+ */
+
+/* ============================================
+   CSS VARIABLES
+   ============================================ */
+body.carnet-mode {
+  --background: #FDFBF7;
+  --foreground: #2D241E;
+  --card-bg: #ffffff;
+  --card-border: #E8E0D4;
+  --input-bg: #ffffff;
+  --input-border: #D4CBBC;
+  --muted: #8B7E6E;
+  --accent: #D97706;
+  --accent-hover: #B45309;
+}
+
+/* ============================================
+   BODY & GLOBAL
+   ============================================ */
+body.carnet-mode {
+  background: #FDFBF7 !important;
+  color: #2D241E !important;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+body.carnet-mode header[role="banner"] {
+  background: #ffffff !important;
+  border-bottom-color: #E8E0D4 !important;
+  box-shadow: 0 1px 4px rgba(45, 36, 30, 0.04);
+}
+
+body.carnet-mode header[role="banner"] .text-white,
+body.carnet-mode header[role="banner"] .text-white\/90 {
+  color: #2D241E !important;
+}
+
+body.carnet-mode header[role="banner"] .hover\:bg-white\/10:hover {
+  background: #F5F0E8 !important;
+}
+
+body.carnet-mode header[role="banner"] .bg-white\/10 {
+  background: #F5F0E8 !important;
+  color: #2D241E !important;
+}
+
+body.carnet-mode header[role="banner"] .border-white\/20 {
+  border-color: #D4CBBC !important;
+  color: #2D241E !important;
+}
+
+body.carnet-mode header[role="banner"] .text-emerald-400 {
+  color: #059669 !important;
+  border-color: rgba(5, 150, 105, 0.3) !important;
+}
+
+body.carnet-mode header[role="banner"] button.lg\:hidden {
+  color: #2D241E !important;
+}
+
+/* ============================================
+   TICKER
+   ============================================ */
+body.carnet-mode .bg-gradient-to-r.from-slate-900 {
+  background: linear-gradient(to right, #F5F0E8, #EDE7DB, #F5F0E8) !important;
+  color: #2D241E !important;
+}
+
+body.carnet-mode .bg-gradient-to-r.from-slate-900 .text-white,
+body.carnet-mode .bg-gradient-to-r.from-slate-900 .font-medium {
+  color: #5C4F3C !important;
+}
+
+body.carnet-mode .bg-gradient-to-r.from-slate-900 .text-slate-400,
+body.carnet-mode .bg-gradient-to-r.from-slate-900 .text-slate-500 {
+  color: #8B7E6E !important;
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+body.carnet-mode .bg-\[\#1a1a24\],
+body.carnet-mode .bg-\[\#1a1a2e\],
+body.carnet-mode .bg-white {
+  background: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(45, 36, 30, 0.06);
+}
+
+body.carnet-mode .border-\[\#2a2a36\],
+body.carnet-mode .border-gray-200 {
+  border-color: #E8E0D4 !important;
+}
+
+body.carnet-mode .hover\:border-\[\#ff6b35\]\/50:hover,
+body.carnet-mode .hover\:border-orange-500\/50:hover {
+  border-color: #D97706 !important;
+}
+
+body.carnet-mode .bg-\[\#12121c\],
+body.carnet-mode .bg-\[\#0c0c16\],
+body.carnet-mode .bg-gray-50 {
+  background: #F5F0E8 !important;
+}
+
+/* ============================================
+   TEXT COLORS
+   ============================================ */
+body.carnet-mode .text-white:not([class*="bg-gradient"]):not([class*="bg-orange"]):not([class*="bg-\[#ff6b35\]"]):not([class*="bg-\[#D97706\]"]):not([class*="bg-pink"]):not([class*="bg-red"]):not([class*="bg-green"]):not([class*="bg-blue"]) {
+  color: #2D241E;
+}
+
+body.carnet-mode .text-gray-900 {
+  color: #2D241E !important;
+}
+
+body.carnet-mode .text-gray-800,
+body.carnet-mode .text-slate-900 {
+  color: #3D3228 !important;
+}
+
+body.carnet-mode .text-gray-700,
+body.carnet-mode .text-slate-700 {
+  color: #5C4F3C !important;
+}
+
+body.carnet-mode .text-gray-600 {
+  color: #6B5D4D !important;
+}
+
+body.carnet-mode .text-gray-500,
+body.carnet-mode .text-slate-500 {
+  color: #8B7E6E !important;
+}
+
+body.carnet-mode .text-gray-400,
+body.carnet-mode .text-slate-400 {
+  color: #A49785 !important;
+}
+
+body.carnet-mode .text-gray-300,
+body.carnet-mode .text-slate-300 {
+  color: #5C4F3C !important;
+}
+
+body.carnet-mode .text-gray-200,
+body.carnet-mode .text-slate-200 {
+  color: #3D3228 !important;
+}
+
+body.carnet-mode .text-white\/60 { color: #A49785; }
+body.carnet-mode .text-white\/80 { color: #5C4F3C; }
+body.carnet-mode .text-white\/90 { color: #3D3228; }
+
+/* Keep white text on colored backgrounds */
+body.carnet-mode [class*="bg-gradient-to"] .text-white,
+body.carnet-mode [class*="bg-\[#ff6b35\]"] .text-white,
+body.carnet-mode [class*="bg-\[#D97706\]"] .text-white,
+body.carnet-mode [class*="bg-orange"] .text-white,
+body.carnet-mode .btn-primary,
+body.carnet-mode .bg-red-500 .text-white {
+  color: #ffffff !important;
+}
+
+/* ============================================
+   ACCENT COLORS — Orange Ocre
+   ============================================ */
+body.carnet-mode .text-orange-500,
+body.carnet-mode .text-\[\#ff6b35\] {
+  color: #D97706 !important;
+}
+
+body.carnet-mode .text-orange-400 {
+  color: #B45309 !important;
+}
+
+body.carnet-mode .bg-orange-500\/10,
+body.carnet-mode .bg-orange-500\/20 {
+  background: rgba(217, 119, 6, 0.1) !important;
+}
+
+/* ============================================
+   INPUTS & FORMS
+   ============================================ */
+body.carnet-mode input,
+body.carnet-mode select,
+body.carnet-mode textarea {
+  color: #2D241E !important;
+  background: #ffffff !important;
+  border-color: #D4CBBC !important;
+}
+
+body.carnet-mode input::placeholder,
+body.carnet-mode textarea::placeholder {
+  color: #A49785 !important;
+}
+
+body.carnet-mode input:focus,
+body.carnet-mode select:focus,
+body.carnet-mode textarea:focus {
+  border-color: #D97706 !important;
+}
+
+body.carnet-mode .bg-white\/5:not(footer *) {
+  background: #F5F0E8 !important;
+}
+
+body.carnet-mode .bg-white\/10:not(footer *) {
+  background: #EDE7DB !important;
+}
+
+body.carnet-mode .border-white\/10,
+body.carnet-mode .border-white\/20 {
+  border-color: #D4CBBC !important;
+}
+
+/* ============================================
+   PAGES — Background overrides
+   ============================================ */
+body.carnet-mode .bg-\[\#0a0a0f\],
+body.carnet-mode .bg-\[\#070710\],
+body.carnet-mode .bg-\[\#0f0f17\],
+body.carnet-mode .bg-\[\#080810\],
+body.carnet-mode .bg-\[\#F9FAFB\],
+body.carnet-mode .min-h-screen[class*="bg-"] {
+  background: #FDFBF7 !important;
+}
+
+/* ============================================
+   ADMIN — Sidebar & Top Bar
+   ============================================ */
+body.carnet-mode aside {
+  background: #FDFBF7 !important;
+  border-color: #E8E0D4 !important;
+}
+
+body.carnet-mode aside .text-gray-500 {
+  color: #8B7E6E !important;
+}
+
+body.carnet-mode aside .hover\:bg-gray-100:hover {
+  background: #F5F0E8 !important;
+}
+
+/* ============================================
+   GLASSMORPHISM — Headers with photos
+   ============================================ */
+body.carnet-mode .bg-\[\#D97706\] {
+  background: rgba(217, 119, 6, 0.6) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+body.carnet-mode .bg-\[\#D97706\] h1,
+body.carnet-mode .bg-\[\#D97706\] p {
+  color: #ffffff !important;
+}
+
+/* ============================================
+   HERO GRADIENT BANDS — keep orange ocre
+   ============================================ */
+body.carnet-mode .bg-gradient-to-r.from-\[\#D97706\] {
+  background: linear-gradient(to right, #D97706, #B45309) !important;
+}
+
+body.carnet-mode .bg-gradient-to-r.from-\[\#D97706\] .text-gray-900,
+body.carnet-mode .bg-gradient-to-r.from-\[\#D97706\] h1,
+body.carnet-mode .bg-gradient-to-r.from-\[\#D97706\] p {
+  color: #ffffff !important;
+}
+
+/* ============================================
+   BUTTONS — rounded-xl, orange ocre
+   ============================================ */
+body.carnet-mode .rounded-lg {
+  border-radius: 0.75rem;
+}
+
+body.carnet-mode .rounded-xl {
+  border-radius: 1rem;
+}
+
+/* ============================================
+   FOOTER — Keep warm dark
+   ============================================ */
+body.carnet-mode footer[role="contentinfo"] {
+  background: linear-gradient(to bottom right, #2D241E, #1A1510) !important;
+  color: #ffffff !important;
+}
+
+body.carnet-mode footer[role="contentinfo"] .text-white { color: #ffffff !important; }
+body.carnet-mode footer[role="contentinfo"] .text-gray-400 { color: #A49785 !important; }
+body.carnet-mode footer[role="contentinfo"] .text-gray-500 { color: #8B7E6E !important; }
+body.carnet-mode footer[role="contentinfo"] .border-white\/10 { border-color: rgba(255,255,255,0.1) !important; }
+body.carnet-mode footer[role="contentinfo"] .bg-white\/10 { background: rgba(255,255,255,0.1) !important; }
+body.carnet-mode footer[role="contentinfo"] .bg-white\/5 { background: rgba(255,255,255,0.05) !important; }
+body.carnet-mode footer[role="contentinfo"] input { background: rgba(255,255,255,0.1) !important; border-color: rgba(255,255,255,0.2) !important; color: #ffffff !important; }
+
+/* ============================================
+   CTA Section — warm dark
+   ============================================ */
+body.carnet-mode .bg-\[\#FDFBF7\] {
+  background: #FDFBF7 !important;
+}
+
+body.carnet-mode .border-\[\#E5E1D8\] {
+  border-color: #E8E0D4 !important;
+}
+
+body.carnet-mode .text-\[\#1a1a2e\] {
+  color: #2D241E !important;
+}
+
+body.carnet-mode .text-\[\#6B7280\] {
+  color: #8B7E6E !important;
+}
+
+body.carnet-mode .text-\[\#374151\] {
+  color: #5C4F3C !important;
+}
+
+body.carnet-mode .text-\[\#9CA3AF\] {
+  color: #A49785 !important;
+}
+
+body.carnet-mode .text-\[\#D1D5DB\] {
+  color: #D4CBBC !important;
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+body.carnet-mode ::-webkit-scrollbar-track {
+  background: #F5F0E8;
+}
+
+body.carnet-mode ::-webkit-scrollbar-thumb {
+  background: #D4CBBC;
+  border-radius: 999px;
+}
+
+/* ============================================
+   SMOOTH TRANSITION
+   ============================================ */
+body.carnet-mode,
+body.carnet-mode *,
+body.carnet-mode *::before,
+body.carnet-mode *::after {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+body.carnet-mode [class*="transition-transform"],
+body.carnet-mode [class*="transition-all"],
+body.carnet-mode [class*="animate-"] {
+  transition-property: background-color, border-color, color, box-shadow, transform, opacity;
+}

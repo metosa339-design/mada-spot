@@ -164,25 +164,19 @@ function PrestatairesPageContent() {
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
       {/* Hero */}
-      <section className="relative bg-gradient-to-r from-[#D97706] to-[#B45309] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex-1 py-10 sm:py-14">
-            <h1 className="text-2xl sm:text-4xl font-bold text-white flex items-center gap-3">
+      <section className="relative overflow-hidden" style={{ height: '40vh', minHeight: '280px' }}>
+        <Image src="/images/highlights/Guide.png" alt="Guide touristique malgache accompagnant des voyageurs à Madagascar" fill className="object-cover" sizes="100vw" priority />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 max-w-7xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+            <h1 className="text-2xl sm:text-4xl font-bold text-white drop-shadow-lg flex items-center gap-3">
               <Users className="w-7 h-7 sm:w-9 sm:h-9 text-white flex-shrink-0" />
               Prestataires touristiques
             </h1>
-            <p className="text-white/85 text-sm sm:text-base mt-2 max-w-xl">
+            <p className="text-white/90 text-sm sm:text-base mt-2 max-w-xl drop-shadow">
               Guides, chauffeurs, agences de voyage et plus pour votre séjour à Madagascar
             </p>
           </motion.div>
-          <div className="hidden md:flex gap-3 w-1/3 flex-shrink-0">
-            <div className="relative w-1/2 h-40 rounded-2xl overflow-hidden shadow-lg">
-              <Image src="/images/highlights/Chauffeur.png" alt="Chauffeur guide local à Madagascar" fill className="object-cover" sizes="15vw" />
-            </div>
-            <div className="relative w-1/2 h-40 rounded-2xl overflow-hidden shadow-lg">
-              <Image src="/images/highlights/Guide.png" alt="Guide touristique malgache avec voyageurs" fill className="object-cover" sizes="15vw" />
-            </div>
-          </div>
         </div>
       </section>
 

@@ -329,7 +329,7 @@ function AttractionsPageContent() {
               <Image src="/images/Attractions/A la compagne.png" alt="Rizières en terrasses et village malgache dans les hauts plateaux de Madagascar" fill className="object-cover" sizes="15vw" />
             </div>
             <div className="relative w-1/2 h-40 rounded-2xl overflow-hidden shadow-lg">
-              <Image src="/images/Attractions/Famille heureuse.png" alt="Famille malgache heureuse découvrant les paysages de Madagascar" fill className="object-cover" sizes="15vw" />
+              <Image src="/images/highlights/lemur.jpg" alt="Lémurien maki de Madagascar, faune endémique unique au monde" fill className="object-cover" sizes="15vw" />
             </div>
           </div>
         </div>

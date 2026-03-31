@@ -329,7 +329,7 @@ export default function CalendrierPage() {
 
   if (!establishment) {
     return (
-      <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-8 text-center">
+      <div className="bg-white border border-white/10 rounded-2xl p-8 text-center">
         <Calendar className="w-12 h-12 text-gray-600 mx-auto mb-3" />
         <p className="text-gray-400">Aucun établissement trouvé</p>
       </div>
@@ -341,31 +341,31 @@ export default function CalendrierPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2">
             <Calendar className="w-6 sm:w-7 h-6 sm:h-7" style={{ color: ACCENT }} />
             Calendrier
           </h1>
           <p className="text-gray-400 text-sm mt-1">{establishment.name}</p>
         </div>
         <div className="flex items-center gap-2 self-start sm:self-auto">
-          <button onClick={prevMonth} className="p-2 hover:bg-white/5 rounded-lg transition-colors text-gray-400 hover:text-white">
+          <button onClick={prevMonth} className="p-2 hover:bg-gray-50 rounded-lg transition-colors text-gray-400 hover:text-gray-900">
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <span className="text-base sm:text-lg font-semibold text-white min-w-[140px] sm:min-w-[160px] text-center capitalize">
+          <span className="text-base sm:text-lg font-semibold text-gray-900 min-w-[140px] sm:min-w-[160px] text-center capitalize">
             {MONTHS_FR[month]} {year}
           </span>
-          <button onClick={nextMonth} className="p-2 hover:bg-white/5 rounded-lg transition-colors text-gray-400 hover:text-white">
+          <button onClick={nextMonth} className="p-2 hover:bg-gray-50 rounded-lg transition-colors text-gray-400 hover:text-gray-900">
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>
       </div>
 
       {/* Timeline Grid */}
-      <div className="bg-[#1a1a24] border border-white/10 rounded-2xl overflow-hidden">
+      <div className="bg-white border border-white/10 rounded-2xl overflow-hidden">
         <div className="overflow-x-auto" ref={scrollRef}>
           <div style={{ minWidth: `${daysInMonth * 48 + 180}px` }}>
             {/* Day headers */}
-            <div className="flex border-b border-white/10 sticky top-0 bg-[#1a1a24] z-10">
+            <div className="flex border-b border-white/10 sticky top-0 bg-white z-10">
               <div className="w-[180px] flex-shrink-0 p-3 border-r border-white/10">
                 <span className="text-xs text-gray-500 font-medium">Chambres</span>
               </div>
@@ -407,7 +407,7 @@ export default function CalendrierPage() {
                   <div className="w-[180px] flex-shrink-0 p-3 border-r border-white/10 flex items-center gap-2">
                     <BedDouble className="w-4 h-4 text-cyan-400 flex-shrink-0" />
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-white truncate">{row.label}</p>
+                      <p className="text-sm font-medium text-gray-900 truncate">{row.label}</p>
                       {row.capacity && (
                         <p className="text-[10px] text-gray-500">
                           {row.capacity} pers. {row.price ? `· ${row.price.toLocaleString('fr-FR')} Ar` : ''}
@@ -469,7 +469,7 @@ export default function CalendrierPage() {
                             title={`${cellBooking.guestName} — ${STATUS_LABELS[cellBooking.status] || cellBooking.status}`}
                           >
                             {(cellPosition === 'start' || cellPosition === 'single') && (
-                              <span className="text-[10px] font-medium text-white px-1.5 truncate whitespace-nowrap">
+                              <span className="text-[10px] font-medium text-gray-900 px-1.5 truncate whitespace-nowrap">
                                 {cellBooking.guestName.split(' ')[0]}
                               </span>
                             )}
@@ -480,7 +480,7 @@ export default function CalendrierPage() {
                         {!cellBooking && !isBlocked && !isPast && (
                           <button
                             onClick={(e) => handleEmptyCellClick(e, dateStr, row.id)}
-                            className="absolute inset-0 hover:bg-white/5 transition-colors group"
+                            className="absolute inset-0 hover:bg-gray-50 transition-colors group"
                             title="Ajouter une réservation ou bloquer"
                           >
                             <Plus className="w-3 h-3 text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity mx-auto" />
@@ -506,9 +506,9 @@ export default function CalendrierPage() {
       </div>
 
       {/* Reservation Table */}
-      <div className="bg-[#1a1a24] border border-white/10 rounded-2xl overflow-hidden">
+      <div className="bg-white border border-white/10 rounded-2xl overflow-hidden">
         <div className="flex items-center justify-between p-4 border-b border-white/10">
-          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
             <Calendar className="w-5 h-5" style={{ color: ACCENT }} />
             Réservations du mois
           </h2>
@@ -534,7 +534,7 @@ export default function CalendrierPage() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.12 }}
-            className="fixed z-50 bg-[#1a1a24] border border-white/10 rounded-xl shadow-2xl shadow-black/40 py-1 min-w-[200px]"
+            className="fixed z-50 bg-white border border-white/10 rounded-xl shadow-2xl shadow-black/40 py-1 min-w-[200px]"
             style={{ left: contextMenu.x, top: contextMenu.y }}
             onClick={e => e.stopPropagation()}
           >
@@ -543,14 +543,14 @@ export default function CalendrierPage() {
             </p>
             <button
               onClick={() => openQuickAdd(contextMenu.dateStr, contextMenu.roomTypeId)}
-              className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-white hover:bg-white/5 transition-colors"
+              className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-gray-900 hover:bg-gray-50 transition-colors"
             >
               <Plus className="w-4 h-4 text-cyan-400" />
               Ajouter une réservation
             </button>
             <button
               onClick={() => toggleBlock(contextMenu.dateStr)}
-              className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-white hover:bg-white/5 transition-colors"
+              className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-gray-900 hover:bg-gray-50 transition-colors"
             >
               <Ban className="w-4 h-4 text-red-400" />
               Bloquer cette date
@@ -573,15 +573,15 @@ export default function CalendrierPage() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-[#1a1a24] border border-white/10 rounded-2xl p-6 w-full max-w-md"
+              className="bg-white border border-white/10 rounded-2xl p-6 w-full max-w-md"
               onClick={e => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-5">
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
                   <Plus className="w-5 h-5" style={{ color: ACCENT }} />
                   Nouvelle réservation
                 </h3>
-                <button onClick={() => setQuickAdd(null)} className="p-1 text-gray-400 hover:text-white transition-colors">
+                <button onClick={() => setQuickAdd(null)} className="p-1 text-gray-400 hover:text-gray-900 transition-colors">
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -598,7 +598,7 @@ export default function CalendrierPage() {
                     value={qaName}
                     onChange={e => setQaName(e.target.value)}
                     placeholder="Jean Dupont"
-                    className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-cyan-500/50"
+                    className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-gray-900 placeholder:text-gray-600 focus:outline-none focus:border-cyan-500/50"
                     autoFocus
                   />
                 </div>
@@ -610,7 +610,7 @@ export default function CalendrierPage() {
                     value={qaPhone}
                     onChange={e => setQaPhone(e.target.value)}
                     placeholder="+261 34 00 000 00"
-                    className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-cyan-500/50"
+                    className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-gray-900 placeholder:text-gray-600 focus:outline-none focus:border-cyan-500/50"
                   />
                 </div>
 
@@ -621,7 +621,7 @@ export default function CalendrierPage() {
                       type="date"
                       value={quickAdd.dateStr}
                       readOnly
-                      className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-white focus:outline-none opacity-70"
+                      className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-gray-900 focus:outline-none opacity-70"
                     />
                   </div>
                   <div>
@@ -631,7 +631,7 @@ export default function CalendrierPage() {
                       value={qaCheckOut}
                       onChange={e => setQaCheckOut(e.target.value)}
                       min={quickAdd.dateStr}
-                      className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500/50"
+                      className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-cyan-500/50"
                     />
                   </div>
                 </div>
@@ -642,7 +642,7 @@ export default function CalendrierPage() {
                     <select
                       value={qaGuests}
                       onChange={e => setQaGuests(Number(e.target.value))}
-                      className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-white focus:outline-none"
+                      className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-gray-900 focus:outline-none"
                     >
                       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
                         <option key={n} value={n}>{n}</option>
@@ -655,7 +655,7 @@ export default function CalendrierPage() {
                       <select
                         value={qaRoomTypeId || ''}
                         onChange={e => setQaRoomTypeId(e.target.value || null)}
-                        className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-white focus:outline-none"
+                        className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm text-gray-900 focus:outline-none"
                       >
                         <option value="">— Aucune —</option>
                         {roomTypes.map(r => (
@@ -669,7 +669,7 @@ export default function CalendrierPage() {
                 <button
                   onClick={submitQuickAdd}
                   disabled={qaLoading}
-                  className="w-full py-3 text-white font-medium rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full py-3 text-gray-900 font-medium rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50"
                   style={{ backgroundColor: ACCENT }}
                 >
                   {qaLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
@@ -695,15 +695,15 @@ export default function CalendrierPage() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-[#1a1a24] border border-white/10 rounded-2xl p-6 w-full max-w-md"
+              className="bg-white border border-white/10 rounded-2xl p-6 w-full max-w-md"
               onClick={e => e.stopPropagation()}
             >
               {/* Modal Header */}
               <div className="flex items-start justify-between mb-5">
                 <div>
-                  <h3 className="text-lg font-bold text-white">{selectedBooking.guestName}</h3>
+                  <h3 className="text-lg font-bold text-gray-900">{selectedBooking.guestName}</h3>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium text-white ${STATUS_COLORS[selectedBooking.status] || 'bg-gray-500'}`}>
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium text-gray-900 ${STATUS_COLORS[selectedBooking.status] || 'bg-gray-500'}`}>
                       {STATUS_LABELS[selectedBooking.status] || selectedBooking.status}
                     </span>
                     <span className="text-xs text-gray-500 flex items-center gap-1">
@@ -712,7 +712,7 @@ export default function CalendrierPage() {
                     </span>
                   </div>
                 </div>
-                <button onClick={() => setSelectedBooking(null)} className="p-1 text-gray-400 hover:text-white transition-colors">
+                <button onClick={() => setSelectedBooking(null)} className="p-1 text-gray-400 hover:text-gray-900 transition-colors">
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -722,7 +722,7 @@ export default function CalendrierPage() {
                 <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
                   <Calendar className="w-4 h-4 text-cyan-400" />
                   <div>
-                    <p className="text-sm text-white">
+                    <p className="text-sm text-gray-900">
                       {new Date(selectedBooking.checkIn).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
                       {selectedBooking.checkOut && (
                         <> → {new Date(selectedBooking.checkOut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}</>
@@ -738,7 +738,7 @@ export default function CalendrierPage() {
 
                 <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
                   <Users className="w-4 h-4 text-cyan-400" />
-                  <span className="text-sm text-white">{selectedBooking.guestCount} personne{selectedBooking.guestCount > 1 ? 's' : ''}</span>
+                  <span className="text-sm text-gray-900">{selectedBooking.guestCount} personne{selectedBooking.guestCount > 1 ? 's' : ''}</span>
                 </div>
 
                 {selectedBooking.totalPrice != null && (
@@ -752,7 +752,7 @@ export default function CalendrierPage() {
                 {selectedBooking.guestPhone && (
                   <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
                     <Phone className="w-4 h-4 text-cyan-400" />
-                    <span className="text-sm text-white">{selectedBooking.guestPhone}</span>
+                    <span className="text-sm text-gray-900">{selectedBooking.guestPhone}</span>
                   </div>
                 )}
               </div>
@@ -794,7 +794,7 @@ export default function CalendrierPage() {
                 )}
                 <a
                   href="/dashboard/messagerie"
-                  className="flex-1 flex items-center justify-center gap-2 py-3 text-white font-medium rounded-xl hover:opacity-90 transition-opacity text-sm"
+                  className="flex-1 flex items-center justify-center gap-2 py-3 text-gray-900 font-medium rounded-xl hover:opacity-90 transition-opacity text-sm"
                   style={{ backgroundColor: ACCENT }}
                 >
                   <MessageCircle className="w-4 h-4" />

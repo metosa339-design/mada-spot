@@ -230,7 +230,7 @@ export default function EstablishmentPage() {
     return (
       <div className="space-y-6">
         <div className="h-8 w-64 bg-white/5 rounded animate-pulse" />
-        <div className="h-[400px] bg-[#1a1a24] rounded-2xl animate-pulse" />
+        <div className="h-[400px] bg-white rounded-2xl animate-pulse" />
       </div>
     )
   }
@@ -240,7 +240,7 @@ export default function EstablishmentPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
             {data.id ? 'Modifier mon établissement' : 'Publier un établissement'}
           </h1>
           <p className="text-gray-400 text-sm mt-1">
@@ -250,7 +250,7 @@ export default function EstablishmentPage() {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-white rounded-xl font-medium text-sm transition-colors disabled:opacity-50 shrink-0 self-start sm:self-auto"
+          className="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-gray-900 rounded-xl font-medium text-sm transition-colors disabled:opacity-50 shrink-0 self-start sm:self-auto"
         >
           {saving ? (
             <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -264,7 +264,7 @@ export default function EstablishmentPage() {
       </div>
 
       {/* Tab Navigation */}
-      <div className="flex gap-1 bg-[#1a1a24] border border-white/10 rounded-xl p-1 overflow-x-auto">
+      <div className="flex gap-1 bg-white border border-white/10 rounded-xl p-1 overflow-x-auto">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -272,7 +272,7 @@ export default function EstablishmentPage() {
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
               activeTab === tab.id
                 ? 'bg-[#ff6b35] text-white'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
+                : 'text-gray-400 hover:text-gray-900 hover:bg-gray-50'
             }`}
           >
             <tab.icon className="w-4 h-4" />
@@ -288,7 +288,7 @@ export default function EstablishmentPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="bg-[#1a1a24] border border-white/10 rounded-2xl p-6"
+          className="bg-white border border-white/10 rounded-2xl p-6"
         >
           {/* GENERAL TAB */}
           {activeTab === 'general' && (
@@ -331,7 +331,7 @@ export default function EstablishmentPage() {
                   value={data.name}
                   onChange={(e) => setData(prev => ({ ...prev, name: e.target.value }))}
                   placeholder="Ex: Hôtel Les Flamboyants"
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
                 />
               </div>
 
@@ -345,7 +345,7 @@ export default function EstablishmentPage() {
                   onChange={(e) => setData(prev => ({ ...prev, description: e.target.value }))}
                   rows={4}
                   placeholder="Décrivez votre établissement..."
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50 resize-none"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50 resize-none"
                 />
               </div>
 
@@ -360,7 +360,7 @@ export default function EstablishmentPage() {
                   onChange={(e) => setData(prev => ({ ...prev, shortDescription: e.target.value }))}
                   placeholder="En une phrase..."
                   maxLength={200}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
                 />
               </div>
 
@@ -373,7 +373,7 @@ export default function EstablishmentPage() {
                     value={data.city}
                     onChange={(e) => setData(prev => ({ ...prev, city: e.target.value }))}
                     placeholder="Antananarivo"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
                   />
                 </div>
                 <div>
@@ -383,7 +383,7 @@ export default function EstablishmentPage() {
                     value={data.region}
                     onChange={(e) => setData(prev => ({ ...prev, region: e.target.value }))}
                     placeholder="Analamanga"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
                   />
                 </div>
               </div>
@@ -395,7 +395,7 @@ export default function EstablishmentPage() {
                   value={data.address}
                   onChange={(e) => setData(prev => ({ ...prev, address: e.target.value }))}
                   placeholder="Lot 123, Rue..."
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
                 />
               </div>
 
@@ -412,7 +412,7 @@ export default function EstablishmentPage() {
                     value={data.latitude || ''}
                     onChange={(e) => setData(prev => ({ ...prev, latitude: parseFloat(e.target.value) || null }))}
                     placeholder="Latitude (ex: -18.9137)"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
                   />
                   <input
                     type="number"
@@ -420,7 +420,7 @@ export default function EstablishmentPage() {
                     value={data.longitude || ''}
                     onChange={(e) => setData(prev => ({ ...prev, longitude: parseFloat(e.target.value) || null }))}
                     placeholder="Longitude (ex: 47.5361)"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
                   />
                 </div>
                 <button
@@ -467,7 +467,7 @@ export default function EstablishmentPage() {
                         type="time"
                         value={data.checkInTime}
                         onChange={(e) => setData(prev => ({ ...prev, checkInTime: e.target.value }))}
-                        className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                        className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
                       />
                     </div>
                     <div>
@@ -476,7 +476,7 @@ export default function EstablishmentPage() {
                         type="time"
                         value={data.checkOutTime}
                         onChange={(e) => setData(prev => ({ ...prev, checkOutTime: e.target.value }))}
-                        className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                        className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
                       />
                     </div>
                   </div>
@@ -497,7 +497,7 @@ export default function EstablishmentPage() {
                       <img src={getImageUrl(data.coverImage)} alt="Cover" className="w-full h-full object-cover" />
                       <button
                         onClick={() => setData(prev => ({ ...prev, coverImage: '' }))}
-                        className="absolute top-2 right-2 p-1 bg-red-500 rounded-lg text-white"
+                        className="absolute top-2 right-2 p-1 bg-red-500 rounded-lg text-gray-900"
                       >
                         <X className="w-4 h-4" />
                       </button>
@@ -529,7 +529,7 @@ export default function EstablishmentPage() {
                       <img src={img} alt={`Photo ${index + 1}`} className="w-full h-full object-cover" />
                       <button
                         onClick={() => setData(prev => ({ ...prev, images: prev.images.filter((_, i) => i !== index) }))}
-                        className="absolute top-1 right-1 p-1 bg-red-500 rounded-lg text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="absolute top-1 right-1 p-1 bg-red-500 rounded-lg text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity"
                       >
                         <X className="w-3 h-3" />
                       </button>
@@ -623,14 +623,14 @@ export default function EstablishmentPage() {
                             type="time"
                             value={hours.open}
                             onChange={(e) => updateHours(day.key, 'open', e.target.value)}
-                            className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                            className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
                           />
                           <span className="text-gray-500">à</span>
                           <input
                             type="time"
                             value={hours.close}
                             onChange={(e) => updateHours(day.key, 'close', e.target.value)}
-                            className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                            className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
                           />
                         </div>
                       ) : (
@@ -647,11 +647,11 @@ export default function EstablishmentPage() {
                   <h3 className="text-sm font-medium text-[#ff6b35] mb-3">Services Restaurant</h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-3 bg-white/5 rounded-lg border border-white/10">
-                      <p className="text-sm font-medium text-white mb-1">Service Midi</p>
+                      <p className="text-sm font-medium text-gray-900 mb-1">Service Midi</p>
                       <p className="text-xs text-gray-400">11h30 - 14h30</p>
                     </div>
                     <div className="p-3 bg-white/5 rounded-lg border border-white/10">
-                      <p className="text-sm font-medium text-white mb-1">Service Soir</p>
+                      <p className="text-sm font-medium text-gray-900 mb-1">Service Soir</p>
                       <p className="text-xs text-gray-400">18h30 - 22h00</p>
                     </div>
                   </div>
@@ -678,7 +678,7 @@ export default function EstablishmentPage() {
                       const date = prompt('Date de fermeture (JJ/MM/AAAA) :')
                       if (date) setData(prev => ({ ...prev, holidays: [...prev.holidays, date] }))
                     }}
-                    className="px-3 py-1 border border-dashed border-white/20 rounded-lg text-sm text-gray-400 hover:text-white hover:border-white/40 transition-colors"
+                    className="px-3 py-1 border border-dashed border-white/20 rounded-lg text-sm text-gray-400 hover:text-gray-900 hover:border-white/40 transition-colors"
                   >
                     + Ajouter une date
                   </button>
@@ -710,7 +710,7 @@ export default function EstablishmentPage() {
                       value={data[item.field]}
                       onChange={(e) => setData(prev => ({ ...prev, [item.field]: e.target.value }))}
                       placeholder={item.placeholder}
-                      className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
+                      className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-gray-900 text-sm placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
                     />
                   </div>
                 </div>
@@ -757,7 +757,7 @@ export default function EstablishmentPage() {
                       <img src={img} alt={`Menu ${index + 1}`} className="w-full h-full object-cover" />
                       <button
                         onClick={() => setData(prev => ({ ...prev, menuImages: prev.menuImages.filter((_, i) => i !== index) }))}
-                        className="absolute top-1 right-1 p-1 bg-red-500 rounded-lg text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="absolute top-1 right-1 p-1 bg-red-500 rounded-lg text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity"
                       >
                         <X className="w-3 h-3" />
                       </button>

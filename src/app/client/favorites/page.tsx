@@ -104,26 +104,26 @@ export default function ClientFavoritesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
+      <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-[#ff6b35]" />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white">
+    <div className="min-h-screen bg-[#F9FAFB] text-gray-900">
       {/* Header */}
-      <div className="border-b border-[#2a2a36] pt-20">
+      <div className="border-b border-gray-200 pt-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-16">
             <button
               onClick={() => router.back()}
-              className="p-2 hover:bg-[#1a1a24] rounded-lg transition-colors mr-4"
+              className="p-2 hover:bg-white rounded-lg transition-colors mr-4"
             >
               <ArrowLeft className="w-5 h-5 text-gray-400" />
             </button>
             <div>
-              <h1 className="text-lg font-semibold text-white">Mes favoris</h1>
+              <h1 className="text-lg font-semibold text-gray-900">Mes favoris</h1>
               <p className="text-sm text-gray-500">
                 {favorites.length} établissement{favorites.length > 1 ? 's' : ''} sauvegardé{favorites.length > 1 ? 's' : ''}
               </p>
@@ -134,11 +134,11 @@ export default function ClientFavoritesPage() {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {favorites.length === 0 ? (
-          <div className="bg-[#1a1a24] rounded-2xl border border-[#2a2a36] p-12 text-center">
+          <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center">
             <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <Heart className="w-8 h-8 text-red-400" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
               Aucun favori
             </h3>
             <p className="text-gray-400 mb-6">
@@ -163,7 +163,7 @@ export default function ClientFavoritesPage() {
               return (
                 <div
                   key={fav.id}
-                  className="bg-[#1a1a24] rounded-xl border border-[#2a2a36] overflow-hidden hover:border-[#ff6b35]/30 transition-all"
+                  className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-[#ff6b35]/30 transition-all"
                 >
                   <div className="flex items-stretch">
                     {/* Image */}
@@ -177,12 +177,12 @@ export default function ClientFavoritesPage() {
                           className="object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full bg-[#0c0c16] flex items-center justify-center">
+                        <div className="w-full h-full bg-gray-50 flex items-center justify-center">
                           <TypeIcon className="w-8 h-8 text-gray-600" />
                         </div>
                       )}
                       {est.isFeatured && (
-                        <span className="absolute top-2 left-2 px-2 py-0.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-medium rounded-full">
+                        <span className="absolute top-2 left-2 px-2 py-0.5 bg-gradient-to-r from-amber-500 to-orange-500 text-gray-900 text-[10px] font-medium rounded-full">
                           Recommandé
                         </span>
                       )}
@@ -197,7 +197,7 @@ export default function ClientFavoritesPage() {
                           </span>
                         </div>
                         <Link href={href}>
-                          <h3 className="font-semibold text-white hover:text-[#ff6b35] transition-colors truncate">
+                          <h3 className="font-semibold text-gray-900 hover:text-[#ff6b35] transition-colors truncate">
                             {est.name}
                           </h3>
                         </Link>
@@ -214,7 +214,7 @@ export default function ClientFavoritesPage() {
                       <div className="flex items-center justify-between mt-3">
                         <div className="flex items-center gap-1">
                           <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                          <span className="text-sm font-medium text-white">
+                          <span className="text-sm font-medium text-gray-900">
                             {est.rating?.toFixed(1) || '—'}
                           </span>
                           <span className="text-xs text-gray-500">

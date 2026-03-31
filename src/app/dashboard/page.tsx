@@ -58,9 +58,9 @@ function ProfileCompletion({ user, stats, accent }: { user: DashboardUser; stats
   const percent = Math.round((doneCount / checks.length) * 100)
 
   return (
-    <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-5">
+    <div className="bg-white border border-white/10 rounded-2xl p-5">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+        <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
           <ShieldCheck className="w-4 h-4" style={{ color: accent }} />
           Complétion du profil
         </h3>
@@ -91,7 +91,7 @@ function StatCard({ label, value, icon: Icon, trend, color, href, sparkData }: {
   const content = (
     <motion.div
       whileHover={{ scale: 1.02, y: -2 }}
-      className="bg-[#1a1a24] border border-white/10 rounded-2xl p-5 cursor-pointer transition-shadow hover:shadow-lg relative overflow-hidden"
+      className="bg-white border border-white/10 rounded-2xl p-5 cursor-pointer transition-shadow hover:shadow-lg relative overflow-hidden"
       style={{ '--hover-shadow': `${color}10` } as React.CSSProperties}
     >
       <div className="flex items-start justify-between mb-3">
@@ -107,7 +107,7 @@ function StatCard({ label, value, icon: Icon, trend, color, href, sparkData }: {
           </div>
         )}
       </div>
-      <p className="text-2xl font-bold text-white">{value}</p>
+      <p className="text-2xl font-bold text-gray-900">{value}</p>
       <p className="text-sm text-gray-400 mt-1">{label}</p>
       {sparkData && sparkData.length > 1 && (
         <div className="absolute bottom-2 right-3 opacity-40">
@@ -138,7 +138,7 @@ function OccupancyGauge({ rate, color }: { rate: number; color: string }) {
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-xl font-bold text-white">{Math.round(rate)}%</span>
+        <span className="text-xl font-bold text-gray-900">{Math.round(rate)}%</span>
       </div>
     </div>
   )
@@ -161,7 +161,7 @@ function ResponseTimeBadge({ hours }: { hours: number }) {
       </div>
       <div className="flex-1">
         <p className="text-xs text-gray-400">Temps de réponse moyen</p>
-        <p className="text-lg font-bold text-white">{hours > 0 ? `${hours}h` : '—'}</p>
+        <p className="text-lg font-bold text-gray-900">{hours > 0 ? `${hours}h` : '—'}</p>
       </div>
       <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ color: config.color, backgroundColor: `${config.color}20` }}>
         {config.label}
@@ -186,14 +186,14 @@ function BookingRow({ booking, accent }: { booking: BookingItem; accent: string 
     no_show: 'No-show',
   }
   return (
-    <div className="flex items-center gap-4 p-4 hover:bg-white/5 rounded-xl transition-colors">
+    <div className="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-xl transition-colors">
       <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${accent}15` }}>
         {booking.bookingType === 'hotel' ? <BedDouble className="w-5 h-5" style={{ color: accent }} /> :
          booking.bookingType === 'restaurant' ? <UtensilsCrossed className="w-5 h-5" style={{ color: accent }} /> :
          <Users className="w-5 h-5" style={{ color: accent }} />}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-white truncate">{booking.guestName}</p>
+        <p className="text-sm font-medium text-gray-900 truncate">{booking.guestName}</p>
         <p className="text-xs text-gray-400">
           {new Date(booking.checkIn).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
           {booking.checkOut && ` → ${new Date(booking.checkOut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}`}
@@ -218,12 +218,12 @@ function PendingRow({ booking, onAction }: {
   onAction: (id: string, action: 'confirm' | 'cancel') => void
 }) {
   return (
-    <div className="flex items-center gap-4 p-4 hover:bg-white/5 rounded-xl transition-colors">
+    <div className="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-xl transition-colors">
       <div className="w-10 h-10 bg-amber-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
         <Clock className="w-5 h-5 text-amber-400" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-white truncate">{booking.guestName}</p>
+        <p className="text-sm font-medium text-gray-900 truncate">{booking.guestName}</p>
         <p className="text-xs text-gray-400">
           {new Date(booking.checkIn).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
           {booking.checkOut && ` → ${new Date(booking.checkOut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}`}
@@ -334,7 +334,7 @@ export default function DashboardHome() {
       <div className="space-y-6">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(8)].map((_, i) => (
-            <div key={i} className="bg-[#1a1a24] rounded-2xl p-5 animate-pulse">
+            <div key={i} className="bg-white rounded-2xl p-5 animate-pulse">
               <div className="w-11 h-11 bg-white/5 rounded-xl mb-4" />
               <div className="h-7 w-20 bg-white/5 rounded mb-2" />
               <div className="h-4 w-24 bg-white/5 rounded" />
@@ -362,7 +362,7 @@ export default function DashboardHome() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-white">{greeting()}, {user?.firstName} !</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{greeting()}, {user?.firstName} !</h1>
             <p className="text-gray-400 mt-1">Voici votre tableau de bord hôtelier.</p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -378,7 +378,7 @@ export default function DashboardHome() {
         {/* Hotel Stat Cards — Bleu Lagon */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Occupancy with gauge */}
-          <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-5">
+          <div className="bg-white border border-white/10 rounded-2xl p-5">
             <div className="flex items-center gap-2 mb-3">
               <Percent className="w-4 h-4 text-cyan-500" />
               <p className="text-sm text-gray-400">Taux d&apos;occupation</p>
@@ -416,8 +416,8 @@ export default function DashboardHome() {
         {/* Response Time Badge + Today Arrivals */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Response Time */}
-          <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-5">
-            <h3 className="text-sm font-semibold text-white mb-4 flex items-center gap-2">
+          <div className="bg-white border border-white/10 rounded-2xl p-5">
+            <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <Activity className="w-4 h-4 text-cyan-400" />
               Réactivité
             </h3>
@@ -432,9 +432,9 @@ export default function DashboardHome() {
           </div>
 
           {/* Today Arrivals */}
-          <div className="lg:col-span-2 bg-[#1a1a24] border border-white/10 rounded-2xl overflow-hidden">
+          <div className="lg:col-span-2 bg-white border border-white/10 rounded-2xl overflow-hidden">
             <div className="flex items-center justify-between p-5 border-b border-white/10">
-              <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+              <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
                 <UserCheck className="w-4 h-4 text-cyan-400" />
                 Arrivées du jour
               </h3>
@@ -442,12 +442,12 @@ export default function DashboardHome() {
             </div>
             <div className="divide-y divide-white/5">
               {todayArrivals.length > 0 ? todayArrivals.map((arrival, i) => (
-                <div key={i} className="flex items-center gap-4 p-4 hover:bg-white/5 transition-colors">
+                <div key={i} className="flex items-center gap-4 p-4 hover:bg-gray-50 transition-colors">
                   <div className="w-10 h-10 bg-cyan-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
                     <BedDouble className="w-5 h-5 text-cyan-400" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-white truncate">{arrival.guestName}</p>
+                    <p className="text-sm font-medium text-gray-900 truncate">{arrival.guestName}</p>
                     <p className="text-xs text-gray-400">
                       {arrival.guestCount} pers.
                       {arrival.roomTypeName && ` · ${arrival.roomTypeName}`}
@@ -476,10 +476,10 @@ export default function DashboardHome() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-[#1a1a24] border border-amber-500/20 rounded-2xl overflow-hidden"
+              className="bg-white border border-amber-500/20 rounded-2xl overflow-hidden"
             >
               <div className="flex items-center justify-between p-5 border-b border-white/10 bg-amber-500/5">
-                <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4 text-amber-400" />
                   Demandes en attente
                 </h3>
@@ -506,16 +506,16 @@ export default function DashboardHome() {
 
         {/* Charts + Profile */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-5">
-            <h3 className="text-sm font-semibold text-white mb-4 flex items-center gap-2">
+          <div className="bg-white border border-white/10 rounded-2xl p-5">
+            <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-cyan-500" />
               Réservations cette semaine
             </h3>
             <MiniBarChart data={weekBookings} labels={weekLabels} color="#0891b2" />
           </div>
 
-          <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-5">
-            <h3 className="text-sm font-semibold text-white mb-4 flex items-center gap-2">
+          <div className="bg-white border border-white/10 rounded-2xl p-5">
+            <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <Activity className="w-4 h-4 text-cyan-400" />
               Performance
             </h3>
@@ -550,9 +550,9 @@ export default function DashboardHome() {
 
         {/* Recent Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-[#1a1a24] border border-white/10 rounded-2xl overflow-hidden">
+          <div className="bg-white border border-white/10 rounded-2xl overflow-hidden">
             <div className="flex items-center justify-between p-5 border-b border-white/10">
-              <h2 className="text-lg font-semibold text-white">Dernières réservations</h2>
+              <h2 className="text-lg font-semibold text-gray-900">Dernières réservations</h2>
               <Link href="/dashboard/reservations" className="text-sm text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
                 Voir tout <ArrowRight className="w-4 h-4" />
               </Link>
@@ -571,9 +571,9 @@ export default function DashboardHome() {
             </div>
           </div>
 
-          <div className="bg-[#1a1a24] border border-white/10 rounded-2xl overflow-hidden">
+          <div className="bg-white border border-white/10 rounded-2xl overflow-hidden">
             <div className="flex items-center justify-between p-5 border-b border-white/10">
-              <h2 className="text-lg font-semibold text-white">Derniers avis</h2>
+              <h2 className="text-lg font-semibold text-gray-900">Derniers avis</h2>
               <Link href="/dashboard/avis" className="text-sm text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
                 Voir tout <ArrowRight className="w-4 h-4" />
               </Link>
@@ -581,10 +581,10 @@ export default function DashboardHome() {
             <div className="divide-y divide-white/5">
               {recentReviews.length > 0 ? (
                 recentReviews.slice(0, 5).map((review) => (
-                  <div key={review.id} className="p-4 hover:bg-white/5 transition-colors">
+                  <div key={review.id} className="p-4 hover:bg-gray-50 transition-colors">
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-white truncate">{review.authorName || 'Anonyme'}</p>
+                        <p className="text-sm font-medium text-gray-900 truncate">{review.authorName || 'Anonyme'}</p>
                         <div className="flex items-center gap-1 mt-0.5">
                           {[...Array(5)].map((_, i) => (
                             <Star key={i} className={`w-3 h-3 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-600'}`} />
@@ -622,7 +622,7 @@ export default function DashboardHome() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-white">{greeting()}, {user?.firstName} !</h2>
+          <h2 className="text-2xl font-bold text-gray-900">{greeting()}, {user?.firstName} !</h2>
           <p className="text-gray-400 mt-1">Voici un aperçu de votre activité.</p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -659,16 +659,16 @@ export default function DashboardHome() {
 
       {/* Charts Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-5">
-          <h3 className="text-sm font-semibold text-white mb-4 flex items-center gap-2">
+        <div className="bg-white border border-white/10 rounded-2xl p-5">
+          <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <BarChart3 className="w-4 h-4 text-[#10b981]" />
             Réservations cette semaine
           </h3>
           <MiniBarChart data={weekBookings} labels={weekLabels} color="#10b981" />
         </div>
 
-        <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-5">
-          <h3 className="text-sm font-semibold text-white mb-4 flex items-center gap-2">
+        <div className="bg-white border border-white/10 rounded-2xl p-5">
+          <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <Activity className="w-4 h-4 text-cyan-400" />
             Performance
           </h3>
@@ -712,9 +712,9 @@ export default function DashboardHome() {
 
       {/* Recent Content */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-[#1a1a24] border border-white/10 rounded-2xl overflow-hidden">
+        <div className="bg-white border border-white/10 rounded-2xl overflow-hidden">
           <div className="flex items-center justify-between p-5 border-b border-white/10">
-            <h2 className="text-lg font-semibold text-white">Dernières réservations</h2>
+            <h2 className="text-lg font-semibold text-gray-900">Dernières réservations</h2>
             <Link href="/dashboard/reservations" className="text-sm text-[#ff6b35] hover:text-orange-400 flex items-center gap-1">
               Voir tout <ArrowRight className="w-4 h-4" />
             </Link>
@@ -733,9 +733,9 @@ export default function DashboardHome() {
           </div>
         </div>
 
-        <div className="bg-[#1a1a24] border border-white/10 rounded-2xl overflow-hidden">
+        <div className="bg-white border border-white/10 rounded-2xl overflow-hidden">
           <div className="flex items-center justify-between p-5 border-b border-white/10">
-            <h2 className="text-lg font-semibold text-white">Derniers avis</h2>
+            <h2 className="text-lg font-semibold text-gray-900">Derniers avis</h2>
             <Link href="/dashboard/avis" className="text-sm text-[#ff6b35] hover:text-orange-400 flex items-center gap-1">
               Voir tout <ArrowRight className="w-4 h-4" />
             </Link>
@@ -743,10 +743,10 @@ export default function DashboardHome() {
           <div className="divide-y divide-white/5">
             {recentReviews.length > 0 ? (
               recentReviews.slice(0, 5).map((review) => (
-                <div key={review.id} className="p-4 hover:bg-white/5 transition-colors">
+                <div key={review.id} className="p-4 hover:bg-gray-50 transition-colors">
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-white truncate">{review.authorName || 'Anonyme'}</p>
+                      <p className="text-sm font-medium text-gray-900 truncate">{review.authorName || 'Anonyme'}</p>
                       <div className="flex items-center gap-1 mt-0.5">
                         {[...Array(5)].map((_, i) => (
                           <Star key={i} className={`w-3 h-3 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-600'}`} />
@@ -789,7 +789,7 @@ export default function DashboardHome() {
             <motion.div
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.97 }}
-              className="bg-[#1a1a24] border border-white/10 rounded-2xl p-4 flex flex-col items-center gap-2 hover:border-[#ff6b35]/30 transition-colors cursor-pointer text-center"
+              className="bg-white border border-white/10 rounded-2xl p-4 flex flex-col items-center gap-2 hover:border-[#ff6b35]/30 transition-colors cursor-pointer text-center"
             >
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${action.color}15` }}>
                 <action.icon className="w-5 h-5" style={{ color: action.color }} />

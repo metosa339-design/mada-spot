@@ -87,7 +87,7 @@ export default function VerificationPage() {
       <div className="space-y-6 max-w-3xl">
         <div className="h-8 w-48 bg-white/5 rounded animate-pulse" />
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="h-20 bg-[#1a1a24] rounded-2xl animate-pulse" />
+          <div key={i} className="h-20 bg-white rounded-2xl animate-pulse" />
         ))}
       </div>
     )
@@ -97,7 +97,7 @@ export default function VerificationPage() {
     <div className="space-y-8 max-w-3xl">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white">Vérification du compte</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Vérification du compte</h1>
         <p className="text-gray-400 text-sm mt-1">
           Uploadez vos documents pour obtenir le badge &quot;Établissement Vérifié&quot;
         </p>
@@ -110,7 +110,7 @@ export default function VerificationPage() {
         className={`p-6 rounded-2xl border ${
           isFullyVerified
             ? 'bg-emerald-500/10 border-emerald-500/30'
-            : 'bg-[#1a1a24] border-white/10'
+            : 'bg-white border-white/10'
         }`}
       >
         <div className="flex items-center gap-4">
@@ -124,7 +124,7 @@ export default function VerificationPage() {
             )}
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-white">
+            <h2 className="text-lg font-semibold text-gray-900">
               {isFullyVerified ? 'Établissement Vérifié' : 'Vérification en cours'}
             </h2>
             <p className="text-sm text-gray-400">
@@ -146,8 +146,8 @@ export default function VerificationPage() {
       </motion.div>
 
       {/* Why verify */}
-      <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-5">
-        <h3 className="text-sm font-medium text-white mb-3">Pourquoi se vérifier ?</h3>
+      <div className="bg-white border border-white/10 rounded-2xl p-5">
+        <h3 className="text-sm font-medium text-gray-900 mb-3">Pourquoi se vérifier ?</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {[
             { icon: BadgeCheck, text: 'Badge "Vérifié" visible par les clients', color: '#10b981' },
@@ -172,7 +172,7 @@ export default function VerificationPage() {
           return (
             <div
               key={docType.id}
-              className="flex items-center gap-4 p-4 bg-[#1a1a24] border border-white/10 rounded-xl"
+              className="flex items-center gap-4 p-4 bg-white border border-white/10 rounded-xl"
             >
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
                 doc?.status === 'VERIFIED' ? 'bg-emerald-500/10' :
@@ -187,7 +187,7 @@ export default function VerificationPage() {
               </div>
 
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-white">{docType.label}</p>
+                <p className="text-sm font-medium text-gray-900">{docType.label}</p>
                 <p className="text-xs text-gray-400">{docType.description}</p>
                 {doc?.status === 'REJECTED' && doc.note && (
                   <p className="text-xs text-red-400 mt-1 flex items-center gap-1">

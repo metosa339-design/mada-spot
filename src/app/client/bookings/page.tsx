@@ -111,14 +111,14 @@ export default function ClientBookingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white">
+    <div className="min-h-screen bg-[#F9FAFB] text-gray-900">
       {/* Header */}
-      <div className="border-b border-[#2a2a36] pt-20">
+      <div className="border-b border-gray-200 pt-20">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <Link href="/client" className="inline-flex items-center gap-1 text-gray-500 hover:text-gray-300 text-sm mb-3">
             <ArrowLeft className="w-4 h-4" /> Mon espace
           </Link>
-          <h1 className="text-2xl font-bold text-white">Mes Réservations</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Mes Réservations</h1>
           <p className="text-sm text-gray-500 mt-1">Historique et suivi de vos réservations</p>
         </div>
       </div>
@@ -139,7 +139,7 @@ export default function ClientBookingsPage() {
               className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
                 filter === f.value
                   ? 'bg-[#ff6b35] text-white'
-                  : 'bg-[#1a1a24] border border-[#2a2a36] text-gray-400 hover:text-white'
+                  : 'bg-white border border-gray-200 text-gray-400 hover:text-white'
               }`}
             >
               {f.label}
@@ -173,7 +173,7 @@ export default function ClientBookingsPage() {
               const TypeIcon = TYPE_ICONS[booking.bookingType] || Calendar;
 
               return (
-                <div key={booking.id} className="bg-[#1a1a24] rounded-xl border border-[#2a2a36] p-4 sm:p-5">
+                <div key={booking.id} className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
                       {/* Status + Reference */}
@@ -187,7 +187,7 @@ export default function ClientBookingsPage() {
                       {/* Establishment */}
                       <div className="flex items-center gap-2 mb-1">
                         <TypeIcon className="w-4 h-4 text-[#ff6b35]" />
-                        <span className="font-semibold text-white">{booking.establishment.name}</span>
+                        <span className="font-semibold text-gray-900">{booking.establishment.name}</span>
                       </div>
                       <div className="flex items-center gap-1 text-sm text-gray-500 mb-3">
                         <MapPin className="w-3.5 h-3.5" /> {booking.establishment.city}
@@ -227,7 +227,7 @@ export default function ClientBookingsPage() {
                       {(booking.status === 'confirmed' || booking.status === 'completed') && (
                         <button
                           onClick={() => handlePrint(booking)}
-                          className="px-3 py-1.5 border border-[#2a2a36] text-gray-300 rounded-lg text-sm hover:bg-[#2a2a36] flex items-center gap-1"
+                          className="px-3 py-1.5 border border-gray-200 text-gray-300 rounded-lg text-sm hover:bg-[#2a2a36] flex items-center gap-1"
                         >
                           <Printer className="w-3.5 h-3.5" />
                           Imprimer

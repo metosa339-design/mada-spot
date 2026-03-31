@@ -77,7 +77,7 @@ export default function FidelitePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
+      <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#ff6b35]" />
       </div>
     )
@@ -85,7 +85,7 @@ export default function FidelitePage() {
 
   if (!data) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center text-gray-400">
+      <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center text-gray-400">
         Erreur de chargement
       </div>
     )
@@ -95,20 +95,20 @@ export default function FidelitePage() {
   const gradient = TIER_GRADIENTS[tier.name] || TIER_GRADIENTS.Bronze
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white">
+    <div className="min-h-screen bg-[#F9FAFB] text-gray-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-12">
         {/* Back */}
         <Link
           href="/client"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-white text-sm mb-8 transition-colors"
+          className="inline-flex items-center gap-2 text-gray-400 hover:text-gray-900 text-sm mb-8 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Mon espace
         </Link>
 
         {/* Tier Card */}
-        <div className={`relative overflow-hidden rounded-2xl border border-[#2a2a36] bg-gradient-to-br ${gradient} p-px mb-8`}>
-          <div className="bg-[#0a0a0f]/90 rounded-2xl p-6 sm:p-8">
+        <div className={`relative overflow-hidden rounded-2xl border border-gray-200 bg-gradient-to-br ${gradient} p-px mb-8`}>
+          <div className="bg-[#F9FAFB]/90 rounded-2xl p-6 sm:p-8">
             <div className="flex items-start justify-between mb-6">
               <div>
                 <div className="flex items-center gap-2 mb-2">
@@ -117,7 +117,7 @@ export default function FidelitePage() {
                     {tier.name.toUpperCase()}
                   </span>
                 </div>
-                <h1 className="text-3xl sm:text-4xl font-bold text-white">
+                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
                   {points.toLocaleString('fr-FR')} <span className="text-lg text-gray-400">points</span>
                 </h1>
               </div>
@@ -149,7 +149,7 @@ export default function FidelitePage() {
         </div>
 
         {/* How to earn */}
-        <div className="bg-[#1a1a24] border border-[#2a2a36] rounded-2xl p-6 mb-8">
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-8">
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp className="w-5 h-5 text-[#ff6b35]" />
             <h2 className="text-lg font-semibold">Comment gagner des points</h2>
@@ -158,7 +158,7 @@ export default function FidelitePage() {
             {HOW_TO_EARN.map((item) => (
               <div
                 key={item.label}
-                className="flex items-center gap-3 bg-[#0a0a0f] rounded-xl p-4 border border-[#2a2a36]"
+                className="flex items-center gap-3 bg-[#F9FAFB] rounded-xl p-4 border border-gray-200"
               >
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
@@ -176,7 +176,7 @@ export default function FidelitePage() {
         </div>
 
         {/* Transaction History */}
-        <div className="bg-[#1a1a24] border border-[#2a2a36] rounded-2xl p-6">
+        <div className="bg-white border border-gray-200 rounded-2xl p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">Historique</h2>
             <span className="text-xs text-gray-500">{transactions.length} transactions</span>
@@ -200,7 +200,7 @@ export default function FidelitePage() {
                 return (
                   <div
                     key={t.id}
-                    className="flex items-center gap-3 p-3 bg-[#0a0a0f] rounded-xl border border-[#2a2a36]"
+                    className="flex items-center gap-3 p-3 bg-[#F9FAFB] rounded-xl border border-gray-200"
                   >
                     <div
                       className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
@@ -209,7 +209,7 @@ export default function FidelitePage() {
                       <Icon className="w-4 h-4" style={{ color }} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-white truncate">{t.description}</p>
+                      <p className="text-sm text-gray-900 truncate">{t.description}</p>
                       <p className="text-xs text-gray-500">
                         {new Date(t.createdAt).toLocaleDateString('fr-FR', {
                           day: 'numeric',
@@ -234,7 +234,7 @@ export default function FidelitePage() {
         <div className="mt-8 text-center">
           <Link
             href="/client"
-            className="inline-flex items-center gap-2 text-gray-400 hover:text-white text-sm transition-colors"
+            className="inline-flex items-center gap-2 text-gray-400 hover:text-gray-900 text-sm transition-colors"
           >
             Retour au tableau de bord
             <ChevronRight className="w-4 h-4" />

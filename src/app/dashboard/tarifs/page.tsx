@@ -143,7 +143,7 @@ export default function TarifsPage() {
       <div className="space-y-6 max-w-4xl">
         <div className="h-8 w-48 bg-white/5 rounded animate-pulse" />
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="h-24 bg-[#1a1a24] rounded-2xl animate-pulse" />
+          <div key={i} className="h-24 bg-white rounded-2xl animate-pulse" />
         ))}
       </div>
     )
@@ -154,7 +154,7 @@ export default function TarifsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">Tarifs & Saisons</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Tarifs & Saisons</h1>
           <p className="text-gray-400 text-sm mt-1">Gerez vos tarifs saisonniers</p>
         </div>
         <button
@@ -164,7 +164,7 @@ export default function TarifsPage() {
             })
             setShowPerPriceMultipliers(false)
           }}
-          className="flex items-center gap-2 px-4 py-2.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-white rounded-xl text-sm font-medium transition-colors"
+          className="flex items-center gap-2 px-4 py-2.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-gray-900 rounded-xl text-sm font-medium transition-colors"
         >
           <Plus className="w-4 h-4" />
           Nouvelle periode
@@ -178,13 +178,13 @@ export default function TarifsPage() {
           {establishments.filter(e => e.prices.length > 0).map((estab) => {
             const TypeIcon = TYPE_ICONS[estab.type] || Building2
             return (
-              <div key={estab.id} className="bg-[#1a1a24] border border-white/10 rounded-2xl p-5 space-y-4">
+              <div key={estab.id} className="bg-white border border-white/10 rounded-2xl p-5 space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-lg bg-[#ff6b35]/10 flex items-center justify-center">
                     <TypeIcon className="w-4.5 h-4.5 text-[#ff6b35]" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-white">{estab.name}</p>
+                    <p className="text-sm font-semibold text-gray-900">{estab.name}</p>
                     <p className="text-xs text-gray-500">{TYPE_LABELS[estab.type] || estab.type}</p>
                   </div>
                 </div>
@@ -212,14 +212,14 @@ export default function TarifsPage() {
                       {estab.prices.map((price, idx) => (
                         <tr key={idx} className="border-b border-white/5 last:border-0">
                           <td className="py-2.5 pr-4 text-gray-300">{price.label}</td>
-                          <td className="py-2.5 pr-4 text-right text-white font-medium">{formatMGA(price.value)}</td>
+                          <td className="py-2.5 pr-4 text-right text-gray-900 font-medium">{formatMGA(price.value)}</td>
                           {seasons.filter(s => s.isActive).map((season) => {
                             const multiplier = getMultiplierForPrice(season, price.label)
                             const result = price.value * multiplier
                             const diff = result - price.value
                             return (
                               <td key={season.id} className="py-2.5 pr-4 text-right">
-                                <span className="text-white font-medium">{formatMGA(result)}</span>
+                                <span className="text-gray-900 font-medium">{formatMGA(result)}</span>
                                 <br />
                                 <span className={`text-[10px] ${
                                   diff > 0 ? 'text-yellow-400/70' :
@@ -266,13 +266,13 @@ export default function TarifsPage() {
                 })
                 setShowPerPriceMultipliers(false)
               }}
-              className="flex items-center gap-3 p-4 bg-[#1a1a24] border border-white/10 rounded-xl hover:border-white/20 transition-colors text-left"
+              className="flex items-center gap-3 p-4 bg-white border border-white/10 rounded-xl hover:border-white/20 transition-colors text-left"
             >
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${preset.color}15` }}>
                 <preset.icon className="w-5 h-5" style={{ color: preset.color }} />
               </div>
               <div>
-                <p className="text-sm font-medium text-white">{preset.name}</p>
+                <p className="text-sm font-medium text-gray-900">{preset.name}</p>
                 <p className="text-xs text-gray-400">{preset.months} · {formatMultiplier(preset.multiplier)}</p>
               </div>
             </motion.button>
@@ -285,13 +285,13 @@ export default function TarifsPage() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-[#1a1a24] border border-[#ff6b35]/30 rounded-2xl p-6 space-y-4"
+          className="bg-white border border-[#ff6b35]/30 rounded-2xl p-6 space-y-4"
         >
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-white">
+            <h3 className="text-lg font-semibold text-gray-900">
               {editing.id ? 'Modifier la periode' : 'Nouvelle periode tarifaire'}
             </h3>
-            <button onClick={() => { setEditing(null); setShowPerPriceMultipliers(false) }} className="text-gray-400 hover:text-white">
+            <button onClick={() => { setEditing(null); setShowPerPriceMultipliers(false) }} className="text-gray-400 hover:text-gray-900">
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -304,7 +304,7 @@ export default function TarifsPage() {
                 value={editing.name}
                 onChange={(e) => setEditing(prev => prev ? { ...prev, name: e.target.value } : null)}
                 placeholder="Ex: Haute saison"
-                className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
               />
             </div>
             <div>
@@ -453,7 +453,7 @@ export default function TarifsPage() {
                 type="date"
                 value={editing.startDate}
                 onChange={(e) => setEditing(prev => prev ? { ...prev, startDate: e.target.value } : null)}
-                className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
               />
             </div>
             <div>
@@ -462,7 +462,7 @@ export default function TarifsPage() {
                 type="date"
                 value={editing.endDate}
                 onChange={(e) => setEditing(prev => prev ? { ...prev, endDate: e.target.value } : null)}
-                className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
               />
             </div>
           </div>
@@ -470,14 +470,14 @@ export default function TarifsPage() {
           <div className="flex justify-end gap-3">
             <button
               onClick={() => { setEditing(null); setShowPerPriceMultipliers(false) }}
-              className="px-4 py-2 text-gray-400 hover:text-white text-sm transition-colors"
+              className="px-4 py-2 text-gray-400 hover:text-gray-900 text-sm transition-colors"
             >
               Annuler
             </button>
             <button
               onClick={handleSave}
               disabled={saving || !editing.name || !editing.startDate || !editing.endDate}
-              className="flex items-center gap-2 px-5 py-2 bg-[#ff6b35] hover:bg-[#e55a2b] text-white rounded-xl text-sm font-medium transition-colors disabled:opacity-50"
+              className="flex items-center gap-2 px-5 py-2 bg-[#ff6b35] hover:bg-[#e55a2b] text-gray-900 rounded-xl text-sm font-medium transition-colors disabled:opacity-50"
             >
               {saving ? (
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -499,7 +499,7 @@ export default function TarifsPage() {
               key={season.id}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="p-4 bg-[#1a1a24] border border-white/10 rounded-xl space-y-3"
+              className="p-4 bg-white border border-white/10 rounded-xl space-y-3"
             >
               <div className="flex items-center gap-4">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
@@ -513,7 +513,7 @@ export default function TarifsPage() {
                 </div>
 
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-white">{season.name}</p>
+                  <p className="text-sm font-medium text-gray-900">{season.name}</p>
                   <p className="text-xs text-gray-400">
                     {new Date(season.startDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
                     {' \u2192 '}
@@ -542,7 +542,7 @@ export default function TarifsPage() {
                       })
                       setShowPerPriceMultipliers(!!season.priceMultipliers && Object.keys(season.priceMultipliers).length > 0)
                     }}
-                    className="p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                    className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
                   >
                     <Edit2 className="w-4 h-4" />
                   </button>
@@ -574,7 +574,7 @@ export default function TarifsPage() {
             </motion.div>
           ))
         ) : (
-          <div className="p-8 bg-[#1a1a24] border border-white/10 rounded-2xl text-center">
+          <div className="p-8 bg-white border border-white/10 rounded-2xl text-center">
             <Calendar className="w-10 h-10 text-gray-600 mx-auto mb-3" />
             <p className="text-sm text-gray-400">Aucune periode tarifaire definie</p>
             <p className="text-xs text-gray-500 mt-1">Ajoutez des periodes pour ajuster automatiquement vos prix</p>

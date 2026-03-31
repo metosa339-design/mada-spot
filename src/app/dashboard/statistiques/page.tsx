@@ -145,7 +145,7 @@ export default function StatistiquesPage() {
         <div className="h-8 w-48 bg-white/5 rounded animate-pulse" />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-32 bg-[#1a1a24] rounded-2xl animate-pulse" />
+            <div key={i} className="h-32 bg-white rounded-2xl animate-pulse" />
           ))}
         </div>
       </div>
@@ -192,10 +192,10 @@ export default function StatistiquesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">Statistiques</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Statistiques</h1>
           <p className="text-gray-400 text-sm mt-1">Suivez les performances de votre établissement</p>
         </div>
-        <div className="flex gap-1 bg-[#1a1a24] border border-white/10 rounded-xl p-1 self-start sm:self-auto">
+        <div className="flex gap-1 bg-white border border-white/10 rounded-xl p-1 self-start sm:self-auto">
           {[
             { value: '7d' as const, label: '7 jours' },
             { value: '30d' as const, label: '30 jours' },
@@ -222,7 +222,7 @@ export default function StatistiquesPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="bg-[#1a1a24] border border-white/10 rounded-2xl p-5"
+            className="bg-white border border-white/10 rounded-2xl p-5"
           >
             <div className="flex items-start justify-between mb-3">
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${card.color}15` }}>
@@ -237,7 +237,7 @@ export default function StatistiquesPage() {
                 </span>
               )}
             </div>
-            <p className="text-xl font-bold text-white">{card.value}</p>
+            <p className="text-xl font-bold text-gray-900">{card.value}</p>
             <p className="text-xs text-gray-400 mt-1 mb-3">{card.label}</p>
             {card.chartData.length > 0 && (
               <MiniChart data={card.chartData} color={card.color} />
@@ -249,8 +249,8 @@ export default function StatistiquesPage() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Sources de trafic */}
-        <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-6">
-          <h3 className="text-sm font-medium text-white mb-4 flex items-center gap-2">
+        <div className="bg-white border border-white/10 rounded-2xl p-6">
+          <h3 className="text-sm font-medium text-gray-900 mb-4 flex items-center gap-2">
             <BarChart3 className="w-4 h-4 text-gray-400" />
             Sources de trafic
           </h3>
@@ -275,8 +275,8 @@ export default function StatistiquesPage() {
         </div>
 
         {/* Revenus mensuels */}
-        <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-6">
-          <h3 className="text-sm font-medium text-white mb-4 flex items-center gap-2">
+        <div className="bg-white border border-white/10 rounded-2xl p-6">
+          <h3 className="text-sm font-medium text-gray-900 mb-4 flex items-center gap-2">
             <DollarSign className="w-4 h-4 text-gray-400" />
             Revenus par mois
           </h3>
@@ -295,8 +295,8 @@ export default function StatistiquesPage() {
 
       {/* Conversion Funnel */}
       {analytics?.funnel && (
-        <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-6">
-          <h3 className="text-sm font-medium text-white mb-5">Entonnoir de conversion</h3>
+        <div className="bg-white border border-white/10 rounded-2xl p-6">
+          <h3 className="text-sm font-medium text-gray-900 mb-5">Entonnoir de conversion</h3>
           <div className="space-y-3">
             {[
               { label: 'Vues', value: analytics.funnel.views, color: '#8b5cf6' },
@@ -313,7 +313,7 @@ export default function StatistiquesPage() {
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-sm text-gray-300">{step.label}</span>
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-white">{step.value.toLocaleString('fr-FR')}</span>
+                      <span className="text-sm font-medium text-gray-900">{step.value.toLocaleString('fr-FR')}</span>
                       {convRate !== null && (
                         <span className="text-[10px] text-gray-500">({convRate}%)</span>
                       )}
@@ -338,8 +338,8 @@ export default function StatistiquesPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Occupancy Heatmap */}
         {analytics?.occupancyByDay && (
-          <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-6">
-            <h3 className="text-sm font-medium text-white mb-5">Occupation par jour</h3>
+          <div className="bg-white border border-white/10 rounded-2xl p-6">
+            <h3 className="text-sm font-medium text-gray-900 mb-5">Occupation par jour</h3>
             <div className="grid grid-cols-7 gap-2">
               {analytics.occupancyByDay.map((d, i) => (
                 <motion.div
@@ -355,7 +355,7 @@ export default function StatistiquesPage() {
                       backgroundColor: `rgba(255, 107, 53, ${d.rate * 0.8})`,
                     }}
                   >
-                    <span className="text-xs font-medium text-white">
+                    <span className="text-xs font-medium text-gray-900">
                       {Math.round(d.rate * 100)}%
                     </span>
                   </div>
@@ -368,8 +368,8 @@ export default function StatistiquesPage() {
 
         {/* Revenue Comparison */}
         {analytics?.revenueComparison && analytics.revenueComparison.current.length > 0 && (
-          <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-6">
-            <h3 className="text-sm font-medium text-white mb-2">Revenus : période actuelle vs précédente</h3>
+          <div className="bg-white border border-white/10 rounded-2xl p-6">
+            <h3 className="text-sm font-medium text-gray-900 mb-2">Revenus : période actuelle vs précédente</h3>
             <div className="flex items-center gap-4 mb-4">
               <div className="flex items-center gap-1.5">
                 <div className="w-3 h-3 rounded-sm bg-[#ff6b35]" />
@@ -416,8 +416,8 @@ export default function StatistiquesPage() {
       </div>
 
       {/* SEO JSON-LD note */}
-      <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-5">
-        <h3 className="text-sm font-medium text-white mb-2">Référencement SEO</h3>
+      <div className="bg-white border border-white/10 rounded-2xl p-5">
+        <h3 className="text-sm font-medium text-gray-900 mb-2">Référencement SEO</h3>
         <p className="text-xs text-gray-400">
           Votre annonce génère automatiquement des données structurées (JSON-LD) pour améliorer
           votre visibilité sur Google. Complétez votre profil à 100% pour maximiser votre référencement local.

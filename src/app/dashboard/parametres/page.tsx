@@ -121,7 +121,7 @@ export default function ParametresPage() {
     return (
       <div className="space-y-6 max-w-3xl">
         <div className="h-8 w-48 bg-white/5 rounded animate-pulse" />
-        <div className="h-[400px] bg-[#1a1a24] rounded-2xl animate-pulse" />
+        <div className="h-[400px] bg-white rounded-2xl animate-pulse" />
       </div>
     )
   }
@@ -136,12 +136,12 @@ export default function ParametresPage() {
     <div className="space-y-6 max-w-3xl">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white">Paramètres</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Paramètres</h1>
         <p className="text-gray-400 text-sm mt-1">Gérez votre compte et vos préférences</p>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 bg-[#1a1a24] border border-white/10 rounded-xl p-1 overflow-x-auto">
+      <div className="flex gap-1 bg-white border border-white/10 rounded-xl p-1 overflow-x-auto">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -149,7 +149,7 @@ export default function ParametresPage() {
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
               activeTab === tab.id
                 ? 'bg-[#ff6b35] text-white'
-                : 'text-gray-400 hover:text-white hover:bg-white/5'
+                : 'text-gray-400 hover:text-gray-900 hover:bg-gray-50'
             }`}
           >
             <tab.icon className="w-4 h-4" />
@@ -165,7 +165,7 @@ export default function ParametresPage() {
           animate={{ opacity: 1, y: 0 }}
           className="space-y-6"
         >
-          <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-6 space-y-4">
+          <div className="bg-white border border-white/10 rounded-2xl p-6 space-y-4">
             <h3 className="text-sm font-medium text-gray-400 flex items-center gap-2">
               <User className="w-4 h-4" /> Informations personnelles
             </h3>
@@ -176,7 +176,7 @@ export default function ParametresPage() {
                   type="text"
                   value={profile.firstName}
                   onChange={(e) => setProfile(p => ({ ...p, firstName: e.target.value }))}
-                  className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
                 />
               </div>
               <div>
@@ -185,7 +185,7 @@ export default function ParametresPage() {
                   type="text"
                   value={profile.lastName}
                   onChange={(e) => setProfile(p => ({ ...p, lastName: e.target.value }))}
-                  className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
                 />
               </div>
             </div>
@@ -197,7 +197,7 @@ export default function ParametresPage() {
                   type="email"
                   value={profile.email}
                   onChange={(e) => setProfile(p => ({ ...p, email: e.target.value }))}
-                  className="w-full pl-10 pr-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full pl-10 pr-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
                 />
               </div>
             </div>
@@ -209,13 +209,13 @@ export default function ParametresPage() {
                   type="tel"
                   value={profile.phone}
                   onChange={(e) => setProfile(p => ({ ...p, phone: e.target.value }))}
-                  className="w-full pl-10 pr-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full pl-10 pr-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
                 />
               </div>
             </div>
           </div>
 
-          <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-6 space-y-4">
+          <div className="bg-white border border-white/10 rounded-2xl p-6 space-y-4">
             <h3 className="text-sm font-medium text-gray-400 flex items-center gap-2">
               <Building2 className="w-4 h-4" /> Informations entreprise
             </h3>
@@ -225,7 +225,7 @@ export default function ParametresPage() {
                 type="text"
                 value={profile.companyName}
                 onChange={(e) => setProfile(p => ({ ...p, companyName: e.target.value }))}
-                className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
               />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -236,7 +236,7 @@ export default function ParametresPage() {
                   value={profile.nif}
                   onChange={(e) => setProfile(p => ({ ...p, nif: e.target.value }))}
                   placeholder="Numéro d'identification fiscale"
-                  className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
                 />
               </div>
               <div>
@@ -246,7 +246,7 @@ export default function ParametresPage() {
                   value={profile.stat}
                   onChange={(e) => setProfile(p => ({ ...p, stat: e.target.value }))}
                   placeholder="Numéro statistique"
-                  className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
                 />
               </div>
             </div>
@@ -255,7 +255,7 @@ export default function ParametresPage() {
           <button
             onClick={handleSaveProfile}
             disabled={saving}
-            className="flex items-center gap-2 px-6 py-2.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-white rounded-xl font-medium text-sm transition-colors disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-2.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-gray-900 rounded-xl font-medium text-sm transition-colors disabled:opacity-50"
           >
             {saving ? (
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -274,7 +274,7 @@ export default function ParametresPage() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-[#1a1a24] border border-white/10 rounded-2xl p-6 space-y-4"
+          className="bg-white border border-white/10 rounded-2xl p-6 space-y-4"
         >
           <h3 className="text-sm font-medium text-gray-400 flex items-center gap-2">
             <Lock className="w-4 h-4" /> Changer le mot de passe
@@ -291,7 +291,7 @@ export default function ParametresPage() {
                   type={showPasswords ? 'text' : 'password'}
                   value={passwordData[field as keyof typeof passwordData]}
                   onChange={(e) => setPasswordData(p => ({ ...p, [field]: e.target.value }))}
-                  className="w-full px-3 py-2.5 pr-10 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full px-3 py-2.5 pr-10 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
                 />
                 <button
                   onClick={() => setShowPasswords(!showPasswords)}
@@ -306,7 +306,7 @@ export default function ParametresPage() {
           <button
             onClick={handleChangePassword}
             disabled={!passwordData.current || !passwordData.newPass || !passwordData.confirm}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-white rounded-xl font-medium text-sm transition-colors disabled:opacity-50"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-gray-900 rounded-xl font-medium text-sm transition-colors disabled:opacity-50"
           >
             <Lock className="w-4 h-4" />
             Mettre à jour
@@ -319,7 +319,7 @@ export default function ParametresPage() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-[#1a1a24] border border-white/10 rounded-2xl p-6 space-y-4"
+          className="bg-white border border-white/10 rounded-2xl p-6 space-y-4"
         >
           <h3 className="text-sm font-medium text-gray-400 flex items-center gap-2">
             <Bell className="w-4 h-4" /> Préférences de notification
@@ -334,7 +334,7 @@ export default function ParametresPage() {
           ].map((item) => (
             <div key={item.key} className="flex items-center justify-between p-3 bg-white/5 rounded-xl">
               <div>
-                <p className="text-sm font-medium text-white">{item.label}</p>
+                <p className="text-sm font-medium text-gray-900">{item.label}</p>
                 <p className="text-xs text-gray-400">{item.desc}</p>
               </div>
               <button

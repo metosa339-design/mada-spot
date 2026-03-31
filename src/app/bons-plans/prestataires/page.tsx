@@ -163,64 +163,42 @@ function PrestatairesPageContent() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
-      {/* Hero + Search unified */}
-      <section className="relative overflow-hidden" style={{ minHeight: '320px' }}>
-        <Image src="/images/highlights/Guide.png" alt="Guide touristique malgache à Madagascar" fill className="object-cover" sizes="100vw" priority />
-        <div className="absolute inset-0 bg-black/35" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col justify-end min-h-[320px]">
-          {/* Top row: Title + Photos + Search */}
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+      {/* Header épuré */}
+      <section className="bg-[#FDFBF7] border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
             {/* Left: Title */}
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex-shrink-0">
-              <h1 className="text-xl sm:text-3xl font-bold text-white drop-shadow-lg flex items-center gap-2">
-                <Users className="w-6 h-6 sm:w-8 sm:h-8 text-white flex-shrink-0" />
+              <h1 className="text-xl sm:text-2xl font-bold text-[#2D241E] flex items-center gap-2">
+                <Users className="w-6 h-6 sm:w-7 sm:h-7 text-[#D97706] flex-shrink-0" />
                 Prestataires touristiques
               </h1>
-              <p className="text-white/80 text-xs sm:text-sm mt-1 drop-shadow">
-                Guides, chauffeurs et agences pour votre séjour à Madagascar
-              </p>
+              <p className="text-[#8B7E6E] text-xs sm:text-sm mt-1">Guides, chauffeurs et agences pour votre séjour à Madagascar</p>
             </motion.div>
 
             {/* Center: 2 mini photos */}
-            <div className="hidden md:flex gap-2 flex-shrink-0">
-              <div className="relative w-28 h-20 rounded-lg overflow-hidden shadow-lg border-2 border-white/30">
-                <Image src="/images/highlights/Chauffeur.png" alt="Chauffeur Madagascar" fill className="object-cover" sizes="112px" />
+            <div className="hidden lg:flex gap-3 flex-shrink-0">
+              <div className="relative w-24 h-16 rounded-lg overflow-hidden shadow-md border border-gray-200">
+                <Image src="/images/highlights/Chauffeur.png" alt="Chauffeur Madagascar" fill className="object-cover" sizes="96px" />
               </div>
-              <div className="relative w-28 h-20 rounded-lg overflow-hidden shadow-lg border-2 border-white/30">
-                <Image src="/images/highlights/Voyageur 1.png" alt="Voyageur Madagascar" fill className="object-cover" sizes="112px" />
+              <div className="relative w-24 h-16 rounded-lg overflow-hidden shadow-md border border-gray-200">
+                <Image src="/images/highlights/Guide.png" alt="Guide Madagascar" fill className="object-cover" sizes="96px" />
               </div>
             </div>
 
             {/* Right: Search bar */}
-            <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 lg:max-w-md w-full lg:w-auto">
-              <div className="flex-1 flex items-center gap-2 px-3 bg-white/95 backdrop-blur-sm rounded-xl shadow-lg">
+            <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 lg:max-w-lg w-full lg:w-auto">
+              <div className="flex-1 flex items-center gap-2 px-3 bg-white rounded-xl shadow-md border border-gray-100">
                 <Search className="w-4 h-4 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Rechercher un prestataire..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 py-2.5 bg-transparent outline-none text-gray-900 text-sm placeholder:text-gray-400"
-                />
+                <input type="text" placeholder="Rechercher un prestataire..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="flex-1 py-2.5 bg-transparent outline-none text-[#2D241E] text-sm placeholder:text-gray-400" />
               </div>
-              <select
-                value={selectedCity}
-                onChange={(e) => setSelectedCity(e.target.value)}
-                className="px-3 py-2.5 bg-white/95 backdrop-blur-sm rounded-xl text-sm text-gray-900 outline-none cursor-pointer shadow-lg"
-              >
+              <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)} className="px-3 py-2.5 bg-white rounded-xl text-sm text-[#2D241E] outline-none cursor-pointer shadow-md border border-gray-100">
                 <option value="">Toutes les villes</option>
                 {cities.map((city) => (
                   <option key={city} value={city}>{city}</option>
                 ))}
               </select>
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm shadow-lg transition-colors ${
-                  hasActiveFilters
-                    ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                    : 'bg-white/95 backdrop-blur-sm text-gray-600 hover:text-orange-500'
-                }`}
-              >
+              <button onClick={() => setShowFilters(!showFilters)} className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm transition-colors ${hasActiveFilters ? 'bg-[#D97706] text-white shadow-md' : 'bg-white text-[#8B7E6E] hover:text-[#D97706] shadow-md border border-gray-100'}`}>
                 <SlidersHorizontal className="w-4 h-4" />
                 Filtres
                 {hasActiveFilters && <span className="w-2 h-2 bg-white rounded-full" />}

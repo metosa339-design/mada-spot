@@ -563,8 +563,65 @@ body.light-mode textarea {
 }
 
 body.light-mode input::placeholder,
-body.light-mode textarea::placeholder {
+body.light-mode textarea::placeholder,
+body.light-mode select::placeholder {
   color: #9CA3AF !important;
+}
+
+/* ============================================
+   GLOBAL: Fix ALL bg-white/5 and bg-white/10
+   These are nearly invisible on white backgrounds
+   ============================================ */
+body.light-mode .bg-white\/5:not(footer *) {
+  background: #F3F4F6 !important;
+}
+
+body.light-mode .bg-white\/10:not(footer *) {
+  background: #E5E7EB !important;
+}
+
+/* ============================================
+   GLOBAL: Fix ALL text-white outside dark sections
+   Exclude: footer, gradient buttons, gradient backgrounds, badges
+   ============================================ */
+body.light-mode main .text-white:not([class*="bg-gradient"]):not([class*="bg-orange"]):not([class*="bg-pink"]):not([class*="bg-red"]):not([class*="bg-green"]):not([class*="bg-blue"]):not([class*="bg-purple"]):not([class*="bg-cyan"]):not([class*="bg-emerald"]):not([class*="bg-amber"]) {
+  color: #111827;
+}
+
+/* Keep white text INSIDE colored/gradient containers */
+body.light-mode [class*="bg-gradient-to"] .text-white,
+body.light-mode [class*="bg-\[#ff6b35\]"] .text-white,
+body.light-mode [class*="bg-\[#D97706\]"] .text-white,
+body.light-mode [class*="bg-orange"] .text-white,
+body.light-mode [class*="bg-pink"] .text-white,
+body.light-mode [class*="bg-red"] .text-white,
+body.light-mode [class*="bg-green"] .text-white,
+body.light-mode [class*="bg-blue"] .text-white,
+body.light-mode [class*="bg-purple"] .text-white,
+body.light-mode .btn-primary .text-white,
+body.light-mode .rounded-full[class*="bg-gradient"] .text-white {
+  color: #ffffff !important;
+}
+
+/* ============================================
+   DASHBOARD & CLIENT PAGES — ensure readability
+   ============================================ */
+body.light-mode .bg-\[\#0a0a0f\] .text-white,
+body.light-mode .bg-\[\#0f0f17\] .text-white,
+body.light-mode .min-h-screen .text-white {
+  color: #111827;
+}
+
+body.light-mode .text-white\/60 {
+  color: #9CA3AF;
+}
+
+body.light-mode .text-white\/80 {
+  color: #374151;
+}
+
+body.light-mode .text-white\/90 {
+  color: #1F2937;
 }
 
 /* Placeholder text in inputs */

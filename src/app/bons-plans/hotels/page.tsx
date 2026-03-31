@@ -199,10 +199,10 @@ function HotelsPage() {
           </motion.div>
           <div className="hidden md:flex gap-3 w-1/3 flex-shrink-0">
             <div className="relative w-1/2 h-40 rounded-2xl overflow-hidden shadow-lg">
-              <Image src="/images/highlights/restaurant-plage.png" alt="Restaurant hôtelier en bord de plage à Madagascar" fill className="object-cover" sizes="15vw" />
+              <Image src="/images/highlights/plage-ramena-et-les-pirogues-444.jpg" alt="Pirogues sur la plage de Ramena, Madagascar" fill className="object-cover" sizes="15vw" />
             </div>
             <div className="relative w-1/2 h-40 rounded-2xl overflow-hidden shadow-lg">
-              <Image src="/images/highlights/restaurant-interne.png" alt="Intérieur chaleureux d'un hôtel à Madagascar" fill className="object-cover" sizes="15vw" />
+              <Image src="/images/highlights/nosy-be-photo-365.jpg" alt="Vue paradisiaque de Nosy Be, Madagascar" fill className="object-cover" sizes="15vw" />
             </div>
           </div>
         </div>

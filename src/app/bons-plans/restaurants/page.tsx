@@ -5,7 +5,7 @@ import Link from 'next/link';
 import NextImage from 'next/image';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MapPin, Star, X, UtensilsCrossed, Coffee, Wine, Truck, ShoppingBag, Wifi, ChevronDown, Menu as _MenuIcon, Image as ImageIcon, Eye, SlidersHorizontal } from 'lucide-react';
+import { Search, MapPin, Star, X, UtensilsCrossed, Coffee, Wine, Truck, ShoppingBag, Wifi, ChevronDown, Menu as _MenuIcon, Image as ImageIcon, Eye, SlidersHorizontal, Filter } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
 
 interface Restaurant {
@@ -189,210 +189,194 @@ function RestaurantsPageContent() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
-      {/* Hero */}
-      <section className="relative overflow-hidden" style={{ height: '40vh', minHeight: '280px' }}>
+      {/* Hero + Search unified */}
+      <section className="relative overflow-hidden" style={{ minHeight: '320px' }}>
         <NextImage src="/images/highlights/restaurant-plage.png" alt="Restaurant en bord de plage à Madagascar" fill className="object-cover" sizes="100vw" priority />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-2xl sm:text-4xl font-bold text-white drop-shadow-lg flex items-center gap-3">
-              <UtensilsCrossed className="w-7 h-7 sm:w-9 sm:h-9 text-white flex-shrink-0" />
-              Restaurants à Madagascar
-            </h1>
-            <p className="text-white/90 text-sm sm:text-base mt-2 max-w-xl drop-shadow">
-              Découvrez les meilleurs restaurants avec photos de menus et prix réels
-            </p>
-          </motion.div>
-        </div>
-      </section>
+        <div className="absolute inset-0 bg-black/35" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col justify-end min-h-[320px]">
+          {/* Top row: Title + Photos + Search */}
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+            {/* Left: Title */}
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex-shrink-0">
+              <h1 className="text-xl sm:text-3xl font-bold text-white drop-shadow-lg flex items-center gap-2">
+                <UtensilsCrossed className="w-6 h-6 sm:w-8 sm:h-8 text-white flex-shrink-0" />
+                Restaurants à Madagascar
+              </h1>
+              <p className="text-white/80 text-xs sm:text-sm mt-1 drop-shadow">
+                Découvrez les meilleurs restaurants avec photos de menus et prix réels
+              </p>
+            </motion.div>
 
-      {/* Search & Filters */}
-      <section className="relative z-10 bg-[#0a0a0f]/95 border-b border-[#2a2a36]">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex flex-col md:flex-row gap-3">
-            {/* Search */}
-            <div className="flex-1 flex items-center gap-3 px-4 bg-[#0d1520] border border-[#2a2a36] rounded-xl">
-              <Search className="w-5 h-5 text-slate-500" />
-              <input
-                type="text"
-                placeholder="Rechercher un restaurant, cuisine..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 py-3 bg-transparent outline-none text-white placeholder:text-slate-500"
-              />
+            {/* Center: 2 mini photos */}
+            <div className="hidden md:flex gap-2 flex-shrink-0">
+              <div className="relative w-28 h-20 rounded-lg overflow-hidden shadow-lg border-2 border-white/30">
+                <NextImage src="/images/highlights/restaurant-interne.png" alt="Intérieur restaurant Madagascar" fill className="object-cover" sizes="112px" />
+              </div>
+              <div className="relative w-28 h-20 rounded-lg overflow-hidden shadow-lg border-2 border-white/30">
+                <NextImage src="/images/highlights/marche.jpg" alt="Marché Madagascar" fill className="object-cover" sizes="112px" />
+              </div>
             </div>
 
-            {/* City */}
-            <div className="relative">
+            {/* Right: Search bar */}
+            <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 lg:max-w-md w-full lg:w-auto">
+              <div className="flex-1 flex items-center gap-2 px-3 bg-white/95 backdrop-blur-sm rounded-xl shadow-lg">
+                <Search className="w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Rechercher un restaurant, cuisine..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="flex-1 py-2.5 bg-transparent outline-none text-gray-900 text-sm placeholder:text-gray-400"
+                />
+              </div>
               <select
                 value={selectedCity}
                 onChange={(e) => setSelectedCity(e.target.value)}
-                className="w-full md:w-48 px-4 py-3 bg-[#0d1520] border border-[#2a2a36] rounded-xl text-white appearance-none cursor-pointer outline-none"
+                className="px-3 py-2.5 bg-white/95 backdrop-blur-sm rounded-xl text-sm text-gray-900 outline-none cursor-pointer shadow-lg"
               >
                 <option value="">Toutes les villes</option>
                 {cities.map((city) => (
                   <option key={city} value={city}>{city}</option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm shadow-lg transition-colors ${
+                  hasActiveFilters
+                    ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
+                    : 'bg-white/95 backdrop-blur-sm text-gray-600 hover:text-orange-500'
+                }`}
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+                Filtres
+                {hasActiveFilters && <span className="w-2 h-2 bg-white rounded-full" />}
+              </button>
             </div>
-
-            {/* Filter button */}
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-medium transition-all ${
-                hasActiveFilters
-                  ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                  : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
-              }`}
-            >
-              <SlidersHorizontal className="w-5 h-5" />
-              Filtres
-            </button>
           </div>
         </div>
       </section>
 
-      {/* Popular Destinations */}
-      <div className="border-b border-[#2a2a36]">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
-            <span className="text-xs text-slate-500 shrink-0">Destinations :</span>
-            {POPULAR_DESTINATIONS.map((dest) => (
-              <button
-                key={dest.value}
-                onClick={() => setSelectedCity(selectedCity === dest.value ? '' : dest.value)}
-                className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                  selectedCity === dest.value
-                    ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                    : 'bg-[#1a1a24] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50 hover:text-white'
-                }`}
+      {/* Advanced Filters (below hero) */}
+      <section className="relative z-10 bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatePresence>
+            {showFilters && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                className="overflow-hidden"
               >
-                <MapPin className="w-3 h-3 inline mr-1" />
-                {dest.label}
-              </button>
-            ))}
-          </div>
+                <div className="py-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Catégorie */}
+                    <div>
+                      <label className="block text-sm font-medium text-slate-400 mb-2">
+                        Catégorie
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {categories.map((cat) => (
+                          <button
+                            key={cat.value}
+                            onClick={() => setSelectedCategory(cat.value)}
+                            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                              selectedCategory === cat.value
+                                ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
+                                : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
+                            }`}
+                          >
+                            <cat.icon className="w-4 h-4" />
+                            {cat.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Prix */}
+                    <div>
+                      <label className="block text-sm font-medium text-slate-400 mb-2">
+                        Gamme de prix
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {priceRanges.map((range) => (
+                          <button
+                            key={range.value}
+                            onClick={() => setSelectedPriceRange(range.value)}
+                            className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                              selectedPriceRange === range.value
+                                ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
+                                : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
+                            }`}
+                          >
+                            {range.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Tri */}
+                    <div>
+                      <label className="block text-sm font-medium text-slate-400 mb-2">
+                        Trier par
+                      </label>
+                      <select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                        className="w-full px-4 py-2 bg-[#0d1520] border border-[#2a2a36] rounded-lg text-white appearance-none cursor-pointer outline-none"
+                      >
+                        {sortOptions.map((opt) => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Active filters */}
+                  {hasActiveFilters && (
+                    <div className="mt-4 pt-4 border-t border-[#2a2a36] flex items-center gap-2 flex-wrap">
+                      <span className="text-sm text-slate-400">Filtres actifs:</span>
+                      {selectedCity && (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-500/20 text-orange-400 rounded-full text-sm">
+                          {selectedCity}
+                          <button onClick={() => setSelectedCity('')}>
+                            <X className="w-3 h-3" />
+                          </button>
+                        </span>
+                      )}
+                      {selectedCategory && (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-500/20 text-orange-400 rounded-full text-sm">
+                          {getCategoryLabel(selectedCategory)}
+                          <button onClick={() => setSelectedCategory('')}>
+                            <X className="w-3 h-3" />
+                          </button>
+                        </span>
+                      )}
+                      {selectedPriceRange && (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-500/20 text-orange-400 rounded-full text-sm">
+                          {getPriceRangeSymbol(selectedPriceRange)}
+                          <button onClick={() => setSelectedPriceRange('')}>
+                            <X className="w-3 h-3" />
+                          </button>
+                        </span>
+                      )}
+                      <button
+                        onClick={() => {
+                          setSelectedCity('');
+                          setSelectedCategory('');
+                          setSelectedPriceRange('');
+                        }}
+                        className="text-sm text-orange-400 hover:underline"
+                      >
+                        Tout effacer
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-      </div>
-
-      {/* Filters Panel */}
-      <AnimatePresence>
-        {showFilters && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="bg-[#1a1a24] border-b border-[#2a2a36] overflow-hidden"
-          >
-            <div className="max-w-7xl mx-auto px-4 py-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Catégorie */}
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">
-                    Catégorie
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {categories.map((cat) => (
-                      <button
-                        key={cat.value}
-                        onClick={() => setSelectedCategory(cat.value)}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                          selectedCategory === cat.value
-                            ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                            : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
-                        }`}
-                      >
-                        <cat.icon className="w-4 h-4" />
-                        {cat.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Prix */}
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">
-                    Gamme de prix
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {priceRanges.map((range) => (
-                      <button
-                        key={range.value}
-                        onClick={() => setSelectedPriceRange(range.value)}
-                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                          selectedPriceRange === range.value
-                            ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                            : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
-                        }`}
-                      >
-                        {range.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Tri */}
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">
-                    Trier par
-                  </label>
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                    className="w-full px-4 py-2 bg-[#0d1520] border border-[#2a2a36] rounded-lg text-white appearance-none cursor-pointer outline-none"
-                  >
-                    {sortOptions.map((opt) => (
-                      <option key={opt.value} value={opt.value}>{opt.label}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Active filters */}
-              {hasActiveFilters && (
-                <div className="mt-4 pt-4 border-t border-[#2a2a36] flex items-center gap-2 flex-wrap">
-                  <span className="text-sm text-slate-400">Filtres actifs:</span>
-                  {selectedCity && (
-                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-500/20 text-orange-400 rounded-full text-sm">
-                      {selectedCity}
-                      <button onClick={() => setSelectedCity('')}>
-                        <X className="w-3 h-3" />
-                      </button>
-                    </span>
-                  )}
-                  {selectedCategory && (
-                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-500/20 text-orange-400 rounded-full text-sm">
-                      {getCategoryLabel(selectedCategory)}
-                      <button onClick={() => setSelectedCategory('')}>
-                        <X className="w-3 h-3" />
-                      </button>
-                    </span>
-                  )}
-                  {selectedPriceRange && (
-                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-500/20 text-orange-400 rounded-full text-sm">
-                      {getPriceRangeSymbol(selectedPriceRange)}
-                      <button onClick={() => setSelectedPriceRange('')}>
-                        <X className="w-3 h-3" />
-                      </button>
-                    </span>
-                  )}
-                  <button
-                    onClick={() => {
-                      setSelectedCity('');
-                      setSelectedCategory('');
-                      setSelectedPriceRange('');
-                    }}
-                    className="text-sm text-orange-400 hover:underline"
-                  >
-                    Tout effacer
-                  </button>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </section>
 
       {/* Results */}
       <div className="max-w-7xl mx-auto px-4 py-8">

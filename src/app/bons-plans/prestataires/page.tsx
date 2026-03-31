@@ -163,183 +163,193 @@ function PrestatairesPageContent() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
-      {/* Hero */}
-      <section className="relative overflow-hidden" style={{ height: '40vh', minHeight: '280px' }}>
-        <Image src="/images/highlights/Guide.png" alt="Guide touristique malgache accompagnant des voyageurs à Madagascar" fill className="object-cover" sizes="100vw" priority />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-2xl sm:text-4xl font-bold text-white drop-shadow-lg flex items-center gap-3">
-              <Users className="w-7 h-7 sm:w-9 sm:h-9 text-white flex-shrink-0" />
-              Prestataires touristiques
-            </h1>
-            <p className="text-white/90 text-sm sm:text-base mt-2 max-w-xl drop-shadow">
-              Guides, chauffeurs, agences de voyage et plus pour votre séjour à Madagascar
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero + Search unified */}
+      <section className="relative overflow-hidden" style={{ minHeight: '320px' }}>
+        <Image src="/images/highlights/Guide.png" alt="Guide touristique malgache à Madagascar" fill className="object-cover" sizes="100vw" priority />
+        <div className="absolute inset-0 bg-black/35" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col justify-end min-h-[320px]">
+          {/* Top row: Title + Photos + Search */}
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+            {/* Left: Title */}
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex-shrink-0">
+              <h1 className="text-xl sm:text-3xl font-bold text-white drop-shadow-lg flex items-center gap-2">
+                <Users className="w-6 h-6 sm:w-8 sm:h-8 text-white flex-shrink-0" />
+                Prestataires touristiques
+              </h1>
+              <p className="text-white/80 text-xs sm:text-sm mt-1 drop-shadow">
+                Guides, chauffeurs et agences pour votre séjour à Madagascar
+              </p>
+            </motion.div>
 
-      {/* Search & Filters */}
-      <section className="relative z-10 bg-[#0a0a0f]/95 border-b border-[#2a2a36]">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex flex-col md:flex-row gap-3">
-            <div className="flex-1 flex items-center gap-3 px-4 bg-[#0d1520] border border-[#2a2a36] rounded-xl">
-              <Search className="w-5 h-5 text-slate-500" />
-              <input
-                type="text"
-                placeholder="Rechercher un prestataire..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 py-3 bg-transparent outline-none text-white placeholder:text-slate-500"
-              />
+            {/* Center: 2 mini photos */}
+            <div className="hidden md:flex gap-2 flex-shrink-0">
+              <div className="relative w-28 h-20 rounded-lg overflow-hidden shadow-lg border-2 border-white/30">
+                <Image src="/images/highlights/Chauffeur.png" alt="Chauffeur Madagascar" fill className="object-cover" sizes="112px" />
+              </div>
+              <div className="relative w-28 h-20 rounded-lg overflow-hidden shadow-lg border-2 border-white/30">
+                <Image src="/images/highlights/Voyageur 1.png" alt="Voyageur Madagascar" fill className="object-cover" sizes="112px" />
+              </div>
             </div>
 
-            <div className="relative">
+            {/* Right: Search bar */}
+            <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 lg:max-w-md w-full lg:w-auto">
+              <div className="flex-1 flex items-center gap-2 px-3 bg-white/95 backdrop-blur-sm rounded-xl shadow-lg">
+                <Search className="w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Rechercher un prestataire..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="flex-1 py-2.5 bg-transparent outline-none text-gray-900 text-sm placeholder:text-gray-400"
+                />
+              </div>
               <select
                 value={selectedCity}
                 onChange={(e) => setSelectedCity(e.target.value)}
-                className="w-full md:w-48 px-4 py-3 bg-[#0d1520] border border-[#2a2a36] rounded-xl text-white appearance-none cursor-pointer outline-none"
+                className="px-3 py-2.5 bg-white/95 backdrop-blur-sm rounded-xl text-sm text-gray-900 outline-none cursor-pointer shadow-lg"
               >
                 <option value="">Toutes les villes</option>
                 {cities.map((city) => (
                   <option key={city} value={city}>{city}</option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm shadow-lg transition-colors ${
+                  hasActiveFilters
+                    ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
+                    : 'bg-white/95 backdrop-blur-sm text-gray-600 hover:text-orange-500'
+                }`}
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+                Filtres
+                {hasActiveFilters && <span className="w-2 h-2 bg-white rounded-full" />}
+              </button>
             </div>
-
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-medium transition-all ${
-                hasActiveFilters
-                  ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white'
-                  : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-cyan-500/50'
-              }`}
-            >
-              <SlidersHorizontal className="w-5 h-5" />
-              Filtres
-            </button>
           </div>
         </div>
       </section>
 
-      {/* Filters Panel */}
-      <AnimatePresence>
-        {showFilters && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="bg-[#1a1a24] border-b border-[#2a2a36] overflow-hidden"
-          >
-            <div className="max-w-7xl mx-auto px-4 py-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Type de service */}
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">Type de service</label>
-                  <div className="flex flex-wrap gap-2">
-                    {serviceTypes.slice(0, 6).map((type) => (
-                      <button
-                        key={type.value}
-                        onClick={() => setSelectedServiceType(type.value)}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                          selectedServiceType === type.value
-                            ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white'
-                            : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-cyan-500/50'
-                        }`}
-                      >
-                        <type.icon className="w-4 h-4" />
-                        {type.label}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {serviceTypes.slice(6).map((type) => (
-                      <button
-                        key={type.value}
-                        onClick={() => setSelectedServiceType(type.value)}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                          selectedServiceType === type.value
-                            ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white'
-                            : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-cyan-500/50'
-                        }`}
-                      >
-                        <type.icon className="w-4 h-4" />
-                        {type.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+      {/* Advanced Filters (below hero) */}
+      <section className="relative z-10 bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatePresence>
+            {showFilters && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                className="overflow-hidden"
+              >
+                <div className="py-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Type de service */}
+                    <div>
+                      <label className="block text-sm font-medium text-slate-400 mb-2">Type de service</label>
+                      <div className="flex flex-wrap gap-2">
+                        {serviceTypes.slice(0, 6).map((type) => (
+                          <button
+                            key={type.value}
+                            onClick={() => setSelectedServiceType(type.value)}
+                            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                              selectedServiceType === type.value
+                                ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white'
+                                : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-cyan-500/50'
+                            }`}
+                          >
+                            <type.icon className="w-4 h-4" />
+                            {type.label}
+                          </button>
+                        ))}
+                      </div>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {serviceTypes.slice(6).map((type) => (
+                          <button
+                            key={type.value}
+                            onClick={() => setSelectedServiceType(type.value)}
+                            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                              selectedServiceType === type.value
+                                ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white'
+                                : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-cyan-500/50'
+                            }`}
+                          >
+                            <type.icon className="w-4 h-4" />
+                            {type.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
 
-                {/* Prix */}
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">Gamme de prix</label>
-                  <div className="flex flex-wrap gap-2">
-                    {priceRanges.map((range) => (
-                      <button
-                        key={range.value}
-                        onClick={() => setSelectedPriceRange(range.value)}
-                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                          selectedPriceRange === range.value
-                            ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white'
-                            : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-cyan-500/50'
-                        }`}
+                    {/* Prix */}
+                    <div>
+                      <label className="block text-sm font-medium text-slate-400 mb-2">Gamme de prix</label>
+                      <div className="flex flex-wrap gap-2">
+                        {priceRanges.map((range) => (
+                          <button
+                            key={range.value}
+                            onClick={() => setSelectedPriceRange(range.value)}
+                            className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                              selectedPriceRange === range.value
+                                ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white'
+                                : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-cyan-500/50'
+                            }`}
+                          >
+                            {range.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Tri */}
+                    <div>
+                      <label className="block text-sm font-medium text-slate-400 mb-2">Trier par</label>
+                      <select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                        className="w-full px-4 py-2 bg-[#0d1520] border border-[#2a2a36] rounded-lg text-white appearance-none cursor-pointer outline-none"
                       >
-                        {range.label}
-                      </button>
-                    ))}
+                        {sortOptions.map((opt) => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
-                </div>
 
-                {/* Tri */}
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">Trier par</label>
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                    className="w-full px-4 py-2 bg-[#0d1520] border border-[#2a2a36] rounded-lg text-white appearance-none cursor-pointer outline-none"
-                  >
-                    {sortOptions.map((opt) => (
-                      <option key={opt.value} value={opt.value}>{opt.label}</option>
-                    ))}
-                  </select>
+                  {hasActiveFilters && (
+                    <div className="mt-4 pt-4 border-t border-[#2a2a36] flex items-center gap-2 flex-wrap">
+                      <span className="text-sm text-slate-400">Filtres actifs:</span>
+                      {selectedCity && (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm">
+                          {selectedCity}
+                          <button onClick={() => setSelectedCity('')}><X className="w-3 h-3" /></button>
+                        </span>
+                      )}
+                      {selectedServiceType && (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm">
+                          {getServiceTypeLabel(selectedServiceType)}
+                          <button onClick={() => setSelectedServiceType('')}><X className="w-3 h-3" /></button>
+                        </span>
+                      )}
+                      {selectedPriceRange && (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm">
+                          {priceRanges.find(r => r.value === selectedPriceRange)?.label}
+                          <button onClick={() => setSelectedPriceRange('')}><X className="w-3 h-3" /></button>
+                        </span>
+                      )}
+                      <button
+                        onClick={() => { setSelectedCity(''); setSelectedServiceType(''); setSelectedPriceRange(''); }}
+                        className="text-sm text-cyan-400 hover:underline"
+                      >
+                        Tout effacer
+                      </button>
+                    </div>
+                  )}
                 </div>
-              </div>
-
-              {hasActiveFilters && (
-                <div className="mt-4 pt-4 border-t border-[#2a2a36] flex items-center gap-2 flex-wrap">
-                  <span className="text-sm text-slate-400">Filtres actifs:</span>
-                  {selectedCity && (
-                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm">
-                      {selectedCity}
-                      <button onClick={() => setSelectedCity('')}><X className="w-3 h-3" /></button>
-                    </span>
-                  )}
-                  {selectedServiceType && (
-                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm">
-                      {getServiceTypeLabel(selectedServiceType)}
-                      <button onClick={() => setSelectedServiceType('')}><X className="w-3 h-3" /></button>
-                    </span>
-                  )}
-                  {selectedPriceRange && (
-                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm">
-                      {priceRanges.find(r => r.value === selectedPriceRange)?.label}
-                      <button onClick={() => setSelectedPriceRange('')}><X className="w-3 h-3" /></button>
-                    </span>
-                  )}
-                  <button
-                    onClick={() => { setSelectedCity(''); setSelectedServiceType(''); setSelectedPriceRange(''); }}
-                    className="text-sm text-cyan-400 hover:underline"
-                  >
-                    Tout effacer
-                  </button>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </section>
 
       {/* Results */}
       <div className="max-w-7xl mx-auto px-4 py-8">

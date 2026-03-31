@@ -185,68 +185,75 @@ function HotelsPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0f]">
 
-      {/* Hero */}
-      <section className="relative overflow-hidden" style={{ height: '40vh', minHeight: '280px' }}>
+      {/* Hero + Search unified */}
+      <section className="relative overflow-hidden" style={{ minHeight: '320px' }}>
         <Image src="/images/highlights/plage-ramena-et-les-pirogues-444.jpg" alt="Pirogues sur la plage de Ramena au coucher du soleil, Madagascar" fill className="object-cover" sizes="100vw" priority />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-2xl sm:text-4xl font-bold text-white drop-shadow-lg flex items-center gap-3">
-              <Building2 className="w-7 h-7 sm:w-9 sm:h-9 text-white flex-shrink-0" />
-              Hôtels à Madagascar
-            </h1>
-            <p className="text-white/90 text-sm sm:text-base mt-2 max-w-xl drop-shadow">
-              Trouvez l&apos;hébergement parfait parmi notre sélection avec les vrais prix en Ariary
-            </p>
-          </motion.div>
+        <div className="absolute inset-0 bg-black/35" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col justify-end min-h-[320px]">
+          {/* Top row: Title + Photos + Search */}
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+            {/* Left: Title */}
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex-shrink-0">
+              <h1 className="text-xl sm:text-3xl font-bold text-white drop-shadow-lg flex items-center gap-2">
+                <Building2 className="w-6 h-6 sm:w-8 sm:h-8 text-white flex-shrink-0" />
+                Hôtels à Madagascar
+              </h1>
+              <p className="text-white/80 text-xs sm:text-sm mt-1 drop-shadow">
+                Trouvez l&apos;hébergement parfait avec les vrais prix en Ariary
+              </p>
+            </motion.div>
+
+            {/* Center: 2 mini photos */}
+            <div className="hidden md:flex gap-2 flex-shrink-0">
+              <div className="relative w-28 h-20 rounded-lg overflow-hidden shadow-lg border-2 border-white/30">
+                <Image src="/images/highlights/nosy-be-photo-365.jpg" alt="Nosy Be" fill className="object-cover" sizes="112px" />
+              </div>
+              <div className="relative w-28 h-20 rounded-lg overflow-hidden shadow-lg border-2 border-white/30">
+                <Image src="/images/highlights/restaurant-interne.png" alt="Hébergement Madagascar" fill className="object-cover" sizes="112px" />
+              </div>
+            </div>
+
+            {/* Right: Search bar */}
+            <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 lg:max-w-md w-full lg:w-auto">
+              <div className="flex-1 flex items-center gap-2 px-3 bg-white/95 backdrop-blur-sm rounded-xl shadow-lg">
+                <Search className="w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Rechercher un hôtel..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="flex-1 py-2.5 bg-transparent outline-none text-gray-900 text-sm placeholder:text-gray-400"
+                />
+              </div>
+              <select
+                value={selectedCity}
+                onChange={(e) => setSelectedCity(e.target.value)}
+                className="px-3 py-2.5 bg-white/95 backdrop-blur-sm rounded-xl text-sm text-gray-900 outline-none cursor-pointer shadow-lg"
+              >
+                {cities.map((city) => (
+                  <option key={city} value={city === 'Toutes les villes' ? '' : city}>{city}</option>
+                ))}
+              </select>
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm shadow-lg transition-colors ${
+                  hasActiveFilters
+                    ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
+                    : 'bg-white/95 backdrop-blur-sm text-gray-600 hover:text-orange-500'
+                }`}
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+                Filtres
+                {hasActiveFilters && <span className="w-2 h-2 bg-white rounded-full" />}
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Search & Filters */}
-      <section className="relative z-10 bg-[#0a0a0f]/95 border-b border-[#2a2a36]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col sm:flex-row gap-4">
-            {/* Search */}
-            <div className="flex-1 flex items-center gap-3 px-4 bg-[#0d1520] border border-[#2a2a36] rounded-xl">
-              <Search className="w-5 h-5 text-slate-500" />
-              <input
-                type="text"
-                placeholder="Rechercher un hôtel..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 py-3 bg-transparent outline-none text-white placeholder:text-slate-500"
-              />
-            </div>
-
-            {/* City */}
-            <select
-              value={selectedCity}
-              onChange={(e) => setSelectedCity(e.target.value)}
-              className="px-4 py-3 bg-[#0d1520] border border-[#2a2a36] rounded-xl outline-none text-white cursor-pointer"
-            >
-              {cities.map((city) => (
-                <option key={city} value={city === 'Toutes les villes' ? '' : city}>
-                  {city}
-                </option>
-              ))}
-            </select>
-
-            {/* Filter button */}
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center gap-2 px-4 py-3 rounded-xl transition-colors ${
-                hasActiveFilters
-                  ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                  : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
-              }`}
-            >
-              <SlidersHorizontal className="w-5 h-5" />
-              Filtres
-              {hasActiveFilters && (
-                <span className="w-2 h-2 bg-white rounded-full" />
-              )}
-            </button>
-          </div>
+      {/* Advanced Filters (below hero) */}
+      <section className="relative z-10 bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Advanced Filters */}
           <AnimatePresence>

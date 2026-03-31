@@ -34,6 +34,7 @@ import {
   ParkingCircle,
   Users,
   Sparkles,
+  SlidersHorizontal,
 } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
 
@@ -312,214 +313,200 @@ function AttractionsPageContent() {
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white">
 
-      {/* Hero */}
-      <section className="relative overflow-hidden" style={{ height: '40vh', minHeight: '280px' }}>
-        <Image src="/images/highlights/baobab-couche-de-soleil.jpg" alt="Allée des baobabs au coucher du soleil, attraction emblématique de Madagascar" fill className="object-cover" sizes="100vw" priority />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-2xl sm:text-4xl font-bold text-white drop-shadow-lg flex items-center gap-3">
-              <Mountain className="w-7 h-7 sm:w-9 sm:h-9 text-white flex-shrink-0" />
-              Attractions Touristiques
-            </h1>
-            <p className="text-white/90 text-sm sm:text-base mt-2 max-w-xl drop-shadow">
-              Parcs nationaux, plages paradisiaques, sites historiques et merveilles naturelles
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero + Search unified */}
+      <section className="relative overflow-hidden" style={{ minHeight: '320px' }}>
+        <Image src="/images/highlights/baobab-couche-de-soleil.jpg" alt="Allée des baobabs au coucher du soleil, Madagascar" fill className="object-cover" sizes="100vw" priority />
+        <div className="absolute inset-0 bg-black/35" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col justify-end min-h-[320px]">
+          {/* Top row: Title + Photos + Search */}
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+            {/* Left: Title */}
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex-shrink-0">
+              <h1 className="text-xl sm:text-3xl font-bold text-white drop-shadow-lg flex items-center gap-2">
+                <Mountain className="w-6 h-6 sm:w-8 sm:h-8 text-white flex-shrink-0" />
+                Attractions Touristiques
+              </h1>
+              <p className="text-white/80 text-xs sm:text-sm mt-1 drop-shadow">
+                Parcs nationaux, plages paradisiaques et merveilles naturelles
+              </p>
+            </motion.div>
 
-      {/* Search & Filters */}
-      <section className="relative z-10 bg-[#0a0a0f]/95 border-b border-[#2a2a36]">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex flex-col md:flex-row gap-3">
-            <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
-              <input
-                type="text"
-                placeholder="Rechercher une attraction..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-[#0d1520] border border-[#2a2a36] rounded-xl text-white placeholder:text-slate-500 focus:border-orange-500/50 focus:outline-none"
-              />
+            {/* Center: 2 mini photos */}
+            <div className="hidden md:flex gap-2 flex-shrink-0">
+              <div className="relative w-28 h-20 rounded-lg overflow-hidden shadow-lg border-2 border-white/30">
+                <Image src="/images/Attractions/A la compagne.png" alt="A la campagne Madagascar" fill className="object-cover" sizes="112px" />
+              </div>
+              <div className="relative w-28 h-20 rounded-lg overflow-hidden shadow-lg border-2 border-white/30">
+                <Image src="/images/highlights/lemur.jpg" alt="Lémurien Madagascar" fill className="object-cover" sizes="112px" />
+              </div>
             </div>
-            <div className="relative">
+
+            {/* Right: Search bar */}
+            <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 lg:max-w-md w-full lg:w-auto">
+              <div className="flex-1 flex items-center gap-2 px-3 bg-white/95 backdrop-blur-sm rounded-xl shadow-lg">
+                <Search className="w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Rechercher une attraction..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="flex-1 py-2.5 bg-transparent outline-none text-gray-900 text-sm placeholder:text-gray-400"
+                />
+              </div>
               <select
                 value={selectedCity}
                 onChange={(e) => setSelectedCity(e.target.value)}
-                className="w-full md:w-48 px-4 py-3 bg-[#0d1520] border border-[#2a2a36] rounded-xl text-white appearance-none cursor-pointer outline-none"
+                className="px-3 py-2.5 bg-white/95 backdrop-blur-sm rounded-xl text-sm text-gray-900 outline-none cursor-pointer shadow-lg"
               >
                 <option value="">Toutes les régions</option>
                 {cities.map((city) => (
                   <option key={city} value={city}>{city}</option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm shadow-lg transition-colors ${
+                  showFilters
+                    ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
+                    : 'bg-white/95 backdrop-blur-sm text-gray-600 hover:text-orange-500'
+                }`}
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+                Filtres
+              </button>
             </div>
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              aria-label={showFilters ? 'Masquer les filtres' : 'Afficher les filtres'}
-              aria-expanded={showFilters}
-              className={`flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-medium transition-all ${
-                showFilters
-                  ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                  : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
-              }`}
-            >
-              <Filter className="w-5 h-5" />
-              Filtres
-            </button>
           </div>
         </div>
       </section>
 
-      {/* Popular Destinations */}
-      <div className="border-b border-[#2a2a36]">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
-            <span className="text-xs text-slate-500 shrink-0">Destinations :</span>
-            {POPULAR_DESTINATIONS.map((dest) => (
-              <button
-                key={dest.value}
-                onClick={() => setSelectedCity(selectedCity === dest.value ? '' : dest.value)}
-                className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                  selectedCity === dest.value
-                    ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                    : 'bg-[#1a1a24] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50 hover:text-white'
-                }`}
+      {/* Advanced Filters (below hero) */}
+      <section className="relative z-10 bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatePresence>
+            {showFilters && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                className="overflow-hidden"
               >
-                <MapPin className="w-3 h-3 inline mr-1" />
-                {dest.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
+                <div className="py-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Type */}
+                    <div>
+                      <label className="block text-sm font-medium text-slate-400 mb-2">
+                        Type d&apos;attraction
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {attractionTypes.slice(0, 5).map((type) => (
+                          <button
+                            key={type.value}
+                            onClick={() => setSelectedType(type.value)}
+                            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                              selectedType === type.value
+                                ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
+                                : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
+                            }`}
+                          >
+                            <type.icon className="w-4 h-4" />
+                            {type.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
 
-      {/* Filters - Dark */}
-      <AnimatePresence>
-        {showFilters && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="bg-[#1a1a24] border-b border-[#2a2a36] overflow-hidden"
-          >
-            <div className="max-w-7xl mx-auto px-4 py-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Type */}
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">
-                    Type d'attraction
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {attractionTypes.slice(0, 5).map((type) => (
-                      <button
-                        key={type.value}
-                        onClick={() => setSelectedType(type.value)}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                          selectedType === type.value
-                            ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                            : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
-                        }`}
+                    {/* Prix */}
+                    <div>
+                      <label className="block text-sm font-medium text-slate-400 mb-2">
+                        Tarif
+                      </label>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => setShowFreeOnly(false)}
+                          className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                            !showFreeOnly
+                              ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
+                              : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
+                          }`}
+                        >
+                          Tous
+                        </button>
+                        <button
+                          onClick={() => setShowFreeOnly(true)}
+                          className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                            showFreeOnly
+                              ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
+                              : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
+                          }`}
+                        >
+                          Gratuit uniquement
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Tri */}
+                    <div>
+                      <label className="block text-sm font-medium text-slate-400 mb-2">
+                        Trier par
+                      </label>
+                      <select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                        className="w-full px-4 py-2 bg-[#0d1520] border border-[#2a2a36] rounded-lg text-white appearance-none cursor-pointer focus:border-orange-500/50 focus:outline-none"
                       >
-                        <type.icon className="w-4 h-4" />
-                        {type.label}
-                      </button>
-                    ))}
+                        {sortOptions.map((opt) => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
-                </div>
 
-                {/* Prix */}
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">
-                    Tarif
-                  </label>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setShowFreeOnly(false)}
-                      className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                        !showFreeOnly
-                          ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                          : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
-                      }`}
-                    >
-                      Tous
-                    </button>
-                    <button
-                      onClick={() => setShowFreeOnly(true)}
-                      className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                        showFreeOnly
-                          ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                          : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
-                      }`}
-                    >
-                      Gratuit uniquement
-                    </button>
-                  </div>
-                </div>
-
-                {/* Tri */}
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">
-                    Trier par
-                  </label>
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                    className="w-full px-4 py-2 bg-[#0d1520] border border-[#2a2a36] rounded-lg text-white appearance-none cursor-pointer focus:border-orange-500/50 focus:outline-none"
-                  >
-                    {sortOptions.map((opt) => (
-                      <option key={opt.value} value={opt.value}>{opt.label}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Active filters */}
-              {(selectedType || selectedCity || showFreeOnly) && (
-                <div className="mt-4 pt-4 border-t border-[#2a2a36] flex items-center gap-2 flex-wrap">
-                  <span className="text-sm text-slate-400">Filtres actifs:</span>
-                  {selectedCity && (
-                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded-full text-sm">
-                      {selectedCity}
-                      <button onClick={() => setSelectedCity('')} aria-label="Retirer le filtre ville">
-                        <X className="w-3 h-3" />
+                  {/* Active filters */}
+                  {(selectedType || selectedCity || showFreeOnly) && (
+                    <div className="mt-4 pt-4 border-t border-[#2a2a36] flex items-center gap-2 flex-wrap">
+                      <span className="text-sm text-slate-400">Filtres actifs:</span>
+                      {selectedCity && (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded-full text-sm">
+                          {selectedCity}
+                          <button onClick={() => setSelectedCity('')} aria-label="Retirer le filtre ville">
+                            <X className="w-3 h-3" />
+                          </button>
+                        </span>
+                      )}
+                      {selectedType && (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded-full text-sm">
+                          {getTypeLabel(selectedType)}
+                          <button onClick={() => setSelectedType('')} aria-label="Retirer le filtre type">
+                            <X className="w-3 h-3" />
+                          </button>
+                        </span>
+                      )}
+                      {showFreeOnly && (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-500/20 text-green-400 border border-green-500/30 rounded-full text-sm">
+                          Gratuit
+                          <button onClick={() => setShowFreeOnly(false)} aria-label="Retirer le filtre gratuit">
+                            <X className="w-3 h-3" />
+                          </button>
+                        </span>
+                      )}
+                      <button
+                        onClick={() => {
+                          setSelectedCity('');
+                          setSelectedType('');
+                          setShowFreeOnly(false);
+                        }}
+                        className="text-sm text-orange-400 hover:underline"
+                      >
+                        Tout effacer
                       </button>
-                    </span>
+                    </div>
                   )}
-                  {selectedType && (
-                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded-full text-sm">
-                      {getTypeLabel(selectedType)}
-                      <button onClick={() => setSelectedType('')} aria-label="Retirer le filtre type">
-                        <X className="w-3 h-3" />
-                      </button>
-                    </span>
-                  )}
-                  {showFreeOnly && (
-                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-500/20 text-green-400 border border-green-500/30 rounded-full text-sm">
-                      Gratuit
-                      <button onClick={() => setShowFreeOnly(false)} aria-label="Retirer le filtre gratuit">
-                        <X className="w-3 h-3" />
-                      </button>
-                    </span>
-                  )}
-                  <button
-                    onClick={() => {
-                      setSelectedCity('');
-                      setSelectedType('');
-                      setShowFreeOnly(false);
-                    }}
-                    className="text-sm text-orange-400 hover:underline"
-                  >
-                    Tout effacer
-                  </button>
                 </div>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </section>
 
       {/* Interactive Map - Dark */}
       <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">

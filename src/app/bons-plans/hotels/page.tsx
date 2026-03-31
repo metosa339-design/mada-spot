@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Search, MapPin, Star, Building2, Filter, Wifi, Car, Utensils, Waves, Zap, Snowflake, Loader2, SlidersHorizontal } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
+import PhotoSlider from '@/components/ui/PhotoSlider';
 
 interface Hotel {
   id: string;
@@ -200,15 +201,14 @@ function HotelsPage() {
               </p>
             </motion.div>
 
-            {/* Center: 2 mini photos */}
-            <div className="hidden lg:flex gap-3 flex-shrink-0">
-              <div className="relative w-24 h-16 rounded-lg overflow-hidden shadow-md border border-gray-200">
-                <Image src="/images/highlights/nosy-be-photo-365.jpg" alt="Nosy Be" fill className="object-cover" sizes="96px" />
-              </div>
-              <div className="relative w-24 h-16 rounded-lg overflow-hidden shadow-md border border-gray-200">
-                <Image src="/images/highlights/plage-ramena-et-les-pirogues-444.jpg" alt="Plage Madagascar" fill className="object-cover" sizes="96px" />
-              </div>
-            </div>
+            {/* Center: sliding photo */}
+            <PhotoSlider
+              photos={[
+                { src: '/images/highlights/nosy-be-photo-365.jpg', alt: 'Nosy Be Madagascar' },
+                { src: '/images/highlights/plage-ramena-et-les-pirogues-444.jpg', alt: 'Plage Ramena Madagascar' },
+              ]}
+              className="hidden lg:block w-44 h-28 rounded-xl shadow-md border border-gray-200 flex-shrink-0"
+            />
 
             {/* Right: Search bar */}
             <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 lg:max-w-lg w-full lg:w-auto">

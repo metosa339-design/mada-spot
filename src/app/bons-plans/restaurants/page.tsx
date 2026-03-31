@@ -7,6 +7,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, MapPin, Star, X, UtensilsCrossed, Coffee, Wine, Truck, ShoppingBag, Wifi, ChevronDown, Menu as _MenuIcon, Image as ImageIcon, Eye, SlidersHorizontal, Filter } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
+import PhotoSlider from '@/components/ui/PhotoSlider';
 
 interface Restaurant {
   id: string;
@@ -202,15 +203,14 @@ function RestaurantsPageContent() {
               <p className="text-[#8B7E6E] text-xs sm:text-sm mt-1">Découvrez les meilleurs restaurants avec photos de menus et prix réels</p>
             </motion.div>
 
-            {/* Center: 2 mini photos */}
-            <div className="hidden lg:flex gap-3 flex-shrink-0">
-              <div className="relative w-24 h-16 rounded-lg overflow-hidden shadow-md border border-gray-200">
-                <NextImage src="/images/highlights/restaurant-plage.png" alt="Restaurant plage Madagascar" fill className="object-cover" sizes="96px" />
-              </div>
-              <div className="relative w-24 h-16 rounded-lg overflow-hidden shadow-md border border-gray-200">
-                <NextImage src="/images/highlights/restaurant-interne.png" alt="Intérieur restaurant Madagascar" fill className="object-cover" sizes="96px" />
-              </div>
-            </div>
+            {/* Center: sliding photo */}
+            <PhotoSlider
+              photos={[
+                { src: '/images/highlights/restaurant-plage.png', alt: 'Restaurant plage Madagascar' },
+                { src: '/images/highlights/restaurant-interne.png', alt: 'Intérieur restaurant Madagascar' },
+              ]}
+              className="hidden lg:block w-44 h-28 rounded-xl shadow-md border border-gray-200 flex-shrink-0"
+            />
 
             {/* Right: Search bar */}
             <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 lg:max-w-lg w-full lg:w-auto">

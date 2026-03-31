@@ -37,6 +37,7 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
+import PhotoSlider from '@/components/ui/PhotoSlider';
 
 interface Attraction {
   id: string;
@@ -326,15 +327,14 @@ function AttractionsPageContent() {
               <p className="text-[#8B7E6E] text-xs sm:text-sm mt-1">Parcs nationaux, plages paradisiaques et merveilles naturelles</p>
             </motion.div>
 
-            {/* Center: 2 mini photos */}
-            <div className="hidden lg:flex gap-3 flex-shrink-0">
-              <div className="relative w-24 h-16 rounded-lg overflow-hidden shadow-md border border-gray-200">
-                <Image src="/images/Attractions/A la compagne.png" alt="A la campagne Madagascar" fill className="object-cover" sizes="96px" />
-              </div>
-              <div className="relative w-24 h-16 rounded-lg overflow-hidden shadow-md border border-gray-200">
-                <Image src="/images/highlights/lemur.jpg" alt="Lémurien Madagascar" fill className="object-cover" sizes="96px" />
-              </div>
-            </div>
+            {/* Center: sliding photo */}
+            <PhotoSlider
+              photos={[
+                { src: '/images/Attractions/A la compagne.png', alt: 'Campagne Madagascar' },
+                { src: '/images/highlights/lemur.jpg', alt: 'Lémurien Madagascar' },
+              ]}
+              className="hidden lg:block w-44 h-28 rounded-xl shadow-md border border-gray-200 flex-shrink-0"
+            />
 
             {/* Right: Search bar */}
             <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 lg:max-w-lg w-full lg:w-auto">

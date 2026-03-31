@@ -141,12 +141,12 @@ export default function ParametresPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 bg-[#1a1a24] border border-white/10 rounded-xl p-1">
+      <div className="flex gap-1 bg-[#1a1a24] border border-white/10 rounded-xl p-1 overflow-x-auto">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
               activeTab === tab.id
                 ? 'bg-[#ff6b35] text-white'
                 : 'text-gray-400 hover:text-white hover:bg-white/5'
@@ -169,7 +169,7 @@ export default function ParametresPage() {
             <h3 className="text-sm font-medium text-gray-400 flex items-center gap-2">
               <User className="w-4 h-4" /> Informations personnelles
             </h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs text-gray-400 mb-1">Prénom</label>
                 <input
@@ -228,7 +228,7 @@ export default function ParametresPage() {
                 className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-[#ff6b35]/50"
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs text-gray-400 mb-1">NIF</label>
                 <input

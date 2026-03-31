@@ -397,7 +397,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
               <InputField label="Email" value={form.email} onChange={v => updateField('email', v)} type="email" />
               <InputField label="Site web" value={form.website} onChange={v => updateField('website', v)} placeholder="https://..." />
             </div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <InputField label="Facebook" value={form.facebook} onChange={v => updateField('facebook', v)} placeholder="URL Facebook" />
               <InputField label="Instagram" value={form.instagram} onChange={v => updateField('instagram', v)} placeholder="@compte" />
               <InputField label="WhatsApp" value={form.whatsapp} onChange={v => updateField('whatsapp', v)} placeholder="+261..." />
@@ -424,7 +424,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
-              <div className="grid grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                 {form.images.map((img, idx) => (
                   <div key={idx} className="relative group rounded-xl overflow-hidden border border-[#1e1e2e] aspect-video">
                     <NextImage src={img} alt={`Photo ${idx + 1} de la galerie`} fill sizes="25vw" className="object-cover" />
@@ -443,7 +443,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
         {/* ===== SPECIFIC: HOTEL ===== */}
         {activeTab === 'specific' && form.type === 'HOTEL' && (
           <>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label className="block text-xs font-medium text-gray-400 mb-1.5">Étoiles</label>
                 <div className="flex gap-1">
@@ -583,7 +583,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
             {/* Service toggles */}
             <div>
               <label className="block text-xs font-medium text-gray-400 mb-2">Services</label>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <ToggleField label="Livraison" value={form.restaurant.hasDelivery} onChange={v => updateRestaurant('hasDelivery', v)} />
                 <ToggleField label="À emporter" value={form.restaurant.hasTakeaway} onChange={v => updateRestaurant('hasTakeaway', v)} />
                 <ToggleField label="Réservation" value={form.restaurant.hasReservation} onChange={v => updateRestaurant('hasReservation', v)} />
@@ -657,7 +657,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
         {/* ===== SEO & STATUS ===== */}
         {activeTab === 'seo' && (
           <>
-            <div className="grid grid-cols-3 gap-3 mb-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
               <ToggleField label="Actif" value={form.isActive} onChange={v => updateField('isActive', v)} />
               <ToggleField label="Featured" value={form.isFeatured} onChange={v => updateField('isFeatured', v)} />
               <ToggleField label="Premium" value={form.isPremium} onChange={v => updateField('isPremium', v)} />

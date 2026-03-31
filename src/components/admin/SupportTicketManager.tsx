@@ -145,7 +145,7 @@ export default function SupportTicketManager() {
   return (
     <div className="space-y-6">
       {/* KPIs */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
           { label: 'Ouverts', value: stats.open, color: 'text-blue-400', bg: 'bg-blue-500/10', icon: AlertCircle },
           { label: 'En cours', value: stats.inProgress, color: 'text-amber-400', bg: 'bg-amber-500/10', icon: Clock },

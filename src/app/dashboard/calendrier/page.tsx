@@ -339,19 +339,19 @@ export default function CalendrierPage() {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-            <Calendar className="w-7 h-7" style={{ color: ACCENT }} />
+          <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+            <Calendar className="w-6 sm:w-7 h-6 sm:h-7" style={{ color: ACCENT }} />
             Calendrier
           </h1>
           <p className="text-gray-400 text-sm mt-1">{establishment.name}</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 self-start sm:self-auto">
           <button onClick={prevMonth} className="p-2 hover:bg-white/5 rounded-lg transition-colors text-gray-400 hover:text-white">
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <span className="text-lg font-semibold text-white min-w-[160px] text-center capitalize">
+          <span className="text-base sm:text-lg font-semibold text-white min-w-[140px] sm:min-w-[160px] text-center capitalize">
             {MONTHS_FR[month]} {year}
           </span>
           <button onClick={nextMonth} className="p-2 hover:bg-white/5 rounded-lg transition-colors text-gray-400 hover:text-white">

@@ -58,7 +58,7 @@ export default function ClickAnalytics() {
   return (
     <div className="space-y-6">
       {/* KPIs */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
           { label: 'Total clics (30j)', value: data.total, color: 'text-[#ff6b35]', bg: 'bg-[#ff6b35]/10' },
           { label: 'Type dominant', value: topType ? topType[0] : '-', color: 'text-cyan-400', bg: 'bg-cyan-500/10' },

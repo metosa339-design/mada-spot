@@ -238,9 +238,9 @@ export default function EstablishmentPage() {
   return (
     <div className="space-y-6 max-w-5xl">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-xl sm:text-2xl font-bold text-white">
             {data.id ? 'Modifier mon établissement' : 'Publier un établissement'}
           </h1>
           <p className="text-gray-400 text-sm mt-1">
@@ -250,7 +250,7 @@ export default function EstablishmentPage() {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-white rounded-xl font-medium text-sm transition-colors disabled:opacity-50"
+          className="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-white rounded-xl font-medium text-sm transition-colors disabled:opacity-50 shrink-0 self-start sm:self-auto"
         >
           {saving ? (
             <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />

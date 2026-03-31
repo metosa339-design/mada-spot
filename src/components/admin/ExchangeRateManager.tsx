@@ -105,7 +105,7 @@ export default function ExchangeRateManager() {
       {/* Formulaire */}
       {showForm && (
         <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-3">
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label className="text-xs text-gray-600 mb-1 block">Devise de base</label>
               <select

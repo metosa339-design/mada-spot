@@ -632,7 +632,7 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
             <ShieldCheck className="w-4 h-4 text-[#ef4444]" />
             File de moderation
           </h3>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {moderationTiles.map((tile) => {
               const TileIcon = tile.icon;
               return (

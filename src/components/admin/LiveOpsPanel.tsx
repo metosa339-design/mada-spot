@@ -158,7 +158,7 @@ export default function LiveOpsPanel() {
             <span className="text-sm font-medium text-white">{editingId ? 'Modifier' : 'Nouveau'}</span>
             <button onClick={resetForm} className="text-gray-500 hover:text-white"><X className="w-4 h-4" /></button>
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {tab === 'pharmacies' && (
               <>
                 <input value={pharmaForm.name} onChange={e => setPharmaForm(p => ({ ...p, name: e.target.value }))} placeholder="Nom" className="px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]" />

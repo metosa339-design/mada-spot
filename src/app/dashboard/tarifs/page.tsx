@@ -152,9 +152,9 @@ export default function TarifsPage() {
   return (
     <div className="space-y-8 max-w-4xl">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">Tarifs & Saisons</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-white">Tarifs & Saisons</h1>
           <p className="text-gray-400 text-sm mt-1">Gerez vos tarifs saisonniers</p>
         </div>
         <button

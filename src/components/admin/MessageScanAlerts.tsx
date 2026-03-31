@@ -99,7 +99,7 @@ export default function MessageScanAlerts() {
   return (
     <div className="space-y-6">
       {/* KPIs */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
           { label: 'En attente', value: stats.pending, color: 'text-amber-400', bg: 'bg-amber-500/10', icon: AlertTriangle },
           { label: "Aujourd'hui", value: stats.today, color: 'text-cyan-400', bg: 'bg-cyan-500/10', icon: Shield },

@@ -35,6 +35,7 @@ import {
   TrendingUp,
   Copy,
   Clock,
+  Menu,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
@@ -394,6 +395,7 @@ export default function AdminControlCenter() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Notifications
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
@@ -476,9 +478,25 @@ export default function AdminControlCenter() {
 
   return (
     <div className="min-h-screen bg-[#080810] text-white flex">
+      {/* Mobile sidebar toggle */}
+      <button
+        onClick={() => setSidebarOpen(true)}
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white"
+      >
+        <Menu className="w-5 h-5" />
+      </button>
+
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="lg:hidden fixed inset-0 bg-black/60 z-40"
+        />
+      )}
+
       {/* SIDEBAR */}
-      <aside className="w-72 bg-[#0c0c16] border-r border-[#1e1e2e] flex flex-col fixed h-full z-50">
-        <div className="p-6 border-b border-[#1e1e2e]">
+      <aside className={`w-72 bg-[#0c0c16] border-r border-[#1e1e2e] flex flex-col fixed h-full z-50 transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
+        <div className="p-6 border-b border-[#1e1e2e] flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Image src="/logo.png" alt="Mada Spot" width={40} height={40} className="w-10 h-10 object-contain" />
             <div>
@@ -486,13 +504,16 @@ export default function AdminControlCenter() {
               <p className="text-[10px] text-red-400 font-semibold tracking-wider uppercase">Admin Control Center</p>
             </div>
           </div>
+          <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-1 text-gray-400 hover:text-white">
+            <X className="w-5 h-5" />
+          </button>
         </div>
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
           {NAV_ITEMS.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
             return (
-              <button key={item.id} onClick={() => setActiveTab(item.id)} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${isActive ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'text-gray-500 hover:bg-[#1a1a2e] hover:text-white'}`}>
+              <button key={item.id} onClick={() => { setActiveTab(item.id); setSidebarOpen(false); }} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${isActive ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'text-gray-500 hover:bg-[#1a1a2e] hover:text-white'}`}>
                 <Icon className="w-5 h-5" />
                 {item.label}
                 {item.hasBadge && unreadCount > 0 && (
@@ -510,18 +531,18 @@ export default function AdminControlCenter() {
       </aside>
 
       {/* MAIN */}
-      <main className="flex-1 ml-72">
+      <main className="flex-1 lg:ml-72">
         {/* Top Bar */}
-        <header className="sticky top-0 z-40 bg-[#080810]/90 backdrop-blur-xl border-b border-[#1e1e2e] px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold">{NAV_ITEMS.find(n => n.id === activeTab)?.label}</h2>
-              <p className="text-xs text-gray-500 mt-0.5">Centre de controle administrateur</p>
+        <header className="sticky top-0 z-40 bg-[#080810]/90 backdrop-blur-xl border-b border-[#1e1e2e] px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between gap-4">
+            <div className="min-w-0 ml-10 lg:ml-0">
+              <h2 className="text-lg sm:text-2xl font-bold truncate">{NAV_ITEMS.find(n => n.id === activeTab)?.label}</h2>
+              <p className="text-xs text-gray-500 mt-0.5 hidden sm:block">Centre de controle administrateur</p>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="relative">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="relative hidden sm:block">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-                <input type="text" placeholder="Rechercher..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-10 pr-4 py-2.5 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-sm focus:outline-none focus:border-red-500/50 w-64" />
+                <input type="text" placeholder="Rechercher..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-10 pr-4 py-2.5 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-sm focus:outline-none focus:border-red-500/50 w-48 lg:w-64" />
               </div>
               {/* Notification Bell */}
               <div className="relative" ref={notifRef}>
@@ -539,7 +560,7 @@ export default function AdminControlCenter() {
                   )}
                 </button>
                 {showNotifDropdown && (
-                  <div className="absolute right-0 top-12 w-80 bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl shadow-2xl z-50 overflow-hidden">
+                  <div className="absolute right-0 top-12 w-72 sm:w-80 bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl shadow-2xl z-50 overflow-hidden">
                     <div className="p-4 border-b border-[#1e1e2e] flex items-center justify-between">
                       <h4 className="font-semibold text-sm">Notifications</h4>
                       <div className="flex items-center gap-2">
@@ -568,15 +589,15 @@ export default function AdminControlCenter() {
                   </div>
                 )}
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0c0c16] border border-[#1e1e2e]">
+              <div className="flex items-center gap-2 px-2 sm:px-4 py-2 rounded-xl bg-[#0c0c16] border border-[#1e1e2e]">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center text-white font-bold text-xs">AD</div>
-                <span className="text-sm font-medium">Admin</span>
+                <span className="text-sm font-medium hidden sm:inline">Admin</span>
               </div>
             </div>
           </div>
         </header>
 
-        <div className="p-8">
+        <div className="p-4 sm:p-6 lg:p-8">
           <AnimatePresence mode="wait">
             <motion.div key={activeTab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
               <TabContent tabId={activeTab} setActiveTab={setActiveTab} />

@@ -190,12 +190,12 @@ export default function StatistiquesPage() {
   return (
     <div className="space-y-8 max-w-6xl">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">Statistiques</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-white">Statistiques</h1>
           <p className="text-gray-400 text-sm mt-1">Suivez les performances de votre établissement</p>
         </div>
-        <div className="flex gap-1 bg-[#1a1a24] border border-white/10 rounded-xl p-1">
+        <div className="flex gap-1 bg-[#1a1a24] border border-white/10 rounded-xl p-1 self-start sm:self-auto">
           {[
             { value: '7d' as const, label: '7 jours' },
             { value: '30d' as const, label: '30 jours' },

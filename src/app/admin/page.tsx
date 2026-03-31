@@ -467,7 +467,7 @@ export default function AdminControlCenter() {
 
   if (!isAuthed || loading) {
     return (
-      <div className="min-h-screen bg-[#080810] flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-10 h-10 text-red-500 animate-spin mx-auto mb-4" />
           <p className="text-gray-400">Chargement...</p>
@@ -477,11 +477,11 @@ export default function AdminControlCenter() {
   }
 
   return (
-    <div className="min-h-screen bg-[#080810] text-white flex">
+    <div className="min-h-screen bg-[#F9FAFB] text-[#111827] flex">
       {/* Mobile sidebar toggle */}
       <button
         onClick={() => setSidebarOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white"
+        className="lg:hidden fixed top-4 left-4 z-[60] p-2 bg-white border border-gray-200 rounded-xl text-gray-700 shadow-md"
       >
         <Menu className="w-5 h-5" />
       </button>
@@ -490,13 +490,13 @@ export default function AdminControlCenter() {
       {sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}
-          className="lg:hidden fixed inset-0 bg-black/60 z-40"
+          className="lg:hidden fixed inset-0 bg-black/40 z-[55]"
         />
       )}
 
       {/* SIDEBAR */}
-      <aside className={`w-72 bg-[#0c0c16] border-r border-[#1e1e2e] flex flex-col fixed h-full z-50 transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
-        <div className="p-6 border-b border-[#1e1e2e] flex items-center justify-between">
+      <aside className={`w-72 bg-white border-r border-gray-200 flex flex-col fixed h-full z-[58] transition-transform duration-300 shadow-lg lg:shadow-none ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
+        <div className="p-6 border-b border-gray-200 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Image src="/logo.png" alt="Mada Spot" width={40} height={40} className="w-10 h-10 object-contain" />
             <div>
@@ -504,7 +504,7 @@ export default function AdminControlCenter() {
               <p className="text-[10px] text-red-400 font-semibold tracking-wider uppercase">Admin Control Center</p>
             </div>
           </div>
-          <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-1 text-gray-400 hover:text-white">
+          <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-1 text-gray-400 hover:text-gray-700">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -513,7 +513,7 @@ export default function AdminControlCenter() {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
             return (
-              <button key={item.id} onClick={() => { setActiveTab(item.id); setSidebarOpen(false); }} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${isActive ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'text-gray-500 hover:bg-[#1a1a2e] hover:text-white'}`}>
+              <button key={item.id} onClick={() => { setActiveTab(item.id); setSidebarOpen(false); }} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${isActive ? 'bg-orange-500/10 text-orange-600 border border-orange-500/20' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'}`}>
                 <Icon className="w-5 h-5" />
                 {item.label}
                 {item.hasBadge && unreadCount > 0 && (
@@ -523,8 +523,8 @@ export default function AdminControlCenter() {
             );
           })}
         </nav>
-        <div className="p-4 border-t border-[#1e1e2e]">
-          <button onClick={async () => { try { await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }); await fetch('/api/admin/logout', { method: 'POST', credentials: 'include' }); } catch {} router.push('/login'); }} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-gray-500 hover:bg-[#1a1a2e] hover:text-red-400 transition-all">
+        <div className="p-4 border-t border-gray-200">
+          <button onClick={async () => { try { await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }); await fetch('/api/admin/logout', { method: 'POST', credentials: 'include' }); } catch {} router.push('/login'); }} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-gray-500 hover:bg-red-50 hover:text-red-500 transition-all">
             <LogOut className="w-5 h-5" /> Deconnexion
           </button>
         </div>
@@ -533,7 +533,7 @@ export default function AdminControlCenter() {
       {/* MAIN */}
       <main className="flex-1 lg:ml-72">
         {/* Top Bar */}
-        <header className="sticky top-0 z-40 bg-[#080810]/90 backdrop-blur-xl border-b border-[#1e1e2e] px-4 sm:px-6 lg:px-8 py-4">
+        <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-xl border-b border-gray-200 px-4 sm:px-6 lg:px-8 py-4 shadow-sm">
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0 ml-10 lg:ml-0">
               <h2 className="text-lg sm:text-2xl font-bold truncate">{NAV_ITEMS.find(n => n.id === activeTab)?.label}</h2>
@@ -542,7 +542,7 @@ export default function AdminControlCenter() {
             <div className="flex items-center gap-2 sm:gap-4">
               <div className="relative hidden sm:block">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-                <input type="text" placeholder="Rechercher..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-10 pr-4 py-2.5 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-sm focus:outline-none focus:border-red-500/50 w-48 lg:w-64" />
+                <input type="text" placeholder="Rechercher..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-orange-500/50 w-48 lg:w-64" />
               </div>
               {/* Notification Bell */}
               <div className="relative" ref={notifRef}>
@@ -552,7 +552,7 @@ export default function AdminControlCenter() {
                     setShowNotifDropdown(willOpen);
                     if (willOpen && unreadCount > 0) markNotificationsRead();
                   }}
-                  className="relative p-2.5 rounded-xl bg-[#0c0c16] border border-[#1e1e2e] hover:border-red-500/30 transition-colors"
+                  className="relative p-2.5 rounded-xl bg-gray-50 border border-gray-200 hover:border-red-500/30 transition-colors"
                 >
                   <Bell className="w-5 h-5 text-gray-400" />
                   {unreadCount > 0 && (
@@ -560,8 +560,8 @@ export default function AdminControlCenter() {
                   )}
                 </button>
                 {showNotifDropdown && (
-                  <div className="absolute right-0 top-12 w-72 sm:w-80 bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl shadow-2xl z-50 overflow-hidden">
-                    <div className="p-4 border-b border-[#1e1e2e] flex items-center justify-between">
+                  <div className="absolute right-0 top-12 w-72 sm:w-80 bg-gray-50 border border-gray-200 rounded-2xl shadow-2xl z-50 overflow-hidden">
+                    <div className="p-4 border-b border-gray-200 flex items-center justify-between">
                       <h4 className="font-semibold text-sm">Notifications</h4>
                       <div className="flex items-center gap-2">
                         {unreadCount > 0 && (
@@ -574,7 +574,7 @@ export default function AdminControlCenter() {
                     </div>
                     <div className="max-h-80 overflow-y-auto">
                       {notifications.length > 0 ? notifications.slice(0, 10).map((n) => (
-                        <div key={n.id} className={`p-4 border-b border-[#1e1e2e] hover:bg-[#1a1a2e] ${!n.isRead ? 'bg-red-500/5' : ''}`}>
+                        <div key={n.id} className={`p-4 border-b border-gray-200 hover:bg-gray-50 ${!n.isRead ? 'bg-red-500/5' : ''}`}>
                           <p className="text-sm font-medium">{n.title}</p>
                           <p className="text-xs text-gray-500 mt-0.5">{n.message}</p>
                           <p className="text-[10px] text-gray-600 mt-1">{new Date(n.createdAt).toLocaleString('fr-FR')}</p>
@@ -589,7 +589,7 @@ export default function AdminControlCenter() {
                   </div>
                 )}
               </div>
-              <div className="flex items-center gap-2 px-2 sm:px-4 py-2 rounded-xl bg-[#0c0c16] border border-[#1e1e2e]">
+              <div className="flex items-center gap-2 px-2 sm:px-4 py-2 rounded-xl bg-gray-50 border border-gray-200">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center text-white font-bold text-xs">AD</div>
                 <span className="text-sm font-medium hidden sm:inline">Admin</span>
               </div>

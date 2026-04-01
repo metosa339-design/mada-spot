@@ -174,7 +174,7 @@ export default function VerifyAccountPage() {
       </div>
 
       {/* OTP Input */}
-      <div className="flex justify-center gap-3 mb-6" onPaste={handlePaste}>
+      <div className="flex justify-center gap-2 sm:gap-3 mb-6" onPaste={handlePaste}>
         {code.map((digit, index) => (
           <input
             key={index}
@@ -186,7 +186,7 @@ export default function VerifyAccountPage() {
             onChange={(e) => handleChange(index, e.target.value)}
             onKeyDown={(e) => handleKeyDown(index, e)}
             className={`
-              w-12 h-14 text-center text-xl font-bold rounded-xl border-2
+              w-11 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold rounded-xl border-2
               bg-[#1a1a24] text-white outline-none transition-all duration-200
               ${error
                 ? 'border-red-500/50 focus:border-red-500'

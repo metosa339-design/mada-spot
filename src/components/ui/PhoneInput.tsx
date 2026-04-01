@@ -128,7 +128,7 @@ export default function PhoneInput({
 
       {/* Dropdown */}
       {open && (
-        <div className={`absolute top-full left-0 mt-1 w-72 rounded-xl shadow-xl border overflow-hidden z-50 ${
+        <div className={`absolute top-full left-0 mt-1 w-full sm:w-72 max-w-[calc(100vw-2rem)] rounded-xl shadow-xl border overflow-hidden z-50 ${
           isDark ? 'bg-[#1a1a24] border-white/10' : 'bg-white border-gray-200'
         }`}>
           {/* Search */}

@@ -1222,7 +1222,7 @@ export default function PublierLieuPage() {
                   <label className="block text-sm font-medium text-gray-300 mb-3">
                     Position GPS <span className="text-gray-600">(cliquez sur la carte)</span>
                   </label>
-                  <div className="rounded-xl overflow-hidden border border-[#1e1e2e]">
+                  <div className="rounded-xl overflow-hidden border border-[#1e1e2e] min-h-[300px] sm:min-h-[400px]">
                     <MapLocationPicker
                       onLocationSelect={handleLocationSelect}
                       initialLat={formData.latitude ? parseFloat(formData.latitude) : undefined}

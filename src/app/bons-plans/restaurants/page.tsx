@@ -5,7 +5,7 @@ import Link from 'next/link';
 import NextImage from 'next/image';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MapPin, Star, X, UtensilsCrossed, Coffee, Wine, Truck, ShoppingBag, Wifi, ChevronDown, Menu as _MenuIcon, Image as ImageIcon, Eye, SlidersHorizontal, Filter } from 'lucide-react';
+import { Search, MapPin, Star, X, UtensilsCrossed, Coffee, Wine, Truck, ShoppingBag, Wifi, Menu as _MenuIcon, Image as ImageIcon, Eye, SlidersHorizontal } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
 import PhotoSlider from '@/components/ui/PhotoSlider';
 
@@ -56,14 +56,6 @@ const sortOptions = [
   { value: 'rating', label: 'Meilleures notes' },
   { value: 'price', label: 'Prix croissant' },
   { value: 'newest', label: 'Plus récents' },
-];
-
-const POPULAR_DESTINATIONS = [
-  { label: 'Antananarivo', value: 'Antananarivo' },
-  { label: 'Nosy Be', value: 'Nosy Be' },
-  { label: 'Toamasina', value: 'Toamasina' },
-  { label: 'Mahajanga', value: 'Mahajanga' },
-  { label: 'Diego Suarez', value: 'Diego Suarez' },
 ];
 
 const cities = [

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+// Image import removed — using PhotoSlider
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
@@ -20,7 +20,6 @@ import {
   Search,
   MapPin,
   Star,
-  Filter,
   X,
   Mountain,
   Trees,
@@ -29,11 +28,9 @@ import {
   Landmark,
   Camera,
   Clock,
-  ChevronDown,
   Accessibility,
   ParkingCircle,
   Users,
-  Sparkles,
   SlidersHorizontal,
 } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
@@ -80,15 +77,6 @@ const sortOptions = [
   { value: 'rating', label: 'Meilleures notes' },
   { value: 'price', label: 'Prix croissant' },
   { value: 'newest', label: 'Plus récents' },
-];
-
-const POPULAR_DESTINATIONS = [
-  { label: 'Nosy Be', value: 'Nosy Be' },
-  { label: 'Andasibe', value: 'Andasibe' },
-  { label: 'Isalo', value: 'Isalo' },
-  { label: 'Morondava', value: 'Morondava' },
-  { label: 'Diego Suarez', value: 'Diego Suarez' },
-  { label: 'Fort-Dauphin', value: 'Fort-Dauphin' },
 ];
 
 const cities = [

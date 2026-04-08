@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MapPin, Star, X, Users, ChevronDown, SlidersHorizontal, Car, Camera, Globe, Map as MapIcon, Compass, Briefcase, Ship, ArrowRight, Plus } from 'lucide-react';
+import { Search, MapPin, Star, X, Users, SlidersHorizontal, Car, Camera, Globe, Map as MapIcon, Compass, Briefcase, Ship, ArrowRight, Plus } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
 import PhotoSlider from '@/components/ui/PhotoSlider';
 

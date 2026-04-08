@@ -729,7 +729,7 @@ export default function PublierLieuPage() {
           <div className="flex gap-3 justify-center">
             <button
               onClick={() => router.push('/client')}
-              className="px-6 py-3 bg-[#1e1e2e] text-white rounded-xl hover:bg-[#2a2a3e] transition-colors"
+              className="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all"
             >
               Mon tableau de bord
             </button>

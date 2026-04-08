@@ -36,11 +36,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         return
       }
       const data = await res.json()
-      // Bloquer l'accès si le compte n'est pas vérifié
-      if (!data.user?.isVerified && data.user?.role !== 'ADMIN') {
-        router.push('/verify-account')
-        return
-      }
+      // Note: email verification is now non-blocking (banner shown in dashboard)
       setUser(data.user)
     } catch {
       router.push('/login?redirect=/dashboard')

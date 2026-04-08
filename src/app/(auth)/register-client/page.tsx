@@ -207,9 +207,14 @@ function RegisterClientForm() {
         throw new Error(data.error || "Erreur lors de l'inscription")
       }
 
-      // Account created → OTP already sent by register route
-      // Hard redirect to ensure the pending cookie is sent with the request
-      window.location.href = '/verify-account'
+      // Account created + session set → redirect to appropriate page
+      if (paramType && paramSubtype) {
+        window.location.href = `/publier-lieu?type=${paramType}&subtype=${encodeURIComponent(paramSubtype)}`
+      } else if (paramType) {
+        window.location.href = '/dashboard'
+      } else {
+        window.location.href = redirectTo || '/client'
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erreur lors de l'inscription")
     } finally {

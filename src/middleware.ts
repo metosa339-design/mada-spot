@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 const SESSION_COOKIE = 'mada-spot-session';
+const PENDING_COOKIE = 'mada-spot-pending';
 const ADMIN_COOKIE = 'mada-spot-admin-session';
 
 // Routes protégées nécessitant une session utilisateur
@@ -82,9 +83,10 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // Page de vérification : accessible seulement si connecté
+  // Page de vérification : accessible si connecté OU si inscription en cours (pending)
   if (pathname.startsWith(VERIFY_ROUTE)) {
-    if (!hasUserSession) {
+    const hasPendingRegistration = request.cookies.has(PENDING_COOKIE);
+    if (!hasUserSession && !hasPendingRegistration) {
       const url = request.nextUrl.clone();
       url.pathname = '/login';
       return applySecurityHeaders(NextResponse.redirect(url));

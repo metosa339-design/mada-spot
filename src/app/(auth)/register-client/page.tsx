@@ -208,8 +208,8 @@ function RegisterClientForm() {
       }
 
       // Account created → OTP already sent by register route
-      // Redirect to the unified verify-account page
-      router.push('/verify-account')
+      // Hard redirect to ensure the pending cookie is sent with the request
+      window.location.href = '/verify-account'
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erreur lors de l'inscription")
     } finally {

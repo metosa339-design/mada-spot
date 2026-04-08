@@ -1,7 +1,7 @@
-// POST /api/auth/verify — Verify OTP and create real account
+// POST /api/auth/verify — Verify OTP and mark email as verified
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { createSession, getSessionCookieConfig } from '@/lib/auth';
+import { createSession, getSessionCookieConfig, getAuthUser } from '@/lib/auth';
 import { checkRateLimit, getClientIdentifier, getRateLimitHeaders } from '@/lib/rate-limit';
 import { verifyCsrfToken } from '@/lib/csrf';
 import { logger } from '@/lib/logger';
@@ -37,11 +37,11 @@ export async function POST(request: NextRequest) {
     // Get pending token from cookie
     const pendingToken = request.cookies.get('mada-spot-pending')?.value;
 
-    // Also try session cookie for backward compatibility
-    const sessionToken = request.cookies.get('mada-spot-session')?.value;
+    // Try session-based flow (user already logged in, verifying email from dashboard)
+    const sessionUser = await getAuthUser(request);
 
     if (pendingToken) {
-      // NEW FLOW: Pending registration
+      // FLOW 1: Pending registration (old flow compatibility)
       const pending = await prisma.pendingRegistration.findUnique({ where: { token: pendingToken } });
 
       if (!pending) {
@@ -81,13 +81,10 @@ export async function POST(request: NextRequest) {
           await tx.clientProfile.create({ data: { userId: newUser.id } });
         }
 
-        // Delete pending registration
         await tx.pendingRegistration.delete({ where: { id: pending.id } });
-
         return newUser;
       });
 
-      // Create real session
       const deviceInfo = request.headers.get('user-agent') || undefined;
       const ipAddress = request.headers.get('x-forwarded-for') || undefined;
       const newSessionToken = await createSession(user.id, deviceInfo, ipAddress);
@@ -99,35 +96,60 @@ export async function POST(request: NextRequest) {
         message: 'Compte créé et vérifié avec succès ! Bienvenue sur MadaSpot.',
       });
 
-      // Set real session cookie and clear pending cookie
       const cookieConfig = getSessionCookieConfig(newSessionToken);
       response.cookies.set(cookieConfig);
-      response.cookies.set({
-        name: 'mada-spot-pending',
-        value: '',
-        maxAge: 0,
-        path: '/',
-      });
-
+      response.cookies.set({ name: 'mada-spot-pending', value: '', maxAge: 0, path: '/' });
       return response;
     }
 
-    // BACKWARD COMPATIBILITY: Old flow with session cookie
-    if (sessionToken) {
-      const { verifySession } = await import('@/lib/auth');
-      const { verifyOTP } = await import('@/lib/otp');
-      const session = await verifySession(sessionToken);
-      if (!session) {
-        return NextResponse.json({ success: false, error: 'Session invalide ou expirée' }, { status: 401 });
+    if (sessionUser) {
+      // FLOW 2: User already logged in, verifying email from dashboard banner
+      const user = await prisma.user.findUnique({
+        where: { id: sessionUser.id },
+        select: { id: true, email: true, emailVerified: true },
+      });
+
+      if (!user) {
+        return NextResponse.json({ success: false, error: 'Utilisateur non trouvé.' }, { status: 401 });
       }
-      const result = await verifyOTP(session.id, code);
-      if (!result.success) {
-        return NextResponse.json({ success: false, error: result.error || 'Code invalide ou expiré.' }, { status: 400 });
+
+      if (user.emailVerified) {
+        return NextResponse.json({ success: true, message: 'Email déjà vérifié.' });
       }
-      return NextResponse.json({ success: true, message: 'Compte vérifié avec succès !' });
+
+      // Find the pending registration with matching email for OTP code
+      const pending = await prisma.pendingRegistration.findFirst({
+        where: { email: user.email },
+        orderBy: { createdAt: 'desc' },
+      });
+
+      if (!pending) {
+        return NextResponse.json({ success: false, error: 'Aucun code en attente. Cliquez sur "Renvoyer le code".' }, { status: 400 });
+      }
+
+      if (pending.otpExpiresAt < new Date()) {
+        return NextResponse.json({ success: false, error: 'Code expiré. Cliquez sur "Renvoyer le code".' }, { status: 400 });
+      }
+
+      if (pending.otpCode !== code) {
+        return NextResponse.json({ success: false, error: 'Code incorrect.' }, { status: 400 });
+      }
+
+      // Mark email as verified
+      await prisma.$transaction([
+        prisma.user.update({
+          where: { id: user.id },
+          data: { emailVerified: true, isVerified: true },
+        }),
+        prisma.pendingRegistration.delete({ where: { id: pending.id } }),
+      ]);
+
+      logger.info(`[VERIFY] ✓ Email verified for ${user.email}`);
+
+      return NextResponse.json({ success: true, message: 'Email vérifié avec succès !' });
     }
 
-    return NextResponse.json({ success: false, error: 'Veuillez recommencer l\'inscription.' }, { status: 401 });
+    return NextResponse.json({ success: false, error: 'Veuillez vous connecter pour vérifier votre email.' }, { status: 401 });
   } catch (error) {
     logger.error('Erreur vérification OTP:', error);
     return NextResponse.json(

@@ -530,41 +530,43 @@ export default function EstablishmentPage() {
                     const galleryItems = data.gallery || [];
                     const caption = galleryItems.find(g => g.url === img)?.caption || '';
                     return (
-                      <div key={index} className="flex gap-3 items-start bg-[#0d1520] rounded-xl p-3">
-                        <div className="relative w-24 h-24 rounded-lg overflow-hidden shrink-0">
-                          <img src={img} alt={`Photo ${index + 1}`} className="w-full h-full object-cover" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <input
-                            type="text"
-                            placeholder="Description de la photo (ex: Vue piscine, Chambre deluxe...)"
-                            value={caption}
-                            onChange={(e) => {
-                              const newGallery = [...galleryItems];
-                              const existingIdx = newGallery.findIndex(g => g.url === img);
-                              if (existingIdx >= 0) {
-                                newGallery[existingIdx] = { ...newGallery[existingIdx], caption: e.target.value };
-                              } else {
-                                newGallery.push({ url: img, caption: e.target.value });
-                              }
-                              setData(prev => ({ ...prev, gallery: newGallery }));
+                      <div key={index} className="bg-[#0d1520] rounded-xl p-3">
+                        <div className="flex gap-3 items-start">
+                          <div className="relative w-16 h-16 sm:w-24 sm:h-24 rounded-lg overflow-hidden shrink-0">
+                            <img src={img} alt={`Photo ${index + 1}`} className="w-full h-full object-cover" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <input
+                              type="text"
+                              placeholder="Description (ex: Vue piscine...)"
+                              value={caption}
+                              onChange={(e) => {
+                                const newGallery = [...galleryItems];
+                                const existingIdx = newGallery.findIndex(g => g.url === img);
+                                if (existingIdx >= 0) {
+                                  newGallery[existingIdx] = { ...newGallery[existingIdx], caption: e.target.value };
+                                } else {
+                                  newGallery.push({ url: img, caption: e.target.value });
+                                }
+                                setData(prev => ({ ...prev, gallery: newGallery }));
+                              }}
+                              className="w-full px-3 py-2 bg-[#1a1a24] border border-[#2a2a36] rounded-lg text-white text-sm placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
+                            />
+                            <p className="text-xs text-gray-600 mt-1">Photo {index + 1}</p>
+                          </div>
+                          <button
+                            onClick={() => {
+                              setData(prev => {
+                                const newImages = prev.images.filter((_, i) => i !== index);
+                                const newGallery = (prev.gallery || []).filter(g => g.url !== img);
+                                return { ...prev, images: newImages, gallery: newGallery };
+                              });
                             }}
-                            className="w-full px-3 py-2 bg-[#1a1a24] border border-[#2a2a36] rounded-lg text-white text-sm placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
-                          />
-                          <p className="text-xs text-gray-600 mt-1">Photo {index + 1}</p>
+                            className="p-2 bg-red-500/20 rounded-lg text-red-400 hover:bg-red-500/30 transition-colors shrink-0"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
                         </div>
-                        <button
-                          onClick={() => {
-                            setData(prev => {
-                              const newImages = prev.images.filter((_, i) => i !== index);
-                              const newGallery = (prev.gallery || []).filter(g => g.url !== img);
-                              return { ...prev, images: newImages, gallery: newGallery };
-                            });
-                          }}
-                          className="p-2 bg-red-500/20 rounded-lg text-red-400 hover:bg-red-500/30 transition-colors shrink-0"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
                       </div>
                     );
                   })}

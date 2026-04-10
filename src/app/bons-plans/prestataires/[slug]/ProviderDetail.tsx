@@ -384,7 +384,7 @@ export default function ProviderDetail() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Contact Card */}
-            <div className="bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] sticky top-24">
+            <div className="bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] lg:sticky lg:top-24">
               <h3 className="text-lg font-semibold text-white mb-4">Contacter</h3>
 
               {/* Booking + Chat Widget */}
@@ -441,8 +441,8 @@ export default function ProviderDetail() {
 
             {/* Similar Providers */}
             {similarProviders.length > 0 && (
-              <div className="bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36]">
-                <h3 className="text-lg font-semibold text-white mb-4">Prestataires similaires</h3>
+              <div className="bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] mt-6">
+                <h3 className="text-lg font-semibold text-white mb-4">Découvrir aussi</h3>
                 <div className="space-y-3">
                   {similarProviders.map((sp) => (
                     <Link

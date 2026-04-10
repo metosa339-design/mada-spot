@@ -23,6 +23,7 @@ import PromoBanner from '@/components/bons-plans/PromoBanner';
 import EstablishmentEvents from '@/components/bons-plans/EstablishmentEvents';
 import OwnerBio from '@/components/bons-plans/OwnerBio';
 import CategorizedGallery from '@/components/bons-plans/CategorizedGallery';
+import PhotoGallerySection from '@/components/bons-plans/PhotoGallerySection';
 import EnhancedContactButtons from '@/components/bons-plans/EnhancedContactButtons';
 import AccessInfo from '@/components/bons-plans/AccessInfo';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -41,6 +42,7 @@ interface Attraction {
   address: string;
   coverImage: string;
   images: string[];
+  gallery?: { url: string; caption?: string }[];
   rating: number;
   reviewCount: number;
   isFeatured: boolean;
@@ -397,6 +399,15 @@ export default function AttractionDetail() {
                 {t(attraction.description || attraction.shortDescription, attraction.descriptionEn || attraction.shortDescriptionEn)}
               </p>
             </motion.section>
+
+            {/* Photo Gallery */}
+            {(attraction.images?.length > 0 || attraction.gallery?.length) && (
+              <PhotoGallerySection
+                images={attraction.images || []}
+                gallery={attraction.gallery}
+                coverImage={attraction.coverImage}
+              />
+            )}
 
             {/* Owner Bio */}
             {attraction.owner && <OwnerBio owner={attraction.owner} establishmentName={attraction.name} />}

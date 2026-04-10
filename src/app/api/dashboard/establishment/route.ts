@@ -37,6 +37,7 @@ export async function GET() {
     }
 
     const images = establishment.images ? JSON.parse(establishment.images) : []
+    const gallery = establishment.gallery ? JSON.parse(establishment.gallery) : []
 
     const result: Record<string, unknown> = {
       id: establishment.id,
@@ -58,6 +59,7 @@ export async function GET() {
       whatsapp: establishment.whatsapp || '',
       coverImage: establishment.coverImage || '',
       images,
+      gallery,
     }
 
     // Add type-specific fields
@@ -121,6 +123,7 @@ export async function POST(request: NextRequest) {
         whatsapp: body.whatsapp || null,
         coverImage: body.coverImage || null,
         images: JSON.stringify(body.images || []),
+        gallery: JSON.stringify(body.gallery || []),
         isClaimed: true,
         claimedByUserId: user.id,
         claimedAt: new Date(),
@@ -226,6 +229,7 @@ export async function PUT(request: NextRequest) {
         whatsapp: body.whatsapp || null,
         coverImage: body.coverImage || null,
         images: JSON.stringify(body.images || []),
+        gallery: JSON.stringify(body.gallery || []),
       },
     })
 

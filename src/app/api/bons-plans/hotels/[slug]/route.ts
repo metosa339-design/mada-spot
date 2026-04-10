@@ -117,6 +117,7 @@ export async function GET(
         whatsapp: hotel.whatsapp,
         coverImage: hotel.coverImage,
         images: safeJsonParse(hotel.images, []),
+        gallery: safeJsonParse(hotel.gallery, []),
         rating: hotel.rating,
         reviewCount: hotel.reviewCount,
         isFeatured: hotel.isFeatured,

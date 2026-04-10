@@ -518,31 +518,64 @@ export default function EstablishmentPage() {
                 </div>
               </div>
 
-              {/* Gallery */}
+              {/* Gallery with descriptions */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-3">
+                <label className="block text-sm font-medium text-gray-300 mb-1">
                   Galerie photos ({data.images.length}/20)
                 </label>
-                <div className="grid grid-cols-3 lg:grid-cols-5 gap-3">
-                  {data.images.map((img, index) => (
-                    <div key={index} className="relative aspect-square rounded-xl overflow-hidden group">
-                      <img src={img} alt={`Photo ${index + 1}`} className="w-full h-full object-cover" />
-                      <button
-                        onClick={() => setData(prev => ({ ...prev, images: prev.images.filter((_, i) => i !== index) }))}
-                        className="absolute top-1 right-1 p-1 bg-red-500 rounded-lg text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <X className="w-3 h-3" />
-                      </button>
-                    </div>
-                  ))}
+                <p className="text-xs text-gray-500 mb-3">Ajoutez une description à chaque photo pour aider les voyageurs.</p>
+                <div className="space-y-3">
+                  {data.images.map((img, index) => {
+                    const galleryItems = Array.isArray((data as Record<string, unknown>).gallery) ? (data as Record<string, unknown>).gallery as {url: string; caption?: string}[] : [];
+                    const caption = galleryItems.find(g => g.url === img)?.caption || '';
+                    return (
+                      <div key={index} className="flex gap-3 items-start bg-[#0d1520] rounded-xl p-3">
+                        <div className="relative w-24 h-24 rounded-lg overflow-hidden shrink-0">
+                          <img src={img} alt={`Photo ${index + 1}`} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <input
+                            type="text"
+                            placeholder="Description de la photo (ex: Vue piscine, Chambre deluxe...)"
+                            value={caption}
+                            onChange={(e) => {
+                              const newGallery = [...galleryItems];
+                              const existingIdx = newGallery.findIndex(g => g.url === img);
+                              if (existingIdx >= 0) {
+                                newGallery[existingIdx] = { ...newGallery[existingIdx], caption: e.target.value };
+                              } else {
+                                newGallery.push({ url: img, caption: e.target.value });
+                              }
+                              setData(prev => ({ ...prev, gallery: newGallery } as typeof prev));
+                            }}
+                            className="w-full px-3 py-2 bg-[#1a1a24] border border-[#2a2a36] rounded-lg text-white text-sm placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
+                          />
+                          <p className="text-xs text-gray-600 mt-1">Photo {index + 1}</p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setData(prev => {
+                              const newImages = prev.images.filter((_, i) => i !== index);
+                              const prevGallery = Array.isArray((prev as Record<string, unknown>).gallery) ? (prev as Record<string, unknown>).gallery as {url: string; caption?: string}[] : [];
+                              const newGallery = prevGallery.filter(g => g.url !== img);
+                              return { ...prev, images: newImages, gallery: newGallery } as typeof prev;
+                            });
+                          }}
+                          className="p-2 bg-red-500/20 rounded-lg text-red-400 hover:bg-red-500/30 transition-colors shrink-0"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    );
+                  })}
                   {data.images.length < 20 && (
-                    <label className="aspect-square border-2 border-dashed border-white/20 rounded-xl cursor-pointer hover:border-[#ff6b35]/50 flex flex-col items-center justify-center transition-colors">
+                    <label className="flex items-center justify-center gap-2 w-full py-4 border-2 border-dashed border-white/20 rounded-xl cursor-pointer hover:border-[#ff6b35]/50 transition-colors">
                       {uploadingImages ? (
                         <div className="w-6 h-6 border-2 border-[#ff6b35] border-t-transparent rounded-full animate-spin" />
                       ) : (
                         <>
-                          <Plus className="w-6 h-6 text-gray-500" />
-                          <span className="text-xs text-gray-500 mt-1">Ajouter</span>
+                          <Plus className="w-5 h-5 text-gray-500" />
+                          <span className="text-sm text-gray-400">Ajouter des photos</span>
                         </>
                       )}
                       <input

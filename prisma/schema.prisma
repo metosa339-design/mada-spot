@@ -374,6 +374,7 @@ model Establishment {
   // Media
   coverImage String?
   images     String? // JSON array of image URLs
+  gallery    String? // JSON array of {url, caption} objects
 
   // Ratings
   rating      Float @default(0)

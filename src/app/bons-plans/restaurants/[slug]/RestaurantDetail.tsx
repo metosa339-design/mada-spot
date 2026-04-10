@@ -24,6 +24,7 @@ import PromoBanner from '@/components/bons-plans/PromoBanner';
 import EstablishmentEvents from '@/components/bons-plans/EstablishmentEvents';
 import OwnerBio from '@/components/bons-plans/OwnerBio';
 import CategorizedGallery from '@/components/bons-plans/CategorizedGallery';
+import PhotoGallerySection from '@/components/bons-plans/PhotoGallerySection';
 import EnhancedContactButtons from '@/components/bons-plans/EnhancedContactButtons';
 import AccessInfo from '@/components/bons-plans/AccessInfo';
 import { getImageUrl } from '@/lib/image-url';
@@ -40,6 +41,7 @@ interface Restaurant {
   address: string;
   coverImage: string;
   images: string[];
+  gallery?: { url: string; caption?: string }[];
   rating: number;
   reviewCount: number;
   isFeatured: boolean;
@@ -586,6 +588,15 @@ export default function RestaurantDetail() {
                 </div>
               )}
             </section>
+
+            {/* Photo Gallery */}
+            {(restaurant.images?.length > 0 || restaurant.gallery?.length) && (
+              <PhotoGallerySection
+                images={restaurant.images || []}
+                gallery={restaurant.gallery}
+                coverImage={restaurant.coverImage}
+              />
+            )}
 
             {restaurant.owner && <OwnerBio owner={restaurant.owner} establishmentName={restaurant.name} />}
 

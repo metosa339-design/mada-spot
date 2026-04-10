@@ -22,6 +22,7 @@ import PromoBanner from '@/components/bons-plans/PromoBanner';
 import EstablishmentEvents from '@/components/bons-plans/EstablishmentEvents';
 import OwnerBio from '@/components/bons-plans/OwnerBio';
 import CategorizedGallery from '@/components/bons-plans/CategorizedGallery';
+import PhotoGallerySection from '@/components/bons-plans/PhotoGallerySection';
 import EnhancedContactButtons from '@/components/bons-plans/EnhancedContactButtons';
 import AccessInfo from '@/components/bons-plans/AccessInfo';
 import ReviewPreview from '@/components/bons-plans/ReviewPreview';
@@ -66,6 +67,7 @@ interface Hotel {
   address: string;
   coverImage: string;
   images: string[];
+  gallery?: { url: string; caption?: string }[];
   rating: number;
   reviewCount: number;
   isFeatured: boolean;
@@ -322,6 +324,15 @@ export default function HotelDetail() {
                 {t(hotel.description || hotel.shortDescription, hotel.descriptionEn || hotel.shortDescriptionEn)}
               </p>
             </section>
+
+            {/* Photo Gallery */}
+            {(hotel.images?.length > 0 || hotel.gallery?.length) && (
+              <PhotoGallerySection
+                images={hotel.images || []}
+                gallery={hotel.gallery}
+                coverImage={hotel.coverImage}
+              />
+            )}
 
             {/* Owner Bio */}
             {hotel.owner && (

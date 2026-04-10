@@ -101,6 +101,7 @@ export async function GET(
       address: establishment.address,
       coverImage: establishment.coverImage,
       images: safeJsonParse(establishment.images, []),
+      gallery: safeJsonParse(establishment.gallery, []),
       rating: establishment.rating,
       reviewCount: establishment.reviewCount,
       isFeatured: establishment.isFeatured,

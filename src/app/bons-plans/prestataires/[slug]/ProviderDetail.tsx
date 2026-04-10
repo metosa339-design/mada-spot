@@ -10,6 +10,7 @@ import Image from 'next/image';
 const DirectionsWidget = dynamic(() => import('@/components/maps/DirectionsWidget'), { ssr: false });
 import BookingChatWidget from '@/components/bons-plans/BookingChatWidget';
 import CategorizedGallery from '@/components/bons-plans/CategorizedGallery';
+import PhotoGallerySection from '@/components/bons-plans/PhotoGallerySection';
 import { getImageUrl } from '@/lib/image-url';
 import SocialLinks from '@/components/bons-plans/SocialLinks';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
@@ -28,6 +29,7 @@ interface Provider {
   address: string;
   coverImage: string;
   images: string[];
+  gallery?: { url: string; caption?: string }[];
   rating: number;
   reviewCount: number;
   isFeatured: boolean;
@@ -228,6 +230,15 @@ export default function ProviderDetail() {
                   </button>
                 )}
               </div>
+            )}
+
+            {/* Photo Gallery */}
+            {(provider.images?.length > 0 || provider.gallery?.length) && (
+              <PhotoGallerySection
+                images={provider.images || []}
+                gallery={provider.gallery}
+                coverImage={provider.coverImage}
+              />
             )}
 
             {/* Provider Details */}

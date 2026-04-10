@@ -326,7 +326,7 @@ export default function HotelDetail() {
             </section>
 
             {/* Photo Gallery */}
-            {(hotel.images?.length > 0 || hotel.gallery?.length) && (
+            {(hotel.coverImage || hotel.images?.length > 0 || hotel.gallery?.length) && (
               <PhotoGallerySection
                 images={hotel.images || []}
                 gallery={hotel.gallery}

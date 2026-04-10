@@ -590,7 +590,7 @@ export default function RestaurantDetail() {
             </section>
 
             {/* Photo Gallery */}
-            {(restaurant.images?.length > 0 || restaurant.gallery?.length) && (
+            {(restaurant.coverImage || restaurant.images?.length > 0 || restaurant.gallery?.length) && (
               <PhotoGallerySection
                 images={restaurant.images || []}
                 gallery={restaurant.gallery}

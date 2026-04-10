@@ -233,7 +233,7 @@ export default function ProviderDetail() {
             )}
 
             {/* Photo Gallery */}
-            {(provider.images?.length > 0 || provider.gallery?.length) && (
+            {(provider.coverImage || provider.images?.length > 0 || provider.gallery?.length) && (
               <PhotoGallerySection
                 images={provider.images || []}
                 gallery={provider.gallery}

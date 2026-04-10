@@ -401,7 +401,7 @@ export default function AttractionDetail() {
             </motion.section>
 
             {/* Photo Gallery */}
-            {(attraction.images?.length > 0 || attraction.gallery?.length) && (
+            {(attraction.coverImage || attraction.images?.length > 0 || attraction.gallery?.length) && (
               <PhotoGallerySection
                 images={attraction.images || []}
                 gallery={attraction.gallery}

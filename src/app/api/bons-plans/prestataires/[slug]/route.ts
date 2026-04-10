@@ -38,17 +38,8 @@ export async function GET(
       );
     }
 
-    await Promise.all([
-      prisma.establishment.update({
-        where: { id: establishment.id },
-        data: { viewCount: { increment: 1 } },
-      }),
-      prisma.establishmentView.create({
-        data: { establishmentId: establishment.id, source: detectViewSource(request) },
-      }).catch(() => {}),
-    ]);
-
-    const similarProviders = await prisma.establishment.findMany({
+    // Fetch similar providers in parallel, fire-and-forget view tracking
+    const similarProvidersPromise = prisma.establishment.findMany({
       where: {
         type: 'PROVIDER',
         isActive: true,
@@ -58,10 +49,24 @@ export async function GET(
           { provider: { serviceType: establishment.provider.serviceType } },
         ],
       },
-      include: { provider: true },
+      select: {
+        id: true, name: true, slug: true, city: true, coverImage: true, rating: true,
+        provider: { select: { serviceType: true, priceFrom: true } },
+      },
       take: 3,
       orderBy: { rating: 'desc' },
     });
+
+    // Fire-and-forget: don't block response
+    prisma.establishment.update({
+      where: { id: establishment.id },
+      data: { viewCount: { increment: 1 } },
+    }).catch(() => {});
+    prisma.establishmentView.create({
+      data: { establishmentId: establishment.id, source: detectViewSource(request) },
+    }).catch(() => {});
+
+    const similarProviders = await similarProvidersPromise;
 
     const transformedProvider = {
       id: establishment.id,

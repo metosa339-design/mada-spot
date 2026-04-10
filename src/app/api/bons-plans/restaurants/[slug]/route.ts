@@ -39,55 +39,36 @@ export async function GET(
       );
     }
 
-    // Incrémenter le compteur de vues + track view
-    await Promise.all([
-      prisma.establishment.update({
-        where: { id: establishment.id },
-        data: { viewCount: { increment: 1 } },
+    // Run owner + similar in parallel, fire-and-forget view tracking
+    const [owner, similarRestaurants] = await Promise.all([
+      establishment.claimedByUserId
+        ? prisma.user.findUnique({
+            where: { id: establishment.claimedByUserId },
+            select: { firstName: true, lastName: true, avatar: true, createdAt: true },
+          }).then(u => u ? { firstName: u.firstName || '', lastName: u.lastName || '', avatar: u.avatar, memberSince: u.createdAt.toISOString() } : null)
+        : null,
+      prisma.establishment.findMany({
+        where: {
+          type: 'RESTAURANT',
+          isActive: true,
+          id: { not: establishment.id },
+          OR: [
+            { city: establishment.city },
+            { restaurant: { category: establishment.restaurant.category } },
+          ],
+        },
+        select: {
+          id: true, name: true, slug: true, coverImage: true, city: true, rating: true, reviewCount: true,
+          restaurant: { select: { category: true, priceRange: true } },
+        },
+        take: 3,
+        orderBy: { rating: 'desc' },
       }),
-      prisma.establishmentView.create({
-        data: { establishmentId: establishment.id, source: detectViewSource(request) },
-      }).catch(() => {}),
     ]);
 
-    // Fetch owner info if claimed
-    let owner = null;
-    if (establishment.claimedByUserId) {
-      const ownerUser = await prisma.user.findUnique({
-        where: { id: establishment.claimedByUserId },
-        select: { firstName: true, lastName: true, avatar: true, createdAt: true },
-      });
-      if (ownerUser) {
-        owner = {
-          firstName: ownerUser.firstName || '',
-          lastName: ownerUser.lastName || '',
-          avatar: ownerUser.avatar,
-          memberSince: ownerUser.createdAt.toISOString(),
-        };
-      }
-    }
-
-    // Trouver des restaurants similaires
-    const similarRestaurants = await prisma.establishment.findMany({
-      where: {
-        type: 'RESTAURANT',
-        isActive: true,
-        id: { not: establishment.id },
-        OR: [
-          { city: establishment.city },
-          {
-            restaurant: {
-              category: establishment.restaurant.category,
-            },
-          },
-        ],
-      },
-      include: {
-        restaurant: true,
-      },
-      take: 3,
-      orderBy: { rating: 'desc' },
-    });
+    // Fire-and-forget
+    prisma.establishment.update({ where: { id: establishment.id }, data: { viewCount: { increment: 1 } } }).catch(() => {});
+    prisma.establishmentView.create({ data: { establishmentId: establishment.id, source: detectViewSource(request) } }).catch(() => {});
 
     const transformedRestaurant = {
       id: establishment.id,

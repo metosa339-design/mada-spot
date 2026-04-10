@@ -44,56 +44,56 @@ export async function GET(
       return NextResponse.json({ error: 'Hotel non trouvé' }, { status: 404 });
     }
 
-    // Increment view count + track view
-    await Promise.all([
-      prisma.establishment.update({
-        where: { id: hotel.id },
-        data: { viewCount: { increment: 1 } },
-      }),
-      prisma.establishmentView.create({
-        data: { establishmentId: hotel.id, source: detectViewSource(request) },
-      }).catch(() => {}),
-    ]);
-
-    // Fetch owner info if claimed
-    let owner = null;
-    if (hotel.claimedByUserId) {
-      const ownerUser = await prisma.user.findUnique({
-        where: { id: hotel.claimedByUserId },
-        select: { firstName: true, lastName: true, avatar: true, createdAt: true },
-      });
-      if (ownerUser) {
-        owner = {
-          firstName: ownerUser.firstName || '',
-          lastName: ownerUser.lastName || '',
-          avatar: ownerUser.avatar,
-          memberSince: ownerUser.createdAt.toISOString(),
-        };
-      }
-    }
-
-    // Get similar hotels in same city
-    const similarHotels = await prisma.establishment.findMany({
-      where: {
-        type: 'HOTEL',
-        city: hotel.city,
-        isActive: true,
-        id: { not: hotel.id },
-      },
-      include: {
-        hotel: {
-          include: {
-            roomTypes: {
-              where: { isAvailable: true },
-              take: 1,
-              orderBy: { pricePerNight: 'asc' },
+    // Run all secondary queries in parallel (non-blocking)
+    const [owner, similarHotels] = await Promise.all([
+      // Fetch owner
+      hotel.claimedByUserId
+        ? prisma.user.findUnique({
+            where: { id: hotel.claimedByUserId },
+            select: { firstName: true, lastName: true, avatar: true, createdAt: true },
+          })
+        : null,
+      // Similar hotels
+      prisma.establishment.findMany({
+        where: {
+          type: 'HOTEL',
+          city: hotel.city,
+          isActive: true,
+          id: { not: hotel.id },
+        },
+        select: {
+          id: true, name: true, slug: true, coverImage: true, city: true, rating: true, reviewCount: true,
+          hotel: {
+            select: {
+              roomTypes: {
+                where: { isAvailable: true },
+                take: 1,
+                orderBy: { pricePerNight: 'asc' },
+                select: { pricePerNight: true },
+              },
             },
           },
         },
-      },
-      take: 4,
-      orderBy: { rating: 'desc' },
-    });
+        take: 4,
+        orderBy: { rating: 'desc' },
+      }),
+    ]);
+
+    // Fire-and-forget: track view without blocking response
+    prisma.establishment.update({
+      where: { id: hotel.id },
+      data: { viewCount: { increment: 1 } },
+    }).catch(() => {});
+    prisma.establishmentView.create({
+      data: { establishmentId: hotel.id, source: detectViewSource(request) },
+    }).catch(() => {});
+
+    const ownerData = owner ? {
+      firstName: owner.firstName || '',
+      lastName: owner.lastName || '',
+      avatar: owner.avatar,
+      memberSince: owner.createdAt.toISOString(),
+    } : null;
 
     return NextResponse.json({
       hotel: {
@@ -123,31 +123,33 @@ export async function GET(
         isFeatured: hotel.isFeatured,
         isPremium: hotel.isPremium,
         viewCount: hotel.viewCount,
-        isClaimed: hotel.isClaimed,
-        claimedByUserId: hotel.claimedByUserId,
-        // Multilingual
-        nameEn: hotel.nameEn,
+        starRating: hotel.hotel?.starRating || 0,
+        checkInTime: hotel.hotel?.checkInTime || '14:00',
+        checkOutTime: hotel.hotel?.checkOutTime || '11:00',
+        amenities: safeJsonParse(hotel.hotel?.amenities, []),
+        openingHours: safeJsonParse(hotel.openingHours, {}),
+        priceRange: hotel.priceRange,
         descriptionEn: hotel.descriptionEn,
         shortDescriptionEn: hotel.shortDescriptionEn,
-        // Hotel specific
-        starRating: hotel.hotel?.starRating,
-        hotelType: hotel.hotel?.hotelType,
-        amenities: safeJsonParse(hotel.hotel?.amenities, []),
-        checkInTime: hotel.hotel?.checkInTime,
-        checkOutTime: hotel.hotel?.checkOutTime,
-        openingHours: safeJsonParse(hotel.hotel?.openingHours, null),
-        // Room types
-        roomTypes: hotel.hotel?.roomTypes.map((room) => ({
+        dataSource: hotel.dataSource,
+        sourceUrl: hotel.sourceUrl,
+        sourceName: hotel.sourceName,
+        isClaimed: hotel.isClaimed,
+        claimedByUserId: hotel.claimedByUserId,
+        owner: ownerData,
+        roomTypes: hotel.hotel?.roomTypes?.map((room) => ({
           id: room.id,
           name: room.name,
           description: room.description,
           capacity: room.capacity,
+          bedType: room.bedType,
+          size: room.size,
           pricePerNight: room.pricePerNight,
           priceWeekend: room.priceWeekend,
           amenities: safeJsonParse(room.amenities, []),
           images: safeJsonParse(room.images, []),
+          isAvailable: room.isAvailable,
         })) || [],
-        // Reviews
         reviews: hotel.reviews.map((review) => ({
           id: review.id,
           rating: review.rating,
@@ -156,14 +158,8 @@ export async function GET(
           authorName: review.authorName,
           images: safeJsonParse(review.images, []),
           ownerResponse: review.ownerResponse,
-          createdAt: review.createdAt,
+          createdAt: review.createdAt.toISOString(),
         })),
-        // Owner
-        owner,
-        // Import metadata
-        dataSource: hotel.dataSource,
-        sourceUrl: hotel.sourceUrl,
-        sourceAttribution: hotel.sourceAttribution,
       },
       similarHotels: similarHotels.map((h) => ({
         id: h.id,
@@ -173,12 +169,11 @@ export async function GET(
         city: h.city,
         rating: h.rating,
         reviewCount: h.reviewCount,
-        starRating: h.hotel?.starRating,
-        lowestPrice: h.hotel?.roomTypes[0]?.pricePerNight,
+        lowestPrice: h.hotel?.roomTypes?.[0]?.pricePerNight || null,
       })),
     }, { headers: CACHE_HEADERS });
   } catch (error) {
-    logger.error('Error fetching hotel:', error);
+    logger.error('Hotel detail error:', error);
     return apiError('Erreur serveur', 500);
   }
 }

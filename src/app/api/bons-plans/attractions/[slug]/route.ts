@@ -39,56 +39,37 @@ export async function GET(
       );
     }
 
-    // Incrémenter le compteur de vues + track view
-    await Promise.all([
-      prisma.establishment.update({
-        where: { id: establishment.id },
-        data: { viewCount: { increment: 1 } },
+    // Run owner + similar in parallel, fire-and-forget view tracking
+    const [owner, similarAttractions] = await Promise.all([
+      establishment.claimedByUserId
+        ? prisma.user.findUnique({
+            where: { id: establishment.claimedByUserId },
+            select: { firstName: true, lastName: true, avatar: true, createdAt: true },
+          }).then(u => u ? { firstName: u.firstName || '', lastName: u.lastName || '', avatar: u.avatar, memberSince: u.createdAt.toISOString() } : null)
+        : null,
+      prisma.establishment.findMany({
+        where: {
+          type: 'ATTRACTION',
+          isActive: true,
+          id: { not: establishment.id },
+          OR: [
+            { city: establishment.city },
+            { region: establishment.region },
+            { attraction: { attractionType: establishment.attraction.attractionType } },
+          ],
+        },
+        select: {
+          id: true, name: true, slug: true, coverImage: true, city: true, rating: true, reviewCount: true,
+          attraction: { select: { attractionType: true, isFree: true, entryFeeLocal: true } },
+        },
+        take: 3,
+        orderBy: { rating: 'desc' },
       }),
-      prisma.establishmentView.create({
-        data: { establishmentId: establishment.id, source: detectViewSource(request) },
-      }).catch(() => {}),
     ]);
 
-    // Fetch owner info if claimed
-    let owner = null;
-    if (establishment.claimedByUserId) {
-      const ownerUser = await prisma.user.findUnique({
-        where: { id: establishment.claimedByUserId },
-        select: { firstName: true, lastName: true, avatar: true, createdAt: true },
-      });
-      if (ownerUser) {
-        owner = {
-          firstName: ownerUser.firstName || '',
-          lastName: ownerUser.lastName || '',
-          avatar: ownerUser.avatar,
-          memberSince: ownerUser.createdAt.toISOString(),
-        };
-      }
-    }
-
-    // Trouver des attractions similaires
-    const similarAttractions = await prisma.establishment.findMany({
-      where: {
-        type: 'ATTRACTION',
-        isActive: true,
-        id: { not: establishment.id },
-        OR: [
-          { city: establishment.city },
-          { region: establishment.region },
-          {
-            attraction: {
-              attractionType: establishment.attraction.attractionType,
-            },
-          },
-        ],
-      },
-      include: {
-        attraction: true,
-      },
-      take: 3,
-      orderBy: { rating: 'desc' },
-    });
+    // Fire-and-forget
+    prisma.establishment.update({ where: { id: establishment.id }, data: { viewCount: { increment: 1 } } }).catch(() => {});
+    prisma.establishmentView.create({ data: { establishmentId: establishment.id, source: detectViewSource(request) } }).catch(() => {});
 
     const transformedAttraction = {
       id: establishment.id,

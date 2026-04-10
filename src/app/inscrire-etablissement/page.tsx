@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
   Hotel, UtensilsCrossed, Mountain, Briefcase, ArrowRight,
-  CheckCircle, BarChart3, Globe, MessageSquare, Star,
+  BarChart3, Globe, MessageSquare, Star,
   Camera, Clock, Shield, TrendingUp, Users, Zap,
 } from 'lucide-react';
 

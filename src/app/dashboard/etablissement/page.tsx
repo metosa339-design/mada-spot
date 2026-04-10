@@ -34,6 +34,7 @@ interface EstablishmentData {
   whatsapp: string
   coverImage: string
   images: string[]
+  gallery: { url: string; caption?: string }[]
   amenities: string[]
   openingHours: Record<string, { open: string; close: string; closed: boolean }>
   holidays: string[]
@@ -104,7 +105,7 @@ export default function EstablishmentPage() {
     address: '', city: '', region: '', latitude: null, longitude: null,
     phone: '', phone2: '', email: '', website: '',
     facebook: '', instagram: '', whatsapp: '',
-    coverImage: '', images: [], amenities: [],
+    coverImage: '', images: [], gallery: [], amenities: [],
     openingHours: defaultHours(), holidays: [],
     cuisineTypes: [], menuImages: [],
     hasDelivery: false, hasTakeaway: false, hasReservation: false,
@@ -526,7 +527,7 @@ export default function EstablishmentPage() {
                 <p className="text-xs text-gray-500 mb-3">Ajoutez une description à chaque photo pour aider les voyageurs.</p>
                 <div className="space-y-3">
                   {data.images.map((img, index) => {
-                    const galleryItems = Array.isArray((data as Record<string, unknown>).gallery) ? (data as Record<string, unknown>).gallery as {url: string; caption?: string}[] : [];
+                    const galleryItems = data.gallery || [];
                     const caption = galleryItems.find(g => g.url === img)?.caption || '';
                     return (
                       <div key={index} className="flex gap-3 items-start bg-[#0d1520] rounded-xl p-3">
@@ -546,7 +547,7 @@ export default function EstablishmentPage() {
                               } else {
                                 newGallery.push({ url: img, caption: e.target.value });
                               }
-                              setData(prev => ({ ...prev, gallery: newGallery } as typeof prev));
+                              setData(prev => ({ ...prev, gallery: newGallery }));
                             }}
                             className="w-full px-3 py-2 bg-[#1a1a24] border border-[#2a2a36] rounded-lg text-white text-sm placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
                           />
@@ -556,9 +557,8 @@ export default function EstablishmentPage() {
                           onClick={() => {
                             setData(prev => {
                               const newImages = prev.images.filter((_, i) => i !== index);
-                              const prevGallery = Array.isArray((prev as Record<string, unknown>).gallery) ? (prev as Record<string, unknown>).gallery as {url: string; caption?: string}[] : [];
-                              const newGallery = prevGallery.filter(g => g.url !== img);
-                              return { ...prev, images: newImages, gallery: newGallery } as typeof prev;
+                              const newGallery = (prev.gallery || []).filter(g => g.url !== img);
+                              return { ...prev, images: newImages, gallery: newGallery };
                             });
                           }}
                           className="p-2 bg-red-500/20 rounded-lg text-red-400 hover:bg-red-500/30 transition-colors shrink-0"

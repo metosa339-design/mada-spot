@@ -44,12 +44,15 @@ export async function GET(
       return NextResponse.json({ error: 'Hotel non trouvé' }, { status: 404 });
     }
 
+    // Cast to any to avoid strict type issues with optional Prisma fields
+    const h = hotel as any;
+
     // Run all secondary queries in parallel (non-blocking)
     const [owner, similarHotels] = await Promise.all([
       // Fetch owner
-      hotel.claimedByUserId
+      h.claimedByUserId
         ? prisma.user.findUnique({
-            where: { id: hotel.claimedByUserId },
+            where: { id: h.claimedByUserId },
             select: { firstName: true, lastName: true, avatar: true, createdAt: true },
           })
         : null,
@@ -57,9 +60,9 @@ export async function GET(
       prisma.establishment.findMany({
         where: {
           type: 'HOTEL',
-          city: hotel.city,
+          city: h.city,
           isActive: true,
-          id: { not: hotel.id },
+          id: { not: h.id },
         },
         select: {
           id: true, name: true, slug: true, coverImage: true, city: true, rating: true, reviewCount: true,
@@ -81,11 +84,11 @@ export async function GET(
 
     // Fire-and-forget: track view without blocking response
     prisma.establishment.update({
-      where: { id: hotel.id },
+      where: { id: h.id },
       data: { viewCount: { increment: 1 } },
     }).catch(() => {});
     prisma.establishmentView.create({
-      data: { establishmentId: hotel.id, source: detectViewSource(request) },
+      data: { establishmentId: h.id, source: detectViewSource(request) },
     }).catch(() => {});
 
     const ownerData = owner ? {
@@ -97,47 +100,47 @@ export async function GET(
 
     return NextResponse.json({
       hotel: {
-        id: hotel.id,
-        name: hotel.name,
-        slug: hotel.slug,
-        description: hotel.description,
-        shortDescription: hotel.shortDescription,
-        address: hotel.address,
-        city: hotel.city,
-        district: hotel.district,
-        region: hotel.region,
-        latitude: hotel.latitude,
-        longitude: hotel.longitude,
-        phone: hotel.phone,
-        phone2: hotel.phone2,
-        email: hotel.email,
-        website: hotel.website,
-        facebook: hotel.facebook,
-        instagram: hotel.instagram,
-        whatsapp: hotel.whatsapp,
-        coverImage: hotel.coverImage,
-        images: safeJsonParse(hotel.images, []),
-        gallery: safeJsonParse(hotel.gallery, []),
-        rating: hotel.rating,
-        reviewCount: hotel.reviewCount,
-        isFeatured: hotel.isFeatured,
-        isPremium: hotel.isPremium,
-        viewCount: hotel.viewCount,
-        starRating: hotel.hotel?.starRating || 0,
-        checkInTime: hotel.hotel?.checkInTime || '14:00',
-        checkOutTime: hotel.hotel?.checkOutTime || '11:00',
-        amenities: safeJsonParse(hotel.hotel?.amenities, []),
-        openingHours: safeJsonParse((hotel as Record<string, unknown>).openingHours as string, {}),
-        priceRange: hotel.priceRange,
-        descriptionEn: hotel.descriptionEn,
-        shortDescriptionEn: hotel.shortDescriptionEn,
-        dataSource: hotel.dataSource,
-        sourceUrl: hotel.sourceUrl,
-        sourceName: hotel.sourceName,
-        isClaimed: hotel.isClaimed,
-        claimedByUserId: hotel.claimedByUserId,
+        id: h.id,
+        name: h.name,
+        slug: h.slug,
+        description: h.description,
+        shortDescription: h.shortDescription,
+        address: h.address,
+        city: h.city,
+        district: h.district,
+        region: h.region,
+        latitude: h.latitude,
+        longitude: h.longitude,
+        phone: h.phone,
+        phone2: h.phone2,
+        email: h.email,
+        website: h.website,
+        facebook: h.facebook,
+        instagram: h.instagram,
+        whatsapp: h.whatsapp,
+        coverImage: h.coverImage,
+        images: safeJsonParse(h.images, []),
+        gallery: safeJsonParse(h.gallery, []),
+        rating: h.rating,
+        reviewCount: h.reviewCount,
+        isFeatured: h.isFeatured,
+        isPremium: h.isPremium,
+        viewCount: h.viewCount,
+        starRating: h.hotel?.starRating || 0,
+        checkInTime: h.hotel?.checkInTime || '14:00',
+        checkOutTime: h.hotel?.checkOutTime || '11:00',
+        amenities: safeJsonParse(h.hotel?.amenities, []),
+        openingHours: safeJsonParse(h.openingHours, {}),
+        priceRange: h.priceRange,
+        descriptionEn: h.descriptionEn,
+        shortDescriptionEn: h.shortDescriptionEn,
+        dataSource: h.dataSource,
+        sourceUrl: h.sourceUrl,
+        sourceName: h.sourceName,
+        isClaimed: h.isClaimed,
+        claimedByUserId: h.claimedByUserId,
         owner: ownerData,
-        roomTypes: hotel.hotel?.roomTypes?.map((room) => ({
+        roomTypes: h.hotel?.roomTypes?.map((room: any) => ({
           id: room.id,
           name: room.name,
           description: room.description,
@@ -150,7 +153,7 @@ export async function GET(
           images: safeJsonParse(room.images, []),
           isAvailable: room.isAvailable,
         })) || [],
-        reviews: hotel.reviews.map((review) => ({
+        reviews: h.reviews.map((review: any) => ({
           id: review.id,
           rating: review.rating,
           title: review.title,
@@ -161,15 +164,15 @@ export async function GET(
           createdAt: review.createdAt.toISOString(),
         })),
       },
-      similarHotels: similarHotels.map((h) => ({
-        id: h.id,
-        name: h.name,
-        slug: h.slug,
-        coverImage: h.coverImage,
-        city: h.city,
-        rating: h.rating,
-        reviewCount: h.reviewCount,
-        lowestPrice: h.hotel?.roomTypes?.[0]?.pricePerNight || null,
+      similarHotels: similarHotels.map((sh: any) => ({
+        id: sh.id,
+        name: sh.name,
+        slug: sh.slug,
+        coverImage: sh.coverImage,
+        city: sh.city,
+        rating: sh.rating,
+        reviewCount: sh.reviewCount,
+        lowestPrice: sh.hotel?.roomTypes?.[0]?.pricePerNight || null,
       })),
     }, { headers: CACHE_HEADERS });
   } catch (error) {

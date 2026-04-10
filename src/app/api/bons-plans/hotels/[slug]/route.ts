@@ -127,7 +127,7 @@ export async function GET(
         checkInTime: hotel.hotel?.checkInTime || '14:00',
         checkOutTime: hotel.hotel?.checkOutTime || '11:00',
         amenities: safeJsonParse(hotel.hotel?.amenities, []),
-        openingHours: safeJsonParse(hotel.openingHours, {}),
+        openingHours: safeJsonParse((hotel as Record<string, unknown>).openingHours as string, {}),
         priceRange: hotel.priceRange,
         descriptionEn: hotel.descriptionEn,
         shortDescriptionEn: hotel.shortDescriptionEn,

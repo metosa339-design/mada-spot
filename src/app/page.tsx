@@ -209,7 +209,7 @@ function HomePage() {
           {/* Title overlay on image */}
           <div className="absolute bottom-6 left-4 right-4">
             <h1 className="font-black text-4xl leading-[0.95] mb-3">
-              <span className="text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">{th.heroTitle1}</span>
+              <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">{th.heroTitle1}</span>
               <br />
               <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">{th.heroTitle2}</span>
             </h1>

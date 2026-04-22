@@ -138,7 +138,7 @@ export async function GET(request: NextRequest) {
       lowestPrice: hotel.hotel?.roomTypes[0]?.pricePerNight || null,
       roomCount: hotel.hotel?.roomTypes.length || 0,
       // Recent reviews preview
-      recentReviews: hotel.reviews.map((r) => ({
+      recentReviews: hotel.reviews.map((r: any) => ({
         rating: r.rating,
         comment: (r.comment || '').substring(0, 100),
         authorName: r.authorName,

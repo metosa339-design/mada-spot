@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
       where.hotel.roomTypes = { some: priceFilter };
     }
 
-    const cacheKey = `hotels:${city}:${starRating}:${amenity}:${minPrice}:${maxPrice}:${search}:${sortBy}:${limit}:${offset}`;
+    const cacheKey = `hotels:${city}:${minStars}:${amenities}:${minPrice}:${maxPrice}:${search}:${sortBy}:${limit}:${offset}`;
 
     const [hotels, total] = await cachedQuery(cacheKey, 600, () => Promise.all([
       prisma.establishment.findMany({

@@ -197,7 +197,7 @@ function HomePage() {
         {/* Photo hero */}
         <div className="relative h-[60vh] overflow-hidden">
           <Image
-            src="/images/highlights/hero-mobile-collage.png"
+            src="/images/highlights/hero-mobile-collage.jpg"
             alt="Madagascar - Plage, Lémurien, Culture, Tsingy"
             fill
             priority

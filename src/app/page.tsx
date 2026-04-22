@@ -204,16 +204,16 @@ function HomePage() {
             className="object-cover"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/60 to-transparent" />
 
           {/* Title overlay on image */}
           <div className="absolute bottom-6 left-4 right-4">
             <h1 className="font-black text-4xl leading-[0.95] mb-3">
-              <span className="text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">{th.heroTitle1}</span>
+              <span className="text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">{th.heroTitle1}</span>
               <br />
-              <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">{th.heroTitle2}</span>
+              <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">{th.heroTitle2}</span>
             </h1>
-            <p className="text-sm text-white/80 drop-shadow-md max-w-[280px]">
+            <p className="text-sm text-orange-200 drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)] max-w-[280px] font-medium">
               {th.heroDesc}
             </p>
           </div>

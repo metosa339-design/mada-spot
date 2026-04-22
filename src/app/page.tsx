@@ -194,34 +194,34 @@ function HomePage() {
 
       {/* === MOBILE HERO === */}
       <section className="lg:hidden">
-        {/* Photo hero */}
-        <div className="relative h-[60vh] overflow-hidden">
+        {/* Photo hero — 4x4 is the focal point, must stay sharp */}
+        <div className="relative h-[65vh] overflow-hidden">
           <Image
             src="/images/highlights/hero-mobile-collage.jpg"
-            alt="Madagascar - Plage, Lémurien, Culture, Tsingy"
+            alt="4x4 aventure plage Madagascar"
             fill
             priority
-            className="object-cover contrast-[1.1] saturate-[1.15] brightness-[1.05]"
+            className="object-cover object-bottom contrast-[1.15] saturate-[1.2] brightness-[1.08]"
             sizes="100vw"
           />
-          {/* Gradient only on bottom 40% — keeps 4x4 and sky sharp and visible */}
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, #0a0a0f 0%, rgba(10,10,15,0.85) 25%, rgba(10,10,15,0.3) 45%, transparent 55%)' }} />
+          {/* Minimal gradient — only the very bottom 15% for text, 4x4 stays fully visible */}
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 12%, rgba(0,0,0,0.1) 22%, transparent 30%)' }} />
 
-          {/* Title overlay on image */}
-          <div className="absolute bottom-6 left-4 right-4">
-            <h1 className="font-black text-4xl leading-[0.95] mb-3">
-              <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">{th.heroTitle1}</span>
-              <br />
-              <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">{th.heroTitle2}</span>
+          {/* Title at very bottom — small footprint to not cover 4x4 */}
+          <div className="absolute bottom-4 left-4 right-4">
+            <h1 className="font-black text-3xl leading-[0.95] mb-1">
+              <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">{th.heroTitle1}</span>
+              {' '}
+              <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">{th.heroTitle2}</span>
             </h1>
-            <p className="text-sm text-orange-200 drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)] max-w-[280px] font-medium">
+            <p className="text-xs text-white/90 drop-shadow-[0_1px_6px_rgba(0,0,0,0.9)] max-w-[260px]">
               {th.heroDesc}
             </p>
           </div>
         </div>
 
         {/* Search card */}
-        <div className="px-4 mt-4 relative z-10">
+        <div className="px-4 mt-3 relative z-10">
           <form
             role="search"
             aria-label={th.searchLabel}

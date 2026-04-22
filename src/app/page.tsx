@@ -201,10 +201,11 @@ function HomePage() {
             alt="Madagascar - Plage, Lémurien, Culture, Tsingy"
             fill
             priority
-            className="object-cover"
+            className="object-cover contrast-[1.1] saturate-[1.15] brightness-[1.05]"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/60 to-transparent" />
+          {/* Gradient only on bottom 40% — keeps 4x4 and sky sharp and visible */}
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, #0a0a0f 0%, rgba(10,10,15,0.85) 25%, rgba(10,10,15,0.3) 45%, transparent 55%)' }} />
 
           {/* Title overlay on image */}
           <div className="absolute bottom-6 left-4 right-4">

@@ -22,7 +22,7 @@ function ensureCleanup() {
         cache.delete(key);
       }
     }
-  }, 5 * 60 * 1000);
+  }, 10 * 60 * 1000);
   // Ne pas bloquer le shutdown Node.js
   if (cleanupInterval && typeof cleanupInterval === 'object' && 'unref' in cleanupInterval) {
     cleanupInterval.unref();

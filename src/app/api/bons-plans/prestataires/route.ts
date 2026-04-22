@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
 
     const cacheKey = `providers:${city}:${serviceType}:${search}:${limit}:${offset}`;
 
-    const [providers, total] = await cachedQuery(cacheKey, 180, () => Promise.all([
+    const [providers, total] = await cachedQuery(cacheKey, 600, () => Promise.all([
       prisma.establishment.findMany({
         where,
         include: {

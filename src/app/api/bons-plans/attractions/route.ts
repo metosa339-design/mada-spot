@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
     // Cache key based on all params
     const cacheKey = `attractions:${city}:${attractionType}:${isFree}:${featured}:${search}:${sortBy}:${limit}:${offset}`;
 
-    const [filteredAttractions, total] = await cachedQuery(cacheKey, 180, () => Promise.all([
+    const [filteredAttractions, total] = await cachedQuery(cacheKey, 600, () => Promise.all([
       prisma.establishment.findMany({
         where,
         select: {

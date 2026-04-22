@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
 
     const cacheKey = `restaurants:${city}:${category}:${priceRange}:${cuisine}:${hasDelivery}:${search}:${sortBy}:${limit}:${offset}`;
 
-    const [restaurants, total] = await cachedQuery(cacheKey, 180, () => Promise.all([
+    const [restaurants, total] = await cachedQuery(cacheKey, 600, () => Promise.all([
       prisma.establishment.findMany({
         where,
         include: {

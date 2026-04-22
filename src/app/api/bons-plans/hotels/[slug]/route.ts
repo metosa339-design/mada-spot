@@ -16,7 +16,7 @@ export async function GET(
   try {
     const { slug } = await params;
 
-    const hotel = await cachedQuery(`hotel:${slug}`, 120, () => prisma.establishment.findFirst({
+    const hotel = await cachedQuery(`hotel:${slug}`, 600, () => prisma.establishment.findFirst({
       where: {
         slug,
         type: 'HOTEL',

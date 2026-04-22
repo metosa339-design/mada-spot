@@ -214,7 +214,7 @@ function HomePage() {
               {' '}
               <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">{th.heroTitle2}</span>
             </h1>
-            <p className="text-xs text-white/90 drop-shadow-[0_1px_6px_rgba(0,0,0,0.9)] max-w-[260px]">
+            <p className="text-xs text-orange-400 drop-shadow-[0_1px_6px_rgba(0,0,0,0.9)] max-w-[260px] font-semibold">
               {th.heroDesc}
             </p>
           </div>

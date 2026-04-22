@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { safeJsonParse } from '@/lib/api-response';
+import { cachedQuery } from '@/lib/cache';
 
 import { logger } from '@/lib/logger';
 
@@ -49,7 +50,9 @@ export async function GET(request: NextRequest) {
     if (hasDelivery) restaurantWhere.hasDelivery = true;
     where.restaurant = restaurantWhere;
 
-    const [restaurants, total] = await Promise.all([
+    const cacheKey = `restaurants:${city}:${category}:${priceRange}:${cuisine}:${hasDelivery}:${search}:${sortBy}:${limit}:${offset}`;
+
+    const [restaurants, total] = await cachedQuery(cacheKey, 180, () => Promise.all([
       prisma.establishment.findMany({
         where,
         include: {
@@ -63,7 +66,7 @@ export async function GET(request: NextRequest) {
         take: limit,
       }),
       prisma.establishment.count({ where }),
-    ]);
+    ])) as [any[], number];
 
     // Post-filter cuisine (JSON field, can't filter in Prisma easily)
     let filteredRestaurants = restaurants.filter((resto) => {

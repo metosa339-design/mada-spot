@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { safeJsonParse } from '@/lib/api-response';
+import { cachedQuery } from '@/lib/cache';
 
 import { logger } from '@/lib/logger';
 
@@ -58,8 +59,9 @@ export async function GET(request: NextRequest) {
       where.hotel.roomTypes = { some: priceFilter };
     }
 
-    // Get hotels + count in parallel
-    const [hotels, total] = await Promise.all([
+    const cacheKey = `hotels:${city}:${starRating}:${amenity}:${minPrice}:${maxPrice}:${search}:${sortBy}:${limit}:${offset}`;
+
+    const [hotels, total] = await cachedQuery(cacheKey, 180, () => Promise.all([
       prisma.establishment.findMany({
         where,
         include: {
@@ -86,7 +88,7 @@ export async function GET(request: NextRequest) {
         take: limit,
       }),
       prisma.establishment.count({ where: { ...where, hotel: { isNot: null } } }),
-    ]);
+    ])) as [any[], number];
 
     // Post-filter amenities (JSON field, can't filter in Prisma easily)
     let filteredHotels = hotels.filter((hotel) => {

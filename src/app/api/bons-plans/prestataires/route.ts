@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { safeJsonParse } from '@/lib/api-response';
+import { cachedQuery } from '@/lib/cache';
 import { logger } from '@/lib/logger';
 
 const CACHE_HEADERS = { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' };
@@ -38,7 +39,9 @@ export async function GET(request: NextRequest) {
     if (priceRange) providerWhere.priceRange = priceRange;
     where.provider = providerWhere;
 
-    const [providers, total] = await Promise.all([
+    const cacheKey = `providers:${city}:${serviceType}:${search}:${limit}:${offset}`;
+
+    const [providers, total] = await cachedQuery(cacheKey, 180, () => Promise.all([
       prisma.establishment.findMany({
         where,
         include: {
@@ -49,7 +52,7 @@ export async function GET(request: NextRequest) {
         take: limit,
       }),
       prisma.establishment.count({ where: { ...where, provider: { isNot: null } } }),
-    ]);
+    ])) as [any[], number];
 
     const transformedProviders = providers
       .filter((p) => p.provider)

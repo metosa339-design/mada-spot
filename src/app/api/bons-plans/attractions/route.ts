@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { safeJsonParse } from '@/lib/api-response';
+import { cachedQuery } from '@/lib/cache';
 
 import { logger } from '@/lib/logger';
 
@@ -57,8 +58,10 @@ export async function GET(request: NextRequest) {
       orderBy.unshift({ attraction: { entryFeeLocal: 'asc' } });
     }
 
-    // Run both queries in parallel for speed
-    const [filteredAttractions, total] = await Promise.all([
+    // Cache key based on all params
+    const cacheKey = `attractions:${city}:${attractionType}:${isFree}:${featured}:${search}:${sortBy}:${limit}:${offset}`;
+
+    const [filteredAttractions, total] = await cachedQuery(cacheKey, 180, () => Promise.all([
       prisma.establishment.findMany({
         where,
         select: {
@@ -78,9 +81,9 @@ export async function GET(request: NextRequest) {
         take: limit,
       }),
       prisma.establishment.count({ where }),
-    ]);
+    ]));
 
-    const transformedAttractions = filteredAttractions.map((attr) => ({
+    const transformedAttractions = filteredAttractions.map((attr: any) => ({
       id: attr.id,
       name: attr.name,
       slug: attr.slug,

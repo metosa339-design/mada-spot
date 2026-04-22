@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { apiError } from '@/lib/api-response';
 import { safeJsonParse } from '@/lib/api-response';
+import { cachedQuery } from '@/lib/cache';
 
 import { logger } from '@/lib/logger';
 import { detectViewSource } from '@/lib/utils/detect-view-source';
@@ -15,7 +16,7 @@ export async function GET(
   try {
     const { slug } = await params;
 
-    const hotel = await prisma.establishment.findFirst({
+    const hotel = await cachedQuery(`hotel:${slug}`, 120, () => prisma.establishment.findFirst({
       where: {
         slug,
         type: 'HOTEL',
@@ -38,7 +39,7 @@ export async function GET(
           take: 10,
         },
       },
-    });
+    }));
 
     if (!hotel) {
       return NextResponse.json({ error: 'Hotel non trouvé' }, { status: 404 });

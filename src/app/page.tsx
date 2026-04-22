@@ -245,7 +245,7 @@ function HomePage() {
                 { key: 'attractions', icon: Mountain, label: th.attractions },
                 { key: 'hotels', icon: Building2, label: th.hotelsLabel },
                 { key: 'restaurants', icon: UtensilsCrossed, label: th.restaurantsLabel },
-                { key: 'prestataires', icon: Compass, label: 'Promo' },
+                { key: 'prestataires', icon: Compass, label: th.providersLabel },
               ].map((cat) => (
                 <button
                   key={cat.key}

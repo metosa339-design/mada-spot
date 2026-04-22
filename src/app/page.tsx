@@ -239,25 +239,25 @@ function HomePage() {
               />
             </div>
 
-            {/* Category chips */}
-            <div className="flex gap-2 mb-3 overflow-x-auto scrollbar-hide">
+            {/* Category chips - fit all 4 in screen */}
+            <div className="grid grid-cols-4 gap-1.5 mb-3">
               {[
-                { key: 'attractions', icon: Mountain, label: th.attractions },
-                { key: 'hotels', icon: Building2, label: th.hotelsLabel },
-                { key: 'restaurants', icon: UtensilsCrossed, label: th.restaurantsLabel },
-                { key: 'prestataires', icon: Compass, label: th.providersLabel },
+                { key: 'attractions', icon: Mountain, label: 'Attractions' },
+                { key: 'hotels', icon: Building2, label: 'Hôtels' },
+                { key: 'restaurants', icon: UtensilsCrossed, label: 'Restos' },
+                { key: 'prestataires', icon: Compass, label: 'Services' },
               ].map((cat) => (
                 <button
                   key={cat.key}
                   type="button"
                   onClick={() => setSelectedCategory(cat.key)}
-                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+                  className={`flex items-center justify-center gap-1 px-2 py-2 rounded-full text-[11px] font-semibold transition-all ${
                     selectedCategory === cat.key
                       ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-lg shadow-orange-500/25'
                       : 'bg-gray-100 text-gray-700 border border-gray-200'
                   }`}
                 >
-                  <cat.icon className="w-3.5 h-3.5" />
+                  <cat.icon className="w-3 h-3" />
                   {cat.label}
                 </button>
               ))}

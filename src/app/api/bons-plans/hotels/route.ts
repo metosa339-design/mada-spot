@@ -58,32 +58,35 @@ export async function GET(request: NextRequest) {
       where.hotel.roomTypes = { some: priceFilter };
     }
 
-    // Get hotels with their room types
-    const hotels = await prisma.establishment.findMany({
-      where,
-      include: {
-        hotel: {
-          include: {
-            roomTypes: {
-              where: { isAvailable: true },
-              orderBy: { pricePerNight: 'asc' },
+    // Get hotels + count in parallel
+    const [hotels, total] = await Promise.all([
+      prisma.establishment.findMany({
+        where,
+        include: {
+          hotel: {
+            include: {
+              roomTypes: {
+                where: { isAvailable: true },
+                orderBy: { pricePerNight: 'asc' },
+              },
             },
           },
+          reviews: {
+            where: { isPublished: true },
+            select: { rating: true, comment: true, authorName: true },
+            take: 3,
+            orderBy: { createdAt: 'desc' },
+          },
         },
-        reviews: {
-          where: { isPublished: true },
-          select: { rating: true, comment: true, authorName: true },
-          take: 3,
-          orderBy: { createdAt: 'desc' },
-        },
-      },
-      orderBy:
-        sortBy === 'stars'
-          ? { hotel: { starRating: 'desc' } }
-          : [{ displayOrder: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }],
-      skip: offset,
-      take: limit,
-    });
+        orderBy:
+          sortBy === 'stars'
+            ? { hotel: { starRating: 'desc' } }
+            : [{ displayOrder: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }],
+        skip: offset,
+        take: limit,
+      }),
+      prisma.establishment.count({ where: { ...where, hotel: { isNot: null } } }),
+    ]);
 
     // Post-filter amenities (JSON field, can't filter in Prisma easily)
     let filteredHotels = hotels.filter((hotel) => {
@@ -139,10 +142,6 @@ export async function GET(request: NextRequest) {
         authorName: r.authorName,
       })),
     }));
-
-    const total = await prisma.establishment.count({
-      where: { ...where, hotel: { isNot: null } },
-    });
 
     return NextResponse.json({
       hotels: transformedHotels,

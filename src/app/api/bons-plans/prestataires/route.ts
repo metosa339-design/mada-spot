@@ -38,15 +38,18 @@ export async function GET(request: NextRequest) {
     if (priceRange) providerWhere.priceRange = priceRange;
     where.provider = providerWhere;
 
-    const providers = await prisma.establishment.findMany({
-      where,
-      include: {
-        provider: true,
-      },
-      orderBy: [{ displayOrder: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }],
-      skip: offset,
-      take: limit,
-    });
+    const [providers, total] = await Promise.all([
+      prisma.establishment.findMany({
+        where,
+        include: {
+          provider: true,
+        },
+        orderBy: [{ displayOrder: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }],
+        skip: offset,
+        take: limit,
+      }),
+      prisma.establishment.count({ where: { ...where, provider: { isNot: null } } }),
+    ]);
 
     const transformedProviders = providers
       .filter((p) => p.provider)
@@ -77,10 +80,6 @@ export async function GET(request: NextRequest) {
         vehicleType: p.provider?.vehicleType,
         vehicleCapacity: p.provider?.vehicleCapacity,
       }));
-
-    const total = await prisma.establishment.count({
-      where: { ...where, provider: { isNot: null } },
-    });
 
     return NextResponse.json({
       providers: transformedProviders,

@@ -57,15 +57,28 @@ export async function GET(request: NextRequest) {
       orderBy.unshift({ attraction: { entryFeeLocal: 'asc' } });
     }
 
-    const filteredAttractions = await prisma.establishment.findMany({
-      where,
-      include: {
-        attraction: true,
-      },
-      orderBy,
-      skip: offset,
-      take: limit,
-    });
+    // Run both queries in parallel for speed
+    const [filteredAttractions, total] = await Promise.all([
+      prisma.establishment.findMany({
+        where,
+        select: {
+          id: true, name: true, slug: true, shortDescription: true, description: true,
+          city: true, district: true, region: true, coverImage: true, images: true,
+          rating: true, reviewCount: true, isFeatured: true, latitude: true, longitude: true,
+          attraction: {
+            select: {
+              attractionType: true, isFree: true, entryFeeForeign: true, entryFeeLocal: true,
+              visitDuration: true, bestTimeToVisit: true, isAccessible: true, hasGuide: true,
+              hasParking: true, highlights: true,
+            },
+          },
+        },
+        orderBy,
+        skip: offset,
+        take: limit,
+      }),
+      prisma.establishment.count({ where }),
+    ]);
 
     const transformedAttractions = filteredAttractions.map((attr) => ({
       id: attr.id,
@@ -82,7 +95,6 @@ export async function GET(request: NextRequest) {
       isFeatured: attr.isFeatured,
       latitude: attr.latitude,
       longitude: attr.longitude,
-      // Attraction specific
       attractionType: attr.attraction?.attractionType,
       isFree: attr.attraction?.isFree,
       entryFeeForeign: attr.attraction?.entryFeeForeign,
@@ -94,8 +106,6 @@ export async function GET(request: NextRequest) {
       hasParking: attr.attraction?.hasParking,
       highlights: safeJsonParse(attr.attraction?.highlights, []),
     }));
-
-    const total = await prisma.establishment.count({ where });
 
     return NextResponse.json({
       attractions: transformedAttractions,

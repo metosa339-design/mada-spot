@@ -49,18 +49,21 @@ export async function GET(request: NextRequest) {
     if (hasDelivery) restaurantWhere.hasDelivery = true;
     where.restaurant = restaurantWhere;
 
-    const restaurants = await prisma.establishment.findMany({
-      where,
-      include: {
-        restaurant: true,
-      },
-      orderBy:
-        sortBy === 'price'
-          ? { restaurant: { avgMainCourse: 'asc' } }
-          : [{ displayOrder: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }],
-      skip: offset,
-      take: limit,
-    });
+    const [restaurants, total] = await Promise.all([
+      prisma.establishment.findMany({
+        where,
+        include: {
+          restaurant: true,
+        },
+        orderBy:
+          sortBy === 'price'
+            ? { restaurant: { avgMainCourse: 'asc' } }
+            : [{ displayOrder: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }],
+        skip: offset,
+        take: limit,
+      }),
+      prisma.establishment.count({ where }),
+    ]);
 
     // Post-filter cuisine (JSON field, can't filter in Prisma easily)
     let filteredRestaurants = restaurants.filter((resto) => {
@@ -104,9 +107,7 @@ export async function GET(request: NextRequest) {
       })(),
     }));
 
-    const total = await prisma.establishment.count({
-      where: { ...where, restaurant: { isNot: null } },
-    });
+    // total already fetched in parallel above
 
     return NextResponse.json({
       restaurants: transformedRestaurants,

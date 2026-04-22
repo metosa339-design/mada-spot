@@ -219,8 +219,8 @@ function HomePage() {
           </div>
         </div>
 
-        {/* Search card - overlapping */}
-        <div className="px-4 -mt-6 relative z-10">
+        {/* Search card */}
+        <div className="px-4 mt-4 relative z-10">
           <form
             role="search"
             aria-label={th.searchLabel}

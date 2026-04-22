@@ -190,23 +190,108 @@ function HomePage() {
     <main id="main-content" className="min-h-screen bg-[#0a0a0f] text-white">
       <Header />
 
-      {/* ===== HERO SECTION - IMMERSIVE FULLSCREEN ===== */}
-      <section className="relative min-h-[85vh] lg:min-h-[80vh] flex items-end lg:items-center overflow-hidden">
-        {/* Mobile: Full-screen photo background */}
-        <div className="absolute inset-0 lg:hidden">
+      {/* ===== HERO SECTION ===== */}
+
+      {/* === MOBILE HERO === */}
+      <section className="lg:hidden">
+        {/* Photo hero */}
+        <div className="relative h-[60vh] overflow-hidden">
           <Image
-            src={getImageUrl('/images/Attractions/baobabs/allee-des-baobabs.jpg')}
-            alt="Madagascar"
+            src="/images/highlights/hero-mobile-collage.png"
+            alt="Madagascar - Plage, Lémurien, Culture, Tsingy"
             fill
             priority
             className="object-cover"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent" />
+
+          {/* Title overlay on image */}
+          <div className="absolute bottom-6 left-4 right-4">
+            <h1 className="font-black text-4xl leading-[0.95] mb-3">
+              <span className="text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">{th.heroTitle1}</span>
+              <br />
+              <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">{th.heroTitle2}</span>
+            </h1>
+            <p className="text-sm text-white/80 drop-shadow-md max-w-[280px]">
+              {th.heroDesc}
+            </p>
+          </div>
         </div>
 
-        {/* Desktop: Keep existing warm background */}
-        <div className="absolute inset-0 hidden lg:block">
+        {/* Search card - overlapping */}
+        <div className="px-4 -mt-6 relative z-10">
+          <form
+            role="search"
+            aria-label={th.searchLabel}
+            onSubmit={(e) => { e.preventDefault(); handleSearch(); }}
+            className="bg-white rounded-2xl p-4 shadow-xl shadow-black/10"
+          >
+            <div className="flex items-center gap-3 px-2 mb-3">
+              <Search className="w-5 h-5 text-gray-400 shrink-0" />
+              <input
+                type="text"
+                placeholder={th.searchPlaceholder}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                className="flex-1 py-2 outline-none bg-transparent text-gray-900 placeholder:text-gray-400 text-sm"
+              />
+            </div>
+
+            {/* Category chips */}
+            <div className="flex gap-2 mb-3 overflow-x-auto scrollbar-hide">
+              {[
+                { key: 'attractions', icon: Mountain, label: th.attractions },
+                { key: 'hotels', icon: Building2, label: th.hotelsLabel },
+                { key: 'restaurants', icon: UtensilsCrossed, label: th.restaurantsLabel },
+                { key: 'prestataires', icon: Compass, label: 'Promo' },
+              ].map((cat) => (
+                <button
+                  key={cat.key}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat.key)}
+                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+                    selectedCategory === cat.key
+                      ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-lg shadow-orange-500/25'
+                      : 'bg-gray-100 text-gray-700 border border-gray-200'
+                  }`}
+                >
+                  <cat.icon className="w-3.5 h-3.5" />
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-3.5 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-bold rounded-xl shadow-lg shadow-orange-500/25 active:scale-[0.98] transition-transform text-sm"
+            >
+              {th.searchBtn}
+            </button>
+          </form>
+        </div>
+
+        {/* Stats row */}
+        <div className="grid grid-cols-3 gap-3 px-4 mt-5 mb-6">
+          <div className="text-center py-3 bg-[#1a1a24] rounded-xl border border-[#2a2a36]">
+            <div className="text-lg font-bold text-orange-400">+{totalAttractions}</div>
+            <div className="text-[10px] text-slate-400">{th.destinations}</div>
+          </div>
+          <div className="text-center py-3 bg-[#1a1a24] rounded-xl border border-[#2a2a36]">
+            <div className="text-lg font-bold text-pink-400">4.8</div>
+            <div className="text-[10px] text-slate-400">{th.averageRating}</div>
+          </div>
+          <div className="text-center py-3 bg-[#1a1a24] rounded-xl border border-[#2a2a36]">
+            <div className="text-lg font-bold text-purple-400">100%</div>
+            <div className="text-[10px] text-slate-400">{th.authentic}</div>
+          </div>
+        </div>
+      </section>
+
+      {/* === DESKTOP HERO === */}
+      <section className="hidden lg:flex relative min-h-[80vh] items-center overflow-hidden">
+        <div className="absolute inset-0">
           <div
             className="absolute inset-0 opacity-40"
             style={{
@@ -217,74 +302,56 @@ function HomePage() {
           <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-pink-500/20 rounded-full blur-[100px]" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 relative z-10 w-full">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10 w-full">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left: Hero Content */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              {/* Main Title - Mobile optimized */}
-              <h1 className="font-black text-4xl sm:text-5xl lg:text-7xl leading-[0.95] mb-4 lg:mb-6">
-                <span className="text-white drop-shadow-lg">{th.heroTitle1}</span>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/20 border border-orange-500/30 mb-6"
+              >
+                <Sparkles className="w-4 h-4 text-orange-400" />
+                <span className="text-sm text-orange-400 font-medium">{th.discoverMadagascar}</span>
+              </motion.div>
+
+              <h1 className="font-black text-6xl lg:text-7xl leading-[0.95] mb-6">
+                <span className="text-white">{th.heroTitle1}</span>
                 <br />
                 <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">
                   {th.heroTitle2}
                 </span>
               </h1>
 
-              <p className="text-base lg:text-xl text-white/80 lg:text-slate-300 mb-6 lg:mb-8 max-w-lg drop-shadow-md">
+              <p className="text-xl text-slate-300 mb-8 max-w-lg">
                 {th.heroDesc}
+                <span className="block mt-2 text-orange-400 font-semibold">{totalAttractions}+ {th.placesToExplore}</span>
               </p>
 
-              {/* Search Bar - Simplified on mobile */}
               <form
                 role="search"
                 aria-label={th.searchLabel}
                 onSubmit={(e) => { e.preventDefault(); handleSearch(); }}
-                className="bg-white/95 lg:bg-[#1a1a24] backdrop-blur-xl p-2 rounded-2xl lg:border lg:border-[#2a2a36] max-w-xl shadow-2xl"
+                className="bg-[#1a1a24] p-2 rounded-2xl border border-[#2a2a36] max-w-xl"
               >
-                {/* Mobile: Simple search */}
                 <div className="flex items-center gap-3 px-4">
-                  <Search className="w-5 h-5 text-gray-400 lg:text-slate-500 shrink-0" aria-hidden="true" />
+                  <Search className="w-5 h-5 text-slate-500 shrink-0" />
                   <input
                     type="text"
                     placeholder={th.searchPlaceholder}
-                    aria-label={th.searchPlaceholder}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                    className="flex-1 py-3 outline-none bg-transparent text-gray-900 lg:text-white placeholder:text-gray-400 lg:placeholder:text-slate-500 min-w-0"
+                    className="flex-1 py-3 outline-none bg-transparent text-white placeholder:text-slate-500 min-w-0"
                   />
                 </div>
 
-                {/* Mobile: Category chips */}
-                <div className="flex gap-2 px-3 pb-2 overflow-x-auto scrollbar-hide lg:hidden">
-                  {[
-                    { key: 'attractions', icon: Mountain, label: th.attractions },
-                    { key: 'hotels', icon: Building2, label: th.hotelsLabel },
-                    { key: 'restaurants', icon: UtensilsCrossed, label: th.restaurantsLabel },
-                    { key: 'prestataires', icon: Compass, label: th.providersLabel },
-                  ].map((cat) => (
-                    <button
-                      key={cat.key}
-                      type="button"
-                      onClick={() => setSelectedCategory(cat.key)}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
-                        selectedCategory === cat.key
-                          ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30'
-                          : 'bg-gray-100 text-gray-600'
-                      }`}
-                    >
-                      <cat.icon className="w-3.5 h-3.5" />
-                      {cat.label}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Desktop: Keep existing selects */}
-                <div className="hidden lg:flex items-center gap-2 mt-2">
+                <div className="flex items-center gap-2 mt-2">
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
@@ -315,30 +382,21 @@ function HomePage() {
                   </button>
                 </div>
 
-                {/* Mobile: Search button */}
-                <div className="lg:hidden px-2 pb-2">
-                  <button
-                    type="submit"
-                    className="w-full py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-bold rounded-xl shadow-lg shadow-orange-500/30 transition-all active:scale-[0.98]"
-                  >
-                    {th.searchBtn}
-                  </button>
-                </div>
               </form>
 
-              {/* Quick Stats - Mobile: horizontal scroll, Desktop: grid */}
-              <div className="flex lg:grid lg:grid-cols-3 gap-3 mt-6 lg:mt-8 overflow-x-auto scrollbar-hide lg:max-w-lg pb-2 lg:pb-0">
-                <div className="text-center px-5 py-3 lg:p-4 bg-white/10 lg:bg-[#1a1a24] backdrop-blur-md rounded-xl lg:border lg:border-[#2a2a36] shrink-0">
-                  <div className="text-xl lg:text-2xl font-bold text-orange-400 mb-0.5">{totalAttractions}+</div>
-                  <div className="text-[10px] lg:text-xs text-white/60 lg:text-slate-400 whitespace-nowrap">{th.destinations}</div>
+              {/* Quick Stats */}
+              <div className="grid grid-cols-3 gap-4 mt-8 max-w-lg">
+                <div className="text-center p-4 bg-[#1a1a24] rounded-xl border border-[#2a2a36]">
+                  <div className="text-2xl font-bold text-orange-400 mb-1">{totalAttractions}+</div>
+                  <div className="text-xs text-slate-400">{th.destinations}</div>
                 </div>
-                <div className="text-center px-5 py-3 lg:p-4 bg-white/10 lg:bg-[#1a1a24] backdrop-blur-md rounded-xl lg:border lg:border-[#2a2a36] shrink-0">
-                  <div className="text-xl lg:text-2xl font-bold text-pink-400 mb-0.5">4.8</div>
-                  <div className="text-[10px] lg:text-xs text-white/60 lg:text-slate-400 whitespace-nowrap">{th.averageRating}</div>
+                <div className="text-center p-4 bg-[#1a1a24] rounded-xl border border-[#2a2a36]">
+                  <div className="text-2xl font-bold text-pink-400 mb-1">4.8</div>
+                  <div className="text-xs text-slate-400">{th.averageRating}</div>
                 </div>
-                <div className="text-center px-5 py-3 lg:p-4 bg-white/10 lg:bg-[#1a1a24] backdrop-blur-md rounded-xl lg:border lg:border-[#2a2a36] shrink-0">
-                  <div className="text-xl lg:text-2xl font-bold text-purple-400 mb-0.5">100%</div>
-                  <div className="text-[10px] lg:text-xs text-white/60 lg:text-slate-400 whitespace-nowrap">{th.authentic}</div>
+                <div className="text-center p-4 bg-[#1a1a24] rounded-xl border border-[#2a2a36]">
+                  <div className="text-2xl font-bold text-purple-400 mb-1">100%</div>
+                  <div className="text-xs text-slate-400">{th.authentic}</div>
                 </div>
               </div>
             </motion.div>

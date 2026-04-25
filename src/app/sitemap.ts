@@ -2,6 +2,8 @@ import { MetadataRoute } from 'next';
 import { prisma } from '@/lib/db';
 import { SITE_URL } from '@/lib/constants';
 
+const db = prisma as any;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Pages statiques
   const staticPages: MetadataRoute.Sitemap = [
@@ -22,6 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/cgu`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE_URL}/mentions-legales`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE_URL}/politique-confidentialite`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${SITE_URL}/blog`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
   ];
 
   // Pages dynamiques — Establishments (hotels, restaurants, attractions)
@@ -46,5 +49,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     }));
 
-  return [...staticPages, ...establishmentPages];
+  // Blog articles
+  const articles = await db.article.findMany({
+    where: { status: 'published' },
+    select: { slug: true, updatedAt: true },
+  });
+
+  const articlePages: MetadataRoute.Sitemap = articles.map((a: any) => ({
+    url: `${SITE_URL}/blog/${a.slug}`,
+    lastModified: a.updatedAt,
+    changeFrequency: 'weekly' as const,
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...establishmentPages, ...articlePages];
 }

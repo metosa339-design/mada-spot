@@ -24,6 +24,7 @@ import {
   Plus,
   Calendar,
   LayoutDashboard,
+  BookOpen,
 } from 'lucide-react';
 import SkipToContent from '@/components/ui/SkipToContent';
 import SuccessTicker from '@/components/ui/SuccessTicker';
@@ -207,6 +208,18 @@ export default function Header() {
               <Calendar className="w-4 h-4" />
               {t.events}
             </Link>}
+
+            <Link
+              href="/blog"
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg font-medium transition-all ${
+                pathname?.startsWith('/blog')
+                  ? 'text-orange-500'
+                  : 'text-white/90 hover:bg-white/10'
+              }`}
+            >
+              <BookOpen className="w-4 h-4" />
+              Blog
+            </Link>
 
             <Link
               href="/comment-ca-marche"
@@ -446,6 +459,14 @@ export default function Header() {
                 <Calendar className="w-5 h-5 text-orange-500" />
                 {t.events}
               </Link>}
+              <Link
+                href="/blog"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-2 px-4 py-3 font-medium text-slate-700 hover:bg-slate-50 rounded-lg transition-colors"
+              >
+                <BookOpen className="w-5 h-5 text-orange-500" />
+                Blog
+              </Link>
               <Link
                 href="/comment-ca-marche"
                 onClick={() => setIsMobileMenuOpen(false)}

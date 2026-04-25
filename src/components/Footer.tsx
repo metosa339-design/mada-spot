@@ -143,6 +143,7 @@ export default function Footer() {
               <li><a href="/bons-plans/restaurants" className="text-sm text-gray-400 hover:text-white transition-colors">{t.restaurants}</a></li>
               <li><a href="/bons-plans/attractions" className="text-sm text-gray-400 hover:text-white transition-colors">{t.attractions}</a></li>
               <li><a href="/bons-plans/carte" className="text-sm text-gray-400 hover:text-white transition-colors">{t.interactiveMap}</a></li>
+              <li><a href="/blog" className="text-sm text-gray-400 hover:text-white transition-colors">Blog</a></li>
               <li><a href="/inscrire-etablissement" className="text-sm text-orange-400 hover:text-orange-300 font-medium transition-colors">Inscrire mon établissement</a></li>
               <li><a href="/comment-ca-marche" className="text-sm text-gray-400 hover:text-white transition-colors">{t.howItWorks}</a></li>
               <li><a href="/a-propos" className="text-sm text-gray-400 hover:text-white transition-colors">{t.about}</a></li>

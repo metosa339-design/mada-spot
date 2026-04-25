@@ -36,6 +36,7 @@ import {
   Copy,
   Clock,
   Menu,
+  BookOpen,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
@@ -68,6 +69,7 @@ const SupportTicketManager = dynamic(() => import('@/components/admin/SupportTic
 const SEOTrends = dynamic(() => import('@/components/admin/SEOTrends'), { loading: DynLoading });
 const DuplicateDetector = dynamic(() => import('@/components/admin/DuplicateDetector'), { loading: DynLoading });
 const SlowProviders = dynamic(() => import('@/components/admin/SlowProviders'), { loading: DynLoading });
+const BlogManager = dynamic(() => import('@/components/admin/BlogManager'), { loading: DynLoading });
 
 // ============================================================
 // TYPES
@@ -91,6 +93,7 @@ const NAV_ITEMS = [
   { id: 'reviews', label: 'Avis', icon: MessageSquare },
   { id: 'bookings', label: 'Reservations', icon: CalendarDays },
   { id: 'slow-providers', label: 'Prestataires Lents', icon: Clock },
+  { id: 'blog', label: 'Blog', icon: BookOpen },
   { id: 'events', label: 'Evenements', icon: CalendarDays },
   { id: 'images', label: 'Images', icon: ImageIcon },
   { id: 'support', label: 'Support', icon: Headphones },
@@ -380,6 +383,16 @@ function TabContent({ tabId, setActiveTab }: { tabId: string; setActiveTab: (t: 
             <BarChart3 className="w-12 h-12 mx-auto mb-3 opacity-30" />
             <p className="text-sm">Les statistiques detaillees seront affichees ici</p>
           </div>
+        </div>
+      );
+    case 'blog':
+      return (
+        <div>
+          <div className="mb-8">
+            <h3 className="text-xl font-bold">Blog & Articles</h3>
+            <p className="text-sm text-gray-500">Creer et gerer les articles du blog pour le SEO</p>
+          </div>
+          <BlogManager />
         </div>
       );
     default:

@@ -306,6 +306,15 @@ RÉPONDS UNIQUEMENT EN JSON VALIDE:
 }
 
 export async function GET(request: NextRequest) {
+  // RSS sync disabled — blog content is now manually curated (tourism-only articles)
+  return NextResponse.json({
+    success: true,
+    message: 'RSS sync disabled — blog is now curated manually',
+    totalSaved: 0,
+    timestamp: new Date().toISOString(),
+  });
+
+  /* DISABLED — original code below
   if (!isAuthorized(request)) {
     return NextResponse.json({ success: false, error: 'Non autorisé' }, { status: 401 });
   }
@@ -504,6 +513,8 @@ export async function GET(request: NextRequest) {
     }, { status: 500 });
   }
 }
+
+*/ // END DISABLED
 
 // Also support POST for manual triggers
 export async function POST(request: NextRequest) {

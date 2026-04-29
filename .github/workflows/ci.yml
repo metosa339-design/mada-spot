@@ -66,7 +66,11 @@ jobs:
           script: |
             set -e
             cd /root/mada-spot
-            git pull origin main
+            # Hard-sync to origin/main: production server should be a mirror,
+            # not a working copy. Avoids "local changes would be overwritten"
+            # errors from manual edits on the server.
+            git fetch origin main
+            git reset --hard origin/main
             # Stop the running app to release file locks on node_modules.
             # `|| true` so the deploy still works on first deploy when the
             # process doesn't exist yet.

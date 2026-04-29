@@ -86,7 +86,7 @@ function ProfileCompletion({ user, stats, accent }: { user: DashboardUser; stats
 }
 
 function StatCard({ label, value, icon: Icon, trend, color, href, sparkData }: {
-  label: string; value: string | number; icon: React.ElementType; trend?: number; color: string; href?: string; sparkData?: number[]
+  label: string; value: string | number; icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>; trend?: number; color: string; href?: string; sparkData?: number[]
 }) {
   const content = (
     <motion.div

@@ -123,7 +123,7 @@ export default function PublierAvisPage() {
             {results.length > 0 && (
               <div className="bg-[#1a1a24] border border-white/10 rounded-2xl overflow-hidden divide-y divide-white/5">
                 {results.map(est => {
-                  const Icon = TYPE_ICONS[est.type] || Building2
+                  const Icon = (TYPE_ICONS[est.type] || Building2) as React.ComponentType<{ className?: string }>
                   return (
                     <button
                       key={est.id}
@@ -225,7 +225,7 @@ export default function PublierAvisPage() {
                 />
               ) : (
                 <div className="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
-                  {(() => { const Icon = TYPE_ICONS[selected.type] || Building2; return <Icon className="w-7 h-7 text-gray-600" /> })()}
+                  {(() => { const Icon = (TYPE_ICONS[selected.type] || Building2) as React.ComponentType<{ className?: string }>; return <Icon className="w-7 h-7 text-gray-600" /> })()}
                 </div>
               )}
               <div>

@@ -15,11 +15,6 @@ const SHORT_URL_CATEGORIES = [
 const nextConfig: NextConfig = {
   trailingSlash: false,
   poweredByHeader: false,
-  // Pre-existing TS/ESLint issues across the codebase (icon-as-component patterns,
-  // unused vars, etc.). Allow the production build to ship; clean these up
-  // incrementally in dedicated PRs.
-  typescript: { ignoreBuildErrors: true },
-  eslint: { ignoreDuringBuilds: true },
   async redirects() {
     return SHORT_URL_CATEGORIES.flatMap((cat) => [
       { source: `/bons-plans/${cat}`, destination: `/${cat}`, permanent: true },

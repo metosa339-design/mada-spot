@@ -151,7 +151,7 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
                   style={{ backgroundColor: accent }}
                 />
               )}
-              <link.icon className="w-5 h-5 flex-shrink-0" style={active ? { color: accent } : undefined} />
+              {(() => { const Icon = link.icon as React.ComponentType<{ className?: string; style?: React.CSSProperties }>; return <Icon className="w-5 h-5 flex-shrink-0" style={active ? { color: accent } : undefined} /> })()}
               {!collapsed && (
                 <>
                   <span className="truncate">{link.label}</span>
@@ -185,7 +185,7 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
                 active ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-gray-300'
               }`}
             >
-              <link.icon className="w-5 h-5 flex-shrink-0" />
+              {(() => { const Icon = link.icon as React.ComponentType<{ className?: string }>; return <Icon className="w-5 h-5 flex-shrink-0" /> })()}
               {!collapsed && <span>{link.label}</span>}
             </Link>
           )

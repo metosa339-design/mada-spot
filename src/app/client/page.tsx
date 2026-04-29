@@ -641,7 +641,7 @@ export default function ClientDashboard() {
               {
                 label: 'Hébergements',
                 desc: 'Hôtels, lodges, villas...',
-                href: '/bons-plans/hotels',
+                href: '/hotels',
                 icon: Hotel,
                 gradient: 'from-[#0891b2] to-cyan-600',
                 bgGlow: 'from-cyan-500/10',
@@ -650,7 +650,7 @@ export default function ClientDashboard() {
               {
                 label: 'Restaurants',
                 desc: 'Gastronomie malgache et plus',
-                href: '/bons-plans/restaurants',
+                href: '/restaurants',
                 icon: UtensilsCrossed,
                 gradient: 'from-orange-500 to-red-500',
                 bgGlow: 'from-orange-500/10',
@@ -659,7 +659,7 @@ export default function ClientDashboard() {
               {
                 label: 'Attractions',
                 desc: 'Parcs, plages, excursions...',
-                href: '/bons-plans/attractions',
+                href: '/attractions',
                 icon: Compass,
                 gradient: 'from-green-500 to-emerald-600',
                 bgGlow: 'from-green-500/10',

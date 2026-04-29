@@ -29,8 +29,8 @@ export const metadata: Metadata = {
   verification: {
     google: "fX6u4yzE8B2J5L_QKdCpVl415KHO7wagjDagaO63BHU",
   },
-  title: "Mada Spot — Bons Plans à Madagascar",
-  description: "Mada Spot est la plateforme n°1 pour découvrir et réserver les meilleurs hôtels, restaurants et attractions touristiques à Madagascar. Comparez les prix, lisez les avis et réservez en ligne.",
+  title: "Mada Spot — Hôtels, Restaurants & Attractions à Madagascar",
+  description: "Découvrez et réservez les meilleurs hôtels, restaurants et attractions touristiques de Madagascar. Comparez les prix, lisez les avis vérifiés et contactez les établissements directement.",
   keywords: ["Madagascar", "tourisme Madagascar", "bons plans Madagascar", "meilleur hôtel Madagascar", "restaurant Antananarivo", "hôtel Nosy Be", "attractions touristiques Madagascar", "parcs nationaux Madagascar", "Mada Spot", "voyage Madagascar", "guide touristique Madagascar", "réservation hôtel Madagascar", "où manger Madagascar", "Tsingy", "Isalo", "baobab Madagascar"],
   authors: [{ name: "Mada Spot" }],
   creator: "Mada Spot",
@@ -42,20 +42,27 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/",
+    languages: {
+      fr: "/",
+      en: "/?lang=en",
+      "x-default": "/",
+    },
   },
   openGraph: {
-    title: "Mada Spot — Bons Plans à Madagascar",
-    description: "Découvrez les meilleurs restaurants, hôtels et attractions touristiques à Madagascar.",
+    title: "Mada Spot — Hôtels, Restaurants & Attractions à Madagascar",
+    description: "Découvrez et réservez les meilleurs hôtels, restaurants et attractions touristiques de Madagascar.",
     url: "https://madaspot.com",
     siteName: "Mada Spot",
     locale: "fr_MG",
+    alternateLocale: ["en_US"],
     type: "website",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Mada Spot — Bons Plans à Madagascar" }],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Mada Spot — Hôtels, Restaurants & Attractions à Madagascar" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mada Spot — Bons Plans à Madagascar",
-    description: "Découvrez les meilleurs restaurants, hôtels et attractions à Madagascar.",
+    title: "Mada Spot — Hôtels, Restaurants & Attractions à Madagascar",
+    description: "Découvrez et réservez les meilleurs hôtels, restaurants et attractions touristiques de Madagascar.",
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,
@@ -82,8 +89,6 @@ export const viewport: Viewport = {
   themeColor: "#ff6b35",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
 };
 
 export default function RootLayout({

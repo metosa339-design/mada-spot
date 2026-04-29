@@ -11,17 +11,17 @@ export function detectViewSource(request: NextRequest): string {
 
   const referer = request.headers.get('referer') || ''
 
-  if (referer.includes('/bons-plans/carte')) return 'map'
+  if (referer.includes('/carte')) return 'map'
 
   if (
-    referer.includes('/bons-plans/hotels') ||
-    referer.includes('/bons-plans/restaurants') ||
-    referer.includes('/bons-plans/attractions') ||
-    referer.includes('/bons-plans/prestataires') ||
+    referer.includes('/hotels') ||
+    referer.includes('/restaurants') ||
+    referer.includes('/attractions') ||
+    referer.includes('/prestataires') ||
     referer.includes('/search')
   ) return 'search'
 
-  if (referer.includes('/bons-plans/offres')) return 'featured'
+  if (referer.includes('/offres')) return 'featured'
 
   return 'direct'
 }

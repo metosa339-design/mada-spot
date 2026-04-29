@@ -28,9 +28,9 @@ interface BentoCardProps {
 }
 
 const typeConfig: Record<string, { color: string; bgColor: string; icon: any; label: string; href: string }> = {
-  HOTEL: { color: '#3B82F6', bgColor: 'bg-blue-500/10', icon: Hotel, label: 'Hôtel', href: '/bons-plans/hotels' },
-  RESTAURANT: { color: '#F97316', bgColor: 'bg-orange-500/10', icon: Utensils, label: 'Restaurant', href: '/bons-plans/restaurants' },
-  ATTRACTION: { color: '#10B981', bgColor: 'bg-emerald-500/10', icon: Compass, label: 'Attraction', href: '/bons-plans/attractions' },
+  HOTEL: { color: '#3B82F6', bgColor: 'bg-blue-500/10', icon: Hotel, label: 'Hôtel', href: '/hotels' },
+  RESTAURANT: { color: '#F97316', bgColor: 'bg-orange-500/10', icon: Utensils, label: 'Restaurant', href: '/restaurants' },
+  ATTRACTION: { color: '#10B981', bgColor: 'bg-emerald-500/10', icon: Compass, label: 'Attraction', href: '/attractions' },
 };
 
 const categoryLabels: Record<string, string> = {

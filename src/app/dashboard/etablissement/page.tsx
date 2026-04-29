@@ -266,20 +266,23 @@ export default function EstablishmentPage() {
 
       {/* Tab Navigation */}
       <div className="flex gap-1 bg-white border border-white/10 rounded-xl p-1 overflow-x-auto">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
-              activeTab === tab.id
-                ? 'bg-[#ff6b35] text-white'
-                : 'text-gray-400 hover:text-gray-900 hover:bg-gray-50'
-            }`}
-          >
-            <tab.icon className="w-4 h-4" />
-            {tab.label}
-          </button>
-        ))}
+        {tabs.map((tab) => {
+          const Icon = tab.icon as React.ComponentType<{ className?: string }>;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+                activeTab === tab.id
+                  ? 'bg-[#ff6b35] text-white'
+                  : 'text-gray-400 hover:text-gray-900 hover:bg-gray-50'
+              }`}
+            >
+              <Icon className="w-4 h-4" />
+              {tab.label}
+            </button>
+          );
+        })}
       </div>
 
       {/* Tab Content */}

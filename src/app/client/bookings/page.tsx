@@ -160,7 +160,7 @@ export default function ClientBookingsPage() {
             <p className="text-gray-400 font-medium">Aucune réservation</p>
             <p className="text-sm text-gray-500 mt-1">Vos réservations apparaîtront ici</p>
             <Link
-              href="/bons-plans/hotels"
+              href="/hotels"
               className="inline-block mt-4 px-6 py-2 bg-[#ff6b35] text-white rounded-lg text-sm hover:bg-[#e55a2b]"
             >
               Découvrir les hébergements

@@ -198,7 +198,7 @@ export default function InscrireEtablissementPage() {
           <motion.div variants={fadeUp} custom={0} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-12">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4">Comment inscrire mon établissement ?</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              4 étapes simples pour être visible sur la première plateforme touristique de Madagascar.
+              4 étapes simples pour rendre votre établissement visible auprès des voyageurs à Madagascar.
             </p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">

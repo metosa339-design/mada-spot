@@ -28,7 +28,7 @@ export const fr = {
   },
   nav: {
     bonsPlans: 'Bons Plans',
-    newBadge: 'NEW',
+    newBadge: '',
     discover: 'Découvrir',
     allDeals: 'Tous les bons plans',
     hotels: 'Hôtels',

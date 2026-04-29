@@ -6,7 +6,7 @@ import Footer from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
   title: 'À propos de Mada Spot — Plateforme Tourisme Madagascar',
-  description: 'Mada Spot est la plateforme n°1 du tourisme à Madagascar. Découvrez notre mission : connecter voyageurs et établissements malgaches pour promouvoir la Grande Île.',
+  description: 'Mada Spot connecte voyageurs et établissements malgaches pour faire découvrir la Grande Île. Notre mission, nos valeurs et notre équipe.',
   keywords: ['à propos Mada Spot', 'tourisme Madagascar', 'plateforme touristique Madagascar', 'voyage Madagascar'],
   alternates: {
     canonical: '/a-propos',
@@ -113,12 +113,12 @@ export default function AProposPage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Mada Spot en chiffres</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <div className="text-center p-6 bg-white rounded-xl border border-gray-100">
-                <div className="text-3xl font-bold text-[#ff6b35] mb-1">500+</div>
+                <div className="text-3xl font-bold text-[#ff6b35] mb-1">175+</div>
                 <div className="text-sm text-gray-600">Établissements référencés</div>
               </div>
               <div className="text-center p-6 bg-white rounded-xl border border-gray-100">
-                <div className="text-3xl font-bold text-[#ff6b35] mb-1">1000+</div>
-                <div className="text-sm text-gray-600">Avis vérifiés</div>
+                <div className="text-3xl font-bold text-[#ff6b35] mb-1">10K+</div>
+                <div className="text-sm text-gray-600">Visiteurs par mois</div>
               </div>
               <div className="text-center p-6 bg-white rounded-xl border border-gray-100">
                 <div className="text-3xl font-bold text-[#ff6b35] mb-1">20+</div>

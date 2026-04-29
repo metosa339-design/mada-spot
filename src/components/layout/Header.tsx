@@ -59,13 +59,13 @@ export default function Header() {
   const t = useTrans('nav');
 
   const bonsPlansItems = [
-    { name: t.hotels, href: '/bons-plans/hotels', icon: Building2, color: '#3b82f6' },
-    { name: t.restaurants, href: '/bons-plans/restaurants', icon: UtensilsCrossed, color: '#f97316' },
-    { name: t.attractions, href: '/bons-plans/attractions', icon: Mountain, color: '#22c55e' },
-    { name: t.providers, href: '/bons-plans/prestataires', icon: Users, color: '#06b6d4' },
-    { name: t.interactiveMap, href: '/bons-plans/carte', icon: Map, color: '#8b5cf6' },
-    { name: t.currentDeals, href: '/bons-plans/offres', icon: Tag, color: '#ec4899' },
-    { name: t.culinaryGuide, href: '/bons-plans/guide-culinaire', icon: ChefHat, color: '#ef4444' },
+    { name: t.hotels, href: '/hotels', icon: Building2, color: '#3b82f6' },
+    { name: t.restaurants, href: '/restaurants', icon: UtensilsCrossed, color: '#f97316' },
+    { name: t.attractions, href: '/attractions', icon: Mountain, color: '#22c55e' },
+    { name: t.providers, href: '/prestataires', icon: Users, color: '#06b6d4' },
+    { name: t.interactiveMap, href: '/carte', icon: Map, color: '#8b5cf6' },
+    { name: t.currentDeals, href: '/offres', icon: Tag, color: '#ec4899' },
+    { name: t.culinaryGuide, href: '/guide-culinaire', icon: ChefHat, color: '#ef4444' },
     { name: t.publishPlace, href: '/publier-lieu', icon: Plus, color: '#10b981' },
   ];
 
@@ -139,15 +139,12 @@ export default function Header() {
                 aria-haspopup="true"
                 aria-label={t.openBonsPlans}
                 className={`flex items-center gap-1.5 px-4 py-2 rounded-lg font-medium transition-all ${
-                  pathname?.startsWith('/bons-plans')
+                  bonsPlansItems.some((it) => pathname?.startsWith(it.href)) || pathname?.startsWith('/bons-plans')
                     ? 'text-orange-500'
                     : 'text-white/90 hover:bg-white/10'
                 }`}
               >
                 {t.bonsPlans}
-                <span className="ml-1 px-1.5 py-0.5 text-[10px] font-bold bg-gradient-to-r from-orange-500 to-pink-500 text-white rounded-full">
-                  {t.newBadge}
-                </span>
                 <ChevronDown className={`w-4 h-4 transition-transform ${isBonsPlansOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
               </button>
 
@@ -433,9 +430,6 @@ export default function Header() {
                   className="flex items-center gap-3 px-4 py-2"
                 >
                   <p className="text-sm font-medium text-slate-500">{t.bonsPlans}</p>
-                  <span className="px-1.5 py-0.5 text-[10px] font-bold bg-gradient-to-r from-orange-500 to-pink-500 text-white rounded-full">
-                    {t.newBadge}
-                  </span>
                 </Link>
                 {bonsPlansItems.map((item) => (
                   <Link

@@ -139,10 +139,10 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4 text-[#ff6b35]">{t.explore}</h4>
             <ul className="space-y-2">
-              <li><a href="/bons-plans/hotels" className="text-sm text-gray-400 hover:text-white transition-colors">{t.hotels}</a></li>
-              <li><a href="/bons-plans/restaurants" className="text-sm text-gray-400 hover:text-white transition-colors">{t.restaurants}</a></li>
-              <li><a href="/bons-plans/attractions" className="text-sm text-gray-400 hover:text-white transition-colors">{t.attractions}</a></li>
-              <li><a href="/bons-plans/carte" className="text-sm text-gray-400 hover:text-white transition-colors">{t.interactiveMap}</a></li>
+              <li><a href="/hotels" className="text-sm text-gray-400 hover:text-white transition-colors">{t.hotels}</a></li>
+              <li><a href="/restaurants" className="text-sm text-gray-400 hover:text-white transition-colors">{t.restaurants}</a></li>
+              <li><a href="/attractions" className="text-sm text-gray-400 hover:text-white transition-colors">{t.attractions}</a></li>
+              <li><a href="/carte" className="text-sm text-gray-400 hover:text-white transition-colors">{t.interactiveMap}</a></li>
               <li><a href="/blog" className="text-sm text-gray-400 hover:text-white transition-colors">Blog</a></li>
               <li><a href="/inscrire-etablissement" className="text-sm text-orange-400 hover:text-orange-300 font-medium transition-colors">Inscrire mon établissement</a></li>
               <li><a href="/comment-ca-marche" className="text-sm text-gray-400 hover:text-white transition-colors">{t.howItWorks}</a></li>

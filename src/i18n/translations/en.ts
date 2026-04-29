@@ -30,7 +30,7 @@ export const en: Translations = {
   },
   nav: {
     bonsPlans: 'Best Deals',
-    newBadge: 'NEW',
+    newBadge: '',
     discover: 'Discover',
     allDeals: 'All deals',
     hotels: 'Hotels',

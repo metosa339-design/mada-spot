@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Send, Loader2, CheckCircle, MapPin, Mail, Phone, ArrowLeft } from 'lucide-react';
+import { Send, Loader2, CheckCircle, MapPin, Mail, MessageSquare, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useCsrf } from '@/hooks/useCsrf';
 import PhoneInput from '@/components/ui/PhoneInput';
@@ -147,9 +147,9 @@ export default function ContactPage() {
               <p className="text-sm text-gray-500 mt-1">support@madaspot.com</p>
             </div>
             <div className="bg-white rounded-xl border p-5">
-              <Phone className="w-6 h-6 text-orange-500 mb-2" />
-              <h3 className="font-semibold text-sm">Téléphone</h3>
-              <p className="text-sm text-gray-500 mt-1">+261 34 00 000 00</p>
+              <MessageSquare className="w-6 h-6 text-orange-500 mb-2" />
+              <h3 className="font-semibold text-sm">Délai de réponse</h3>
+              <p className="text-sm text-gray-500 mt-1">Sous 48 heures ouvrées</p>
             </div>
             <div className="bg-white rounded-xl border p-5">
               <MapPin className="w-6 h-6 text-orange-500 mb-2" />

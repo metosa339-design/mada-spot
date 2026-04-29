@@ -1,12 +1,24 @@
 'use client';
 
 import { useEffect, useState, useMemo, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import { getImageUrl } from '@/lib/image-url';
+
+const ENABLE_3D = process.env.NEXT_PUBLIC_ENABLE_3D === 'true';
+
+const Map3D = dynamic(() => import('./three/Map3D'), {
+  ssr: false,
+  loading: () => (
+    <div className="h-full w-full bg-slate-100 flex items-center justify-center">
+      <div className="text-slate-500">Chargement de la vue 3D...</div>
+    </div>
+  ),
+});
 
 // Fix Leaflet default icon issue with Next.js
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -254,10 +266,10 @@ const typeLabels: Record<string, string> = {
 };
 
 const typeHrefs: Record<string, string> = {
-  HOTEL: '/bons-plans/hotels',
-  RESTAURANT: '/bons-plans/restaurants',
-  ATTRACTION: '/bons-plans/attractions',
-  PROVIDER: '/bons-plans/prestataires',
+  HOTEL: '/hotels',
+  RESTAURANT: '/restaurants',
+  ATTRACTION: '/attractions',
+  PROVIDER: '/prestataires',
 };
 
 export default function InteractiveFullMap({
@@ -266,6 +278,7 @@ export default function InteractiveFullMap({
   onMarkerClick,
 }: InteractiveFullMapProps) {
   const [isMounted, setIsMounted] = useState(false);
+  const [viewMode, setViewMode] = useState<'2d' | '3d'>('2d');
 
   useEffect(() => {
     setIsMounted(true);
@@ -284,8 +297,75 @@ export default function InteractiveFullMap({
     );
   }
 
+  const ViewModeToggle = ENABLE_3D ? (
+    <div
+      style={{
+        position: 'absolute',
+        top: 12,
+        right: 12,
+        zIndex: 1000,
+        display: 'flex',
+        background: 'rgba(255,255,255,0.95)',
+        borderRadius: 10,
+        padding: 4,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+        backdropFilter: 'blur(8px)',
+      }}
+    >
+      <button
+        type="button"
+        onClick={() => setViewMode('2d')}
+        style={{
+          padding: '6px 12px',
+          fontSize: 12,
+          fontWeight: 600,
+          border: 'none',
+          borderRadius: 6,
+          cursor: 'pointer',
+          background: viewMode === '2d' ? '#ff6b35' : 'transparent',
+          color: viewMode === '2d' ? 'white' : '#1a1a2e',
+          transition: 'all 0.2s',
+        }}
+      >
+        2D
+      </button>
+      <button
+        type="button"
+        onClick={() => setViewMode('3d')}
+        style={{
+          padding: '6px 12px',
+          fontSize: 12,
+          fontWeight: 600,
+          border: 'none',
+          borderRadius: 6,
+          cursor: 'pointer',
+          background: viewMode === '3d' ? '#ff6b35' : 'transparent',
+          color: viewMode === '3d' ? 'white' : '#1a1a2e',
+          transition: 'all 0.2s',
+        }}
+      >
+        3D
+      </button>
+    </div>
+  ) : null;
+
+  if (ENABLE_3D && viewMode === '3d') {
+    return (
+      <div style={{ position: 'relative', height: '100%', width: '100%' }}>
+        {ViewModeToggle}
+        <Map3D
+          markers={validMarkers}
+          selectedMarker={selectedMarker}
+          onMarkerClick={onMarkerClick}
+        />
+      </div>
+    );
+  }
+
   return (
-    <MapContainer
+    <div style={{ position: 'relative', height: '100%', width: '100%' }}>
+      {ViewModeToggle}
+      <MapContainer
       center={[-18.8792, 47.5079]}
       zoom={6}
       style={{ height: '100%', width: '100%' }}
@@ -356,6 +436,7 @@ export default function InteractiveFullMap({
           background: transparent !important;
         }
       `}</style>
-    </MapContainer>
+      </MapContainer>
+    </div>
   );
 }

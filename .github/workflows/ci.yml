@@ -64,9 +64,14 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            set -e
             cd /root/mada-spot
             git pull origin main
-            npm install --production
+            # Full install (devDependencies are required for `next build`)
+            npm ci
             npx prisma generate
+            npx prisma migrate deploy
             npm run build
-            pm2 restart madaspot
+            # Use ecosystem.config.js so PM2 always runs `next start` (not `next dev`)
+            pm2 startOrReload ecosystem.config.js --env production
+            pm2 save

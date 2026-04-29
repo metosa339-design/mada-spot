@@ -9,13 +9,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     { url: SITE_URL, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
     { url: `${SITE_URL}/bons-plans`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
-    { url: `${SITE_URL}/bons-plans/restaurants`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
-    { url: `${SITE_URL}/bons-plans/hotels`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
-    { url: `${SITE_URL}/bons-plans/attractions`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
-    { url: `${SITE_URL}/bons-plans/prestataires`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
-    { url: `${SITE_URL}/bons-plans/offres`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.7 },
-    { url: `${SITE_URL}/bons-plans/carte`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
-    { url: `${SITE_URL}/bons-plans/guide-culinaire`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${SITE_URL}/restaurants`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
+    { url: `${SITE_URL}/hotels`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
+    { url: `${SITE_URL}/attractions`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
+    { url: `${SITE_URL}/prestataires`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
+    { url: `${SITE_URL}/offres`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.7 },
+    { url: `${SITE_URL}/carte`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${SITE_URL}/guide-culinaire`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
     { url: `${SITE_URL}/a-propos`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
     { url: `${SITE_URL}/contact`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
     { url: `${SITE_URL}/inscrire-etablissement`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
@@ -43,7 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const establishmentPages: MetadataRoute.Sitemap = establishments
     .filter((e) => typeToPath[e.type])
     .map((e) => ({
-      url: `${SITE_URL}/bons-plans/${typeToPath[e.type]}/${e.slug}`,
+      url: `${SITE_URL}/${typeToPath[e.type]}/${e.slug}`,
       lastModified: e.updatedAt,
       changeFrequency: 'weekly' as const,
       priority: 0.7,

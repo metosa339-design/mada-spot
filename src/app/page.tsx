@@ -11,7 +11,6 @@ import {
   Star,
   ArrowRight,
   Sparkles,
-  Loader2,
   Building2,
   Mountain,
   Compass,
@@ -127,18 +126,12 @@ export default function HomePageWrapper() {
 function HomePage() {
   const router = useRouter();
   const th = useTrans('home');
-  const tc = useTrans('common');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('attractions');
   const [featuredAttractions, setFeaturedAttractions] = useState<Attraction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [totalAttractions, setTotalAttractions] = useState(0);
-
-  useEffect(() => {
-    setIsCheckingAuth(false);
-  }, []);
 
   // Charger les attractions en vedette
   useEffect(() => {
@@ -165,26 +158,14 @@ function HomePage() {
     if (selectedCity) params.set('city', selectedCity);
 
     const categoryRoutes: Record<string, string> = {
-      attractions: '/bons-plans/attractions',
-      hotels: '/bons-plans/hotels',
-      restaurants: '/bons-plans/restaurants',
-      prestataires: '/bons-plans/prestataires',
+      attractions: '/attractions',
+      hotels: '/hotels',
+      restaurants: '/restaurants',
+      prestataires: '/prestataires',
     };
-    const basePath = categoryRoutes[selectedCategory] || '/bons-plans/attractions';
+    const basePath = categoryRoutes[selectedCategory] || '/attractions';
     router.push(`${basePath}?${params.toString()}`);
   };
-
-  // Loader pendant la vérification auth
-  if (isCheckingAuth) {
-    return (
-      <main className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="w-10 h-10 text-orange-500 animate-spin mx-auto mb-4" />
-          <p className="text-slate-300">{tc.loading}</p>
-        </div>
-      </main>
-    );
-  }
 
   return (
     <main id="main-content" className="min-h-screen bg-[#0a0a0f] text-white">
@@ -470,7 +451,7 @@ function HomePage() {
               whileHover={{ scale: 1.03 }}
             >
               <Link
-                href="/bons-plans/attractions"
+                href="/attractions"
                 className="block h-full bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-orange-500/50 transition-all group"
               >
                 <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
@@ -496,7 +477,7 @@ function HomePage() {
               whileHover={{ scale: 1.03 }}
             >
               <Link
-                href="/bons-plans/hotels"
+                href="/hotels"
                 className="block h-full bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-pink-500/50 transition-all group"
               >
                 <div className="w-14 h-14 bg-gradient-to-br from-pink-500 to-rose-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
@@ -522,7 +503,7 @@ function HomePage() {
               whileHover={{ scale: 1.03 }}
             >
               <Link
-                href="/bons-plans/restaurants"
+                href="/restaurants"
                 className="block h-full bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-purple-500/50 transition-all group"
               >
                 <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-violet-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
@@ -548,7 +529,7 @@ function HomePage() {
               whileHover={{ scale: 1.03 }}
             >
               <Link
-                href="/bons-plans/prestataires"
+                href="/prestataires"
                 className="block h-full bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-cyan-500/50 transition-all group"
               >
                 <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
@@ -601,7 +582,7 @@ function HomePage() {
                   transition={{ delay: index * 0.1 }}
                 >
                   <Link
-                    href={`/bons-plans/attractions/${attraction.slug}`}
+                    href={`/attractions/${attraction.slug}`}
                     className="block bg-[#1a1a24] rounded-2xl border border-[#2a2a36] overflow-hidden hover:border-orange-500/50 transition-all group h-full"
                   >
                     <div className="aspect-[4/3] relative overflow-hidden">
@@ -648,7 +629,7 @@ function HomePage() {
               className="text-center mt-10"
             >
               <Link
-                href="/bons-plans/attractions"
+                href="/attractions"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all"
               >
                 <Mountain className="w-5 h-5" />
@@ -740,7 +721,7 @@ function HomePage() {
               {th.mapDesc}
             </p>
             <Link
-              href="/bons-plans/carte"
+              href="/carte"
               className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all"
             >
               <Map className="w-5 h-5" />

@@ -203,7 +203,7 @@ export default function BonsPlansPage() {
     const params = new URLSearchParams();
     if (searchQuery) params.set('search', searchQuery);
     if (selectedCity) params.set('city', selectedCity);
-    window.location.href = `/bons-plans/attractions?${params.toString()}`;
+    window.location.href = `/attractions?${params.toString()}`;
   };
 
   const getPriceDisplay = (attraction: Attraction) => {
@@ -313,7 +313,7 @@ export default function BonsPlansPage() {
                 transition={{ delay: index * 0.1 }}
               >
                 <Link
-                  href={`/bons-plans/${category.slug}`}
+                  href={`/${category.slug}`}
                   className="block bg-[#1a1a24] rounded-2xl p-5 border border-[#2a2a36] hover:border-orange-500/50 transition-all group"
                 >
                   <div
@@ -376,7 +376,7 @@ export default function BonsPlansPage() {
                     transition={{ delay: index * 0.03 }}
                   >
                     <Link
-                      href={`/bons-plans/attractions/${attraction.slug}`}
+                      href={`/attractions/${attraction.slug}`}
                       className="block bg-[#1a1a24] rounded-2xl border border-[#2a2a36] overflow-hidden hover:border-orange-500/50 transition-all group h-full"
                     >
                       {/* Image avec background-image */}
@@ -464,7 +464,7 @@ export default function BonsPlansPage() {
             className="text-center mt-10"
           >
             <Link
-              href="/bons-plans/attractions"
+              href="/attractions"
               className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all"
             >
               <Mountain className="w-5 h-5" />
@@ -514,7 +514,7 @@ export default function BonsPlansPage() {
             className="mt-8 text-center"
           >
             <Link
-              href="/bons-plans/carte"
+              href="/carte"
               className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all"
             >
               <Map className="w-5 h-5" />

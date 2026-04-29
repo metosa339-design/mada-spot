@@ -15,6 +15,12 @@ const SHORT_URL_CATEGORIES = [
 const nextConfig: NextConfig = {
   trailingSlash: false,
   poweredByHeader: false,
+  // Skip type-check + lint at production build time to keep peak memory low
+  // (the IONOS VPS only has ~1 GB RAM, hits OOM otherwise).
+  // The CI workflow already runs `tsc --noEmit` and `eslint .` on a GitHub
+  // runner with more memory, so correctness is gated there.
+  typescript: { ignoreBuildErrors: true },
+  eslint: { ignoreDuringBuilds: true },
   async redirects() {
     return SHORT_URL_CATEGORIES.flatMap((cat) => [
       { source: `/bons-plans/${cat}`, destination: `/${cat}`, permanent: true },

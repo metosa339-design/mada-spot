@@ -105,6 +105,10 @@ export default function ProviderDetail() {
 
   useEffect(() => {
     const fetchProvider = async () => {
+      setIsLoading(true);
+      setProvider(null);
+      setSimilarProviders([]);
+      window.scrollTo(0, 0);
       try {
         const res = await fetch(`/api/bons-plans/prestataires/${slug}`);
         if (!res.ok) throw new Error('Not found');

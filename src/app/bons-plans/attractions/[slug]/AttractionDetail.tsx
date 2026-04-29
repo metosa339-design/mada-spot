@@ -214,6 +214,10 @@ export default function AttractionDetail() {
 
   useEffect(() => {
     const fetchAttraction = async () => {
+      setIsLoading(true);
+      setAttraction(null);
+      setSimilarAttractions([]);
+      window.scrollTo(0, 0);
       try {
         const response = await fetch(`/api/bons-plans/attractions/${slug}`);
         const data = await response.json();

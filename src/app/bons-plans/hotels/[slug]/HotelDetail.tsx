@@ -144,6 +144,10 @@ export default function HotelDetail() {
 
   useEffect(() => {
     const fetchHotel = async () => {
+      setIsLoading(true);
+      setHotel(null);
+      setSimilarHotels([]);
+      window.scrollTo(0, 0);
       try {
         const response = await fetch(`/api/bons-plans/hotels/${slug}`);
         const data = await response.json();

@@ -156,6 +156,10 @@ export default function RestaurantDetail() {
 
   useEffect(() => {
     const fetchRestaurant = async () => {
+      setIsLoading(true);
+      setRestaurant(null);
+      setSimilarRestaurants([]);
+      window.scrollTo(0, 0);
       try {
         const response = await fetch(`/api/bons-plans/restaurants/${slug}`);
         const data = await response.json();

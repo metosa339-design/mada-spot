@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -23,6 +23,8 @@ import Footer from '@/components/layout/Footer';
 import TrendingSection from '@/components/TrendingSection';
 import { useTrans } from '@/i18n';
 import { getImageUrl } from '@/lib/image-url';
+import { ScrollReveal, TextReveal, CountUp, GlowCard } from '@/components/ui/animations';
+import { StaggerParent, StaggerChild } from '@/components/ui/animations/StaggerChildren';
 
 interface Attraction {
   id: string;
@@ -442,111 +444,96 @@ function HomePage() {
       {/* ===== CATEGORIES SECTION ===== */}
       <section className="py-16 -mt-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StaggerParent staggerDelay={0.12} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Attractions */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.03 }}
-            >
-              <Link
-                href="/attractions"
-                className="block h-full bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-orange-500/50 transition-all group"
-              >
-                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
-                  <Mountain className="w-7 h-7 text-white" />
-                </div>
-                <h2 className="text-xl font-bold text-white mb-2">{th.attractions}</h2>
-                <p className="text-sm text-slate-300 mb-4">
-                  {th.attractionsDesc}
-                </p>
-                <div className="flex items-center text-sm font-medium text-orange-400">
-                  {th.explore}
-                  <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
-            </motion.div>
+            <StaggerChild>
+              <GlowCard className="h-full rounded-2xl" glowColor="rgba(249, 115, 22, 0.15)">
+                <Link
+                  href="/attractions"
+                  className="block h-full bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-orange-500/50 transition-all group"
+                >
+                  <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-lg">
+                    <Mountain className="w-7 h-7 text-white" />
+                  </div>
+                  <h2 className="text-xl font-bold text-white mb-2">{th.attractions}</h2>
+                  <p className="text-sm text-slate-300 mb-4">
+                    {th.attractionsDesc}
+                  </p>
+                  <div className="flex items-center text-sm font-medium text-orange-400">
+                    {th.explore}
+                    <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-2 transition-transform" />
+                  </div>
+                </Link>
+              </GlowCard>
+            </StaggerChild>
 
             {/* Hôtels */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              whileHover={{ scale: 1.03 }}
-            >
-              <Link
-                href="/hotels"
-                className="block h-full bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-pink-500/50 transition-all group"
-              >
-                <div className="w-14 h-14 bg-gradient-to-br from-pink-500 to-rose-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
-                  <Building2 className="w-7 h-7 text-white" />
-                </div>
-                <h2 className="text-xl font-bold text-white mb-2">{th.hotelsLabel}</h2>
-                <p className="text-sm text-slate-300 mb-4">
-                  {th.hotelsDesc}
-                </p>
-                <div className="flex items-center text-sm font-medium text-pink-400">
-                  {th.discover}
-                  <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
-            </motion.div>
+            <StaggerChild>
+              <GlowCard className="h-full rounded-2xl" glowColor="rgba(236, 72, 153, 0.15)">
+                <Link
+                  href="/hotels"
+                  className="block h-full bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-pink-500/50 transition-all group"
+                >
+                  <div className="w-14 h-14 bg-gradient-to-br from-pink-500 to-rose-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-lg">
+                    <Building2 className="w-7 h-7 text-white" />
+                  </div>
+                  <h2 className="text-xl font-bold text-white mb-2">{th.hotelsLabel}</h2>
+                  <p className="text-sm text-slate-300 mb-4">
+                    {th.hotelsDesc}
+                  </p>
+                  <div className="flex items-center text-sm font-medium text-pink-400">
+                    {th.discover}
+                    <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-2 transition-transform" />
+                  </div>
+                </Link>
+              </GlowCard>
+            </StaggerChild>
 
             {/* Restaurants */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              whileHover={{ scale: 1.03 }}
-            >
-              <Link
-                href="/restaurants"
-                className="block h-full bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-purple-500/50 transition-all group"
-              >
-                <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-violet-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
-                  <UtensilsCrossed className="w-7 h-7 text-white" />
-                </div>
-                <h2 className="text-xl font-bold text-white mb-2">{th.restaurantsLabel}</h2>
-                <p className="text-sm text-slate-300 mb-4">
-                  {th.restaurantsDesc}
-                </p>
-                <div className="flex items-center text-sm font-medium text-purple-400">
-                  {th.taste}
-                  <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
-            </motion.div>
+            <StaggerChild>
+              <GlowCard className="h-full rounded-2xl" glowColor="rgba(139, 92, 246, 0.15)">
+                <Link
+                  href="/restaurants"
+                  className="block h-full bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-purple-500/50 transition-all group"
+                >
+                  <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-violet-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-lg">
+                    <UtensilsCrossed className="w-7 h-7 text-white" />
+                  </div>
+                  <h2 className="text-xl font-bold text-white mb-2">{th.restaurantsLabel}</h2>
+                  <p className="text-sm text-slate-300 mb-4">
+                    {th.restaurantsDesc}
+                  </p>
+                  <div className="flex items-center text-sm font-medium text-purple-400">
+                    {th.taste}
+                    <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-2 transition-transform" />
+                  </div>
+                </Link>
+              </GlowCard>
+            </StaggerChild>
 
             {/* Prestataires */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              whileHover={{ scale: 1.03 }}
-            >
-              <Link
-                href="/prestataires"
-                className="block h-full bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-cyan-500/50 transition-all group"
-              >
-                <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
-                  <Users className="w-7 h-7 text-white" />
-                </div>
-                <h2 className="text-xl font-bold text-white mb-2">{th.providersLabel}</h2>
-                <p className="text-sm text-slate-300 mb-4">
-                  {th.providersDesc}
-                </p>
-                <div className="flex items-center text-sm font-medium text-cyan-400">
-                  {th.discover}
-                  <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
-            </motion.div>
+            <StaggerChild>
+              <GlowCard className="h-full rounded-2xl" glowColor="rgba(6, 182, 212, 0.15)">
+                <Link
+                  href="/prestataires"
+                  className="block h-full bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-cyan-500/50 transition-all group"
+                >
+                  <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-lg">
+                    <Users className="w-7 h-7 text-white" />
+                  </div>
+                  <h2 className="text-xl font-bold text-white mb-2">{th.providersLabel}</h2>
+                  <p className="text-sm text-slate-300 mb-4">
+                    {th.providersDesc}
+                  </p>
+                  <div className="flex items-center text-sm font-medium text-cyan-400">
+                    {th.discover}
+                    <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-2 transition-transform" />
+                  </div>
+                </Link>
+              </GlowCard>
+            </StaggerChild>
 
-          </div>
+          </StaggerParent>
         </div>
       </section>
 
@@ -554,44 +541,35 @@ function HomePage() {
       {!isLoading && featuredAttractions.length > 0 && (
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full text-orange-400 text-sm font-medium mb-4">
-                <Compass className="w-4 h-4" />
-                {th.mustSeeDestinations}
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-                {th.heroTitle1} <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">{th.heroTitle2}</span>
-              </h2>
-              <p className="text-slate-300 max-w-2xl mx-auto">
+            <div className="text-center mb-12">
+              <ScrollReveal>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full text-orange-400 text-sm font-medium mb-4">
+                  <Compass className="w-4 h-4" />
+                  {th.mustSeeDestinations}
+                </div>
+              </ScrollReveal>
+              <TextReveal as="h2" delay={0.1} className="text-3xl sm:text-4xl font-bold text-white mb-4">
+                {th.heroTitle1} <span className="text-gradient-animate">{th.heroTitle2}</span>
+              </TextReveal>
+              <TextReveal as="p" delay={0.2} className="text-slate-300 max-w-2xl mx-auto">
                 {th.iconicPlaces}
-              </p>
-            </motion.div>
+              </TextReveal>
+            </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <StaggerParent staggerDelay={0.1} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {featuredAttractions.map((attraction, index) => (
-                <motion.div
-                  key={attraction.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                >
+                <StaggerChild key={attraction.id}>
                   <Link
                     href={`/attractions/${attraction.slug}`}
-                    className="block bg-[#1a1a24] rounded-2xl border border-[#2a2a36] overflow-hidden hover:border-orange-500/50 transition-all group h-full"
+                    className="block bg-[#1a1a24] rounded-2xl border border-[#2a2a36] overflow-hidden hover:border-orange-500/50 transition-all group h-full card-hover"
                   >
-                    <div className="aspect-[4/3] relative overflow-hidden">
+                    <div className="aspect-[4/3] relative img-zoom">
                       <Image
                         src={getAttractionImage(attraction.name, attraction.coverImage)}
                         alt={attraction.name}
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a24] via-transparent to-transparent opacity-60" />
                       {attraction.isFeatured && (
@@ -618,25 +596,20 @@ function HomePage() {
                       </div>
                     </div>
                   </Link>
-                </motion.div>
+                </StaggerChild>
               ))}
-            </div>
+            </StaggerParent>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mt-10"
-            >
+            <ScrollReveal delay={0.3} className="text-center mt-10">
               <Link
                 href="/attractions"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all btn-shine"
               >
                 <Mountain className="w-5 h-5" />
                 {th.seeAllAttractions}
                 <ArrowRight className="w-5 h-5" />
               </Link>
-            </motion.div>
+            </ScrollReveal>
           </div>
         </section>
       )}
@@ -644,19 +617,14 @@ function HomePage() {
       {/* ===== GALERIE MADAGASCAR ===== */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-10"
-          >
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              {th.beautyOfMadagascar.split(th.beautyOf)[0]}<span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">{th.beautyOf}</span>{th.beautyOfMadagascar.split(th.beautyOf)[1]}
-            </h2>
-            <p className="text-slate-300 max-w-2xl mx-auto">
+          <div className="text-center mb-10">
+            <TextReveal as="h2" className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              {th.beautyOfMadagascar.split(th.beautyOf)[0]}<span className="text-gradient-animate">{th.beautyOf}</span>{th.beautyOfMadagascar.split(th.beautyOf)[1]}
+            </TextReveal>
+            <TextReveal as="p" delay={0.15} className="text-slate-300 max-w-2xl mx-auto">
               {th.beautyDesc}
-            </p>
-          </motion.div>
+            </TextReveal>
+          </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
             {[

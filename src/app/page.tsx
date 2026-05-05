@@ -556,43 +556,46 @@ function HomePage() {
               </TextReveal>
             </div>
 
-            <StaggerParent staggerDelay={0.1} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featuredAttractions.map((attraction, index) => (
+            <StaggerParent staggerDelay={0.1} className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
+              {featuredAttractions.map((attraction) => (
                 <StaggerChild key={attraction.id}>
                   <Link
                     href={`/attractions/${attraction.slug}`}
-                    className="block bg-[#1a1a24] rounded-2xl border border-[#2a2a36] overflow-hidden hover:border-orange-500/50 transition-all group h-full card-hover"
+                    className="block relative rounded-2xl overflow-hidden group card-hover aspect-[3/4] sm:aspect-[4/3]"
                   >
-                    <div className="aspect-[4/3] relative img-zoom">
-                      <Image
-                        src={getAttractionImage(attraction.name, attraction.coverImage)}
-                        alt={attraction.name}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a24] via-transparent to-transparent opacity-60" />
-                      {attraction.isFeatured && (
-                        <div className="absolute top-3 right-3">
-                          <span className="px-2.5 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg text-xs font-medium flex items-center gap-1">
-                            <Star className="w-3 h-3 fill-current" />
-                            {th.featured}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-4">
-                      <h3 className="font-semibold text-white group-hover:text-orange-400 transition-colors line-clamp-1 mb-2">
+                    {/* Image de fond */}
+                    <Image
+                      src={getAttractionImage(attraction.name, attraction.coverImage)}
+                      alt={attraction.name}
+                      fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    {/* Gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                    {/* Badge featured */}
+                    {attraction.isFeatured && (
+                      <div className="absolute top-3 right-3">
+                        <span className="px-2 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg text-[10px] sm:text-xs font-medium flex items-center gap-1 backdrop-blur-sm">
+                          <Star className="w-3 h-3 fill-current" />
+                          <span className="hidden sm:inline">{th.featured}</span>
+                        </span>
+                      </div>
+                    )}
+                    {/* Texte overlay en bas */}
+                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
+                      <h3 className="font-bold text-white text-sm sm:text-base group-hover:text-orange-400 transition-colors line-clamp-1 mb-1">
                         {attraction.name}
                       </h3>
-                      <div className="flex items-center gap-1 text-sm text-slate-400 mb-3">
-                        <MapPin className="w-3.5 h-3.5" />
-                        {attraction.city}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                        <span className="font-semibold text-white">{attraction.rating.toFixed(1)}</span>
-                        <span className="text-sm text-slate-400">({attraction.reviewCount})</span>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1 text-xs sm:text-sm text-white/70">
+                          <MapPin className="w-3 h-3" />
+                          <span className="line-clamp-1">{attraction.city}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Star className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400 fill-amber-400" />
+                          <span className="font-semibold text-white text-xs sm:text-sm">{attraction.rating.toFixed(1)}</span>
+                        </div>
                       </div>
                     </div>
                   </Link>
@@ -654,10 +657,10 @@ function HomePage() {
                   alt={img.label}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <span className="absolute bottom-3 left-3 text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 drop-shadow-lg">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300" />
+                <span className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 text-white text-xs sm:text-sm font-semibold sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 drop-shadow-lg">
                   {img.label}
                 </span>
               </motion.div>
@@ -669,11 +672,9 @@ function HomePage() {
       {/* ===== MAP CTA SECTION ===== */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="rounded-3xl p-8 text-center relative overflow-hidden"
+          <ScrollReveal scale>
+          <div
+            className="rounded-3xl p-6 sm:p-8 text-center relative overflow-hidden glow-hover"
             style={{
               background: 'linear-gradient(135deg, rgba(124,58,237,0.2) 0%, rgba(219,39,119,0.15) 50%, rgba(249,115,22,0.2) 100%)',
               border: '1px solid rgba(124,58,237,0.3)'
@@ -696,7 +697,8 @@ function HomePage() {
               {th.openMap}
               <ArrowRight className="w-5 h-5" />
             </Link>
-          </motion.div>
+          </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -704,13 +706,8 @@ function HomePage() {
 
       {/* CTA Final — Inscription */}
       <section className="py-16 px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-5xl mx-auto"
-        >
+        <ScrollReveal scale>
+          <div className="max-w-5xl mx-auto">
           {/* Documentary photos strip */}
           <div className="grid grid-cols-3 gap-3 mb-8 rounded-2xl overflow-hidden">
             <div className="relative h-48 sm:h-56">
@@ -795,7 +792,8 @@ function HomePage() {
               </p>
             </div>
           </div>
-        </motion.div>
+          </div>
+        </ScrollReveal>
       </section>
 
       {/* CTA Prestataires */}

@@ -176,14 +176,17 @@ function HomePage() {
 
   return (
     <main id="main-content" className="min-h-screen bg-[#0a0a0f] text-white">
-      <Header />
+      {/* Header — hidden on mobile homepage, visible on desktop */}
+      <div className="hidden lg:block">
+        <Header />
+      </div>
 
       {/* ===== HERO SECTION ===== */}
 
-      {/* === MOBILE HERO (Style Voyago Final) === */}
+      {/* === MOBILE HERO (Style Voyago — plein ecran) === */}
       <section className="lg:hidden bg-[#f5f7fa]">
-        {/* Hero image + titre — plus grand, photo piscine */}
-        <div className="relative h-[55vh] overflow-hidden">
+        {/* Hero PLEIN ECRAN */}
+        <div className="relative h-[62vh] overflow-hidden">
           <Image
             src="/images/highlights/hero-pool-madagascar.jpg"
             alt="Piscine lodge Madagascar"
@@ -192,39 +195,44 @@ function HomePage() {
             className="object-cover object-center"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/10" />
 
-          {/* Menu + Notif en haut */}
-          <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-4 z-10">
-            <button className="p-2 text-white" onClick={() => {/* menu */}}>
-              <Menu className="w-6 h-6" />
+          {/* Menu hamburger + Notif — directement sur la photo */}
+          <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-5 z-30">
+            <button className="p-1 text-white" onClick={() => {
+              const menuBtn = document.querySelector('[aria-label*="menu"]') as HTMLButtonElement;
+              if (menuBtn) menuBtn.click();
+            }}>
+              <Menu className="w-7 h-7 drop-shadow-lg" />
             </button>
-            <Link href="/client" className="p-2 bg-white/20 backdrop-blur-sm rounded-full">
-              <User className="w-5 h-5 text-white" />
+            <Link href="/client" className="relative">
+              <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center">
+                <User className="w-5 h-5 text-white" />
+              </div>
             </Link>
           </div>
 
-          {/* Titre hero */}
-          <div className="absolute bottom-24 left-5 right-5 z-10">
-            <h1 className="font-black text-[32px] text-white leading-[1.1] mb-2">
-              Trouvez votre<br />
-              <span className="italic">prochain voyage</span>
+          {/* Titre hero — en bas a gauche */}
+          <div className="absolute bottom-28 left-5 right-5 z-10">
+            <h1 className="text-[34px] text-white leading-[1.1] mb-3" style={{ fontFamily: 'system-ui' }}>
+              <span className="font-bold">Trouvez votre</span><br />
+              <span className="italic font-bold">prochain voyage</span>
             </h1>
-            <p className="text-sm text-white/80">
+            <p className="text-[15px] text-white/85 leading-relaxed max-w-[280px]">
               Des hotels, des guides et bien plus encore a Madagascar
             </p>
           </div>
         </div>
 
-        {/* Search card — chevauche le hero */}
-        <div className="px-4 -mt-16 relative z-20">
+        {/* Search card — chevauche le hero, coins arrondis en haut */}
+        <div className="px-4 -mt-14 relative z-20">
           <form
             role="search"
             aria-label={th.searchLabel}
             onSubmit={(e) => { e.preventDefault(); handleSearch(); }}
-            className="bg-white rounded-2xl shadow-xl shadow-black/10 overflow-hidden"
+            className="bg-white rounded-t-3xl rounded-b-2xl shadow-2xl shadow-black/15 overflow-hidden"
           >
-            {/* Category tabs */}
+            {/* Category tabs — style Voyago bleu */}
             <div className="flex border-b border-gray-100">
               {[
                 { key: 'hotels', icon: Building2, label: 'Hotels' },
@@ -236,7 +244,7 @@ function HomePage() {
                   key={cat.key}
                   type="button"
                   onClick={() => setSelectedCategory(cat.key)}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-semibold transition-all border-b-2 ${
+                  className={`flex-1 flex items-center justify-center gap-1.5 py-3.5 text-xs font-semibold transition-all border-b-[3px] ${
                     selectedCategory === cat.key
                       ? 'border-[#ff6b35] text-[#ff6b35]'
                       : 'border-transparent text-gray-400'
@@ -250,30 +258,30 @@ function HomePage() {
 
             <div className="p-4 space-y-3">
               {/* Destination */}
-              <div className="flex items-center gap-3 px-4 py-3 border border-gray-200 rounded-xl">
+              <div className="flex items-center gap-3 px-4 py-3.5 border border-gray-200 rounded-xl">
                 <MapPin className="w-5 h-5 text-gray-400 shrink-0" />
                 <div className="flex-1">
-                  <p className="text-[10px] text-gray-400 uppercase tracking-wide">Ou allez-vous ?</p>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium">Ou allez-vous ?</p>
                   <input
                     type="text"
                     placeholder="Nosy Be, Isalo, Tana..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                    className="w-full outline-none text-gray-900 text-sm font-medium placeholder:text-gray-300 mt-0.5"
+                    className="w-full outline-none text-gray-900 text-sm font-semibold placeholder:text-gray-300 placeholder:font-normal mt-0.5"
                   />
                 </div>
               </div>
 
-              {/* Ville select */}
-              <div className="flex items-center gap-3 px-4 py-3 border border-gray-200 rounded-xl">
+              {/* Region */}
+              <div className="flex items-center gap-3 px-4 py-3.5 border border-gray-200 rounded-xl">
                 <Compass className="w-5 h-5 text-gray-400 shrink-0" />
                 <div className="flex-1">
-                  <p className="text-[10px] text-gray-400 uppercase tracking-wide">Region</p>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium">Region</p>
                   <select
                     value={selectedCity}
                     onChange={(e) => setSelectedCity(e.target.value)}
-                    className="w-full outline-none text-gray-900 text-sm font-medium bg-transparent mt-0.5 appearance-none"
+                    className="w-full outline-none text-gray-900 text-sm font-semibold bg-transparent mt-0.5 appearance-none"
                   >
                     <option value="">Toutes les regions</option>
                     {cities.map((city) => (
@@ -285,7 +293,7 @@ function HomePage() {
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-[#ff6b35] text-white font-bold rounded-xl active:scale-[0.98] transition-transform"
+                className="w-full py-4 bg-[#ff6b35] text-white font-bold rounded-xl active:scale-[0.98] transition-transform text-[15px]"
               >
                 Rechercher
               </button>

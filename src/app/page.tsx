@@ -186,7 +186,7 @@ function HomePage() {
       {/* === MOBILE HERO (Style Voyago — plein ecran) === */}
       <section className="lg:hidden bg-[#f5f7fa]">
         {/* Hero PLEIN ECRAN */}
-        <div className="relative h-[42vh] overflow-hidden">
+        <div className="relative h-[35vh] overflow-hidden">
           <Image
             src="/images/highlights/hero-pool-madagascar.jpg"
             alt="Piscine lodge Madagascar"
@@ -195,7 +195,7 @@ function HomePage() {
             className="object-cover object-center"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
 
           {/* Menu hamburger + Notif — directement sur la photo */}
           <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-5 z-30">
@@ -213,12 +213,12 @@ function HomePage() {
           </div>
 
           {/* Titre hero — en bas a gauche */}
-          <div className="absolute bottom-16 left-5 right-5 z-10">
-            <h1 className="text-[28px] text-white leading-[1.1] mb-2" style={{ fontFamily: 'system-ui' }}>
+          <div className="absolute bottom-14 left-5 right-5 z-10 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+            <h1 className="text-[26px] text-white leading-[1.15] mb-1.5">
               <span className="font-bold">Trouvez votre</span><br />
               <span className="italic font-bold">prochain voyage</span>
             </h1>
-            <p className="text-[13px] text-white/80 max-w-[260px]">
+            <p className="text-[13px] text-white font-medium">
               Hotels, guides et activites a Madagascar
             </p>
           </div>

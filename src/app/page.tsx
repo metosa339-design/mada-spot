@@ -183,8 +183,8 @@ function HomePage() {
         {/* Hero image + titre */}
         <div className="relative h-[45vh] overflow-hidden">
           <Image
-            src="/images/highlights/hero-mobile-collage.jpg"
-            alt="Madagascar voyage"
+            src="/images/highlights/hero-pool-madagascar.jpg"
+            alt="Piscine lodge Madagascar"
             fill
             priority
             className="object-cover object-bottom brightness-[0.85]"

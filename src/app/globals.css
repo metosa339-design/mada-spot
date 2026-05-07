@@ -196,6 +196,15 @@ main {
   100% { background-position: -200% 0; }
 }
 
+/* Hide horizontal scrollbar for carousels */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Smooth scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

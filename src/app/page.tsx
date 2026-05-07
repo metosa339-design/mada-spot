@@ -178,100 +178,201 @@ function HomePage() {
 
       {/* ===== HERO SECTION ===== */}
 
-      {/* === MOBILE HERO === */}
-      <section className="lg:hidden">
-        {/* Photo hero — 4x4 is the focal point, must stay sharp */}
-        <div className="relative h-[65vh] overflow-hidden">
+      {/* === MOBILE HERO (Style Voyago) === */}
+      <section className="lg:hidden bg-white">
+        {/* Hero image + titre */}
+        <div className="relative h-[45vh] overflow-hidden">
           <Image
             src="/images/highlights/hero-mobile-collage.jpg"
-            alt="4x4 aventure plage Madagascar"
+            alt="Madagascar voyage"
             fill
             priority
-            className="object-cover object-bottom contrast-[1.15] saturate-[1.2] brightness-[1.08]"
+            className="object-cover object-bottom brightness-[0.85]"
             sizes="100vw"
           />
-          {/* Minimal gradient — only the very bottom 15% for text, 4x4 stays fully visible */}
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 12%, rgba(0,0,0,0.1) 22%, transparent 30%)' }} />
-
-          {/* Title at very bottom — small footprint to not cover 4x4 */}
-          <div className="absolute bottom-4 left-4 right-4">
-            <h1 className="font-black text-3xl leading-[0.95] mb-1">
-              <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">{th.heroTitle1}</span>
-              {' '}
-              <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">{th.heroTitle2}</span>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          <div className="absolute bottom-6 left-5 right-5">
+            <h1 className="font-black text-3xl text-white leading-tight mb-2">
+              Explorez<br />Madagascar
             </h1>
-            <p className="text-xs text-orange-400 drop-shadow-[0_1px_6px_rgba(0,0,0,0.9)] max-w-[260px] font-semibold">
-              {th.heroDesc}
+            <p className="text-sm text-white/80">
+              Decouvrez les meilleurs hotels, restaurants et activites
             </p>
           </div>
         </div>
 
-        {/* Search card */}
-        <div className="px-4 mt-3 relative z-10">
+        {/* Search card — style Voyago */}
+        <div className="px-4 -mt-6 relative z-10">
           <form
             role="search"
             aria-label={th.searchLabel}
             onSubmit={(e) => { e.preventDefault(); handleSearch(); }}
-            className="bg-white rounded-2xl p-4 shadow-xl shadow-black/10"
+            className="bg-white rounded-2xl p-4 shadow-lg shadow-black/8 border border-gray-100"
           >
-            <div className="flex items-center gap-3 px-2 mb-3">
-              <Search className="w-5 h-5 text-gray-400 shrink-0" />
-              <input
-                type="text"
-                placeholder={th.searchPlaceholder}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                className="flex-1 py-2 outline-none bg-transparent text-gray-900 placeholder:text-gray-400 text-sm"
-              />
-            </div>
-
-            {/* Category chips - fit all 4 in screen */}
-            <div className="grid grid-cols-4 gap-1.5 mb-3">
+            {/* Category tabs */}
+            <div className="flex border-b border-gray-100 mb-3 -mx-4 px-4">
               {[
-                { key: 'attractions', icon: Mountain, label: 'Attractions' },
-                { key: 'hotels', icon: Building2, label: 'Hôtels' },
+                { key: 'hotels', icon: Building2, label: 'Hotels' },
+                { key: 'attractions', icon: Mountain, label: 'Activites' },
                 { key: 'restaurants', icon: UtensilsCrossed, label: 'Restos' },
-                { key: 'prestataires', icon: Compass, label: 'Services' },
+                { key: 'prestataires', icon: Users, label: 'Guides' },
               ].map((cat) => (
                 <button
                   key={cat.key}
                   type="button"
                   onClick={() => setSelectedCategory(cat.key)}
-                  className={`flex items-center justify-center gap-1 px-2 py-2 rounded-full text-[11px] font-semibold transition-all ${
+                  className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-semibold transition-all border-b-2 ${
                     selectedCategory === cat.key
-                      ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-lg shadow-orange-500/25'
-                      : 'bg-gray-100 text-gray-700 border border-gray-200'
+                      ? 'border-[#ff6b35] text-[#ff6b35]'
+                      : 'border-transparent text-gray-400'
                   }`}
                 >
-                  <cat.icon className="w-3 h-3" />
+                  <cat.icon className="w-3.5 h-3.5" />
                   {cat.label}
                 </button>
               ))}
             </div>
 
+            {/* Search input */}
+            <div className="flex items-center gap-2 px-3 py-2.5 bg-gray-50 rounded-xl mb-3">
+              <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
+              <input
+                type="text"
+                placeholder="Ou allez-vous ?"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                className="flex-1 outline-none bg-transparent text-gray-900 placeholder:text-gray-400 text-sm"
+              />
+            </div>
+
             <button
               type="submit"
-              className="w-full py-3.5 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-bold rounded-xl shadow-lg shadow-orange-500/25 active:scale-[0.98] transition-transform text-sm"
+              className="w-full py-3 bg-[#ff6b35] text-white font-bold rounded-xl active:scale-[0.98] transition-transform text-sm"
             >
-              {th.searchBtn}
+              Rechercher
             </button>
           </form>
         </div>
 
-        {/* Stats row */}
-        <div className="grid grid-cols-3 gap-3 px-4 mt-5 mb-6">
-          <div className="text-center py-3 bg-[#1a1a24] rounded-xl border border-[#2a2a36]">
-            <div className="text-lg font-bold text-orange-400">190+</div>
-            <div className="text-[10px] text-slate-400">Etablissements</div>
+        {/* === Destinations populaires (scroll horizontal) === */}
+        <div className="mt-6 px-4">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-bold text-gray-900">Destinations populaires</h2>
+            <Link href="/attractions" className="text-xs text-[#ff6b35] font-semibold">Voir tout →</Link>
           </div>
-          <div className="text-center py-3 bg-[#1a1a24] rounded-xl border border-[#2a2a36]">
-            <div className="text-lg font-bold text-pink-400">4.8</div>
-            <div className="text-[10px] text-slate-400">{th.averageRating}</div>
+          <div className="flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 scrollbar-hide">
+            {[
+              { name: 'Nosy Be', sub: 'Plages', img: '/images/Attractions/nosy-be/nosy-be-2.jpg', icon: '🏖️' },
+              { name: 'Tsingy', sub: 'Aventure', img: '/images/Attractions/bemaraha/tsingy-bemaraha.jpg', icon: '🏔️' },
+              { name: 'Isalo', sub: 'Randonnee', img: '/images/Attractions/isalo/parc-isalo.jpg', icon: '🥾' },
+              { name: 'Diego', sub: 'Baie', img: '/images/Attractions/diego-suarez/diego-suarez.jpg', icon: '⛵' },
+              { name: 'Baobabs', sub: 'Iconique', img: '/images/Attractions/baobabs/allee-des-baobabs-1.jpg', icon: '🌳' },
+              { name: 'Andasibe', sub: 'Lemuriens', img: '/images/highlights/indri.jpg', icon: '🐒' },
+            ].map((dest) => (
+              <Link key={dest.name} href={`/attractions?search=${dest.name}`} className="shrink-0 w-28 group">
+                <div className="relative h-32 rounded-2xl overflow-hidden mb-2">
+                  <Image src={dest.img} alt={dest.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" sizes="112px" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <span className="absolute top-2 left-2 text-lg">{dest.icon}</span>
+                </div>
+                <p className="font-bold text-gray-900 text-sm">{dest.name}</p>
+                <p className="text-xs text-gray-500">{dest.sub}</p>
+              </Link>
+            ))}
           </div>
-          <div className="text-center py-3 bg-[#1a1a24] rounded-xl border border-[#2a2a36]">
-            <div className="text-lg font-bold text-purple-400">7 700+</div>
-            <div className="text-[10px] text-slate-400">Visiteurs/mois</div>
+        </div>
+
+        {/* === Hebergements recommandes === */}
+        {!isLoading && featuredAttractions.length > 0 && (
+          <div className="mt-6 px-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-lg font-bold text-gray-900">Lieux recommandes</h2>
+              <Link href="/attractions" className="text-xs text-[#ff6b35] font-semibold">Voir plus →</Link>
+            </div>
+            <div className="flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 scrollbar-hide">
+              {featuredAttractions.slice(0, 6).map((a) => (
+                <Link key={a.id} href={`/attractions/${a.slug}`} className="shrink-0 w-44 group">
+                  <div className="relative h-36 rounded-2xl overflow-hidden mb-2 border border-gray-100">
+                    <Image
+                      src={getAttractionImage(a.name, a.coverImage)}
+                      alt={a.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="176px"
+                    />
+                  </div>
+                  <p className="font-bold text-gray-900 text-sm line-clamp-1">{a.name}</p>
+                  <p className="text-xs text-gray-500 mb-1">{a.city}</p>
+                  <div className="flex items-center gap-1">
+                    <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
+                    <span className="text-xs font-semibold text-gray-900">{a.rating.toFixed(1)}</span>
+                    <span className="text-xs text-gray-400">({a.reviewCount})</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* === Banniere promo === */}
+        <div className="mx-4 mt-6 rounded-2xl overflow-hidden relative h-32">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1a1a2e] to-[#ff6b35]" />
+          <div className="relative p-5 flex items-center justify-between h-full">
+            <div>
+              <h3 className="text-white font-bold text-lg mb-1">Inscription gratuite</h3>
+              <p className="text-white/70 text-xs mb-2">Referencez votre etablissement</p>
+              <Link href="/inscrire-etablissement" className="inline-block px-4 py-1.5 bg-white text-[#1a1a2e] text-xs font-bold rounded-lg">
+                S&apos;inscrire
+              </Link>
+            </div>
+            <div className="text-right">
+              <div className="bg-white/20 backdrop-blur-sm rounded-xl px-3 py-2">
+                <p className="text-white text-xs">Deja</p>
+                <p className="text-white font-black text-2xl">190+</p>
+                <p className="text-white/70 text-[10px]">etablissements</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* === Reassurance === */}
+        <div className="grid grid-cols-2 gap-3 px-4 mt-6">
+          {[
+            { icon: '🔍', title: 'Recherche facile', desc: 'Trouvez en 2 clics' },
+            { icon: '📱', title: 'Contact direct', desc: 'WhatsApp & telephone' },
+            { icon: '⭐', title: 'Avis verifies', desc: 'Notes authentiques' },
+            { icon: '🆓', title: '100% gratuit', desc: 'Pas de commission' },
+          ].map((item) => (
+            <div key={item.title} className="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
+              <span className="text-xl">{item.icon}</span>
+              <div>
+                <p className="font-bold text-gray-900 text-xs">{item.title}</p>
+                <p className="text-[10px] text-gray-500">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* === Comment ca marche (mobile) === */}
+        <div className="px-4 mt-8 mb-6">
+          <h2 className="text-lg font-bold text-gray-900 mb-4">Comment ca marche</h2>
+          <div className="space-y-3">
+            {[
+              { num: '1', title: 'Cherchez', desc: 'Tapez une destination ou un type d\'etablissement', color: 'bg-[#ff6b35]' },
+              { num: '2', title: 'Comparez', desc: 'Photos, avis et prix pour faire le bon choix', color: 'bg-pink-500' },
+              { num: '3', title: 'Contactez', desc: 'Appelez ou ecrivez directement par WhatsApp', color: 'bg-purple-500' },
+            ].map((step) => (
+              <div key={step.num} className="flex items-center gap-4 p-3 bg-gray-50 rounded-xl">
+                <div className={`w-10 h-10 ${step.color} rounded-xl flex items-center justify-center text-white font-bold text-sm shrink-0`}>
+                  {step.num}
+                </div>
+                <div>
+                  <p className="font-bold text-gray-900 text-sm">{step.title}</p>
+                  <p className="text-xs text-gray-500">{step.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

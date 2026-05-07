@@ -186,7 +186,7 @@ function HomePage() {
       {/* === MOBILE HERO (Style Voyago — plein ecran) === */}
       <section className="lg:hidden bg-[#f5f7fa]">
         {/* Hero PLEIN ECRAN */}
-        <div className="relative h-[62vh] overflow-hidden">
+        <div className="relative h-[42vh] overflow-hidden">
           <Image
             src="/images/highlights/hero-pool-madagascar.jpg"
             alt="Piscine lodge Madagascar"
@@ -213,13 +213,13 @@ function HomePage() {
           </div>
 
           {/* Titre hero — en bas a gauche */}
-          <div className="absolute bottom-28 left-5 right-5 z-10">
-            <h1 className="text-[34px] text-white leading-[1.1] mb-3" style={{ fontFamily: 'system-ui' }}>
+          <div className="absolute bottom-16 left-5 right-5 z-10">
+            <h1 className="text-[28px] text-white leading-[1.1] mb-2" style={{ fontFamily: 'system-ui' }}>
               <span className="font-bold">Trouvez votre</span><br />
               <span className="italic font-bold">prochain voyage</span>
             </h1>
-            <p className="text-[15px] text-white/85 leading-relaxed max-w-[280px]">
-              Des hotels, des guides et bien plus encore a Madagascar
+            <p className="text-[13px] text-white/80 max-w-[260px]">
+              Hotels, guides et activites a Madagascar
             </p>
           </div>
         </div>

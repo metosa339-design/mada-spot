@@ -739,24 +739,27 @@ function HomePage() {
               {/* Social Proof */}
               <div className="flex items-center justify-center gap-3 mb-8">
                 <div className="flex -space-x-3">
-                  {['R', 'N', 'H', 'M', 'F'].map((letter, i) => (
+                  {[
+                    '/images/highlights/baleine.jpg',
+                    '/images/Attractions/baobabs/allee-des-baobabs-1.jpg',
+                    '/images/Attractions/diego-suarez/diego-suarez.jpg',
+                    '/images/highlights/randonnee.jpg',
+                    '/images/highlights/biodiversite.jpg',
+                  ].map((src, i) => (
                     <div
-                      key={letter}
-                      className="w-9 h-9 rounded-full border-2 border-[#FDFBF7] flex items-center justify-center text-white text-xs font-bold"
-                      style={{
-                        background: ['linear-gradient(135deg, #ff6b35, #e55a2b)', 'linear-gradient(135deg, #3b82f6, #2563eb)', 'linear-gradient(135deg, #22c55e, #16a34a)', 'linear-gradient(135deg, #f59e0b, #d97706)', 'linear-gradient(135deg, #ec4899, #db2777)'][i],
-                        zIndex: 5 - i,
-                      }}
+                      key={i}
+                      className="w-10 h-10 rounded-full border-2 border-[#FDFBF7] overflow-hidden"
+                      style={{ zIndex: 5 - i }}
                     >
-                      {letter}
+                      <Image src={src} alt="" width={40} height={40} className="w-full h-full object-cover" />
                     </div>
                   ))}
-                  <div className="w-9 h-9 rounded-full border-2 border-[#FDFBF7] bg-[#E5E7EB] flex items-center justify-center text-[#6B7280] text-[10px] font-bold" style={{ zIndex: 0 }}>
-                    +60
+                  <div className="w-10 h-10 rounded-full border-2 border-[#FDFBF7] bg-gradient-to-r from-orange-500 to-pink-500 flex items-center justify-center text-white text-[10px] font-bold" style={{ zIndex: 0 }}>
+                    190+
                   </div>
                 </div>
                 <p className="text-sm text-[#6B7280]">
-                  Deja <span className="text-[#1a1a2e] font-semibold">60+ prestataires et 190+ etablissements</span> references
+                  <span className="text-[#1a1a2e] font-semibold">190+ etablissements</span> references par des pros du tourisme
                 </p>
               </div>
 

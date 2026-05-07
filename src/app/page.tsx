@@ -355,7 +355,7 @@ function HomePage() {
         </div>
 
         {/* === Comment ca marche (mobile) === */}
-        <div className="px-4 mt-8 mb-6">
+        <div className="px-4 mt-8">
           <h2 className="text-lg font-bold text-gray-900 mb-4">Comment ca marche</h2>
           <div className="space-y-3">
             {[
@@ -373,6 +373,57 @@ function HomePage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* === Ce que nos clients disent === */}
+        <div className="px-4 mt-8">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-bold text-gray-900">Ce que nos clients disent</h2>
+          </div>
+          <div className="flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 scrollbar-hide">
+            {[
+              { name: 'Jerome A.', city: 'Sambava', stars: 5, text: 'SAVA-MAD Tours a recu 3 reservations en une semaine grace a Mada Spot. Excellent service !' },
+              { name: 'Rajaonarivelo', city: 'Nosy Be', stars: 5, text: 'Ocean Beach Sakatia est maintenant visible par des touristes du monde entier. 91 vues en un mois !' },
+              { name: 'Haja R.', city: 'Ambatondrazaka', stars: 4, text: 'TourDAlaotra a atteint 83 vues. Les voyageurs nous trouvent facilement maintenant.' },
+            ].map((review) => (
+              <div key={review.name} className="shrink-0 w-64 p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#ff6b35] to-pink-500 flex items-center justify-center text-white font-bold text-sm">
+                    {review.name[0]}
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-900 text-sm">{review.name}</p>
+                    <p className="text-xs text-gray-500">{review.city}</p>
+                  </div>
+                </div>
+                <div className="flex gap-0.5 mb-2">
+                  {Array.from({ length: review.stars }).map((_, i) => (
+                    <Star key={i} className="w-3 h-3 text-amber-500 fill-amber-500" />
+                  ))}
+                </div>
+                <p className="text-xs text-gray-600 leading-relaxed">&quot;{review.text}&quot;</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* === Newsletter === */}
+        <div className="mx-4 mt-8 mb-8 rounded-2xl overflow-hidden relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#ff6b35] to-[#ff1493]" />
+          <div className="relative p-5">
+            <h3 className="text-white font-bold text-base mb-1">Newsletter</h3>
+            <p className="text-white/80 text-xs mb-3">Recevez nos meilleures offres et inspirations voyage</p>
+            <div className="flex gap-2">
+              <input
+                type="email"
+                placeholder="Votre adresse e-mail"
+                className="flex-1 px-3 py-2.5 rounded-lg text-sm text-gray-900 placeholder:text-gray-400 outline-none"
+              />
+              <button className="px-4 py-2.5 bg-[#1a1a2e] text-white text-xs font-bold rounded-lg shrink-0">
+                S&apos;abonner
+              </button>
+            </div>
           </div>
         </div>
       </section>

@@ -184,7 +184,7 @@ function HotelsPage() {
   const hasActiveFilters = minStars || minPrice || maxPrice || selectedAmenities.length > 0;
 
   return (
-    <main className="min-h-screen bg-[#0a0a0f]">
+    <main className="min-h-screen bg-white lg:bg-[#0a0a0f]">
 
       {/* Header épuré */}
       <section className="bg-[#FDFBF7] border-b border-gray-200">
@@ -399,123 +399,117 @@ function HotelsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Results header */}
           <div className="flex items-center justify-between mb-6">
-            <p className="text-slate-400">
-              <span className="font-semibold text-white">{isLoading ? '...' : total}</span> hôtels trouvés
+            <p className="text-gray-500 lg:text-slate-400">
+              <span className="font-semibold text-gray-900 lg:text-white">{isLoading ? '...' : total}</span> hotels trouves
               {selectedCity && selectedCity !== 'Toutes les villes' && (
-                <span className="text-slate-500"> à {selectedCity}</span>
+                <span className="text-gray-400 lg:text-slate-500"> a {selectedCity}</span>
               )}
             </p>
           </div>
 
           {/* Loading */}
           {isLoading && (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="space-y-4 lg:grid lg:grid-cols-3 lg:gap-6 lg:space-y-0">
               {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="bg-[#1a1a24] rounded-2xl overflow-hidden border border-[#2a2a36] animate-pulse">
-                  <div className="aspect-[4/3] bg-[#2a2a36]" />
+                <div key={i} className="bg-white lg:bg-[#1a1a24] rounded-2xl overflow-hidden border border-gray-100 lg:border-[#2a2a36] animate-pulse">
+                  <div className="aspect-[16/10] lg:aspect-[4/3] bg-gray-100 lg:bg-[#2a2a36]" />
                   <div className="p-4 space-y-3">
-                    <div className="h-5 bg-[#2a2a36] rounded w-3/4" />
-                    <div className="h-4 bg-[#2a2a36] rounded w-1/2" />
-                    <div className="h-4 bg-[#2a2a36] rounded w-full" />
+                    <div className="h-5 bg-gray-100 lg:bg-[#2a2a36] rounded w-3/4" />
+                    <div className="h-4 bg-gray-100 lg:bg-[#2a2a36] rounded w-1/2" />
                   </div>
                 </div>
               ))}
             </div>
           )}
 
-          {/* Hotels grid */}
+          {/* Hotels list — mobile: list style / desktop: grid */}
           {!isLoading && hotels.length > 0 && (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="space-y-4 lg:grid lg:grid-cols-3 lg:gap-6 lg:space-y-0">
               {hotels.map((hotel, index) => (
                 <motion.div
                   key={hotel.id}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
+                  transition={{ delay: index * 0.04 }}
                 >
                   <Link
                     href={`/hotels/${hotel.slug}`}
-                    className="block bg-[#1a1a24] rounded-2xl border border-[#2a2a36] overflow-hidden hover:border-orange-500/50 transition-all group"
+                    className="flex lg:block bg-white lg:bg-[#1a1a24] rounded-2xl border border-gray-100 lg:border-[#2a2a36] overflow-hidden hover:shadow-lg lg:hover:border-orange-500/50 transition-all group"
                   >
-                    {/* Image */}
-                    <div className="relative aspect-[4/3] bg-gradient-to-br from-[#1a1a24] to-[#2a2a36]">
+                    {/* Image — horizontal on mobile, vertical on desktop */}
+                    <div className="relative w-32 sm:w-40 lg:w-full aspect-square lg:aspect-[4/3] bg-gray-100 lg:bg-[#2a2a36] shrink-0">
                       {hotel.coverImage ? (
                         <Image
                           src={getImageUrl(hotel.coverImage)}
                           alt={hotel.name}
                           fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          sizes="(max-width: 1024px) 160px, 33vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
-                          <Building2 className="w-16 h-16 text-slate-600" />
+                          <Building2 className="w-10 h-10 text-gray-300 lg:text-slate-600" />
                         </div>
                       )}
-                      {/* Star rating */}
                       {hotel.starRating && (
-                        <div className="absolute top-3 left-3 flex items-center gap-0.5 px-2 py-1 bg-black/60 backdrop-blur-sm rounded-lg">
+                        <div className="absolute top-2 left-2 flex items-center gap-0.5 px-1.5 py-0.5 bg-black/60 backdrop-blur-sm rounded-md">
                           {[...Array(hotel.starRating)].map((_, i) => (
-                            <Star key={i} className="w-3 h-3 text-amber-400 fill-amber-400" />
+                            <Star key={i} className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
                           ))}
                         </div>
                       )}
-                      {/* Featured badge */}
                       {hotel.isFeatured && (
-                        <div className="absolute top-3 right-3 px-2 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg text-xs font-medium">
-                          Recommandé
+                        <div className="absolute top-2 right-2 px-1.5 py-0.5 bg-[#ff6b35] text-white rounded-md text-[10px] font-bold">
+                          Top
                         </div>
                       )}
                     </div>
 
                     {/* Content */}
-                    <div className="p-4">
-                      <h3 className="font-semibold text-white text-lg group-hover:text-orange-400 transition-colors">
-                        {hotel.name}
-                      </h3>
-                      <div className="flex items-center gap-1 mt-1 text-sm text-slate-400">
-                        <MapPin className="w-3.5 h-3.5" />
-                        {hotel.city}
-                        {hotel.district && `, ${hotel.district}`}
+                    <div className="flex-1 p-3 lg:p-4 flex flex-col justify-between">
+                      <div>
+                        <h3 className="font-bold text-gray-900 lg:text-white text-sm lg:text-lg group-hover:text-[#ff6b35] transition-colors line-clamp-1">
+                          {hotel.name}
+                        </h3>
+                        <div className="flex items-center gap-1 mt-1 text-xs lg:text-sm text-gray-500 lg:text-slate-400">
+                          <MapPin className="w-3 h-3" />
+                          <span className="line-clamp-1">{hotel.city}{hotel.district ? `, ${hotel.district}` : ''}</span>
+                        </div>
+
+                        {/* Amenities — mobile: text / desktop: icons */}
+                        {hotel.amenities.length > 0 && (
+                          <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+                            {hotel.amenities.slice(0, 3).map((amenity) => {
+                              const Icon = amenityIcons[amenity];
+                              return Icon ? (
+                                <div key={amenity} className="flex items-center gap-1 text-[10px] lg:text-xs text-gray-400 lg:text-slate-400 bg-gray-50 lg:bg-[#0d1520] px-1.5 py-0.5 rounded-md">
+                                  <Icon className="w-3 h-3" />
+                                  <span className="hidden sm:inline">{amenityLabels[amenity]}</span>
+                                </div>
+                              ) : null;
+                            })}
+                            {hotel.amenities.length > 3 && (
+                              <span className="text-[10px] text-gray-400">+{hotel.amenities.length - 3}</span>
+                            )}
+                          </div>
+                        )}
                       </div>
 
-                      {/* Amenities preview */}
-                      {hotel.amenities.length > 0 && (
-                        <div className="flex items-center gap-2 mt-3">
-                          {hotel.amenities.slice(0, 4).map((amenity) => {
-                            const Icon = amenityIcons[amenity];
-                            return Icon ? (
-                              <div
-                                key={amenity}
-                                className="w-8 h-8 bg-[#0d1520] rounded-lg flex items-center justify-center"
-                                title={amenityLabels[amenity]}
-                              >
-                                <Icon className="w-4 h-4 text-slate-400" />
-                              </div>
-                            ) : null;
-                          })}
-                          {hotel.amenities.length > 4 && (
-                            <span className="text-xs text-slate-400">
-                              +{hotel.amenities.length - 4}
-                            </span>
-                          )}
-                        </div>
-                      )}
-
                       {/* Rating & Price */}
-                      <div className="flex items-center justify-between mt-4 pt-4 border-t border-[#2a2a36]">
+                      <div className="flex items-center justify-between mt-2 lg:mt-4 lg:pt-4 lg:border-t lg:border-[#2a2a36]">
                         <div className="flex items-center gap-1">
-                          <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                          <span className="font-semibold text-white">{hotel.rating.toFixed(1)}</span>
-                          <span className="text-sm text-slate-400">({hotel.reviewCount})</span>
+                          <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                          <span className="font-bold text-gray-900 lg:text-white text-sm">{hotel.rating.toFixed(1)}</span>
+                          <span className="text-xs text-gray-400">({hotel.reviewCount})</span>
                         </div>
-                        {hotel.lowestPrice && (
+                        {hotel.lowestPrice ? (
                           <div className="text-right">
-                            <span className="text-xs text-slate-400">À partir de</span>
-                            <p className="font-bold text-orange-400">
-                              {hotel.lowestPrice.toLocaleString()} Ar
+                            <p className="font-bold text-[#ff6b35] text-sm">
+                              {hotel.lowestPrice.toLocaleString()} Ar<span className="text-[10px] text-gray-400 font-normal"> /nuit</span>
                             </p>
                           </div>
+                        ) : (
+                          <span className="text-xs text-[#ff6b35] font-semibold px-2 py-0.5 bg-orange-50 lg:bg-orange-500/10 rounded-md">Voir tarifs</span>
                         )}
                       </div>
                     </div>
@@ -531,9 +525,9 @@ function HotelsPage() {
               <button
                 onClick={() => fetchHotels(false)}
                 disabled={isLoading}
-                className="px-8 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all disabled:opacity-50"
+                className="px-8 py-3 bg-[#ff6b35] text-white font-medium rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all disabled:opacity-50"
               >
-                {isLoading ? 'Chargement...' : 'Voir plus d\'hôtels'}
+                {isLoading ? 'Chargement...' : 'Voir plus d\'hotels'}
               </button>
             </div>
           )}
@@ -541,18 +535,18 @@ function HotelsPage() {
           {/* Empty state */}
           {!isLoading && hotels.length === 0 && (
             <div className="text-center py-16">
-              <Building2 className="w-16 h-16 mx-auto text-slate-600 mb-4" />
-              <h2 className="text-xl font-semibold text-white mb-2">Aucun hôtel trouvé</h2>
-              <p className="text-slate-400 mb-6">Essayez de modifier vos critères de recherche</p>
+              <Building2 className="w-16 h-16 mx-auto text-gray-300 lg:text-slate-600 mb-4" />
+              <h2 className="text-xl font-semibold text-gray-900 lg:text-white mb-2">Aucun hotel trouve</h2>
+              <p className="text-gray-500 lg:text-slate-400 mb-6">Essayez de modifier vos criteres de recherche</p>
               <button
                 onClick={() => {
                   setSearchQuery('');
                   setSelectedCity('');
                   clearFilters();
                 }}
-                className="px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all"
+                className="px-6 py-3 bg-[#ff6b35] text-white font-medium rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all"
               >
-                Réinitialiser les filtres
+                Reinitialiser les filtres
               </button>
             </div>
           )}

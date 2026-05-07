@@ -133,25 +133,28 @@ function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState('attractions');
   const [featuredAttractions, setFeaturedAttractions] = useState<Attraction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [totalAttractions, setTotalAttractions] = useState(0);
+  const [stats, setStats] = useState({ establishments: 190, attractions: 45, views: 7700 });
 
-  // Charger les attractions en vedette
+  // Charger les attractions en vedette + stats reelles
   useEffect(() => {
-    const fetchAttractions = async () => {
+    const fetchData = async () => {
       try {
-        const res = await fetch('/api/bons-plans/attractions?limit=6&featured=true');
-        if (res.ok) {
-          const data = await res.json();
+        const [attRes, statsRes] = await Promise.all([
+          fetch('/api/bons-plans/attractions?limit=6&featured=true'),
+          fetch('/api/health'),
+        ]);
+        if (attRes.ok) {
+          const data = await attRes.json();
           setFeaturedAttractions(data.attractions || []);
-          setTotalAttractions(data.total || 0);
+          if (data.total > 0) setStats(s => ({ ...s, attractions: data.total }));
         }
       } catch (error) {
-        console.error('Error fetching attractions:', error);
+        console.error('Error fetching data:', error);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchAttractions();
+    fetchData();
   }, []);
 
   const handleSearch = () => {
@@ -259,16 +262,16 @@ function HomePage() {
         {/* Stats row */}
         <div className="grid grid-cols-3 gap-3 px-4 mt-5 mb-6">
           <div className="text-center py-3 bg-[#1a1a24] rounded-xl border border-[#2a2a36]">
-            <div className="text-lg font-bold text-orange-400">+{totalAttractions}</div>
-            <div className="text-[10px] text-slate-400">{th.destinations}</div>
+            <div className="text-lg font-bold text-orange-400">190+</div>
+            <div className="text-[10px] text-slate-400">Etablissements</div>
           </div>
           <div className="text-center py-3 bg-[#1a1a24] rounded-xl border border-[#2a2a36]">
             <div className="text-lg font-bold text-pink-400">4.8</div>
             <div className="text-[10px] text-slate-400">{th.averageRating}</div>
           </div>
           <div className="text-center py-3 bg-[#1a1a24] rounded-xl border border-[#2a2a36]">
-            <div className="text-lg font-bold text-purple-400">100%</div>
-            <div className="text-[10px] text-slate-400">{th.authentic}</div>
+            <div className="text-lg font-bold text-purple-400">7 700+</div>
+            <div className="text-[10px] text-slate-400">Visiteurs/mois</div>
           </div>
         </div>
       </section>
@@ -314,7 +317,7 @@ function HomePage() {
 
               <p className="text-xl text-slate-300 mb-8 max-w-lg">
                 {th.heroDesc}
-                <span className="block mt-2 text-orange-400 font-semibold">{totalAttractions}+ {th.placesToExplore}</span>
+                <span className="block mt-2 text-orange-400 font-semibold">190+ etablissements a decouvrir</span>
               </p>
 
               <form
@@ -371,16 +374,16 @@ function HomePage() {
               {/* Quick Stats */}
               <div className="grid grid-cols-3 gap-4 mt-8 max-w-lg">
                 <div className="text-center p-4 bg-[#1a1a24] rounded-xl border border-[#2a2a36]">
-                  <div className="text-2xl font-bold text-orange-400 mb-1">{totalAttractions}+</div>
-                  <div className="text-xs text-slate-400">{th.destinations}</div>
+                  <div className="text-2xl font-bold text-orange-400 mb-1">190+</div>
+                  <div className="text-xs text-slate-400">Etablissements</div>
                 </div>
                 <div className="text-center p-4 bg-[#1a1a24] rounded-xl border border-[#2a2a36]">
                   <div className="text-2xl font-bold text-pink-400 mb-1">4.8</div>
                   <div className="text-xs text-slate-400">{th.averageRating}</div>
                 </div>
                 <div className="text-center p-4 bg-[#1a1a24] rounded-xl border border-[#2a2a36]">
-                  <div className="text-2xl font-bold text-purple-400 mb-1">100%</div>
-                  <div className="text-xs text-slate-400">{th.authentic}</div>
+                  <div className="text-2xl font-bold text-purple-400 mb-1">7 700+</div>
+                  <div className="text-xs text-slate-400">Visiteurs/mois</div>
                 </div>
               </div>
             </motion.div>
@@ -749,11 +752,11 @@ function HomePage() {
                     </div>
                   ))}
                   <div className="w-9 h-9 rounded-full border-2 border-[#FDFBF7] bg-[#E5E7EB] flex items-center justify-center text-[#6B7280] text-[10px] font-bold" style={{ zIndex: 0 }}>
-                    +500
+                    +60
                   </div>
                 </div>
                 <p className="text-sm text-[#6B7280]">
-                  Déjà <span className="text-[#1a1a2e] font-semibold">+500 voyageurs et guides locaux</span> nous font confiance
+                  Deja <span className="text-[#1a1a2e] font-semibold">60+ prestataires et 190+ etablissements</span> references
                 </p>
               </div>
 
@@ -788,7 +791,7 @@ function HomePage() {
                 <span>100% gratuit</span>
               </p>
               <p className="text-[#9CA3AF] text-[10px] mt-2">
-                +175 établissements référencés — Hôtels, restaurants, attractions et prestataires à Madagascar
+                +190 etablissements references — Hotels, restaurants, attractions et prestataires a Madagascar
               </p>
             </div>
           </div>
@@ -796,22 +799,48 @@ function HomePage() {
         </ScrollReveal>
       </section>
 
+      {/* ===== COMMENT CA MARCHE ===== */}
+      <section className="py-16">
+        <div className="max-w-5xl mx-auto px-4">
+          <TextReveal as="h2" className="text-3xl sm:text-4xl font-bold text-white text-center mb-12">
+            Comment ca <span className="text-gradient-animate">marche</span> ?
+          </TextReveal>
+          <StaggerParent staggerDelay={0.15} className="grid sm:grid-cols-3 gap-8">
+            <StaggerChild className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white text-2xl font-bold shadow-lg">1</div>
+              <h3 className="text-lg font-bold text-white mb-2">Cherchez</h3>
+              <p className="text-sm text-slate-400">Tapez une destination, un hotel ou une activite. Filtrez par ville, prix ou categorie.</p>
+            </StaggerChild>
+            <StaggerChild className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white text-2xl font-bold shadow-lg">2</div>
+              <h3 className="text-lg font-bold text-white mb-2">Comparez</h3>
+              <p className="text-sm text-slate-400">Consultez les photos, avis et tarifs. Trouvez le prestataire qui correspond a vos envies.</p>
+            </StaggerChild>
+            <StaggerChild className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-purple-500 to-violet-500 flex items-center justify-center text-white text-2xl font-bold shadow-lg">3</div>
+              <h3 className="text-lg font-bold text-white mb-2">Contactez</h3>
+              <p className="text-sm text-slate-400">Appelez ou ecrivez directement par WhatsApp. Pas d'intermediaire, pas de commission.</p>
+            </StaggerChild>
+          </StaggerParent>
+        </div>
+      </section>
+
       {/* CTA Prestataires */}
       <section className="bg-gradient-to-r from-[#1a1a24] to-[#0a0a0f] border-t border-white/10">
         <div className="max-w-5xl mx-auto px-4 py-12 sm:py-16 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
             <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">
-              Vous êtes un professionnel du tourisme ?
+              Vous etes un professionnel du tourisme ?
             </h2>
             <p className="text-gray-400 text-sm sm:text-base">
-              Inscrivez gratuitement votre hôtel, restaurant ou activité sur Mada Spot et touchez des milliers de voyageurs.
+              Inscrivez gratuitement votre hotel, restaurant ou activite sur Mada Spot et touchez des milliers de voyageurs.
             </p>
           </div>
           <Link
             href="/inscrire-etablissement"
-            className="shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/30 transition-all"
+            className="shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/30 transition-all btn-shine"
           >
-            Inscrire mon établissement
+            Inscrire mon etablissement
             <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

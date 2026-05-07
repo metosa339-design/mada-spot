@@ -196,6 +196,11 @@ main {
   100% { background-position: -200% 0; }
 }
 
+/* Safe area for iPhone bottom nav */
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
 /* Hide horizontal scrollbar for carousels */
 .scrollbar-hide {
   -ms-overflow-style: none;

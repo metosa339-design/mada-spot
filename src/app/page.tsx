@@ -17,6 +17,8 @@ import {
   UtensilsCrossed,
   Map,
   Users,
+  Menu,
+  User,
 } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -178,39 +180,52 @@ function HomePage() {
 
       {/* ===== HERO SECTION ===== */}
 
-      {/* === MOBILE HERO (Style Voyago) === */}
-      <section className="lg:hidden bg-white">
-        {/* Hero image + titre */}
-        <div className="relative h-[45vh] overflow-hidden">
+      {/* === MOBILE HERO (Style Voyago Final) === */}
+      <section className="lg:hidden bg-[#f5f7fa]">
+        {/* Hero image + titre — plus grand, photo piscine */}
+        <div className="relative h-[55vh] overflow-hidden">
           <Image
             src="/images/highlights/hero-pool-madagascar.jpg"
             alt="Piscine lodge Madagascar"
             fill
             priority
-            className="object-cover object-bottom brightness-[0.85]"
+            className="object-cover object-center"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-          <div className="absolute bottom-6 left-5 right-5">
-            <h1 className="font-black text-3xl text-white leading-tight mb-2">
-              Explorez<br />Madagascar
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+
+          {/* Menu + Notif en haut */}
+          <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-4 z-10">
+            <button className="p-2 text-white" onClick={() => {/* menu */}}>
+              <Menu className="w-6 h-6" />
+            </button>
+            <Link href="/client" className="p-2 bg-white/20 backdrop-blur-sm rounded-full">
+              <User className="w-5 h-5 text-white" />
+            </Link>
+          </div>
+
+          {/* Titre hero */}
+          <div className="absolute bottom-24 left-5 right-5 z-10">
+            <h1 className="font-black text-[32px] text-white leading-[1.1] mb-2">
+              Trouvez votre<br />
+              <span className="italic">prochain voyage</span>
             </h1>
             <p className="text-sm text-white/80">
-              Decouvrez les meilleurs hotels, restaurants et activites
+              Des hotels, des guides et bien plus encore a Madagascar
             </p>
           </div>
         </div>
 
-        {/* Search card — style Voyago */}
-        <div className="px-4 -mt-6 relative z-10">
+        {/* Search card — chevauche le hero */}
+        <div className="px-4 -mt-16 relative z-20">
           <form
             role="search"
             aria-label={th.searchLabel}
             onSubmit={(e) => { e.preventDefault(); handleSearch(); }}
-            className="bg-white rounded-2xl p-4 shadow-lg shadow-black/8 border border-gray-100"
+            className="bg-white rounded-2xl shadow-xl shadow-black/10 overflow-hidden"
           >
             {/* Category tabs */}
-            <div className="flex border-b border-gray-100 mb-3 -mx-4 px-4">
+            <div className="flex border-b border-gray-100">
               {[
                 { key: 'hotels', icon: Building2, label: 'Hotels' },
                 { key: 'attractions', icon: Mountain, label: 'Activites' },
@@ -221,45 +236,68 @@ function HomePage() {
                   key={cat.key}
                   type="button"
                   onClick={() => setSelectedCategory(cat.key)}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-semibold transition-all border-b-2 ${
+                  className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-semibold transition-all border-b-2 ${
                     selectedCategory === cat.key
                       ? 'border-[#ff6b35] text-[#ff6b35]'
                       : 'border-transparent text-gray-400'
                   }`}
                 >
-                  <cat.icon className="w-3.5 h-3.5" />
+                  <cat.icon className="w-4 h-4" />
                   {cat.label}
                 </button>
               ))}
             </div>
 
-            {/* Search input */}
-            <div className="flex items-center gap-2 px-3 py-2.5 bg-gray-50 rounded-xl mb-3">
-              <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
-              <input
-                type="text"
-                placeholder="Ou allez-vous ?"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                className="flex-1 outline-none bg-transparent text-gray-900 placeholder:text-gray-400 text-sm"
-              />
-            </div>
+            <div className="p-4 space-y-3">
+              {/* Destination */}
+              <div className="flex items-center gap-3 px-4 py-3 border border-gray-200 rounded-xl">
+                <MapPin className="w-5 h-5 text-gray-400 shrink-0" />
+                <div className="flex-1">
+                  <p className="text-[10px] text-gray-400 uppercase tracking-wide">Ou allez-vous ?</p>
+                  <input
+                    type="text"
+                    placeholder="Nosy Be, Isalo, Tana..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                    className="w-full outline-none text-gray-900 text-sm font-medium placeholder:text-gray-300 mt-0.5"
+                  />
+                </div>
+              </div>
 
-            <button
-              type="submit"
-              className="w-full py-3 bg-[#ff6b35] text-white font-bold rounded-xl active:scale-[0.98] transition-transform text-sm"
-            >
-              Rechercher
-            </button>
+              {/* Ville select */}
+              <div className="flex items-center gap-3 px-4 py-3 border border-gray-200 rounded-xl">
+                <Compass className="w-5 h-5 text-gray-400 shrink-0" />
+                <div className="flex-1">
+                  <p className="text-[10px] text-gray-400 uppercase tracking-wide">Region</p>
+                  <select
+                    value={selectedCity}
+                    onChange={(e) => setSelectedCity(e.target.value)}
+                    className="w-full outline-none text-gray-900 text-sm font-medium bg-transparent mt-0.5 appearance-none"
+                  >
+                    <option value="">Toutes les regions</option>
+                    {cities.map((city) => (
+                      <option key={city} value={city}>{city}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-3.5 bg-[#ff6b35] text-white font-bold rounded-xl active:scale-[0.98] transition-transform"
+              >
+                Rechercher
+              </button>
+            </div>
           </form>
         </div>
 
-        {/* === Destinations populaires (scroll horizontal) === */}
-        <div className="mt-6 px-4">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-bold text-gray-900">Destinations populaires</h2>
-            <Link href="/attractions" className="text-xs text-[#ff6b35] font-semibold">Voir tout →</Link>
+        {/* === Destinations populaires (style Voyago - grandes cartes) === */}
+        <div className="mt-8 px-4">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-gray-900">Destinations populaires</h2>
+            <Link href="/attractions" className="text-sm text-[#ff6b35] font-semibold">Voir tout</Link>
           </div>
           <div className="flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 scrollbar-hide">
             {[
@@ -270,14 +308,16 @@ function HomePage() {
               { name: 'Baobabs', sub: 'Iconique', img: '/images/Attractions/baobabs/allee-des-baobabs-1.jpg', icon: '🌳' },
               { name: 'Andasibe', sub: 'Lemuriens', img: '/images/highlights/indri.jpg', icon: '🐒' },
             ].map((dest) => (
-              <Link key={dest.name} href={`/attractions?search=${dest.name}`} className="shrink-0 w-28 group">
-                <div className="relative h-32 rounded-2xl overflow-hidden mb-2">
-                  <Image src={dest.img} alt={dest.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" sizes="112px" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                  <span className="absolute top-2 left-2 text-lg">{dest.icon}</span>
+              <Link key={dest.name} href={`/attractions?search=${dest.name}`} className="shrink-0 w-40 group">
+                <div className="relative h-48 rounded-2xl overflow-hidden">
+                  <Image src={dest.img} alt={dest.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" sizes="160px" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <span className="absolute top-3 left-3 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center text-base">{dest.icon}</span>
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <p className="font-bold text-white text-base">{dest.name}</p>
+                    <p className="text-xs text-white/70">{dest.sub}</p>
+                  </div>
                 </div>
-                <p className="font-bold text-gray-900 text-sm">{dest.name}</p>
-                <p className="text-xs text-gray-500">{dest.sub}</p>
               </Link>
             ))}
           </div>
@@ -1002,6 +1042,32 @@ function HomePage() {
       </section>
 
       <Footer />
+
+      {/* === Bottom Navigation Mobile (style app) === */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 safe-area-pb">
+        <div className="flex items-center justify-around py-2">
+          {[
+            { icon: '🏠', label: 'Accueil', href: '/', active: true },
+            { icon: '🔍', label: 'Recherche', href: '/hotels', active: false },
+            { icon: '🏝️', label: 'Destinations', href: '/attractions', active: false },
+            { icon: '📖', label: 'Blog', href: '/blog', active: false },
+            { icon: '👤', label: 'Profil', href: '/client', active: false },
+          ].map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className={`flex flex-col items-center gap-0.5 px-3 py-1 ${
+                item.active ? 'text-[#ff6b35]' : 'text-gray-400'
+              }`}
+            >
+              <span className="text-lg">{item.icon}</span>
+              <span className="text-[10px] font-medium">{item.label}</span>
+            </Link>
+          ))}
+        </div>
+      </nav>
+      {/* Spacer for bottom nav */}
+      <div className="lg:hidden h-16" />
     </main>
   );
 }

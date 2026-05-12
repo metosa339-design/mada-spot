@@ -207,7 +207,7 @@ function HomePage() {
   };
 
   return (
-    <main id="main-content" className="min-h-screen bg-white lg:bg-[#0a0a0f] text-gray-900 lg:text-white">
+    <main id="main-content" className="min-h-screen bg-[#0a0a0f] text-white">
       {/* Header — hidden on mobile homepage, visible on desktop */}
       <div className="hidden lg:block">
         <Header />
@@ -216,7 +216,7 @@ function HomePage() {
       {/* ===== HERO SECTION ===== */}
 
       {/* === MOBILE HERO (Style Voyago — plein ecran) === */}
-      <section className="lg:hidden bg-[#f5f7fa]">
+      <section className="lg:hidden bg-[#0a0a0f]">
         {/* Hero PLEIN ECRAN */}
         <div className="relative h-[35vh] overflow-hidden">
           <Image
@@ -336,7 +336,7 @@ function HomePage() {
         {/* === Destinations populaires (style Voyago - grandes cartes) === */}
         <div className="mt-8 px-4">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-gray-900">Destinations populaires</h2>
+            <h2 className="text-xl font-bold text-white">Destinations populaires</h2>
             <Link href="/attractions" className="text-sm text-[#ff6b35] font-semibold">Voir tout</Link>
           </div>
           <div className="flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 scrollbar-hide">
@@ -367,7 +367,7 @@ function HomePage() {
         {!isLoading && featuredAttractions.length > 0 && (
           <div className="mt-6 px-4">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-bold text-gray-900">Lieux recommandes</h2>
+              <h2 className="text-lg font-bold text-white">Lieux recommandes</h2>
               <Link href="/attractions" className="text-xs text-[#ff6b35] font-semibold">Voir plus →</Link>
             </div>
             <div className="flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 scrollbar-hide">
@@ -382,12 +382,12 @@ function HomePage() {
                       sizes="176px"
                     />
                   </div>
-                  <p className="font-bold text-gray-900 text-sm line-clamp-1">{a.name}</p>
-                  <p className="text-xs text-gray-500 mb-1">{a.city}</p>
+                  <p className="font-bold text-white text-sm line-clamp-1">{a.name}</p>
+                  <p className="text-xs text-slate-400 mb-1">{a.city}</p>
                   <div className="flex items-center gap-1">
                     <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
-                    <span className="text-xs font-semibold text-gray-900">{a.rating.toFixed(1)}</span>
-                    <span className="text-xs text-gray-400">({a.reviewCount})</span>
+                    <span className="text-xs font-semibold text-white">{a.rating.toFixed(1)}</span>
+                    <span className="text-xs text-slate-400">({a.reviewCount})</span>
                   </div>
                 </Link>
               ))}
@@ -424,11 +424,11 @@ function HomePage() {
             { icon: '⭐', title: 'Avis verifies', desc: 'Notes authentiques' },
             { icon: '🆓', title: '100% gratuit', desc: 'Pas de commission' },
           ].map((item) => (
-            <div key={item.title} className="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
+            <div key={item.title} className="flex items-start gap-3 p-3 bg-[#1a1a24] rounded-xl">
               <span className="text-xl">{item.icon}</span>
               <div>
-                <p className="font-bold text-gray-900 text-xs">{item.title}</p>
-                <p className="text-[10px] text-gray-500">{item.desc}</p>
+                <p className="font-bold text-white text-xs">{item.title}</p>
+                <p className="text-[10px] text-slate-400">{item.desc}</p>
               </div>
             </div>
           ))}
@@ -436,20 +436,20 @@ function HomePage() {
 
         {/* === Comment ca marche (mobile) === */}
         <div className="px-4 mt-8">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Comment ca marche</h2>
+          <h2 className="text-lg font-bold text-white mb-4">Comment ca marche</h2>
           <div className="space-y-3">
             {[
               { num: '1', title: 'Cherchez', desc: 'Tapez une destination ou un type d\'etablissement', color: 'bg-[#ff6b35]' },
               { num: '2', title: 'Comparez', desc: 'Photos, avis et prix pour faire le bon choix', color: 'bg-pink-500' },
               { num: '3', title: 'Contactez', desc: 'Appelez ou ecrivez directement par WhatsApp', color: 'bg-purple-500' },
             ].map((step) => (
-              <div key={step.num} className="flex items-center gap-4 p-3 bg-gray-50 rounded-xl">
+              <div key={step.num} className="flex items-center gap-4 p-3 bg-[#1a1a24] rounded-xl">
                 <div className={`w-10 h-10 ${step.color} rounded-xl flex items-center justify-center text-white font-bold text-sm shrink-0`}>
                   {step.num}
                 </div>
                 <div>
-                  <p className="font-bold text-gray-900 text-sm">{step.title}</p>
-                  <p className="text-xs text-gray-500">{step.desc}</p>
+                  <p className="font-bold text-white text-sm">{step.title}</p>
+                  <p className="text-xs text-slate-400">{step.desc}</p>
                 </div>
               </div>
             ))}
@@ -459,7 +459,7 @@ function HomePage() {
         {/* === Ce que nos clients disent === */}
         <div className="px-4 mt-8">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-bold text-gray-900">Ce que nos clients disent</h2>
+            <h2 className="text-lg font-bold text-white">Ce que nos clients disent</h2>
           </div>
           <div className="flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 scrollbar-hide">
             {[
@@ -473,8 +473,8 @@ function HomePage() {
                     {review.name[0]}
                   </div>
                   <div>
-                    <p className="font-bold text-gray-900 text-sm">{review.name}</p>
-                    <p className="text-xs text-gray-500">{review.city}</p>
+                    <p className="font-bold text-white text-sm">{review.name}</p>
+                    <p className="text-xs text-slate-400">{review.city}</p>
                   </div>
                 </div>
                 <div className="flex gap-0.5 mb-2">
@@ -482,7 +482,7 @@ function HomePage() {
                     <Star key={i} className="w-3 h-3 text-amber-500 fill-amber-500" />
                   ))}
                 </div>
-                <p className="text-xs text-gray-600 leading-relaxed">&quot;{review.text}&quot;</p>
+                <p className="text-xs text-slate-300 leading-relaxed">&quot;{review.text}&quot;</p>
               </div>
             ))}
           </div>

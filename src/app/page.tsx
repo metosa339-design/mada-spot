@@ -41,13 +41,45 @@ interface Attraction {
 
 const cities = [
   'Antananarivo',
-  'Toamasina',
   'Antsirabe',
+  'Ambositra',
   'Fianarantsoa',
+  'Mananjary',
+  'Manakara',
+  'Farafangana',
+  'Fort Dauphin',
+  'Ambovombe',
+  'Toliara',
+  'Morondava',
+  'Miandrivazo',
   'Mahajanga',
+  'Ambanja',
   'Nosy Be',
   'Diego Suarez',
-  'Fort Dauphin',
+  'Ambilobe',
+  'Sambava',
+  'Antalaha',
+  'Maroantsetra',
+  'Sainte-Marie',
+  'Toamasina',
+  'Foulpointe',
+  'Ambatondrazaka',
+  'Moramanga',
+  'Andasibe',
+  'Ranomafana',
+  'Ranohira',
+  'Ifaty',
+  'Anakao',
+  'Bekopaka',
+  'Joffreville',
+  'Ramena',
+  'Majunga',
+  'Andapa',
+  'Vohemar',
+  'Vatomandry',
+  'Manambato',
+  'Isalo',
+  'Tulear',
 ];
 
 // Images locales pour les cartes d'attractions
@@ -273,17 +305,17 @@ function HomePage() {
                 </div>
               </div>
 
-              {/* Region */}
+              {/* Ville */}
               <div className="flex items-center gap-3 px-4 py-3.5 border border-gray-200 rounded-xl">
                 <Compass className="w-5 h-5 text-gray-400 shrink-0" />
                 <div className="flex-1">
-                  <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium">Region</p>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-wider font-medium">Ville</p>
                   <select
                     value={selectedCity}
                     onChange={(e) => setSelectedCity(e.target.value)}
                     className="w-full outline-none text-gray-900 text-sm font-semibold bg-transparent mt-0.5 appearance-none"
                   >
-                    <option value="">Toutes les regions</option>
+                    <option value="">Toutes les villes</option>
                     {cities.map((city) => (
                       <option key={city} value={city}>{city}</option>
                     ))}

@@ -216,7 +216,7 @@ function HomePage() {
       {/* ===== HERO SECTION ===== */}
 
       {/* === MOBILE HERO (Style Voyago — plein ecran) === */}
-      <section className="lg:hidden bg-[#0a0a0f]">
+      <section className="lg:hidden" style={{ backgroundColor: '#0a0a0f', color: '#ffffff' }}>
         {/* Hero PLEIN ECRAN */}
         <div className="relative h-[35vh] overflow-hidden">
           <Image

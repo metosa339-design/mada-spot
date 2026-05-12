@@ -1,5 +1,5 @@
 // Mada Spot — Service Worker v3
-const CACHE_NAME = 'mada-spot-v3';
+const CACHE_NAME = 'mada-spot-v4';
 const STATIC_CACHE = 'mada-spot-static-v3';
 const EVENT_BANNER_CACHE = 'mada-spot-event-banners-v1';
 

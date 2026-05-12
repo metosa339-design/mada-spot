@@ -207,7 +207,7 @@ function HomePage() {
   };
 
   return (
-    <main id="main-content" className="min-h-screen bg-[#0a0a0f] text-white">
+    <main id="main-content" className="min-h-screen bg-white lg:bg-[#0a0a0f] text-gray-900 lg:text-white">
       {/* Header — hidden on mobile homepage, visible on desktop */}
       <div className="hidden lg:block">
         <Header />
@@ -230,8 +230,8 @@ function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
 
           {/* Menu hamburger + Notif — directement sur la photo */}
-          <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-5 z-30">
-            <button className="p-1 text-white" onClick={() => {
+          <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-5 z-30" style={{ color: '#ffffff' }}>
+            <button className="p-1" style={{ color: '#ffffff' }} onClick={() => {
               const menuBtn = document.querySelector('[aria-label*="menu"]') as HTMLButtonElement;
               if (menuBtn) menuBtn.click();
             }}>
@@ -245,12 +245,12 @@ function HomePage() {
           </div>
 
           {/* Titre hero — en bas a gauche */}
-          <div className="absolute bottom-14 left-5 right-5 z-10 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-            <h1 className="text-[26px] text-white leading-[1.15] mb-1.5">
+          <div className="absolute bottom-14 left-5 right-5 z-10" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.9), 0 0 30px rgba(0,0,0,0.5)' }}>
+            <h1 className="text-[26px] leading-[1.15] mb-1.5" style={{ color: '#ffffff' }}>
               <span className="font-bold">Trouvez votre</span><br />
               <span className="italic font-bold">prochain voyage</span>
             </h1>
-            <p className="text-[13px] text-white font-medium">
+            <p className="text-[13px] font-medium" style={{ color: '#ffffff' }}>
               Hotels, guides et activites a Madagascar
             </p>
           </div>

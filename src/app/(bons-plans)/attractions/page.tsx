@@ -221,7 +221,7 @@ function getAttractionImage(name: string, coverImage?: string): string {
 
 export default function AttractionsPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-white lg:bg-[#0a0a0f] flex items-center justify-center"><div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" /></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center"><div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" /></div>}>
       <AttractionsPageContent />
     </Suspense>
   );
@@ -324,7 +324,7 @@ function AttractionsPageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-white lg:bg-[#0a0a0f] text-white">
+    <div className="min-h-screen bg-[#0a0a0f] text-white">
 
       {/* Header épuré */}
       <section className="bg-[#FDFBF7] border-b border-gray-200">
@@ -503,7 +503,7 @@ function AttractionsPageContent() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-xl font-bold text-gray-900 lg:text-white">Carte des attractions</h2>
+              <h2 className="text-xl font-bold text-white">Carte des attractions</h2>
               <p className="text-gray-500 lg:text-slate-500 text-sm mt-1">Toutes les destinations Madagascar en un coup d'œil</p>
             </div>
             <div className="flex items-center gap-2 text-sm text-orange-400">
@@ -520,29 +520,29 @@ function AttractionsPageContent() {
       {/* Results - Dark */}
       <div className="max-w-7xl mx-auto px-4 pb-16">
         <div className="flex items-center justify-between mb-6">
-          <p className="text-gray-500 lg:text-slate-400">
-            <span className="text-gray-900 lg:text-white font-semibold">{total}</span> attraction{total > 1 ? 's' : ''} trouvée{total > 1 ? 's' : ''}
+          <p className="text-slate-400">
+            <span className="text-white font-semibold">{total}</span> attraction{total > 1 ? 's' : ''} trouvée{total > 1 ? 's' : ''}
           </p>
         </div>
 
         {isLoading && attractions.length === 0 ? (
           <div className="space-y-4 lg:grid lg:grid-cols-3 lg:gap-5 lg:space-y-0">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="bg-white lg:bg-[#1a1a24] rounded-2xl overflow-hidden border border-gray-100 lg:border-[#2a2a36] animate-pulse flex lg:block">
-                <div className="w-32 sm:w-40 lg:w-full aspect-square lg:aspect-auto lg:h-48 shrink-0 bg-gray-100 lg:bg-[#2a2a36]" />
+              <div key={i} className="bg-[#1a1a24] rounded-2xl overflow-hidden border border-[#2a2a36] animate-pulse flex lg:block">
+                <div className="w-32 sm:w-40 lg:w-full aspect-square lg:aspect-auto lg:h-48 shrink-0 bg-[#2a2a36]" />
                 <div className="p-4 space-y-3 flex-1">
-                  <div className="h-5 bg-gray-100 lg:bg-[#2a2a36] rounded w-3/4" />
-                  <div className="h-4 bg-gray-100 lg:bg-[#2a2a36] rounded w-1/2" />
-                  <div className="h-4 bg-gray-100 lg:bg-[#2a2a36] rounded w-full" />
+                  <div className="h-5 bg-[#2a2a36] rounded w-3/4" />
+                  <div className="h-4 bg-[#2a2a36] rounded w-1/2" />
+                  <div className="h-4 bg-[#2a2a36] rounded w-full" />
                 </div>
               </div>
             ))}
           </div>
         ) : attractions.length === 0 ? (
           <div className="text-center py-16">
-            <Mountain className="w-16 h-16 mx-auto text-gray-300 lg:text-slate-600 mb-4" />
-            <h2 className="text-xl font-semibold text-gray-900 lg:text-white mb-2">Aucune attraction trouvée</h2>
-            <p className="text-gray-500 lg:text-slate-400 mb-6">Essayez de modifier vos critères de recherche</p>
+            <Mountain className="w-16 h-16 mx-auto text-slate-600 mb-4" />
+            <h2 className="text-xl font-semibold text-white mb-2">Aucune attraction trouvée</h2>
+            <p className="text-slate-400 mb-6">Essayez de modifier vos critères de recherche</p>
             <button
               onClick={() => {
                 setSearchQuery('');
@@ -569,7 +569,7 @@ function AttractionsPageContent() {
                   >
                     <Link
                       href={`/attractions/${attraction.slug}`}
-                      className="group flex lg:block bg-white lg:bg-[#1a1a24] rounded-2xl overflow-hidden border border-gray-100 lg:border-[#2a2a36] hover:shadow-lg lg:hover:shadow-none lg:hover:border-orange-500/50 transition-all h-full"
+                      className="group flex lg:block bg-[#1a1a24] rounded-2xl overflow-hidden border border-[#2a2a36] hover:border-orange-500/50 transition-all h-full"
                     >
                       {/* Image avec background-image */}
                       <div
@@ -610,11 +610,11 @@ function AttractionsPageContent() {
 
                       {/* Content */}
                       <div className="p-4">
-                        <h3 className="font-semibold text-gray-900 lg:text-white group-hover:text-orange-400 transition-colors mb-1">
+                        <h3 className="font-semibold text-white group-hover:text-orange-400 transition-colors mb-1">
                           {attraction.name}
                         </h3>
 
-                        <div className="flex items-center gap-2 text-sm text-gray-500 lg:text-slate-400 mb-3">
+                        <div className="flex items-center gap-2 text-sm text-slate-400 mb-3">
                           <MapPin className="w-3 h-3" />
                           {attraction.district}, {attraction.city}
                         </div>
@@ -634,7 +634,7 @@ function AttractionsPageContent() {
                         )}
 
                         {/* Info */}
-                        <div className="flex items-center gap-4 text-sm text-gray-500 lg:text-slate-400 mb-3">
+                        <div className="flex items-center gap-4 text-sm text-slate-400 mb-3">
                           {attraction.visitDuration && (
                             <span className="flex items-center gap-1">
                               <Clock className="w-3 h-3" />
@@ -658,7 +658,7 @@ function AttractionsPageContent() {
                             </span>
                           )}
                           {attraction.hasParking && (
-                            <span className="flex items-center gap-1 text-xs text-gray-500 lg:text-slate-400">
+                            <span className="flex items-center gap-1 text-xs text-slate-400">
                               <ParkingCircle className="w-3 h-3" />
                               Parking
                             </span>
@@ -666,14 +666,14 @@ function AttractionsPageContent() {
                         </div>
 
                         {/* Rating */}
-                        <div className="flex items-center justify-between pt-3 border-t border-gray-100 lg:border-[#2a2a36]">
+                        <div className="flex items-center justify-between pt-3 border-t border-[#2a2a36]">
                           <div className="flex items-center gap-1">
                             <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                            <span className="font-medium text-gray-900 lg:text-white">{attraction.rating?.toFixed(1)}</span>
-                            <span className="text-sm text-gray-500 lg:text-slate-400">({attraction.reviewCount})</span>
+                            <span className="font-medium text-white">{attraction.rating?.toFixed(1)}</span>
+                            <span className="text-sm text-slate-400">({attraction.reviewCount})</span>
                           </div>
                           {!attraction.isFree && attraction.entryFeeForeign && (
-                            <span className="text-xs text-gray-500 lg:text-slate-400">
+                            <span className="text-xs text-slate-400">
                               Touristes: {attraction.entryFeeForeign.toLocaleString()} Ar
                             </span>
                           )}

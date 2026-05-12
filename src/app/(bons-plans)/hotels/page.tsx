@@ -209,7 +209,7 @@ function HotelsPage() {
   const hasActiveFilters = minStars || minPrice || maxPrice || selectedAmenities.length > 0;
 
   return (
-    <main className="min-h-screen bg-white lg:bg-[#0a0a0f]">
+    <main className="min-h-screen bg-[#0a0a0f]">
 
       {/* Header épuré */}
       <section className="bg-[#FDFBF7] border-b border-gray-200">
@@ -424,8 +424,8 @@ function HotelsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Results header */}
           <div className="flex items-center justify-between mb-6">
-            <p className="text-gray-500 lg:text-slate-400">
-              <span className="font-semibold text-gray-900 lg:text-white">{isLoading ? '...' : total}</span> hotels trouves
+            <p className="text-slate-400">
+              <span className="font-semibold text-white">{isLoading ? '...' : total}</span> hotels trouves
               {selectedCity && selectedCity !== 'Toutes les villes' && (
                 <span className="text-gray-400 lg:text-slate-500"> a {selectedCity}</span>
               )}
@@ -436,11 +436,11 @@ function HotelsPage() {
           {isLoading && (
             <div className="space-y-4 lg:grid lg:grid-cols-3 lg:gap-6 lg:space-y-0">
               {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="bg-white lg:bg-[#1a1a24] rounded-2xl overflow-hidden border border-gray-100 lg:border-[#2a2a36] animate-pulse">
-                  <div className="aspect-[16/10] lg:aspect-[4/3] bg-gray-100 lg:bg-[#2a2a36]" />
+                <div key={i} className="bg-[#1a1a24] rounded-2xl overflow-hidden border border-[#2a2a36] animate-pulse">
+                  <div className="aspect-[16/10] lg:aspect-[4/3] bg-[#2a2a36]" />
                   <div className="p-4 space-y-3">
-                    <div className="h-5 bg-gray-100 lg:bg-[#2a2a36] rounded w-3/4" />
-                    <div className="h-4 bg-gray-100 lg:bg-[#2a2a36] rounded w-1/2" />
+                    <div className="h-5 bg-[#2a2a36] rounded w-3/4" />
+                    <div className="h-4 bg-[#2a2a36] rounded w-1/2" />
                   </div>
                 </div>
               ))}
@@ -459,10 +459,10 @@ function HotelsPage() {
                 >
                   <Link
                     href={`/hotels/${hotel.slug}`}
-                    className="flex lg:block bg-white lg:bg-[#1a1a24] rounded-2xl border border-gray-100 lg:border-[#2a2a36] overflow-hidden hover:shadow-lg lg:hover:border-orange-500/50 transition-all group"
+                    className="flex lg:block bg-[#1a1a24] rounded-2xl border border-[#2a2a36] overflow-hidden hover:border-orange-500/50 transition-all group"
                   >
                     {/* Image — horizontal on mobile, vertical on desktop */}
-                    <div className="relative w-32 sm:w-40 lg:w-full aspect-square lg:aspect-[4/3] bg-gray-100 lg:bg-[#2a2a36] shrink-0">
+                    <div className="relative w-32 sm:w-40 lg:w-full aspect-square lg:aspect-[4/3] bg-[#2a2a36] shrink-0">
                       {hotel.coverImage ? (
                         <Image
                           src={getImageUrl(hotel.coverImage)}
@@ -473,7 +473,7 @@ function HotelsPage() {
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
-                          <Building2 className="w-10 h-10 text-gray-300 lg:text-slate-600" />
+                          <Building2 className="w-10 h-10 text-slate-600" />
                         </div>
                       )}
                       {hotel.starRating && (
@@ -493,10 +493,10 @@ function HotelsPage() {
                     {/* Content */}
                     <div className="flex-1 p-3 lg:p-4 flex flex-col justify-between">
                       <div>
-                        <h3 className="font-bold text-gray-900 lg:text-white text-sm lg:text-lg group-hover:text-[#ff6b35] transition-colors line-clamp-1">
+                        <h3 className="font-bold text-white text-sm lg:text-lg group-hover:text-[#ff6b35] transition-colors line-clamp-1">
                           {hotel.name}
                         </h3>
-                        <div className="flex items-center gap-1 mt-1 text-xs lg:text-sm text-gray-500 lg:text-slate-400">
+                        <div className="flex items-center gap-1 mt-1 text-xs lg:text-sm text-slate-400">
                           <MapPin className="w-3 h-3" />
                           <span className="line-clamp-1">{hotel.city}{hotel.district ? `, ${hotel.district}` : ''}</span>
                         </div>
@@ -507,7 +507,7 @@ function HotelsPage() {
                             {hotel.amenities.slice(0, 3).map((amenity) => {
                               const Icon = amenityIcons[amenity];
                               return Icon ? (
-                                <div key={amenity} className="flex items-center gap-1 text-[10px] lg:text-xs text-gray-400 lg:text-slate-400 bg-gray-50 lg:bg-[#0d1520] px-1.5 py-0.5 rounded-md">
+                                <div key={amenity} className="flex items-center gap-1 text-[10px] lg:text-xs text-slate-400 bg-gray-50 lg:bg-[#0d1520] px-1.5 py-0.5 rounded-md">
                                   <Icon className="w-3 h-3" />
                                   <span className="hidden sm:inline">{amenityLabels[amenity]}</span>
                                 </div>
@@ -524,7 +524,7 @@ function HotelsPage() {
                       <div className="flex items-center justify-between mt-2 lg:mt-4 lg:pt-4 lg:border-t lg:border-[#2a2a36]">
                         <div className="flex items-center gap-1">
                           <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-                          <span className="font-bold text-gray-900 lg:text-white text-sm">{hotel.rating.toFixed(1)}</span>
+                          <span className="font-bold text-white text-sm">{hotel.rating.toFixed(1)}</span>
                           <span className="text-xs text-gray-400">({hotel.reviewCount})</span>
                         </div>
                         {hotel.lowestPrice ? (
@@ -560,9 +560,9 @@ function HotelsPage() {
           {/* Empty state */}
           {!isLoading && hotels.length === 0 && (
             <div className="text-center py-16">
-              <Building2 className="w-16 h-16 mx-auto text-gray-300 lg:text-slate-600 mb-4" />
-              <h2 className="text-xl font-semibold text-gray-900 lg:text-white mb-2">Aucun hotel trouve</h2>
-              <p className="text-gray-500 lg:text-slate-400 mb-6">Essayez de modifier vos criteres de recherche</p>
+              <Building2 className="w-16 h-16 mx-auto text-slate-600 mb-4" />
+              <h2 className="text-xl font-semibold text-white mb-2">Aucun hotel trouve</h2>
+              <p className="text-slate-400 mb-6">Essayez de modifier vos criteres de recherche</p>
               <button
                 onClick={() => {
                   setSearchQuery('');

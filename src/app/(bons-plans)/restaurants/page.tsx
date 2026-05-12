@@ -104,7 +104,7 @@ const cities = [
 
 export default function RestaurantsPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-white lg:bg-[#0a0a0f] flex items-center justify-center"><div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" /></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center"><div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" /></div>}>
       <RestaurantsPageContent />
     </Suspense>
   );
@@ -208,7 +208,7 @@ function RestaurantsPageContent() {
   const hasActiveFilters = selectedCategory || selectedPriceRange || selectedCity;
 
   return (
-    <div className="min-h-screen bg-white lg:bg-[#0a0a0f]">
+    <div className="min-h-screen bg-[#0a0a0f]">
       {/* Header épuré */}
       <section className="bg-[#FDFBF7] border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -379,8 +379,8 @@ function RestaurantsPageContent() {
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Results count */}
         <div className="flex items-center justify-between mb-6">
-          <p className="text-gray-500 lg:text-slate-400">
-            <span className="font-semibold text-gray-900 lg:text-white">{total}</span> restaurant{total > 1 ? 's' : ''} trouvé{total > 1 ? 's' : ''}
+          <p className="text-slate-400">
+            <span className="font-semibold text-white">{total}</span> restaurant{total > 1 ? 's' : ''} trouvé{total > 1 ? 's' : ''}
           </p>
         </div>
 
@@ -388,12 +388,12 @@ function RestaurantsPageContent() {
         {isLoading && restaurants.length === 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="bg-white lg:bg-[#1a1a24] rounded-2xl overflow-hidden border border-gray-100 lg:border-[#2a2a36] animate-pulse">
-                <div className="h-48 bg-gray-100 lg:bg-[#2a2a36]" />
+              <div key={i} className="bg-[#1a1a24] rounded-2xl overflow-hidden border border-[#2a2a36] animate-pulse">
+                <div className="h-48 bg-[#2a2a36]" />
                 <div className="p-4 space-y-3">
-                  <div className="h-5 bg-gray-100 lg:bg-[#2a2a36] rounded w-3/4" />
-                  <div className="h-4 bg-gray-100 lg:bg-[#2a2a36] rounded w-1/2" />
-                  <div className="h-4 bg-gray-100 lg:bg-[#2a2a36] rounded w-full" />
+                  <div className="h-5 bg-[#2a2a36] rounded w-3/4" />
+                  <div className="h-4 bg-[#2a2a36] rounded w-1/2" />
+                  <div className="h-4 bg-[#2a2a36] rounded w-full" />
                 </div>
               </div>
             ))}
@@ -401,8 +401,8 @@ function RestaurantsPageContent() {
         ) : restaurants.length === 0 ? (
           <div className="text-center py-16">
             <UtensilsCrossed className="w-16 h-16 mx-auto text-slate-600 mb-4" />
-            <h2 className="text-xl font-semibold text-gray-900 lg:text-white mb-2">Aucun restaurant trouvé</h2>
-            <p className="text-gray-500 lg:text-slate-400 mb-6">Essayez de modifier vos critères de recherche</p>
+            <h2 className="text-xl font-semibold text-white mb-2">Aucun restaurant trouvé</h2>
+            <p className="text-slate-400 mb-6">Essayez de modifier vos critères de recherche</p>
             <button
               onClick={() => {
                 setSearchQuery('');
@@ -425,7 +425,7 @@ function RestaurantsPageContent() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className="group bg-white lg:bg-[#1a1a24] rounded-2xl overflow-hidden border border-gray-100 lg:border-[#2a2a36] hover:shadow-lg lg:hover:shadow-none lg:hover:border-orange-500/50 transition-all flex lg:block"
+                  className="group bg-[#1a1a24] rounded-2xl overflow-hidden border border-[#2a2a36] hover:border-orange-500/50 transition-all flex lg:block"
                 >
                   {/* Image */}
                   <div className="relative w-32 sm:w-40 lg:w-full aspect-square lg:aspect-[4/3] flex-shrink-0 bg-gradient-to-br from-gray-100 to-gray-200 lg:from-[#1a1a24] lg:to-[#2a2a36]">
@@ -478,11 +478,11 @@ function RestaurantsPageContent() {
                   {/* Content */}
                   <Link href={`/restaurants/${restaurant.slug}`}>
                     <div className="p-4">
-                      <h3 className="font-semibold text-gray-900 lg:text-white group-hover:text-orange-400 transition-colors mb-1">
+                      <h3 className="font-semibold text-white group-hover:text-orange-400 transition-colors mb-1">
                         {restaurant.name}
                       </h3>
 
-                      <div className="flex items-center gap-2 text-sm text-gray-500 lg:text-slate-400 mb-2">
+                      <div className="flex items-center gap-2 text-sm text-slate-400 mb-2">
                         <MapPin className="w-3 h-3" />
                         {restaurant.district}, {restaurant.city}
                       </div>
@@ -539,11 +539,11 @@ function RestaurantsPageContent() {
                       )}
 
                       {/* Rating */}
-                      <div className="flex items-center justify-between pt-3 border-t border-gray-100 lg:border-[#2a2a36]">
+                      <div className="flex items-center justify-between pt-3 border-t border-[#2a2a36]">
                         <div className="flex items-center gap-1">
                           <Star className="w-4 h-4 text-[#ff6b35] fill-[#ff6b35]" />
                           <span className="font-medium text-[#ff6b35]">{restaurant.rating?.toFixed(1)}</span>
-                          <span className="text-sm text-gray-500 lg:text-slate-400">({restaurant.reviewCount} avis)</span>
+                          <span className="text-sm text-slate-400">({restaurant.reviewCount} avis)</span>
                         </div>
                       </div>
                     </div>

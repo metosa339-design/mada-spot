@@ -178,12 +178,12 @@ export default function HotelDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white lg:bg-[#0a0a0f] pt-24">
+      <div className="min-h-screen bg-[#0a0a0f] pt-24">
         <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="animate-pulse space-y-8">
-            <div className="h-64 lg:h-96 bg-gray-100 lg:bg-slate-200 rounded-2xl" />
-            <div className="h-8 bg-gray-100 lg:bg-slate-200 rounded w-1/3" />
-            <div className="h-4 bg-gray-100 lg:bg-slate-200 rounded w-2/3" />
+            <div className="h-64 lg:h-96 bg-slate-200 rounded-2xl" />
+            <div className="h-8 bg-slate-200 rounded w-1/3" />
+            <div className="h-4 bg-slate-200 rounded w-2/3" />
             <div className="grid grid-cols-3 gap-6">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="h-64 bg-slate-200 rounded-xl" />
@@ -197,11 +197,11 @@ export default function HotelDetail() {
 
   if (!hotel) {
     return (
-      <div className="min-h-screen bg-white lg:bg-[#0a0a0f] pt-24">
+      <div className="min-h-screen bg-[#0a0a0f] pt-24">
         <div className="max-w-7xl mx-auto px-4 py-12 text-center">
-          <Building2 className="w-16 h-16 mx-auto text-gray-300 lg:text-slate-300 mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 lg:text-white mb-2">Hotel non trouve</h1>
-          <p className="text-gray-500 lg:text-slate-400 mb-6">L&apos;hotel que vous recherchez n&apos;existe pas ou a ete supprime.</p>
+          <Building2 className="w-16 h-16 mx-auto text-slate-300 mb-4" />
+          <h1 className="text-2xl font-bold text-white mb-2">Hotel non trouve</h1>
+          <p className="text-slate-400 mb-6">L&apos;hotel que vous recherchez n&apos;existe pas ou a ete supprime.</p>
           <Link
             href="/hotels"
             className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
@@ -222,7 +222,7 @@ export default function HotelDetail() {
     : null;
 
   return (
-    <div className="min-h-screen bg-white lg:bg-[#0a0a0f]">
+    <div className="min-h-screen bg-[#0a0a0f]">
       {/* Header avec image */}
       <div className="relative">
         <CategorizedGallery
@@ -322,9 +322,9 @@ export default function HotelDetail() {
           {/* Main content */}
           <div className="lg:col-span-2 space-y-8">
             {/* Description */}
-            <section className="bg-gray-50 lg:bg-[#1a1a24] rounded-2xl p-6 md:p-8 border border-gray-100 lg:border-[#2a2a36]">
-              <h2 className="text-xl font-bold text-gray-900 lg:text-white mb-4">Presentation</h2>
-              <p className="text-gray-600 lg:text-slate-400 leading-relaxed whitespace-pre-line">
+            <section className="bg-[#1a1a24] rounded-2xl p-6 md:p-8 border border-[#2a2a36]">
+              <h2 className="text-xl font-bold text-white mb-4">Presentation</h2>
+              <p className="text-slate-400 leading-relaxed whitespace-pre-line">
                 {t(hotel.description || hotel.shortDescription, hotel.descriptionEn || hotel.shortDescriptionEn)}
               </p>
             </section>
@@ -345,17 +345,17 @@ export default function HotelDetail() {
 
             {/* Équipements */}
             {hotel.amenities?.length > 0 && (
-              <section className="bg-gray-50 lg:bg-[#1a1a24] rounded-2xl p-6 md:p-8 border border-gray-100 lg:border-[#2a2a36]">
-                <h2 className="text-xl font-bold text-gray-900 lg:text-white mb-6">Equipements & Services</h2>
+              <section className="bg-[#1a1a24] rounded-2xl p-6 md:p-8 border border-[#2a2a36]">
+                <h2 className="text-xl font-bold text-white mb-6">Equipements & Services</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                   {hotel.amenities.map((amenity) => {
                     const Icon = amenityIcons[amenity] || Check;
                     return (
-                      <div key={amenity} className="flex items-center gap-3 p-3 bg-white lg:bg-[#0d1520] rounded-xl border border-gray-100 lg:border-transparent">
-                        <div className="w-9 h-9 bg-orange-50 lg:bg-orange-500/20 rounded-lg flex items-center justify-center">
+                      <div key={amenity} className="flex items-center gap-3 p-3 bg-[#0d1520] rounded-xl border border-gray-100 lg:border-transparent">
+                        <div className="w-9 h-9 bg-orange-500/20 rounded-lg flex items-center justify-center">
                           <Icon className="w-4 h-4 text-[#ff6b35]" />
                         </div>
-                        <span className="text-gray-700 lg:text-slate-300 text-sm font-medium">
+                        <span className="text-slate-300 text-sm font-medium">
                           {amenityLabels[amenity] || amenity}
                         </span>
                       </div>
@@ -502,30 +502,30 @@ export default function HotelDetail() {
               <FomoBanner establishmentId={hotel.id} />
 
               {/* Reservation card */}
-              <div className="bg-white lg:bg-[#1a1a24] rounded-2xl p-6 border border-gray-200 lg:border-[#2a2a36] shadow-sm lg:shadow-none">
+              <div className="bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] shadow-sm lg:shadow-none">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <p className="text-sm text-gray-500 lg:text-slate-400">A partir de</p>
+                    <p className="text-sm text-slate-400">A partir de</p>
                     <p className="text-2xl font-bold text-[#ff6b35]">
                       {lowestPrice ? convert(lowestPrice) : 'Sur demande'}
                     </p>
-                    <p className="text-sm text-gray-500 lg:text-slate-400">par nuit</p>
+                    <p className="text-sm text-slate-400">par nuit</p>
                   </div>
-                  <div className="flex items-center gap-1 px-3 py-1.5 bg-gray-50 lg:bg-[#0d1520] rounded-lg">
+                  <div className="flex items-center gap-1 px-3 py-1.5 bg-[#0d1520] rounded-lg">
                     <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                    <span className="font-bold text-gray-900 lg:text-white">{hotel.rating?.toFixed(1)}</span>
+                    <span className="font-bold text-white">{hotel.rating?.toFixed(1)}</span>
                   </div>
                 </div>
 
                 {/* Horaires */}
-                <div className="flex items-center gap-4 p-3 bg-gray-50 lg:bg-[#0d1520] rounded-lg mb-4">
-                  <Clock className="w-5 h-5 text-gray-400 lg:text-slate-400" />
+                <div className="flex items-center gap-4 p-3 bg-[#0d1520] rounded-lg mb-4">
+                  <Clock className="w-5 h-5 text-slate-400" />
                   <div className="text-sm">
-                    <p className="text-gray-600 lg:text-slate-400">
-                      Check-in: <span className="font-medium text-gray-900 lg:text-white">{hotel.checkInTime || '14:00'}</span>
+                    <p className="text-slate-400">
+                      Check-in: <span className="font-medium text-white">{hotel.checkInTime || '14:00'}</span>
                     </p>
-                    <p className="text-gray-600 lg:text-slate-400">
-                      Check-out: <span className="font-medium text-gray-900 lg:text-white">{hotel.checkOutTime || '11:00'}</span>
+                    <p className="text-slate-400">
+                      Check-out: <span className="font-medium text-white">{hotel.checkOutTime || '11:00'}</span>
                     </p>
                   </div>
                 </div>
@@ -609,15 +609,15 @@ export default function HotelDetail() {
         {/* Hôtels similaires */}
         {similarHotels.length > 0 && (
           <section className="mt-12">
-            <h2 className="text-2xl font-bold text-gray-900 lg:text-white mb-6">Hotels similaires</h2>
+            <h2 className="text-2xl font-bold text-white mb-6">Hotels similaires</h2>
             <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:pb-0">
               {similarHotels.map((h) => (
                 <Link
                   key={h.id}
                   href={`/hotels/${h.slug}`}
-                  className="group shrink-0 w-56 lg:w-auto bg-white lg:bg-[#1a1a24] rounded-xl overflow-hidden border border-gray-100 lg:border-[#2a2a36] hover:shadow-lg lg:hover:border-orange-500/50 transition-all"
+                  className="group shrink-0 w-56 lg:w-auto bg-[#1a1a24] rounded-xl overflow-hidden border border-[#2a2a36] hover:shadow-lg lg:hover:border-orange-500/50 transition-all"
                 >
-                  <div className="relative h-36 lg:h-48 bg-gray-100 lg:bg-[#2a2a36]">
+                  <div className="relative h-36 lg:h-48 bg-[#2a2a36]">
                     {h.coverImage ? (
                       <Image
                         src={getImageUrl(h.coverImage)}
@@ -628,22 +628,22 @@ export default function HotelDetail() {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <Building2 className="w-12 h-12 text-gray-300 lg:text-slate-400" />
+                        <Building2 className="w-12 h-12 text-slate-400" />
                       </div>
                     )}
                   </div>
                   <div className="p-3 lg:p-4">
-                    <h3 className="font-bold text-gray-900 lg:text-white text-sm group-hover:text-[#ff6b35] transition-colors line-clamp-1">
+                    <h3 className="font-bold text-white text-sm group-hover:text-[#ff6b35] transition-colors line-clamp-1">
                       {h.name}
                     </h3>
-                    <p className="text-xs text-gray-500 lg:text-slate-400 flex items-center gap-1 mt-1">
+                    <p className="text-xs text-slate-400 flex items-center gap-1 mt-1">
                       <MapPin className="w-3 h-3" />
                       {h.city}
                     </p>
                     <div className="flex items-center justify-between mt-2">
                       <div className="flex items-center gap-1">
                         <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-                        <span className="font-bold text-gray-900 lg:text-white text-sm">{h.rating?.toFixed(1)}</span>
+                        <span className="font-bold text-white text-sm">{h.rating?.toFixed(1)}</span>
                       </div>
                       {h.lowestPrice && (
                         <p className="text-[#ff6b35] font-bold text-sm">

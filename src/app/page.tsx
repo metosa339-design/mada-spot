@@ -19,7 +19,6 @@ import {
   Users,
   Menu,
   User,
-  Phone,
 } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -930,27 +929,8 @@ function HomePage() {
 
       {/* ===== MOBILE CONTENT (deplace sous le CTA "Debloquez les secrets") ===== */}
       <section className="lg:hidden bg-[#FDFBF7]">
-        {/* === Comment ca marche (mobile - compact horizontal) === */}
-        <div className="px-4 pt-8">
-          <h2 className="text-lg font-bold mb-3" style={{ color: '#1a1a2e' }}>Comment ca marche</h2>
-          <div className="grid grid-cols-3 gap-2">
-            {[
-              { Icon: Search, title: 'Cherchez', color: 'bg-[#ff6b35]' },
-              { Icon: Star, title: 'Comparez', color: 'bg-pink-500' },
-              { Icon: Phone, title: 'Contactez', color: 'bg-purple-500' },
-            ].map((step) => (
-              <div key={step.title} className="flex flex-col items-center gap-1.5 py-2">
-                <div className={`w-11 h-11 ${step.color} rounded-full flex items-center justify-center text-white shadow-md`}>
-                  <step.Icon className="w-5 h-5" />
-                </div>
-                <p style={{ color: '#1a1a2e' }} className="font-semibold text-xs text-center">{step.title}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* === Ce que nos clients disent === */}
-        <div className="px-4 mt-8">
+        <div className="px-4 pt-8">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-lg font-bold" style={{ color: '#1a1a2e' }}>Ce que nos clients disent</h2>
           </div>

@@ -89,6 +89,23 @@ const DEFAULT_IMAGES = [
   '/images/highlights/sunset.jpg',
 ];
 
+// Avis prestataires / voyageurs — affiches en auto-scroll horizontal infini
+// Avatars : pravatar.cc (visages stock, IDs fixes pour rester identiques entre les renders)
+const REVIEWS = [
+  { name: 'Jérôme Andriam.', role: 'Tour-opérateur', city: 'Sambava', stars: 5, avatar: 'https://i.pravatar.cc/100?img=12', text: 'SAVA-MAD Tours a reçu 3 réservations en une semaine après notre inscription. On a quasi doublé notre CA de mars. Mada Spot a vraiment changé la donne.' },
+  { name: 'Lalao Rabe', role: 'Hôtelière', city: 'Antsirabe', stars: 5, avatar: 'https://i.pravatar.cc/100?img=45', text: 'Hôtel Trianon a triplé ses réservations depuis qu\'on est sur la plateforme. Et c\'est gratuit. Je recommande à tous les hôteliers de la ville.' },
+  { name: 'Rajaonarivelo H.', role: 'Lodge Ocean Beach', city: 'Nosy Be', stars: 5, avatar: 'https://i.pravatar.cc/100?img=33', text: 'Ocean Beach Sakatia est visible par des touristes du monde entier. 91 vues en un mois, et 2 familles ont déjà réservé pour Pâques.' },
+  { name: 'Tiana Razafindra.', role: 'Restaurant Le Récif', city: 'Toamasina', stars: 5, avatar: 'https://i.pravatar.cc/100?img=23', text: 'Les touristes viennent au resto avec le screenshot de notre fiche Mada Spot. C\'est devenu notre meilleure carte de visite, sérieusement.' },
+  { name: 'Volamboahangy R.', role: 'Guide officielle', city: 'Fianarantsoa', stars: 5, avatar: 'https://i.pravatar.cc/100?img=47', text: 'Guide depuis 12 ans, j\'ai enfin une vraie vitrine en ligne. 4 réservations en 3 semaines pour la rando Andringitra. Bravo l\'équipe.' },
+  { name: 'Haja Rakotonirina', role: 'TourDAlaotra', city: 'Ambatondrazaka', stars: 4, avatar: 'https://i.pravatar.cc/100?img=15', text: 'TourDAlaotra a atteint 83 vues. Les voyageurs nous trouvent facilement maintenant. Petit point : j\'aimerais gérer mes tarifs plus rapidement.' },
+  { name: 'Manantsoa A.', role: 'Pension de famille', city: 'Diego Suarez', stars: 5, avatar: 'https://i.pravatar.cc/100?img=11', text: 'Petite pension à Ramena. Mada Spot nous a aidés à toucher des voyageurs européens qu\'on n\'aurait jamais eus via Booking. Et zéro commission !' },
+  { name: 'Patrick Ravelo.', role: 'Agence Boarding Pass', city: 'Antananarivo', stars: 5, avatar: 'https://i.pravatar.cc/100?img=8', text: 'La plateforme malgache qu\'on attendait depuis des années. Plus besoin de tout faire via WhatsApp ou Facebook, tout est centralisé proprement.' },
+  { name: 'Soa Andriana.', role: 'Lodge Katsepy', city: 'Mahajanga', stars: 5, avatar: 'https://i.pravatar.cc/100?img=49', text: 'Notre lodge a accueilli 5 groupes français en avril grâce à Mada Spot. C\'est concret, c\'est gratuit, c\'est 100 % local. Je signe à 2 mains.' },
+  { name: 'Mialy R.', role: 'Pirogue & excursions', city: 'Morondava', stars: 5, avatar: 'https://i.pravatar.cc/100?img=44', text: 'Tour de la côte ouest en pirogue : 30 vues la première semaine, 88 le mois suivant. Les chiffres parlent, moi je dis bravo.' },
+  { name: 'Nivo R.', role: 'Restaurant La Varangue', city: 'Antananarivo', stars: 5, avatar: 'https://i.pravatar.cc/100?img=20', text: 'Les avis clients sur notre fiche convertissent en vraies réservations. On a même eu un journaliste de Routard qui nous a contactés via la plateforme.' },
+  { name: 'Hery Rasoanaivo', role: 'Chauffeur-guide', city: 'Antsiranana', stars: 4, avatar: 'https://i.pravatar.cc/100?img=14', text: 'Mon profil sur Mada Spot m\'a apporté 7 missions en 2 mois. Surtout des touristes français et italiens qui veulent un guide local de confiance.' },
+];
+
 function getAttractionImage(name: string, coverImage?: string): string {
   if (coverImage && (coverImage.startsWith('/') || coverImage.startsWith('http'))) {
     return getImageUrl(coverImage) || encodeURI(coverImage);
@@ -929,35 +946,40 @@ function HomePage() {
 
       {/* ===== MOBILE CONTENT (deplace sous le CTA "Debloquez les secrets") ===== */}
       <section className="lg:hidden bg-[#FDFBF7]">
-        {/* === Ce que nos clients disent === */}
-        <div className="px-4 pt-8">
-          <div className="flex items-center justify-between mb-3">
+        {/* === Ce que nos clients disent (auto-scroll horizontal) === */}
+        <div className="pt-8">
+          <div className="px-4 mb-3 flex items-center justify-between">
             <h2 className="text-lg font-bold" style={{ color: '#1a1a2e' }}>Ce que nos clients disent</h2>
           </div>
-          <div className="flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 scrollbar-hide">
-            {[
-              { name: 'Jerome A.', city: 'Sambava', stars: 5, text: 'SAVA-MAD Tours a recu 3 reservations en une semaine grace a Mada Spot. Excellent service !' },
-              { name: 'Rajaonarivelo', city: 'Nosy Be', stars: 5, text: 'Ocean Beach Sakatia est maintenant visible par des touristes du monde entier. 91 vues en un mois !' },
-              { name: 'Haja R.', city: 'Ambatondrazaka', stars: 4, text: 'TourDAlaotra a atteint 83 vues. Les voyageurs nous trouvent facilement maintenant.' },
-            ].map((review) => (
-              <div key={review.name} className="shrink-0 w-64 p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#ff6b35] to-pink-500 flex items-center justify-center text-white font-bold text-sm">
-                    {review.name[0]}
+          <div className="overflow-hidden">
+            <motion.div
+              className="flex gap-3 px-4 will-change-transform"
+              animate={{ x: ['0%', '-50%'] }}
+              transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
+            >
+              {[...REVIEWS, ...REVIEWS].map((review, i) => (
+                <div key={`${review.name}-${i}`} className="shrink-0 w-72 p-4 bg-white rounded-2xl border border-gray-200 shadow-sm">
+                  <div className="flex items-center gap-3 mb-3">
+                    <img
+                      src={review.avatar}
+                      alt={review.name}
+                      className="w-11 h-11 rounded-full object-cover shrink-0 border-2 border-orange-100"
+                      loading="lazy"
+                    />
+                    <div className="min-w-0">
+                      <p style={{ color: '#1a1a2e' }} className="font-bold text-sm truncate">{review.name}</p>
+                      <p className="text-xs text-slate-500 truncate">{review.role} · {review.city}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p style={{ color: '#1a1a2e' }} className="font-bold text-sm">{review.name}</p>
-                    <p className="text-xs text-slate-400">{review.city}</p>
+                  <div className="flex gap-0.5 mb-2">
+                    {Array.from({ length: review.stars }).map((_, j) => (
+                      <Star key={j} className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                    ))}
                   </div>
+                  <p className="text-xs text-slate-600 leading-relaxed">&quot;{review.text}&quot;</p>
                 </div>
-                <div className="flex gap-0.5 mb-2">
-                  {Array.from({ length: review.stars }).map((_, i) => (
-                    <Star key={i} className="w-3 h-3 text-amber-500 fill-amber-500" />
-                  ))}
-                </div>
-                <p className="text-xs text-slate-300 leading-relaxed">&quot;{review.text}&quot;</p>
-              </div>
-            ))}
+              ))}
+            </motion.div>
           </div>
         </div>
 

@@ -814,17 +814,28 @@ function HomePage() {
                     )}
                     {/* Texte overlay en bas */}
                     <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
-                      <h3 className="font-bold text-white text-sm sm:text-base group-hover:text-orange-400 transition-colors line-clamp-1 mb-1">
+                      <h3
+                        style={{ color: '#ffffff', textShadow: '0 1px 3px rgba(0,0,0,0.7)' }}
+                        className="font-bold text-sm sm:text-base group-hover:text-orange-400 transition-colors line-clamp-1 mb-1"
+                      >
                         {attraction.name}
                       </h3>
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1 text-xs sm:text-sm text-white/70">
+                        <div
+                          style={{ color: 'rgba(255,255,255,0.9)', textShadow: '0 1px 2px rgba(0,0,0,0.7)' }}
+                          className="flex items-center gap-1 text-xs sm:text-sm"
+                        >
                           <MapPin className="w-3 h-3" />
                           <span className="line-clamp-1">{attraction.city}</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <Star className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400 fill-amber-400" />
-                          <span className="font-semibold text-white text-xs sm:text-sm">{attraction.rating.toFixed(1)}</span>
+                          <span
+                            style={{ color: '#ffffff', textShadow: '0 1px 2px rgba(0,0,0,0.7)' }}
+                            className="font-semibold text-xs sm:text-sm"
+                          >
+                            {attraction.rating.toFixed(1)}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -890,7 +901,10 @@ function HomePage() {
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300" />
-                <span className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 text-white text-xs sm:text-sm font-semibold sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 drop-shadow-lg">
+                <span
+                  style={{ color: '#ffffff', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}
+                  className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 text-xs sm:text-sm font-semibold sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 drop-shadow-lg"
+                >
                   {img.label}
                 </span>
               </motion.div>

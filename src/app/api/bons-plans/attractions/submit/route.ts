@@ -1,16 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
+import { Prisma } from '@prisma/client';
 import { requireAuth } from '@/lib/auth/middleware';
-
 import { logger } from '@/lib/logger';
-function generateSlug(name: string): string {
-  return name
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
-}
+import { attractionSubmitSchema, withUniqueSlug } from '@/lib/validations/establishment-submit';
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,79 +11,39 @@ export async function POST(request: NextRequest) {
     const { user } = authResult;
 
     const body = await request.json().catch(() => null);
-
     if (body === null) return NextResponse.json({ error: "Corps de requête JSON invalide" }, { status: 400 });
 
-    const {
-      name,
-      shortDescription,
-      description,
-      attractionType,
-      province,
-      region,
-      city,
-      district,
-      latitude,
-      longitude,
-      isFree,
-      entryFeeLocal,
-      entryFeeForeign,
-      visitDuration,
-      bestTimeToVisit,
-      bestSeason,
-      isAccessible,
-      hasGuide,
-      hasParking,
-      hasRestaurant,
-      highlights,
-      coverImage,
-      images,
-      phone,
-      email,
-      website,
-      facebook,
-      instagram,
-      whatsapp,
-    } = body;
-
-    // Validation
-    if (!name || !description || !city || !attractionType) {
+    const parsed = attractionSubmitSchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json(
-        { success: false, error: 'Nom, description, ville et type d\'attraction sont requis' },
+        { success: false, error: 'Données invalides', details: parsed.error.flatten().fieldErrors },
         { status: 400 }
       );
     }
+    const data = parsed.data;
 
-    // Generate unique slug
-    let slug = generateSlug(name);
-    const existingSlug = await prisma.establishment.findUnique({ where: { slug } });
-    if (existingSlug) {
-      slug = `${slug}-${Date.now().toString(36)}`;
-    }
-
-    // Create in transaction
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await withUniqueSlug(data.name, async (tx, slug) => {
       const establishment = await tx.establishment.create({
         data: {
           type: 'ATTRACTION',
-          name,
+          name: data.name,
           slug,
-          description,
-          shortDescription: shortDescription || null,
-          city,
-          district: district || null,
-          region: region || null,
-          address: province ? `${province}, ${region || ''}` : null,
-          latitude: latitude ? parseFloat(latitude) : null,
-          longitude: longitude ? parseFloat(longitude) : null,
-          coverImage: coverImage || null,
-          images: images ? JSON.stringify(images) : null,
-          phone: phone || null,
-          email: email || null,
-          website: website || null,
-          facebook: facebook || null,
-          instagram: instagram || null,
-          whatsapp: whatsapp || null,
+          description: data.description,
+          shortDescription: data.shortDescription || null,
+          city: data.city,
+          district: data.district || null,
+          region: data.region || null,
+          address: data.province ? `${data.province}, ${data.region || ''}` : null,
+          latitude: data.latitude ?? null,
+          longitude: data.longitude ?? null,
+          coverImage: data.coverImage || null,
+          images: data.images ? JSON.stringify(data.images) : null,
+          phone: data.phone || null,
+          email: data.email || null,
+          website: data.website || null,
+          facebook: data.facebook || null,
+          instagram: data.instagram || null,
+          whatsapp: data.whatsapp || null,
           isActive: false,
           moderationStatus: 'pending_review',
           dataSource: 'user_contribution',
@@ -104,22 +56,21 @@ export async function POST(request: NextRequest) {
       await tx.attraction.create({
         data: {
           establishmentId: establishment.id,
-          attractionType,
-          isFree: isFree || false,
-          entryFeeLocal: entryFeeLocal ? parseFloat(entryFeeLocal) : null,
-          entryFeeForeign: entryFeeForeign ? parseFloat(entryFeeForeign) : null,
-          visitDuration: visitDuration || null,
-          bestTimeToVisit: bestTimeToVisit || null,
-          bestSeason: bestSeason || null,
-          isAccessible: isAccessible || false,
-          hasGuide: hasGuide || false,
-          hasParking: hasParking || false,
-          hasRestaurant: hasRestaurant || false,
-          highlights: highlights ? JSON.stringify(highlights) : null,
+          attractionType: data.attractionType,
+          isFree: data.isFree,
+          entryFeeLocal: data.entryFeeLocal ?? null,
+          entryFeeForeign: data.entryFeeForeign ?? null,
+          visitDuration: data.visitDuration || null,
+          bestTimeToVisit: data.bestTimeToVisit || null,
+          bestSeason: data.bestSeason || null,
+          isAccessible: data.isAccessible,
+          hasGuide: data.hasGuide,
+          hasParking: data.hasParking,
+          hasRestaurant: data.hasRestaurant,
+          highlights: data.highlights ? JSON.stringify(data.highlights) : null,
         },
       });
 
-      // Notify admins
       const admins = await tx.user.findMany({
         where: { role: 'ADMIN' },
         select: { id: true },
@@ -131,14 +82,13 @@ export async function POST(request: NextRequest) {
             userId: admin.id,
             type: 'SYSTEM' as const,
             title: 'Nouveau lieu soumis',
-            message: `${user.firstName} ${user.lastName} a soumis "${name}" (${city})`,
+            message: `${user.firstName} ${user.lastName} a soumis "${data.name}" (${data.city})`,
             entityType: 'establishment',
             entityId: establishment.id,
           })),
         });
       }
 
-      // Mettre à jour userType si pas encore défini
       const currentUser = await tx.user.findUnique({ where: { id: user.id }, select: { userType: true } });
       if (!currentUser?.userType) {
         await tx.user.update({ where: { id: user.id }, data: { userType: 'ATTRACTION' } });
@@ -153,6 +103,12 @@ export async function POST(request: NextRequest) {
       message: 'Votre lieu a été soumis avec succès ! Il sera visible après validation par notre équipe.',
     });
   } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      return NextResponse.json(
+        { success: false, error: 'Un établissement avec ce nom existe déjà. Modifiez le nom et réessayez.' },
+        { status: 409 }
+      );
+    }
     logger.error('Erreur soumission attraction:', error);
     return NextResponse.json(
       { success: false, error: 'Erreur serveur lors de la soumission' },

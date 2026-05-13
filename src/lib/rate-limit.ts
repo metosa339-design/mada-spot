@@ -26,6 +26,9 @@ export const RATE_LIMIT_CONFIGS = {
   // Strict limit for auth endpoints (prevent brute force)
   auth: { windowMs: 15 * 60 * 1000, maxRequests: 10 },   // 10 requests per 15 minutes
 
+  // Very strict limit for admin login (prevent brute force on privileged accounts)
+  admin: { windowMs: 15 * 60 * 1000, maxRequests: 5 },    // 5 attempts per 15 minutes
+
   // Standard API rate limit
   api: { windowMs: 60 * 1000, maxRequests: 100 },       // 100 requests per minute
 

@@ -74,29 +74,44 @@ const registerBaseSchema = z.object({
 });
 
 // Fonction helper pour ajouter les refinements communs
+interface RegisterRefineShape {
+  acceptTerms?: boolean;
+  email?: string | null;
+  phone?: string | null;
+  password?: string;
+  confirmPassword?: string;
+}
+
 const addRegisterRefinements = <T extends z.ZodTypeAny>(schema: T) => {
   return schema
-    .refine((data: any) => data.acceptTerms === true, {
+    .refine((data) => (data as RegisterRefineShape).acceptTerms === true, {
       message: 'Vous devez accepter les conditions d\'utilisation',
       path: ['acceptTerms'],
     })
-    .refine((data: any) => data.email || data.phone, {
+    .refine((data) => {
+      const d = data as RegisterRefineShape;
+      return Boolean(d.email || d.phone);
+    }, {
       message: 'Vous devez fournir un email ou un numéro de téléphone',
       path: ['email'],
     })
-    .refine((data: any) => {
-      if (data.phone) {
-        const cleanPhone = data.phone.replace(/\s/g, '');
+    .refine((data) => {
+      const phone = (data as RegisterRefineShape).phone;
+      if (phone) {
+        const cleanPhone = phone.replace(/\s/g, '');
         if (!cleanPhone) return true;
         // Accepter les numéros malgaches OU internationaux
-        return phoneRegexMG.test(cleanPhone) || phoneRegexIntl.test(data.phone.replace(/\s{2,}/g, ' ').trim());
+        return phoneRegexMG.test(cleanPhone) || phoneRegexIntl.test(phone.replace(/\s{2,}/g, ' ').trim());
       }
       return true;
     }, {
       message: 'Numéro de téléphone invalide',
       path: ['phone'],
     })
-    .refine((data: any) => data.password === data.confirmPassword, {
+    .refine((data) => {
+      const d = data as RegisterRefineShape;
+      return d.password === d.confirmPassword;
+    }, {
       message: 'Les mots de passe ne correspondent pas',
       path: ['confirmPassword'],
     });

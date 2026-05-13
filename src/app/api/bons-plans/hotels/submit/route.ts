@@ -1,16 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
+import { Prisma } from '@prisma/client';
 import { requireAuth } from '@/lib/auth/middleware';
 import { logger } from '@/lib/logger';
-
-function generateSlug(name: string): string {
-  return name
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
-}
+import { hotelSubmitSchema, withUniqueSlug } from '@/lib/validations/establishment-submit';
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,48 +13,37 @@ export async function POST(request: NextRequest) {
     const body = await request.json().catch(() => null);
     if (body === null) return NextResponse.json({ error: "Corps de requête JSON invalide" }, { status: 400 });
 
-    const {
-      name, shortDescription, description, hotelType,
-      province, region, city, district, latitude, longitude,
-      starRating, amenities, checkInTime, checkOutTime, roomTypes,
-      coverImage, images, phone, email, website, facebook, instagram, whatsapp,
-    } = body;
-
-    if (!name || !description || !city || !hotelType) {
+    const parsed = hotelSubmitSchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json(
-        { success: false, error: 'Nom, description, ville et type d\'hébergement sont requis' },
+        { success: false, error: 'Données invalides', details: parsed.error.flatten().fieldErrors },
         { status: 400 }
       );
     }
+    const data = parsed.data;
 
-    let slug = generateSlug(name);
-    const existingSlug = await prisma.establishment.findUnique({ where: { slug } });
-    if (existingSlug) {
-      slug = `${slug}-${Date.now().toString(36)}`;
-    }
-
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await withUniqueSlug(data.name, async (tx, slug) => {
       const establishment = await tx.establishment.create({
         data: {
           type: 'HOTEL',
-          name,
+          name: data.name,
           slug,
-          description,
-          shortDescription: shortDescription || null,
-          city,
-          district: district || null,
-          region: region || null,
-          address: province ? `${province}, ${region || ''}` : null,
-          latitude: latitude ? parseFloat(latitude) : null,
-          longitude: longitude ? parseFloat(longitude) : null,
-          coverImage: coverImage || null,
-          images: images ? JSON.stringify(images) : null,
-          phone: phone || null,
-          email: email || null,
-          website: website || null,
-          facebook: facebook || null,
-          instagram: instagram || null,
-          whatsapp: whatsapp || null,
+          description: data.description,
+          shortDescription: data.shortDescription || null,
+          city: data.city,
+          district: data.district || null,
+          region: data.region || null,
+          address: data.province ? `${data.province}, ${data.region || ''}` : null,
+          latitude: data.latitude ?? null,
+          longitude: data.longitude ?? null,
+          coverImage: data.coverImage || null,
+          images: data.images ? JSON.stringify(data.images) : null,
+          phone: data.phone || null,
+          email: data.email || null,
+          website: data.website || null,
+          facebook: data.facebook || null,
+          instagram: data.instagram || null,
+          whatsapp: data.whatsapp || null,
           isActive: false,
           moderationStatus: 'pending_review',
           dataSource: 'user_contribution',
@@ -75,24 +56,23 @@ export async function POST(request: NextRequest) {
       const hotel = await tx.hotel.create({
         data: {
           establishmentId: establishment.id,
-          hotelType: hotelType || null,
-          starRating: starRating ? parseInt(starRating) : null,
-          amenities: amenities ? JSON.stringify(amenities) : null,
-          checkInTime: checkInTime || null,
-          checkOutTime: checkOutTime || null,
+          hotelType: data.hotelType,
+          starRating: data.starRating ?? null,
+          amenities: data.amenities ? JSON.stringify(data.amenities) : null,
+          checkInTime: data.checkInTime || null,
+          checkOutTime: data.checkOutTime || null,
         },
       });
 
-      // Create room types if provided
-      if (roomTypes && Array.isArray(roomTypes) && roomTypes.length > 0) {
+      if (data.roomTypes && data.roomTypes.length > 0) {
         await tx.roomType.createMany({
-          data: roomTypes.map((room: { name: string; description?: string; capacity?: number; pricePerNight: number; priceWeekend?: number }) => ({
+          data: data.roomTypes.map((room) => ({
             hotelId: hotel.id,
             name: room.name,
             description: room.description || null,
-            capacity: room.capacity ? parseInt(String(room.capacity)) : 2,
-            pricePerNight: parseFloat(String(room.pricePerNight)),
-            priceWeekend: room.priceWeekend ? parseFloat(String(room.priceWeekend)) : null,
+            capacity: room.capacity ?? 2,
+            pricePerNight: room.pricePerNight,
+            priceWeekend: room.priceWeekend ?? null,
           })),
         });
       }
@@ -108,14 +88,13 @@ export async function POST(request: NextRequest) {
             userId: admin.id,
             type: 'SYSTEM' as const,
             title: 'Nouvel hébergement soumis',
-            message: `${user.firstName} ${user.lastName} a soumis "${name}" (${city})`,
+            message: `${user.firstName} ${user.lastName} a soumis "${data.name}" (${data.city})`,
             entityType: 'establishment',
             entityId: establishment.id,
           })),
         });
       }
 
-      // Mettre à jour userType si pas encore défini
       const currentUser = await tx.user.findUnique({ where: { id: user.id }, select: { userType: true } });
       if (!currentUser?.userType) {
         await tx.user.update({ where: { id: user.id }, data: { userType: 'HOTEL' } });
@@ -130,6 +109,12 @@ export async function POST(request: NextRequest) {
       message: 'Votre hébergement a été soumis avec succès ! Il sera visible après validation par notre équipe.',
     });
   } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      return NextResponse.json(
+        { success: false, error: 'Un établissement avec ce nom existe déjà. Modifiez le nom et réessayez.' },
+        { status: 409 }
+      );
+    }
     logger.error('Erreur soumission hôtel:', error);
     return NextResponse.json(
       { success: false, error: 'Erreur serveur lors de la soumission' },

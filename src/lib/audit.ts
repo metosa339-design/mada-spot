@@ -6,7 +6,7 @@ interface AuditLogEntry {
   action: string;
   entityType: string;
   entityId?: string | null;
-  details?: Record<string, any> | null;
+  details?: Record<string, unknown> | null;
   ipAddress?: string | null;
   userAgent?: string | null;
 }

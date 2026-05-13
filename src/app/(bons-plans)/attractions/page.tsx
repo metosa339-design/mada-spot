@@ -503,8 +503,8 @@ function AttractionsPageContent() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-xl font-bold text-white">Carte des attractions</h2>
-              <p className="text-gray-500 lg:text-slate-500 text-sm mt-1">Toutes les destinations Madagascar en un coup d'œil</p>
+              <h2 style={{ color: '#ffffff' }} className="text-xl font-bold">Carte des attractions</h2>
+              <p style={{ color: '#94a3b8' }} className="text-sm mt-1">Toutes les destinations Madagascar en un coup d'œil</p>
             </div>
             <div className="flex items-center gap-2 text-sm text-orange-400">
               <MapPin className="w-4 h-4" />
@@ -520,8 +520,8 @@ function AttractionsPageContent() {
       {/* Results - Dark */}
       <div className="max-w-7xl mx-auto px-4 pb-16">
         <div className="flex items-center justify-between mb-6">
-          <p className="text-slate-400">
-            <span className="text-white font-semibold">{total}</span> attraction{total > 1 ? 's' : ''} trouvée{total > 1 ? 's' : ''}
+          <p style={{ color: '#94a3b8' }}>
+            <span style={{ color: '#ffffff' }} className="font-semibold">{total}</span> attraction{total > 1 ? 's' : ''} trouvée{total > 1 ? 's' : ''}
           </p>
         </div>
 
@@ -541,8 +541,8 @@ function AttractionsPageContent() {
         ) : attractions.length === 0 ? (
           <div className="text-center py-16">
             <Mountain className="w-16 h-16 mx-auto text-slate-600 mb-4" />
-            <h2 className="text-xl font-semibold text-white mb-2">Aucune attraction trouvée</h2>
-            <p className="text-slate-400 mb-6">Essayez de modifier vos critères de recherche</p>
+            <h2 style={{ color: '#ffffff' }} className="text-xl font-semibold mb-2">Aucune attraction trouvée</h2>
+            <p style={{ color: '#94a3b8' }} className="mb-6">Essayez de modifier vos critères de recherche</p>
             <button
               onClick={() => {
                 setSearchQuery('');
@@ -610,11 +610,11 @@ function AttractionsPageContent() {
 
                       {/* Content */}
                       <div className="p-4">
-                        <h3 className="font-semibold text-white group-hover:text-orange-400 transition-colors mb-1">
+                        <h3 style={{ color: '#ffffff' }} className="font-semibold group-hover:text-orange-400 transition-colors mb-1">
                           {attraction.name}
                         </h3>
 
-                        <div className="flex items-center gap-2 text-sm text-slate-400 mb-3">
+                        <div style={{ color: '#94a3b8' }} className="flex items-center gap-2 text-sm mb-3">
                           <MapPin className="w-3 h-3" />
                           {attraction.district}, {attraction.city}
                         </div>
@@ -634,7 +634,7 @@ function AttractionsPageContent() {
                         )}
 
                         {/* Info */}
-                        <div className="flex items-center gap-4 text-sm text-slate-400 mb-3">
+                        <div style={{ color: '#94a3b8' }} className="flex items-center gap-4 text-sm mb-3">
                           {attraction.visitDuration && (
                             <span className="flex items-center gap-1">
                               <Clock className="w-3 h-3" />
@@ -658,7 +658,7 @@ function AttractionsPageContent() {
                             </span>
                           )}
                           {attraction.hasParking && (
-                            <span className="flex items-center gap-1 text-xs text-slate-400">
+                            <span style={{ color: '#94a3b8' }} className="flex items-center gap-1 text-xs">
                               <ParkingCircle className="w-3 h-3" />
                               Parking
                             </span>
@@ -669,11 +669,11 @@ function AttractionsPageContent() {
                         <div className="flex items-center justify-between pt-3 border-t border-[#2a2a36]">
                           <div className="flex items-center gap-1">
                             <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                            <span className="font-medium text-white">{attraction.rating?.toFixed(1)}</span>
-                            <span className="text-sm text-slate-400">({attraction.reviewCount})</span>
+                            <span style={{ color: '#ffffff' }} className="font-medium">{attraction.rating?.toFixed(1)}</span>
+                            <span style={{ color: '#94a3b8' }} className="text-sm">({attraction.reviewCount})</span>
                           </div>
                           {!attraction.isFree && attraction.entryFeeForeign && (
-                            <span className="text-xs text-slate-400">
+                            <span style={{ color: '#94a3b8' }} className="text-xs">
                               Touristes: {attraction.entryFeeForeign.toLocaleString()} Ar
                             </span>
                           )}

@@ -1,16 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
+import { Prisma } from '@prisma/client';
 import { requireAuth } from '@/lib/auth/middleware';
 import { logger } from '@/lib/logger';
-
-function generateSlug(name: string): string {
-  return name
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
-}
+import { restaurantSubmitSchema, withUniqueSlug } from '@/lib/validations/establishment-submit';
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,49 +13,37 @@ export async function POST(request: NextRequest) {
     const body = await request.json().catch(() => null);
     if (body === null) return NextResponse.json({ error: "Corps de requête JSON invalide" }, { status: 400 });
 
-    const {
-      name, shortDescription, description, category,
-      province, region, city, district, latitude, longitude,
-      cuisineTypes, priceRange, avgMainCourse, avgBeer, specialties,
-      hasDelivery, hasTakeaway, hasReservation, hasParking, hasWifi, hasGenerator,
-      coverImage, images, phone, email, website, facebook, instagram, whatsapp,
-    } = body;
-
-    if (!name || !description || !city || !category || !priceRange) {
+    const parsed = restaurantSubmitSchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json(
-        { success: false, error: 'Nom, description, ville, catégorie et gamme de prix sont requis' },
+        { success: false, error: 'Données invalides', details: parsed.error.flatten().fieldErrors },
         { status: 400 }
       );
     }
+    const data = parsed.data;
 
-    let slug = generateSlug(name);
-    const existingSlug = await prisma.establishment.findUnique({ where: { slug } });
-    if (existingSlug) {
-      slug = `${slug}-${Date.now().toString(36)}`;
-    }
-
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await withUniqueSlug(data.name, async (tx, slug) => {
       const establishment = await tx.establishment.create({
         data: {
           type: 'RESTAURANT',
-          name,
+          name: data.name,
           slug,
-          description,
-          shortDescription: shortDescription || null,
-          city,
-          district: district || null,
-          region: region || null,
-          address: province ? `${province}, ${region || ''}` : null,
-          latitude: latitude ? parseFloat(latitude) : null,
-          longitude: longitude ? parseFloat(longitude) : null,
-          coverImage: coverImage || null,
-          images: images ? JSON.stringify(images) : null,
-          phone: phone || null,
-          email: email || null,
-          website: website || null,
-          facebook: facebook || null,
-          instagram: instagram || null,
-          whatsapp: whatsapp || null,
+          description: data.description,
+          shortDescription: data.shortDescription || null,
+          city: data.city,
+          district: data.district || null,
+          region: data.region || null,
+          address: data.province ? `${data.province}, ${data.region || ''}` : null,
+          latitude: data.latitude ?? null,
+          longitude: data.longitude ?? null,
+          coverImage: data.coverImage || null,
+          images: data.images ? JSON.stringify(data.images) : null,
+          phone: data.phone || null,
+          email: data.email || null,
+          website: data.website || null,
+          facebook: data.facebook || null,
+          instagram: data.instagram || null,
+          whatsapp: data.whatsapp || null,
           isActive: false,
           moderationStatus: 'pending_review',
           dataSource: 'user_contribution',
@@ -76,18 +56,18 @@ export async function POST(request: NextRequest) {
       await tx.restaurant.create({
         data: {
           establishmentId: establishment.id,
-          category,
-          cuisineTypes: cuisineTypes ? JSON.stringify(cuisineTypes) : null,
-          priceRange,
-          avgMainCourse: avgMainCourse ? parseFloat(avgMainCourse) : null,
-          avgBeer: avgBeer ? parseFloat(avgBeer) : null,
-          specialties: specialties ? JSON.stringify(specialties) : null,
-          hasDelivery: hasDelivery || false,
-          hasTakeaway: hasTakeaway || false,
-          hasReservation: hasReservation || false,
-          hasParking: hasParking || false,
-          hasWifi: hasWifi || false,
-          hasGenerator: hasGenerator || false,
+          category: data.category,
+          cuisineTypes: data.cuisineTypes ? JSON.stringify(data.cuisineTypes) : null,
+          priceRange: data.priceRange,
+          avgMainCourse: data.avgMainCourse ?? null,
+          avgBeer: data.avgBeer ?? null,
+          specialties: data.specialties ? JSON.stringify(data.specialties) : null,
+          hasDelivery: data.hasDelivery,
+          hasTakeaway: data.hasTakeaway,
+          hasReservation: data.hasReservation,
+          hasParking: data.hasParking,
+          hasWifi: data.hasWifi,
+          hasGenerator: data.hasGenerator,
         },
       });
 
@@ -102,14 +82,13 @@ export async function POST(request: NextRequest) {
             userId: admin.id,
             type: 'SYSTEM' as const,
             title: 'Nouveau restaurant soumis',
-            message: `${user.firstName} ${user.lastName} a soumis "${name}" (${city})`,
+            message: `${user.firstName} ${user.lastName} a soumis "${data.name}" (${data.city})`,
             entityType: 'establishment',
             entityId: establishment.id,
           })),
         });
       }
 
-      // Mettre à jour userType si pas encore défini
       const currentUser = await tx.user.findUnique({ where: { id: user.id }, select: { userType: true } });
       if (!currentUser?.userType) {
         await tx.user.update({ where: { id: user.id }, data: { userType: 'RESTAURANT' } });
@@ -124,6 +103,12 @@ export async function POST(request: NextRequest) {
       message: 'Votre restaurant a été soumis avec succès ! Il sera visible après validation par notre équipe.',
     });
   } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      return NextResponse.json(
+        { success: false, error: 'Un établissement avec ce nom existe déjà. Modifiez le nom et réessayez.' },
+        { status: 409 }
+      );
+    }
     logger.error('Erreur soumission restaurant:', error);
     return NextResponse.json(
       { success: false, error: 'Erreur serveur lors de la soumission' },

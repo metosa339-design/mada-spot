@@ -1,9 +1,10 @@
 // API Route - Inscription (directe, sans vérification email bloquante)
 import { NextRequest, NextResponse } from 'next/server';
+import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/db';
 import { hashPassword, createSession, getSessionCookieConfig } from '@/lib/auth';
 import { registerSchema } from '@/lib/validations/auth';
-import { checkRateLimit } from '@/lib/rate-limit';
+import { checkRateLimit, getClientIdentifier, getRateLimitHeaders } from '@/lib/rate-limit';
 import { verifyCsrfToken } from '@/lib/csrf';
 import { logger } from '@/lib/logger';
 
@@ -13,12 +14,12 @@ function generateOTP(): string {
 
 export async function POST(request: NextRequest) {
   try {
-    const clientId = request.headers.get('x-forwarded-for') || 'anonymous';
+    const clientId = getClientIdentifier(request);
     const rateLimitResult = checkRateLimit(clientId, 'auth');
     if (!rateLimitResult.success) {
       return NextResponse.json(
         { success: false, error: 'Trop de tentatives. Réessayez plus tard.', retryAfter: rateLimitResult.resetIn },
-        { status: 429 }
+        { status: 429, headers: getRateLimitHeaders(rateLimitResult) }
       );
     }
 
@@ -39,58 +40,66 @@ export async function POST(request: NextRequest) {
 
     const { email, phone, password, firstName, lastName, role, userType } = validationResult.data;
 
-    // Check if email already exists
-    if (email) {
-      const existingUser = await prisma.user.findUnique({ where: { email } });
-      if (existingUser) {
-        return NextResponse.json({ success: false, error: 'Cet email est déjà utilisé' }, { status: 409 });
-      }
-    }
-
-    if (phone) {
-      const existingPhone = await prisma.user.findUnique({ where: { phone } });
-      if (existingPhone) {
-        return NextResponse.json({ success: false, error: 'Ce numéro de téléphone est déjà utilisé' }, { status: 409 });
-      }
-    }
-
     const passwordHash = await hashPassword(password);
 
-    // Create the real user directly (email verification will be prompted in dashboard)
-    const user = await prisma.$transaction(async (tx) => {
-      const newUser = await tx.user.create({
-        data: {
-          email: email || null,
-          phone: phone || null,
-          password: passwordHash,
-          firstName,
-          lastName,
-          role,
-          userType: userType || null,
-          emailVerified: false,
-          isVerified: false,
-        },
+    // Create the real user directly (email verification will be prompted in dashboard).
+    // Rely on DB unique constraints to handle race conditions atomically.
+    let user;
+    try {
+      user = await prisma.$transaction(async (tx) => {
+        const newUser = await tx.user.create({
+          data: {
+            email: email || null,
+            phone: phone || null,
+            password: passwordHash,
+            firstName,
+            lastName,
+            role,
+            userType: userType || null,
+            emailVerified: false,
+            isVerified: false,
+          },
+        });
+
+        if (role === 'CLIENT') {
+          await tx.clientProfile.create({ data: { userId: newUser.id } });
+        }
+
+        return newUser;
       });
-
-      if (role === 'CLIENT') {
-        await tx.clientProfile.create({ data: { userId: newUser.id } });
+    } catch (err) {
+      if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
+        const target = (err.meta?.target as string[] | undefined) || [];
+        if (target.includes('email')) {
+          return NextResponse.json({ success: false, error: 'Cet email est déjà utilisé' }, { status: 409 });
+        }
+        if (target.includes('phone')) {
+          return NextResponse.json({ success: false, error: 'Ce numéro de téléphone est déjà utilisé' }, { status: 409 });
+        }
+        return NextResponse.json({ success: false, error: 'Compte déjà existant' }, { status: 409 });
       }
-
-      return newUser;
-    });
+      throw err;
+    }
 
     // Create session immediately
     const deviceInfo = request.headers.get('user-agent') || undefined;
-    const ipAddress = request.headers.get('x-forwarded-for') || undefined;
+    const ipAddress = clientId;
     const sessionToken = await createSession(user.id, deviceInfo, ipAddress);
 
     // Send verification email in background (non-blocking)
     if (email) {
       const otpCode = generateOTP();
       try {
-        // Store OTP for later verification
-        await prisma.pendingRegistration.create({
-          data: {
+        // Upsert: if user already had a pending registration (re-register), refresh it instead of failing
+        await prisma.pendingRegistration.upsert({
+          where: { email },
+          update: {
+            otpCode,
+            otpExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+            token: sessionToken,
+            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          },
+          create: {
             email,
             phone: phone || null,
             password: passwordHash,
@@ -99,9 +108,9 @@ export async function POST(request: NextRequest) {
             role,
             userType: userType || null,
             otpCode,
-            otpExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24h for email verification
+            otpExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
             token: sessionToken,
-            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
           },
         });
 
@@ -129,7 +138,7 @@ export async function POST(request: NextRequest) {
         message: 'Compte créé avec succès ! Bienvenue sur Mada Spot.',
         user: { email, firstName, lastName, role },
       },
-      { status: 201 }
+      { status: 201, headers: getRateLimitHeaders(rateLimitResult) }
     );
 
     // Set session cookie (user is logged in immediately)

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -25,7 +25,7 @@ import Footer from '@/components/layout/Footer';
 import TrendingSection from '@/components/TrendingSection';
 import { useTrans } from '@/i18n';
 import { getImageUrl } from '@/lib/image-url';
-import { ScrollReveal, TextReveal, CountUp, GlowCard } from '@/components/ui/animations';
+import { ScrollReveal, TextReveal, GlowCard } from '@/components/ui/animations';
 import { StaggerParent, StaggerChild } from '@/components/ui/animations/StaggerChildren';
 
 interface Attraction {
@@ -167,20 +167,15 @@ function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState('attractions');
   const [featuredAttractions, setFeaturedAttractions] = useState<Attraction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [stats, setStats] = useState({ establishments: 190, attractions: 45, views: 7700 });
 
-  // Charger les attractions en vedette + stats reelles
+  // Charger les attractions en vedette
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [attRes, statsRes] = await Promise.all([
-          fetch('/api/bons-plans/attractions?limit=6&featured=true'),
-          fetch('/api/health'),
-        ]);
+        const attRes = await fetch('/api/bons-plans/attractions?limit=6&featured=true');
         if (attRes.ok) {
           const data = await attRes.json();
           setFeaturedAttractions(data.attractions || []);
-          if (data.total > 0) setStats(s => ({ ...s, attractions: data.total }));
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -336,7 +331,7 @@ function HomePage() {
         {/* === Destinations populaires (style Voyago - grandes cartes) === */}
         <div className="mt-8 px-4">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-[#1a1a2e]">Destinations populaires</h2>
+            <h2 className="text-xl font-bold" style={{ color: '#1a1a2e' }}>Destinations populaires</h2>
             <Link href="/attractions" className="text-sm text-[#ff6b35] font-semibold">Voir tout</Link>
           </div>
           <div className="flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 scrollbar-hide">
@@ -354,8 +349,8 @@ function HomePage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                   <span className="absolute top-3 left-3 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center text-base">{dest.icon}</span>
                   <div className="absolute bottom-3 left-3 right-3">
-                    <p className="font-bold text-white text-base">{dest.name}</p>
-                    <p className="text-xs text-white/70">{dest.sub}</p>
+                    <p style={{ color: '#ffffff', textShadow: '0 1px 3px rgba(0,0,0,0.6)' }} className="font-bold text-base">{dest.name}</p>
+                    <p style={{ color: 'rgba(255,255,255,0.9)', textShadow: '0 1px 2px rgba(0,0,0,0.6)' }} className="text-xs">{dest.sub}</p>
                   </div>
                 </div>
               </Link>
@@ -367,7 +362,7 @@ function HomePage() {
         {!isLoading && featuredAttractions.length > 0 && (
           <div className="mt-6 px-4">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-bold text-[#1a1a2e]">Lieux recommandes</h2>
+              <h2 className="text-lg font-bold" style={{ color: '#1a1a2e' }}>Lieux recommandes</h2>
               <Link href="/attractions" className="text-xs text-[#ff6b35] font-semibold">Voir plus →</Link>
             </div>
             <div className="flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 scrollbar-hide">
@@ -382,7 +377,7 @@ function HomePage() {
                       sizes="176px"
                     />
                   </div>
-                  <p className="font-bold text-[#1a1a2e] text-sm line-clamp-1">{a.name}</p>
+                  <p style={{ color: '#1a1a2e' }} className="font-bold text-sm line-clamp-1">{a.name}</p>
                   <p className="text-xs text-gray-500 mb-1">{a.city}</p>
                   <div className="flex items-center gap-1">
                     <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
@@ -427,7 +422,7 @@ function HomePage() {
             <div key={item.title} className="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
               <span className="text-xl">{item.icon}</span>
               <div>
-                <p className="font-bold text-[#1a1a2e] text-xs">{item.title}</p>
+                <p style={{ color: '#1a1a2e' }} className="font-bold text-xs">{item.title}</p>
                 <p className="text-[10px] text-slate-400">{item.desc}</p>
               </div>
             </div>
@@ -436,7 +431,7 @@ function HomePage() {
 
         {/* === Comment ca marche (mobile) === */}
         <div className="px-4 mt-8">
-          <h2 className="text-lg font-bold text-white mb-4">Comment ca marche</h2>
+          <h2 className="text-lg font-bold mb-4" style={{ color: '#1a1a2e' }}>Comment ca marche</h2>
           <div className="space-y-3">
             {[
               { num: '1', title: 'Cherchez', desc: 'Tapez une destination ou un type d\'etablissement', color: 'bg-[#ff6b35]' },
@@ -448,7 +443,7 @@ function HomePage() {
                   {step.num}
                 </div>
                 <div>
-                  <p className="font-bold text-[#1a1a2e] text-sm">{step.title}</p>
+                  <p style={{ color: '#1a1a2e' }} className="font-bold text-sm">{step.title}</p>
                   <p className="text-xs text-slate-400">{step.desc}</p>
                 </div>
               </div>
@@ -459,7 +454,7 @@ function HomePage() {
         {/* === Ce que nos clients disent === */}
         <div className="px-4 mt-8">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-bold text-[#1a1a2e]">Ce que nos clients disent</h2>
+            <h2 className="text-lg font-bold" style={{ color: '#1a1a2e' }}>Ce que nos clients disent</h2>
           </div>
           <div className="flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 scrollbar-hide">
             {[
@@ -473,7 +468,7 @@ function HomePage() {
                     {review.name[0]}
                   </div>
                   <div>
-                    <p className="font-bold text-[#1a1a2e] text-sm">{review.name}</p>
+                    <p style={{ color: '#1a1a2e' }} className="font-bold text-sm">{review.name}</p>
                     <p className="text-xs text-slate-400">{review.city}</p>
                   </div>
                 </div>

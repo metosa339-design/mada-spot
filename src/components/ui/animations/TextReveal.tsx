@@ -7,7 +7,7 @@ interface TextRevealProps {
   children: ReactNode;
   delay?: number;
   className?: string;
-  as?: 'h1' | 'h2' | 'h3' | 'p' | 'span';
+  as?: 'h1' | 'h2' | 'h3' | 'p' | 'span' | 'div';
 }
 
 export default function TextReveal({

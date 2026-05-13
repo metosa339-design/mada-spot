@@ -354,21 +354,29 @@ function HomePage() {
         )}
 
         {/* === Banniere promo === */}
-        <div className="mx-4 mt-6 rounded-2xl overflow-hidden relative h-32">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1a1a2e] to-[#ff6b35]" />
+        <div className="mx-4 mt-6 rounded-2xl overflow-hidden relative h-32" style={{ backgroundColor: '#ff6b35' }}>
           <div className="relative p-5 flex items-center justify-between h-full">
             <div>
               <h3 className="text-white font-bold text-lg mb-1">Inscription gratuite</h3>
-              <p className="text-white/70 text-xs mb-2">Referencez votre etablissement</p>
-              <Link href="/inscrire-etablissement" className="inline-block px-4 py-1.5 bg-white text-[#1a1a2e] text-xs font-bold rounded-lg">
-                S&apos;inscrire
-              </Link>
+              <p className="text-white/80 text-xs mb-2">Referencez votre etablissement</p>
+              <motion.div
+                animate={{ scale: [1, 1.08, 1] }}
+                transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+                className="inline-block"
+              >
+                <Link
+                  href="/inscrire-etablissement"
+                  className="inline-block px-5 py-2 bg-red-600 text-white text-xs font-bold rounded-lg shadow-lg active:scale-95 transition-transform"
+                >
+                  S&apos;inscrire
+                </Link>
+              </motion.div>
             </div>
             <div className="text-right">
               <div className="bg-white/20 backdrop-blur-sm rounded-xl px-3 py-2">
                 <p className="text-white text-xs">Deja</p>
                 <p className="text-white font-black text-2xl">190+</p>
-                <p className="text-white/70 text-[10px]">etablissements</p>
+                <p className="text-white/80 text-[10px]">etablissements</p>
               </div>
             </div>
           </div>
@@ -425,27 +433,8 @@ function HomePage() {
           </div>
         </div>
 
-        {/* === Newsletter === */}
-        <div className="mx-4 mt-8 mb-8 rounded-2xl overflow-hidden relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#ff6b35] to-[#ff1493]" />
-          <div className="relative p-5">
-            <h3 className="text-white font-bold text-base mb-1">Newsletter</h3>
-            <p className="text-white/80 text-xs mb-3">Recevez nos meilleures offres et inspirations voyage</p>
-            <div className="flex gap-2">
-              <input
-                type="email"
-                placeholder="Votre adresse e-mail"
-                className="flex-1 px-3 py-2.5 rounded-lg text-sm text-gray-900 placeholder:text-gray-400 outline-none"
-              />
-              <button className="px-4 py-2.5 bg-[#1a1a2e] text-white text-xs font-bold rounded-lg shrink-0">
-                S&apos;abonner
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* === Reassurance (deplacee en bas) === */}
-        <div className="grid grid-cols-2 gap-3 px-4 pb-8">
+        {/* === Reassurance (juste avant Newsletter) === */}
+        <div className="grid grid-cols-2 gap-3 px-4 mt-8">
           {[
             { icon: '🔍', title: 'Recherche facile', desc: 'Trouvez en 2 clics' },
             { icon: '📱', title: 'Contact direct', desc: 'WhatsApp & telephone' },
@@ -460,6 +449,25 @@ function HomePage() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* === Newsletter === */}
+        <div className="mx-4 mt-6 mb-8 rounded-2xl overflow-hidden relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#ff6b35] to-[#ff1493]" />
+          <div className="relative p-5">
+            <h3 className="text-white font-bold text-base mb-1">Restez informe des meilleurs bons plans</h3>
+            <p className="text-white/80 text-xs mb-3">Recevez nos meilleures offres et inspirations voyage</p>
+            <div className="flex gap-2">
+              <input
+                type="email"
+                placeholder="Votre adresse e-mail"
+                className="flex-1 px-3 py-2.5 rounded-lg text-sm text-gray-900 placeholder:text-gray-400 outline-none"
+              />
+              <button className="px-4 py-2.5 bg-[#1a1a2e] text-white text-xs font-bold rounded-lg shrink-0">
+                S&apos;abonner
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 

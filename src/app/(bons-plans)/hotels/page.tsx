@@ -8,6 +8,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { Search, MapPin, Star, Building2, Filter, Wifi, Car, Utensils, Waves, Zap, Snowflake, Loader2, SlidersHorizontal } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
 import PhotoSlider from '@/components/ui/PhotoSlider';
+import { MADAGASCAR_CITIES_WITH_ALL as cities } from '@/lib/data/madagascar-locations';
 
 interface Hotel {
   id: string;
@@ -39,50 +40,6 @@ const POPULAR_DESTINATIONS = [
   { label: 'Diego Suarez', value: 'Diego Suarez' },
   { label: 'Morondava', value: 'Morondava' },
   { label: 'Fort-Dauphin', value: 'Fort-Dauphin' },
-];
-
-const cities = [
-  'Toutes les villes',
-  'Ambanja',
-  'Ambatondrazaka',
-  'Ambilobe',
-  'Ambositra',
-  'Ambovombe',
-  'Anakao',
-  'Andasibe',
-  'Andapa',
-  'Antananarivo',
-  'Antalaha',
-  'Antsirabe',
-  'Bekopaka',
-  'Diego Suarez',
-  'Farafangana',
-  'Fianarantsoa',
-  'Fort-Dauphin',
-  'Foulpointe',
-  'Ifaty',
-  'Isalo',
-  'Joffreville',
-  'Mahajanga',
-  'Majunga',
-  'Manakara',
-  'Manambato',
-  'Mananjary',
-  'Maroantsetra',
-  'Miandrivazo',
-  'Moramanga',
-  'Morondava',
-  'Nosy Be',
-  'Ramena',
-  'Ranohira',
-  'Ranomafana',
-  'Sainte-Marie',
-  'Sambava',
-  'Toamasina',
-  'Toliara',
-  'Tulear',
-  'Vatomandry',
-  'Vohemar',
 ];
 
 const amenityIcons: Record<string, any> = {

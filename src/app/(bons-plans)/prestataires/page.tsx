@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, MapPin, Star, X, Users, SlidersHorizontal, Car, Camera, Globe, Map as MapIcon, Compass, Briefcase, Ship, ArrowRight, Plus } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
 import PhotoSlider from '@/components/ui/PhotoSlider';
+import { MADAGASCAR_CITIES_WITH_ALL as cities } from '@/lib/data/madagascar-locations';
 
 interface Provider {
   id: string;
@@ -59,50 +60,6 @@ const priceRanges = [
 const sortOptions = [
   { value: 'rating', label: 'Meilleures notes' },
   { value: 'newest', label: 'Plus récents' },
-];
-
-const cities = [
-  'Toutes les villes',
-  'Ambanja',
-  'Ambatondrazaka',
-  'Ambilobe',
-  'Ambositra',
-  'Ambovombe',
-  'Anakao',
-  'Andasibe',
-  'Andapa',
-  'Antananarivo',
-  'Antalaha',
-  'Antsirabe',
-  'Bekopaka',
-  'Diego Suarez',
-  'Farafangana',
-  'Fianarantsoa',
-  'Fort-Dauphin',
-  'Foulpointe',
-  'Ifaty',
-  'Isalo',
-  'Joffreville',
-  'Mahajanga',
-  'Majunga',
-  'Manakara',
-  'Manambato',
-  'Mananjary',
-  'Maroantsetra',
-  'Miandrivazo',
-  'Moramanga',
-  'Morondava',
-  'Nosy Be',
-  'Ramena',
-  'Ranohira',
-  'Ranomafana',
-  'Sainte-Marie',
-  'Sambava',
-  'Toamasina',
-  'Toliara',
-  'Tulear',
-  'Vatomandry',
-  'Vohemar',
 ];
 
 export default function PrestatairesPage() {

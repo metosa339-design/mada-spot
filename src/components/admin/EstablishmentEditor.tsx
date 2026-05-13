@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import NextImage from 'next/image';
 import { getImageUrl } from '@/lib/image-url';
+import { MADAGASCAR_CITIES } from '@/lib/data/madagascar-locations';
 
 // ============================================================
 // TYPES
@@ -109,7 +110,7 @@ const HOTEL_AMENITIES = ['wifi', 'parking', 'pool', 'restaurant', 'spa', 'ac', '
 const CUISINE_TYPES = ['malgache', 'francais', 'chinois', 'italien', 'indien', 'japonais', 'africain', 'fast_food', 'pizza', 'fruits_de_mer'];
 const ATTRACTION_TYPES = ['park', 'museum', 'beach', 'waterfall', 'historical', 'viewpoint', 'reserve', 'mountain', 'island', 'cave'];
 const HOTEL_TYPES = ['hotel', 'boutique', 'resort', 'guesthouse', 'auberge', 'lodge', 'villa', 'bungalow', 'ecolodge'];
-const CITIES = ['Antananarivo', 'Nosy Be', 'Toamasina', 'Mahajanga', 'Antsirabe', 'Fianarantsoa', 'Toliara', 'Diego Suarez', 'Morondava', 'Sainte-Marie', 'Fort Dauphin', 'Mananjary', 'Ambositra'];
+const CITIES = MADAGASCAR_CITIES;
 
 const INITIAL_FORM: EstablishmentFormData = {
   type: 'HOTEL', name: '', description: '', shortDescription: '',

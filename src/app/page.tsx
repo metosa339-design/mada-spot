@@ -27,6 +27,7 @@ import { useTrans } from '@/i18n';
 import { getImageUrl } from '@/lib/image-url';
 import { ScrollReveal, TextReveal, GlowCard } from '@/components/ui/animations';
 import { StaggerParent, StaggerChild } from '@/components/ui/animations/StaggerChildren';
+import { MADAGASCAR_CITIES as cities } from '@/lib/data/madagascar-locations';
 
 interface Attraction {
   id: string;
@@ -38,49 +39,6 @@ interface Attraction {
   reviewCount: number;
   isFeatured: boolean;
 }
-
-const cities = [
-  'Ambanja',
-  'Ambatondrazaka',
-  'Ambilobe',
-  'Ambositra',
-  'Ambovombe',
-  'Anakao',
-  'Andasibe',
-  'Andapa',
-  'Antananarivo',
-  'Antalaha',
-  'Antsirabe',
-  'Bekopaka',
-  'Diego Suarez',
-  'Farafangana',
-  'Fianarantsoa',
-  'Fort Dauphin',
-  'Foulpointe',
-  'Ifaty',
-  'Isalo',
-  'Joffreville',
-  'Mahajanga',
-  'Majunga',
-  'Manakara',
-  'Manambato',
-  'Mananjary',
-  'Maroantsetra',
-  'Miandrivazo',
-  'Moramanga',
-  'Morondava',
-  'Nosy Be',
-  'Ramena',
-  'Ranohira',
-  'Ranomafana',
-  'Sainte-Marie',
-  'Sambava',
-  'Toamasina',
-  'Toliara',
-  'Tulear',
-  'Vatomandry',
-  'Vohemar',
-];
 
 // Images locales pour les cartes d'attractions
 const ATTRACTION_IMAGES: Record<string, string[]> = {

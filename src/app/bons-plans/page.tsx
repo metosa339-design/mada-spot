@@ -36,6 +36,7 @@ import {
   Footprints,
 } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
+import { MADAGASCAR_CITIES as cities } from '@/lib/data/madagascar-locations';
 
 interface Attraction {
   id: string;
@@ -86,17 +87,6 @@ const categories = [
     gradient: 'from-cyan-500 to-teal-500',
     description: 'Guides, chauffeurs, agences',
   },
-];
-
-const cities = [
-  'Antananarivo',
-  'Toamasina',
-  'Antsirabe',
-  'Fianarantsoa',
-  'Mahajanga',
-  'Nosy Be',
-  'Diego Suarez',
-  'Fort Dauphin',
 ];
 
 // Attraction type icons and colors - style dark

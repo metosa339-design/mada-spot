@@ -19,6 +19,7 @@ import {
   Users,
   Menu,
   User,
+  Phone,
 } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -373,36 +374,18 @@ function HomePage() {
           </div>
         </div>
 
-        {/* === Reassurance === */}
-        <div className="grid grid-cols-2 gap-3 px-4 mt-6">
-          {[
-            { icon: '🔍', title: 'Recherche facile', desc: 'Trouvez en 2 clics' },
-            { icon: '📱', title: 'Contact direct', desc: 'WhatsApp & telephone' },
-            { icon: '⭐', title: 'Avis verifies', desc: 'Notes authentiques' },
-            { icon: '🆓', title: '100% gratuit', desc: 'Pas de commission' },
-          ].map((item) => (
-            <div key={item.title} className="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
-              <span className="text-xl">{item.icon}</span>
-              <div>
-                <p style={{ color: '#1a1a2e' }} className="font-bold text-xs">{item.title}</p>
-                <p className="text-[10px] text-slate-400">{item.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
         {/* === Comment ca marche (mobile - compact horizontal) === */}
         <div className="px-4 mt-8">
           <h2 className="text-lg font-bold mb-3" style={{ color: '#1a1a2e' }}>Comment ca marche</h2>
           <div className="grid grid-cols-3 gap-2">
             {[
-              { num: '1', title: 'Cherchez', color: 'bg-[#ff6b35]' },
-              { num: '2', title: 'Comparez', color: 'bg-pink-500' },
-              { num: '3', title: 'Contactez', color: 'bg-purple-500' },
+              { Icon: Search, title: 'Cherchez', color: 'bg-[#ff6b35]' },
+              { Icon: Star, title: 'Comparez', color: 'bg-pink-500' },
+              { Icon: Phone, title: 'Contactez', color: 'bg-purple-500' },
             ].map((step) => (
-              <div key={step.num} className="flex flex-col items-center gap-1.5 py-2">
-                <div className={`w-11 h-11 ${step.color} rounded-full flex items-center justify-center text-white font-bold text-base shadow-md`}>
-                  {step.num}
+              <div key={step.title} className="flex flex-col items-center gap-1.5 py-2">
+                <div className={`w-11 h-11 ${step.color} rounded-full flex items-center justify-center text-white shadow-md`}>
+                  <step.Icon className="w-5 h-5" />
                 </div>
                 <p style={{ color: '#1a1a2e' }} className="font-semibold text-xs text-center">{step.title}</p>
               </div>
@@ -459,6 +442,24 @@ function HomePage() {
               </button>
             </div>
           </div>
+        </div>
+
+        {/* === Reassurance (deplacee en bas) === */}
+        <div className="grid grid-cols-2 gap-3 px-4 pb-8">
+          {[
+            { icon: '🔍', title: 'Recherche facile', desc: 'Trouvez en 2 clics' },
+            { icon: '📱', title: 'Contact direct', desc: 'WhatsApp & telephone' },
+            { icon: '⭐', title: 'Avis verifies', desc: 'Notes authentiques' },
+            { icon: '🆓', title: '100% gratuit', desc: 'Pas de commission' },
+          ].map((item) => (
+            <div key={item.title} className="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
+              <span className="text-xl">{item.icon}</span>
+              <div>
+                <p style={{ color: '#1a1a2e' }} className="font-bold text-xs">{item.title}</p>
+                <p className="text-[10px] text-slate-400">{item.desc}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 

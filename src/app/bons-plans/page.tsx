@@ -36,7 +36,7 @@ import {
   Footprints,
 } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
-import { MADAGASCAR_CITIES as cities } from '@/lib/data/madagascar-locations';
+import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 
 interface Attraction {
   id: string;
@@ -273,8 +273,12 @@ export default function BonsPlansPage() {
                   className="appearance-none flex items-center gap-2 px-4 py-3 text-white rounded-xl transition-colors w-full sm:w-48 bg-[#0d1520] cursor-pointer outline-none border border-[#2a2a36]"
                 >
                   <option value="">Toutes les villes</option>
-                  {cities.map((city) => (
-                    <option key={city} value={city}>{city}</option>
+                  {MADAGASCAR_CITIES_BY_PROVINCE.map((p) => (
+                    <optgroup key={p.province} label={p.province}>
+                      {p.cities.map((city) => (
+                        <option key={city} value={city}>{city}</option>
+                      ))}
+                    </optgroup>
                   ))}
                 </select>
                 <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 pointer-events-none" />

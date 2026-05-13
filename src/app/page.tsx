@@ -27,7 +27,7 @@ import { useTrans } from '@/i18n';
 import { getImageUrl } from '@/lib/image-url';
 import { ScrollReveal, TextReveal, GlowCard } from '@/components/ui/animations';
 import { StaggerParent, StaggerChild } from '@/components/ui/animations/StaggerChildren';
-import { MADAGASCAR_CITIES as cities } from '@/lib/data/madagascar-locations';
+import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 
 interface Attraction {
   id: string;
@@ -269,8 +269,12 @@ function HomePage() {
                     className="w-full outline-none text-gray-900 text-sm font-semibold bg-transparent mt-0.5 appearance-none"
                   >
                     <option value="">Toutes les villes</option>
-                    {cities.map((city) => (
-                      <option key={city} value={city}>{city}</option>
+                    {MADAGASCAR_CITIES_BY_PROVINCE.map((p) => (
+                      <optgroup key={p.province} label={p.province}>
+                        {p.cities.map((city) => (
+                          <option key={city} value={city}>{city}</option>
+                        ))}
+                      </optgroup>
                     ))}
                   </select>
                 </div>
@@ -387,23 +391,20 @@ function HomePage() {
           ))}
         </div>
 
-        {/* === Comment ca marche (mobile) === */}
+        {/* === Comment ca marche (mobile - compact horizontal) === */}
         <div className="px-4 mt-8">
-          <h2 className="text-lg font-bold mb-4" style={{ color: '#1a1a2e' }}>Comment ca marche</h2>
-          <div className="space-y-3">
+          <h2 className="text-lg font-bold mb-3" style={{ color: '#1a1a2e' }}>Comment ca marche</h2>
+          <div className="grid grid-cols-3 gap-2">
             {[
-              { num: '1', title: 'Cherchez', desc: 'Tapez une destination ou un type d\'etablissement', color: 'bg-[#ff6b35]' },
-              { num: '2', title: 'Comparez', desc: 'Photos, avis et prix pour faire le bon choix', color: 'bg-pink-500' },
-              { num: '3', title: 'Contactez', desc: 'Appelez ou ecrivez directement par WhatsApp', color: 'bg-purple-500' },
+              { num: '1', title: 'Cherchez', color: 'bg-[#ff6b35]' },
+              { num: '2', title: 'Comparez', color: 'bg-pink-500' },
+              { num: '3', title: 'Contactez', color: 'bg-purple-500' },
             ].map((step) => (
-              <div key={step.num} className="flex items-center gap-4 p-3 bg-gray-50 rounded-xl">
-                <div className={`w-10 h-10 ${step.color} rounded-xl flex items-center justify-center text-white font-bold text-sm shrink-0`}>
+              <div key={step.num} className="flex flex-col items-center gap-1.5 py-2">
+                <div className={`w-11 h-11 ${step.color} rounded-full flex items-center justify-center text-white font-bold text-base shadow-md`}>
                   {step.num}
                 </div>
-                <div>
-                  <p style={{ color: '#1a1a2e' }} className="font-bold text-sm">{step.title}</p>
-                  <p className="text-xs text-slate-400">{step.desc}</p>
-                </div>
+                <p style={{ color: '#1a1a2e' }} className="font-semibold text-xs text-center">{step.title}</p>
               </div>
             ))}
           </div>
@@ -542,8 +543,12 @@ function HomePage() {
                     className="appearance-none px-4 py-3 text-white rounded-xl bg-[#0d1520] cursor-pointer outline-none border border-[#2a2a36] w-40 shrink-0"
                   >
                     <option value="">{th.allCities}</option>
-                    {cities.map((city) => (
-                      <option key={city} value={city}>{city}</option>
+                    {MADAGASCAR_CITIES_BY_PROVINCE.map((p) => (
+                      <optgroup key={p.province} label={p.province}>
+                        {p.cities.map((city) => (
+                          <option key={city} value={city}>{city}</option>
+                        ))}
+                      </optgroup>
                     ))}
                   </select>
                   <button
@@ -632,22 +637,22 @@ function HomePage() {
       {/* ===== CATEGORIES SECTION ===== */}
       <section className="py-16 -mt-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <StaggerParent staggerDelay={0.12} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StaggerParent staggerDelay={0.12} className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {/* Attractions */}
             <StaggerChild>
               <GlowCard className="h-full rounded-2xl" glowColor="rgba(249, 115, 22, 0.15)">
                 <Link
                   href="/attractions"
-                  className="block h-full bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-orange-500/50 transition-all group"
+                  className="block h-full bg-[#1a1a24] rounded-2xl p-4 sm:p-6 border border-[#2a2a36] hover:border-orange-500/50 transition-all group"
                 >
-                  <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-lg">
-                    <Mountain className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-lg">
+                    <Mountain className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                   </div>
-                  <h2 className="text-xl font-bold text-white mb-2">{th.attractions}</h2>
-                  <p className="text-sm text-slate-300 mb-4">
+                  <h2 className="text-base sm:text-xl font-bold text-white mb-0 sm:mb-2">{th.attractions}</h2>
+                  <p className="hidden sm:block text-sm text-slate-300 mb-4">
                     {th.attractionsDesc}
                   </p>
-                  <div className="flex items-center text-sm font-medium text-orange-400">
+                  <div className="hidden sm:flex items-center text-sm font-medium text-orange-400">
                     {th.explore}
                     <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-2 transition-transform" />
                   </div>
@@ -660,16 +665,16 @@ function HomePage() {
               <GlowCard className="h-full rounded-2xl" glowColor="rgba(236, 72, 153, 0.15)">
                 <Link
                   href="/hotels"
-                  className="block h-full bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-pink-500/50 transition-all group"
+                  className="block h-full bg-[#1a1a24] rounded-2xl p-4 sm:p-6 border border-[#2a2a36] hover:border-pink-500/50 transition-all group"
                 >
-                  <div className="w-14 h-14 bg-gradient-to-br from-pink-500 to-rose-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-lg">
-                    <Building2 className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-pink-500 to-rose-500 rounded-xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-lg">
+                    <Building2 className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                   </div>
-                  <h2 className="text-xl font-bold text-white mb-2">{th.hotelsLabel}</h2>
-                  <p className="text-sm text-slate-300 mb-4">
+                  <h2 className="text-base sm:text-xl font-bold text-white mb-0 sm:mb-2">{th.hotelsLabel}</h2>
+                  <p className="hidden sm:block text-sm text-slate-300 mb-4">
                     {th.hotelsDesc}
                   </p>
-                  <div className="flex items-center text-sm font-medium text-pink-400">
+                  <div className="hidden sm:flex items-center text-sm font-medium text-pink-400">
                     {th.discover}
                     <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-2 transition-transform" />
                   </div>
@@ -682,16 +687,16 @@ function HomePage() {
               <GlowCard className="h-full rounded-2xl" glowColor="rgba(139, 92, 246, 0.15)">
                 <Link
                   href="/restaurants"
-                  className="block h-full bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-purple-500/50 transition-all group"
+                  className="block h-full bg-[#1a1a24] rounded-2xl p-4 sm:p-6 border border-[#2a2a36] hover:border-purple-500/50 transition-all group"
                 >
-                  <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-violet-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-lg">
-                    <UtensilsCrossed className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-purple-500 to-violet-500 rounded-xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-lg">
+                    <UtensilsCrossed className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                   </div>
-                  <h2 className="text-xl font-bold text-white mb-2">{th.restaurantsLabel}</h2>
-                  <p className="text-sm text-slate-300 mb-4">
+                  <h2 className="text-base sm:text-xl font-bold text-white mb-0 sm:mb-2">{th.restaurantsLabel}</h2>
+                  <p className="hidden sm:block text-sm text-slate-300 mb-4">
                     {th.restaurantsDesc}
                   </p>
-                  <div className="flex items-center text-sm font-medium text-purple-400">
+                  <div className="hidden sm:flex items-center text-sm font-medium text-purple-400">
                     {th.taste}
                     <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-2 transition-transform" />
                   </div>
@@ -704,16 +709,16 @@ function HomePage() {
               <GlowCard className="h-full rounded-2xl" glowColor="rgba(6, 182, 212, 0.15)">
                 <Link
                   href="/prestataires"
-                  className="block h-full bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-cyan-500/50 transition-all group"
+                  className="block h-full bg-[#1a1a24] rounded-2xl p-4 sm:p-6 border border-[#2a2a36] hover:border-cyan-500/50 transition-all group"
                 >
-                  <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-lg">
-                    <Users className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-lg">
+                    <Users className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                   </div>
-                  <h2 className="text-xl font-bold text-white mb-2">{th.providersLabel}</h2>
-                  <p className="text-sm text-slate-300 mb-4">
+                  <h2 className="text-base sm:text-xl font-bold text-white mb-0 sm:mb-2">{th.providersLabel}</h2>
+                  <p className="hidden sm:block text-sm text-slate-300 mb-4">
                     {th.providersDesc}
                   </p>
-                  <div className="flex items-center text-sm font-medium text-cyan-400">
+                  <div className="hidden sm:flex items-center text-sm font-medium text-cyan-400">
                     {th.discover}
                     <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-2 transition-transform" />
                   </div>

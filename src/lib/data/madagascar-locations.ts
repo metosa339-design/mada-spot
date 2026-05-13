@@ -534,6 +534,140 @@ export const MADAGASCAR_CITIES: string[] = [
 // Avec entrée "Toutes les villes" en tête (pour dropdowns de filtre)
 export const MADAGASCAR_CITIES_WITH_ALL: string[] = ['Toutes les villes', ...MADAGASCAR_CITIES];
 
+// Villes groupées par province (les 6 anciennes provinces de Madagascar).
+// Utiliser dans les <select> avec <optgroup label={province}>.
+// Villes touristiques (Andasibe, Isalo, Nosy Be, etc.) rattachées à leur province naturelle.
+export interface ProvinceCities {
+  province: string;
+  cities: string[];
+}
+
+export const MADAGASCAR_CITIES_BY_PROVINCE: ProvinceCities[] = [
+  {
+    province: 'Antananarivo',
+    cities: [
+      'Antananarivo',
+      'Ambatolampy',
+      'Ambohidratrimo',
+      'Antanifotsy',
+      'Antsirabe',
+      'Anjozorobe',
+      'Arivonimamo',
+      'Betafo',
+      'Fenoarivobe',
+      'Manjakandriana',
+      'Miarinarivo',
+      'Soavinandriana',
+      'Tsiroanomandidy',
+    ],
+  },
+  {
+    province: 'Antsiranana',
+    cities: [
+      'Antsiranana',
+      'Diego Suarez',
+      'Ambanja',
+      'Ambilobe',
+      'Andapa',
+      'Antalaha',
+      'Joffreville',
+      'Nosy Be',
+      'Ramena',
+      'Sambava',
+      'Vohemar',
+    ],
+  },
+  {
+    province: 'Fianarantsoa',
+    cities: [
+      'Fianarantsoa',
+      'Ambalavao',
+      'Ambatofinandrahana',
+      'Ambohimahasoa',
+      'Ambositra',
+      'Befotaka',
+      'Fandriana',
+      'Farafangana',
+      'Iakora',
+      'Ifanadiana',
+      'Ihosy',
+      'Ikongo',
+      'Isalo',
+      'Ivohibe',
+      'Manakara',
+      'Mananjary',
+      'Nosy Varika',
+      'Ranohira',
+      'Ranomafana',
+      'Vangaindrano',
+      'Vohipeno',
+    ],
+  },
+  {
+    province: 'Mahajanga',
+    cities: [
+      'Mahajanga',
+      'Majunga',
+      'Ambato Boeny',
+      'Antsalova',
+      'Antsohihy',
+      'Bealanana',
+      'Bekopaka',
+      'Besalampy',
+      'Kandreho',
+      'Maevatanana',
+      'Maintirano',
+      'Mandritsara',
+      'Port Berge',
+      'Soalala',
+      'Tsaratanana',
+    ],
+  },
+  {
+    province: 'Toamasina',
+    cities: [
+      'Toamasina',
+      'Ambatondrazaka',
+      'Amparafaravola',
+      'Andasibe',
+      'Brickaville',
+      'Fenerive Est',
+      'Foulpointe',
+      'Mahanoro',
+      'Manambato',
+      'Maroantsetra',
+      'Moramanga',
+      'Sainte-Marie',
+      'Vatomandry',
+      'Vavatenina',
+    ],
+  },
+  {
+    province: 'Toliara',
+    cities: [
+      'Toliara',
+      'Tulear',
+      'Amboasary Atsimo',
+      'Ambovombe',
+      'Ampanihy',
+      'Anakao',
+      'Bekily',
+      'Belo sur Tsiribihina',
+      'Beloha',
+      'Betroka',
+      'Fort Dauphin',
+      'Tolagnaro',
+      'Ifaty',
+      'Mahabo',
+      'Miandrivazo',
+      'Morombe',
+      'Morondava',
+      'Sakaraha',
+      'Tsihombe',
+    ],
+  },
+];
+
 export function getQuartiersByDistrict(regionName: string, cityName: string, districtName: string): string[] {
   const region = madagascarRegions.find(r => r.name === regionName);
   if (!region) return [];

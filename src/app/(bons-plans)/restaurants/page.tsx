@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, MapPin, Star, X, UtensilsCrossed, Coffee, Wine, Truck, ShoppingBag, Wifi, Menu as _MenuIcon, Image as ImageIcon, Eye, SlidersHorizontal } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
 import PhotoSlider from '@/components/ui/PhotoSlider';
-import { MADAGASCAR_CITIES_WITH_ALL as cities } from '@/lib/data/madagascar-locations';
+import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 
 interface Restaurant {
   id: string;
@@ -196,8 +196,12 @@ function RestaurantsPageContent() {
               </div>
               <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)} className="px-3 py-2.5 bg-white rounded-xl text-sm text-[#2D241E] outline-none cursor-pointer shadow-md border border-gray-100">
                 <option value="">Toutes les villes</option>
-                {cities.map((city) => (
-                  <option key={city} value={city}>{city}</option>
+                {MADAGASCAR_CITIES_BY_PROVINCE.map((p) => (
+                  <optgroup key={p.province} label={p.province}>
+                    {p.cities.map((city) => (
+                      <option key={city} value={city}>{city}</option>
+                    ))}
+                  </optgroup>
                 ))}
               </select>
               <button onClick={() => setShowFilters(!showFilters)} className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm transition-colors ${hasActiveFilters ? 'bg-[#D97706] text-white shadow-md' : 'bg-white text-[#8B7E6E] hover:text-[#D97706] shadow-md border border-gray-100'}`}>

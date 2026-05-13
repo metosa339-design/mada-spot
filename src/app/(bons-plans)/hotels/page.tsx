@@ -8,7 +8,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { Search, MapPin, Star, Building2, Filter, Wifi, Car, Utensils, Waves, Zap, Snowflake, Loader2, SlidersHorizontal } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
 import PhotoSlider from '@/components/ui/PhotoSlider';
-import { MADAGASCAR_CITIES_WITH_ALL as cities } from '@/lib/data/madagascar-locations';
+import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 
 interface Hotel {
   id: string;
@@ -209,8 +209,13 @@ function HotelsPage() {
                 onChange={(e) => setSelectedCity(e.target.value)}
                 className="px-3 py-2.5 bg-white rounded-xl text-sm text-[#2D241E] outline-none cursor-pointer shadow-md border border-gray-100"
               >
-                {cities.map((city) => (
-                  <option key={city} value={city === 'Toutes les villes' ? '' : city}>{city}</option>
+                <option value="">Toutes les villes</option>
+                {MADAGASCAR_CITIES_BY_PROVINCE.map((p) => (
+                  <optgroup key={p.province} label={p.province}>
+                    {p.cities.map((city) => (
+                      <option key={city} value={city}>{city}</option>
+                    ))}
+                  </optgroup>
                 ))}
               </select>
               <button

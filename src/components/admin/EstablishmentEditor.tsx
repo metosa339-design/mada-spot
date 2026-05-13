@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import NextImage from 'next/image';
 import { getImageUrl } from '@/lib/image-url';
-import { MADAGASCAR_CITIES } from '@/lib/data/madagascar-locations';
+import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 
 // ============================================================
 // TYPES
@@ -110,7 +110,6 @@ const HOTEL_AMENITIES = ['wifi', 'parking', 'pool', 'restaurant', 'spa', 'ac', '
 const CUISINE_TYPES = ['malgache', 'francais', 'chinois', 'italien', 'indien', 'japonais', 'africain', 'fast_food', 'pizza', 'fruits_de_mer'];
 const ATTRACTION_TYPES = ['park', 'museum', 'beach', 'waterfall', 'historical', 'viewpoint', 'reserve', 'mountain', 'island', 'cave'];
 const HOTEL_TYPES = ['hotel', 'boutique', 'resort', 'guesthouse', 'auberge', 'lodge', 'villa', 'bungalow', 'ecolodge'];
-const CITIES = MADAGASCAR_CITIES;
 
 const INITIAL_FORM: EstablishmentFormData = {
   type: 'HOTEL', name: '', description: '', shortDescription: '',
@@ -374,7 +373,11 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
                 <select value={form.city} onChange={e => updateField('city', e.target.value)}
                   className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none">
                   <option value="">Sélectionner...</option>
-                  {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  {MADAGASCAR_CITIES_BY_PROVINCE.map((p) => (
+                    <optgroup key={p.province} label={p.province}>
+                      {p.cities.map((c) => <option key={c} value={c}>{c}</option>)}
+                    </optgroup>
+                  ))}
                 </select>
               </div>
               <InputField label="Quartier / District" value={form.district} onChange={v => updateField('district', v)} />

@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 const SESSION_COOKIE = 'mada-spot-session';
-const PENDING_COOKIE = 'mada-spot-pending';
 const ADMIN_COOKIE = 'mada-spot-admin-session';
 
 // Routes protégées nécessitant une session utilisateur
@@ -13,9 +12,6 @@ const PROTECTED_ADMIN_ROUTES = ['/admin'];
 
 // Routes d'auth (rediriger si déjà connecté)
 const AUTH_ROUTES = ['/login', '/register', '/register-client', '/forgot-password', '/reset-password'];
-
-// Route de vérification (accessible seulement si connecté mais non vérifié)
-const VERIFY_ROUTE = '/verify-account';
 
 // Security headers appliqués à toutes les réponses
 const isDev = process.env.NODE_ENV !== 'production';
@@ -81,17 +77,6 @@ export function proxy(request: NextRequest) {
       url.searchParams.set('redirect', pathname);
       return applySecurityHeaders(NextResponse.redirect(url));
     }
-  }
-
-  // Page de vérification : accessible si connecté OU si inscription en cours (pending)
-  if (pathname.startsWith(VERIFY_ROUTE)) {
-    const hasPendingRegistration = request.cookies.has(PENDING_COOKIE);
-    if (!hasUserSession && !hasPendingRegistration) {
-      const url = request.nextUrl.clone();
-      url.pathname = '/login';
-      return applySecurityHeaders(NextResponse.redirect(url));
-    }
-    return applySecurityHeaders(NextResponse.next());
   }
 
   // Rediriger les utilisateurs déjà connectés hors des pages d'auth

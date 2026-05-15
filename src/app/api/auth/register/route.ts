@@ -1,4 +1,4 @@
-// API Route - Inscription (directe, sans vérification email bloquante)
+// API Route - Inscription (directe, sans vérification email)
 import { NextRequest, NextResponse } from 'next/server';
 import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/db';
@@ -7,10 +7,6 @@ import { registerSchema } from '@/lib/validations/auth';
 import { checkRateLimit, getClientIdentifier, getRateLimitHeaders } from '@/lib/rate-limit';
 import { verifyCsrfToken } from '@/lib/csrf';
 import { logger } from '@/lib/logger';
-
-function generateOTP(): string {
-  return String(Math.floor(100000 + Math.random() * 900000));
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -56,8 +52,8 @@ export async function POST(request: NextRequest) {
             lastName,
             role,
             userType: userType || null,
-            emailVerified: false,
-            isVerified: false,
+            emailVerified: true,
+            isVerified: true,
           },
         });
 
@@ -86,51 +82,7 @@ export async function POST(request: NextRequest) {
     const ipAddress = clientId;
     const sessionToken = await createSession(user.id, deviceInfo, ipAddress);
 
-    // Send verification email in background (non-blocking)
-    if (email) {
-      const otpCode = generateOTP();
-      try {
-        // Upsert: if user already had a pending registration (re-register), refresh it instead of failing
-        await prisma.pendingRegistration.upsert({
-          where: { email },
-          update: {
-            otpCode,
-            otpExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-            token: sessionToken,
-            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-          },
-          create: {
-            email,
-            phone: phone || null,
-            password: passwordHash,
-            firstName,
-            lastName,
-            role,
-            userType: userType || null,
-            otpCode,
-            otpExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-            token: sessionToken,
-            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-          },
-        });
-
-        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-        fetch(`${baseUrl}/api/email/send`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            to: email,
-            subject: `${otpCode} — Confirmez votre email Mada Spot`,
-            html: `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto"><div style="background:linear-gradient(135deg,#ff6b35,#ff1493);padding:32px 20px;border-radius:12px 12px 0 0;text-align:center"><h1 style="color:white;margin:0;font-size:26px">Mada Spot</h1><p style="color:rgba(255,255,255,0.85);margin:6px 0 0;font-size:14px">Bons Plans à Madagascar</p></div><div style="background:#f8fafc;padding:32px 24px;border-radius:0 0 12px 12px"><h2 style="margin:0 0 8px;color:#1a1a24;font-size:20px">Bienvenue ${firstName} !</h2><p style="color:#64748b;font-size:15px;margin:0 0 24px">Votre compte a été créé avec succès. Pour confirmer votre adresse email, utilisez ce code :</p><div style="text-align:center;margin:24px 0;font-size:32px;font-weight:bold;letter-spacing:8px;color:#ff6b35">${otpCode}</div><p style="text-align:center;color:#94a3b8;font-size:13px">Vous pouvez confirmer votre email à tout moment depuis votre espace.</p></div></div>`,
-            secret: process.env.EMAIL_SECRET,
-          }),
-        }).catch((err) => logger.error('[REGISTER] Email send error:', err));
-      } catch (err) {
-        logger.error('[REGISTER] OTP storage error:', err);
-      }
-    }
-
-    logger.info(`[REGISTER] ✓ Account created for ${email} (verification pending)`);
+    logger.info(`[REGISTER] ✓ Account created for ${email}`);
 
     const response = NextResponse.json(
       {

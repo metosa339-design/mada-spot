@@ -20,9 +20,10 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirect');
+  const prefillEmail = searchParams.get('email') || '';
 
   const [formData, setFormData] = useState({
-    identifier: '',
+    identifier: prefillEmail,
     password: '',
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -47,12 +48,6 @@ function LoginForm() {
 
       if (!response.ok) {
         throw new Error(data.error || 'Erreur de connexion');
-      }
-
-      // Vérification email obligatoire (sauf admin)
-      if (!data.user.isVerified && data.user.role !== 'ADMIN') {
-        router.push('/verify-account');
-        return;
       }
 
       // Si un redirect est spécifié, y aller directement

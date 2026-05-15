@@ -419,30 +419,6 @@ export default function ClientDashboard() {
           </div>
         </motion.div>
 
-        {/* ——— Email verification banner ——— */}
-        {user && !user.emailVerified && (
-          <motion.div
-            variants={slideUp} custom={0.5} initial="hidden" animate="visible"
-            className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-3"
-          >
-            <div className="flex items-center gap-3 flex-1">
-              <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center shrink-0">
-                <CheckSquare className="w-5 h-5 text-amber-600" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-amber-900">Confirmez votre adresse email</p>
-                <p className="text-xs text-amber-700">Un code de vérification a été envoyé à {user.email}. Vérifiez vos spams.</p>
-              </div>
-            </div>
-            <Link
-              href="/verify-account"
-              className="px-4 py-2 bg-amber-500 text-white text-sm font-medium rounded-lg hover:bg-amber-600 transition-colors shrink-0"
-            >
-              Vérifier maintenant
-            </Link>
-          </motion.div>
-        )}
-
         {/* ——— HERO: Mon Prochain Départ OU Bannière inspirante ——— */}
         <motion.div variants={slideUp} custom={1} initial="hidden" animate="visible" className="mb-8">
           {nextBooking ? (

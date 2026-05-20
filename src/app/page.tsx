@@ -182,10 +182,16 @@ function HomePage() {
           <div className="absolute inset-0 flex items-center">
             <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
               <div className="max-w-2xl">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.05] mb-3">
+                <h1
+                  style={{ color: '#ffffff', textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}
+                  className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05] mb-3"
+                >
                   Voyagez plus,<br />découvrez Madagascar
                 </h1>
-                <p className="text-base sm:text-lg text-white/90">
+                <p
+                  style={{ color: 'rgba(255,255,255,0.95)', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
+                  className="text-base sm:text-lg"
+                >
                   Hôtels, restaurants, activités et guides locaux à portée de clic
                 </p>
               </div>
@@ -264,7 +270,8 @@ function HomePage() {
 
               <button
                 type="submit"
-                className="px-8 py-3 bg-[#1a1a2e] text-white font-semibold rounded-xl hover:bg-[#2a2a3e] transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
+                style={{ color: '#ffffff' }}
+                className="px-8 py-3 bg-[#1a1a2e] font-semibold rounded-xl hover:bg-[#2a2a3e] transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
               >
                 <Search className="w-4 h-4" />
                 Rechercher
@@ -354,17 +361,20 @@ function HomePage() {
           </div>
           <div className="relative p-6 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-6">
             <div className="max-w-xl">
-              <p className="text-sm text-orange-400 font-semibold mb-2 uppercase tracking-wider">Inscription gratuite</p>
-              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-                Référencez votre établissement <span className="text-orange-400">gratuitement</span>
+              <p className="text-sm font-semibold mb-2 uppercase tracking-wider" style={{ color: '#fb923c' }}>
+                Inscription gratuite
+              </p>
+              <h3 style={{ color: '#ffffff' }} className="text-2xl sm:text-3xl font-bold mb-3">
+                Référencez votre établissement <span style={{ color: '#fb923c' }}>gratuitement</span>
               </h3>
-              <p className="text-sm sm:text-base text-white/80">
+              <p style={{ color: 'rgba(255,255,255,0.85)' }} className="text-sm sm:text-base">
                 Hôtels, restaurants, guides : touchez plus de 7 700 visiteurs par mois
               </p>
             </div>
             <Link
               href="/inscrire-etablissement"
-              className="shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-[#ff6b35] text-white font-semibold rounded-xl hover:bg-orange-600 transition-colors"
+              style={{ color: '#ffffff' }}
+              className="shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-[#ff6b35] font-semibold rounded-xl hover:bg-orange-600 transition-colors"
             >
               Découvrir
               <ArrowRight className="w-4 h-4" />
@@ -440,7 +450,8 @@ function HomePage() {
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-[#1a1a2e] text-white font-semibold rounded-xl hover:bg-[#2a2a3e] transition-colors"
+                style={{ color: '#ffffff' }}
+                className="px-6 py-3 bg-[#1a1a2e] font-semibold rounded-xl hover:bg-[#2a2a3e] transition-colors"
               >
                 S&apos;abonner
               </button>

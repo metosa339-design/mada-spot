@@ -168,7 +168,7 @@ function HomePage() {
 
       {/* ===== HERO ===== */}
       <section className="relative">
-        <div className="relative h-[52vh] sm:h-[58vh] lg:h-[62vh] overflow-hidden">
+        <div className="relative h-[60vh] sm:h-[68vh] lg:h-[75vh] overflow-hidden">
           <Image
             src="/images/highlights/hero-pool-madagascar.jpg"
             alt="Madagascar"
@@ -179,7 +179,7 @@ function HomePage() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/30 to-black/60" />
 
-          <div className="absolute inset-0 flex items-center">
+          <div className="absolute inset-0 flex items-start pt-24 sm:pt-32 lg:pt-40">
             <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
               <div className="max-w-2xl">
                 <h1
@@ -199,8 +199,8 @@ function HomePage() {
           </div>
         </div>
 
-        {/* Search card overlapping */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 sm:-mt-20 relative z-10">
+        {/* Search card overlapping (overlap leger) */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 sm:-mt-12 relative z-10">
           <form
             role="search"
             onSubmit={(e) => { e.preventDefault(); handleSearch(); }}

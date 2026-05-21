@@ -349,16 +349,17 @@ function HomePage() {
 
       {/* ===== OFFRES EXCLUSIVES (banner) ===== */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
-        <div className="relative rounded-3xl overflow-hidden bg-[#1a1a2e] min-h-[200px] sm:min-h-[240px] flex items-center">
-          <div className="absolute inset-0 opacity-40">
-            <Image
-              src="/images/Attractions/nosy-be/nosy-be.jpg"
-              alt=""
-              fill
-              sizes="100vw"
-              className="object-cover"
-            />
-          </div>
+        <div className="relative rounded-3xl overflow-hidden min-h-[220px] sm:min-h-[280px] flex items-center">
+          <Image
+            src="/images/Attractions/nosy-be/nosy-be.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+          {/* Gradient sombre cote gauche (zone texte) pour lisibilite,
+              transparent cote droit pour laisser voir la photo */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/10 sm:from-black/85 sm:via-black/55 sm:to-transparent" />
           <div className="relative p-6 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-6">
             <div className="max-w-xl">
               <p className="text-sm font-semibold mb-2 uppercase tracking-wider" style={{ color: '#fb923c' }}>

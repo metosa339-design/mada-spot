@@ -199,8 +199,8 @@ function HomePage() {
           </div>
         </div>
 
-        {/* Search card overlapping (overlap leger) */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 sm:-mt-12 relative z-10">
+        {/* Search card sous le hero, plus d'overlap (cachait le sous-titre) */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 sm:mt-8 relative z-10">
           <form
             role="search"
             onSubmit={(e) => { e.preventDefault(); handleSearch(); }}

@@ -10,6 +10,7 @@ import {
 import ReviewImageGallery from '@/components/bons-plans/ReviewImageGallery'
 import ReviewVoteButtons from '@/components/bons-plans/ReviewVoteButtons'
 import ReportReviewDialog from '@/components/bons-plans/ReportReviewDialog'
+import { useTrans } from '@/i18n'
 
 interface Review {
   id: string
@@ -30,15 +31,16 @@ interface Review {
 
 type SortOption = 'recent' | 'highest' | 'lowest'
 
-const SORT_LABELS: Record<SortOption, string> = {
-  recent: 'Plus récents',
-  highest: 'Meilleure note',
-  lowest: 'Note la plus basse',
+const SORT_LABEL_KEYS: Record<SortOption, 'sortRecent2' | 'sortHighest' | 'sortLowest'> = {
+  recent: 'sortRecent2',
+  highest: 'sortHighest',
+  lowest: 'sortLowest',
 }
 
 const PAGE_SIZE = 10
 
 export default function AllReviewsPage() {
+  const t = useTrans('bonsPlansAvis')
   const params = useParams()
   const establishmentId = params.establishmentId as string
 
@@ -107,11 +109,11 @@ export default function AllReviewsPage() {
           </button>
           <div>
             <h1 className="text-2xl font-bold text-white">
-              Tous les avis
+              {t.pageTitle}
             </h1>
             {establishment && (
               <p className="text-sm text-gray-400 mt-0.5">
-                {establishment.name} — {establishment.reviewCount} avis, {establishment.rating?.toFixed(1)}★
+                {establishment.name} — {establishment.reviewCount} {t.totalReviews}, {establishment.rating?.toFixed(1)}★
               </p>
             )}
           </div>
@@ -121,9 +123,9 @@ export default function AllReviewsPage() {
         <div className="flex flex-wrap items-center gap-2 mb-6">
           <div className="flex items-center gap-1 text-xs text-gray-400">
             <SlidersHorizontal className="w-3.5 h-3.5" />
-            Trier :
+            {t.sortLabel}
           </div>
-          {(Object.keys(SORT_LABELS) as SortOption[]).map(s => (
+          {(Object.keys(SORT_LABEL_KEYS) as SortOption[]).map(s => (
             <button
               key={s}
               onClick={() => setSort(s)}
@@ -133,7 +135,7 @@ export default function AllReviewsPage() {
                   : 'bg-white/5 border-white/10 text-gray-400 hover:bg-white/10'
               }`}
             >
-              {SORT_LABELS[s]}
+              {t[SORT_LABEL_KEYS[s]]}
             </button>
           ))}
 
@@ -148,7 +150,7 @@ export default function AllReviewsPage() {
             }`}
           >
             <ShieldCheck className="w-3 h-3" />
-            Vérifiés
+            {t.filterVerified}
           </button>
 
           <button
@@ -160,7 +162,7 @@ export default function AllReviewsPage() {
             }`}
           >
             <ImageIcon className="w-3 h-3" />
-            Avec photos
+            {t.filterWithPhotos}
           </button>
         </div>
 
@@ -172,11 +174,11 @@ export default function AllReviewsPage() {
         ) : reviews.length === 0 ? (
           <div className="text-center py-20">
             <MessageSquare className="w-12 h-12 text-gray-600 mx-auto mb-3" />
-            <p className="text-gray-400">Aucun avis trouvé avec ces filtres</p>
+            <p className="text-gray-400">{t.noReviewsFilters}</p>
           </div>
         ) : (
           <div className="space-y-4">
-            <p className="text-xs text-gray-500">{total} avis au total</p>
+            <p className="text-xs text-gray-500">{total} {t.totalSuffix}</p>
 
             {reviews.map(review => (
               <div key={review.id} className="bg-[#1a1a24] border border-[#2a2a36] rounded-xl p-5">
@@ -189,11 +191,11 @@ export default function AllReviewsPage() {
                     <div className="flex items-start justify-between gap-2">
                       <div>
                         <div className="flex items-center gap-1.5">
-                          <p className="font-semibold text-white text-sm">{review.authorName || 'Anonyme'}</p>
+                          <p className="font-semibold text-white text-sm">{review.authorName || t.anonymous}</p>
                           {review.isVerified && (
                             <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-emerald-500/10 text-emerald-400 rounded text-[10px] font-medium border border-emerald-500/20">
                               <BadgeCheck className="w-2.5 h-2.5" />
-                              Vérifié
+                              {t.verifiedBadge}
                             </span>
                           )}
                         </div>
@@ -230,7 +232,7 @@ export default function AllReviewsPage() {
                     {/* Owner response */}
                     {review.ownerResponse && (
                       <div className="mt-3 p-3 bg-orange-500/10 rounded-lg border-l-2 border-orange-500">
-                        <p className="text-xs font-medium text-orange-300 mb-1">Réponse de l&apos;établissement</p>
+                        <p className="text-xs font-medium text-orange-300 mb-1">{t.ownerResponse}</p>
                         <p className="text-xs text-orange-200">{review.ownerResponse}</p>
                       </div>
                     )}
@@ -246,7 +248,7 @@ export default function AllReviewsPage() {
                       <button
                         onClick={() => setReportingReview(review.id)}
                         className="ml-auto p-1.5 text-gray-500 hover:text-red-400 transition-colors"
-                        title="Signaler cet avis"
+                        title={t.reportTooltip}
                       >
                         <Flag className="w-3.5 h-3.5" />
                       </button>
@@ -266,7 +268,7 @@ export default function AllReviewsPage() {
                 {loadingMore ? (
                   <Loader2 className="w-4 h-4 animate-spin mx-auto" />
                 ) : (
-                  `Charger plus d'avis (${reviews.length}/${total})`
+                  `${t.loadMore} (${reviews.length}/${total})`
                 )}
               </button>
             )}

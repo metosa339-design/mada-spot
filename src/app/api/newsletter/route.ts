@@ -48,6 +48,25 @@ export async function POST(request: NextRequest) {
 
     await prisma.newsletterSubscriber.create({ data: { email: normalizedEmail } });
 
+    // CRM : créer un Prospect si l'email n'est pas déjà un client/prospect
+    try {
+      const existingUser = await prisma.user.findUnique({ where: { email: normalizedEmail } });
+      if (!existingUser) {
+        await prisma.prospect.upsert({
+          where: { email: normalizedEmail },
+          create: {
+            email: normalizedEmail,
+            source: 'NEWSLETTER',
+            status: 'NEW',
+            preferredChannel: 'EMAIL',
+          },
+          update: {}, // déjà présent : on ne touche à rien
+        });
+      }
+    } catch (e) {
+      logger.error('CRM prospect upsert (newsletter) failed:', e);
+    }
+
     return NextResponse.json({ success: true, message: 'Inscription réussie ! Bienvenue dans notre newsletter.' });
   } catch (error: unknown) {
     logger.error('Newsletter subscribe error:', error);

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import { useTrans } from '@/i18n';
 
 // Dynamically import map to avoid SSR issues
 const AttractionsMap = dynamic(() => import('@/components/maps/AttractionsMap'), {
@@ -58,34 +59,34 @@ interface Attraction {
 }
 
 // Categories avec style warm/lifestyle
-const categories = [
+const CATEGORIES_RAW = [
   {
-    name: 'Hôtels',
+    nameKey: 'catHotels',
     slug: 'hotels',
     icon: Building2,
     gradient: 'from-orange-500 to-amber-500',
-    description: 'Trouvez l\'hébergement idéal',
+    descKey: 'catHotelsDesc',
   },
   {
-    name: 'Restaurants',
+    nameKey: 'catRestaurants',
     slug: 'restaurants',
     icon: UtensilsCrossed,
     gradient: 'from-pink-500 to-rose-500',
-    description: 'Découvrez où manger',
+    descKey: 'catRestaurantsDesc',
   },
   {
-    name: 'Attractions',
+    nameKey: 'catAttractions',
     slug: 'attractions',
     icon: Mountain,
     gradient: 'from-purple-500 to-violet-500',
-    description: 'Explorez les sites touristiques',
+    descKey: 'catAttractionsDesc',
   },
   {
-    name: 'Prestataires',
+    nameKey: 'catProviders',
     slug: 'prestataires',
     icon: Users,
     gradient: 'from-cyan-500 to-teal-500',
-    description: 'Guides, chauffeurs, agences',
+    descKey: 'catProvidersDesc',
   },
 ];
 
@@ -149,23 +150,24 @@ function getAttractionImage(name: string, coverImage?: string): string {
   return getImageUrl(ATTRACTION_IMAGES.default[Math.abs(hash) % ATTRACTION_IMAGES.default.length]);
 }
 
+const ATTRACTION_TYPE_CONFIG: Record<string, { icon: typeof Mountain; color: string; bgColor: string; labelKey: string }> = {
+  NATIONAL_PARK: { icon: Trees, color: 'text-emerald-400', bgColor: 'bg-emerald-500/20', labelKey: 'typeNationalPark' },
+  NATURE_RESERVE: { icon: Palmtree, color: 'text-green-400', bgColor: 'bg-green-500/20', labelKey: 'typeNatureReserve' },
+  BEACH: { icon: Waves, color: 'text-cyan-400', bgColor: 'bg-cyan-500/20', labelKey: 'typeBeach' },
+  ISLAND: { icon: Palmtree, color: 'text-blue-400', bgColor: 'bg-blue-500/20', labelKey: 'typeIsland' },
+  HISTORICAL_SITE: { icon: Castle, color: 'text-amber-400', bgColor: 'bg-amber-500/20', labelKey: 'typeHistoricalSite' },
+  CULTURAL_SITE: { icon: Castle, color: 'text-purple-400', bgColor: 'bg-purple-500/20', labelKey: 'typeCulturalSite' },
+  VIEWPOINT: { icon: Camera, color: 'text-pink-400', bgColor: 'bg-pink-500/20', labelKey: 'typeViewpoint' },
+  HIKING_TRAIL: { icon: Footprints, color: 'text-orange-400', bgColor: 'bg-orange-500/20', labelKey: 'typeHikingTrail' },
+  WATERFALL: { icon: Waves, color: 'text-sky-400', bgColor: 'bg-sky-500/20', labelKey: 'typeWaterfall' },
+  WILDLIFE: { icon: Palmtree, color: 'text-lime-400', bgColor: 'bg-lime-500/20', labelKey: 'typeWildlife' },
+};
 const getAttractionTypeConfig = (type: string) => {
-  const configs: Record<string, { icon: typeof Mountain; color: string; bgColor: string; label: string }> = {
-    NATIONAL_PARK: { icon: Trees, color: 'text-emerald-400', bgColor: 'bg-emerald-500/20', label: 'Parc National' },
-    NATURE_RESERVE: { icon: Palmtree, color: 'text-green-400', bgColor: 'bg-green-500/20', label: 'Réserve Naturelle' },
-    BEACH: { icon: Waves, color: 'text-cyan-400', bgColor: 'bg-cyan-500/20', label: 'Plage' },
-    ISLAND: { icon: Palmtree, color: 'text-blue-400', bgColor: 'bg-blue-500/20', label: 'Île' },
-    HISTORICAL_SITE: { icon: Castle, color: 'text-amber-400', bgColor: 'bg-amber-500/20', label: 'Site Historique' },
-    CULTURAL_SITE: { icon: Castle, color: 'text-purple-400', bgColor: 'bg-purple-500/20', label: 'Site Culturel' },
-    VIEWPOINT: { icon: Camera, color: 'text-pink-400', bgColor: 'bg-pink-500/20', label: 'Point de Vue' },
-    HIKING_TRAIL: { icon: Footprints, color: 'text-orange-400', bgColor: 'bg-orange-500/20', label: 'Randonnée' },
-    WATERFALL: { icon: Waves, color: 'text-sky-400', bgColor: 'bg-sky-500/20', label: 'Cascade' },
-    WILDLIFE: { icon: Palmtree, color: 'text-lime-400', bgColor: 'bg-lime-500/20', label: 'Faune' },
-  };
-  return configs[type] || { icon: Mountain, color: 'text-orange-400', bgColor: 'bg-orange-500/20', label: 'Attraction' };
+  return ATTRACTION_TYPE_CONFIG[type] || { icon: Mountain, color: 'text-orange-400', bgColor: 'bg-orange-500/20', labelKey: 'typeDefault' };
 };
 
 export default function BonsPlansPage() {
+  const t = useTrans('bonsPlansLanding');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const [attractions, setAttractions] = useState<Attraction[]>([]);
@@ -197,7 +199,7 @@ export default function BonsPlansPage() {
   };
 
   const getPriceDisplay = (attraction: Attraction) => {
-    if (attraction.isFree) return 'Gratuit';
+    if (attraction.isFree) return t.free;
     if (attraction.entryFeeLocal) {
       return `${attraction.entryFeeLocal.toLocaleString()} Ar`;
     }
@@ -234,13 +236,13 @@ export default function BonsPlansPage() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/20 backdrop-blur-sm rounded-full border border-orange-500/30 text-orange-400 text-sm font-medium mb-6">
               <Sparkles className="w-4 h-4" />
-              Découvrez Madagascar
+              {t.heroBadge}
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-4">
-              Destinations <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">Incontournables</span>
+              {t.heroTitle} <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">{t.heroTitleHighlight}</span>
             </h1>
             <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-              Explorez les trésors naturels et culturels de la Grande Île avec les vrais prix locaux
+              {t.heroDesc}
             </p>
           </motion.div>
 
@@ -256,7 +258,7 @@ export default function BonsPlansPage() {
                 <Search className="w-5 h-5 text-slate-500" />
                 <input
                   type="text"
-                  placeholder="Rechercher une destination..."
+                  placeholder={t.searchPlaceholder}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="flex-1 py-3 outline-none bg-transparent text-white placeholder:text-slate-500"
@@ -272,7 +274,7 @@ export default function BonsPlansPage() {
                   onChange={(e) => setSelectedCity(e.target.value)}
                   className="appearance-none flex items-center gap-2 px-4 py-3 text-white rounded-xl transition-colors w-full sm:w-48 bg-[#0d1520] cursor-pointer outline-none border border-[#2a2a36]"
                 >
-                  <option value="">Toutes les villes</option>
+                  <option value="">{t.allCities}</option>
                   {MADAGASCAR_CITIES_BY_PROVINCE.map((p) => (
                     <optgroup key={p.province} label={p.province}>
                       {p.cities.map((city) => (
@@ -288,7 +290,7 @@ export default function BonsPlansPage() {
                 onClick={handleSearch}
                 className="px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all"
               >
-                Rechercher
+                {t.searchBtn}
               </button>
             </div>
           </motion.div>
@@ -299,31 +301,34 @@ export default function BonsPlansPage() {
       <section className="py-8 -mt-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {categories.map((category, index) => (
-              <motion.div
-                key={category.slug}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <Link
-                  href={`/${category.slug}`}
-                  className="block bg-[#1a1a24] rounded-2xl p-5 border border-[#2a2a36] hover:border-orange-500/50 transition-all group"
+            {CATEGORIES_RAW.map((category, index) => {
+              const Icon = category.icon;
+              return (
+                <motion.div
+                  key={category.slug}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
                 >
-                  <div
-                    className={`w-12 h-12 bg-gradient-to-br ${category.gradient} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg`}
+                  <Link
+                    href={`/${category.slug}`}
+                    className="block bg-[#1a1a24] rounded-2xl p-5 border border-[#2a2a36] hover:border-orange-500/50 transition-all group"
                   >
-                    <category.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-lg font-bold text-white mb-1">{category.name}</h3>
-                  <p className="text-sm text-slate-400">{category.description}</p>
-                  <div className="mt-4 flex items-center text-sm font-medium text-orange-400">
-                    Explorer
-                    <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
+                    <div
+                      className={`w-12 h-12 bg-gradient-to-br ${category.gradient} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg`}
+                    >
+                      <Icon className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-1">{t[category.nameKey]}</h3>
+                    <p className="text-sm text-slate-400">{t[category.descKey]}</p>
+                    <div className="mt-4 flex items-center text-sm font-medium text-orange-400">
+                      {t.explore}
+                      <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </Link>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -339,13 +344,13 @@ export default function BonsPlansPage() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full text-orange-400 text-sm font-medium mb-4">
               <Compass className="w-4 h-4" />
-              {attractions.length} destinations à découvrir
+              {attractions.length} {t.destinationsToDiscover}
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Toutes les <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">Destinations</span>
+              {t.allDestinationsTitle} <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">{t.allDestinationsTitleHighlight}</span>
             </h2>
             <p className="text-slate-400 max-w-2xl mx-auto">
-              De l'Allée des Baobabs aux Tsingy de Bemaraha, explorez les trésors naturels et culturels de la Grande Île
+              {t.allDestinationsDesc}
             </p>
           </motion.div>
 
@@ -386,14 +391,14 @@ export default function BonsPlansPage() {
                         {/* Type badge */}
                         <div className={`absolute top-3 left-3 px-2.5 py-1 rounded-lg text-xs font-medium ${typeConfig.bgColor} ${typeConfig.color} backdrop-blur-sm`}>
                           <TypeIcon className="w-3 h-3 inline mr-1" />
-                          {typeConfig.label}
+                          {t[typeConfig.labelKey]}
                         </div>
 
                         {/* Featured badge */}
                         {attraction.isFeatured && (
                           <div className="absolute top-3 right-3 px-2.5 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg text-xs font-medium">
                             <Star className="w-3 h-3 inline mr-1 fill-current" />
-                            Featured
+                            {t.featuredBadge}
                           </div>
                         )}
                       </div>
@@ -445,8 +450,8 @@ export default function BonsPlansPage() {
           ) : (
             <div className="text-center py-16">
               <Compass className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Aucune destination trouvée</h3>
-              <p className="text-slate-500">Les destinations apparaîtront ici</p>
+              <h3 className="text-lg font-semibold text-white mb-2">{t.noDestinations}</h3>
+              <p className="text-slate-500">{t.noDestinationsDesc}</p>
             </div>
           )}
 
@@ -462,7 +467,7 @@ export default function BonsPlansPage() {
               className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all"
             >
               <Mountain className="w-5 h-5" />
-              Voir toutes les attractions
+              {t.seeAllAttractions}
               <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
@@ -480,13 +485,13 @@ export default function BonsPlansPage() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm font-medium mb-4">
               <MapPin className="w-4 h-4" />
-              Carte interactive
+              {t.mapBadge}
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Explorez <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">Madagascar</span>
+              {t.mapTitle} <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">{t.mapTitleHighlight}</span>
             </h2>
             <p className="text-slate-400 max-w-2xl mx-auto">
-              Découvrez toutes les destinations sur la carte interactive. Cliquez sur les marqueurs pour plus de détails.
+              {t.mapDesc}
             </p>
           </motion.div>
 
@@ -512,7 +517,7 @@ export default function BonsPlansPage() {
               className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all"
             >
               <Map className="w-5 h-5" />
-              Ouvrir la carte complète
+              {t.openFullMap}
               <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
@@ -531,16 +536,16 @@ export default function BonsPlansPage() {
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500" />
 
             <h2 className="text-2xl font-bold text-white mb-4">
-              Vous êtes propriétaire d'un établissement ?
+              {t.ctaTitle}
             </h2>
             <p className="text-slate-400 mb-6">
-              Inscrivez votre hotel, restaurant ou attraction sur Mada Spot et touchez des milliers de visiteurs
+              {t.ctaDesc}
             </p>
             <Link
               href="/register"
               className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all"
             >
-              Inscrire mon établissement
+              {t.ctaBtn}
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>

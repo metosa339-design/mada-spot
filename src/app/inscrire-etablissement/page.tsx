@@ -7,6 +7,7 @@ import {
   BarChart3, Globe, MessageSquare, Star,
   Camera, Clock, Shield, TrendingUp, Users, Zap,
 } from 'lucide-react';
+import { useTrans } from '@/i18n';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -16,100 +17,42 @@ const fadeUp = {
   }),
 };
 
-const stats = [
-  { value: '175+', label: 'Établissements référencés' },
-  { value: '10K+', label: 'Visiteurs par mois' },
-  { value: '100%', label: 'Gratuit, sans engagement' },
-  { value: '5 min', label: "Temps d'inscription" },
-];
-
-const steps = [
-  {
-    icon: Clock,
-    title: 'Inscrivez-vous en 5 minutes',
-    description: 'Créez votre compte gratuitement. Renseignez le nom, le type et la localisation de votre établissement.',
-  },
-  {
-    icon: Camera,
-    title: 'Ajoutez vos photos',
-    description: 'Mettez en valeur votre établissement avec de belles photos. Les fiches avec 5+ photos reçoivent 3x plus de contacts.',
-  },
-  {
-    icon: Globe,
-    title: 'Soyez visible dans le monde entier',
-    description: 'Votre fiche est publiée sur Mada Spot et accessible aux voyageurs du monde entier qui planifient leur séjour à Madagascar.',
-  },
-  {
-    icon: MessageSquare,
-    title: 'Recevez des réservations',
-    description: 'Les voyageurs vous contactent directement. Gérez vos réservations et vos avis depuis votre tableau de bord.',
-  },
-];
-
-const categories = [
-  {
-    icon: Hotel,
-    title: 'Hôtels & Hébergements',
-    description: 'Hôtels, lodges, maisons d\'hôtes, bungalows, campings, villas...',
-    gradient: 'from-blue-500 to-cyan-500',
-  },
-  {
-    icon: UtensilsCrossed,
-    title: 'Restaurants & Cuisine',
-    description: 'Restaurants, cafés, street food, traiteurs, bars...',
-    gradient: 'from-orange-500 to-red-500',
-  },
-  {
-    icon: Mountain,
-    title: 'Attractions & Activités',
-    description: 'Parcs nationaux, plages, réserves, sites historiques, musées...',
-    gradient: 'from-green-500 to-emerald-500',
-  },
-  {
-    icon: Briefcase,
-    title: 'Prestataires de Services',
-    description: 'Guides touristiques, chauffeurs, photographes, agences de voyage...',
-    gradient: 'from-purple-500 to-pink-500',
-  },
-];
-
-const benefits = [
-  { icon: Zap, title: 'Visibilité immédiate', text: 'Votre établissement apparaît sur la plateforme dès validation.' },
-  { icon: BarChart3, title: 'Statistiques détaillées', text: 'Suivez vos vues, clics et réservations en temps réel.' },
-  { icon: Star, title: 'Avis vérifiés', text: 'Collectez des avis clients pour renforcer votre crédibilité.' },
-  { icon: Shield, title: 'Fiche vérifiée', text: 'Badge de confiance pour rassurer les voyageurs.' },
-  { icon: TrendingUp, title: 'SEO optimisé', text: 'Votre fiche est optimisée pour apparaître sur Google.' },
-  { icon: Users, title: 'Audience internationale', text: 'Touchez des voyageurs de France, Europe, USA et du monde entier.' },
-];
-
-const faqs = [
-  {
-    q: "Est-ce que l'inscription est vraiment gratuite ?",
-    a: "Oui, 100% gratuite et sans engagement. Vous pouvez inscrire votre établissement, ajouter des photos et recevoir des contacts sans aucun frais.",
-  },
-  {
-    q: "Combien de temps faut-il pour s'inscrire ?",
-    a: "L'inscription prend environ 5 minutes. Vous remplissez un formulaire simple avec les informations de votre établissement et vos photos.",
-  },
-  {
-    q: "Qui peut s'inscrire sur Mada Spot ?",
-    a: "Tout professionnel du tourisme à Madagascar : hôtels, restaurants, guides touristiques, chauffeurs, agences de voyage, attractions, activités nautiques, etc.",
-  },
-  {
-    q: "Comment les voyageurs me trouvent-ils ?",
-    a: "Votre établissement apparaît dans les résultats de recherche sur Mada Spot, sur Google, et sur la carte interactive. Les voyageurs peuvent filtrer par ville, type, prix et avis.",
-  },
-  {
-    q: "Puis-je gérer mes réservations depuis Mada Spot ?",
-    a: "Oui, votre tableau de bord professionnel vous permet de gérer vos réservations, répondre aux messages, suivre vos statistiques et mettre à jour votre fiche.",
-  },
-  {
-    q: "Combien de photos puis-je ajouter ?",
-    a: "Vous pouvez ajouter jusqu'à 10 photos. Nous recommandons au minimum 5 photos pour maximiser votre visibilité et vos chances d'être contacté.",
-  },
-];
-
 export default function InscrireEtablissementPage() {
+  const t = useTrans('inscrireEtablissement');
+  const stats = [
+    { value: t.stat1Value, label: t.stat1Label },
+    { value: t.stat2Value, label: t.stat2Label },
+    { value: t.stat3Value, label: t.stat3Label },
+    { value: t.stat4Value, label: t.stat4Label },
+  ];
+  const steps = [
+    { icon: Clock, title: t.step1Title, description: t.step1Desc },
+    { icon: Camera, title: t.step2Title, description: t.step2Desc },
+    { icon: Globe, title: t.step3Title, description: t.step3Desc },
+    { icon: MessageSquare, title: t.step4Title, description: t.step4Desc },
+  ];
+  const categories = [
+    { icon: Hotel, title: t.categoryHotelsTitle, description: t.categoryHotelsDesc, gradient: 'from-blue-500 to-cyan-500' },
+    { icon: UtensilsCrossed, title: t.categoryRestaurantsTitle, description: t.categoryRestaurantsDesc, gradient: 'from-orange-500 to-red-500' },
+    { icon: Mountain, title: t.categoryAttractionsTitle, description: t.categoryAttractionsDesc, gradient: 'from-green-500 to-emerald-500' },
+    { icon: Briefcase, title: t.categoryProvidersTitle, description: t.categoryProvidersDesc, gradient: 'from-purple-500 to-pink-500' },
+  ];
+  const benefits = [
+    { icon: Zap, title: t.benefit1Title, text: t.benefit1Text },
+    { icon: BarChart3, title: t.benefit2Title, text: t.benefit2Text },
+    { icon: Star, title: t.benefit3Title, text: t.benefit3Text },
+    { icon: Shield, title: t.benefit4Title, text: t.benefit4Text },
+    { icon: TrendingUp, title: t.benefit5Title, text: t.benefit5Text },
+    { icon: Users, title: t.benefit6Title, text: t.benefit6Text },
+  ];
+  const faqs = [
+    { q: t.faq1Q, a: t.faq1A },
+    { q: t.faq2Q, a: t.faq2A },
+    { q: t.faq3Q, a: t.faq3A },
+    { q: t.faq4Q, a: t.faq4A },
+    { q: t.faq5Q, a: t.faq5A },
+    { q: t.faq6Q, a: t.faq6A },
+  ];
   return (
     <div className="min-h-screen bg-[#FDFBF7] text-[#2D241E]">
 
@@ -127,24 +70,23 @@ export default function InscrireEtablissementPage() {
             className="text-center max-w-3xl mx-auto"
           >
             <span className="inline-block px-4 py-1.5 bg-orange-500/20 border border-orange-500/30 rounded-full text-sm text-orange-300 font-medium mb-6">
-              100% Gratuit — Sans engagement
+              {t.heroBadge}
             </span>
             <h1 className="text-3xl sm:text-5xl font-bold mb-6 leading-tight">
-              Référencez votre établissement sur{' '}
+              {t.heroTitlePart1}{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-pink-400">
-                Mada Spot
+                {t.heroBrand}
               </span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-300 mb-8 leading-relaxed">
-              Inscrivez gratuitement votre hôtel, restaurant ou activité touristique à Madagascar.
-              Gagnez en visibilité auprès de milliers de voyageurs internationaux.
+              {t.heroDesc}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/register"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold rounded-xl text-lg hover:shadow-lg hover:shadow-orange-500/30 transition-all"
               >
-                Inscrire mon établissement gratuitement
+                {t.heroCta}
                 <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
@@ -170,9 +112,9 @@ export default function InscrireEtablissementPage() {
       {/* Categories */}
       <section className="max-w-6xl mx-auto px-4 py-16 sm:py-20">
         <motion.div variants={fadeUp} custom={0} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-12">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4">Quel type d&apos;établissement avez-vous ?</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">{t.categoriesTitle}</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Mada Spot accueille tous les professionnels du tourisme à Madagascar.
+            {t.categoriesSubtitle}
           </p>
         </motion.div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -196,9 +138,9 @@ export default function InscrireEtablissementPage() {
       <section className="bg-white border-y border-[#E8E0D4]">
         <div className="max-w-6xl mx-auto px-4 py-16 sm:py-20">
           <motion.div variants={fadeUp} custom={0} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4">Comment inscrire mon établissement ?</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">{t.stepsTitle}</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              4 étapes simples pour rendre votre établissement visible auprès des voyageurs à Madagascar.
+              {t.stepsSubtitle}
             </p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -211,7 +153,7 @@ export default function InscrireEtablissementPage() {
                 <div className="w-16 h-16 rounded-2xl bg-orange-50 border border-orange-200 flex items-center justify-center mx-auto mb-4">
                   <step.icon className="w-8 h-8 text-orange-500" />
                 </div>
-                <div className="text-sm font-bold text-orange-500 mb-2">Étape {i + 1}</div>
+                <div className="text-sm font-bold text-orange-500 mb-2">{t.stepLabel} {i + 1}</div>
                 <h3 className="text-lg font-bold mb-2">{step.title}</h3>
                 <p className="text-sm text-gray-600">{step.description}</p>
               </motion.div>
@@ -223,9 +165,9 @@ export default function InscrireEtablissementPage() {
       {/* Benefits */}
       <section className="max-w-6xl mx-auto px-4 py-16 sm:py-20">
         <motion.div variants={fadeUp} custom={0} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-12">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4">Pourquoi rejoindre Mada Spot ?</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">{t.benefitsTitle}</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Des outils professionnels gratuits pour développer votre activité touristique.
+            {t.benefitsSubtitle}
           </p>
         </motion.div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -251,7 +193,7 @@ export default function InscrireEtablissementPage() {
       <section className="bg-white border-y border-[#E8E0D4]">
         <div className="max-w-3xl mx-auto px-4 py-16 sm:py-20">
           <motion.div variants={fadeUp} custom={0} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4">Questions fréquentes</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">{t.faqTitle}</h2>
           </motion.div>
           <div className="space-y-4">
             {faqs.map((faq, i) => (
@@ -296,21 +238,20 @@ export default function InscrireEtablissementPage() {
           className="text-center bg-gradient-to-r from-[#1a1a24] to-[#0a0a0f] rounded-3xl p-8 sm:p-12 text-white"
         >
           <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-            Prêt à développer votre activité ?
+            {t.finalCtaTitle}
           </h2>
           <p className="text-gray-400 mb-8 max-w-lg mx-auto">
-            Rejoignez les 175+ établissements déjà référencés sur Mada Spot.
-            Inscription gratuite en 5 minutes.
+            {t.finalCtaText}
           </p>
           <Link
             href="/register"
             className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold rounded-xl text-lg hover:shadow-lg hover:shadow-orange-500/30 transition-all"
           >
-            Inscrire mon établissement maintenant
+            {t.finalCtaButton}
             <ArrowRight className="w-5 h-5" />
           </Link>
           <p className="text-gray-500 text-sm mt-4">
-            Gratuit — Sans carte bancaire — Sans engagement
+            {t.finalCtaFootnote}
           </p>
         </motion.div>
       </section>

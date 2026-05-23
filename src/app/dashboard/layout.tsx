@@ -7,8 +7,10 @@ import QuickActionBar from '@/components/dashboard/QuickActionBar'
 import type { DashboardUser } from '@/types/dashboard'
 import { Bell, Search } from 'lucide-react'
 import Link from 'next/link'
+import { useTrans } from '@/i18n'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const t = useTrans('dashboardPro')
   const router = useRouter()
   const [user, setUser] = useState<DashboardUser | null>(null)
   const [loading, setLoading] = useState(true)
@@ -69,7 +71,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-2 border-[#ff6b35] border-t-transparent rounded-full animate-spin" />
-          <p className="text-gray-400 text-sm">Chargement du tableau de bord...</p>
+          <p className="text-gray-400 text-sm">{t.loadingDashboard}</p>
         </div>
       </div>
     )
@@ -96,7 +98,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
               <input
                 type="text"
-                placeholder="Rechercher..."
+                placeholder={t.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-xl text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50 transition-colors"
@@ -126,10 +128,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <div className="hidden md:block">
                 <p className="text-sm font-medium text-white leading-tight">{user.firstName}</p>
                 <p className="text-xs text-gray-500 leading-tight">
-                  {user.userType === 'HOTEL' ? 'Hébergement' :
-                   user.userType === 'RESTAURANT' ? 'Restaurant' :
-                   user.userType === 'ATTRACTION' ? 'Attraction' :
-                   user.userType === 'PROVIDER' ? 'Prestataire' : 'Pro'}
+                  {user.userType === 'HOTEL' ? t.userTypeHotel :
+                   user.userType === 'RESTAURANT' ? t.userTypeRestaurant :
+                   user.userType === 'ATTRACTION' ? t.userTypeAttraction :
+                   user.userType === 'PROVIDER' ? t.userTypeProvider : t.rolePro}
                 </p>
               </div>
             </Link>

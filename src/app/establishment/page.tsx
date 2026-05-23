@@ -9,8 +9,10 @@ import {
   Building2, Hotel, UtensilsCrossed, Compass, Star, Eye, MessageCircle,
   ChevronRight, Loader2, LogOut, MapPin, Plus,
 } from 'lucide-react';
+import { useTrans } from '@/i18n';
 
 export default function MyEstablishmentsPage() {
+  const t = useTrans('establishmentPage');
   const router = useRouter();
   const [establishments, setEstablishments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +40,7 @@ export default function MyEstablishmentsPage() {
 
   const typeIcons: Record<string, any> = { HOTEL: Hotel, RESTAURANT: UtensilsCrossed, ATTRACTION: Compass };
   const typeColors: Record<string, string> = { HOTEL: '#3b82f6', RESTAURANT: '#f97316', ATTRACTION: '#10b981' };
-  const typeLabels: Record<string, string> = { HOTEL: 'Hôtel', RESTAURANT: 'Restaurant', ATTRACTION: 'Attraction' };
+  const typeLabelKeys: Record<string, 'typeHotel' | 'typeRestaurant' | 'typeAttraction'> = { HOTEL: 'typeHotel', RESTAURANT: 'typeRestaurant', ATTRACTION: 'typeAttraction' };
 
   if (loading) {
     return (
@@ -54,13 +56,13 @@ export default function MyEstablishmentsPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-bold">Mes Établissements</h1>
+            <h1 className="text-2xl font-bold">{t.myListingsTitle}</h1>
             <p className="text-sm text-gray-500 mt-1">
-              {user && `${user.firstName} ${user.lastName}`} — Gérez vos fiches
+              {user && `${user.firstName} ${user.lastName}`} — {t.manageHint}
             </p>
           </div>
           <Link href="/" className="flex items-center gap-2 px-4 py-2 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-gray-400 hover:text-white transition-colors">
-            <LogOut className="w-4 h-4" /> Retour au site
+            <LogOut className="w-4 h-4" /> {t.backToSite}
           </Link>
         </div>
 
@@ -68,13 +70,13 @@ export default function MyEstablishmentsPage() {
         {establishments.length === 0 ? (
           <div className="text-center py-20">
             <Building2 className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-            <h2 className="text-lg font-semibold mb-2">Aucun établissement</h2>
+            <h2 className="text-lg font-semibold mb-2">{t.noListings}</h2>
             <p className="text-sm text-gray-500 mb-6">
-              Vous n'avez pas encore revendiqué d'établissement.
-              <br />Trouvez votre établissement et cliquez sur "Revendiquer cette fiche".
+              {t.noListingsHint}
+              <br />{t.findListingHint}
             </p>
             <Link href="/bons-plans" className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] text-white rounded-xl font-medium hover:bg-[#e55a2b] transition-colors">
-              <Plus className="w-4 h-4" /> Parcourir les établissements
+              <Plus className="w-4 h-4" /> {t.browseListings}
             </Link>
           </div>
         ) : (
@@ -98,10 +100,10 @@ export default function MyEstablishmentsPage() {
                     <div className="flex items-center gap-2 mb-1">
                       <h3 className="font-semibold truncate">{est.name}</h3>
                       <span className="text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ backgroundColor: `${color}20`, color }}>
-                        {typeLabels[est.type] || est.type}
+                        {typeLabelKeys[est.type] ? t[typeLabelKeys[est.type]] : est.type}
                       </span>
                       {est.moderationStatus === 'approved' && (
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-500/10 text-green-400">Actif</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-500/10 text-green-400">{t.statusActive}</span>
                       )}
                     </div>
                     <p className="text-xs text-gray-500 flex items-center gap-1">
@@ -111,8 +113,8 @@ export default function MyEstablishmentsPage() {
                       {est.rating > 0 && (
                         <span className="flex items-center gap-1"><Star className="w-3 h-3 text-yellow-400" /> {est.rating.toFixed(1)}</span>
                       )}
-                      <span className="flex items-center gap-1"><Eye className="w-3 h-3" /> {est.viewCount} vues</span>
-                      <span className="flex items-center gap-1"><MessageCircle className="w-3 h-3" /> {est.reviewCount} avis</span>
+                      <span className="flex items-center gap-1"><Eye className="w-3 h-3" /> {est.viewCount} {t.viewsLabel}</span>
+                      <span className="flex items-center gap-1"><MessageCircle className="w-3 h-3" /> {est.reviewCount} {t.reviewsLabel}</span>
                     </div>
                   </div>
                   <ChevronRight className="w-5 h-5 text-gray-600 group-hover:text-[#ff6b35] transition-colors" />

@@ -3,10 +3,11 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Shield, Phone, MapPin, Clock, Search, ArrowLeft, Flame, Stethoscope, Building2 } from 'lucide-react';
+import { Shield, Phone, MapPin, Clock, Search, ArrowLeft, Flame, Stethoscope, Building2, type LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { useTrans } from '@/i18n';
 
 interface EmergencyContact {
   id: string;
@@ -22,12 +23,12 @@ interface EmergencyContact {
   is24h: boolean;
 }
 
-const typeConfig: Record<string, { icon: any; label: string; color: string; bgColor: string }> = {
-  police: { icon: Shield, label: 'Police', color: 'text-blue-600', bgColor: 'bg-blue-100' },
-  gendarmerie: { icon: Shield, label: 'Gendarmerie', color: 'text-indigo-600', bgColor: 'bg-indigo-100' },
-  pompiers: { icon: Flame, label: 'Pompiers', color: 'text-red-600', bgColor: 'bg-red-100' },
-  samu: { icon: Stethoscope, label: 'SAMU', color: 'text-green-600', bgColor: 'bg-green-100' },
-  autre: { icon: Building2, label: 'Autre', color: 'text-gray-600', bgColor: 'bg-gray-100' },
+const typeConfig: Record<string, { icon: LucideIcon; labelKey: string; color: string; bgColor: string }> = {
+  police: { icon: Shield, labelKey: 'typePolice', color: 'text-blue-600', bgColor: 'bg-blue-100' },
+  gendarmerie: { icon: Shield, labelKey: 'typeGendarmerie', color: 'text-indigo-600', bgColor: 'bg-indigo-100' },
+  pompiers: { icon: Flame, labelKey: 'typePompiers', color: 'text-red-600', bgColor: 'bg-red-100' },
+  samu: { icon: Stethoscope, labelKey: 'typeSamu', color: 'text-green-600', bgColor: 'bg-green-100' },
+  autre: { icon: Building2, labelKey: 'typeOther', color: 'text-gray-600', bgColor: 'bg-gray-100' },
 };
 
 export default function UrgencesPageWrapper() {
@@ -39,6 +40,7 @@ export default function UrgencesPageWrapper() {
 }
 
 function UrgencesPage() {
+  const t = useTrans('urgencesPage');
   const searchParams = useSearchParams();
   const initialType = searchParams.get('type') || '';
 
@@ -51,6 +53,7 @@ function UrgencesPage() {
 
   useEffect(() => {
     fetchContacts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCity, selectedType]);
 
   const fetchContacts = async () => {
@@ -92,7 +95,7 @@ function UrgencesPage() {
           {/* Back Link */}
           <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6">
             <ArrowLeft className="w-4 h-4" />
-            Retour à l'accueil
+            {t.back}
           </Link>
 
           {/* Header */}
@@ -102,8 +105,8 @@ function UrgencesPage() {
                 <Shield className="w-8 h-8" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold">Contacts d'Urgence</h1>
-                <p className="text-blue-100">Police, Gendarmerie, Pompiers, SAMU</p>
+                <h1 className="text-2xl font-bold">{t.title}</h1>
+                <p className="text-blue-100">{t.subtitle}</p>
               </div>
             </div>
 
@@ -112,7 +115,7 @@ function UrgencesPage() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-200" />
               <input
                 type="text"
-                placeholder="Rechercher par nom ou quartier..."
+                placeholder={t.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-12 pr-4 py-3 bg-white/20 border border-white/30 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50"
@@ -130,7 +133,7 @@ function UrgencesPage() {
                   : 'bg-[#1a1a24] text-gray-300 border border-[#2a2a36] hover:border-blue-300'
               }`}
             >
-              Tous
+              {t.filterAll}
             </button>
             {types.map(type => {
               const config = typeConfig[type];
@@ -146,7 +149,7 @@ function UrgencesPage() {
                   }`}
                 >
                   <Icon className="w-4 h-4" />
-                  {config.label}
+                  {t[config.labelKey]}
                 </button>
               );
             })}
@@ -159,7 +162,7 @@ function UrgencesPage() {
               onChange={(e) => setSelectedCity(e.target.value)}
               className="w-full px-4 py-3 bg-[#1a1a24] border border-[#2a2a36] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <option value="">Toutes les villes</option>
+              <option value="">{t.allCities}</option>
               {cities.map(city => (
                 <option key={city} value={city}>{city}</option>
               ))}
@@ -179,8 +182,8 @@ function UrgencesPage() {
           ) : filteredContacts.length === 0 ? (
             <div className="bg-[#1a1a24] rounded-xl p-8 text-center">
               <Shield className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Aucun contact trouvé</h3>
-              <p className="text-gray-500">Essayez de modifier vos filtres de recherche</p>
+              <h3 className="text-lg font-semibold text-white mb-2">{t.noContacts}</h3>
+              <p className="text-gray-500">{t.noContactsDesc}</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -205,7 +208,7 @@ function UrgencesPage() {
                           <div>
                             <h3 className="text-lg font-semibold text-white">{contact.name}</h3>
                             <span className={`text-xs font-medium ${config.color}`}>
-                              {config.label}
+                              {t[config.labelKey]}
                             </span>
                           </div>
                         </div>
@@ -220,7 +223,7 @@ function UrgencesPage() {
                           )}
                           <div className="flex items-center gap-2">
                             <Clock className="w-4 h-4 text-gray-400" />
-                            <span>{contact.is24h ? '24h/24' : contact.hours || 'Non spécifié'}</span>
+                            <span>{contact.is24h ? t.open24h : contact.hours || t.notSpecified}</span>
                           </div>
                         </div>
                       </div>

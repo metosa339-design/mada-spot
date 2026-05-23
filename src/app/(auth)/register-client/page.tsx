@@ -27,13 +27,19 @@ import {
 import { useCsrf } from '@/hooks/useCsrf'
 import PhoneInput from '@/components/ui/PhoneInput'
 import { getCategoryByType, getSubtype } from '@/data/registration-types'
+import { useTrans } from '@/i18n'
 
 export default function RegisterClientPage() {
   return (
-    <Suspense fallback={<div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-8 text-center text-slate-400">Chargement...</div>}>
+    <Suspense fallback={<RegisterFallback />}>
       <RegisterClientForm />
     </Suspense>
   )
+}
+
+function RegisterFallback() {
+  const t = useTrans('auth')
+  return <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-8 text-center text-slate-400">{t.loading}</div>
 }
 
 const TYPE_ICONS: Record<string, any> = {
@@ -44,6 +50,7 @@ const TYPE_ICONS: Record<string, any> = {
 }
 
 function RegisterClientForm() {
+  const t = useTrans('auth')
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get('redirect')
@@ -98,12 +105,12 @@ function RegisterClientForm() {
       const data = await res.json()
       if (res.ok && data.success) {
         setOtpCooldown(60)
-        setOtpMsg({ type: 'success', text: 'Code renvoyé ! Vérifiez votre boîte mail.' })
+        setOtpMsg({ type: 'success', text: t.otpResentSuccess })
       } else {
-        setOtpMsg({ type: 'error', text: data.error || 'Erreur' })
+        setOtpMsg({ type: 'error', text: data.error || t.otpError })
       }
     } catch {
-      setOtpMsg({ type: 'error', text: 'Erreur de connexion' })
+      setOtpMsg({ type: 'error', text: t.connectionError })
     } finally {
       setOtpSending(false)
     }
@@ -120,7 +127,7 @@ function RegisterClientForm() {
       })
       const data = await res.json()
       if (res.ok && data.success) {
-        setOtpMsg({ type: 'success', text: 'Email vérifié ! Redirection...' })
+        setOtpMsg({ type: 'success', text: t.otpEmailVerified })
         // Also mark user as verified via the auth OTP endpoint
         fetch('/api/auth/otp/verify', {
           method: 'POST',
@@ -139,12 +146,12 @@ function RegisterClientForm() {
           }
         }, 1500)
       } else {
-        setOtpMsg({ type: 'error', text: data.error || 'Code incorrect' })
+        setOtpMsg({ type: 'error', text: data.error || t.otpIncorrect })
         setOtpCode(['', '', '', '', '', ''])
         document.getElementById('rotp-0')?.focus()
       }
     } catch {
-      setOtpMsg({ type: 'error', text: 'Erreur de connexion' })
+      setOtpMsg({ type: 'error', text: t.connectionError })
     } finally {
       setOtpVerifying(false)
     }
@@ -197,14 +204,14 @@ function RegisterClientForm() {
       try {
         data = await response.json()
       } catch {
-        throw new Error("Erreur serveur. Veuillez réessayer.")
+        throw new Error(t.serverErrorRetry)
       }
 
       if (!response.ok) {
         if (data.details) {
           setFieldErrors(data.details)
         }
-        throw new Error(data.error || "Erreur lors de l'inscription")
+        throw new Error(data.error || t.registerError)
       }
 
       // Account created + session set → redirect to appropriate page
@@ -216,7 +223,7 @@ function RegisterClientForm() {
         window.location.href = redirectTo || '/client'
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erreur lors de l'inscription")
+      setError(err instanceof Error ? err.message : t.registerError)
     } finally {
       setIsLoading(false)
     }
@@ -237,21 +244,21 @@ function RegisterClientForm() {
             <Mail className="w-10 h-10 text-orange-400" />
           </div>
 
-          <h2 className="text-2xl font-bold text-white mb-2">Vérifiez votre email</h2>
+          <h2 className="text-2xl font-bold text-white mb-2">{t.otpVerifyEmail}</h2>
           <p className="text-slate-400 mb-2">
-            Un code de confirmation à 6 chiffres a été envoyé à
+            {t.otpSentTo}
           </p>
           <p className="text-white font-semibold mb-1">{formData.email}</p>
           {formData.phone && (
             <p className="text-xs text-slate-500 mb-6">
               <Phone className="w-3 h-3 inline mr-1" />
-              Téléphone : {formData.phone}
+              {t.otpPhoneLabel} {formData.phone}
             </p>
           )}
 
           <div className="bg-white/5 border border-white/10 rounded-xl p-5 mb-6">
             <p className="text-sm text-slate-300 mb-4">
-              Merci de valider votre email en insérant le code reçu dans votre boîte mail
+              {t.otpInstruction}
             </p>
 
             {/* 6-digit OTP input */}
@@ -295,9 +302,9 @@ function RegisterClientForm() {
               className="w-full py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {otpVerifying ? (
-                <><Loader2 className="w-5 h-5 animate-spin" /> Vérification...</>
+                <><Loader2 className="w-5 h-5 animate-spin" /> {t.otpVerifying}</>
               ) : (
-                <><ShieldCheck className="w-5 h-5" /> Vérifier le code</>
+                <><ShieldCheck className="w-5 h-5" /> {t.otpVerifyCode}</>
               )}
             </button>
           </div>
@@ -305,7 +312,7 @@ function RegisterClientForm() {
           {/* Resend */}
           <div className="space-y-2">
             <p className="text-xs text-slate-500">
-              Vous n&apos;avez pas reçu le code ? Vérifiez vos spams ou
+              {t.otpNoCode}
             </p>
             <button
               onClick={handleSendOtp}
@@ -313,11 +320,11 @@ function RegisterClientForm() {
               className="text-sm text-orange-400 hover:text-orange-300 font-medium disabled:opacity-50 disabled:text-slate-600"
             >
               {otpSending ? (
-                <><Loader2 className="w-3 h-3 inline animate-spin mr-1" /> Envoi...</>
+                <><Loader2 className="w-3 h-3 inline animate-spin mr-1" /> {t.otpSending}</>
               ) : otpCooldown > 0 ? (
-                `Renvoyer dans ${otpCooldown}s`
+                t.otpResendIn.replace('{seconds}', String(otpCooldown))
               ) : (
-                'Renvoyer le code'
+                t.otpResend
               )}
             </button>
           </div>
@@ -335,7 +342,7 @@ function RegisterClientForm() {
             }}
             className="mt-6 text-xs text-slate-600 hover:text-slate-400 transition-colors"
           >
-            Passer cette étape pour le moment →
+            {t.otpSkip}
           </button>
         </motion.div>
       </div>
@@ -352,7 +359,7 @@ function RegisterClientForm() {
           </div>
           <div>
             <p className="text-sm font-medium text-white">
-              Inscription : {category.label}
+              {t.inscriptionLabel} : {category.label}
             </p>
             <p className="text-xs text-orange-300">{subtypeInfo.label}</p>
           </div>
@@ -364,12 +371,12 @@ function RegisterClientForm() {
           <User className="w-7 h-7 text-white" />
         </div>
         <h1 className="text-2xl font-bold text-white mb-2">
-          {category ? 'Créer votre compte professionnel' : 'Créer un compte'}
+          {category ? t.registerProTitle : t.registerTitle}
         </h1>
         <p className="text-slate-400">
           {category
-            ? `Étape 2/3 — Après inscription, vous pourrez publier votre ${category.label.toLowerCase()}`
-            : 'Rejoignez Mada Spot pour découvrir les meilleurs bons plans de Madagascar'}
+            ? t.registerProDesc.replace('{category}', category.label.toLowerCase())
+            : t.registerDesc}
         </p>
       </div>
 
@@ -377,9 +384,9 @@ function RegisterClientForm() {
       {!category && (
         <div className="flex flex-wrap justify-center gap-2 mb-6">
           {[
-            { icon: Search, label: 'Rechercher' },
-            { icon: MessageCircle, label: 'Contacter' },
-            { icon: Heart, label: 'Favoris' },
+            { icon: Search, label: t.featureSearch },
+            { icon: MessageCircle, label: t.featureContact },
+            { icon: Heart, label: t.favoritesLabel },
           ].map((item) => (
             <div key={item.label} className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-slate-400">
               <item.icon className="w-3 h-3 text-orange-400" />
@@ -404,7 +411,7 @@ function RegisterClientForm() {
         {/* Nom et Prénom */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="reg-firstName" className="block text-sm font-medium text-gray-700 mb-2">Prénom</label>
+            <label htmlFor="reg-firstName" className="block text-sm font-medium text-gray-700 mb-2">{t.firstName}</label>
             <div className="relative">
               <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" aria-hidden="true" />
               <input
@@ -412,7 +419,7 @@ function RegisterClientForm() {
                 type="text"
                 value={formData.firstName}
                 onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                placeholder="Prénom"
+                placeholder={t.firstNamePlaceholder}
                 className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
                 required
               />
@@ -422,13 +429,13 @@ function RegisterClientForm() {
             )}
           </div>
           <div>
-            <label htmlFor="reg-lastName" className="block text-sm font-medium text-gray-700 mb-2">Nom</label>
+            <label htmlFor="reg-lastName" className="block text-sm font-medium text-gray-700 mb-2">{t.lastName}</label>
             <input
               id="reg-lastName"
               type="text"
               value={formData.lastName}
               onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-              placeholder="Nom"
+              placeholder={t.lastNamePlaceholder}
               className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
               required
             />
@@ -440,7 +447,7 @@ function RegisterClientForm() {
 
         {/* Email */}
         <div>
-          <label htmlFor="reg-email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <label htmlFor="reg-email" className="block text-sm font-medium text-gray-700 mb-2">{t.email}</label>
           <div className="relative">
             <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" aria-hidden="true" />
             <input
@@ -448,7 +455,7 @@ function RegisterClientForm() {
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              placeholder="votre@email.com"
+              placeholder={t.emailPlaceholder}
               className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
             />
           </div>
@@ -459,7 +466,7 @@ function RegisterClientForm() {
 
         {/* Téléphone */}
         <div>
-          <label htmlFor="reg-phone" className="block text-sm font-medium text-gray-700 mb-2">Téléphone</label>
+          <label htmlFor="reg-phone" className="block text-sm font-medium text-gray-700 mb-2">{t.phone}</label>
           <PhoneInput
             id="reg-phone"
             value={formData.phone}
@@ -474,7 +481,7 @@ function RegisterClientForm() {
 
         {/* Mot de passe */}
         <div>
-          <label htmlFor="reg-password" className="block text-sm font-medium text-gray-700 mb-2">Mot de passe</label>
+          <label htmlFor="reg-password" className="block text-sm font-medium text-gray-700 mb-2">{t.password}</label>
           <div className="relative">
             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" aria-hidden="true" />
             <input
@@ -482,7 +489,7 @@ function RegisterClientForm() {
               type={showPassword ? 'text' : 'password'}
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              placeholder="Minimum 8 caractères"
+              placeholder={t.passwordMinPlaceholder}
               className="w-full pl-12 pr-12 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
               required
             />
@@ -490,7 +497,7 @@ function RegisterClientForm() {
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
-              aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+              aria-label={showPassword ? t.hidePassword : t.showPassword}
             >
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
@@ -502,7 +509,7 @@ function RegisterClientForm() {
 
         {/* Confirmation mot de passe */}
         <div>
-          <label htmlFor="reg-confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">Confirmer le mot de passe</label>
+          <label htmlFor="reg-confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">{t.confirmPassword}</label>
           <div className="relative">
             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" aria-hidden="true" />
             <input
@@ -510,7 +517,7 @@ function RegisterClientForm() {
               type={showPassword ? 'text' : 'password'}
               value={formData.confirmPassword}
               onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-              placeholder="Confirmez votre mot de passe"
+              placeholder={t.confirmPasswordPlaceholder}
               className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
               required
             />
@@ -531,11 +538,11 @@ function RegisterClientForm() {
             required
           />
           <label htmlFor="acceptTerms" className="text-sm text-slate-400">
-            J&apos;accepte les{' '}
-            <span className="text-orange-400">conditions d&apos;utilisation</span>{' '}
-            et la{' '}
-            <span className="text-orange-400">politique de confidentialité</span>{' '}
-            de Mada Spot
+            {t.termsAccept}{' '}
+            <span className="text-orange-400">{t.termsLink}</span>{' '}
+            {t.privacyConnector}{' '}
+            <span className="text-orange-400">{t.privacyLink}</span>{' '}
+            {t.termsSuffix}
           </label>
         </div>
 
@@ -548,11 +555,11 @@ function RegisterClientForm() {
           {isLoading ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin" />
-              Inscription en cours...
+              {t.registerInProgress}
             </>
           ) : (
             <>
-              Créer mon compte
+              {t.createAccountCta}
               <ArrowRight className="w-5 h-5" />
             </>
           )}
@@ -562,9 +569,9 @@ function RegisterClientForm() {
       {/* Lien connexion */}
       <div className="mt-8 text-center">
         <p className="text-slate-400">
-          Déjà un compte ?{' '}
+          {t.haveAccountAlready}{' '}
           <Link href={redirectTo ? `/login?redirect=${encodeURIComponent(redirectTo)}` : '/login'} className="text-orange-400 hover:text-orange-300 font-medium transition-colors">
-            Se connecter
+            {t.logIn}
           </Link>
         </p>
       </div>

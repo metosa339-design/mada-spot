@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
 
     // Calculer prix si hôtel avec type de chambre
     let totalPrice: number | null = null;
-    let currency = 'MGA';
+    const currency = 'MGA';
     if (bookingType === 'hotel' && roomTypeId && checkOut) {
       const roomType = establishment.hotel?.roomTypes?.find((rt: any) => rt.id === roomTypeId);
       if (roomType && roomType.pricePerNight) {

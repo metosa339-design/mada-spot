@@ -3,79 +3,107 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, Users, MapPin, Zap } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface TickerItem {
   id: number;
   type: 'mission' | 'newPro' | 'booking';
-  message: string;
-  location?: string;
-  time: string;
+  messageFr: string;
+  messageEn: string;
+  locationFr?: string;
+  locationEn?: string;
+  timeFr: string;
+  timeEn: string;
 }
 
-const generateTickerItems = (): TickerItem[] => [
+const TICKER_ITEMS: TickerItem[] = [
   {
     id: 1,
     type: 'newPro',
-    message: 'Referencez votre activite GRATUITEMENT et soyez visible a l\'international',
-    time: 'Inscription gratuite',
+    messageFr: 'Referencez votre activite GRATUITEMENT et soyez visible a l\'international',
+    messageEn: 'List your business FOR FREE and reach international travelers',
+    timeFr: 'Inscription gratuite',
+    timeEn: 'Free signup',
   },
   {
     id: 2,
     type: 'booking',
-    message: 'Reservation hotel confirmee',
-    location: 'Nosy Be',
-    time: 'il y a 3 min',
+    messageFr: 'Reservation hotel confirmee',
+    messageEn: 'Hotel booking confirmed',
+    locationFr: 'Nosy Be',
+    locationEn: 'Nosy Be',
+    timeFr: 'il y a 3 min',
+    timeEn: '3 min ago',
   },
   {
     id: 3,
     type: 'mission',
-    message: '+500 voyageurs decouvrent Madagascar chaque jour sur Mada Spot',
-    time: 'en direct',
+    messageFr: '+500 voyageurs decouvrent Madagascar chaque jour sur Mada Spot',
+    messageEn: '+500 travelers discover Madagascar every day on Mada Spot',
+    timeFr: 'en direct',
+    timeEn: 'live',
   },
   {
     id: 4,
     type: 'newPro',
-    message: 'Nouveau restaurant a rejoint Mada Spot',
-    location: 'Antananarivo',
-    time: 'il y a 8 min',
+    messageFr: 'Nouveau restaurant a rejoint Mada Spot',
+    messageEn: 'New restaurant joined Mada Spot',
+    locationFr: 'Antananarivo',
+    locationEn: 'Antananarivo',
+    timeFr: 'il y a 8 min',
+    timeEn: '8 min ago',
   },
   {
     id: 5,
     type: 'booking',
-    message: 'Votre hotel, restaurant ou activite merite d\'etre connu — inscrivez-vous maintenant',
-    time: '100% gratuit',
+    messageFr: 'Votre hotel, restaurant ou activite merite d\'etre connu — inscrivez-vous maintenant',
+    messageEn: 'Your hotel, restaurant or activity deserves to be seen — sign up now',
+    timeFr: '100% gratuit',
+    timeEn: '100% free',
   },
   {
     id: 6,
     type: 'mission',
-    message: 'Flash Deal active : -30% sur un hotel',
-    location: 'Diego Suarez',
-    time: 'il y a 12 min',
+    messageFr: 'Flash Deal active : -30% sur un hotel',
+    messageEn: 'Flash Deal active: -30% on a hotel',
+    locationFr: 'Diego Suarez',
+    locationEn: 'Diego Suarez',
+    timeFr: 'il y a 12 min',
+    timeEn: '12 min ago',
   },
   {
     id: 7,
     type: 'newPro',
-    message: 'Rejoignez +175 etablissements deja references sur Mada Spot',
-    time: 'aujourd\'hui',
+    messageFr: 'Rejoignez +175 etablissements deja references sur Mada Spot',
+    messageEn: 'Join +175 businesses already listed on Mada Spot',
+    timeFr: 'aujourd\'hui',
+    timeEn: 'today',
   },
   {
     id: 8,
     type: 'booking',
-    message: 'Excursion reservee au Parc Isalo',
-    location: 'Fianarantsoa',
-    time: 'il y a 15 min',
+    messageFr: 'Excursion reservee au Parc Isalo',
+    messageEn: 'Excursion booked at Isalo Park',
+    locationFr: 'Fianarantsoa',
+    locationEn: 'Fianarantsoa',
+    timeFr: 'il y a 15 min',
+    timeEn: '15 min ago',
   },
   {
     id: 9,
     type: 'mission',
-    message: 'Boostez votre visibilite — des touristes du monde entier vous cherchent',
-    time: 'en ce moment',
+    messageFr: 'Boostez votre visibilite — des touristes du monde entier vous cherchent',
+    messageEn: 'Boost your visibility — travelers from around the world are looking for you',
+    timeFr: 'en ce moment',
+    timeEn: 'right now',
   },
   {
     id: 10,
     type: 'newPro',
-    message: '3 nouveaux etablissements cette semaine',
-    time: 'aujourd\'hui',
+    messageFr: '3 nouveaux etablissements cette semaine',
+    messageEn: '3 new businesses this week',
+    timeFr: 'aujourd\'hui',
+    timeEn: 'today',
   },
 ];
 
@@ -92,17 +120,17 @@ const colors = {
 };
 
 export default function SuccessTicker() {
+  const { t } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [items] = useState(generateTickerItems);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % items.length);
+      setCurrentIndex((prev) => (prev + 1) % TICKER_ITEMS.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, [items.length]);
+  }, []);
 
-  const currentItem = items[currentIndex];
+  const currentItem = TICKER_ITEMS[currentIndex];
   const Icon = icons[currentItem.type];
 
   return (
@@ -124,17 +152,17 @@ export default function SuccessTicker() {
               <Icon className={`w-4 h-4 ${colors[currentItem.type]}`} />
             </motion.div>
 
-            <span className="font-medium">{currentItem.message}</span>
+            <span className="font-medium">{t(currentItem.messageFr, currentItem.messageEn)}</span>
 
-            {currentItem.location && (
+            {currentItem.locationFr && (
               <span className="flex items-center gap-1 text-slate-400">
                 <MapPin className="w-3 h-3" />
-                {currentItem.location}
+                {t(currentItem.locationFr, currentItem.locationEn)}
               </span>
             )}
 
             <span className="text-slate-500">•</span>
-            <span className="text-slate-400">{currentItem.time}</span>
+            <span className="text-slate-400">{t(currentItem.timeFr, currentItem.timeEn)}</span>
 
             <motion.span
               animate={{ opacity: [1, 0.5, 1] }}

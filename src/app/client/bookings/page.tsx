@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Calendar, Loader2, ArrowLeft, MapPin, Users, Hotel, UtensilsCrossed, Compass, AlertTriangle, Printer, MessageSquare } from 'lucide-react';
+import { Calendar, Loader2, ArrowLeft, MapPin, Users, Hotel, UtensilsCrossed, Compass, AlertTriangle, Printer, MessageSquare, type LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useCsrf } from '@/hooks/useCsrf';
+import { useTrans } from '@/i18n';
 
 interface Booking {
   id: string;
@@ -23,21 +24,22 @@ interface Booking {
   establishment: { name: string; city: string; type: string; coverImage: string | null };
 }
 
-const STATUS_CONFIG: Record<string, { label: string; color: string; bgColor: string }> = {
-  pending: { label: 'En attente', color: 'text-yellow-400', bgColor: 'bg-yellow-500/10' },
-  confirmed: { label: 'Confirmée', color: 'text-green-400', bgColor: 'bg-green-500/10' },
-  cancelled: { label: 'Annulée', color: 'text-red-400', bgColor: 'bg-red-500/10' },
-  completed: { label: 'Terminée', color: 'text-blue-400', bgColor: 'bg-blue-500/10' },
-  no_show: { label: 'No Show', color: 'text-gray-400', bgColor: 'bg-gray-500/10' },
+const STATUS_CONFIG: Record<string, { labelKey: string; color: string; bgColor: string }> = {
+  pending: { labelKey: 'statusPending', color: 'text-yellow-400', bgColor: 'bg-yellow-500/10' },
+  confirmed: { labelKey: 'statusConfirmed', color: 'text-green-400', bgColor: 'bg-green-500/10' },
+  cancelled: { labelKey: 'statusCancelled', color: 'text-red-400', bgColor: 'bg-red-500/10' },
+  completed: { labelKey: 'statusCompleted', color: 'text-blue-400', bgColor: 'bg-blue-500/10' },
+  no_show: { labelKey: 'statusNoShow', color: 'text-gray-400', bgColor: 'bg-gray-500/10' },
 };
 
-const TYPE_ICONS: Record<string, any> = {
+const TYPE_ICONS: Record<string, LucideIcon> = {
   hotel: Hotel,
   restaurant: UtensilsCrossed,
   attraction: Compass,
 };
 
 export default function ClientBookingsPage() {
+  const t = useTrans('clientBookings');
   const router = useRouter();
   const { csrfToken } = useCsrf();
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -65,14 +67,14 @@ export default function ClientBookingsPage() {
   useEffect(() => { fetchBookings(); }, [fetchBookings]);
 
   const handleCancel = async (bookingId: string) => {
-    if (!confirm('Voulez-vous vraiment annuler cette réservation ?')) return;
+    if (!confirm(t.cancelConfirm)) return;
     setCancelling(bookingId);
     try {
       const res = await fetch(`/api/bookings/${bookingId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ action: 'cancel', reason: 'Annulée par le client', csrfToken }),
+        body: JSON.stringify({ action: 'cancel', reason: t.cancelReason, csrfToken }),
       });
       if (res.ok) fetchBookings();
     } catch {
@@ -110,29 +112,31 @@ export default function ClientBookingsPage() {
     w.print();
   };
 
+  const FILTERS: { value: string; labelKey: string }[] = [
+    { value: 'all', labelKey: 'filterAll' },
+    { value: 'pending', labelKey: 'filterPending' },
+    { value: 'confirmed', labelKey: 'filterConfirmed' },
+    { value: 'completed', labelKey: 'filterCompleted' },
+    { value: 'cancelled', labelKey: 'filterCancelled' },
+  ];
+
   return (
     <div className="min-h-screen bg-[#F9FAFB] text-gray-900">
       {/* Header */}
       <div className="border-b border-gray-200 pt-20">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <Link href="/client" className="inline-flex items-center gap-1 text-gray-500 hover:text-gray-300 text-sm mb-3">
-            <ArrowLeft className="w-4 h-4" /> Mon espace
+            <ArrowLeft className="w-4 h-4" /> {t.back}
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900">Mes Réservations</h1>
-          <p className="text-sm text-gray-500 mt-1">Historique et suivi de vos réservations</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t.title}</h1>
+          <p className="text-sm text-gray-500 mt-1">{t.subtitle}</p>
         </div>
       </div>
 
       {/* Filters */}
       <div className="max-w-4xl mx-auto px-4 py-4">
         <div className="flex gap-2 overflow-x-auto pb-2">
-          {[
-            { value: 'all', label: 'Toutes' },
-            { value: 'pending', label: 'En attente' },
-            { value: 'confirmed', label: 'Confirmées' },
-            { value: 'completed', label: 'Terminées' },
-            { value: 'cancelled', label: 'Annulées' },
-          ].map((f) => (
+          {FILTERS.map((f) => (
             <button
               key={f.value}
               onClick={() => setFilter(f.value)}
@@ -142,7 +146,7 @@ export default function ClientBookingsPage() {
                   : 'bg-white border border-gray-200 text-gray-400 hover:text-white'
               }`}
             >
-              {f.label}
+              {t[f.labelKey]}
             </button>
           ))}
         </div>
@@ -157,13 +161,13 @@ export default function ClientBookingsPage() {
         ) : bookings.length === 0 ? (
           <div className="text-center py-16">
             <Calendar className="w-12 h-12 mx-auto mb-3 text-gray-600" />
-            <p className="text-gray-400 font-medium">Aucune réservation</p>
-            <p className="text-sm text-gray-500 mt-1">Vos réservations apparaîtront ici</p>
+            <p className="text-gray-400 font-medium">{t.noBookings}</p>
+            <p className="text-sm text-gray-500 mt-1">{t.noBookingsDesc}</p>
             <Link
               href="/hotels"
               className="inline-block mt-4 px-6 py-2 bg-[#ff6b35] text-white rounded-lg text-sm hover:bg-[#e55a2b]"
             >
-              Découvrir les hébergements
+              {t.discover}
             </Link>
           </div>
         ) : (
@@ -179,7 +183,7 @@ export default function ClientBookingsPage() {
                       {/* Status + Reference */}
                       <div className="flex items-center gap-2 mb-2">
                         <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusConf.bgColor} ${statusConf.color}`}>
-                          {statusConf.label}
+                          {t[statusConf.labelKey]}
                         </span>
                         <span className="text-xs font-mono text-gray-500">{booking.reference}</span>
                       </div>
@@ -202,7 +206,7 @@ export default function ClientBookingsPage() {
                         </div>
                         <div className="flex items-center gap-1">
                           <Users className="w-3.5 h-3.5 text-gray-500" />
-                          {booking.guestCount} pers.
+                          {booking.guestCount} {t.guestsSuffix}
                         </div>
                         {booking.totalPrice && (
                           <div className="font-semibold text-[#ff6b35]">
@@ -212,7 +216,7 @@ export default function ClientBookingsPage() {
                       </div>
 
                       {booking.specialRequests && (
-                        <div className="mt-2 text-xs text-gray-500 italic">"{booking.specialRequests}"</div>
+                        <div className="mt-2 text-xs text-gray-500 italic">&quot;{booking.specialRequests}&quot;</div>
                       )}
 
                       {booking.cancelReason && (
@@ -230,7 +234,7 @@ export default function ClientBookingsPage() {
                           className="px-3 py-1.5 border border-gray-200 text-gray-300 rounded-lg text-sm hover:bg-[#2a2a36] flex items-center gap-1"
                         >
                           <Printer className="w-3.5 h-3.5" />
-                          Imprimer
+                          {t.print}
                         </button>
                       )}
                       {booking.status === 'completed' && (
@@ -239,7 +243,7 @@ export default function ClientBookingsPage() {
                           className="px-3 py-1.5 bg-orange-500/10 border border-orange-500/20 text-orange-400 rounded-lg text-sm hover:bg-orange-500/20 flex items-center gap-1 transition-colors"
                         >
                           <MessageSquare className="w-3.5 h-3.5" />
-                          Laisser un avis
+                          {t.leaveReview}
                         </Link>
                       )}
                       {(booking.status === 'pending' || booking.status === 'confirmed') && (
@@ -251,7 +255,7 @@ export default function ClientBookingsPage() {
                           {cancelling === booking.id ? (
                             <Loader2 className="w-4 h-4 animate-spin" />
                           ) : (
-                            'Annuler'
+                            t.cancel
                           )}
                         </button>
                       )}

@@ -37,6 +37,7 @@ import {
   Clock,
   Menu,
   BookOpen,
+  Contact,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
@@ -70,6 +71,7 @@ const SEOTrends = dynamic(() => import('@/components/admin/SEOTrends'), { loadin
 const DuplicateDetector = dynamic(() => import('@/components/admin/DuplicateDetector'), { loading: DynLoading });
 const SlowProviders = dynamic(() => import('@/components/admin/SlowProviders'), { loading: DynLoading });
 const BlogManager = dynamic(() => import('@/components/admin/BlogManager'), { loading: DynLoading });
+const CRMSection = dynamic(() => import('@/components/admin/CRMSection'), { loading: DynLoading });
 
 // ============================================================
 // TYPES
@@ -87,6 +89,7 @@ interface NotificationItem {
 
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Tableau de Bord', icon: LayoutDashboard },
+  { id: 'crm', label: 'CRM', icon: Contact, hasBadge: true },
   { id: 'moderation', label: 'Moderation', icon: ClipboardCheck, hasBadge: true },
   { id: 'establishments', label: 'Etablissements', icon: Building2, hasBadge: true },
   { id: 'claims', label: 'Revendications', icon: Flag, hasBadge: true },
@@ -123,6 +126,16 @@ function TabContent({ tabId, setActiveTab }: { tabId: string; setActiveTab: (t: 
   switch (tabId) {
     case 'dashboard':
       return <AdminDashboardOverview onNavigateTab={setActiveTab} />;
+    case 'crm':
+      return (
+        <div>
+          <div className="mb-6">
+            <h3 className="text-xl font-bold">CRM</h3>
+            <p className="text-sm text-gray-500">Clients, prospects, conversations multi-canal (email, Messenger, chat) et suivis</p>
+          </div>
+          <CRMSection />
+        </div>
+      );
     case 'moderation':
       return (
         <div>

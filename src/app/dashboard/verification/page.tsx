@@ -6,6 +6,7 @@ import {
   ShieldCheck, Upload, FileText, CheckCircle, Clock, XCircle,
   AlertTriangle, BadgeCheck, Eye
 } from 'lucide-react'
+import { useTrans } from '@/i18n'
 
 interface VerificationDoc {
   id: string
@@ -16,14 +17,15 @@ interface VerificationDoc {
   createdAt: string
 }
 
-const DOC_TYPES = [
-  { id: 'nif', label: 'NIF (Numéro d\'Identification Fiscale)', description: 'Requis pour la vérification fiscale' },
-  { id: 'stat', label: 'Carte STAT', description: 'Numéro statistique de votre entreprise' },
-  { id: 'business_license', label: 'Licence d\'exploitation', description: 'Autorisation officielle d\'exercer' },
-  { id: 'id_card', label: 'Pièce d\'identité', description: 'CIN du propriétaire / gérant' },
+const DOC_TYPES: { id: string; labelKey: string; descKey: string }[] = [
+  { id: 'nif', labelKey: 'doc_nif', descKey: 'doc_nifDesc' },
+  { id: 'stat', labelKey: 'doc_stat', descKey: 'doc_statDesc' },
+  { id: 'business_license', labelKey: 'doc_business_license', descKey: 'doc_business_licenseDesc' },
+  { id: 'id_card', labelKey: 'doc_id_card', descKey: 'doc_id_cardDesc' },
 ]
 
 export default function VerificationPage() {
+  const t = useTrans('dashboardVerification')
   const [documents, setDocuments] = useState<VerificationDoc[]>([])
   const [loading, setLoading] = useState(true)
   const [uploading, setUploading] = useState<string | null>(null)
@@ -80,7 +82,7 @@ export default function VerificationPage() {
 
   const verifiedCount = documents.filter(d => d.status === 'VERIFIED').length
   const totalRequired = DOC_TYPES.length
-  const isFullyVerified = verifiedCount >= 2 // Au moins 2 documents vérifiés
+  const isFullyVerified = verifiedCount >= 2
 
   if (loading) {
     return (
@@ -97,9 +99,9 @@ export default function VerificationPage() {
     <div className="space-y-8 max-w-3xl">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Vérification du compte</h1>
+        <h1 className="text-2xl font-bold text-gray-900">{t.title}</h1>
         <p className="text-gray-400 text-sm mt-1">
-          Uploadez vos documents pour obtenir le badge &quot;Établissement Vérifié&quot;
+          {t.subtitle}
         </p>
       </div>
 
@@ -125,11 +127,11 @@ export default function VerificationPage() {
           </div>
           <div>
             <h2 className="text-lg font-semibold text-gray-900">
-              {isFullyVerified ? 'Établissement Vérifié' : 'Vérification en cours'}
+              {isFullyVerified ? t.verifiedTitle : t.inProgressTitle}
             </h2>
             <p className="text-sm text-gray-400">
-              {verifiedCount}/{totalRequired} documents vérifiés
-              {isFullyVerified && ' — Votre badge est affiché sur votre annonce'}
+              {verifiedCount}/{totalRequired} {t.docsVerifiedSuffix}
+              {isFullyVerified && ` ${t.verifiedNote}`}
             </p>
           </div>
         </div>
@@ -147,24 +149,27 @@ export default function VerificationPage() {
 
       {/* Why verify */}
       <div className="bg-white border border-white/10 rounded-2xl p-5">
-        <h3 className="text-sm font-medium text-gray-900 mb-3">Pourquoi se vérifier ?</h3>
+        <h3 className="text-sm font-medium text-gray-900 mb-3">{t.whyVerify}</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {[
-            { icon: BadgeCheck, text: 'Badge "Vérifié" visible par les clients', color: '#10b981' },
-            { icon: Eye, text: 'Meilleur référencement sur Google (SEO local)', color: '#3b82f6' },
-            { icon: ShieldCheck, text: 'Confiance accrue des touristes', color: '#f59e0b' },
-          ].map((item, i) => (
-            <div key={i} className="flex items-start gap-2 p-3 bg-white/5 rounded-xl">
-              <item.icon className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: item.color }} />
-              <span className="text-xs text-gray-300">{item.text}</span>
-            </div>
-          ))}
+            { icon: BadgeCheck, textKey: 'benefit1', color: '#10b981' },
+            { icon: Eye, textKey: 'benefit2', color: '#3b82f6' },
+            { icon: ShieldCheck, textKey: 'benefit3', color: '#f59e0b' },
+          ].map((item, i) => {
+            const Icon = item.icon
+            return (
+              <div key={i} className="flex items-start gap-2 p-3 bg-white/5 rounded-xl">
+                <Icon className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: item.color }} />
+                <span className="text-xs text-gray-300">{t[item.textKey]}</span>
+              </div>
+            )
+          })}
         </div>
       </div>
 
       {/* Documents List */}
       <div className="space-y-3">
-        <h2 className="text-sm font-medium text-gray-400">Documents requis</h2>
+        <h2 className="text-sm font-medium text-gray-400">{t.requiredDocs}</h2>
         {DOC_TYPES.map((docType) => {
           const doc = getDocStatus(docType.id)
           const isUploading = uploading === docType.id
@@ -187,8 +192,8 @@ export default function VerificationPage() {
               </div>
 
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900">{docType.label}</p>
-                <p className="text-xs text-gray-400">{docType.description}</p>
+                <p className="text-sm font-medium text-gray-900">{t[docType.labelKey]}</p>
+                <p className="text-xs text-gray-400">{t[docType.descKey]}</p>
                 {doc?.status === 'REJECTED' && doc.note && (
                   <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
                     <AlertTriangle className="w-3 h-3" />
@@ -200,11 +205,11 @@ export default function VerificationPage() {
               <div>
                 {doc?.status === 'VERIFIED' ? (
                   <span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-medium rounded-full">
-                    Vérifié
+                    {t.statusVerified}
                   </span>
                 ) : doc?.status === 'PENDING' ? (
                   <span className="px-3 py-1 bg-yellow-500/10 text-yellow-400 text-xs font-medium rounded-full">
-                    En attente
+                    {t.statusPending}
                   </span>
                 ) : (
                   <label className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium cursor-pointer transition-colors ${
@@ -215,7 +220,7 @@ export default function VerificationPage() {
                     ) : (
                       <Upload className="w-4 h-4" />
                     )}
-                    {isUploading ? 'Upload...' : doc?.status === 'REJECTED' ? 'Re-soumettre' : 'Uploader'}
+                    {isUploading ? t.uploadingBtn : doc?.status === 'REJECTED' ? t.resubmitBtn : t.uploadBtn}
                     <input
                       type="file"
                       accept="image/*,.pdf"

@@ -9,6 +9,7 @@ import { Search, MapPin, Star, Building2, Filter, Wifi, Car, Utensils, Waves, Za
 import { getImageUrl } from '@/lib/image-url';
 import PhotoSlider from '@/components/ui/PhotoSlider';
 import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
+import { useTrans } from '@/i18n';
 
 interface Hotel {
   id: string;
@@ -51,17 +52,7 @@ const amenityIcons: Record<string, any> = {
   ac: Snowflake,
 };
 
-const amenityLabels: Record<string, string> = {
-  wifi: 'WiFi',
-  parking: 'Parking',
-  restaurant: 'Restaurant',
-  pool: 'Piscine',
-  generator: 'Groupe électrogène',
-  ac: 'Climatisation',
-  spa: 'Spa',
-  gym: 'Gym',
-  tv: 'TV',
-};
+const amenityKeys = ['wifi', 'parking', 'restaurant', 'pool', 'generator', 'ac', 'spa', 'gym', 'tv'] as const;
 
 export default function HotelsPageWrapper() {
   return (
@@ -72,6 +63,18 @@ export default function HotelsPageWrapper() {
 }
 
 function HotelsPage() {
+  const t = useTrans('bonsPlans');
+  const amenityLabels: Record<string, string> = {
+    wifi: t.amenityWifi,
+    parking: t.amenityParking,
+    restaurant: t.amenityRestaurant,
+    pool: t.amenityPool,
+    generator: t.amenityGenerator,
+    ac: t.amenityAc,
+    spa: t.amenitySpa,
+    gym: t.amenityGym,
+    tv: t.amenityTv,
+  };
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialCity = searchParams.get('city') || '';
@@ -176,10 +179,10 @@ function HotelsPage() {
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex-shrink-0">
               <h1 className="text-xl sm:text-2xl font-bold text-[#2D241E] flex items-center gap-2">
                 <Building2 className="w-6 h-6 sm:w-7 sm:h-7 text-[#D97706] flex-shrink-0" />
-                Hôtels à Madagascar
+                {t.hotelsTitle}
               </h1>
               <p className="text-[#8B7E6E] text-xs sm:text-sm mt-1">
-                Trouvez l&apos;hébergement parfait avec les vrais prix en Ariary
+                {t.hotelsSubtitle}
               </p>
             </motion.div>
 
@@ -198,7 +201,7 @@ function HotelsPage() {
                 <Search className="w-4 h-4 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Rechercher un hôtel..."
+                  placeholder={t.searchHotelPlaceholder}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="flex-1 py-2.5 bg-transparent outline-none text-[#2D241E] text-sm placeholder:text-gray-400"
@@ -209,7 +212,7 @@ function HotelsPage() {
                 onChange={(e) => setSelectedCity(e.target.value)}
                 className="px-3 py-2.5 bg-white rounded-xl text-sm text-[#2D241E] outline-none cursor-pointer shadow-md border border-gray-100"
               >
-                <option value="">Toutes les villes</option>
+                <option value="">{t.allCities}</option>
                 {MADAGASCAR_CITIES_BY_PROVINCE.map((p) => (
                   <optgroup key={p.province} label={p.province}>
                     {p.cities.map((city) => (
@@ -227,7 +230,7 @@ function HotelsPage() {
                 }`}
               >
                 <SlidersHorizontal className="w-4 h-4" />
-                Filtres
+                {t.filters}
                 {hasActiveFilters && <span className="w-2 h-2 bg-white rounded-full" />}
               </button>
             </div>
@@ -250,10 +253,10 @@ function HotelsPage() {
               >
                 <div className="pt-4 mt-4 border-t border-[#2a2a36]">
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="font-semibold text-white">Filtres avancés</h2>
+                    <h2 className="font-semibold text-white">{t.advancedFilters}</h2>
                     {hasActiveFilters && (
                       <button onClick={clearFilters} className="text-sm text-orange-400 hover:underline">
-                        Réinitialiser
+                        {t.reset}
                       </button>
                     )}
                   </div>
@@ -262,7 +265,7 @@ function HotelsPage() {
                     {/* Stars */}
                     <div>
                       <label className="text-sm font-medium text-slate-400 mb-2 block">
-                        Étoiles minimum
+                        {t.minStars}
                       </label>
                       <div className="flex gap-1">
                         {[1, 2, 3, 4, 5].map((star) => (
@@ -288,12 +291,12 @@ function HotelsPage() {
                     {/* Price Range */}
                     <div>
                       <label className="text-sm font-medium text-slate-400 mb-2 block">
-                        Prix par nuit (Ar)
+                        {t.pricePerNight}
                       </label>
                       <div className="flex items-center gap-2">
                         <input
                           type="number"
-                          placeholder="Min"
+                          placeholder={t.min}
                           value={minPrice}
                           onChange={(e) => setMinPrice(e.target.value)}
                           className="w-full px-3 py-2 bg-[#0d1520] border border-[#2a2a36] rounded-lg text-sm text-white outline-none placeholder:text-slate-500"
@@ -301,7 +304,7 @@ function HotelsPage() {
                         <span className="text-slate-500">-</span>
                         <input
                           type="number"
-                          placeholder="Max"
+                          placeholder={t.max}
                           value={maxPrice}
                           onChange={(e) => setMaxPrice(e.target.value)}
                           className="w-full px-3 py-2 bg-[#0d1520] border border-[#2a2a36] rounded-lg text-sm text-white outline-none placeholder:text-slate-500"
@@ -312,23 +315,23 @@ function HotelsPage() {
                     {/* Sort */}
                     <div>
                       <label className="text-sm font-medium text-slate-400 mb-2 block">
-                        Trier par
+                        {t.sortBy}
                       </label>
                       <select
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value)}
                         className="w-full px-3 py-2 bg-[#0d1520] border border-[#2a2a36] rounded-lg text-sm text-white outline-none cursor-pointer"
                       >
-                        <option value="rating">Meilleure note</option>
-                        <option value="price">Prix croissant</option>
-                        <option value="stars">Étoiles</option>
+                        <option value="rating">{t.bestRating}</option>
+                        <option value="price">{t.priceLowToHigh}</option>
+                        <option value="stars">{t.starsCount}</option>
                       </select>
                     </div>
 
                     {/* Amenities */}
                     <div>
                       <label className="text-sm font-medium text-slate-400 mb-2 block">
-                        Équipements
+                        {t.amenities}
                       </label>
                       <div className="flex flex-wrap gap-2">
                         {Object.entries(amenityLabels).slice(0, 6).map(([key, label]) => {
@@ -362,7 +365,7 @@ function HotelsPage() {
       <section className="py-4 border-b border-[#2a2a36]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
-            <span className="text-xs text-slate-500 shrink-0">Destinations :</span>
+            <span className="text-xs text-slate-500 shrink-0">{t.destinationsLabel}</span>
             {POPULAR_DESTINATIONS.map((dest) => (
               <button
                 key={dest.value}
@@ -387,9 +390,9 @@ function HotelsPage() {
           {/* Results header */}
           <div className="flex items-center justify-between mb-6">
             <p className="text-slate-400">
-              <span className="font-semibold text-white">{isLoading ? '...' : total}</span> hotels trouves
+              <span className="font-semibold text-white">{isLoading ? '...' : total}</span> {t.hotelsFound}
               {selectedCity && selectedCity !== 'Toutes les villes' && (
-                <span className="text-gray-400 lg:text-slate-500"> a {selectedCity}</span>
+                <span className="text-gray-400 lg:text-slate-500"> {t.inCity} {selectedCity}</span>
               )}
             </p>
           </div>
@@ -447,7 +450,7 @@ function HotelsPage() {
                       )}
                       {hotel.isFeatured && (
                         <div className="absolute top-2 right-2 px-1.5 py-0.5 bg-[#ff6b35] text-white rounded-md text-[10px] font-bold">
-                          Top
+                          {t.topBadge}
                         </div>
                       )}
                     </div>
@@ -492,11 +495,11 @@ function HotelsPage() {
                         {hotel.lowestPrice ? (
                           <div className="text-right">
                             <p className="font-bold text-[#ff6b35] text-sm">
-                              {hotel.lowestPrice.toLocaleString()} Ar<span className="text-[10px] text-gray-400 font-normal"> /nuit</span>
+                              {hotel.lowestPrice.toLocaleString()} Ar<span className="text-[10px] text-gray-400 font-normal"> {t.perNight}</span>
                             </p>
                           </div>
                         ) : (
-                          <span className="text-xs text-[#ff6b35] font-semibold px-2 py-0.5 bg-orange-50 lg:bg-orange-500/10 rounded-md">Voir tarifs</span>
+                          <span className="text-xs text-[#ff6b35] font-semibold px-2 py-0.5 bg-orange-50 lg:bg-orange-500/10 rounded-md">{t.viewRates}</span>
                         )}
                       </div>
                     </div>
@@ -514,7 +517,7 @@ function HotelsPage() {
                 disabled={isLoading}
                 className="px-8 py-3 bg-[#ff6b35] text-white font-medium rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all disabled:opacity-50"
               >
-                {isLoading ? 'Chargement...' : 'Voir plus d\'hotels'}
+                {isLoading ? t.loading : t.loadMoreHotels}
               </button>
             </div>
           )}
@@ -523,8 +526,8 @@ function HotelsPage() {
           {!isLoading && hotels.length === 0 && (
             <div className="text-center py-16">
               <Building2 className="w-16 h-16 mx-auto text-slate-600 mb-4" />
-              <h2 className="text-xl font-semibold text-white mb-2">Aucun hotel trouve</h2>
-              <p className="text-slate-400 mb-6">Essayez de modifier vos criteres de recherche</p>
+              <h2 className="text-xl font-semibold text-white mb-2">{t.noHotelFound}</h2>
+              <p className="text-slate-400 mb-6">{t.modifyCriteria}</p>
               <button
                 onClick={() => {
                   setSearchQuery('');
@@ -533,7 +536,7 @@ function HotelsPage() {
                 }}
                 className="px-6 py-3 bg-[#ff6b35] text-white font-medium rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all"
               >
-                Reinitialiser les filtres
+                {t.resetFilters}
               </button>
             </div>
           )}

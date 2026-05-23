@@ -4,114 +4,78 @@ import { useState } from 'react'
 import Link from 'next/link'
 import {
   HelpCircle, ChevronDown, ArrowLeft, MessageSquare, Mail,
-  BookOpen, Calendar, Heart, Star, Shield, UserPlus, CreditCard,
-  MapPin, Phone,
+  Calendar, Heart, Star, Shield, UserPlus, CreditCard,
+  MapPin, Phone, type LucideIcon,
 } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useTrans } from '@/i18n'
+
+type HelpTrans = ReturnType<typeof useTrans<'helpPage'>>
 
 interface FAQItem {
-  question: string
-  answer: string
+  questionKey: string
+  answerKey: string
 }
 
-interface FAQSection {
-  title: string
-  icon: typeof BookOpen
+interface FAQSectionRaw {
+  titleKey: string
+  icon: LucideIcon
   items: FAQItem[]
 }
 
-const FAQ_SECTIONS: FAQSection[] = [
+const FAQ_SECTIONS_RAW: FAQSectionRaw[] = [
   {
-    title: 'Général',
+    titleKey: 'sectionGeneral',
     icon: HelpCircle,
     items: [
-      {
-        question: 'Qu\'est-ce que Mada Spot ?',
-        answer: 'Mada Spot est une plateforme en ligne qui regroupe les meilleurs hôtels, restaurants et attractions touristiques à Madagascar. Nous vous aidons à trouver, comparer et réserver les meilleures adresses.',
-      },
-      {
-        question: 'L\'inscription est-elle gratuite ?',
-        answer: 'Oui, l\'inscription est entièrement gratuite. Créez un compte pour accéder aux réservations, favoris et avis.',
-      },
-      {
-        question: 'Mada Spot est-il disponible hors d\'Antananarivo ?',
-        answer: 'Oui ! Nous couvrons plus de 20 villes à Madagascar, dont Antananarivo, Nosy Be, Toamasina, Mahajanga, Antsirabe, Fianarantsoa et bien d\'autres.',
-      },
+      { questionKey: 'q1', answerKey: 'a1' },
+      { questionKey: 'q2', answerKey: 'a2' },
+      { questionKey: 'q3', answerKey: 'a3' },
     ],
   },
   {
-    title: 'Compte et inscription',
+    titleKey: 'sectionAccount',
     icon: UserPlus,
     items: [
-      {
-        question: 'Comment créer un compte ?',
-        answer: 'Cliquez sur "S\'inscrire" en haut de la page. Vous pouvez vous inscrire avec votre email ou votre numéro de téléphone et remplir vos informations.',
-      },
-      {
-        question: 'J\'ai oublié mon mot de passe, que faire ?',
-        answer: 'Rendez-vous sur la page de connexion et cliquez sur "Mot de passe oublié". Entrez votre email et vous recevrez un lien de réinitialisation valable 1 heure.',
-      },
-      {
-        question: 'Comment supprimer mon compte ?',
-        answer: 'Rendez-vous dans les paramètres de votre compte et cliquez sur "Supprimer mon compte". Cette action est irréversible.',
-      },
+      { questionKey: 'q4', answerKey: 'a4' },
+      { questionKey: 'q5', answerKey: 'a5' },
+      { questionKey: 'q6', answerKey: 'a6' },
     ],
   },
   {
-    title: 'Réservations',
+    titleKey: 'sectionBookings',
     icon: Calendar,
     items: [
-      {
-        question: 'Comment réserver un hôtel ou un restaurant ?',
-        answer: 'Trouvez l\'établissement qui vous intéresse, consultez sa fiche détaillée et cliquez sur "Réserver". Remplissez le formulaire avec vos dates et préférences. L\'établissement confirmera votre réservation.',
-      },
-      {
-        question: 'Puis-je annuler une réservation ?',
-        answer: 'Oui, vous pouvez annuler une réservation depuis votre espace client. Les conditions d\'annulation dépendent de l\'établissement.',
-      },
-      {
-        question: 'Comment suivre mes réservations ?',
-        answer: 'Rendez-vous dans votre espace client > Réservations pour voir toutes vos réservations en cours, passées et à venir.',
-      },
+      { questionKey: 'q7', answerKey: 'a7' },
+      { questionKey: 'q8', answerKey: 'a8' },
+      { questionKey: 'q9', answerKey: 'a9' },
     ],
   },
   {
-    title: 'Avis et évaluations',
+    titleKey: 'sectionReviews',
     icon: Star,
     items: [
-      {
-        question: 'Comment laisser un avis ?',
-        answer: 'Après avoir visité un établissement, rendez-vous sur sa fiche et cliquez sur "Laisser un avis". Attribuez une note de 1 à 5 étoiles et rédigez votre commentaire.',
-      },
-      {
-        question: 'Les avis sont-ils modérés ?',
-        answer: 'Oui, tous les avis sont soumis à modération pour garantir leur authenticité. Les avis liés à une réservation reçoivent un badge "Vérifié".',
-      },
+      { questionKey: 'q10', answerKey: 'a10' },
+      { questionKey: 'q11', answerKey: 'a11' },
     ],
   },
   {
-    title: 'Sécurité et confidentialité',
+    titleKey: 'sectionSecurity',
     icon: Shield,
     items: [
-      {
-        question: 'Mes données personnelles sont-elles protégées ?',
-        answer: 'Oui, nous prenons la protection de vos données très au sérieux. Vos mots de passe sont chiffrés, vos sessions sont sécurisées et nous n\'utilisons aucun cookie publicitaire.',
-      },
-      {
-        question: 'Comment signaler un contenu inapproprié ?',
-        answer: 'Utilisez le bouton "Signaler" présent sur chaque fiche, avis ou profil. Notre équipe de modération examinera votre signalement.',
-      },
+      { questionKey: 'q12', answerKey: 'a12' },
+      { questionKey: 'q13', answerKey: 'a13' },
     ],
   },
 ]
 
-const QUICK_LINKS = [
-  { icon: Calendar, label: 'Mes réservations', href: '/client/bookings', color: '#0891b2' },
-  { icon: Heart, label: 'Mes favoris', href: '/client/favorites', color: '#ef4444' },
-  { icon: Star, label: 'Publier un avis', href: '/publier-avis', color: '#f59e0b' },
-  { icon: CreditCard, label: 'Points fidélité', href: '/client/fidelite', color: '#8b5cf6' },
-  { icon: MapPin, label: 'Explorer', href: '/bons-plans', color: '#10b981' },
-  { icon: MessageSquare, label: 'Messages', href: '/client/messagerie', color: '#ec4899' },
+const QUICK_LINKS: { icon: LucideIcon; labelKey: string; href: string; color: string }[] = [
+  { icon: Calendar, labelKey: 'qlBookings', href: '/client/bookings', color: '#0891b2' },
+  { icon: Heart, labelKey: 'qlFavorites', href: '/client/favorites', color: '#ef4444' },
+  { icon: Star, labelKey: 'qlPublishReview', href: '/publier-avis', color: '#f59e0b' },
+  { icon: CreditCard, labelKey: 'qlLoyalty', href: '/client/fidelite', color: '#8b5cf6' },
+  { icon: MapPin, labelKey: 'qlExplore', href: '/bons-plans', color: '#10b981' },
+  { icon: MessageSquare, labelKey: 'qlMessages', href: '/client/messagerie', color: '#ec4899' },
 ]
 
 const slideUp = {
@@ -122,7 +86,7 @@ const slideUp = {
   }),
 }
 
-function DarkAccordion({ sections }: { sections: FAQSection[] }) {
+function DarkAccordion({ t }: { t: HelpTrans }) {
   const [openItems, setOpenItems] = useState<Set<string>>(new Set())
 
   const toggle = (key: string) => {
@@ -136,13 +100,13 @@ function DarkAccordion({ sections }: { sections: FAQSection[] }) {
 
   return (
     <div className="space-y-8">
-      {sections.map((section, sIdx) => {
+      {FAQ_SECTIONS_RAW.map((section, sIdx) => {
         const SectionIcon = section.icon
         return (
-          <motion.div key={section.title} variants={slideUp} custom={sIdx + 3} initial="hidden" animate="visible">
+          <motion.div key={section.titleKey} variants={slideUp} custom={sIdx + 3} initial="hidden" animate="visible">
             <div className="flex items-center gap-2 mb-3">
               <SectionIcon className="w-4 h-4 text-[#ff6b35]" />
-              <h2 className="text-lg font-bold text-white">{section.title}</h2>
+              <h2 className="text-lg font-bold text-white">{t[section.titleKey]}</h2>
             </div>
             <div className="space-y-2">
               {section.items.map((item, iIdx) => {
@@ -157,14 +121,14 @@ function DarkAccordion({ sections }: { sections: FAQSection[] }) {
                       onClick={() => toggle(key)}
                       className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-white/5 transition-colors"
                     >
-                      <span className="font-medium text-gray-200 pr-4">{item.question}</span>
+                      <span className="font-medium text-gray-200 pr-4">{t[item.questionKey]}</span>
                       <ChevronDown
                         className={`w-5 h-5 text-gray-500 flex-shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
                       />
                     </button>
                     {isOpen && (
                       <div className="px-5 pb-4 text-gray-400 text-sm leading-relaxed">
-                        {item.answer}
+                        {t[item.answerKey]}
                       </div>
                     )}
                   </div>
@@ -179,6 +143,8 @@ function DarkAccordion({ sections }: { sections: FAQSection[] }) {
 }
 
 export default function AidePage() {
+  const t = useTrans('helpPage')
+
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-12">
@@ -186,7 +152,7 @@ export default function AidePage() {
         {/* Header */}
         <motion.div variants={slideUp} custom={0} initial="hidden" animate="visible" className="mb-8">
           <Link href="/client" className="inline-flex items-center gap-1.5 text-gray-400 hover:text-white text-sm mb-4 transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Mon espace
+            <ArrowLeft className="w-4 h-4" /> {t.backToClient}
           </Link>
 
           <div className="relative overflow-hidden rounded-2xl border border-[#2a2a36] bg-gradient-to-br from-violet-500/10 via-[#0a0a0f] to-indigo-500/5 p-8">
@@ -197,8 +163,8 @@ export default function AidePage() {
                   <HelpCircle className="w-6 h-6 text-violet-400" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold">Centre d&apos;aide</h1>
-                  <p className="text-gray-400 text-sm">Trouvez rapidement les réponses à vos questions</p>
+                  <h1 className="text-2xl font-bold">{t.title}</h1>
+                  <p className="text-gray-400 text-sm">{t.subtitle}</p>
                 </div>
               </div>
             </div>
@@ -207,33 +173,36 @@ export default function AidePage() {
 
         {/* Quick Links */}
         <motion.div variants={slideUp} custom={1} initial="hidden" animate="visible" className="mb-10">
-          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Accès rapide</h2>
+          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">{t.quickActions}</h2>
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-            {QUICK_LINKS.map(link => (
-              <Link key={link.label} href={link.href}>
-                <div className="bg-[#1a1a24] border border-[#2a2a36] rounded-xl p-3 flex flex-col items-center gap-1.5 hover:border-[#ff6b35]/20 transition-all text-center">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${link.color}15` }}>
-                    <link.icon className="w-4 h-4" style={{ color: link.color }} />
+            {QUICK_LINKS.map(link => {
+              const Icon = link.icon
+              return (
+                <Link key={link.labelKey} href={link.href}>
+                  <div className="bg-[#1a1a24] border border-[#2a2a36] rounded-xl p-3 flex flex-col items-center gap-1.5 hover:border-[#ff6b35]/20 transition-all text-center">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${link.color}15` }}>
+                      <Icon className="w-4 h-4" style={{ color: link.color }} />
+                    </div>
+                    <span className="text-[11px] text-gray-400">{t[link.labelKey]}</span>
                   </div>
-                  <span className="text-[11px] text-gray-400">{link.label}</span>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              )
+            })}
           </div>
         </motion.div>
 
         {/* FAQ Sections */}
         <motion.div variants={slideUp} custom={2} initial="hidden" animate="visible" className="mb-10">
-          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Questions fréquentes</h2>
+          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">{t.popularTopics}</h2>
         </motion.div>
-        <DarkAccordion sections={FAQ_SECTIONS} />
+        <DarkAccordion t={t} />
 
         {/* Contact CTA */}
         <motion.div variants={slideUp} custom={10} initial="hidden" animate="visible" className="mt-12">
           <div className="bg-gradient-to-br from-[#ff6b35]/10 via-[#1a1a24] to-pink-500/5 border border-[#2a2a36] rounded-2xl p-8 text-center">
-            <h2 className="text-lg font-bold text-white mb-2">Vous n&apos;avez pas trouvé votre réponse ?</h2>
+            <h2 className="text-lg font-bold text-white mb-2">{t.needMore}</h2>
             <p className="text-gray-400 text-sm mb-6">
-              Notre équipe est disponible pour vous aider.
+              {t.needMoreDesc}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
@@ -241,7 +210,7 @@ export default function AidePage() {
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#ff6b35] text-white rounded-xl font-medium hover:bg-[#e55a2b] transition-colors"
               >
                 <Mail className="w-4 h-4" />
-                Nous contacter
+                {t.contactBtn}
               </Link>
               <a
                 href="tel:+261340000000"

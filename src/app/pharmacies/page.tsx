@@ -6,6 +6,7 @@ import { Pill, Phone, MapPin, Clock, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { useTrans } from '@/i18n';
 
 interface Pharmacy {
   id: string;
@@ -21,6 +22,7 @@ interface Pharmacy {
 }
 
 export default function PharmaciesPage() {
+  const t = useTrans('pharmaciesPage');
   const [pharmacies, setPharmacies] = useState<Pharmacy[]>([]);
   const [cities, setCities] = useState<string[]>([]);
   const [selectedCity, setSelectedCity] = useState<string>('Antananarivo');
@@ -28,6 +30,7 @@ export default function PharmaciesPage() {
 
   useEffect(() => {
     fetchPharmacies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCity]);
 
   const fetchPharmacies = async () => {
@@ -69,7 +72,7 @@ export default function PharmaciesPage() {
           {/* Back Link */}
           <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6">
             <ArrowLeft className="w-4 h-4" />
-            Retour à l'accueil
+            {t.back}
           </Link>
 
           {/* Header avec sélecteur de ville */}
@@ -79,8 +82,8 @@ export default function PharmaciesPage() {
                 <Pill className="w-8 h-8" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold">Pharmacies de Garde</h1>
-                <p className="text-green-100">Sélectionnez votre ville</p>
+                <h1 className="text-2xl font-bold">{t.title}</h1>
+                <p className="text-green-100">{t.subtitle}</p>
               </div>
             </div>
 
@@ -101,7 +104,7 @@ export default function PharmaciesPage() {
           <div className="flex items-center gap-2 mb-4">
             <MapPin className="w-5 h-5 text-green-600" />
             <h2 className="text-lg font-semibold text-white">
-              Pharmacies de garde à {selectedCity}
+              {t.cityIntro} {selectedCity}
             </h2>
           </div>
 
@@ -118,8 +121,8 @@ export default function PharmaciesPage() {
           ) : pharmacies.length === 0 ? (
             <div className="bg-[#1a1a24] rounded-xl p-8 text-center">
               <Pill className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Aucune pharmacie de garde</h3>
-              <p className="text-gray-500">Aucune pharmacie de garde trouvée à {selectedCity}</p>
+              <h3 className="text-lg font-semibold text-white mb-2">{t.noResults}</h3>
+              <p className="text-gray-500">{t.noResultsDesc} {selectedCity}</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -136,7 +139,7 @@ export default function PharmaciesPage() {
                       <div className="flex items-center gap-2 mb-2">
                         <h3 className="text-lg font-semibold text-white">{pharmacy.name}</h3>
                         <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">
-                          De garde
+                          {t.onDutyBadge}
                         </span>
                       </div>
 

@@ -11,6 +11,8 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import type { DashboardStats, BookingItem, ReviewItem, DashboardUser, TodayArrival, PendingBookingItem } from '@/types/dashboard'
+import { useTrans } from '@/i18n'
+type DashboardProTrans = ReturnType<typeof useTrans<'dashboardPro'>>
 
 // Mini SVG Sparkline chart
 function SparkLine({ data, color, height = 40 }: { data: number[]; color: string; height?: number }) {
@@ -45,14 +47,14 @@ function MiniBarChart({ data, labels, color }: { data: number[]; labels: string[
 }
 
 // Profile completion widget
-function ProfileCompletion({ user, stats, accent }: { user: DashboardUser; stats: DashboardStats | null; accent: string }) {
+function ProfileCompletion({ user, stats, accent, t }: { user: DashboardUser; stats: DashboardStats | null; accent: string; t: DashboardProTrans }) {
   const checks = [
-    { label: 'Informations de base', done: !!(user.firstName && user.lastName) },
-    { label: 'Email vérifié', done: true },
-    { label: 'Établissement publié', done: (stats?.totalViews ?? 0) > 0 },
-    { label: 'Photo de couverture', done: !!user.avatar },
-    { label: 'Premier avis reçu', done: (stats?.totalReviews ?? 0) > 0 },
-    { label: 'Première réservation', done: (stats?.totalBookings ?? 0) > 0 },
+    { label: t.basicInfo, done: !!(user.firstName && user.lastName) },
+    { label: t.emailVerified, done: true },
+    { label: t.establishmentPublished, done: (stats?.totalViews ?? 0) > 0 },
+    { label: t.coverPhoto, done: !!user.avatar },
+    { label: t.firstReviewReceived, done: (stats?.totalReviews ?? 0) > 0 },
+    { label: t.firstBooking, done: (stats?.totalBookings ?? 0) > 0 },
   ]
   const doneCount = checks.filter(c => c.done).length
   const percent = Math.round((doneCount / checks.length) * 100)
@@ -62,7 +64,7 @@ function ProfileCompletion({ user, stats, accent }: { user: DashboardUser; stats
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
           <ShieldCheck className="w-4 h-4" style={{ color: accent }} />
-          Complétion du profil
+          {t.profileCompletion}
         </h3>
         <span className="text-lg font-bold" style={{ color: accent }}>{percent}%</span>
       </div>
@@ -145,11 +147,11 @@ function OccupancyGauge({ rate, color }: { rate: number; color: string }) {
 }
 
 // Response time badge
-function ResponseTimeBadge({ hours }: { hours: number }) {
+function ResponseTimeBadge({ hours, t }: { hours: number; t: DashboardProTrans }) {
   const getColor = () => {
-    if (hours <= 2) return { color: '#10b981', label: 'Excellent', bg: 'bg-emerald-500/10' }
-    if (hours <= 12) return { color: '#f59e0b', label: 'Moyen', bg: 'bg-amber-500/10' }
-    return { color: '#ef4444', label: 'À améliorer', bg: 'bg-red-500/10' }
+    if (hours <= 2) return { color: '#10b981', label: t.excellent, bg: 'bg-emerald-500/10' }
+    if (hours <= 12) return { color: '#f59e0b', label: t.average, bg: 'bg-amber-500/10' }
+    return { color: '#ef4444', label: t.toImprove, bg: 'bg-red-500/10' }
   }
   const config = getColor()
   const isPoor = hours > 12
@@ -160,7 +162,7 @@ function ResponseTimeBadge({ hours }: { hours: number }) {
         <Clock className="w-8 h-8" style={{ color: config.color }} />
       </div>
       <div className="flex-1">
-        <p className="text-xs text-gray-400">Temps de réponse moyen</p>
+        <p className="text-xs text-gray-400">{t.avgResponseTime}</p>
         <p className="text-lg font-bold text-gray-900">{hours > 0 ? `${hours}h` : '—'}</p>
       </div>
       <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ color: config.color, backgroundColor: `${config.color}20` }}>
@@ -170,7 +172,7 @@ function ResponseTimeBadge({ hours }: { hours: number }) {
   )
 }
 
-function BookingRow({ booking, accent }: { booking: BookingItem; accent: string }) {
+function BookingRow({ booking, accent, t }: { booking: BookingItem; accent: string; t: DashboardProTrans }) {
   const statusColors: Record<string, string> = {
     pending: 'bg-yellow-500/10 text-yellow-400',
     confirmed: 'bg-emerald-500/10 text-emerald-400',
@@ -179,11 +181,11 @@ function BookingRow({ booking, accent }: { booking: BookingItem; accent: string 
     no_show: 'bg-gray-500/10 text-gray-400',
   }
   const statusLabels: Record<string, string> = {
-    pending: 'En attente',
-    confirmed: 'Confirmée',
-    cancelled: 'Annulée',
-    completed: 'Terminée',
-    no_show: 'No-show',
+    pending: t.statusPending,
+    confirmed: t.statusConfirmed,
+    cancelled: t.statusCancelled,
+    completed: t.statusCompleted,
+    no_show: t.statusNoShow,
   }
   return (
     <div className="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-xl transition-colors">
@@ -213,9 +215,10 @@ function BookingRow({ booking, accent }: { booking: BookingItem; accent: string 
 }
 
 // Pending booking action row (hotel)
-function PendingRow({ booking, onAction }: {
+function PendingRow({ booking, onAction, t }: {
   booking: PendingBookingItem
   onAction: (id: string, action: 'confirm' | 'cancel') => void
+  t: DashboardProTrans
 }) {
   return (
     <div className="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-xl transition-colors">
@@ -238,14 +241,14 @@ function PendingRow({ booking, onAction }: {
         <button
           onClick={() => onAction(booking.id, 'confirm')}
           className="p-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-lg transition-colors"
-          title="Accepter"
+          title={t.accept}
         >
           <UserCheck className="w-4 h-4" />
         </button>
         <button
           onClick={() => onAction(booking.id, 'cancel')}
           className="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors"
-          title="Refuser"
+          title={t.refuse}
         >
           <XCircle className="w-4 h-4" />
         </button>
@@ -255,6 +258,7 @@ function PendingRow({ booking, onAction }: {
 }
 
 export default function DashboardHome() {
+  const t = useTrans('dashboardPro')
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [recentBookings, setRecentBookings] = useState<BookingItem[]>([])
   const [recentReviews, setRecentReviews] = useState<ReviewItem[]>([])
@@ -278,7 +282,7 @@ export default function DashboardHome() {
     stats.totalBookings || 0
   ] : []
 
-  const weekLabels = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']
+  const weekLabels = [t.mon, t.tue, t.wed, t.thu, t.fri, t.sat, t.sun]
   const weekBookings = recentBookings.length > 0
     ? weekLabels.map((_, i) => recentBookings.filter(b => new Date(b.checkIn).getDay() === (i + 1) % 7).length)
     : [0, 1, 0, 2, 1, 3, 2]
@@ -347,9 +351,9 @@ export default function DashboardHome() {
 
   const greeting = () => {
     const hour = new Date().getHours()
-    if (hour < 12) return 'Bonjour'
-    if (hour < 18) return 'Bon après-midi'
-    return 'Bonsoir'
+    if (hour < 12) return t.morning
+    if (hour < 18) return t.afternoon
+    return t.evening
   }
 
   const pendingBookings = stats?.pendingBookings || recentBookings.filter(b => b.status === 'pending').length
@@ -363,13 +367,13 @@ export default function DashboardHome() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">{greeting()}, {user?.firstName} !</h1>
-            <p className="text-gray-400 mt-1">Voici votre tableau de bord hôtelier.</p>
+            <p className="text-gray-400 mt-1">{t.hotelDashboardSubtitle}</p>
           </div>
           <div className="flex flex-wrap gap-2">
             {pendingBookings > 0 && (
               <Link href="/dashboard/reservations?tab=pending" className="flex items-center gap-2 px-4 py-2.5 bg-amber-500/15 border border-amber-500/30 rounded-xl text-amber-400 text-sm font-semibold hover:bg-amber-500/20 transition-colors animate-pulse">
                 <AlertTriangle className="w-4 h-4" />
-                {pendingBookings} demande{pendingBookings > 1 ? 's' : ''} en attente
+                {pendingBookings} {pendingBookings > 1 ? t.pendingRequestPlural : t.pendingRequestSingle}
               </Link>
             )}
           </div>
@@ -381,14 +385,14 @@ export default function DashboardHome() {
           <div className="bg-white border border-white/10 rounded-2xl p-5">
             <div className="flex items-center gap-2 mb-3">
               <Percent className="w-4 h-4 text-cyan-500" />
-              <p className="text-sm text-gray-400">Taux d&apos;occupation</p>
+              <p className="text-sm text-gray-400">{t.occupancyRate}</p>
             </div>
             <OccupancyGauge rate={stats.occupancyRate || 0} color="#0891b2" />
-            <p className="text-center text-xs text-gray-500 mt-2">Ce mois-ci</p>
+            <p className="text-center text-xs text-gray-500 mt-2">{t.thisMonth}</p>
           </div>
 
           <StatCard
-            label="Revenu du mois"
+            label={t.monthlyRevenue}
             value={`${(stats.monthlyRevenue || 0).toLocaleString('fr-FR')} Ar`}
             icon={DollarSign}
             trend={stats.monthlyRevenueChange}
@@ -396,7 +400,7 @@ export default function DashboardHome() {
             href="/dashboard/statistiques"
           />
           <StatCard
-            label="Réservations du mois"
+            label={t.monthlyBookings}
             value={stats.monthlyBookingsCount || 0}
             icon={Calendar}
             trend={stats.monthlyBookingsChange}
@@ -404,7 +408,7 @@ export default function DashboardHome() {
             href="/dashboard/reservations"
           />
           <StatCard
-            label="Note moyenne"
+            label={t.averageRating}
             value={`${stats.averageRating?.toFixed(1) || '0'}/5`}
             icon={Star}
             trend={stats.ratingTrend}
@@ -419,15 +423,15 @@ export default function DashboardHome() {
           <div className="bg-white border border-white/10 rounded-2xl p-5">
             <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <Activity className="w-4 h-4 text-cyan-400" />
-              Réactivité
+              {t.reactivity}
             </h3>
-            <ResponseTimeBadge hours={stats.avgResponseTimeHours || 0} />
+            <ResponseTimeBadge hours={stats.avgResponseTimeHours || 0} t={t} />
             <p className="text-xs text-gray-500 mt-3">
               {(stats.avgResponseTimeHours || 0) <= 2
-                ? 'Vous répondez rapidement, les voyageurs apprécient !'
+                ? t.responseFast
                 : (stats.avgResponseTimeHours || 0) <= 12
-                ? 'Essayez de répondre en moins de 2h pour plus de réservations.'
-                : 'Temps de réponse élevé. Répondez vite pour ne pas perdre de clients !'}
+                ? t.responseMedium
+                : t.responseSlow}
             </p>
           </div>
 
@@ -436,9 +440,9 @@ export default function DashboardHome() {
             <div className="flex items-center justify-between p-5 border-b border-white/10">
               <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
                 <UserCheck className="w-4 h-4 text-cyan-400" />
-                Arrivées du jour
+                {t.todayArrivals}
               </h3>
-              <span className="text-xs text-gray-400">{todayArrivals.length} check-in{todayArrivals.length !== 1 ? 's' : ''}</span>
+              <span className="text-xs text-gray-400">{todayArrivals.length} {todayArrivals.length !== 1 ? t.checkInPlural : t.checkInSingle}</span>
             </div>
             <div className="divide-y divide-white/5">
               {todayArrivals.length > 0 ? todayArrivals.map((arrival, i) => (
@@ -457,13 +461,13 @@ export default function DashboardHome() {
                   <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
                     arrival.status === 'confirmed' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'
                   }`}>
-                    {arrival.status === 'confirmed' ? 'Confirmé' : 'En attente'}
+                    {arrival.status === 'confirmed' ? t.confirmed : t.pendingStatus}
                   </span>
                 </div>
               )) : (
                 <div className="p-8 text-center">
                   <CalendarDays className="w-10 h-10 text-gray-600 mx-auto mb-3" />
-                  <p className="text-sm text-gray-400">Aucune arrivée prévue aujourd&apos;hui</p>
+                  <p className="text-sm text-gray-400">{t.noArrivalToday}</p>
                 </div>
               )}
             </div>
@@ -481,15 +485,15 @@ export default function DashboardHome() {
               <div className="flex items-center justify-between p-5 border-b border-white/10 bg-amber-500/5">
                 <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4 text-amber-400" />
-                  Demandes en attente
+                  {t.pendingRequestsTitle}
                 </h3>
                 <Link href="/dashboard/reservations?tab=pending" className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
-                  Voir tout <ArrowRight className="w-3 h-3" />
+                  {t.seeAll} <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
               <div className="divide-y divide-white/5">
                 {pendingList.map((booking) => (
-                  <PendingRow key={booking.id} booking={booking} onAction={handlePendingAction} />
+                  <PendingRow key={booking.id} booking={booking} onAction={handlePendingAction} t={t} />
                 ))}
               </div>
             </motion.div>
@@ -498,10 +502,10 @@ export default function DashboardHome() {
 
         {/* Secondary Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard label="Vues totales" value={stats.totalViews?.toLocaleString('fr-FR') || '0'} icon={Eye} trend={stats.viewsTrend} color="#8b5cf6" href="/dashboard/statistiques" sparkData={viewsSparkData} />
-          <StatCard label="Taux de clic" value={`${stats.ctr?.toFixed(1) || '0'}%`} icon={MousePointerClick} color="#3b82f6" />
-          <StatCard label="Messages non lus" value={stats.unreadMessages || 0} icon={MessageSquare} color="#ec4899" href="/dashboard/messagerie" />
-          <StatCard label="Total avis" value={stats.totalReviews || 0} icon={Star} color="#f59e0b" href="/dashboard/avis" />
+          <StatCard label={t.totalViews} value={stats.totalViews?.toLocaleString('fr-FR') || '0'} icon={Eye} trend={stats.viewsTrend} color="#8b5cf6" href="/dashboard/statistiques" sparkData={viewsSparkData} />
+          <StatCard label={t.ctrLabel} value={`${stats.ctr?.toFixed(1) || '0'}%`} icon={MousePointerClick} color="#3b82f6" />
+          <StatCard label={t.unreadMessages} value={stats.unreadMessages || 0} icon={MessageSquare} color="#ec4899" href="/dashboard/messagerie" />
+          <StatCard label={t.totalReviews} value={stats.totalReviews || 0} icon={Star} color="#f59e0b" href="/dashboard/avis" />
         </div>
 
         {/* Charts + Profile */}
@@ -509,7 +513,7 @@ export default function DashboardHome() {
           <div className="bg-white border border-white/10 rounded-2xl p-5">
             <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-cyan-500" />
-              Réservations cette semaine
+              {t.bookingsThisWeek}
             </h3>
             <MiniBarChart data={weekBookings} labels={weekLabels} color="#0891b2" />
           </div>
@@ -517,12 +521,12 @@ export default function DashboardHome() {
           <div className="bg-white border border-white/10 rounded-2xl p-5">
             <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <Activity className="w-4 h-4 text-cyan-400" />
-              Performance
+              {t.performance}
             </h3>
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between text-xs mb-1">
-                  <span className="text-gray-400">Taux de confirmation</span>
+                  <span className="text-gray-400">{t.confirmationRate}</span>
                   <span className="text-cyan-400 font-medium">
                     {stats.totalBookings ? Math.round((recentBookings.filter(b => b.status === 'confirmed').length / Math.max(recentBookings.length, 1)) * 100) : 0}%
                   </span>
@@ -533,7 +537,7 @@ export default function DashboardHome() {
               </div>
               <div>
                 <div className="flex justify-between text-xs mb-1">
-                  <span className="text-gray-400">Avis répondus</span>
+                  <span className="text-gray-400">{t.answeredReviews}</span>
                   <span className="text-amber-400 font-medium">
                     {recentReviews.length ? Math.round((recentReviews.filter(r => r.ownerResponse).length / recentReviews.length) * 100) : 0}%
                   </span>
@@ -545,27 +549,27 @@ export default function DashboardHome() {
             </div>
           </div>
 
-          {user && <ProfileCompletion user={user} stats={stats} accent="#0891b2" />}
+          {user && <ProfileCompletion user={user} stats={stats} accent="#0891b2" t={t} />}
         </div>
 
         {/* Recent Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-white border border-white/10 rounded-2xl overflow-hidden">
             <div className="flex items-center justify-between p-5 border-b border-white/10">
-              <h2 className="text-lg font-semibold text-gray-900">Dernières réservations</h2>
+              <h2 className="text-lg font-semibold text-gray-900">{t.recentBookings}</h2>
               <Link href="/dashboard/reservations" className="text-sm text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
-                Voir tout <ArrowRight className="w-4 h-4" />
+                {t.seeAll} <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
             <div className="divide-y divide-white/5">
               {recentBookings.length > 0 ? (
                 recentBookings.slice(0, 5).map((booking) => (
-                  <BookingRow key={booking.id} booking={booking} accent="#0891b2" />
+                  <BookingRow key={booking.id} booking={booking} accent="#0891b2" t={t} />
                 ))
               ) : (
                 <div className="p-8 text-center">
                   <Calendar className="w-10 h-10 text-gray-600 mx-auto mb-3" />
-                  <p className="text-sm text-gray-400">Aucune réservation récente</p>
+                  <p className="text-sm text-gray-400">{t.noRecentBookings}</p>
                 </div>
               )}
             </div>
@@ -573,9 +577,9 @@ export default function DashboardHome() {
 
           <div className="bg-white border border-white/10 rounded-2xl overflow-hidden">
             <div className="flex items-center justify-between p-5 border-b border-white/10">
-              <h2 className="text-lg font-semibold text-gray-900">Derniers avis</h2>
+              <h2 className="text-lg font-semibold text-gray-900">{t.recentReviews}</h2>
               <Link href="/dashboard/avis" className="text-sm text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
-                Voir tout <ArrowRight className="w-4 h-4" />
+                {t.seeAll} <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
             <div className="divide-y divide-white/5">
@@ -584,7 +588,7 @@ export default function DashboardHome() {
                   <div key={review.id} className="p-4 hover:bg-gray-50 transition-colors">
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">{review.authorName || 'Anonyme'}</p>
+                        <p className="text-sm font-medium text-gray-900 truncate">{review.authorName || t.anonymous}</p>
                         <div className="flex items-center gap-1 mt-0.5">
                           {[...Array(5)].map((_, i) => (
                             <Star key={i} className={`w-3 h-3 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-600'}`} />
@@ -598,7 +602,7 @@ export default function DashboardHome() {
                     <p className="text-sm text-gray-300 line-clamp-2">{review.comment}</p>
                     {!review.ownerResponse && (
                       <Link href="/dashboard/avis" className="text-xs text-cyan-400 mt-2 inline-block hover:underline">
-                        Répondre →
+                        {t.reply}
                       </Link>
                     )}
                   </div>
@@ -606,7 +610,7 @@ export default function DashboardHome() {
               ) : (
                 <div className="p-8 text-center">
                   <Star className="w-10 h-10 text-gray-600 mx-auto mb-3" />
-                  <p className="text-sm text-gray-400">Aucun avis récent</p>
+                  <p className="text-sm text-gray-400">{t.noRecentReviews}</p>
                 </div>
               )}
             </div>
@@ -623,19 +627,19 @@ export default function DashboardHome() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">{greeting()}, {user?.firstName} !</h2>
-          <p className="text-gray-400 mt-1">Voici un aperçu de votre activité.</p>
+          <p className="text-gray-400 mt-1">{t.genericDashboardSubtitle}</p>
         </div>
         <div className="flex flex-wrap gap-2">
           {pendingBookings > 0 && (
             <Link href="/dashboard/reservations?tab=pending" className="flex items-center gap-2 px-4 py-2.5 bg-orange-500/15 border border-orange-500/30 rounded-xl text-orange-400 text-sm font-semibold hover:bg-orange-500/20 transition-colors animate-pulse">
               <AlertTriangle className="w-4 h-4" />
-              {pendingBookings} Réservation{pendingBookings > 1 ? 's' : ''} à valider
+              {pendingBookings} {pendingBookings > 1 ? t.bookingsToValidatePlural : t.bookingsToValidateSingle}
             </Link>
           )}
           {unansweredReviews > 0 && (
             <Link href="/dashboard/avis" className="flex items-center gap-2 px-3 py-2 bg-pink-500/10 border border-pink-500/20 rounded-xl text-pink-400 text-xs font-medium hover:bg-pink-500/15 transition-colors">
               <Star className="w-3.5 h-3.5" />
-              {unansweredReviews} avis sans réponse
+              {unansweredReviews} {t.unansweredReviews}
             </Link>
           )}
         </div>
@@ -643,18 +647,18 @@ export default function DashboardHome() {
 
       {/* Main Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Vues totales" value={stats?.totalViews?.toLocaleString('fr-FR') || '0'} icon={Eye} trend={stats?.viewsTrend} color="#8b5cf6" href="/dashboard/statistiques" sparkData={viewsSparkData} />
-        <StatCard label="Taux de clic (CTR)" value={`${stats?.ctr?.toFixed(1) || '0'}%`} icon={MousePointerClick} color="#3b82f6" href="/dashboard/statistiques" />
-        <StatCard label="Réservations" value={stats?.totalBookings || 0} icon={Calendar} trend={stats?.bookingsTrend} color="#10b981" href="/dashboard/reservations" sparkData={bookingsSparkData} />
-        <StatCard label="Revenus estimés" value={`${(stats?.totalRevenue || 0).toLocaleString('fr-FR')} MGA`} icon={DollarSign} trend={stats?.revenueTrend} color="#ff6b35" href="/dashboard/statistiques" />
+        <StatCard label={t.totalViews} value={stats?.totalViews?.toLocaleString('fr-FR') || '0'} icon={Eye} trend={stats?.viewsTrend} color="#8b5cf6" href="/dashboard/statistiques" sparkData={viewsSparkData} />
+        <StatCard label={t.ctrLong} value={`${stats?.ctr?.toFixed(1) || '0'}%`} icon={MousePointerClick} color="#3b82f6" href="/dashboard/statistiques" />
+        <StatCard label={t.bookings} value={stats?.totalBookings || 0} icon={Calendar} trend={stats?.bookingsTrend} color="#10b981" href="/dashboard/reservations" sparkData={bookingsSparkData} />
+        <StatCard label={t.estimatedRevenue} value={`${(stats?.totalRevenue || 0).toLocaleString('fr-FR')} MGA`} icon={DollarSign} trend={stats?.revenueTrend} color="#ff6b35" href="/dashboard/statistiques" />
       </div>
 
       {/* Secondary Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Note moyenne" value={`${stats?.averageRating?.toFixed(1) || '0'}/5`} icon={Star} trend={stats?.ratingTrend} color="#f59e0b" href="/dashboard/avis" />
-        <StatCard label="Total avis" value={stats?.totalReviews || 0} icon={Star} color="#f59e0b" href="/dashboard/avis" />
-        <StatCard label="Messages non lus" value={stats?.unreadMessages || 0} icon={MessageSquare} color="#ec4899" href="/dashboard/messagerie" />
-        <StatCard label="Réservations du jour" value={stats?.todayBookings || 0} icon={Clock} color="#06b6d4" href="/dashboard/reservations" />
+        <StatCard label={t.averageRating} value={`${stats?.averageRating?.toFixed(1) || '0'}/5`} icon={Star} trend={stats?.ratingTrend} color="#f59e0b" href="/dashboard/avis" />
+        <StatCard label={t.totalReviews} value={stats?.totalReviews || 0} icon={Star} color="#f59e0b" href="/dashboard/avis" />
+        <StatCard label={t.unreadMessages} value={stats?.unreadMessages || 0} icon={MessageSquare} color="#ec4899" href="/dashboard/messagerie" />
+        <StatCard label={t.todayBookings} value={stats?.todayBookings || 0} icon={Clock} color="#06b6d4" href="/dashboard/reservations" />
       </div>
 
       {/* Charts Row */}
@@ -662,7 +666,7 @@ export default function DashboardHome() {
         <div className="bg-white border border-white/10 rounded-2xl p-5">
           <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <BarChart3 className="w-4 h-4 text-[#10b981]" />
-            Réservations cette semaine
+            {t.bookingsThisWeek}
           </h3>
           <MiniBarChart data={weekBookings} labels={weekLabels} color="#10b981" />
         </div>
@@ -670,12 +674,12 @@ export default function DashboardHome() {
         <div className="bg-white border border-white/10 rounded-2xl p-5">
           <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <Activity className="w-4 h-4 text-cyan-400" />
-            Performance
+            {t.performance}
           </h3>
           <div className="space-y-4">
             <div>
               <div className="flex justify-between text-xs mb-1">
-                <span className="text-gray-400">Temps de réponse moyen</span>
+                <span className="text-gray-400">{t.avgResponseTime}</span>
                 <span className="text-cyan-400 font-medium">&lt; 2h</span>
               </div>
               <div className="w-full bg-white/5 rounded-full h-1.5">
@@ -684,7 +688,7 @@ export default function DashboardHome() {
             </div>
             <div>
               <div className="flex justify-between text-xs mb-1">
-                <span className="text-gray-400">Taux de confirmation</span>
+                <span className="text-gray-400">{t.confirmationRate}</span>
                 <span className="text-green-400 font-medium">
                   {stats?.totalBookings ? Math.round((recentBookings.filter(b => b.status === 'confirmed').length / Math.max(recentBookings.length, 1)) * 100) : 0}%
                 </span>
@@ -695,7 +699,7 @@ export default function DashboardHome() {
             </div>
             <div>
               <div className="flex justify-between text-xs mb-1">
-                <span className="text-gray-400">Avis répondus</span>
+                <span className="text-gray-400">{t.answeredReviews}</span>
                 <span className="text-amber-400 font-medium">
                   {recentReviews.length ? Math.round((recentReviews.filter(r => r.ownerResponse).length / recentReviews.length) * 100) : 0}%
                 </span>
@@ -707,27 +711,27 @@ export default function DashboardHome() {
           </div>
         </div>
 
-        {user && <ProfileCompletion user={user} stats={stats} accent="#ff6b35" />}
+        {user && <ProfileCompletion user={user} stats={stats} accent="#ff6b35" t={t} />}
       </div>
 
       {/* Recent Content */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white border border-white/10 rounded-2xl overflow-hidden">
           <div className="flex items-center justify-between p-5 border-b border-white/10">
-            <h2 className="text-lg font-semibold text-gray-900">Dernières réservations</h2>
+            <h2 className="text-lg font-semibold text-gray-900">{t.recentBookings}</h2>
             <Link href="/dashboard/reservations" className="text-sm text-[#ff6b35] hover:text-orange-400 flex items-center gap-1">
-              Voir tout <ArrowRight className="w-4 h-4" />
+              {t.seeAll} <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
           <div className="divide-y divide-white/5">
             {recentBookings.length > 0 ? (
               recentBookings.slice(0, 5).map((booking) => (
-                <BookingRow key={booking.id} booking={booking} accent="#ff6b35" />
+                <BookingRow key={booking.id} booking={booking} accent="#ff6b35" t={t} />
               ))
             ) : (
               <div className="p-8 text-center">
                 <Calendar className="w-10 h-10 text-gray-600 mx-auto mb-3" />
-                <p className="text-sm text-gray-400">Aucune réservation récente</p>
+                <p className="text-sm text-gray-400">{t.noRecentBookings}</p>
               </div>
             )}
           </div>
@@ -735,9 +739,9 @@ export default function DashboardHome() {
 
         <div className="bg-white border border-white/10 rounded-2xl overflow-hidden">
           <div className="flex items-center justify-between p-5 border-b border-white/10">
-            <h2 className="text-lg font-semibold text-gray-900">Derniers avis</h2>
+            <h2 className="text-lg font-semibold text-gray-900">{t.recentReviews}</h2>
             <Link href="/dashboard/avis" className="text-sm text-[#ff6b35] hover:text-orange-400 flex items-center gap-1">
-              Voir tout <ArrowRight className="w-4 h-4" />
+              {t.seeAll} <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
           <div className="divide-y divide-white/5">
@@ -746,7 +750,7 @@ export default function DashboardHome() {
                 <div key={review.id} className="p-4 hover:bg-gray-50 transition-colors">
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">{review.authorName || 'Anonyme'}</p>
+                      <p className="text-sm font-medium text-gray-900 truncate">{review.authorName || t.anonymous}</p>
                       <div className="flex items-center gap-1 mt-0.5">
                         {[...Array(5)].map((_, i) => (
                           <Star key={i} className={`w-3 h-3 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-600'}`} />
@@ -760,7 +764,7 @@ export default function DashboardHome() {
                   <p className="text-sm text-gray-300 line-clamp-2">{review.comment}</p>
                   {!review.ownerResponse && (
                     <Link href="/dashboard/avis" className="text-xs text-[#ff6b35] mt-2 inline-block hover:underline">
-                      Répondre →
+                      {t.reply}
                     </Link>
                   )}
                 </div>
@@ -768,7 +772,7 @@ export default function DashboardHome() {
             ) : (
               <div className="p-8 text-center">
                 <Star className="w-10 h-10 text-gray-600 mx-auto mb-3" />
-                <p className="text-sm text-gray-400">Aucun avis récent</p>
+                <p className="text-sm text-gray-400">{t.noRecentReviews}</p>
               </div>
             )}
           </div>
@@ -778,12 +782,12 @@ export default function DashboardHome() {
       {/* Quick Actions */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {[
-          { label: 'Mon établissement', href: '/dashboard/etablissement', icon: MapPin, color: '#ff6b35' },
-          { label: 'Réservations', href: '/dashboard/reservations', icon: Calendar, color: '#10b981' },
-          { label: 'Calendrier', href: '/dashboard/calendrier', icon: CalendarDays, color: '#06b6d4' },
-          { label: 'Promotions', href: '/dashboard/promotions', icon: Zap, color: '#eab308' },
-          { label: 'Avis clients', href: '/dashboard/avis', icon: Star, color: '#f59e0b' },
-          { label: 'Messagerie', href: '/dashboard/messagerie', icon: MessageSquare, color: '#ec4899' },
+          { label: t.myEstablishment, href: '/dashboard/etablissement', icon: MapPin, color: '#ff6b35' },
+          { label: t.bookings, href: '/dashboard/reservations', icon: Calendar, color: '#10b981' },
+          { label: t.calendar, href: '/dashboard/calendrier', icon: CalendarDays, color: '#06b6d4' },
+          { label: t.promotions, href: '/dashboard/promotions', icon: Zap, color: '#eab308' },
+          { label: t.customerReviews, href: '/dashboard/avis', icon: Star, color: '#f59e0b' },
+          { label: t.messaging, href: '/dashboard/messagerie', icon: MessageSquare, color: '#ec4899' },
         ].map((action) => (
           <Link key={action.href} href={action.href}>
             <motion.div

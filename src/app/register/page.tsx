@@ -24,6 +24,7 @@ import {
   Shield,
 } from 'lucide-react'
 import { REGISTRATION_CATEGORIES, type RegistrationCategory } from '@/data/registration-types'
+import { useTrans } from '@/i18n'
 
 const ICONS: Record<string, any> = {
   Hotel,
@@ -35,6 +36,7 @@ const ICONS: Record<string, any> = {
 type Mode = 'choose' | 'pro'
 
 export default function RegisterChooserPage() {
+  const t = useTrans('auth')
   const router = useRouter()
   const [mode, setMode] = useState<Mode>('choose')
   const [expandedType, setExpandedType] = useState<string | null>(null)
@@ -75,7 +77,7 @@ export default function RegisterChooserPage() {
             href="/login"
             className="text-sm text-gray-400 hover:text-white transition-colors"
           >
-            Déjà un compte ? <span className="text-orange-400 font-medium">Se connecter</span>
+            {t.chooserAlreadyAccount} <span className="text-orange-400 font-medium">{t.chooserLogIn}</span>
           </Link>
         </div>
       </div>
@@ -93,10 +95,10 @@ export default function RegisterChooserPage() {
               {/* Titre */}
               <div className="text-center mb-10">
                 <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">
-                  Rejoignez Mada Spot
+                  {t.chooserHeroTitle}
                 </h1>
                 <p className="text-gray-400 max-w-lg mx-auto">
-                  Qui êtes-vous ? Choisissez votre profil pour une expérience personnalisée.
+                  {t.chooserHeroDesc}
                 </p>
               </div>
 
@@ -107,7 +109,7 @@ export default function RegisterChooserPage() {
                   whileHover={{ scale: 1.02, y: -4 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => router.push('/register-client')}
-                  aria-label="S'inscrire en tant que voyageur pour découvrir Madagascar"
+                  aria-label={t.chooserTravelerAriaLabel}
                   className="group relative bg-[#1a1a24] rounded-2xl border-2 border-[#2a2a36] hover:border-cyan-500/50 text-left transition-all overflow-hidden"
                 >
                   {/* Photo header - 2 images side by side */}
@@ -115,7 +117,7 @@ export default function RegisterChooserPage() {
                     <div className="relative overflow-hidden">
                       <Image
                         src="/images/highlights/Voyageur 1.png"
-                        alt="Voyageur découvrant Madagascar"
+                        alt={t.chooserTravelerImg1Alt}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
                         sizes="(max-width: 640px) 50vw, 25vw"
@@ -124,7 +126,7 @@ export default function RegisterChooserPage() {
                     <div className="relative overflow-hidden">
                       <Image
                         src="/images/highlights/Voyageur 2.png"
-                        alt="Aventure et exploration à Madagascar"
+                        alt={t.chooserTravelerImg2Alt}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
                         sizes="(max-width: 640px) 50vw, 25vw"
@@ -142,16 +144,16 @@ export default function RegisterChooserPage() {
 
                   {/* Contenu */}
                   <div className="px-8 pb-8 pt-4">
-                    <h2 className="text-xl font-bold text-white mb-2 text-center">Je suis un Voyageur</h2>
+                    <h2 className="text-xl font-bold text-white mb-2 text-center">{t.chooserTravelerTitle}</h2>
                     <p className="text-gray-400 text-sm mb-5 text-center">
-                      Je souhaite découvrir des pépites à Madagascar et réserver des hôtels, restaurants et activités locales.
+                      {t.chooserTravelerDesc}
                     </p>
                     <div className="space-y-2">
                       {[
-                        { icon: Heart, text: 'Sauvegarder mes coups de cœur' },
-                        { icon: CalendarCheck, text: 'Réserver hôtels et restaurants en ligne' },
-                        { icon: Star, text: 'Partager mes avis et guider les voyageurs' },
-                        { icon: MapPin, text: 'Découvrir la carte interactive de Madagascar' },
+                        { icon: Heart, text: t.chooserTravelerBenefit1 },
+                        { icon: CalendarCheck, text: t.chooserTravelerBenefit2 },
+                        { icon: Star, text: t.chooserTravelerBenefit3 },
+                        { icon: MapPin, text: t.chooserTravelerBenefit4 },
                       ].map((item) => (
                         <div key={item.text} className="flex items-center gap-2 text-sm text-gray-500">
                           <item.icon className="w-4 h-4 text-cyan-400" aria-hidden="true" />
@@ -160,7 +162,7 @@ export default function RegisterChooserPage() {
                       ))}
                     </div>
                     <div className="mt-6 flex items-center justify-center gap-2 text-cyan-400 font-medium text-sm group-hover:gap-3 transition-all">
-                      Commencer l&apos;aventure
+                      {t.chooserTravelerCta}
                       <ArrowRight className="w-4 h-4" aria-hidden="true" />
                     </div>
                   </div>
@@ -171,7 +173,7 @@ export default function RegisterChooserPage() {
                   whileHover={{ scale: 1.02, y: -4 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setMode('pro')}
-                  aria-label="S'inscrire en tant que prestataire touristique à Madagascar"
+                  aria-label={t.chooserProAriaLabel}
                   className="group relative bg-[#1a1a24] rounded-2xl border-2 border-[#2a2a36] hover:border-[#ff6b35]/50 text-left transition-all overflow-hidden"
                 >
                   {/* Photo header - 2 images side by side */}
@@ -179,7 +181,7 @@ export default function RegisterChooserPage() {
                     <div className="relative overflow-hidden">
                       <Image
                         src="/images/highlights/Guide.png"
-                        alt="Guide touristique professionnel à Madagascar"
+                        alt={t.chooserProImg1Alt}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
                         sizes="(max-width: 640px) 50vw, 25vw"
@@ -188,7 +190,7 @@ export default function RegisterChooserPage() {
                     <div className="relative overflow-hidden">
                       <Image
                         src="/images/highlights/Chauffeur.png"
-                        alt="Chauffeur prestataire de services à Madagascar"
+                        alt={t.chooserProImg2Alt}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
                         sizes="(max-width: 640px) 50vw, 25vw"
@@ -206,16 +208,16 @@ export default function RegisterChooserPage() {
 
                   {/* Contenu */}
                   <div className="px-8 pb-8 pt-4">
-                    <h2 className="text-xl font-bold text-white mb-2 text-center">Je suis un Prestataire</h2>
+                    <h2 className="text-xl font-bold text-white mb-2 text-center">{t.chooserProTitle}</h2>
                     <p className="text-gray-400 text-sm mb-5 text-center">
-                      Je souhaite proposer mes services touristiques, gérer mes réservations et être visible à l&apos;international.
+                      {t.chooserProDesc}
                     </p>
                     <div className="space-y-2">
                       {[
-                        { icon: Building2, text: 'Référencer gratuitement mon établissement' },
-                        { icon: TrendingUp, text: 'Recevoir des réservations en ligne' },
-                        { icon: Shield, text: 'Dashboard professionnel avec statistiques' },
-                        { icon: Sparkles, text: 'Visibilité auprès de voyageurs internationaux' },
+                        { icon: Building2, text: t.chooserProBenefit1 },
+                        { icon: TrendingUp, text: t.chooserProBenefit2 },
+                        { icon: Shield, text: t.chooserProBenefit3 },
+                        { icon: Sparkles, text: t.chooserProBenefit4 },
                       ].map((item) => (
                         <div key={item.text} className="flex items-center gap-2 text-sm text-gray-500">
                           <item.icon className="w-4 h-4 text-[#ff6b35]" aria-hidden="true" />
@@ -224,7 +226,7 @@ export default function RegisterChooserPage() {
                       ))}
                     </div>
                     <div className="mt-6 flex items-center justify-center gap-2 text-[#ff6b35] font-medium text-sm group-hover:gap-3 transition-all">
-                      Inscrire mon établissement gratuitement
+                      {t.chooserProCta}
                       <ArrowRight className="w-4 h-4" aria-hidden="true" />
                     </div>
                   </div>
@@ -233,7 +235,7 @@ export default function RegisterChooserPage() {
 
               {/* Texte rassurant */}
               <p className="text-center text-gray-600 text-sm">
-                Inscription 100% gratuite — Sans engagement — Rejoignez +175 établissements référencés
+                {t.chooserReassurance}
               </p>
             </motion.div>
           ) : (
@@ -250,7 +252,7 @@ export default function RegisterChooserPage() {
                 className="flex items-center gap-2 text-sm text-gray-400 hover:text-white mb-6 transition-colors"
               >
                 <ArrowRight className="w-4 h-4 rotate-180" />
-                Retour au choix
+                {t.chooserBackToChoice}
               </button>
 
               {/* Étapes indicateur */}
@@ -259,32 +261,31 @@ export default function RegisterChooserPage() {
                   <div className="w-8 h-8 rounded-full bg-[#ff6b35] text-white flex items-center justify-center text-sm font-bold">
                     1
                   </div>
-                  <span className="text-sm font-medium text-white">Type</span>
+                  <span className="text-sm font-medium text-white">{t.chooserStepType}</span>
                 </div>
                 <div className="w-8 h-px bg-[#2a2a36]" />
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-[#2a2a36] text-gray-500 flex items-center justify-center text-sm font-bold">
                     2
                   </div>
-                  <span className="text-sm text-gray-500">Compte</span>
+                  <span className="text-sm text-gray-500">{t.chooserStepAccount}</span>
                 </div>
                 <div className="w-8 h-px bg-[#2a2a36]" />
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-[#2a2a36] text-gray-500 flex items-center justify-center text-sm font-bold">
                     3
                   </div>
-                  <span className="text-sm text-gray-500">Publication</span>
+                  <span className="text-sm text-gray-500">{t.chooserStepPublication}</span>
                 </div>
               </div>
 
               {/* Titre */}
               <div className="text-center mb-10">
                 <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">
-                  Quel type d'établissement ?
+                  {t.chooserProStepTitle}
                 </h2>
                 <p className="text-gray-400 max-w-lg mx-auto">
-                  Choisissez votre catégorie et sous-type pour personnaliser votre inscription
-                  et publier votre établissement sur Mada Spot.
+                  {t.chooserProStepDesc}
                 </p>
               </div>
 
@@ -318,7 +319,7 @@ export default function RegisterChooserPage() {
                           <div className="flex items-center gap-2">
                             <h2 className="text-lg font-semibold text-white">{category.label}</h2>
                             <span className="text-xs text-gray-500 bg-[#2a2a36] px-2 py-0.5 rounded-full">
-                              {category.subtypes.length} types
+                              {category.subtypes.length} {t.chooserSubtypesCount}
                             </span>
                           </div>
                           <p className="text-sm text-gray-400 mt-0.5 truncate">{category.description}</p>
@@ -347,7 +348,7 @@ export default function RegisterChooserPage() {
                             <div className="px-5 pb-5 sm:px-6 sm:pb-6 pt-0">
                               <div className="border-t border-[#2a2a36] pt-4">
                                 <p className="text-xs text-gray-500 mb-3 uppercase tracking-wider font-medium">
-                                  Sélectionnez votre sous-type
+                                  {t.chooserSelectSubtype}
                                 </p>
                                 <div className="flex flex-wrap gap-2">
                                   {category.subtypes.map((subtype) => {
@@ -395,7 +396,7 @@ export default function RegisterChooserPage() {
                   }`}
                 >
                   <Sparkles className="w-5 h-5" />
-                  Continuer l'inscription
+                  {t.chooserContinueRegistration}
                   <ArrowRight className="w-5 h-5" />
                 </motion.button>
               </div>

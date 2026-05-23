@@ -6,6 +6,7 @@ import {
   User, Mail, Phone, Lock, Bell, Save, CheckCircle,
   Eye, EyeOff, Building2, Shield
 } from 'lucide-react'
+import { useTrans } from '@/i18n'
 
 interface ProfileData {
   firstName: string
@@ -20,6 +21,7 @@ interface ProfileData {
 }
 
 export default function ParametresPage() {
+  const t = useTrans('dashboardPro')
   const [profile, setProfile] = useState<ProfileData>({
     firstName: '', lastName: '', email: '', phone: '', avatar: '',
     companyName: '', city: '', nif: '', stat: '',
@@ -89,11 +91,11 @@ export default function ParametresPage() {
 
   const handleChangePassword = async () => {
     if (passwordData.newPass !== passwordData.confirm) {
-      alert('Les mots de passe ne correspondent pas')
+      alert(t.passwordMismatchAlert)
       return
     }
     if (passwordData.newPass.length < 8) {
-      alert('Le mot de passe doit contenir au moins 8 caractères')
+      alert(t.passwordMin8Alert)
       return
     }
     try {
@@ -106,11 +108,11 @@ export default function ParametresPage() {
         }),
       })
       if (res.ok) {
-        alert('Mot de passe mis à jour avec succès')
+        alert(t.passwordUpdateSuccess)
         setPasswordData({ current: '', newPass: '', confirm: '' })
       } else {
         const data = await res.json()
-        alert(data.error || 'Erreur lors du changement de mot de passe')
+        alert(data.error || t.passwordChangeError)
       }
     } catch (err) {
       console.error('Error changing password:', err)
@@ -127,17 +129,17 @@ export default function ParametresPage() {
   }
 
   const tabs = [
-    { id: 'profile' as const, label: 'Profil', icon: User },
-    { id: 'security' as const, label: 'Sécurité', icon: Shield },
-    { id: 'notifications' as const, label: 'Notifications', icon: Bell },
+    { id: 'profile' as const, label: t.tabProfile, icon: User },
+    { id: 'security' as const, label: t.tabSecurity, icon: Shield },
+    { id: 'notifications' as const, label: t.tabNotifications, icon: Bell },
   ]
 
   return (
     <div className="space-y-6 max-w-3xl">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Paramètres</h1>
-        <p className="text-gray-400 text-sm mt-1">Gérez votre compte et vos préférences</p>
+        <h1 className="text-2xl font-bold text-gray-900">{t.parameters}</h1>
+        <p className="text-gray-400 text-sm mt-1">{t.parametersDesc}</p>
       </div>
 
       {/* Tabs */}
@@ -167,11 +169,11 @@ export default function ParametresPage() {
         >
           <div className="bg-white border border-white/10 rounded-2xl p-6 space-y-4">
             <h3 className="text-sm font-medium text-gray-400 flex items-center gap-2">
-              <User className="w-4 h-4" /> Informations personnelles
+              <User className="w-4 h-4" /> {t.personalInfo}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs text-gray-400 mb-1">Prénom</label>
+                <label className="block text-xs text-gray-400 mb-1">{t.firstName}</label>
                 <input
                   type="text"
                   value={profile.firstName}
@@ -180,7 +182,7 @@ export default function ParametresPage() {
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-400 mb-1">Nom</label>
+                <label className="block text-xs text-gray-400 mb-1">{t.lastName}</label>
                 <input
                   type="text"
                   value={profile.lastName}
@@ -190,7 +192,7 @@ export default function ParametresPage() {
               </div>
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Email</label>
+              <label className="block text-xs text-gray-400 mb-1">{t.email}</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                 <input
@@ -202,7 +204,7 @@ export default function ParametresPage() {
               </div>
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Téléphone</label>
+              <label className="block text-xs text-gray-400 mb-1">{t.phone}</label>
               <div className="relative">
                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                 <input
@@ -217,10 +219,10 @@ export default function ParametresPage() {
 
           <div className="bg-white border border-white/10 rounded-2xl p-6 space-y-4">
             <h3 className="text-sm font-medium text-gray-400 flex items-center gap-2">
-              <Building2 className="w-4 h-4" /> Informations entreprise
+              <Building2 className="w-4 h-4" /> {t.companyInfo}
             </h3>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Nom de l&apos;entreprise</label>
+              <label className="block text-xs text-gray-400 mb-1">{t.companyName}</label>
               <input
                 type="text"
                 value={profile.companyName}
@@ -230,22 +232,22 @@ export default function ParametresPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs text-gray-400 mb-1">NIF</label>
+                <label className="block text-xs text-gray-400 mb-1">{t.nif}</label>
                 <input
                   type="text"
                   value={profile.nif}
                   onChange={(e) => setProfile(p => ({ ...p, nif: e.target.value }))}
-                  placeholder="Numéro d'identification fiscale"
+                  placeholder={t.nifPlaceholder}
                   className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-400 mb-1">STAT</label>
+                <label className="block text-xs text-gray-400 mb-1">{t.stat}</label>
                 <input
                   type="text"
                   value={profile.stat}
                   onChange={(e) => setProfile(p => ({ ...p, stat: e.target.value }))}
-                  placeholder="Numéro statistique"
+                  placeholder={t.statPlaceholder}
                   className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
                 />
               </div>
@@ -264,7 +266,7 @@ export default function ParametresPage() {
             ) : (
               <Save className="w-4 h-4" />
             )}
-            {saving ? 'Sauvegarde...' : saved ? 'Sauvegardé !' : 'Enregistrer'}
+            {saving ? t.savingProfile : saved ? t.saved : t.saveProfile}
           </button>
         </motion.div>
       )}
@@ -277,14 +279,14 @@ export default function ParametresPage() {
           className="bg-white border border-white/10 rounded-2xl p-6 space-y-4"
         >
           <h3 className="text-sm font-medium text-gray-400 flex items-center gap-2">
-            <Lock className="w-4 h-4" /> Changer le mot de passe
+            <Lock className="w-4 h-4" /> {t.changePassword}
           </h3>
 
           {['current', 'newPass', 'confirm'].map((field) => (
             <div key={field}>
               <label className="block text-xs text-gray-400 mb-1">
-                {field === 'current' ? 'Mot de passe actuel' :
-                 field === 'newPass' ? 'Nouveau mot de passe' : 'Confirmer le mot de passe'}
+                {field === 'current' ? t.currentPassword :
+                 field === 'newPass' ? t.newPassword : t.confirmNewPassword}
               </label>
               <div className="relative">
                 <input
@@ -309,7 +311,7 @@ export default function ParametresPage() {
             className="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-gray-900 rounded-xl font-medium text-sm transition-colors disabled:opacity-50"
           >
             <Lock className="w-4 h-4" />
-            Mettre à jour
+            {t.updatePassword}
           </button>
         </motion.div>
       )}
@@ -322,15 +324,15 @@ export default function ParametresPage() {
           className="bg-white border border-white/10 rounded-2xl p-6 space-y-4"
         >
           <h3 className="text-sm font-medium text-gray-400 flex items-center gap-2">
-            <Bell className="w-4 h-4" /> Préférences de notification
+            <Bell className="w-4 h-4" /> {t.notificationPrefs}
           </h3>
 
           {[
-            { key: 'emailBooking', label: 'Nouvelle réservation', desc: 'Recevoir un email à chaque réservation' },
-            { key: 'emailMessage', label: 'Nouveau message', desc: 'Recevoir un email pour chaque message client' },
-            { key: 'emailReview', label: 'Nouvel avis', desc: 'Recevoir un email quand un client laisse un avis' },
-            { key: 'pushBooking', label: 'Notifications push', desc: 'Notifications dans le navigateur pour les réservations' },
-            { key: 'pushMessage', label: 'Push messages', desc: 'Notifications dans le navigateur pour les messages' },
+            { key: 'emailBooking', label: t.notifNewBooking, desc: t.notifNewBookingDesc },
+            { key: 'emailMessage', label: t.notifNewMessage, desc: t.notifNewMessageDesc },
+            { key: 'emailReview', label: t.notifNewReview, desc: t.notifNewReviewDesc },
+            { key: 'pushBooking', label: t.notifPushBooking, desc: t.notifPushBookingDesc },
+            { key: 'pushMessage', label: t.notifPushMessage, desc: t.notifPushMessageDesc },
           ].map((item) => (
             <div key={item.key} className="flex items-center justify-between p-3 bg-white/5 rounded-xl">
               <div>

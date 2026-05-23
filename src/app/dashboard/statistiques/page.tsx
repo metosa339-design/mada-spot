@@ -6,6 +6,7 @@ import {
   Eye, MousePointerClick, Calendar, DollarSign,
   BarChart3, ArrowUpRight, ArrowDownRight
 } from 'lucide-react'
+import { useTrans } from '@/i18n'
 
 interface ViewData {
   date: string
@@ -89,6 +90,7 @@ function BarChart({ data, color }: { data: { label: string; value: number }[]; c
 }
 
 export default function StatistiquesPage() {
+  const t = useTrans('dashboardStatistiques')
   const [stats, setStats] = useState<StatsData | null>(null)
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -114,10 +116,10 @@ export default function StatistiquesPage() {
           ctr: data.stats?.ctr || 0,
           weeklyViews: data.weeklyViews || [],
           topSources: data.topSources || [
-            { source: 'Recherche', count: 450, percentage: 45 },
-            { source: 'Direct', count: 250, percentage: 25 },
-            { source: 'Carte', count: 200, percentage: 20 },
-            { source: 'Autres', count: 100, percentage: 10 },
+            { source: t.sourceSearch, count: 450, percentage: 45 },
+            { source: t.sourceDirect, count: 250, percentage: 25 },
+            { source: t.sourceMap, count: 200, percentage: 20 },
+            { source: t.sourceOthers, count: 100, percentage: 10 },
           ],
           monthlyRevenue: data.monthlyRevenue || [],
         })
@@ -154,7 +156,7 @@ export default function StatistiquesPage() {
 
   const statCards = [
     {
-      label: 'Vues totales',
+      label: t.totalViews,
       value: (stats?.totalViews || 0).toLocaleString('fr-FR'),
       trend: stats?.viewsTrend || 0,
       icon: Eye,
@@ -162,7 +164,7 @@ export default function StatistiquesPage() {
       chartData: stats?.weeklyViews?.map(d => d.views) || [],
     },
     {
-      label: 'Taux de clic',
+      label: t.ctr,
       value: `${(stats?.ctr || 0).toFixed(1)}%`,
       trend: 0,
       icon: MousePointerClick,
@@ -170,7 +172,7 @@ export default function StatistiquesPage() {
       chartData: stats?.weeklyViews?.map(d => d.clicks) || [],
     },
     {
-      label: 'Réservations',
+      label: t.bookings,
       value: (stats?.totalBookings || 0).toLocaleString('fr-FR'),
       trend: stats?.bookingsTrend || 0,
       icon: Calendar,
@@ -178,7 +180,7 @@ export default function StatistiquesPage() {
       chartData: [],
     },
     {
-      label: 'Revenus',
+      label: t.revenueMga,
       value: `${(stats?.totalRevenue || 0).toLocaleString('fr-FR')} MGA`,
       trend: stats?.revenueTrend || 0,
       icon: DollarSign,
@@ -192,14 +194,14 @@ export default function StatistiquesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Statistiques</h1>
-          <p className="text-gray-400 text-sm mt-1">Suivez les performances de votre établissement</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{t.title}</h1>
+          <p className="text-gray-400 text-sm mt-1">{t.pageSubtitle}</p>
         </div>
         <div className="flex gap-1 bg-white border border-white/10 rounded-xl p-1 self-start sm:self-auto">
           {[
-            { value: '7d' as const, label: '7 jours' },
-            { value: '30d' as const, label: '30 jours' },
-            { value: '90d' as const, label: '90 jours' },
+            { value: '7d' as const, label: t.period7d },
+            { value: '30d' as const, label: t.period30d },
+            { value: '90d' as const, label: t.period90d },
           ].map((p) => (
             <button
               key={p.value}
@@ -252,7 +254,7 @@ export default function StatistiquesPage() {
         <div className="bg-white border border-white/10 rounded-2xl p-6">
           <h3 className="text-sm font-medium text-gray-900 mb-4 flex items-center gap-2">
             <BarChart3 className="w-4 h-4 text-gray-400" />
-            Sources de trafic
+            {t.topSources}
           </h3>
           <div className="space-y-3">
             {(stats?.topSources || []).map((source, i) => (
@@ -278,7 +280,7 @@ export default function StatistiquesPage() {
         <div className="bg-white border border-white/10 rounded-2xl p-6">
           <h3 className="text-sm font-medium text-gray-900 mb-4 flex items-center gap-2">
             <DollarSign className="w-4 h-4 text-gray-400" />
-            Revenus par mois
+            {t.monthlyRevenue}
           </h3>
           {stats?.monthlyRevenue && stats.monthlyRevenue.length > 0 ? (
             <BarChart
@@ -287,7 +289,7 @@ export default function StatistiquesPage() {
             />
           ) : (
             <div className="h-32 flex items-center justify-center text-gray-500 text-sm">
-              Pas encore de données
+              {t.noData}
             </div>
           )}
         </div>
@@ -296,13 +298,13 @@ export default function StatistiquesPage() {
       {/* Conversion Funnel */}
       {analytics?.funnel && (
         <div className="bg-white border border-white/10 rounded-2xl p-6">
-          <h3 className="text-sm font-medium text-gray-900 mb-5">Entonnoir de conversion</h3>
+          <h3 className="text-sm font-medium text-gray-900 mb-5">{t.conversionFunnel}</h3>
           <div className="space-y-3">
             {[
-              { label: 'Vues', value: analytics.funnel.views, color: '#8b5cf6' },
-              { label: 'Demandes', value: analytics.funnel.inquiries, color: '#6366f1' },
-              { label: 'Réservations', value: analytics.funnel.bookings, color: '#f97316' },
-              { label: 'Terminées', value: analytics.funnel.completed, color: '#ff6b35' },
+              { label: t.funnelViews, value: analytics.funnel.views, color: '#8b5cf6' },
+              { label: t.funnelInquiries, value: analytics.funnel.inquiries, color: '#6366f1' },
+              { label: t.funnelBookings, value: analytics.funnel.bookings, color: '#f97316' },
+              { label: t.funnelCompleted, value: analytics.funnel.completed, color: '#ff6b35' },
             ].map((step, i, arr) => {
               const maxVal = Math.max(arr[0].value, 1)
               const pct = Math.round((step.value / maxVal) * 100)
@@ -339,7 +341,7 @@ export default function StatistiquesPage() {
         {/* Occupancy Heatmap */}
         {analytics?.occupancyByDay && (
           <div className="bg-white border border-white/10 rounded-2xl p-6">
-            <h3 className="text-sm font-medium text-gray-900 mb-5">Occupation par jour</h3>
+            <h3 className="text-sm font-medium text-gray-900 mb-5">{t.occupancyByDay}</h3>
             <div className="grid grid-cols-7 gap-2">
               {analytics.occupancyByDay.map((d, i) => (
                 <motion.div
@@ -369,15 +371,15 @@ export default function StatistiquesPage() {
         {/* Revenue Comparison */}
         {analytics?.revenueComparison && analytics.revenueComparison.current.length > 0 && (
           <div className="bg-white border border-white/10 rounded-2xl p-6">
-            <h3 className="text-sm font-medium text-gray-900 mb-2">Revenus : période actuelle vs précédente</h3>
+            <h3 className="text-sm font-medium text-gray-900 mb-2">{t.currentVsPrevious}</h3>
             <div className="flex items-center gap-4 mb-4">
               <div className="flex items-center gap-1.5">
                 <div className="w-3 h-3 rounded-sm bg-[#ff6b35]" />
-                <span className="text-[10px] text-gray-400">Actuelle</span>
+                <span className="text-[10px] text-gray-400">{t.currentLegend}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-3 h-3 rounded-sm bg-[#2a2a36]" />
-                <span className="text-[10px] text-gray-400">Précédente</span>
+                <span className="text-[10px] text-gray-400">{t.previousLegend}</span>
               </div>
             </div>
             <div className="flex items-end gap-1 h-32">
@@ -417,19 +419,18 @@ export default function StatistiquesPage() {
 
       {/* SEO JSON-LD note */}
       <div className="bg-white border border-white/10 rounded-2xl p-5">
-        <h3 className="text-sm font-medium text-gray-900 mb-2">Référencement SEO</h3>
+        <h3 className="text-sm font-medium text-gray-900 mb-2">{t.seoTitle}</h3>
         <p className="text-xs text-gray-400">
-          Votre annonce génère automatiquement des données structurées (JSON-LD) pour améliorer
-          votre visibilité sur Google. Complétez votre profil à 100% pour maximiser votre référencement local.
+          {t.seoDesc}
         </p>
         <div className="mt-3 flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span className="text-xs text-gray-400">Données structurées actives</span>
+            <span className="text-xs text-gray-400">{t.structuredDataActive}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span className="text-xs text-gray-400">Schema.org LocalBusiness</span>
+            <span className="text-xs text-gray-400">{t.schemaLocalBusiness}</span>
           </div>
         </div>
       </div>

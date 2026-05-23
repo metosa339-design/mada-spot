@@ -8,6 +8,7 @@ import { getImageUrl } from '@/lib/image-url'
 import ReviewForm from '@/components/bons-plans/ReviewForm'
 import GhostEstablishmentForm from '@/components/bons-plans/GhostEstablishmentForm'
 import ContributorBadge from '@/components/bons-plans/ContributorBadge'
+import { useTrans } from '@/i18n'
 
 interface Establishment {
   id: string
@@ -27,14 +28,14 @@ const TYPE_ICONS: Record<string, React.ElementType> = {
   PROVIDER: Users,
 }
 
-const TYPE_LABELS: Record<string, string> = {
-  HOTEL: 'Hôtel',
-  RESTAURANT: 'Restaurant',
-  ATTRACTION: 'Attraction',
-  PROVIDER: 'Prestataire',
-}
-
 export default function PublierAvisPage() {
+  const t = useTrans('publishReview')
+  const TYPE_LABELS: Record<string, string> = {
+    HOTEL: t.typeHotel,
+    RESTAURANT: t.typeRestaurant,
+    ATTRACTION: t.typeAttraction,
+    PROVIDER: t.typeProvider,
+  }
   const router = useRouter()
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<Establishment[]>([])
@@ -92,8 +93,8 @@ export default function PublierAvisPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="text-3xl font-bold text-white mb-2">Publier un avis</h1>
-          <p className="text-gray-400">Partagez votre expérience et aidez d&apos;autres voyageurs</p>
+          <h1 className="text-3xl font-bold text-white mb-2">{t.title}</h1>
+          <p className="text-gray-400">{t.subtitle}</p>
         </motion.div>
 
         {!selected ? (
@@ -110,7 +111,7 @@ export default function PublierAvisPage() {
                 type="text"
                 value={query}
                 onChange={e => handleSearch(e.target.value)}
-                placeholder="Rechercher un hôtel, restaurant, attraction..."
+                placeholder={t.searchPlaceholder}
                 autoFocus
                 className="w-full pl-12 pr-4 py-4 bg-[#1a1a24] border border-white/10 rounded-2xl text-white placeholder-gray-500 text-sm focus:outline-none focus:border-orange-500/50 transition-colors"
               />
@@ -154,7 +155,7 @@ export default function PublierAvisPage() {
                         {est.rating > 0 && (
                           <div className="flex items-center gap-1 mt-0.5">
                             <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-                            <span className="text-xs text-gray-400">{est.rating.toFixed(1)} ({est.reviewCount} avis)</span>
+                            <span className="text-xs text-gray-400">{est.rating.toFixed(1)} ({est.reviewCount} {t.reviewsCount})</span>
                           </div>
                         )}
                       </div>
@@ -166,15 +167,15 @@ export default function PublierAvisPage() {
 
             {query.length >= 2 && !searching && results.length === 0 && !showGhostForm && !ghostCreated && (
               <div className="text-center py-8 space-y-4">
-                <p className="text-gray-500 text-sm">Aucun établissement trouvé pour &quot;{query}&quot;</p>
+                <p className="text-gray-500 text-sm">{t.noResultPrefix} &quot;{query}&quot;</p>
                 <button
                   onClick={() => setShowGhostForm(true)}
                   className="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-medium rounded-xl hover:opacity-90 transition-opacity text-sm"
                 >
                   <Plus className="w-4 h-4" />
-                  Créer ce lieu et donner mon avis
+                  {t.createAndReview}
                 </button>
-                <p className="text-xs text-gray-600">Vous connaissez ce lieu ? Ajoutez-le à la carte de Madagascar !</p>
+                <p className="text-xs text-gray-600">{t.addToMap}</p>
               </div>
             )}
 
@@ -196,7 +197,7 @@ export default function PublierAvisPage() {
             {query.length < 2 && (
               <div className="text-center py-12">
                 <Search className="w-12 h-12 text-gray-700 mx-auto mb-3" />
-                <p className="text-gray-500 text-sm">Commencez par rechercher l&apos;établissement que vous souhaitez évaluer</p>
+                <p className="text-gray-500 text-sm">{t.searchHint}</p>
               </div>
             )}
           </motion.div>
@@ -213,7 +214,7 @@ export default function PublierAvisPage() {
               className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
-              Changer d&apos;établissement
+              {t.changeEstablishment}
             </button>
 
             <div className="flex items-center gap-4 p-4 bg-[#1a1a24] border border-orange-500/20 rounded-2xl">

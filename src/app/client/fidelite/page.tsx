@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   ArrowLeft, Trophy, Calendar, Star, Heart, Gift, TrendingUp,
-  ChevronRight, Sparkles,
+  ChevronRight, Sparkles, type LucideIcon,
 } from 'lucide-react'
+import { useTrans } from '@/i18n'
 
 interface Tier {
   name: string
@@ -30,7 +31,7 @@ interface LoyaltyData {
   transactions: Transaction[]
 }
 
-const TYPE_ICONS: Record<string, typeof Calendar> = {
+const TYPE_ICONS: Record<string, LucideIcon> = {
   BOOKING_COMPLETE: Calendar,
   REVIEW_POSTED: Star,
   FAVORITE_ADDED: Heart,
@@ -53,13 +54,14 @@ const TIER_GRADIENTS: Record<string, string> = {
   Platine: 'from-gray-300 to-white',
 }
 
-const HOW_TO_EARN = [
-  { icon: Calendar, label: 'Terminer une réservation', points: '+100', color: '#0891b2' },
-  { icon: Star, label: 'Publier un avis', points: '+50', color: '#f59e0b' },
-  { icon: Heart, label: 'Ajouter un favori', points: '+10', color: '#ef4444' },
+const HOW_TO_EARN: { icon: LucideIcon; labelKey: string; pointsKey: string; color: string }[] = [
+  { icon: Calendar, labelKey: 'earnBooking', pointsKey: 'earnBookingPts', color: '#0891b2' },
+  { icon: Star, labelKey: 'earnReview', pointsKey: 'earnReviewPts', color: '#f59e0b' },
+  { icon: Heart, labelKey: 'earnFavorite', pointsKey: 'earnFavoritePts', color: '#ef4444' },
 ]
 
 export default function FidelitePage() {
+  const t = useTrans('clientFidelite')
   const router = useRouter()
   const [data, setData] = useState<LoyaltyData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -86,7 +88,7 @@ export default function FidelitePage() {
   if (!data) {
     return (
       <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center text-gray-400">
-        Erreur de chargement
+        {t.loadError}
       </div>
     )
   }
@@ -103,7 +105,7 @@ export default function FidelitePage() {
           className="inline-flex items-center gap-2 text-gray-400 hover:text-gray-900 text-sm mb-8 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Mon espace
+          {t.back}
         </Link>
 
         {/* Tier Card */}
@@ -118,7 +120,7 @@ export default function FidelitePage() {
                   </span>
                 </div>
                 <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
-                  {points.toLocaleString('fr-FR')} <span className="text-lg text-gray-400">points</span>
+                  {points.toLocaleString('fr-FR')} <span className="text-lg text-gray-400">{t.pointsLabel}</span>
                 </h1>
               </div>
               <Sparkles className="w-10 h-10 text-amber-400/30" />
@@ -138,12 +140,12 @@ export default function FidelitePage() {
                   />
                 </div>
                 <p className="text-xs text-gray-500 mt-2">
-                  Plus que {(tier.nextTier.minPoints - points).toLocaleString('fr-FR')} points pour atteindre {tier.nextTier.name}
+                  {t.nextTierMore} {(tier.nextTier.minPoints - points).toLocaleString('fr-FR')} {t.nextTierMid} {tier.nextTier.name}
                 </p>
               </div>
             )}
             {!tier.nextTier && (
-              <p className="text-sm text-amber-300/70">Niveau maximum atteint !</p>
+              <p className="text-sm text-amber-300/70">{t.maxTierReached}</p>
             )}
           </div>
         </div>
@@ -152,54 +154,57 @@ export default function FidelitePage() {
         <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-8">
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp className="w-5 h-5 text-[#ff6b35]" />
-            <h2 className="text-lg font-semibold">Comment gagner des points</h2>
+            <h2 className="text-lg font-semibold">{t.howToEarn}</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {HOW_TO_EARN.map((item) => (
-              <div
-                key={item.label}
-                className="flex items-center gap-3 bg-[#F9FAFB] rounded-xl p-4 border border-gray-200"
-              >
+            {HOW_TO_EARN.map((item) => {
+              const Icon = item.icon
+              return (
                 <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: `${item.color}15` }}
+                  key={item.labelKey}
+                  className="flex items-center gap-3 bg-[#F9FAFB] rounded-xl p-4 border border-gray-200"
                 >
-                  <item.icon className="w-5 h-5" style={{ color: item.color }} />
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: `${item.color}15` }}
+                  >
+                    <Icon className="w-5 h-5" style={{ color: item.color }} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm text-gray-300 leading-tight">{t[item.labelKey]}</p>
+                    <p className="text-lg font-bold text-[#ff6b35]">{t[item.pointsKey]}</p>
+                  </div>
                 </div>
-                <div className="min-w-0">
-                  <p className="text-sm text-gray-300 leading-tight">{item.label}</p>
-                  <p className="text-lg font-bold text-[#ff6b35]">{item.points}</p>
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
 
         {/* Transaction History */}
         <div className="bg-white border border-gray-200 rounded-2xl p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Historique</h2>
-            <span className="text-xs text-gray-500">{transactions.length} transactions</span>
+            <h2 className="text-lg font-semibold">{t.historyTitle}</h2>
+            <span className="text-xs text-gray-500">{transactions.length} {t.transactionsLabel}</span>
           </div>
 
           {transactions.length === 0 ? (
             <div className="text-center py-8">
               <Trophy className="w-12 h-12 text-gray-600 mx-auto mb-3" />
-              <p className="text-gray-400 mb-1">Aucune transaction pour l&apos;instant</p>
+              <p className="text-gray-400 mb-1">{t.noTransactions}</p>
               <p className="text-sm text-gray-500">
-                Réservez, notez et sauvegardez pour commencer à gagner des points !
+                {t.noTransactionsDesc}
               </p>
             </div>
           ) : (
             <div className="space-y-3">
-              {transactions.map((t) => {
-                const Icon = TYPE_ICONS[t.type] || Gift
-                const color = TYPE_COLORS[t.type] || '#6b7280'
-                const isPositive = t.points > 0
+              {transactions.map((tx) => {
+                const Icon = TYPE_ICONS[tx.type] || Gift
+                const color = TYPE_COLORS[tx.type] || '#6b7280'
+                const isPositive = tx.points > 0
 
                 return (
                   <div
-                    key={t.id}
+                    key={tx.id}
                     className="flex items-center gap-3 p-3 bg-[#F9FAFB] rounded-xl border border-gray-200"
                   >
                     <div
@@ -209,9 +214,9 @@ export default function FidelitePage() {
                       <Icon className="w-4 h-4" style={{ color }} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-gray-900 truncate">{t.description}</p>
+                      <p className="text-sm text-gray-900 truncate">{tx.description}</p>
                       <p className="text-xs text-gray-500">
-                        {new Date(t.createdAt).toLocaleDateString('fr-FR', {
+                        {new Date(tx.createdAt).toLocaleDateString('fr-FR', {
                           day: 'numeric',
                           month: 'long',
                           year: 'numeric',
@@ -221,7 +226,7 @@ export default function FidelitePage() {
                     <span className={`text-sm font-bold shrink-0 ${
                       isPositive ? 'text-green-400' : 'text-red-400'
                     }`}>
-                      {isPositive ? '+' : ''}{t.points}
+                      {isPositive ? '+' : ''}{tx.points}
                     </span>
                   </div>
                 )
@@ -236,7 +241,7 @@ export default function FidelitePage() {
             href="/client"
             className="inline-flex items-center gap-2 text-gray-400 hover:text-gray-900 text-sm transition-colors"
           >
-            Retour au tableau de bord
+            {t.backToDashboard}
             <ChevronRight className="w-4 h-4" />
           </Link>
         </div>

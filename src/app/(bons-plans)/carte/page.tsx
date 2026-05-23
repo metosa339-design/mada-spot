@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getImageUrl } from '@/lib/image-url';
 import { MapPin, Hotel, Utensils, Compass, Search, X, Star, ChevronRight, Loader2, List, Map, Users } from 'lucide-react';
+import { useTrans } from '@/i18n';
 
 // Dynamic import for map (Leaflet needs client-side only)
 const InteractiveMapComponent = dynamic(
@@ -49,31 +50,27 @@ interface FilterState {
   search: string;
 }
 
-const typeConfig = {
+const typeConfigBase = {
   HOTEL: {
     icon: Hotel,
-    label: 'Hôtels',
     color: 'bg-blue-500',
     lightColor: 'bg-blue-100 text-blue-700',
     href: '/hotels',
   },
   RESTAURANT: {
     icon: Utensils,
-    label: 'Restaurants',
     color: 'bg-orange-500',
     lightColor: 'bg-orange-100 text-orange-700',
     href: '/restaurants',
   },
   ATTRACTION: {
     icon: Compass,
-    label: 'Attractions',
     color: 'bg-emerald-500',
     lightColor: 'bg-emerald-100 text-emerald-700',
     href: '/attractions',
   },
   PROVIDER: {
     icon: Users,
-    label: 'Prestataires',
     color: 'bg-cyan-500',
     lightColor: 'bg-cyan-100 text-cyan-700',
     href: '/prestataires',
@@ -81,6 +78,13 @@ const typeConfig = {
 };
 
 export default function CarteInteractivePage() {
+  const t = useTrans('bonsPlans');
+  const typeConfig = {
+    HOTEL: { ...typeConfigBase.HOTEL, label: t.typeHotels },
+    RESTAURANT: { ...typeConfigBase.RESTAURANT, label: t.typeRestaurants },
+    ATTRACTION: { ...typeConfigBase.ATTRACTION, label: t.typeAttractions },
+    PROVIDER: { ...typeConfigBase.PROVIDER, label: t.typeProviders },
+  };
   const [markers, setMarkers] = useState<Marker[]>([]);
   const [filteredMarkers, setFilteredMarkers] = useState<Marker[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -184,10 +188,10 @@ export default function CarteInteractivePage() {
             className="text-center text-white"
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Carte Interactive
+              {t.interactiveMapTitle}
             </h1>
             <p className="text-lg text-white/80 max-w-2xl mx-auto">
-              Explorez Madagascar et découvrez les meilleurs hôtels, restaurants et attractions sur notre carte interactive.
+              {t.interactiveMapSubtitle}
             </p>
           </motion.div>
 
@@ -201,17 +205,17 @@ export default function CarteInteractivePage() {
             <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
               <Hotel className="w-5 h-5" />
               <span className="font-semibold">{counts.hotels}</span>
-              <span className="text-white/70">Hôtels</span>
+              <span className="text-white/70">{t.statHotels}</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
               <Utensils className="w-5 h-5" />
               <span className="font-semibold">{counts.restaurants}</span>
-              <span className="text-white/70">Restaurants</span>
+              <span className="text-white/70">{t.statRestaurants}</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
               <Compass className="w-5 h-5" />
               <span className="font-semibold">{counts.attractions}</span>
-              <span className="text-white/70">Attractions</span>
+              <span className="text-white/70">{t.statAttractions}</span>
             </div>
           </motion.div>
         </div>
@@ -226,7 +230,7 @@ export default function CarteInteractivePage() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
                 type="text"
-                placeholder="Rechercher un lieu..."
+                placeholder={t.searchPlace}
                 value={filters.search}
                 onChange={(e) =>
                   setFilters((prev) => ({ ...prev, search: e.target.value }))
@@ -275,7 +279,7 @@ export default function CarteInteractivePage() {
               }
               className="px-4 py-2.5 bg-white/5 text-white rounded-xl border-0 focus:ring-2 focus:ring-emerald-500 text-sm font-medium"
             >
-              <option value="">Toutes les villes</option>
+              <option value="">{t.allCities}</option>
               {cities.map((city) => (
                 <option key={city} value={city}>
                   {city}
@@ -309,7 +313,7 @@ export default function CarteInteractivePage() {
 
             {/* Results Count */}
             <div className="text-sm text-gray-500">
-              <span className="font-semibold text-gray-300">{filteredMarkers.length}</span> résultats
+              <span className="font-semibold text-gray-300">{filteredMarkers.length}</span> {t.resultsLabel}
             </div>
           </div>
         </div>
@@ -328,7 +332,7 @@ export default function CarteInteractivePage() {
             >
               <div className="p-4 border-b border-[#2a2a36] flex items-center justify-between">
                 <h2 className="font-semibold text-white">
-                  Lieux ({filteredMarkers.length})
+                  {t.placesLabel} ({filteredMarkers.length})
                 </h2>
                 <button
                   onClick={() => setShowSidebar(false)}
@@ -342,12 +346,12 @@ export default function CarteInteractivePage() {
                 {isLoading ? (
                   <div className="p-8 text-center">
                     <Loader2 className="w-8 h-8 text-emerald-500 animate-spin mx-auto mb-3" />
-                    <p className="text-slate-400">Chargement...</p>
+                    <p className="text-slate-400">{t.loadingShort}</p>
                   </div>
                 ) : filteredMarkers.length === 0 ? (
                   <div className="p-8 text-center">
                     <MapPin className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-                    <p className="text-slate-500">Aucun résultat trouvé</p>
+                    <p className="text-slate-500">{t.noResultFound}</p>
                   </div>
                 ) : (
                   <div className="divide-y divide-slate-100">
@@ -388,7 +392,7 @@ export default function CarteInteractivePage() {
                                 </h3>
                                 {marker.isFeatured && (
                                   <span className="px-1.5 py-0.5 bg-amber-100 text-amber-700 text-xs font-medium rounded">
-                                    Top
+                                    {t.topBadge}
                                   </span>
                                 )}
                               </div>
@@ -446,16 +450,16 @@ export default function CarteInteractivePage() {
                 {isLoading ? (
                   <div className="text-center py-20">
                     <Loader2 className="w-10 h-10 text-emerald-500 animate-spin mx-auto mb-4" />
-                    <p className="text-slate-400">Chargement des lieux...</p>
+                    <p className="text-slate-400">{t.loadingPlaces}</p>
                   </div>
                 ) : filteredMarkers.length === 0 ? (
                   <div className="text-center py-20">
                     <MapPin className="w-16 h-16 text-slate-300 mx-auto mb-4" />
                     <h3 className="text-xl font-semibold text-slate-700 mb-2">
-                      Aucun résultat
+                      {t.noResult}
                     </h3>
                     <p className="text-slate-500">
-                      Essayez de modifier vos filtres de recherche
+                      {t.modifyFilters}
                     </p>
                   </div>
                 ) : (
@@ -502,7 +506,7 @@ export default function CarteInteractivePage() {
                                 </div>
                                 {marker.isFeatured && (
                                   <span className="px-2 py-1 bg-amber-100 text-amber-700 text-xs font-medium rounded-lg">
-                                    Recommandé
+                                    {t.recommended}
                                   </span>
                                 )}
                               </div>

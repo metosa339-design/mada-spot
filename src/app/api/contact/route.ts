@@ -58,6 +58,66 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    // CRM : capturer en prospect + ouvrir une conversation EMAIL avec le message
+    try {
+      const normalizedEmail = (email as string).toLowerCase().trim();
+      const existingUser = await prisma.user.findUnique({ where: { email: normalizedEmail } });
+      const [firstName, ...rest] = (name as string).trim().split(/\s+/);
+      const lastName = rest.join(' ') || null;
+
+      let conversationTargetUserId: string | null = null;
+      let conversationTargetProspectId: string | null = null;
+
+      if (existingUser) {
+        conversationTargetUserId = existingUser.id;
+      } else {
+        const prospect = await prisma.prospect.upsert({
+          where: { email: normalizedEmail },
+          create: {
+            email: normalizedEmail,
+            phone: phone || null,
+            firstName: firstName || null,
+            lastName,
+            source: 'CONTACT_FORM',
+            sourceNote: subject,
+            status: 'NEW',
+            preferredChannel: 'EMAIL',
+          },
+          update: {
+            phone: phone || undefined,
+            firstName: firstName || undefined,
+            lastName: lastName || undefined,
+            lastInboundAt: new Date(),
+          },
+        });
+        conversationTargetProspectId = prospect.id;
+      }
+
+      const conv = await prisma.conversation.create({
+        data: {
+          channel: 'EMAIL',
+          userId: conversationTargetUserId,
+          prospectId: conversationTargetProspectId,
+          subject: subject as string,
+          status: 'OPEN',
+          isUnread: true,
+          lastMessagePreview: (message as string).slice(0, 280),
+        },
+      });
+
+      await prisma.conversationMessage.create({
+        data: {
+          conversationId: conv.id,
+          direction: 'INBOUND',
+          channel: 'EMAIL',
+          content: message as string,
+          isDelivered: true,
+        },
+      });
+    } catch (crmErr) {
+      logger.error('[CONTACT] CRM capture failed:', crmErr);
+    }
+
     // Envoyer un email à l'admin
     try {
       const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';

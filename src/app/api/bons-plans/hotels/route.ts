@@ -91,7 +91,7 @@ export async function GET(request: NextRequest) {
     ])) as [any[], number];
 
     // Post-filter amenities (JSON field, can't filter in Prisma easily)
-    let filteredHotels = hotels.filter((hotel) => {
+    const filteredHotels = hotels.filter((hotel) => {
       if (!hotel.hotel) return false;
       if (amenities && hotel.hotel.amenities) {
         const hotelAmenities = safeJsonParse<string[]>(hotel.hotel.amenities, []);

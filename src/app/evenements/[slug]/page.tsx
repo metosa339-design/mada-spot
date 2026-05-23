@@ -24,6 +24,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { CATEGORY_COLORS } from '@/lib/data/event-categories';
+import { useTrans } from '@/i18n';
 
 interface EventDetail {
   id: string;
@@ -92,13 +93,13 @@ const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>
   OTHER: Calendar,
 };
 
-const CATEGORY_LABELS: Record<string, string> = {
-  FESTIVAL: 'Festival',
-  CULTURAL: 'Culturel',
-  SPORT: 'Sport',
-  NATURE: 'Nature',
-  MARKET: 'Marché',
-  OTHER: 'Autre',
+const CATEGORY_LABEL_KEYS: Record<string, 'categoryFestival' | 'categoryCultural' | 'categorySport' | 'categoryNature' | 'categoryMarket' | 'categoryOther'> = {
+  FESTIVAL: 'categoryFestival',
+  CULTURAL: 'categoryCultural',
+  SPORT: 'categorySport',
+  NATURE: 'categoryNature',
+  MARKET: 'categoryMarket',
+  OTHER: 'categoryOther',
 };
 
 const BADGE_COLORS: Record<string, string> = {
@@ -132,6 +133,7 @@ function formatDateRange(startDate: string, endDate?: string | null): string {
 }
 
 export default function EventDetailPage() {
+  const t = useTrans('events');
   const params = useParams();
   const slug = params?.slug as string;
   const [event, setEvent] = useState<EventDetail | null>(null);
@@ -147,10 +149,10 @@ export default function EventDetailPage() {
         if (data.success) {
           setEvent(data.event);
         } else {
-          setError(data.error || 'Événement non trouvé');
+          setError(data.error || t.eventNotFound);
         }
       } catch {
-        setError('Erreur de connexion');
+        setError(t.connectionError);
       } finally {
         setLoading(false);
       }
@@ -170,13 +172,13 @@ export default function EventDetailPage() {
     return (
       <div className="min-h-screen bg-[#070710] flex flex-col items-center justify-center">
         <Calendar className="w-16 h-16 text-gray-700 mb-4" />
-        <p className="text-gray-400 text-lg mb-4">{error || 'Événement non trouvé'}</p>
+        <p className="text-gray-400 text-lg mb-4">{error || t.eventNotFound}</p>
         <Link
           href="/evenements"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Retour aux événements
+          {t.backToEvents}
         </Link>
       </div>
     );
@@ -219,7 +221,7 @@ export default function EventDetailPage() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-black/50 backdrop-blur-sm text-white text-sm hover:bg-black/70 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            Retour aux événements
+            {t.backToEvents}
           </Link>
         </div>
       </div>
@@ -230,7 +232,7 @@ export default function EventDetailPage() {
         <div className="flex flex-wrap items-center gap-2 mb-4">
           <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium border ${badgeColor}`}>
             <Icon className="w-4 h-4" />
-            {CATEGORY_LABELS[event.category] || 'Autre'}
+            {t[CATEGORY_LABEL_KEYS[event.category] || 'categoryOther']}
           </div>
           {event.badge && (
             <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold border ${
@@ -272,7 +274,7 @@ export default function EventDetailPage() {
           {event.organizer && (
             <div className="flex items-center gap-3 text-gray-300">
               <User className="w-5 h-5 text-orange-400 flex-shrink-0" />
-              <span>Organisé par {event.organizer}</span>
+              <span>{t.organizedBy} {event.organizer}</span>
             </div>
           )}
 
@@ -280,7 +282,7 @@ export default function EventDetailPage() {
           {event.isRecurring && (
             <div className="flex items-center gap-3 text-amber-400/80">
               <Repeat className="w-5 h-5 flex-shrink-0" />
-              <span>Événement récurrent{event.recurrenceRule ? ` - ${event.recurrenceRule}` : ''}</span>
+              <span>{t.recurringEvent}{event.recurrenceRule ? ` - ${event.recurrenceRule}` : ''}</span>
             </div>
           )}
         </div>
@@ -288,7 +290,7 @@ export default function EventDetailPage() {
         {/* Description */}
         {event.description && (
           <div className="bg-[#0c0c16] rounded-2xl border border-[#1e1e2e] p-6 mb-8">
-            <h2 className="text-lg font-semibold text-white mb-3">Description</h2>
+            <h2 className="text-lg font-semibold text-white mb-3">{t.description}</h2>
             <div className="text-gray-400 leading-relaxed whitespace-pre-wrap">
               {event.description}
             </div>
@@ -298,7 +300,7 @@ export default function EventDetailPage() {
         {/* Linked establishment */}
         {event.establishment && (
           <div className="bg-[#0c0c16] rounded-2xl border border-[#1e1e2e] p-6 mb-8">
-            <h2 className="text-lg font-semibold text-white mb-3">Lieu associé</h2>
+            <h2 className="text-lg font-semibold text-white mb-3">{t.linkedPlace}</h2>
             <Link
               href={`/bons-plans/${event.establishment.type === 'HOTEL' ? 'hotels' : event.establishment.type === 'RESTAURANT' ? 'restaurants' : event.establishment.type === 'ATTRACTION' ? 'attractions' : 'prestataires'}/${event.establishment.slug}`}
               className="flex items-center gap-4 group"
@@ -349,7 +351,7 @@ export default function EventDetailPage() {
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/5 text-gray-300 hover:bg-white/10 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Retour aux événements
+          {t.backToEvents}
         </Link>
       </div>
     </div>

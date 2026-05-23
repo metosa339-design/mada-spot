@@ -9,6 +9,7 @@ import { Search, MapPin, Star, X, Users, SlidersHorizontal, Car, Camera, Globe, 
 import { getImageUrl } from '@/lib/image-url';
 import PhotoSlider from '@/components/ui/PhotoSlider';
 import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
+import { useTrans } from '@/i18n';
 
 interface Provider {
   id: string;
@@ -35,33 +36,6 @@ interface Provider {
   vehicleCapacity: number;
 }
 
-const serviceTypes = [
-  { value: '', label: 'Tous les types', icon: Users },
-  { value: 'GUIDE', label: 'Guide touristique', icon: Compass },
-  { value: 'DRIVER', label: 'Chauffeur', icon: Car },
-  { value: 'TOUR_OPERATOR', label: 'Tour opérateur', icon: MapIcon },
-  { value: 'CAR_RENTAL', label: 'Location de voiture', icon: Car },
-  { value: 'PHOTOGRAPHER', label: 'Photographe', icon: Camera },
-  { value: 'TRANSLATOR', label: 'Traducteur', icon: Globe },
-  { value: 'TRAVEL_AGENCY', label: 'Agence de voyage', icon: Briefcase },
-  { value: 'TRANSFER', label: 'Transfert', icon: Car },
-  { value: 'BOAT_EXCURSION', label: 'Excursion bateau', icon: Ship },
-  { value: 'OTHER', label: 'Autre', icon: Users },
-];
-
-const priceRanges = [
-  { value: '', label: 'Tous les prix' },
-  { value: 'BUDGET', label: '€ Budget' },
-  { value: 'MODERATE', label: '€€ Modéré' },
-  { value: 'UPSCALE', label: '€€€ Premium' },
-  { value: 'LUXURY', label: '€€€€ Luxe' },
-];
-
-const sortOptions = [
-  { value: 'rating', label: 'Meilleures notes' },
-  { value: 'newest', label: 'Plus récents' },
-];
-
 export default function PrestatairesPage() {
   return (
     <Suspense fallback={<div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center"><div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" /></div>}>
@@ -71,6 +45,31 @@ export default function PrestatairesPage() {
 }
 
 function PrestatairesPageContent() {
+  const t = useTrans('bonsPlans');
+  const serviceTypes = [
+    { value: '', label: t.serviceTypeAll, icon: Users },
+    { value: 'GUIDE', label: t.serviceTypeGuide, icon: Compass },
+    { value: 'DRIVER', label: t.serviceTypeDriver, icon: Car },
+    { value: 'TOUR_OPERATOR', label: t.serviceTypeTourOperator, icon: MapIcon },
+    { value: 'CAR_RENTAL', label: t.serviceTypeCarRental, icon: Car },
+    { value: 'PHOTOGRAPHER', label: t.serviceTypePhotographer, icon: Camera },
+    { value: 'TRANSLATOR', label: t.serviceTypeTranslator, icon: Globe },
+    { value: 'TRAVEL_AGENCY', label: t.serviceTypeTravelAgency, icon: Briefcase },
+    { value: 'TRANSFER', label: t.serviceTypeTransfer, icon: Car },
+    { value: 'BOAT_EXCURSION', label: t.serviceTypeBoatExcursion, icon: Ship },
+    { value: 'OTHER', label: t.serviceTypeOther, icon: Users },
+  ];
+  const priceRanges = [
+    { value: '', label: t.allPrices },
+    { value: 'BUDGET', label: t.priceBudget },
+    { value: 'MODERATE', label: t.priceModerate },
+    { value: 'UPSCALE', label: t.pricePremium },
+    { value: 'LUXURY', label: t.priceLuxury },
+  ];
+  const sortOptions = [
+    { value: 'rating', label: t.bestRating },
+    { value: 'newest', label: t.sortNewest },
+  ];
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -168,9 +167,9 @@ function PrestatairesPageContent() {
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex-shrink-0">
               <h1 className="text-xl sm:text-2xl font-bold text-[#2D241E] flex items-center gap-2">
                 <Users className="w-6 h-6 sm:w-7 sm:h-7 text-[#D97706] flex-shrink-0" />
-                Prestataires touristiques
+                {t.providersHeaderTitle}
               </h1>
-              <p className="text-[#8B7E6E] text-xs sm:text-sm mt-1">Guides, chauffeurs et agences pour votre séjour à Madagascar</p>
+              <p className="text-[#8B7E6E] text-xs sm:text-sm mt-1">{t.providersHeaderSubtitle}</p>
             </motion.div>
 
             {/* Center: sliding photo */}
@@ -186,10 +185,10 @@ function PrestatairesPageContent() {
             <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 lg:max-w-lg w-full lg:w-auto">
               <div className="flex-1 flex items-center gap-2 px-3 bg-white rounded-xl shadow-md border border-gray-100">
                 <Search className="w-4 h-4 text-gray-400" />
-                <input type="text" placeholder="Rechercher un prestataire..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="flex-1 py-2.5 bg-transparent outline-none text-[#2D241E] text-sm placeholder:text-gray-400" />
+                <input type="text" placeholder={t.searchProviderShortPlaceholder} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="flex-1 py-2.5 bg-transparent outline-none text-[#2D241E] text-sm placeholder:text-gray-400" />
               </div>
               <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)} className="px-3 py-2.5 bg-white rounded-xl text-sm text-[#2D241E] outline-none cursor-pointer shadow-md border border-gray-100">
-                <option value="">Toutes les villes</option>
+                <option value="">{t.allCities}</option>
                 {MADAGASCAR_CITIES_BY_PROVINCE.map((p) => (
                   <optgroup key={p.province} label={p.province}>
                     {p.cities.map((city) => (
@@ -200,7 +199,7 @@ function PrestatairesPageContent() {
               </select>
               <button onClick={() => setShowFilters(!showFilters)} className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm transition-colors ${hasActiveFilters ? 'bg-[#D97706] text-white shadow-md' : 'bg-white text-[#8B7E6E] hover:text-[#D97706] shadow-md border border-gray-100'}`}>
                 <SlidersHorizontal className="w-4 h-4" />
-                Filtres
+                {t.filters}
                 {hasActiveFilters && <span className="w-2 h-2 bg-white rounded-full" />}
               </button>
             </div>
@@ -223,7 +222,7 @@ function PrestatairesPageContent() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Type de service */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-400 mb-2">Type de service</label>
+                      <label className="block text-sm font-medium text-slate-400 mb-2">{t.serviceTypeLabel}</label>
                       <div className="flex flex-wrap gap-2">
                         {serviceTypes.slice(0, 6).map((type) => (
                           <button
@@ -260,7 +259,7 @@ function PrestatairesPageContent() {
 
                     {/* Prix */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-400 mb-2">Gamme de prix</label>
+                      <label className="block text-sm font-medium text-slate-400 mb-2">{t.priceRangeLabel}</label>
                       <div className="flex flex-wrap gap-2">
                         {priceRanges.map((range) => (
                           <button
@@ -280,7 +279,7 @@ function PrestatairesPageContent() {
 
                     {/* Tri */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-400 mb-2">Trier par</label>
+                      <label className="block text-sm font-medium text-slate-400 mb-2">{t.sortBy}</label>
                       <select
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value)}
@@ -295,7 +294,7 @@ function PrestatairesPageContent() {
 
                   {hasActiveFilters && (
                     <div className="mt-4 pt-4 border-t border-[#2a2a36] flex items-center gap-2 flex-wrap">
-                      <span className="text-sm text-slate-400">Filtres actifs:</span>
+                      <span className="text-sm text-slate-400">{t.activeFilters}</span>
                       {selectedCity && (
                         <span className="inline-flex items-center gap-1 px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm">
                           {selectedCity}
@@ -318,7 +317,7 @@ function PrestatairesPageContent() {
                         onClick={() => { setSelectedCity(''); setSelectedServiceType(''); setSelectedPriceRange(''); }}
                         className="text-sm text-cyan-400 hover:underline"
                       >
-                        Tout effacer
+                        {t.clearAll}
                       </button>
                     </div>
                   )}
@@ -333,7 +332,7 @@ function PrestatairesPageContent() {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-6">
           <p className="text-slate-400">
-            <span className="font-semibold text-white">{total}</span> prestataire{total > 1 ? 's' : ''} trouvé{total > 1 ? 's' : ''}
+            <span className="font-semibold text-white">{total}</span> {t.providersFound}
           </p>
         </div>
 
@@ -353,13 +352,13 @@ function PrestatairesPageContent() {
         ) : providers.length === 0 ? (
           <div className="text-center py-16">
             <Users className="w-16 h-16 mx-auto text-slate-600 mb-4" />
-            <h2 className="text-xl font-semibold text-white mb-2">Aucun prestataire trouvé</h2>
-            <p className="text-slate-400 mb-6">Essayez de modifier vos critères de recherche</p>
+            <h2 className="text-xl font-semibold text-white mb-2">{t.noProviderFound}</h2>
+            <p className="text-slate-400 mb-6">{t.modifyCriteria}</p>
             <button
               onClick={() => { setSearchQuery(''); setSelectedCity(''); setSelectedServiceType(''); setSelectedPriceRange(''); }}
               className="px-6 py-3 bg-[#ff6b35] text-white font-medium rounded-xl hover:shadow-lg transition-all"
             >
-              Réinitialiser les filtres
+              {t.resetFilters}
             </button>
           </div>
         ) : (
@@ -394,14 +393,14 @@ function PrestatairesPageContent() {
                       </span>
                       {provider.isFeatured && (
                         <span className="px-2 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full text-xs font-medium">
-                          Recommandé
+                          {t.recommended}
                         </span>
                       )}
                     </div>
 
                     {provider.isAvailable !== false && (
                       <div className="absolute top-3 right-3 px-2 py-1 bg-emerald-500/20 backdrop-blur-sm text-emerald-400 rounded-full text-xs font-medium">
-                        Disponible
+                        {t.availableLabel}
                       </div>
                     )}
                   </div>
@@ -431,7 +430,7 @@ function PrestatairesPageContent() {
                         <div className="flex items-center gap-4 text-sm text-slate-400 mb-3 p-2 bg-[#0d1520] rounded-lg">
                           {provider.priceFrom && (
                             <span className="text-cyan-400 font-medium">
-                              À partir de {provider.priceFrom.toLocaleString()} Ar
+                              {t.fromLabel} {provider.priceFrom.toLocaleString()} Ar
                               {provider.priceUnit && ` ${provider.priceUnit}`}
                             </span>
                           )}
@@ -445,7 +444,7 @@ function PrestatairesPageContent() {
                         <div className="flex items-center gap-1">
                           <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
                           <span className="font-medium text-white">{provider.rating?.toFixed(1)}</span>
-                          <span className="text-sm text-slate-400">({provider.reviewCount} avis)</span>
+                          <span className="text-sm text-slate-400">({provider.reviewCount} {t.reviewsCount})</span>
                         </div>
                       </div>
                     </div>
@@ -461,7 +460,7 @@ function PrestatairesPageContent() {
                   disabled={isLoading}
                   className="px-8 py-3 bg-[#ff6b35] text-white font-medium rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
                 >
-                  {isLoading ? 'Chargement...' : 'Voir plus de prestataires'}
+                  {isLoading ? t.loading : t.loadMoreProviders}
                 </button>
               </div>
             )}
@@ -476,11 +475,10 @@ function PrestatairesPageContent() {
         <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-64 h-64 bg-teal-500/10 blur-[100px] rounded-full" />
         <div className="relative max-w-4xl mx-auto px-4 py-16 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-            Vous proposez des services touristiques ?
+            {t.ctaProviderTitle}
           </h2>
           <p className="text-slate-400 max-w-xl mx-auto mb-8">
-            Rejoignez Mada Spot et rendez vos services visibles aupr&egrave;s de milliers de voyageurs.
-            Inscription gratuite, validation rapide.
+            {t.ctaProviderText}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
@@ -488,14 +486,14 @@ function PrestatairesPageContent() {
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-teal-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-cyan-500/25 transition-all"
             >
               <Plus className="w-5 h-5" />
-              Publier mon profil prestataire
+              {t.ctaPublishProvider}
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
               href="/comment-ca-marche"
               className="inline-flex items-center gap-2 px-8 py-4 bg-[#1a1a24] border border-[#2a2a36] text-slate-300 font-medium rounded-xl hover:border-cyan-500/50 hover:text-white transition-all"
             >
-              Comment &ccedil;a marche ?
+              {t.ctaHowItWorks}
             </Link>
           </div>
         </div>

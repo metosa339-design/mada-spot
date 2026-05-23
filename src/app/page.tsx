@@ -157,8 +157,7 @@ export default function HomePageWrapper() {
 
 function HomePage() {
   const router = useRouter();
-  const _th = useTrans('home');
-  void _th;
+  const t = useTrans('home');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<'hotels' | 'restaurants' | 'attractions' | 'prestataires'>('hotels');
@@ -221,13 +220,13 @@ function HomePage() {
                   style={{ color: '#ffffff', textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}
                   className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05] mb-3"
                 >
-                  Voyagez plus,<br />découvrez Madagascar
+                  {t.heroTagline1}<br />{t.heroTagline2}
                 </h1>
                 <p
                   style={{ color: 'rgba(255,255,255,0.95)', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
                   className="text-base sm:text-lg"
                 >
-                  Hôtels, restaurants, activités et guides locaux à portée de clic
+                  {t.heroSubtitle}
                 </p>
               </div>
             </div>
@@ -244,10 +243,10 @@ function HomePage() {
             {/* Tabs */}
             <div className="flex border-b border-gray-100 overflow-x-auto scrollbar-hide">
               {[
-                { key: 'hotels' as const, icon: Building2, label: 'Hôtels' },
-                { key: 'restaurants' as const, icon: UtensilsCrossed, label: 'Restos' },
-                { key: 'attractions' as const, icon: Mountain, label: 'Activités' },
-                { key: 'prestataires' as const, icon: Users, label: 'Guides' },
+                { key: 'hotels' as const, icon: Building2, label: t.tabHotels },
+                { key: 'restaurants' as const, icon: UtensilsCrossed, label: t.tabRestos },
+                { key: 'attractions' as const, icon: Mountain, label: t.tabActivities },
+                { key: 'prestataires' as const, icon: Users, label: t.tabGuides },
               ].map((cat) => (
                 <button
                   key={cat.key}
@@ -270,10 +269,10 @@ function HomePage() {
               <div className="flex items-center gap-3 px-4 py-3 border border-gray-200 rounded-xl">
                 <MapPin className="w-5 h-5 text-gray-400 shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] uppercase tracking-wide font-semibold text-gray-400">Destination</p>
+                  <p className="text-[10px] uppercase tracking-wide font-semibold text-gray-400">{t.destinationLabel}</p>
                   <input
                     type="text"
-                    placeholder="Où voulez-vous aller ?"
+                    placeholder={t.destinationPlaceholder}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -285,13 +284,13 @@ function HomePage() {
               <div className="flex items-center gap-3 px-4 py-3 border border-gray-200 rounded-xl">
                 <Compass className="w-5 h-5 text-gray-400 shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] uppercase tracking-wide font-semibold text-gray-400">Ville</p>
+                  <p className="text-[10px] uppercase tracking-wide font-semibold text-gray-400">{t.city}</p>
                   <select
                     value={selectedCity}
                     onChange={(e) => setSelectedCity(e.target.value)}
                     className="w-full outline-none text-sm font-semibold text-[#1a1a2e] bg-transparent appearance-none cursor-pointer"
                   >
-                    <option value="">Toutes les villes</option>
+                    <option value="">{t.allCities}</option>
                     {MADAGASCAR_CITIES_BY_PROVINCE.map((p) => (
                       <optgroup key={p.province} label={p.province}>
                         {p.cities.map((city) => (
@@ -309,7 +308,7 @@ function HomePage() {
                 className="px-8 py-3 bg-[#1a1a2e] font-semibold rounded-xl hover:bg-[#2a2a3e] transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
               >
                 <Search className="w-4 h-4" />
-                Rechercher
+                {t.searchBtn}
               </button>
             </div>
           </form>
@@ -319,16 +318,16 @@ function HomePage() {
       {/* ===== DESTINATIONS POPULAIRES ===== */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 sm:mt-20">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-[#1a1a2e]">Destinations populaires</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-[#1a1a2e]">{t.popularDestinations}</h2>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           {[
-            { name: 'Nosy Be', region: 'Plages', img: '/images/Attractions/nosy-be/nosy-be-2.jpg' },
-            { name: 'Antananarivo', region: 'Capitale', img: '/images/Attractions/antananarivo/antananarivo.jpg' },
-            { name: 'Tsingy', region: 'Aventure', img: '/images/Attractions/bemaraha/tsingy-bemaraha.jpg' },
-            { name: 'Isalo', region: 'Randonnée', img: '/images/Attractions/isalo/parc-isalo.jpg' },
-            { name: 'Diego Suarez', region: 'Baies', img: '/images/Attractions/diego-suarez/diego-suarez.jpg' },
-            { name: 'Sainte-Marie', region: 'Île', img: '/images/Attractions/sainte-marie/ile-sainte-marie.jpg' },
+            { name: 'Nosy Be', region: t.regionBeaches, img: '/images/Attractions/nosy-be/nosy-be-2.jpg' },
+            { name: 'Antananarivo', region: t.regionCapital, img: '/images/Attractions/antananarivo/antananarivo.jpg' },
+            { name: 'Tsingy', region: t.regionAdventure, img: '/images/Attractions/bemaraha/tsingy-bemaraha.jpg' },
+            { name: 'Isalo', region: t.regionHiking, img: '/images/Attractions/isalo/parc-isalo.jpg' },
+            { name: 'Diego Suarez', region: t.regionBays, img: '/images/Attractions/diego-suarez/diego-suarez.jpg' },
+            { name: 'Sainte-Marie', region: t.regionIsland, img: '/images/Attractions/sainte-marie/ile-sainte-marie.jpg' },
           ].map((dest) => (
             <Link key={dest.name} href={`/attractions?search=${encodeURIComponent(dest.name)}`} className="group">
               <div className="relative aspect-[3/4] rounded-2xl overflow-hidden mb-2">
@@ -351,9 +350,9 @@ function HomePage() {
       {!isLoading && featuredAttractions.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#1a1a2e]">Lieux recommandés</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#1a1a2e]">{t.recommendedPlaces}</h2>
             <Link href="/attractions" className="text-sm font-semibold text-[#ff6b35] hover:underline flex items-center gap-1">
-              Voir tout
+              {t.seeAll}
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -398,13 +397,13 @@ function HomePage() {
           <div className="relative p-6 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-6">
             <div className="max-w-xl">
               <p className="text-sm font-semibold mb-2 uppercase tracking-wider" style={{ color: '#fb923c' }}>
-                Inscription gratuite
+                {t.bannerEyebrow}
               </p>
               <h3 style={{ color: '#ffffff' }} className="text-2xl sm:text-3xl font-bold mb-3">
-                Référencez votre établissement <span style={{ color: '#fb923c' }}>gratuitement</span>
+                {t.bannerTitlePart1} <span style={{ color: '#fb923c' }}>{t.bannerTitleHighlight}</span>
               </h3>
               <p style={{ color: 'rgba(255,255,255,0.85)' }} className="text-sm sm:text-base">
-                Hôtels, restaurants, guides : touchez plus de 7 700 visiteurs par mois
+                {t.bannerSubtitle}
               </p>
             </div>
             <Link
@@ -412,7 +411,7 @@ function HomePage() {
               style={{ color: '#ffffff' }}
               className="shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-[#ff6b35] font-semibold rounded-xl hover:bg-orange-600 transition-colors"
             >
-              Découvrir
+              {t.bannerCta}
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -423,10 +422,10 @@ function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {[
-            { icon: CreditCard, title: 'Paiement sécurisé', desc: 'Transactions 100% protégées' },
-            { icon: CalendarCheck, title: 'Réservation 24/7', desc: 'À tout moment, n\'importe où' },
-            { icon: Headphones, title: 'Assistance dédiée', desc: 'Une équipe à votre écoute' },
-            { icon: Shield, title: '100% gratuit', desc: 'Pas de commission cachée' },
+            { icon: CreditCard, title: t.securePayment, desc: t.securePaymentDesc },
+            { icon: CalendarCheck, title: t.booking24, desc: t.booking24Desc },
+            { icon: Headphones, title: t.supportTitle, desc: t.supportDesc },
+            { icon: Shield, title: t.freeService, desc: t.freeServiceDesc },
           ].map((item) => (
             <div key={item.title} className="flex flex-col items-start gap-2 p-4 sm:p-5 bg-gray-50 rounded-2xl">
               <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center border border-gray-100">
@@ -442,8 +441,8 @@ function HomePage() {
       {/* ===== CE QUE NOS CLIENTS DISENT (auto-scroll rapide) ===== */}
       <section className="mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-[#1a1a2e]">Ce que nos clients disent</h2>
-          <p className="text-sm text-gray-500 mt-1">{REVIEWS.length} prestataires nous font confiance</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-[#1a1a2e]">{t.reviewsTitle}</h2>
+          <p className="text-sm text-gray-500 mt-1">{REVIEWS.length} {t.reviewsTrustSuffix}</p>
         </div>
         <div className="relative overflow-hidden">
           {/* Fades sur les bords pour effet pro */}
@@ -489,15 +488,15 @@ function HomePage() {
         <div className="bg-gray-50 border border-gray-100 rounded-3xl p-8 sm:p-12">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-2xl sm:text-3xl font-bold mb-3 text-[#1a1a2e]">
-              Restez informé des meilleurs bons plans
+              {t.newsletterTitleHome}
             </h2>
             <p className="text-sm sm:text-base text-gray-600 mb-6">
-              Recevez nos meilleures offres et inspirations voyage directement dans votre boîte mail
+              {t.newsletterDescHome}
             </p>
             <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
               <input
                 type="email"
-                placeholder="Votre adresse e-mail"
+                placeholder={t.emailPlaceholderHome}
                 className="flex-1 px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-[#ff6b35] transition-colors text-sm"
               />
               <button
@@ -505,7 +504,7 @@ function HomePage() {
                 style={{ color: '#ffffff' }}
                 className="px-6 py-3 bg-[#1a1a2e] font-semibold rounded-xl hover:bg-[#2a2a3e] transition-colors"
               >
-                S&apos;abonner
+                {t.subscribeHome}
               </button>
             </form>
           </div>
@@ -518,11 +517,11 @@ function HomePage() {
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 safe-area-pb">
         <div className="flex items-center justify-around py-2">
           {[
-            { icon: '🏠', label: 'Accueil', href: '/', active: true },
-            { icon: '🔍', label: 'Recherche', href: '/hotels', active: false },
-            { icon: '🏝️', label: 'Destinations', href: '/attractions', active: false },
-            { icon: '📖', label: 'Blog', href: '/blog', active: false },
-            { icon: '👤', label: 'Profil', href: '/client', active: false },
+            { icon: '🏠', label: t.navHome, href: '/', active: true },
+            { icon: '🔍', label: t.navSearch, href: '/hotels', active: false },
+            { icon: '🏝️', label: t.navDestinations, href: '/attractions', active: false },
+            { icon: '📖', label: t.navBlog, href: '/blog', active: false },
+            { icon: '👤', label: t.navProfile, href: '/client', active: false },
           ].map((item) => (
             <Link
               key={item.label}

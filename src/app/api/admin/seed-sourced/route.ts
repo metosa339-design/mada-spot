@@ -11,7 +11,7 @@ export async function POST() {
   }
 
   try {
-    let created = { restaurants: 0, hotels: 0, attractions: 0, skipped: 0 };
+    const created = { restaurants: 0, hotels: 0, attractions: 0, skipped: 0 };
 
     const establishments = [
       // =============================================

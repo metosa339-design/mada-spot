@@ -32,7 +32,7 @@ const securityHeaders = {
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com data:",
     "img-src 'self' data: blob: https:",
-    `connect-src 'self'${isDev ? ' ws://localhost:* http://localhost:*' : ''} https://www.google-analytics.com https://vitals.vercel-insights.com https://*.tile.openstreetmap.org https://res.cloudinary.com https://open.er-api.com https://*.vercel.app`,
+    `connect-src 'self'${isDev ? ' ws://localhost:* http://localhost:*' : ''} https://www.google-analytics.com https://vitals.vercel-insights.com https://*.tile.openstreetmap.org https://res.cloudinary.com https://open.er-api.com https://*.vercel.app https://images.unsplash.com https://images.pexels.com https://cdn.pixabay.com`,
     "frame-src 'self' https://www.google.com",
     "media-src 'self' blob:",
     "worker-src 'self' blob:",

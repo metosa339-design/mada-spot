@@ -8,6 +8,7 @@ import SearchFilters from '@/components/search/SearchFilters';
 import SearchResultCard from '@/components/search/SearchResultCard';
 import ActiveFilterChips from '@/components/search/ActiveFilterChips';
 import SearchPagination from '@/components/search/SearchPagination';
+import { useTrans } from '@/i18n';
 
 const ITEMS_PER_PAGE = 12;
 
@@ -31,6 +32,7 @@ interface Establishment {
 }
 
 function SearchPageContent() {
+  const t = useTrans('searchPage');
   const { filters, setFilter, clearFilter, clearFilters, activeFilterCount } = useSearchFilters();
 
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
@@ -124,14 +126,20 @@ function SearchPageContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const currentSortLabel = SORT_OPTIONS.find((s) => s.value === (filters.sortBy || 'relevance'))?.label || 'Pertinence';
+  const sortLabelMap: Record<string, string> = {
+    relevance: t.sortRelevance,
+    rating: t.sortRating,
+    reviewCount: t.sortReviews,
+    newest: t.sortRecent,
+  };
+  const currentSortLabel = sortLabelMap[filters.sortBy || 'relevance'] || t.sortRelevance;
 
   return (
     <div className="min-h-screen bg-[#070710]">
       {/* Search bar header */}
       <div className="border-b border-[#1e1e2e] bg-[#0c0c16]">
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <h1 className="sr-only">Recherche</h1>
+          <h1 className="sr-only">{t.srTitle}</h1>
           <form onSubmit={handleSearchSubmit}>
             <div className="flex gap-3">
               <div className="relative flex-1">
@@ -140,7 +148,7 @@ function SearchPageContent() {
                   type="text"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
-                  placeholder="Rechercher un hôtel, restaurant, attraction, ville..."
+                  placeholder={t.inputPlaceholder}
                   className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-[#1a1a24] border border-[#1e1e2e] text-white placeholder-gray-500 text-base focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/25 transition-colors"
                   autoFocus
                 />
@@ -150,7 +158,7 @@ function SearchPageContent() {
                 className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold hover:from-orange-600 hover:to-orange-700 transition-all shrink-0"
               >
                 <Search className="w-5 h-5 md:hidden" />
-                <span className="hidden md:inline">Rechercher</span>
+                <span className="hidden md:inline">{t.searchBtn}</span>
               </button>
             </div>
           </form>
@@ -172,7 +180,7 @@ function SearchPageContent() {
           {/* Sidebar filters - desktop */}
           <aside className="hidden lg:block w-72 shrink-0">
             <div className="sticky top-6 bg-[#1a1a24] rounded-xl border border-[#1e1e2e] p-5">
-              <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-5">Filtres</h2>
+              <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-5">{t.filtersTitle}</h2>
               <SearchFilters
                 filters={filters}
                 setFilter={setFilter}
@@ -189,7 +197,7 @@ function SearchPageContent() {
               className="flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all"
             >
               <SlidersHorizontal className="w-5 h-5" />
-              Filtres
+              {t.filtersBtn}
               {activeFilterCount > 0 && (
                 <span className="w-5 h-5 flex items-center justify-center rounded-full bg-white text-orange-600 text-xs font-bold">
                   {activeFilterCount}
@@ -204,7 +212,7 @@ function SearchPageContent() {
               <div className="absolute inset-0 bg-black/60" onClick={() => setMobileFiltersOpen(false)} />
               <div className="absolute right-0 top-0 bottom-0 w-full max-w-sm bg-[#1a1a24] overflow-y-auto">
                 <div className="flex items-center justify-between p-5 border-b border-[#1e1e2e]">
-                  <h2 className="text-lg font-bold text-white">Filtres</h2>
+                  <h2 className="text-lg font-bold text-white">{t.filtersTitle}</h2>
                   <button
                     onClick={() => setMobileFiltersOpen(false)}
                     className="w-9 h-9 flex items-center justify-center rounded-lg border border-[#1e1e2e] text-gray-400 hover:text-white transition-colors"
@@ -232,9 +240,9 @@ function SearchPageContent() {
                 {searched && !loading && (
                   <span>
                     <span className="text-white font-semibold">{totalCount}</span>{' '}
-                    résultat{totalCount !== 1 ? 's' : ''}
+                    {totalCount !== 1 ? t.resultsSuffixPlural : t.resultsSuffixSingular}
                     {filters.q && (
-                      <span> pour &quot;<span className="text-orange-400">{filters.q}</span>&quot;</span>
+                      <span> {t.resultsFor2} &quot;<span className="text-orange-400">{filters.q}</span>&quot;</span>
                     )}
                   </span>
                 )}
@@ -246,7 +254,7 @@ function SearchPageContent() {
                   onClick={() => setSortOpen(!sortOpen)}
                   className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[#1e1e2e] text-sm text-gray-300 hover:border-gray-600 transition-colors"
                 >
-                  <span className="hidden sm:inline text-gray-500">Trier par:</span>
+                  <span className="hidden sm:inline text-gray-500">{t.sortBy}</span>
                   <span className="font-medium">{currentSortLabel}</span>
                   <ChevronDown className={`w-4 h-4 transition-transform ${sortOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -268,7 +276,7 @@ function SearchPageContent() {
                               : 'text-gray-300 hover:bg-[#0c0c16] hover:text-white'
                           }`}
                         >
-                          {option.label}
+                          {sortLabelMap[option.value] || option.label}
                         </button>
                       ))}
                     </div>
@@ -297,16 +305,16 @@ function SearchPageContent() {
             {!loading && searched && establishments.length === 0 && (
               <div className="text-center py-20">
                 <Search className="w-16 h-16 mx-auto mb-4 text-gray-700" />
-                <p className="text-lg font-semibold text-gray-300">Aucun résultat trouvé</p>
+                <p className="text-lg font-semibold text-gray-300">{t.noResultsTitle}</p>
                 <p className="text-sm text-gray-500 mt-2 max-w-md mx-auto">
-                  Essayez de modifier vos filtres ou d&apos;utiliser d&apos;autres mots-clés pour votre recherche.
+                  {t.noResultsHint}
                 </p>
                 {activeFilterCount > 0 && (
                   <button
                     onClick={clearFilters}
                     className="mt-5 px-5 py-2.5 rounded-lg bg-orange-500/10 border border-orange-500/30 text-orange-400 text-sm font-medium hover:bg-orange-500/20 transition-colors"
                   >
-                    Réinitialiser les filtres
+                    {t.resetFilters}
                   </button>
                 )}
               </div>
@@ -316,9 +324,9 @@ function SearchPageContent() {
             {!loading && !searched && (
               <div className="text-center py-20">
                 <Search className="w-16 h-16 mx-auto mb-4 text-gray-700" />
-                <p className="text-lg font-semibold text-gray-300">Recherchez sur Mada Spot</p>
+                <p className="text-lg font-semibold text-gray-300">{t.initialTitle}</p>
                 <p className="text-sm text-gray-500 mt-2">
-                  Tapez votre recherche ou utilisez les filtres pour explorer
+                  {t.initialHint}
                 </p>
               </div>
             )}

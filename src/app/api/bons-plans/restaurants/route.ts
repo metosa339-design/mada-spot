@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
     ])) as [any[], number];
 
     // Post-filter cuisine (JSON field, can't filter in Prisma easily)
-    let filteredRestaurants = restaurants.filter((resto) => {
+    const filteredRestaurants = restaurants.filter((resto) => {
       if (!resto.restaurant) return false;
       if (cuisine && resto.restaurant.cuisineTypes) {
         const cuisines = safeJsonParse<string[]>(resto.restaurant.cuisineTypes, []);

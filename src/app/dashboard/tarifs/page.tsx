@@ -9,11 +9,12 @@ import {
   ChevronDown, ChevronUp
 } from 'lucide-react'
 import type { SeasonalPricingItem } from '@/types/dashboard'
+import { useTrans } from '@/i18n'
 
-const SEASON_PRESETS = [
-  { name: 'Haute saison', icon: Sun, color: '#f59e0b', multiplier: 1.5, months: 'Juin - Septembre' },
-  { name: 'Basse saison', icon: Snowflake, color: '#3b82f6', multiplier: 0.8, months: 'Janvier - Mars' },
-  { name: 'Fêtes', icon: PartyPopper, color: '#ec4899', multiplier: 1.3, months: 'Décembre' },
+const SEASON_PRESETS: { nameKey: 'presetHigh' | 'presetLow' | 'presetHoliday'; monthsKey: 'presetHighMonths' | 'presetLowMonths' | 'presetHolidayMonths'; icon: typeof Sun; color: string; multiplier: number }[] = [
+  { nameKey: 'presetHigh', icon: Sun, color: '#f59e0b', multiplier: 1.5, monthsKey: 'presetHighMonths' },
+  { nameKey: 'presetLow', icon: Snowflake, color: '#3b82f6', multiplier: 0.8, monthsKey: 'presetLowMonths' },
+  { nameKey: 'presetHoliday', icon: PartyPopper, color: '#ec4899', multiplier: 1.3, monthsKey: 'presetHolidayMonths' },
 ]
 
 const TYPE_ICONS: Record<string, typeof Building2> = {
@@ -23,11 +24,11 @@ const TYPE_ICONS: Record<string, typeof Building2> = {
   PROVIDER: Briefcase,
 }
 
-const TYPE_LABELS: Record<string, string> = {
-  HOTEL: 'Hôtel',
-  RESTAURANT: 'Restaurant',
-  ATTRACTION: 'Attraction',
-  PROVIDER: 'Prestataire',
+const TYPE_LABEL_KEYS: Record<string, 'typeHotel' | 'typeRestaurant' | 'typeAttraction' | 'typeProvider'> = {
+  HOTEL: 'typeHotel',
+  RESTAURANT: 'typeRestaurant',
+  ATTRACTION: 'typeAttraction',
+  PROVIDER: 'typeProvider',
 }
 
 interface PriceItem {
@@ -57,6 +58,7 @@ const formatMGA = (value: number) => {
 }
 
 export default function TarifsPage() {
+  const t = useTrans('dashboardTarifs')
   const [seasons, setSeasons] = useState<SeasonalPricingItem[]>([])
   const [establishments, setEstablishments] = useState<EstablishmentPricing[]>([])
   const [loading, setLoading] = useState(true)
@@ -114,7 +116,7 @@ export default function TarifsPage() {
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Supprimer cette période tarifaire ?')) return
+    if (!confirm(t.confirmDeletePeriod)) return
     try {
       await fetch(`/api/dashboard/pricing?id=${id}`, { method: 'DELETE' })
       await fetchSeasons()
@@ -126,7 +128,7 @@ export default function TarifsPage() {
   const formatMultiplier = (m: number) => {
     if (m > 1) return `+${((m - 1) * 100).toFixed(0)}%`
     if (m < 1) return `${((m - 1) * 100).toFixed(0)}%`
-    return 'Tarif normal'
+    return t.normalRate
   }
 
   const getMultiplierForPrice = (season: SeasonalPricingItem, priceLabel: string): number => {
@@ -154,8 +156,8 @@ export default function TarifsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Tarifs & Saisons</h1>
-          <p className="text-gray-400 text-sm mt-1">Gerez vos tarifs saisonniers</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{t.pageTitle}</h1>
+          <p className="text-gray-400 text-sm mt-1">{t.pageSubtitle}</p>
         </div>
         <button
           onClick={() => {
@@ -167,14 +169,14 @@ export default function TarifsPage() {
           className="flex items-center gap-2 px-4 py-2.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-gray-900 rounded-xl text-sm font-medium transition-colors"
         >
           <Plus className="w-4 h-4" />
-          Nouvelle periode
+          {t.newPeriod}
         </button>
       </div>
 
       {/* Vos prix actuels */}
       {establishments.length > 0 && establishments.some(e => e.prices.length > 0) && (
         <div className="space-y-4">
-          <h2 className="text-sm font-medium text-gray-400">Vos prix actuels</h2>
+          <h2 className="text-sm font-medium text-gray-400">{t.currentPrices}</h2>
           {establishments.filter(e => e.prices.length > 0).map((estab) => {
             const TypeIcon = TYPE_ICONS[estab.type] || Building2
             return (
@@ -185,7 +187,7 @@ export default function TarifsPage() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-gray-900">{estab.name}</p>
-                    <p className="text-xs text-gray-500">{TYPE_LABELS[estab.type] || estab.type}</p>
+                    <p className="text-xs text-gray-500">{TYPE_LABEL_KEYS[estab.type] ? t[TYPE_LABEL_KEYS[estab.type]] : estab.type}</p>
                   </div>
                 </div>
 
@@ -194,8 +196,8 @@ export default function TarifsPage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-white/5">
-                        <th className="text-left text-xs text-gray-500 font-medium pb-2 pr-4">Type de prix</th>
-                        <th className="text-right text-xs text-gray-500 font-medium pb-2 pr-4">Prix de base</th>
+                        <th className="text-left text-xs text-gray-500 font-medium pb-2 pr-4">{t.priceType}</th>
+                        <th className="text-right text-xs text-gray-500 font-medium pb-2 pr-4">{t.basePrice}</th>
                         {seasons.filter(s => s.isActive).map((season) => (
                           <th key={season.id} className="text-right text-xs font-medium pb-2 pr-4">
                             <span className={
@@ -238,7 +240,7 @@ export default function TarifsPage() {
                 </div>
 
                 {seasons.filter(s => s.isActive).length === 0 && (
-                  <p className="text-xs text-gray-500 italic">Ajoutez des periodes saisonnieres pour voir les tarifs ajustes</p>
+                  <p className="text-xs text-gray-500 italic">{t.seasonsHint}</p>
                 )}
               </div>
             )
@@ -248,16 +250,16 @@ export default function TarifsPage() {
 
       {/* Quick Presets */}
       <div>
-        <h2 className="text-sm font-medium text-gray-400 mb-3">Modeles rapides</h2>
+        <h2 className="text-sm font-medium text-gray-400 mb-3">{t.quickModels}</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {SEASON_PRESETS.map((preset) => (
             <motion.button
-              key={preset.name}
+              key={preset.nameKey}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => {
                 setEditing({
-                  name: preset.name,
+                  name: t[preset.nameKey],
                   startDate: '',
                   endDate: '',
                   priceMultiplier: preset.multiplier,
@@ -272,8 +274,8 @@ export default function TarifsPage() {
                 <preset.icon className="w-5 h-5" style={{ color: preset.color }} />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-900">{preset.name}</p>
-                <p className="text-xs text-gray-400">{preset.months} · {formatMultiplier(preset.multiplier)}</p>
+                <p className="text-sm font-medium text-gray-900">{t[preset.nameKey]}</p>
+                <p className="text-xs text-gray-400">{t[preset.monthsKey]} · {formatMultiplier(preset.multiplier)}</p>
               </div>
             </motion.button>
           ))}
@@ -289,7 +291,7 @@ export default function TarifsPage() {
         >
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-gray-900">
-              {editing.id ? 'Modifier la periode' : 'Nouvelle periode tarifaire'}
+              {editing.id ? t.editPeriodTitle : t.newPeriodTitle}
             </h3>
             <button onClick={() => { setEditing(null); setShowPerPriceMultipliers(false) }} className="text-gray-400 hover:text-gray-900">
               <X className="w-5 h-5" />
@@ -298,17 +300,17 @@ export default function TarifsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Nom de la periode</label>
+              <label className="block text-xs text-gray-400 mb-1">{t.periodName}</label>
               <input
                 type="text"
                 value={editing.name}
                 onChange={(e) => setEditing(prev => prev ? { ...prev, name: e.target.value } : null)}
-                placeholder="Ex: Haute saison"
+                placeholder={t.periodNamePlaceholder}
                 className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Multiplicateur global (fallback)</label>
+              <label className="block text-xs text-gray-400 mb-1">{t.globalMultiplier}</label>
               <div className="flex items-center gap-3">
                 <input
                   type="range"
@@ -337,7 +339,7 @@ export default function TarifsPage() {
                 className="flex items-center gap-2 text-sm text-[#ff6b35] hover:text-[#e55a2b] transition-colors"
               >
                 {showPerPriceMultipliers ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                Multiplicateurs par type de prix
+                {t.perPriceMultipliers}
               </button>
 
               {showPerPriceMultipliers && (
@@ -347,7 +349,7 @@ export default function TarifsPage() {
                   className="bg-white/5 rounded-xl p-4 space-y-3"
                 >
                   <p className="text-xs text-gray-500 mb-2">
-                    Definissez un multiplicateur specifique par type de prix. Les types sans multiplicateur specifique utiliseront le multiplicateur global.
+                    {t.perPriceHelp}
                   </p>
                   {uniquePriceLabels.map((label) => {
                     const hasCustom = label in editing.priceMultipliers
@@ -370,7 +372,7 @@ export default function TarifsPage() {
                                 }}
                                 className="text-[10px] text-gray-500 hover:text-red-400 transition-colors"
                               >
-                                (reinitialiser)
+                                {t.resetBtn}
                               </button>
                             )}
                           </div>
@@ -419,7 +421,7 @@ export default function TarifsPage() {
             editing.priceMultiplier !== 1 || Object.keys(editing.priceMultipliers).length > 0
           ) && (
             <div className="bg-white/5 rounded-xl p-4 space-y-2">
-              <p className="text-xs text-gray-400 font-medium mb-2">Apercu des prix avec ces multiplicateurs</p>
+              <p className="text-xs text-gray-400 font-medium mb-2">{t.previewTitle}</p>
               {establishments.filter(e => e.prices.length > 0).map((estab) => (
                 <div key={estab.id} className="space-y-1">
                   <p className="text-xs text-gray-500">{estab.name}</p>
@@ -448,7 +450,7 @@ export default function TarifsPage() {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Date de debut</label>
+              <label className="block text-xs text-gray-400 mb-1">{t.startDateLabel}</label>
               <input
                 type="date"
                 value={editing.startDate}
@@ -457,7 +459,7 @@ export default function TarifsPage() {
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">Date de fin</label>
+              <label className="block text-xs text-gray-400 mb-1">{t.endDateLabel}</label>
               <input
                 type="date"
                 value={editing.endDate}
@@ -472,7 +474,7 @@ export default function TarifsPage() {
               onClick={() => { setEditing(null); setShowPerPriceMultipliers(false) }}
               className="px-4 py-2 text-gray-400 hover:text-gray-900 text-sm transition-colors"
             >
-              Annuler
+              {t.cancel}
             </button>
             <button
               onClick={handleSave}
@@ -484,7 +486,7 @@ export default function TarifsPage() {
               ) : (
                 <Save className="w-4 h-4" />
               )}
-              Sauvegarder
+              {t.saveBtn}
             </button>
           </div>
         </motion.div>
@@ -492,7 +494,7 @@ export default function TarifsPage() {
 
       {/* Existing Seasons */}
       <div className="space-y-3">
-        <h2 className="text-sm font-medium text-gray-400">Periodes tarifaires actives</h2>
+        <h2 className="text-sm font-medium text-gray-400">{t.activePeriods}</h2>
         {seasons.length > 0 ? (
           seasons.map((season) => (
             <motion.div
@@ -576,8 +578,8 @@ export default function TarifsPage() {
         ) : (
           <div className="p-8 bg-white border border-white/10 rounded-2xl text-center">
             <Calendar className="w-10 h-10 text-gray-600 mx-auto mb-3" />
-            <p className="text-sm text-gray-400">Aucune periode tarifaire definie</p>
-            <p className="text-xs text-gray-500 mt-1">Ajoutez des periodes pour ajuster automatiquement vos prix</p>
+            <p className="text-sm text-gray-400">{t.noPeriodTitle}</p>
+            <p className="text-xs text-gray-500 mt-1">{t.noPeriodHint}</p>
           </div>
         )}
       </div>

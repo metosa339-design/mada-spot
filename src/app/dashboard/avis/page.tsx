@@ -7,14 +7,15 @@ import {
   Loader2
 } from 'lucide-react'
 import type { ReviewItem } from '@/types/dashboard'
+import { useTrans } from '@/i18n'
 
 type FilterTab = 'all' | 'unanswered' | 'answered' | 'flagged'
 
-const FILTER_TABS: { key: FilterTab; label: string }[] = [
-  { key: 'all', label: 'Tous' },
-  { key: 'unanswered', label: 'Sans réponse' },
-  { key: 'answered', label: 'Répondus' },
-  { key: 'flagged', label: 'Signalés' },
+const FILTER_TABS: { key: FilterTab; labelKey: 'filterAll' | 'filterUnanswered' | 'filterAnswered' | 'filterFlagged' }[] = [
+  { key: 'all', labelKey: 'filterAll' },
+  { key: 'unanswered', labelKey: 'filterUnanswered' },
+  { key: 'answered', labelKey: 'filterAnswered' },
+  { key: 'flagged', labelKey: 'filterFlagged' },
 ]
 
 function StarRating({ rating, size = 'sm' }: { rating: number; size?: 'sm' | 'md' | 'lg' }) {
@@ -38,6 +39,7 @@ function StarRating({ rating, size = 'sm' }: { rating: number; size?: 'sm' | 'md
 }
 
 export default function AvisPage() {
+  const t = useTrans('dashboardAvis')
   const [reviews, setReviews] = useState<ReviewItem[]>([])
   const [loading, setLoading] = useState(true)
   const [activeFilter, setActiveFilter] = useState<FilterTab>('all')
@@ -132,8 +134,8 @@ export default function AvisPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        <h1 className="text-2xl font-bold text-gray-900">Avis clients</h1>
-        <p className="text-gray-400 mt-1">Gérez et répondez aux avis de vos clients</p>
+        <h1 className="text-2xl font-bold text-gray-900">{t.pageTitle}</h1>
+        <p className="text-gray-400 mt-1">{t.pageSubtitle}</p>
       </motion.div>
 
       {/* Summary Cards */}
@@ -155,7 +157,7 @@ export default function AvisPage() {
             <span className="text-sm text-gray-500">/ 5</span>
           </div>
           <StarRating rating={Math.round(averageRating)} size="md" />
-          <p className="text-sm text-gray-400 mt-2">Note moyenne</p>
+          <p className="text-sm text-gray-400 mt-2">{t.averageRating}</p>
         </motion.div>
 
         {/* Total avis */}
@@ -171,7 +173,7 @@ export default function AvisPage() {
             </div>
           </div>
           <p className="text-3xl font-bold text-gray-900">{totalReviews}</p>
-          <p className="text-sm text-gray-400 mt-2">Total avis</p>
+          <p className="text-sm text-gray-400 mt-2">{t.totalReviewsLabel}</p>
         </motion.div>
 
         {/* Avis sans réponse */}
@@ -187,7 +189,7 @@ export default function AvisPage() {
             </div>
           </div>
           <p className="text-3xl font-bold text-gray-900">{unansweredCount}</p>
-          <p className="text-sm text-gray-400 mt-2">Avis sans réponse</p>
+          <p className="text-sm text-gray-400 mt-2">{t.unansweredLabel}</p>
         </motion.div>
       </div>
 
@@ -203,7 +205,7 @@ export default function AvisPage() {
                 : 'bg-white/5 text-gray-400 hover:bg-gray-100 hover:text-white'
             }`}
           >
-            {tab.label}
+            {t[tab.labelKey]}
             {tab.key === 'unanswered' && unansweredCount > 0 && (
               <span className="ml-2 bg-white/20 text-gray-900 text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                 {unansweredCount}
@@ -243,7 +245,7 @@ export default function AvisPage() {
                       </div>
                       <div>
                         <p className="text-sm font-semibold text-gray-900">
-                          {review.authorName || 'Anonyme'}
+                          {review.authorName || t.anonymous}
                         </p>
                         <div className="flex items-center gap-3 mt-0.5">
                           <StarRating rating={review.rating} />
@@ -263,7 +265,7 @@ export default function AvisPage() {
                       {review.isFlagged && (
                         <span className="text-[10px] bg-red-500/10 text-red-400 px-2 py-1 rounded-lg border border-red-500/20 flex items-center gap-1">
                           <AlertTriangle className="w-2.5 h-2.5" />
-                          Signalé
+                          {t.flaggedBadge}
                         </span>
                       )}
                       {/* Establishment name */}
@@ -286,7 +288,7 @@ export default function AvisPage() {
                   {/* Flag reason */}
                   {review.isFlagged && review.flagReason && (
                     <div className="mt-2 p-2.5 bg-red-500/5 border border-red-500/10 rounded-lg">
-                      <p className="text-[10px] font-medium text-red-400 mb-0.5">Raison du signalement :</p>
+                      <p className="text-[10px] font-medium text-red-400 mb-0.5">{t.flagReasonLabel}</p>
                       <p className="text-xs text-red-300/80">{review.flagReason}</p>
                     </div>
                   )}
@@ -294,11 +296,11 @@ export default function AvisPage() {
                   {/* Owner response */}
                   {review.ownerResponse && (
                     <div className="mt-4 pl-4 border-l-2 border-[#ff6b35]/30 bg-[#ff6b35]/5 rounded-r-xl p-3">
-                      <p className="text-xs font-medium text-[#ff6b35] mb-1">Votre réponse</p>
+                      <p className="text-xs font-medium text-[#ff6b35] mb-1">{t.yourReplyTitle}</p>
                       <p className="text-sm text-gray-300">{review.ownerResponse}</p>
                       {review.respondedAt && (
                         <p className="text-[10px] text-gray-500 mt-2">
-                          Répondu le {new Date(review.respondedAt).toLocaleDateString('fr-FR', {
+                          {t.repliedOn} {new Date(review.respondedAt).toLocaleDateString('fr-FR', {
                             day: 'numeric',
                             month: 'long',
                             year: 'numeric',
@@ -321,7 +323,7 @@ export default function AvisPage() {
                           <textarea
                             value={replyText}
                             onChange={(e) => setReplyText(e.target.value)}
-                            placeholder="Écrivez votre réponse..."
+                            placeholder={t.replyPlaceholder2}
                             rows={3}
                             className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50 transition-colors resize-none"
                           />
@@ -330,7 +332,7 @@ export default function AvisPage() {
                               onClick={() => { setReplyingTo(null); setReplyText('') }}
                               className="px-3 py-1.5 text-xs text-gray-400 hover:text-gray-900 transition-colors"
                             >
-                              Annuler
+                              {t.cancel}
                             </button>
                             <button
                               onClick={() => submitResponse(review.id)}
@@ -342,7 +344,7 @@ export default function AvisPage() {
                               ) : (
                                 <Send className="w-3.5 h-3.5" />
                               )}
-                              Envoyer
+                              {t.sendReply}
                             </button>
                           </div>
                         </motion.div>
@@ -352,7 +354,7 @@ export default function AvisPage() {
                           className="flex items-center gap-1.5 text-xs font-medium text-[#ff6b35] hover:text-orange-400 transition-colors"
                         >
                           <MessageSquare className="w-3.5 h-3.5" />
-                          Répondre
+                          {t.reply}
                         </button>
                       )}
                     </div>
@@ -367,11 +369,11 @@ export default function AvisPage() {
               className="bg-white border border-white/10 rounded-2xl p-12 text-center"
             >
               <Star className="w-12 h-12 text-gray-600 mx-auto mb-3" />
-              <p className="text-sm text-gray-400">Aucun avis trouvé</p>
+              <p className="text-sm text-gray-400">{t.noReviewsFound}</p>
               <p className="text-xs text-gray-600 mt-1">
                 {activeFilter !== 'all'
-                  ? 'Essayez un autre filtre'
-                  : 'Les avis de vos clients apparaîtront ici'}
+                  ? t.tryAnotherFilter
+                  : t.reviewsWillAppear}
               </p>
             </motion.div>
           )}

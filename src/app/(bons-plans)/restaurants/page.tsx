@@ -9,6 +9,7 @@ import { Search, MapPin, Star, X, UtensilsCrossed, Coffee, Wine, Truck, Shopping
 import { getImageUrl } from '@/lib/image-url';
 import PhotoSlider from '@/components/ui/PhotoSlider';
 import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
+import { useTrans } from '@/i18n';
 
 interface Restaurant {
   id: string;
@@ -35,30 +36,6 @@ interface Restaurant {
   avgBeer: number;
 }
 
-const categories = [
-  { value: '', label: 'Toutes catégories', icon: UtensilsCrossed },
-  { value: 'GARGOTE', label: 'Gargote', icon: Coffee },
-  { value: 'RESTAURANT', label: 'Restaurant', icon: UtensilsCrossed },
-  { value: 'LOUNGE', label: 'Lounge & Bar', icon: Wine },
-  { value: 'CAFE', label: 'Café', icon: Coffee },
-  { value: 'FAST_FOOD', label: 'Fast Food', icon: ShoppingBag },
-  { value: 'STREET_FOOD', label: 'Street Food', icon: ShoppingBag },
-];
-
-const priceRanges = [
-  { value: '', label: 'Tous les prix' },
-  { value: 'BUDGET', label: '€ Budget', description: 'Moins de 15 000 Ar' },
-  { value: 'MODERATE', label: '€€ Modéré', description: '15 000 - 40 000 Ar' },
-  { value: 'UPSCALE', label: '€€€ Upscale', description: '40 000 - 80 000 Ar' },
-  { value: 'LUXURY', label: '€€€€ Luxe', description: 'Plus de 80 000 Ar' },
-];
-
-const sortOptions = [
-  { value: 'rating', label: 'Meilleures notes' },
-  { value: 'price', label: 'Prix croissant' },
-  { value: 'newest', label: 'Plus récents' },
-];
-
 export default function RestaurantsPage() {
   return (
     <Suspense fallback={<div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center"><div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" /></div>}>
@@ -68,6 +45,28 @@ export default function RestaurantsPage() {
 }
 
 function RestaurantsPageContent() {
+  const t = useTrans('bonsPlans');
+  const categories = [
+    { value: '', label: t.allCategories, icon: UtensilsCrossed },
+    { value: 'GARGOTE', label: t.categoryGargote, icon: Coffee },
+    { value: 'RESTAURANT', label: t.categoryRestaurant, icon: UtensilsCrossed },
+    { value: 'LOUNGE', label: t.categoryLounge, icon: Wine },
+    { value: 'CAFE', label: t.categoryCafe, icon: Coffee },
+    { value: 'FAST_FOOD', label: t.categoryFastFood, icon: ShoppingBag },
+    { value: 'STREET_FOOD', label: t.categoryStreetFood, icon: ShoppingBag },
+  ];
+  const priceRanges = [
+    { value: '', label: t.allPrices },
+    { value: 'BUDGET', label: t.priceBudget, description: t.priceBudgetDesc },
+    { value: 'MODERATE', label: t.priceModerate, description: t.priceModerateDesc },
+    { value: 'UPSCALE', label: t.priceUpscale, description: t.priceUpscaleDesc },
+    { value: 'LUXURY', label: t.priceLuxury, description: t.priceLuxuryDesc },
+  ];
+  const sortOptions = [
+    { value: 'rating', label: t.bestRating },
+    { value: 'price', label: t.sortPriceAsc },
+    { value: 'newest', label: t.sortNewest },
+  ];
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -174,9 +173,9 @@ function RestaurantsPageContent() {
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex-shrink-0">
               <h1 className="text-xl sm:text-2xl font-bold text-[#2D241E] flex items-center gap-2">
                 <UtensilsCrossed className="w-6 h-6 sm:w-7 sm:h-7 text-[#D97706] flex-shrink-0" />
-                Restaurants à Madagascar
+                {t.restaurantsTitle}
               </h1>
-              <p className="text-[#8B7E6E] text-xs sm:text-sm mt-1">Découvrez les meilleurs restaurants avec photos de menus et prix réels</p>
+              <p className="text-[#8B7E6E] text-xs sm:text-sm mt-1">{t.restaurantsSubtitle}</p>
             </motion.div>
 
             {/* Center: sliding photo */}
@@ -192,10 +191,10 @@ function RestaurantsPageContent() {
             <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 lg:max-w-lg w-full lg:w-auto">
               <div className="flex-1 flex items-center gap-2 px-3 bg-white rounded-xl shadow-md border border-gray-100">
                 <Search className="w-4 h-4 text-gray-400" />
-                <input type="text" placeholder="Rechercher un restaurant, cuisine..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="flex-1 py-2.5 bg-transparent outline-none text-[#2D241E] text-sm placeholder:text-gray-400" />
+                <input type="text" placeholder={t.searchRestaurantCuisinePlaceholder} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="flex-1 py-2.5 bg-transparent outline-none text-[#2D241E] text-sm placeholder:text-gray-400" />
               </div>
               <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)} className="px-3 py-2.5 bg-white rounded-xl text-sm text-[#2D241E] outline-none cursor-pointer shadow-md border border-gray-100">
-                <option value="">Toutes les villes</option>
+                <option value="">{t.allCities}</option>
                 {MADAGASCAR_CITIES_BY_PROVINCE.map((p) => (
                   <optgroup key={p.province} label={p.province}>
                     {p.cities.map((city) => (
@@ -206,7 +205,7 @@ function RestaurantsPageContent() {
               </select>
               <button onClick={() => setShowFilters(!showFilters)} className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm transition-colors ${hasActiveFilters ? 'bg-[#D97706] text-white shadow-md' : 'bg-white text-[#8B7E6E] hover:text-[#D97706] shadow-md border border-gray-100'}`}>
                 <SlidersHorizontal className="w-4 h-4" />
-                Filtres
+                {t.filters}
                 {hasActiveFilters && <span className="w-2 h-2 bg-white rounded-full" />}
               </button>
             </div>
@@ -230,7 +229,7 @@ function RestaurantsPageContent() {
                     {/* Catégorie */}
                     <div>
                       <label className="block text-sm font-medium text-slate-400 mb-2">
-                        Catégorie
+                        {t.categoryLabel}
                       </label>
                       <div className="flex flex-wrap gap-2">
                         {categories.map((cat) => (
@@ -253,7 +252,7 @@ function RestaurantsPageContent() {
                     {/* Prix */}
                     <div>
                       <label className="block text-sm font-medium text-slate-400 mb-2">
-                        Gamme de prix
+                        {t.priceRangeLabel}
                       </label>
                       <div className="flex flex-wrap gap-2">
                         {priceRanges.map((range) => (
@@ -275,7 +274,7 @@ function RestaurantsPageContent() {
                     {/* Tri */}
                     <div>
                       <label className="block text-sm font-medium text-slate-400 mb-2">
-                        Trier par
+                        {t.sortBy}
                       </label>
                       <select
                         value={sortBy}
@@ -292,7 +291,7 @@ function RestaurantsPageContent() {
                   {/* Active filters */}
                   {hasActiveFilters && (
                     <div className="mt-4 pt-4 border-t border-[#2a2a36] flex items-center gap-2 flex-wrap">
-                      <span className="text-sm text-slate-400">Filtres actifs:</span>
+                      <span className="text-sm text-slate-400">{t.activeFilters}</span>
                       {selectedCity && (
                         <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-500/20 text-orange-400 rounded-full text-sm">
                           {selectedCity}
@@ -325,7 +324,7 @@ function RestaurantsPageContent() {
                         }}
                         className="text-sm text-orange-400 hover:underline"
                       >
-                        Tout effacer
+                        {t.clearAll}
                       </button>
                     </div>
                   )}
@@ -341,7 +340,7 @@ function RestaurantsPageContent() {
         {/* Results count */}
         <div className="flex items-center justify-between mb-6">
           <p className="text-slate-400">
-            <span className="font-semibold text-white">{total}</span> restaurant{total > 1 ? 's' : ''} trouvé{total > 1 ? 's' : ''}
+            <span className="font-semibold text-white">{total}</span> {t.restaurantsFound}
           </p>
         </div>
 
@@ -362,8 +361,8 @@ function RestaurantsPageContent() {
         ) : restaurants.length === 0 ? (
           <div className="text-center py-16">
             <UtensilsCrossed className="w-16 h-16 mx-auto text-slate-600 mb-4" />
-            <h2 className="text-xl font-semibold text-white mb-2">Aucun restaurant trouvé</h2>
-            <p className="text-slate-400 mb-6">Essayez de modifier vos critères de recherche</p>
+            <h2 className="text-xl font-semibold text-white mb-2">{t.noRestaurantFound}</h2>
+            <p className="text-slate-400 mb-6">{t.modifyCriteria}</p>
             <button
               onClick={() => {
                 setSearchQuery('');
@@ -373,7 +372,7 @@ function RestaurantsPageContent() {
               }}
               className="px-6 py-3 bg-[#ff6b35] text-white font-medium rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all"
             >
-              Réinitialiser les filtres
+              {t.resetFilters}
             </button>
           </div>
         ) : (
@@ -411,7 +410,7 @@ function RestaurantsPageContent() {
                       </span>
                       {restaurant.isFeatured && (
                         <span className="px-2 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full text-xs font-medium">
-                          Recommandé
+                          {t.recommended}
                         </span>
                       )}
                     </div>
@@ -426,7 +425,7 @@ function RestaurantsPageContent() {
                         className="absolute bottom-3 right-3 flex items-center gap-1 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-full text-sm font-medium text-orange-400 hover:bg-black/80 transition-colors"
                       >
                         <ImageIcon className="w-4 h-4" />
-                        Voir le menu
+                        {t.viewMenu}
                       </button>
                     )}
 
@@ -466,17 +465,17 @@ function RestaurantsPageContent() {
                       <div className="flex items-center gap-3 mb-3">
                         {restaurant.hasDelivery && (
                           <span className="flex items-center gap-1 text-xs text-slate-400">
-                            <Truck className="w-3 h-3" /> Livraison
+                            <Truck className="w-3 h-3" /> {t.delivery}
                           </span>
                         )}
                         {restaurant.hasTakeaway && (
                           <span className="flex items-center gap-1 text-xs text-slate-400">
-                            <ShoppingBag className="w-3 h-3" /> À emporter
+                            <ShoppingBag className="w-3 h-3" /> {t.takeaway}
                           </span>
                         )}
                         {restaurant.hasWifi && (
                           <span className="flex items-center gap-1 text-xs text-slate-400">
-                            <Wifi className="w-3 h-3" /> WiFi
+                            <Wifi className="w-3 h-3" /> {t.wifiShort}
                           </span>
                         )}
                       </div>
@@ -504,7 +503,7 @@ function RestaurantsPageContent() {
                         <div className="flex items-center gap-1">
                           <Star className="w-4 h-4 text-[#ff6b35] fill-[#ff6b35]" />
                           <span className="font-medium text-[#ff6b35]">{restaurant.rating?.toFixed(1)}</span>
-                          <span className="text-sm text-slate-400">({restaurant.reviewCount} avis)</span>
+                          <span className="text-sm text-slate-400">({restaurant.reviewCount} {t.reviewsCount})</span>
                         </div>
                       </div>
                     </div>
@@ -521,7 +520,7 @@ function RestaurantsPageContent() {
                   disabled={isLoading}
                   className="px-8 py-3 bg-[#ff6b35] text-white font-medium rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all disabled:opacity-50"
                 >
-                  {isLoading ? 'Chargement...' : 'Voir plus de restaurants'}
+                  {isLoading ? t.loading : t.loadMoreRestaurants}
                 </button>
               </div>
             )}
@@ -549,9 +548,9 @@ function RestaurantsPageContent() {
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b border-[#2a2a36]">
                 <div>
-                  <h3 className="font-bold text-white">Menu - {menuPreview.restaurant.name}</h3>
+                  <h3 className="font-bold text-white">{t.menuOf} - {menuPreview.restaurant.name}</h3>
                   <p className="text-sm text-slate-400">
-                    Photo {menuPreview.imageIndex + 1} sur {menuPreview.restaurant.menuImages.length}
+                    {t.menuPhotoOf.replace('{current}', String(menuPreview.imageIndex + 1)).replace('{total}', String(menuPreview.restaurant.menuImages.length))}
                   </p>
                 </div>
                 <button
@@ -630,13 +629,13 @@ function RestaurantsPageContent() {
               <div className="p-4 border-t border-[#2a2a36] flex items-center justify-between">
                 <div className="text-sm text-slate-400">
                   <Eye className="w-4 h-4 inline mr-1" />
-                  Photos du menu avec prix réels
+                  {t.realPricesMenu}
                 </div>
                 <Link
                   href={`/restaurants/${menuPreview.restaurant.slug}`}
                   className="px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-medium rounded-lg hover:shadow-lg hover:shadow-orange-500/25 transition-all"
                 >
-                  Voir le restaurant
+                  {t.viewRestaurant}
                 </Link>
               </div>
             </motion.div>

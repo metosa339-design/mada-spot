@@ -36,6 +36,7 @@ import {
 import { getImageUrl } from '@/lib/image-url';
 import PhotoSlider from '@/components/ui/PhotoSlider';
 import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
+import { useTrans } from '@/i18n';
 
 interface Attraction {
   id: string;
@@ -62,23 +63,6 @@ interface Attraction {
   hasParking: boolean;
   highlights: string[];
 }
-
-const attractionTypes = [
-  { value: '', label: 'Tous les types', icon: Camera },
-  { value: 'parc_national', label: 'Parc National', icon: Trees },
-  { value: 'plage', label: 'Plage', icon: Waves },
-  { value: 'cascade', label: 'Cascade', icon: Waves },
-  { value: 'montagne', label: 'Montagne', icon: Mountain },
-  { value: 'reserve', label: 'Réserve naturelle', icon: Trees },
-  { value: 'site_historique', label: 'Site historique', icon: Landmark },
-  { value: 'musee', label: 'Musée', icon: Building },
-];
-
-const sortOptions = [
-  { value: 'rating', label: 'Meilleures notes' },
-  { value: 'price', label: 'Prix croissant' },
-  { value: 'newest', label: 'Plus récents' },
-];
 
 // Images par catégorie pour les attractions
 const ATTRACTION_IMAGES: Record<string, string[]> = {
@@ -185,6 +169,22 @@ export default function AttractionsPage() {
 }
 
 function AttractionsPageContent() {
+  const t = useTrans('bonsPlans');
+  const attractionTypes = [
+    { value: '', label: t.typeAllAttractions, icon: Camera },
+    { value: 'parc_national', label: t.typeNationalPark, icon: Trees },
+    { value: 'plage', label: t.typeBeach, icon: Waves },
+    { value: 'cascade', label: t.typeWaterfall, icon: Waves },
+    { value: 'montagne', label: t.typeMountain, icon: Mountain },
+    { value: 'reserve', label: t.typeNatureReserve, icon: Trees },
+    { value: 'site_historique', label: t.typeHistoricalSite, icon: Landmark },
+    { value: 'musee', label: t.typeMuseum, icon: Building },
+  ];
+  const sortOptions = [
+    { value: 'rating', label: t.bestRating },
+    { value: 'price', label: t.sortPriceAsc },
+    { value: 'newest', label: t.sortNewest },
+  ];
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -291,9 +291,9 @@ function AttractionsPageContent() {
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex-shrink-0">
               <h1 className="text-xl sm:text-2xl font-bold text-[#2D241E] flex items-center gap-2">
                 <Mountain className="w-6 h-6 sm:w-7 sm:h-7 text-[#D97706] flex-shrink-0" />
-                Attractions Touristiques
+                {t.attractionsHeaderTitle}
               </h1>
-              <p className="text-[#8B7E6E] text-xs sm:text-sm mt-1">Parcs nationaux, plages paradisiaques et merveilles naturelles</p>
+              <p className="text-[#8B7E6E] text-xs sm:text-sm mt-1">{t.attractionsHeaderSubtitle}</p>
             </motion.div>
 
             {/* Center: sliding photo */}
@@ -309,10 +309,10 @@ function AttractionsPageContent() {
             <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 lg:max-w-lg w-full lg:w-auto">
               <div className="flex-1 flex items-center gap-2 px-3 bg-white rounded-xl shadow-md border border-gray-100">
                 <Search className="w-4 h-4 text-gray-400" />
-                <input type="text" placeholder="Rechercher une attraction..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="flex-1 py-2.5 bg-transparent outline-none text-[#2D241E] text-sm placeholder:text-gray-400" />
+                <input type="text" placeholder={t.searchAttractionShortPlaceholder} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="flex-1 py-2.5 bg-transparent outline-none text-[#2D241E] text-sm placeholder:text-gray-400" />
               </div>
               <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)} className="px-3 py-2.5 bg-white rounded-xl text-sm text-[#2D241E] outline-none cursor-pointer shadow-md border border-gray-100">
-                <option value="">Toutes les régions</option>
+                <option value="">{t.allRegions}</option>
                 {MADAGASCAR_CITIES_BY_PROVINCE.map((p) => (
                   <optgroup key={p.province} label={p.province}>
                     {p.cities.map((city) => (
@@ -323,7 +323,7 @@ function AttractionsPageContent() {
               </select>
               <button onClick={() => setShowFilters(!showFilters)} className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm transition-colors ${showFilters ? 'bg-[#D97706] text-white shadow-md' : 'bg-white text-[#8B7E6E] hover:text-[#D97706] shadow-md border border-gray-100'}`}>
                 <SlidersHorizontal className="w-4 h-4" />
-                Filtres
+                {t.filters}
               </button>
             </div>
           </div>
@@ -346,7 +346,7 @@ function AttractionsPageContent() {
                     {/* Type */}
                     <div>
                       <label className="block text-sm font-medium text-slate-400 mb-2">
-                        Type d&apos;attraction
+                        {t.attractionTypeLabel}
                       </label>
                       <div className="flex flex-wrap gap-2">
                         {attractionTypes.slice(0, 5).map((type) => (
@@ -369,7 +369,7 @@ function AttractionsPageContent() {
                     {/* Prix */}
                     <div>
                       <label className="block text-sm font-medium text-slate-400 mb-2">
-                        Tarif
+                        {t.priceLabel}
                       </label>
                       <div className="flex gap-2">
                         <button
@@ -380,7 +380,7 @@ function AttractionsPageContent() {
                               : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
                           }`}
                         >
-                          Tous
+                          {t.allLabel}
                         </button>
                         <button
                           onClick={() => setShowFreeOnly(true)}
@@ -390,7 +390,7 @@ function AttractionsPageContent() {
                               : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
                           }`}
                         >
-                          Gratuit uniquement
+                          {t.freeOnly}
                         </button>
                       </div>
                     </div>
@@ -398,7 +398,7 @@ function AttractionsPageContent() {
                     {/* Tri */}
                     <div>
                       <label className="block text-sm font-medium text-slate-400 mb-2">
-                        Trier par
+                        {t.sortBy}
                       </label>
                       <select
                         value={sortBy}
@@ -415,11 +415,11 @@ function AttractionsPageContent() {
                   {/* Active filters */}
                   {(selectedType || selectedCity || showFreeOnly) && (
                     <div className="mt-4 pt-4 border-t border-[#2a2a36] flex items-center gap-2 flex-wrap">
-                      <span className="text-sm text-slate-400">Filtres actifs:</span>
+                      <span className="text-sm text-slate-400">{t.activeFilters}</span>
                       {selectedCity && (
                         <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded-full text-sm">
                           {selectedCity}
-                          <button onClick={() => setSelectedCity('')} aria-label="Retirer le filtre ville">
+                          <button onClick={() => setSelectedCity('')} aria-label={t.removeCityFilter}>
                             <X className="w-3 h-3" />
                           </button>
                         </span>
@@ -427,15 +427,15 @@ function AttractionsPageContent() {
                       {selectedType && (
                         <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded-full text-sm">
                           {getTypeLabel(selectedType)}
-                          <button onClick={() => setSelectedType('')} aria-label="Retirer le filtre type">
+                          <button onClick={() => setSelectedType('')} aria-label={t.removeTypeFilter}>
                             <X className="w-3 h-3" />
                           </button>
                         </span>
                       )}
                       {showFreeOnly && (
                         <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-500/20 text-green-400 border border-green-500/30 rounded-full text-sm">
-                          Gratuit
-                          <button onClick={() => setShowFreeOnly(false)} aria-label="Retirer le filtre gratuit">
+                          {t.freeLabel}
+                          <button onClick={() => setShowFreeOnly(false)} aria-label={t.removeFreeFilter}>
                             <X className="w-3 h-3" />
                           </button>
                         </span>
@@ -448,7 +448,7 @@ function AttractionsPageContent() {
                         }}
                         className="text-sm text-orange-400 hover:underline"
                       >
-                        Tout effacer
+                        {t.clearAll}
                       </button>
                     </div>
                   )}
@@ -464,12 +464,12 @@ function AttractionsPageContent() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 style={{ color: '#ffffff' }} className="text-xl font-bold">Carte des attractions</h2>
-              <p style={{ color: '#94a3b8' }} className="text-sm mt-1">Toutes les destinations Madagascar en un coup d'œil</p>
+              <h2 style={{ color: '#ffffff' }} className="text-xl font-bold">{t.attractionsMapTitle}</h2>
+              <p style={{ color: '#94a3b8' }} className="text-sm mt-1">{t.attractionsMapSubtitle}</p>
             </div>
             <div className="flex items-center gap-2 text-sm text-orange-400">
               <MapPin className="w-4 h-4" />
-              {total} {total > 1 ? 'destinations' : 'destination'}
+              {total} {total > 1 ? t.destinationsCount : t.destinationCount}
             </div>
           </div>
           <div className="rounded-2xl overflow-hidden border border-gray-200 lg:border-[#2a2a36]">
@@ -482,7 +482,7 @@ function AttractionsPageContent() {
       <div className="max-w-7xl mx-auto px-4 pb-16">
         <div className="flex items-center justify-between mb-6">
           <p style={{ color: '#94a3b8' }}>
-            <span style={{ color: '#ffffff' }} className="font-semibold">{total}</span> attraction{total > 1 ? 's' : ''} trouvée{total > 1 ? 's' : ''}
+            <span style={{ color: '#ffffff' }} className="font-semibold">{total}</span> {t.attractionsFound}
           </p>
         </div>
 
@@ -502,8 +502,8 @@ function AttractionsPageContent() {
         ) : attractions.length === 0 ? (
           <div className="text-center py-16">
             <Mountain className="w-16 h-16 mx-auto text-slate-600 mb-4" />
-            <h2 style={{ color: '#ffffff' }} className="text-xl font-semibold mb-2">Aucune attraction trouvée</h2>
-            <p style={{ color: '#94a3b8' }} className="mb-6">Essayez de modifier vos critères de recherche</p>
+            <h2 style={{ color: '#ffffff' }} className="text-xl font-semibold mb-2">{t.noAttractionFound}</h2>
+            <p style={{ color: '#94a3b8' }} className="mb-6">{t.modifyCriteria}</p>
             <button
               onClick={() => {
                 setSearchQuery('');
@@ -513,7 +513,7 @@ function AttractionsPageContent() {
               }}
               className="px-6 py-3 bg-[#ff6b35] text-white font-medium rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all"
             >
-              Réinitialiser les filtres
+              {t.resetFilters}
             </button>
           </div>
         ) : (
@@ -550,7 +550,7 @@ function AttractionsPageContent() {
                           </span>
                           {attraction.isFeatured && (
                             <span className="px-2.5 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg text-xs font-medium">
-                              Incontournable
+                              {t.mustSee}
                             </span>
                           )}
                         </div>
@@ -559,7 +559,7 @@ function AttractionsPageContent() {
                         <div className="absolute top-3 right-3">
                           {attraction.isFree ? (
                             <span className="px-2.5 py-1 bg-green-500/20 text-green-400 border border-green-500/30 backdrop-blur-sm rounded-lg text-xs font-medium">
-                              Gratuit
+                              {t.freeLabel}
                             </span>
                           ) : (
                             <span className="px-2.5 py-1 bg-[#1a1a24]/80 text-orange-400 backdrop-blur-sm rounded-lg text-xs font-medium">
@@ -605,7 +605,7 @@ function AttractionsPageContent() {
                           {attraction.hasGuide && (
                             <span className="flex items-center gap-1">
                               <Users className="w-3 h-3" />
-                              Guide
+                              {t.guideLabel}
                             </span>
                           )}
                         </div>
@@ -615,13 +615,13 @@ function AttractionsPageContent() {
                           {attraction.isAccessible && (
                             <span className="flex items-center gap-1 text-xs text-green-400">
                               <Accessibility className="w-3 h-3" />
-                              Accessible
+                              {t.accessibleLabel}
                             </span>
                           )}
                           {attraction.hasParking && (
                             <span style={{ color: '#94a3b8' }} className="flex items-center gap-1 text-xs">
                               <ParkingCircle className="w-3 h-3" />
-                              Parking
+                              {t.parkingLabel}
                             </span>
                           )}
                         </div>
@@ -635,7 +635,7 @@ function AttractionsPageContent() {
                           </div>
                           {!attraction.isFree && attraction.entryFeeForeign && (
                             <span style={{ color: '#94a3b8' }} className="text-xs">
-                              Touristes: {attraction.entryFeeForeign.toLocaleString()} Ar
+                              {t.tourists}: {attraction.entryFeeForeign.toLocaleString()} Ar
                             </span>
                           )}
                         </div>
@@ -653,7 +653,7 @@ function AttractionsPageContent() {
                   disabled={isLoading}
                   className="px-8 py-3 bg-[#ff6b35] text-white font-medium rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all disabled:opacity-50"
                 >
-                  {isLoading ? 'Chargement...' : 'Voir plus d\'attractions'}
+                  {isLoading ? t.loading : t.loadMoreAttractions}
                 </button>
               </div>
             )}

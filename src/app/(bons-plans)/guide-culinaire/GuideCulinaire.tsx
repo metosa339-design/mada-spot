@@ -15,6 +15,7 @@ import {
   malagasyMarkets,
   culinaryExperiences,
 } from '@/data/guide-culinaire';
+import { useTrans } from '@/i18n';
 
 const iconMap: Record<string, typeof Wheat> = {
   Wheat,
@@ -30,6 +31,7 @@ const difficultyColors: Record<string, string> = {
 };
 
 export default function GuideCulinaire() {
+  const t = useTrans('guideCulinaire');
   const [activeSection, setActiveSection] = useState('introduction');
 
   useEffect(() => {
@@ -91,25 +93,24 @@ export default function GuideCulinaire() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/20 backdrop-blur-sm rounded-full border border-orange-500/30 text-orange-400 text-sm font-medium mb-6">
               <ChefHat className="w-4 h-4" />
-              Aventure Culinaire
+              {t.heroBadge}
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-4">
               <AnimatedGradientText className="text-4xl sm:text-5xl lg:text-6xl font-black">
-                Saveurs de Madagascar
+                {t.heroMainTitle}
               </AnimatedGradientText>
             </h1>
 
             <p className="text-lg text-slate-300 max-w-2xl mx-auto mb-8">
-              Plongez dans l&apos;univers gastronomique de la Grande Île : plats traditionnels,
-              marchés colorés, épices rares et expériences culinaires inoubliables.
+              {t.heroDescription}
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-4 text-sm">
               {[
-                { label: '6 Plats Iconiques', icon: UtensilsCrossed },
-                { label: '8 Marchés', icon: MapPin },
-                { label: '4 Expériences', icon: Star },
+                { label: t.statIconicDishes, icon: UtensilsCrossed },
+                { label: t.statMarkets, icon: MapPin },
+                { label: t.statExperiences, icon: Star },
               ].map((stat) => (
                 <div
                   key={stat.label}
@@ -152,31 +153,23 @@ export default function GuideCulinaire() {
             <ScrollReveal animation="fadeUp">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-500/10 border border-orange-500/20 rounded-full text-orange-400 text-xs font-medium mb-4">
                 <Sparkles className="w-3.5 h-3.5" />
-                Une fusion de saveurs
+                {t.introBadge}
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-                La cuisine malgache, un{' '}
+                {t.introTitlePart1}{' '}
                 <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-                  voyage sensoriel
+                  {t.introTitleHighlight}
                 </span>
               </h2>
               <div className="space-y-4 text-slate-300 leading-relaxed">
                 <p>
-                  La gastronomie de Madagascar est le reflet de son histoire unique. Carrefour de
-                  l&apos;océan Indien, la Grande Île a hérité d&apos;influences <strong className="text-white">austronésiennes</strong> (le riz
-                  omniprésent), <strong className="text-white">africaines</strong> (les brèdes et ragoûts), <strong className="text-white">arabes</strong> (les
-                  épices et méthodes de conservation) et <strong className="text-white">françaises</strong> (les techniques culinaires modernes).
+                  {t.introPara1Part1} <strong className="text-white">{t.introPara1Austronesian}</strong> {t.introPara1AustronesianDesc} <strong className="text-white">{t.introPara1African}</strong> {t.introPara1AfricanDesc} <strong className="text-white">{t.introPara1Arab}</strong> {t.introPara1ArabDesc} <strong className="text-white">{t.introPara1French}</strong> {t.introPara1FrenchDesc}
                 </p>
                 <p>
-                  Le résultat ? Une cuisine à la fois simple et sophistiquée, où le riz est roi
-                  et les &quot;laoka&quot; (accompagnements) racontent chacun une histoire régionale.
-                  Du romazava des Hauts Plateaux au poisson coco de la côte, chaque bouchée est
-                  une invitation au voyage.
+                  {t.introPara2}
                 </p>
                 <p>
-                  Avec plus de <strong className="text-orange-400">130 kg de riz consommés par personne par an</strong>,
-                  les Malgaches détiennent l&apos;un des records mondiaux. Le mot &quot;manger&quot; se dit
-                  d&apos;ailleurs &quot;mihinam-bary&quot; — littéralement &quot;manger du riz&quot;.
+                  {t.introPara3Part1} <strong className="text-orange-400">{t.introPara3Highlight}</strong>{t.introPara3Part2}
                 </p>
               </div>
             </ScrollReveal>
@@ -192,7 +185,7 @@ export default function GuideCulinaire() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f]/80 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
                   <p className="text-sm text-slate-300 italic">
-                    &quot;Ny fihinanana no mampihavana&quot; — C&apos;est le repas qui rapproche les gens
+                    {t.introQuote}
                   </p>
                 </div>
               </div>
@@ -208,16 +201,16 @@ export default function GuideCulinaire() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full text-orange-400 text-sm font-medium mb-4">
                 <UtensilsCrossed className="w-4 h-4" />
-                6 plats iconiques
+                {t.dishesIconicBadge}
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-                Plats{' '}
+                {t.dishesTitlePart1}{' '}
                 <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-                  Traditionnels
+                  {t.dishesTitleHighlight}
                 </span>
               </h2>
               <p className="text-slate-400 max-w-2xl mx-auto">
-                Les incontournables de la cuisine malgache, des Hauts Plateaux à la côte
+                {t.dishesSubtitle}
               </p>
             </div>
           </ScrollReveal>
@@ -282,7 +275,7 @@ export default function GuideCulinaire() {
                         <div className="pt-3 border-t border-[#2a2a36]">
                           <p className="text-xs text-slate-400 mb-2 flex items-center gap-1">
                             <MapPin className="w-3 h-3" />
-                            Où déguster ?
+                            {t.whereToEat}
                           </p>
                           <div className="flex flex-wrap gap-2">
                             {dish.restaurantSlugs.map((resto) => (
@@ -313,16 +306,16 @@ export default function GuideCulinaire() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-400 text-sm font-medium mb-4">
                 <Apple className="w-4 h-4" />
-                Terroir unique
+                {t.productsBadge}
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-                Produits{' '}
+                {t.productsTitlePart1}{' '}
                 <span className="bg-gradient-to-r from-emerald-400 to-cyan-500 bg-clip-text text-transparent">
-                  Locaux
+                  {t.productsTitleHighlight}
                 </span>
               </h2>
               <p className="text-slate-400 max-w-2xl mx-auto">
-                Des rizières en terrasse aux plantations de vanille, découvrez les trésors du terroir malgache
+                {t.productsSubtitle}
               </p>
             </div>
           </ScrollReveal>
@@ -368,16 +361,16 @@ export default function GuideCulinaire() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm font-medium mb-4">
                 <MapPin className="w-4 h-4" />
-                8 marchés à découvrir
+                {t.marketsBadge}
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-                Marchés de{' '}
+                {t.marketsTitlePart1}{' '}
                 <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-                  Madagascar
+                  {t.marketsTitleHighlight}
                 </span>
               </h2>
               <p className="text-slate-400 max-w-2xl mx-auto">
-                Des labyrinthes colorés d&apos;Analakely aux marchés de brousse, une aventure pour les sens
+                {t.marketsSubtitle}
               </p>
             </div>
           </ScrollReveal>
@@ -388,12 +381,12 @@ export default function GuideCulinaire() {
               <table className="w-full">
                 <thead>
                   <tr className="bg-gradient-to-r from-orange-500/10 via-pink-500/10 to-purple-500/10">
-                    <th className="text-left px-6 py-4 text-sm font-semibold text-white">Marché</th>
-                    <th className="text-left px-6 py-4 text-sm font-semibold text-white">Localisation</th>
-                    <th className="text-left px-6 py-4 text-sm font-semibold text-white">Spécialités</th>
+                    <th className="text-left px-6 py-4 text-sm font-semibold text-white">{t.marketColumnName}</th>
+                    <th className="text-left px-6 py-4 text-sm font-semibold text-white">{t.marketColumnLocation}</th>
+                    <th className="text-left px-6 py-4 text-sm font-semibold text-white">{t.marketColumnSpecialties}</th>
                     <th className="text-left px-6 py-4 text-sm font-semibold text-white">
                       <Clock className="w-4 h-4 inline mr-1" />
-                      Meilleur moment
+                      {t.marketColumnBestTime}
                     </th>
                   </tr>
                 </thead>
@@ -476,16 +469,16 @@ export default function GuideCulinaire() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-pink-500/10 border border-pink-500/20 rounded-full text-pink-400 text-sm font-medium mb-4">
                 <Star className="w-4 h-4" />
-                4 expériences uniques
+                {t.expBadge}
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-                Expériences{' '}
+                {t.expTitlePart1}{' '}
                 <span className="bg-gradient-to-r from-pink-400 to-orange-500 bg-clip-text text-transparent">
-                  Culinaires
+                  {t.expTitleHighlight}
                 </span>
               </h2>
               <p className="text-slate-400 max-w-2xl mx-auto">
-                Vivez la gastronomie malgache de l&apos;intérieur avec ces expériences immersives
+                {t.expSubtitle}
               </p>
             </div>
           </ScrollReveal>
@@ -554,18 +547,16 @@ export default function GuideCulinaire() {
                 </div>
 
                 <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-                  Foodies Madagascar
+                  {t.communityTitle}
                 </h2>
                 <p className="text-slate-300 mb-6 max-w-lg mx-auto">
-                  Rejoignez la communauté des passionnés de gastronomie à Tana !
-                  Partagez vos découvertes, recommandations de restaurants et bons plans culinaires
-                  avec d&apos;autres foodies.
+                  {t.communityDesc}
                 </p>
 
                 <div className="flex items-center justify-center gap-3 mb-6">
                   <div className="flex items-center gap-2 text-sm text-slate-400">
                     <Users className="w-4 h-4" />
-                    Communauté active
+                    {t.communityActive}
                   </div>
                   <div className="w-1 h-1 rounded-full bg-slate-600" />
                   <div className="flex items-center gap-2 text-sm text-slate-400">
@@ -581,7 +572,7 @@ export default function GuideCulinaire() {
                   className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all hover:shadow-lg hover:shadow-blue-500/25"
                 >
                   <Facebook className="w-5 h-5" />
-                  Rejoindre le groupe
+                  {t.communityJoinBtn}
                   <ExternalLink className="w-4 h-4" />
                 </a>
               </div>
@@ -596,12 +587,12 @@ export default function GuideCulinaire() {
                 <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-pink-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
                   <UtensilsCrossed className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-1">Voir tous les restaurants</h3>
+                <h3 className="text-lg font-bold text-white mb-1">{t.ctaAllRestaurants}</h3>
                 <p className="text-sm text-slate-400 mb-3">
-                  Découvrez les meilleurs restaurants de Madagascar avec les vrais prix
+                  {t.ctaAllRestaurantsDesc}
                 </p>
                 <span className="flex items-center text-sm font-medium text-orange-400">
-                  Explorer
+                  {t.ctaExplore}
                   <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                 </span>
               </Link>
@@ -613,12 +604,12 @@ export default function GuideCulinaire() {
                 <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
                   <Map className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-1">Voir sur la carte</h3>
+                <h3 className="text-lg font-bold text-white mb-1">{t.ctaSeeMap}</h3>
                 <p className="text-sm text-slate-400 mb-3">
-                  Visualisez tous les établissements sur la carte interactive
+                  {t.ctaSeeMapDesc}
                 </p>
                 <span className="flex items-center text-sm font-medium text-purple-400">
-                  Ouvrir la carte
+                  {t.ctaOpenMap}
                   <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                 </span>
               </Link>

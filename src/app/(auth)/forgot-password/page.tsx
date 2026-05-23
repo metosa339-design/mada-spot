@@ -4,8 +4,10 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Mail, Loader2, ArrowLeft, CheckCircle } from 'lucide-react';
+import { useTrans } from '@/i18n';
 
 export default function ForgotPasswordPage() {
+  const t = useTrans('auth');
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [sent, setSent] = useState(false);
@@ -27,10 +29,10 @@ export default function ForgotPasswordPage() {
       if (data.success) {
         setSent(true);
       } else {
-        setError(data.error || 'Erreur');
+        setError(data.error || t.otpError);
       }
     } catch {
-      setError('Erreur réseau');
+      setError(t.networkError);
     }
     setIsLoading(false);
   };
@@ -42,24 +44,23 @@ export default function ForgotPasswordPage() {
       {sent ? (
         <div className="text-center">
           <CheckCircle className="w-12 h-12 text-green-400 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-white mb-2">Email envoyé !</h2>
+          <h2 className="text-xl font-bold text-white mb-2">{t.forgotEmailSentTitle}</h2>
           <p className="text-sm text-slate-400 mb-6">
-            Si un compte existe avec l'adresse <strong className="text-white">{email}</strong>,
-            vous recevrez un lien de réinitialisation.
+            {t.forgotEmailSentDescBefore} <strong className="text-white">{email}</strong>{t.forgotEmailSentDescAfter}
           </p>
           <Link href="/login" className="text-sm text-[#ff6b35] hover:underline">
-            Retour à la connexion
+            {t.backToLogin}
           </Link>
         </div>
       ) : (
         <>
           <Link href="/login" className="flex items-center gap-2 text-sm text-slate-400 hover:text-white mb-6">
-            <ArrowLeft className="w-4 h-4" /> Retour
+            <ArrowLeft className="w-4 h-4" /> {t.back}
           </Link>
 
-          <h1 className="text-xl font-bold text-white mb-2">Mot de passe oublié ?</h1>
+          <h1 className="text-xl font-bold text-white mb-2">{t.forgotTitle}</h1>
           <p className="text-sm text-slate-400 mb-6">
-            Entrez votre adresse email et nous vous enverrons un lien de réinitialisation.
+            {t.forgotDesc}
           </p>
 
           {error && (
@@ -70,11 +71,11 @@ export default function ForgotPasswordPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="forgot-email" className="sr-only">Adresse email</label>
+              <label htmlFor="forgot-email" className="sr-only">{t.forgotEmailLabel}</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" aria-hidden="true" />
                 <input id="forgot-email" type="email" value={email} onChange={e => setEmail(e.target.value)} required
-                  placeholder="Votre adresse email"
+                  placeholder={t.forgotEmailPlaceholder}
                   className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:border-[#ff6b35] focus:outline-none" />
               </div>
             </div>
@@ -82,7 +83,7 @@ export default function ForgotPasswordPage() {
             <button type="submit" disabled={isLoading}
               className="w-full py-3 bg-gradient-to-r from-[#ff6b35] to-[#ff1493] text-white rounded-xl font-semibold hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2">
               {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-              Envoyer le lien
+              {t.sendLink}
             </button>
           </form>
         </>

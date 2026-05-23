@@ -9,6 +9,7 @@ import EventCalendar from '@/components/events/EventCalendar';
 import EventCard from '@/components/events/EventCard';
 import EventFilters from '@/components/events/EventFilters';
 import EventHeroSlider from '@/components/events/EventHeroSlider';
+import { useTrans } from '@/i18n';
 
 interface EventData {
   id: string;
@@ -40,6 +41,7 @@ interface EventData {
 }
 
 export default function EvenementsPage() {
+  const t = useTrans('events');
   const now = new Date();
   const [currentMonth, setCurrentMonth] = useState(now.getMonth() + 1);
   const [currentYear, setCurrentYear] = useState(now.getFullYear());
@@ -173,10 +175,10 @@ export default function EvenementsPage() {
             </div>
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                Événements à Madagascar
+                {t.heroTitle}
               </h1>
               <p className="text-gray-400 text-sm mt-0.5">
-                Festivals, promotions, événements culturels et plus encore
+                {t.heroSubtitleAlt}
               </p>
             </div>
           </div>
@@ -210,7 +212,7 @@ export default function EvenementsPage() {
               <Loader2 className="w-10 h-10 text-orange-400 animate-spin" />
               <div className="absolute inset-0 w-10 h-10 rounded-full bg-orange-500/20 animate-ping" />
             </div>
-            <p className="text-gray-500 text-sm">Chargement des événements...</p>
+            <p className="text-gray-500 text-sm">{t.loadingEvents}</p>
           </div>
         )}
 
@@ -239,26 +241,26 @@ export default function EvenementsPage() {
                   <div className="absolute inset-0 bg-gradient-to-br from-orange-500/[0.03] to-purple-500/[0.03] pointer-events-none" />
                   <div className="relative flex items-center gap-2 mb-3">
                     <Sparkles className="w-4 h-4 text-orange-400" />
-                    <span className="text-sm font-semibold text-white">Ce mois-ci</span>
+                    <span className="text-sm font-semibold text-white">{t.thisMonth}</span>
                   </div>
                   <div className="relative grid grid-cols-3 gap-2">
                     <div className="bg-[#070710] rounded-xl p-3 text-center border border-[#1a1a2a]">
                       <div className="text-xl font-black bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent">
                         {events.length}
                       </div>
-                      <div className="text-[9px] text-gray-500 mt-0.5 font-medium">Événements</div>
+                      <div className="text-[9px] text-gray-500 mt-0.5 font-medium">{t.statEvents}</div>
                     </div>
                     <div className="bg-[#070710] rounded-xl p-3 text-center border border-[#1a1a2a]">
                       <div className="text-xl font-black text-purple-400">
                         {events.filter((e) => e.badge).length}
                       </div>
-                      <div className="text-[9px] text-gray-500 mt-0.5 font-medium">En vedette</div>
+                      <div className="text-[9px] text-gray-500 mt-0.5 font-medium">{t.statFeatured}</div>
                     </div>
                     <div className="bg-[#070710] rounded-xl p-3 text-center border border-[#1a1a2a]">
                       <div className="text-xl font-black text-emerald-400">
                         {events.filter((e) => e.eventType === 'PROMOTION' || e.isPromotion).length}
                       </div>
-                      <div className="text-[9px] text-gray-500 mt-0.5 font-medium">Promos</div>
+                      <div className="text-[9px] text-gray-500 mt-0.5 font-medium">{t.statPromos}</div>
                     </div>
                   </div>
                 </div>
@@ -285,7 +287,7 @@ export default function EvenementsPage() {
                   >
                     {selectedDay
                       ? format(selectedDay, "EEEE d MMMM yyyy", { locale: fr })
-                      : 'Événements du mois'}
+                      : t.monthEvents}
                   </motion.h2>
                 </AnimatePresence>
                 {selectedDay && (
@@ -295,7 +297,7 @@ export default function EvenementsPage() {
                     onClick={() => handleDaySelect(null)}
                     className="text-xs text-orange-400 hover:text-orange-300 transition-colors px-3 py-1.5 rounded-full border border-orange-500/20 hover:border-orange-500/40"
                   >
-                    Voir tout le mois
+                    {t.seeWholeMonth}
                   </motion.button>
                 )}
               </motion.div>
@@ -362,8 +364,8 @@ export default function EvenementsPage() {
                         className="text-gray-300 font-semibold text-lg mb-2"
                       >
                         {selectedDay
-                          ? "Pas d'événement ce jour"
-                          : 'Aucun événement ce mois-ci'}
+                          ? t.noEventThisDay
+                          : t.noEventThisMonth}
                       </motion.p>
 
                       <motion.p
@@ -373,8 +375,8 @@ export default function EvenementsPage() {
                         className="text-gray-500 text-sm max-w-md mx-auto mb-6"
                       >
                         {selectedDay
-                          ? "Pas d'événement aujourd'hui, mais découvrez nos pépites pour les jours suivants !"
-                          : 'Changez de mois pour explorer d\'autres événements passionnants.'}
+                          ? t.noEventThisDayDesc
+                          : t.noEventThisMonthDesc}
                       </motion.p>
 
                       {/* Suggest next day with events */}
@@ -387,7 +389,7 @@ export default function EvenementsPage() {
                           className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#ff6b35]/20 to-[#7c3aed]/20 border border-orange-500/20 rounded-xl text-sm font-medium text-orange-400 hover:text-orange-300 hover:border-orange-500/40 transition-all group"
                         >
                           <Rocket className="w-4 h-4" />
-                          Voir le {format(nextWeekendWithEvents, 'EEEE d MMMM', { locale: fr })}
+                          {t.seeDay} {format(nextWeekendWithEvents, 'EEEE d MMMM', { locale: fr })}
                           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </motion.button>
                       )}
@@ -401,7 +403,7 @@ export default function EvenementsPage() {
                           className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#ff6b35]/20 to-[#7c3aed]/20 border border-orange-500/20 rounded-xl text-sm font-medium text-orange-400 hover:text-orange-300 hover:border-orange-500/40 transition-all group"
                         >
                           <Calendar className="w-4 h-4" />
-                          Voir tous les événements du mois
+                          {t.seeAllMonthEvents}
                           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </motion.button>
                       )}

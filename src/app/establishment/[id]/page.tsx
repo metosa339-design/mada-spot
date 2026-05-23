@@ -11,6 +11,7 @@ import {
   Plus, X, Trash2, Image as _ImageIcon, Send, Calendar,
 } from 'lucide-react';
 import { useCsrf } from '@/hooks/useCsrf';
+import { useTrans } from '@/i18n';
 
 // ============================================================
 // Types
@@ -42,6 +43,7 @@ const CUISINE_TYPES = ['malgache', 'francais', 'chinois', 'italien', 'indien', '
 // Main Page
 // ============================================================
 export default function EstablishmentDashboard({ params }: { params: Promise<{ id: string }> }) {
+  const t = useTrans('establishmentPage');
   const { id } = use(params);
   const router = useRouter();
   const { csrfToken } = useCsrf();
@@ -126,7 +128,7 @@ export default function EstablishmentDashboard({ params }: { params: Promise<{ i
           hasRestaurant: est.attraction.hasRestaurant,
         } : null,
       });
-    } catch { setMessage({ type: 'error', text: 'Erreur de chargement' }); }
+    } catch { setMessage({ type: 'error', text: t.loadingError }); }
     setLoading(false);
   }, [id, router]);
 
@@ -144,12 +146,12 @@ export default function EstablishmentDashboard({ params }: { params: Promise<{ i
       });
       const data = await res.json();
       if (data.success) {
-        setMessage({ type: 'success', text: 'Modifications enregistrées !' });
+        setMessage({ type: 'success', text: t.saveSuccessMsg });
         fetchData();
       } else {
-        setMessage({ type: 'error', text: data.error || 'Erreur' });
+        setMessage({ type: 'error', text: data.error || t.saveError });
       }
-    } catch { setMessage({ type: 'error', text: 'Erreur réseau' }); }
+    } catch { setMessage({ type: 'error', text: t.networkError }); }
     setSaving(false);
   };
 
@@ -186,7 +188,7 @@ export default function EstablishmentDashboard({ params }: { params: Promise<{ i
   if (!establishment) {
     return (
       <div className="min-h-screen bg-[#060610] flex items-center justify-center text-white">
-        <p>Établissement non trouvé ou accès refusé.</p>
+        <p>{t.notFoundAccess}</p>
       </div>
     );
   }
@@ -196,12 +198,12 @@ export default function EstablishmentDashboard({ params }: { params: Promise<{ i
   const reviews: ReviewData[] = establishment.reviews || [];
 
   const TABS = [
-    { id: 'overview', label: 'Aperçu' },
-    { id: 'info', label: 'Informations' },
-    { id: 'media', label: 'Photos' },
-    { id: 'specific', label: establishment.type === 'HOTEL' ? 'Chambres & Tarifs' : establishment.type === 'RESTAURANT' ? 'Menu & Services' : 'Tarifs & Infos' },
-    { id: 'reviews', label: `Avis (${reviews.length})` },
-    { id: 'bookings', label: 'Réservations' },
+    { id: 'overview', label: t.tabOverview },
+    { id: 'info', label: t.tabInfo },
+    { id: 'media', label: t.tabMedia },
+    { id: 'specific', label: establishment.type === 'HOTEL' ? t.tabRoomsRates : establishment.type === 'RESTAURANT' ? t.tabMenuServices : t.tabRatesInfo },
+    { id: 'reviews', label: `${t.tabReviewsLabel} (${reviews.length})` },
+    { id: 'bookings', label: t.tabBookings },
   ];
 
   return (
@@ -223,7 +225,7 @@ export default function EstablishmentDashboard({ params }: { params: Promise<{ i
           <button onClick={handleSave} disabled={saving}
             className="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] text-white rounded-xl font-medium hover:bg-[#e55a2b] disabled:opacity-50">
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-            Enregistrer
+            {t.save}
           </button>
         </div>
 
@@ -249,9 +251,9 @@ export default function EstablishmentDashboard({ params }: { params: Promise<{ i
           <div className="space-y-6">
             <div className="grid grid-cols-3 gap-4">
               {[
-                { icon: Eye, label: 'Vues', value: stats.viewCount, color: '#3b82f6' },
-                { icon: Star, label: 'Note moyenne', value: stats.avgRating.toFixed(1), color: '#eab308' },
-                { icon: MessageCircle, label: 'Avis', value: stats.reviewCount, color: '#10b981' },
+                { icon: Eye, label: t.statViews, value: stats.viewCount, color: '#3b82f6' },
+                { icon: Star, label: t.statAverage, value: stats.avgRating.toFixed(1), color: '#eab308' },
+                { icon: MessageCircle, label: t.statReviews, value: stats.reviewCount, color: '#10b981' },
               ].map((stat, i) => (
                 <div key={i} className="p-5 bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl">
                   <stat.icon className="w-5 h-5 mb-2" style={{ color: stat.color }} />
@@ -272,30 +274,30 @@ export default function EstablishmentDashboard({ params }: { params: Promise<{ i
         {activeTab === 'info' && (
           <div className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-6 space-y-4">
             <div>
-              <label className="block text-xs font-medium text-gray-400 mb-1">Description</label>
+              <label className="block text-xs font-medium text-gray-400 mb-1">{t.fieldDescription}</label>
               <textarea value={form.description} onChange={e => updateField('description', e.target.value)} rows={4}
                 className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none resize-none" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-400 mb-1">Description courte</label>
+              <label className="block text-xs font-medium text-gray-400 mb-1">{t.fieldShortDescription}</label>
               <input value={form.shortDescription} onChange={e => updateField('shortDescription', e.target.value)}
                 className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none" />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-gray-400 mb-1">Adresse</label>
+                <label className="block text-xs font-medium text-gray-400 mb-1">{t.fieldAddress}</label>
                 <input value={form.address} onChange={e => updateField('address', e.target.value)}
                   className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-400 mb-1">Téléphone</label>
+                <label className="block text-xs font-medium text-gray-400 mb-1">{t.fieldPhone}</label>
                 <input value={form.phone} onChange={e => updateField('phone', e.target.value)}
                   className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none" />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-gray-400 mb-1">Email</label>
+                <label className="block text-xs font-medium text-gray-400 mb-1">{t.fieldEmail}</label>
                 <input value={form.email} onChange={e => updateField('email', e.target.value)} type="email"
                   className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none" />
               </div>
@@ -307,17 +309,17 @@ export default function EstablishmentDashboard({ params }: { params: Promise<{ i
             </div>
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-medium text-gray-400 mb-1">Facebook</label>
+                <label className="block text-xs font-medium text-gray-400 mb-1">{t.fieldFacebook}</label>
                 <input value={form.facebook} onChange={e => updateField('facebook', e.target.value)}
                   className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-400 mb-1">Instagram</label>
+                <label className="block text-xs font-medium text-gray-400 mb-1">{t.fieldInstagram}</label>
                 <input value={form.instagram} onChange={e => updateField('instagram', e.target.value)}
                   className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-400 mb-1">WhatsApp</label>
+                <label className="block text-xs font-medium text-gray-400 mb-1">{t.fieldWhatsapp}</label>
                 <input value={form.whatsapp} onChange={e => updateField('whatsapp', e.target.value)}
                   className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none" />
               </div>
@@ -329,10 +331,10 @@ export default function EstablishmentDashboard({ params }: { params: Promise<{ i
         {activeTab === 'media' && (
           <div className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-6 space-y-4">
             <div>
-              <label className="block text-xs font-medium text-gray-400 mb-1">Image de couverture (URL)</label>
+              <label className="block text-xs font-medium text-gray-400 mb-1">{t.fieldCoverUrl}</label>
               <input value={form.coverImage} onChange={e => updateField('coverImage', e.target.value)}
                 className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none" placeholder="https://..." />
-              {form.coverImage && <div className="relative mt-2 w-48 h-32 rounded-xl overflow-hidden border border-[#1e1e2e]"><NextImage src={getImageUrl(form.coverImage)} alt="Aperçu image de couverture" fill sizes="192px" className="object-cover" /></div>}
+              {form.coverImage && <div className="relative mt-2 w-48 h-32 rounded-xl overflow-hidden border border-[#1e1e2e]"><NextImage src={getImageUrl(form.coverImage)} alt={t.coverAlt} fill sizes="192px" className="object-cover" /></div>}
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-400 mb-2">Galerie</label>
@@ -577,6 +579,7 @@ export default function EstablishmentDashboard({ params }: { params: Promise<{ i
 /* Composant inline pour les réservations owner */
 /* ============================================ */
 function OwnerBookingsTab({ establishmentId, csrfToken }: { establishmentId: string; csrfToken: string | null }) {
+  const t = useTrans('establishmentPage');
   const [bookings, setBookings] = useState<any[]>([]);
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -687,7 +690,7 @@ function OwnerBookingsTab({ establishmentId, csrfToken }: { establishmentId: str
                   <>
                     <button onClick={() => handleAction(b.id, 'confirm')} disabled={actionLoading === b.id}
                       className="px-2.5 py-1 bg-green-600 text-white rounded-lg text-xs hover:bg-green-700 disabled:opacity-50">
-                      {actionLoading === b.id ? '...' : 'Confirmer'}
+                      {actionLoading === b.id ? '...' : t.confirmBtn}
                     </button>
                     <button onClick={() => handleAction(b.id, 'cancel')} disabled={actionLoading === b.id}
                       className="px-2.5 py-1 bg-red-600/20 text-red-400 rounded-lg text-xs hover:bg-red-600/30 disabled:opacity-50">

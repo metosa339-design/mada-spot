@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { MapPin, Star, Flame, ArrowRight, Filter, Search, Clock, Tag } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
+import { useTrans } from '@/i18n';
 
 interface Offre {
   id: string;
@@ -26,26 +27,27 @@ interface Offre {
   discountedPrice: number | null;
 }
 
-const CATEGORIES = [
-  { id: 'all', label: 'Toutes' },
-  { id: 'hotel', label: 'Hôtels' },
-  { id: 'restaurant', label: 'Restaurants' },
-  { id: 'attraction', label: 'Attractions' },
-  { id: 'activite', label: 'Activités' },
+const CATEGORIES_RAW: { id: string; labelKey: 'categoryAll' | 'categoryHotels' | 'categoryRestaurants' | 'categoryAttractions' | 'categoryActivities' }[] = [
+  { id: 'all', labelKey: 'categoryAll' },
+  { id: 'hotel', labelKey: 'categoryHotels' },
+  { id: 'restaurant', labelKey: 'categoryRestaurants' },
+  { id: 'attraction', labelKey: 'categoryAttractions' },
+  { id: 'activite', labelKey: 'categoryActivities' },
 ];
 
 const formatPrice = (price: number) => price.toLocaleString('fr-FR') + ' Ar';
 
 function Countdown({ endDate }: { endDate: string }) {
+  const t = useTrans('offres');
   const computeRemaining = useCallback(() => {
     const diff = new Date(endDate).getTime() - Date.now();
     if (diff <= 0) return null;
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    if (days > 0) return `${days}j ${hours}h restant`;
+    if (days > 0) return `${days}j ${hours}h ${t.timeRemainingDay}`;
     const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    return `${hours}h ${mins}min restant`;
-  }, [endDate]);
+    return `${hours}h ${mins}min ${t.timeRemainingHour}`;
+  }, [endDate, t]);
 
   const [remaining, setRemaining] = useState<string | null>(() => computeRemaining());
 
@@ -66,7 +68,29 @@ function Countdown({ endDate }: { endDate: string }) {
   );
 }
 
+export function OffresHero() {
+  const t = useTrans('offres');
+  return (
+    <div className="relative py-32 px-4 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-pink-500/10 to-purple-500/20" />
+      <div className="max-w-7xl mx-auto relative text-center">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/20 border border-orange-500/30 rounded-full text-orange-400 text-sm mb-6">
+          <Flame className="w-4 h-4" />
+          {t.heroBadge}
+        </div>
+        <h1 className="text-5xl md:text-6xl font-bold mb-4">
+          {t.heroTitlePart1} <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">{t.heroTitleHighlight}</span>
+        </h1>
+        <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          {t.heroDesc}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function OffresContent({ offres }: { offres: Offre[] }) {
+  const t = useTrans('offres');
   const [activeCategory, setActiveCategory] = useState('all');
 
   const filteredOffres = activeCategory === 'all'
@@ -77,15 +101,15 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
     return (
       <div className="text-center py-20">
         <Search className="w-16 h-16 text-gray-600 mx-auto mb-6" />
-        <h2 className="text-2xl font-bold text-gray-300 mb-3">Aucune promotion active</h2>
+        <h2 className="text-2xl font-bold text-gray-300 mb-3">{t.emptyTitle}</h2>
         <p className="text-gray-500 max-w-md mx-auto mb-8">
-          Les prestataires publient ici leurs offres exclusives. Revenez bientôt pour découvrir les prochaines promotions !
+          {t.emptyDesc}
         </p>
         <Link
           href="/bons-plans"
           className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-orange-500/30 transition-all"
         >
-          Explorer les bons plans
+          {t.emptyCta}
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
@@ -97,11 +121,11 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
       {/* Filtres */}
       <div className="flex items-center gap-3 mb-10 overflow-x-auto pb-2">
         <Filter className="w-5 h-5 text-gray-500 flex-shrink-0" />
-        {CATEGORIES.map(cat => (
+        {CATEGORIES_RAW.map(cat => (
           <button
             key={cat.id}
             onClick={() => setActiveCategory(cat.id)}
-            aria-label={`Filtrer par ${cat.label}`}
+            aria-label={`${t.filterAria} ${t[cat.labelKey]}`}
             aria-pressed={activeCategory === cat.id}
             className={`px-5 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
               activeCategory === cat.id
@@ -109,7 +133,7 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
                 : 'bg-[#1a1a24] border border-[#2a2a36] text-gray-400 hover:text-white hover:border-orange-500/50'
             }`}
           >
-            {cat.label}
+            {t[cat.labelKey]}
           </button>
         ))}
       </div>
@@ -117,12 +141,12 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
       {/* Empty filtered state */}
       {filteredOffres.length === 0 && (
         <div className="text-center py-16">
-          <p className="text-gray-400 text-lg">Aucune promotion dans cette catégorie.</p>
+          <p className="text-gray-400 text-lg">{t.emptyFilter}</p>
           <button
             onClick={() => setActiveCategory('all')}
             className="mt-4 text-orange-400 hover:text-orange-300 transition-colors"
           >
-            Voir toutes les offres
+            {t.showAll}
           </button>
         </div>
       )}
@@ -159,7 +183,7 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
 
               {/* Promo label */}
               <div className="absolute top-4 left-4 px-3 py-1.5 bg-gradient-to-r from-orange-500 to-pink-500 rounded-lg text-white text-xs font-bold flex items-center gap-1">
-                <Flame className="w-3 h-3" /> Promo
+                <Flame className="w-3 h-3" /> {t.promoLabel}
               </div>
 
               {/* Location */}
@@ -212,12 +236,12 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
                       {formatPrice(offre.price)}
                     </p>
                   ) : (
-                    <span className="text-sm text-gray-500">Prix sur demande</span>
+                    <span className="text-sm text-gray-500">{t.priceOnRequest}</span>
                   )}
                   <Countdown endDate={offre.endDate} />
                 </div>
                 <span className="px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white rounded-xl text-sm font-semibold group-hover:shadow-lg group-hover:shadow-orange-500/30 transition-all flex items-center gap-1">
-                  Voir
+                  {t.seeBtn}
                   <ArrowRight className="w-4 h-4" />
                 </span>
               </div>

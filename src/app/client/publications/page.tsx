@@ -10,6 +10,7 @@ import {
   ArrowLeft, MapPin, Clock, CheckCircle, AlertCircle, XCircle,
   Mountain, Star, Ghost, Plus, Eye,
 } from 'lucide-react'
+import { useTrans } from '@/i18n'
 
 interface Publication {
   id: string
@@ -27,11 +28,11 @@ interface Publication {
   createdAt: string
 }
 
-const TYPE_LABELS: Record<string, string> = {
-  HOTEL: 'Hôtel',
-  RESTAURANT: 'Restaurant',
-  ATTRACTION: 'Attraction',
-  PROVIDER: 'Prestataire',
+const TYPE_LABEL_KEYS: Record<string, 'typeHotel' | 'typeRestaurant' | 'typeAttraction' | 'typeProvider'> = {
+  HOTEL: 'typeHotel',
+  RESTAURANT: 'typeRestaurant',
+  ATTRACTION: 'typeAttraction',
+  PROVIDER: 'typeProvider',
 }
 
 const TYPE_PATHS: Record<string, string> = {
@@ -41,10 +42,10 @@ const TYPE_PATHS: Record<string, string> = {
   PROVIDER: 'prestataires',
 }
 
-const STATUS_CONFIG: Record<string, { label: string; icon: typeof CheckCircle; color: string; bg: string }> = {
-  approved: { label: 'Approuvé', icon: CheckCircle, color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' },
-  pending_review: { label: 'En attente', icon: Clock, color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20' },
-  rejected: { label: 'Refusé', icon: XCircle, color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' },
+const STATUS_CONFIG: Record<string, { labelKey: 'statusApproved' | 'statusPending' | 'statusRejected'; icon: typeof CheckCircle; color: string; bg: string }> = {
+  approved: { labelKey: 'statusApproved', icon: CheckCircle, color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' },
+  pending_review: { labelKey: 'statusPending', icon: Clock, color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20' },
+  rejected: { labelKey: 'statusRejected', icon: XCircle, color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' },
 }
 
 const slideUp = {
@@ -56,6 +57,7 @@ const slideUp = {
 }
 
 export default function ClientPublicationsPage() {
+  const t = useTrans('clientPublications')
   const router = useRouter()
   const [publications, setPublications] = useState<Publication[]>([])
   const [loading, setLoading] = useState(true)
@@ -88,13 +90,13 @@ export default function ClientPublicationsPage() {
         {/* Header */}
         <motion.div variants={slideUp} custom={0} initial="hidden" animate="visible" className="mb-8">
           <Link href="/client" className="inline-flex items-center gap-1.5 text-gray-400 hover:text-white text-sm mb-4 transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Mon espace
+            <ArrowLeft className="w-4 h-4" /> {t.myArea}
           </Link>
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold">Mes publications</h1>
+              <h1 className="text-2xl font-bold">{t.myPublications}</h1>
               <p className="text-gray-400 text-sm mt-1">
-                Lieux que vous avez ajoutés sur Mada Spot
+                {t.placesAdded}
               </p>
             </div>
             <Link
@@ -102,7 +104,7 @@ export default function ClientPublicationsPage() {
               className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-xl text-sm font-medium hover:opacity-90 transition-opacity"
             >
               <Plus className="w-4 h-4" />
-              Ajouter un lieu
+              {t.addPlace}
             </Link>
           </div>
         </motion.div>
@@ -116,16 +118,16 @@ export default function ClientPublicationsPage() {
             <div className="w-16 h-16 bg-violet-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Ghost className="w-8 h-8 text-violet-400" />
             </div>
-            <h2 className="text-lg font-semibold text-white mb-2">Aucune publication</h2>
+            <h2 className="text-lg font-semibold text-white mb-2">{t.noPublicationsTitle}</h2>
             <p className="text-gray-400 text-sm max-w-md mx-auto mb-6">
-              Vous n&apos;avez pas encore ajouté de lieu. Partagez vos découvertes avec la communauté !
+              {t.noPublicationsHint}
             </p>
             <Link
               href="/publier-avis"
               className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-xl font-medium hover:opacity-90 transition-opacity"
             >
               <Plus className="w-4 h-4" />
-              Ajouter mon premier lieu
+              {t.addFirstPlace}
             </Link>
           </motion.div>
         )}
@@ -180,13 +182,13 @@ export default function ClientPublicationsPage() {
                       </div>
                       <span className={`shrink-0 inline-flex items-center gap-1 px-2 py-1 rounded-lg border text-xs font-medium ${status.bg} ${status.color}`}>
                         <StatusIcon className="w-3 h-3" />
-                        {status.label}
+                        {t[status.labelKey]}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-3 mt-2">
                       <span className="text-xs text-gray-500 bg-white/5 px-2 py-0.5 rounded">
-                        {TYPE_LABELS[pub.type] || pub.type}
+                        {TYPE_LABEL_KEYS[pub.type] ? t[TYPE_LABEL_KEYS[pub.type]] : pub.type}
                       </span>
                       {pub.rating > 0 && (
                         <span className="text-xs text-gray-400 flex items-center gap-0.5">
@@ -195,7 +197,7 @@ export default function ClientPublicationsPage() {
                         </span>
                       )}
                       {pub.reviewCount > 0 && (
-                        <span className="text-xs text-gray-500">{pub.reviewCount} avis</span>
+                        <span className="text-xs text-gray-500">{pub.reviewCount} {t.reviewsSuffix}</span>
                       )}
                       <span className="text-xs text-gray-600">
                         {new Date(pub.createdAt).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' })}
@@ -214,7 +216,7 @@ export default function ClientPublicationsPage() {
                         href={detailHref}
                         className="mt-2 inline-flex items-center gap-1 text-xs text-[#ff6b35] hover:text-orange-400 transition-colors"
                       >
-                        <Eye className="w-3 h-3" /> Voir la fiche
+                        <Eye className="w-3 h-3" /> {t.viewListing}
                       </Link>
                     )}
                   </div>

@@ -22,8 +22,10 @@ import {
 import Link from 'next/link';
 import { useCsrf } from '@/hooks/useCsrf';
 import PhoneInput from '@/components/ui/PhoneInput';
+import { useTrans } from '@/i18n';
 
 export default function ClientSettingsPage() {
+  const t = useTrans('clientSettings');
   const router = useRouter();
   const { csrfToken } = useCsrf();
   const [loading, setLoading] = useState(true);
@@ -98,44 +100,44 @@ export default function ClientSettingsPage() {
         credentials: 'include',
         body: JSON.stringify({ preferences: notifPrefs, csrfToken }),
       });
-      if (res.ok) setNotifMsg('Préférences sauvegardées');
-      else setNotifMsg('Erreur');
+      if (res.ok) setNotifMsg(t.prefsSaved);
+      else setNotifMsg(t.error);
     } catch {
-      setNotifMsg('Erreur de connexion');
+      setNotifMsg(t.connectionError);
     } finally {
       setNotifSaving(false);
       setTimeout(() => setNotifMsg(''), 3000);
     }
   };
 
-  const NOTIF_GROUPS = [
-    { label: 'Réservations', types: ['BOOKING_NEW', 'BOOKING_CONFIRMED', 'BOOKING_CANCELLED', 'BOOKING_COMPLETED'] },
-    { label: 'Avis & Messages', types: ['REVIEW_NEW', 'MESSAGE_NEW'] },
-    { label: 'Activité', types: ['CLAIM_SUBMITTED', 'CLAIM_APPROVED', 'CLAIM_REJECTED', 'EVENT_NEW', 'GHOST_CREATED'] },
-    { label: 'Système', types: ['SYSTEM', 'IMPORT_COMPLETED'] },
+  const NOTIF_GROUPS: { id: string; labelKey: 'groupBookings' | 'groupReviewsMessages' | 'groupActivity' | 'groupSystem'; types: string[] }[] = [
+    { id: 'bookings', labelKey: 'groupBookings', types: ['BOOKING_NEW', 'BOOKING_CONFIRMED', 'BOOKING_CANCELLED', 'BOOKING_COMPLETED'] },
+    { id: 'reviews', labelKey: 'groupReviewsMessages', types: ['REVIEW_NEW', 'MESSAGE_NEW'] },
+    { id: 'activity', labelKey: 'groupActivity', types: ['CLAIM_SUBMITTED', 'CLAIM_APPROVED', 'CLAIM_REJECTED', 'EVENT_NEW', 'GHOST_CREATED'] },
+    { id: 'system', labelKey: 'groupSystem', types: ['SYSTEM', 'IMPORT_COMPLETED'] },
   ];
 
-  const NOTIF_LABELS: Record<string, string> = {
-    BOOKING_NEW: 'Nouvelle réservation',
-    BOOKING_CONFIRMED: 'Réservation confirmée',
-    BOOKING_CANCELLED: 'Réservation annulée',
-    BOOKING_COMPLETED: 'Réservation terminée',
-    REVIEW_NEW: 'Nouvel avis',
-    MESSAGE_NEW: 'Nouveau message',
-    CLAIM_SUBMITTED: 'Revendication soumise',
-    CLAIM_APPROVED: 'Revendication approuvée',
-    CLAIM_REJECTED: 'Revendication refusée',
-    EVENT_NEW: 'Nouvel événement',
-    GHOST_CREATED: 'Lieu communautaire créé',
-    SYSTEM: 'Notifications système',
-    IMPORT_COMPLETED: 'Import terminé',
+  const NOTIF_LABEL_KEYS: Record<string, 'notifBookingNew' | 'notifBookingConfirmed' | 'notifBookingCancelled' | 'notifBookingCompleted' | 'notifReviewNew' | 'notifMessageNew' | 'notifClaimSubmitted' | 'notifClaimApproved' | 'notifClaimRejected' | 'notifEventNew' | 'notifGhostCreated' | 'notifSystem' | 'notifImportCompleted'> = {
+    BOOKING_NEW: 'notifBookingNew',
+    BOOKING_CONFIRMED: 'notifBookingConfirmed',
+    BOOKING_CANCELLED: 'notifBookingCancelled',
+    BOOKING_COMPLETED: 'notifBookingCompleted',
+    REVIEW_NEW: 'notifReviewNew',
+    MESSAGE_NEW: 'notifMessageNew',
+    CLAIM_SUBMITTED: 'notifClaimSubmitted',
+    CLAIM_APPROVED: 'notifClaimApproved',
+    CLAIM_REJECTED: 'notifClaimRejected',
+    EVENT_NEW: 'notifEventNew',
+    GHOST_CREATED: 'notifGhostCreated',
+    SYSTEM: 'notifSystem',
+    IMPORT_COMPLETED: 'notifImportCompleted',
   };
 
   // OTP cooldown timer
   useEffect(() => {
     if (otpCooldown <= 0) return;
-    const t = setTimeout(() => setOtpCooldown(c => c - 1), 1000);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setOtpCooldown(c => c - 1), 1000);
+    return () => clearTimeout(timer);
   }, [otpCooldown]);
 
   // Handle OTP digit input
@@ -185,13 +187,13 @@ export default function ClientSettingsPage() {
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        setOtpMsg({ type: 'success', text: 'Code envoyé par email' });
+        setOtpMsg({ type: 'success', text: t.codeSentEmail });
         setOtpCooldown(60);
       } else {
-        setOtpMsg({ type: 'error', text: data.error || 'Erreur lors de l\'envoi' });
+        setOtpMsg({ type: 'error', text: data.error || t.sendError });
       }
     } catch {
-      setOtpMsg({ type: 'error', text: 'Erreur de connexion' });
+      setOtpMsg({ type: 'error', text: t.connectionError });
     } finally {
       setOtpSending(false);
     }
@@ -209,17 +211,17 @@ export default function ClientSettingsPage() {
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        setOtpMsg({ type: 'success', text: 'Vérification réussie !' });
+        setOtpMsg({ type: 'success', text: t.verificationSuccess });
         if (otpModal === 'email') setEmailVerified(true);
         if (otpModal === 'phone') setPhoneVerified(true);
         setTimeout(() => setOtpModal(null), 1500);
       } else {
-        setOtpMsg({ type: 'error', text: data.error || 'Code invalide' });
+        setOtpMsg({ type: 'error', text: data.error || t.invalidCode });
         setOtpCode(['', '', '', '', '', '']);
         document.getElementById('otp-0')?.focus();
       }
     } catch {
-      setOtpMsg({ type: 'error', text: 'Erreur de connexion' });
+      setOtpMsg({ type: 'error', text: t.connectionError });
     } finally {
       setOtpVerifying(false);
     }
@@ -235,10 +237,10 @@ export default function ClientSettingsPage() {
         credentials: 'include',
         body: JSON.stringify({ ...profile, csrfToken }),
       });
-      if (res.ok) setSaveMsg('Profil mis à jour');
-      else setSaveMsg('Erreur lors de la sauvegarde');
+      if (res.ok) setSaveMsg(t.profileSaveOk);
+      else setSaveMsg(t.profileSaveError);
     } catch {
-      setSaveMsg('Erreur de connexion');
+      setSaveMsg(t.connectionError);
     } finally {
       setSaving(false);
       setTimeout(() => setSaveMsg(''), 3000);
@@ -248,11 +250,11 @@ export default function ClientSettingsPage() {
   const handleChangePassword = async () => {
     setPwMsg({ type: '', text: '' });
     if (pwForm.newPassword !== pwForm.confirmPassword) {
-      setPwMsg({ type: 'error', text: 'Les mots de passe ne correspondent pas' });
+      setPwMsg({ type: 'error', text: t.passwordMismatch });
       return;
     }
     if (pwForm.newPassword.length < 8) {
-      setPwMsg({ type: 'error', text: 'Minimum 8 caractères' });
+      setPwMsg({ type: 'error', text: t.passwordMin8 });
       return;
     }
     setPwSaving(true);
@@ -269,13 +271,13 @@ export default function ClientSettingsPage() {
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        setPwMsg({ type: 'success', text: 'Mot de passe modifié' });
+        setPwMsg({ type: 'success', text: t.passwordChanged });
         setPwForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
       } else {
-        setPwMsg({ type: 'error', text: data.error || 'Erreur' });
+        setPwMsg({ type: 'error', text: data.error || t.error });
       }
     } catch {
-      setPwMsg({ type: 'error', text: 'Erreur de connexion' });
+      setPwMsg({ type: 'error', text: t.connectionError });
     } finally {
       setPwSaving(false);
     }
@@ -283,7 +285,7 @@ export default function ClientSettingsPage() {
 
   const handleDeleteAccount = async () => {
     setDeleteError('');
-    if (!deletePassword) { setDeleteError('Mot de passe requis'); return; }
+    if (!deletePassword) { setDeleteError(t.passwordRequired); return; }
     setDeleting(true);
     try {
       const res = await fetch('/api/auth/delete-account', {
@@ -296,10 +298,10 @@ export default function ClientSettingsPage() {
       if (res.ok && data.success) {
         router.push('/');
       } else {
-        setDeleteError(data.error || 'Erreur');
+        setDeleteError(data.error || t.error);
       }
     } catch {
-      setDeleteError('Erreur de connexion');
+      setDeleteError(t.connectionError);
     } finally {
       setDeleting(false);
     }
@@ -319,19 +321,19 @@ export default function ClientSettingsPage() {
     <div className="min-h-screen bg-[#0a0a0f] text-white">
       <div className="max-w-2xl mx-auto px-4 pt-24 pb-8">
         <Link href="/client" className="inline-flex items-center gap-1 text-gray-500 hover:text-gray-300 text-sm mb-6">
-          <ArrowLeft className="w-4 h-4" /> Mon espace
+          <ArrowLeft className="w-4 h-4" /> {t.myArea}
         </Link>
-        <h1 className="text-2xl font-bold text-white mb-8">Paramètres du compte</h1>
+        <h1 className="text-2xl font-bold text-white mb-8">{t.pageTitle}</h1>
 
         {/* Profil */}
         <section className="bg-[#1a1a24] rounded-2xl border border-[#2a2a36] p-6 mb-6">
           <div className="flex items-center gap-2 mb-4">
             <User className="w-5 h-5 text-[#ff6b35]" />
-            <h2 className="font-semibold text-lg text-white">Informations personnelles</h2>
+            <h2 className="font-semibold text-lg text-white">{t.profileTitle}</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs font-medium text-gray-400 mb-1 block">Prénom</label>
+              <label className="text-xs font-medium text-gray-400 mb-1 block">{t.firstName}</label>
               <input
                 type="text"
                 value={profile.firstName}
@@ -340,7 +342,7 @@ export default function ClientSettingsPage() {
               />
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-400 mb-1 block">Nom</label>
+              <label className="text-xs font-medium text-gray-400 mb-1 block">{t.lastName}</label>
               <input
                 type="text"
                 value={profile.lastName}
@@ -351,18 +353,18 @@ export default function ClientSettingsPage() {
             <div>
               <div className="flex items-center justify-between mb-1">
                 <label className="text-xs font-medium text-gray-400 flex items-center gap-1.5">
-                  <Mail className="w-3 h-3" /> Email
+                  <Mail className="w-3 h-3" /> {t.email}
                 </label>
                 {emailVerified ? (
                   <span className="flex items-center gap-1 text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">
-                    <CheckCircle className="w-3 h-3" /> Vérifié
+                    <CheckCircle className="w-3 h-3" /> {t.verified}
                   </span>
                 ) : profile.email ? (
                   <button
                     onClick={() => { setOtpModal('email'); setOtpMsg({ type: '', text: '' }); setOtpCode(['', '', '', '', '', '']); }}
                     className="text-[10px] text-[#ff6b35] hover:text-[#ff8555] font-medium flex items-center gap-1"
                   >
-                    <ShieldCheck className="w-3 h-3" /> Vérifier
+                    <ShieldCheck className="w-3 h-3" /> {t.verify}
                   </button>
                 ) : null}
               </div>
@@ -376,15 +378,15 @@ export default function ClientSettingsPage() {
             <div>
               <div className="flex items-center justify-between mb-1">
                 <label className="text-xs font-medium text-gray-400 flex items-center gap-1.5">
-                  <Phone className="w-3 h-3" /> Téléphone
+                  <Phone className="w-3 h-3" /> {t.phone}
                 </label>
                 {phoneVerified ? (
                   <span className="flex items-center gap-1 text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">
-                    <CheckCircle className="w-3 h-3" /> Vérifié
+                    <CheckCircle className="w-3 h-3" /> {t.verified}
                   </span>
                 ) : profile.phone ? (
                   <span className="text-[10px] text-gray-500">
-                    Non vérifié
+                    {t.notVerified}
                   </span>
                 ) : null}
               </div>
@@ -402,7 +404,7 @@ export default function ClientSettingsPage() {
               className="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] text-white rounded-xl text-sm font-medium hover:bg-[#e55a2b] disabled:opacity-50"
             >
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-              Enregistrer
+              {t.saveProfile}
             </button>
             {saveMsg && (
               <span className="text-sm text-green-400 flex items-center gap-1">
@@ -416,13 +418,13 @@ export default function ClientSettingsPage() {
         <section className="bg-[#1a1a24] rounded-2xl border border-[#2a2a36] p-6 mb-6">
           <div className="flex items-center gap-2 mb-4">
             <Lock className="w-5 h-5 text-[#ff6b35]" />
-            <h2 className="font-semibold text-lg text-white">Changer le mot de passe</h2>
+            <h2 className="font-semibold text-lg text-white">{t.changePassword}</h2>
           </div>
           <div className="space-y-3 max-w-sm">
             <div className="relative">
               <input
                 type={showPw ? 'text' : 'password'}
-                placeholder="Mot de passe actuel"
+                placeholder={t.currentPasswordPlaceholder}
                 value={pwForm.currentPassword}
                 onChange={(e) => setPwForm({ ...pwForm, currentPassword: e.target.value })}
                 className={`${inputClass} pr-10`}
@@ -437,14 +439,14 @@ export default function ClientSettingsPage() {
             </div>
             <input
               type="password"
-              placeholder="Nouveau mot de passe (min. 8 car.)"
+              placeholder={t.newPasswordPlaceholder}
               value={pwForm.newPassword}
               onChange={(e) => setPwForm({ ...pwForm, newPassword: e.target.value })}
               className={inputClass}
             />
             <input
               type="password"
-              placeholder="Confirmer le nouveau mot de passe"
+              placeholder={t.confirmNewPasswordPlaceholder}
               value={pwForm.confirmPassword}
               onChange={(e) => setPwForm({ ...pwForm, confirmPassword: e.target.value })}
               className={inputClass}
@@ -461,7 +463,7 @@ export default function ClientSettingsPage() {
             className="mt-4 flex items-center gap-2 px-5 py-2.5 bg-[#2a2a36] text-white rounded-xl text-sm font-medium hover:bg-[#3a3a46] disabled:opacity-50"
           >
             {pwSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Lock className="w-4 h-4" />}
-            Modifier le mot de passe
+            {t.changePassword}
           </button>
         </section>
 
@@ -469,7 +471,7 @@ export default function ClientSettingsPage() {
         <section className="bg-[#1a1a24] rounded-2xl border border-[#2a2a36] p-6 mb-6">
           <div className="flex items-center gap-2 mb-4">
             <Bell className="w-5 h-5 text-[#ff6b35]" />
-            <h2 className="font-semibold text-lg text-white">Préférences de notifications</h2>
+            <h2 className="font-semibold text-lg text-white">{t.notifPrefsTitle}</h2>
           </div>
           {notifLoading ? (
             <div className="flex justify-center py-4">
@@ -478,12 +480,12 @@ export default function ClientSettingsPage() {
           ) : (
             <div className="space-y-5">
               {NOTIF_GROUPS.map(group => (
-                <div key={group.label}>
-                  <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">{group.label}</p>
+                <div key={group.id}>
+                  <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">{t[group.labelKey]}</p>
                   <div className="space-y-2">
                     {group.types.map(type => (
                       <div key={type} className="flex items-center justify-between py-1.5">
-                        <span className="text-sm text-gray-300">{NOTIF_LABELS[type] || type}</span>
+                        <span className="text-sm text-gray-300">{NOTIF_LABEL_KEYS[type] ? t[NOTIF_LABEL_KEYS[type]] : type}</span>
                         <button
                           type="button"
                           onClick={() => setNotifPrefs(prev => ({ ...prev, [type]: !prev[type] }))}
@@ -510,7 +512,7 @@ export default function ClientSettingsPage() {
                   className="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] text-white rounded-xl text-sm font-medium hover:bg-[#e55a2b] disabled:opacity-50"
                 >
                   {notifSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                  Enregistrer
+                  {t.saveProfile}
                 </button>
                 {notifMsg && (
                   <span className="text-sm text-green-400 flex items-center gap-1">
@@ -538,10 +540,10 @@ export default function ClientSettingsPage() {
                   <ShieldCheck className="w-7 h-7 text-[#ff6b35]" />
                 </div>
                 <h3 className="text-lg font-bold text-white">
-                  Vérification {otpModal === 'email' ? 'email' : 'téléphone'}
+                  {otpModal === 'email' ? t.otpVerifyEmail : t.otpVerifyPhone}
                 </h3>
                 <p className="text-sm text-gray-400 mt-1">
-                  Un code à 6 chiffres sera envoyé à{' '}
+                  {t.otpCodeSentTo}{' '}
                   <span className="text-white font-medium">
                     {otpModal === 'email' ? profile.email : profile.phone}
                   </span>
@@ -557,11 +559,11 @@ export default function ClientSettingsPage() {
                 {otpSending ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
                 ) : otpCooldown > 0 ? (
-                  `Renvoyer dans ${otpCooldown}s`
+                  `${t.otpResendIn} ${otpCooldown}s`
                 ) : (
                   <>
                     <Mail className="w-4 h-4" />
-                    Envoyer le code
+                    {t.otpSendCode}
                   </>
                 )}
               </button>
@@ -595,7 +597,7 @@ export default function ClientSettingsPage() {
                 ) : (
                   <>
                     <CheckCircle className="w-4 h-4" />
-                    Vérifier le code
+                    {t.otpVerifyCode}
                   </>
                 )}
               </button>
@@ -614,10 +616,10 @@ export default function ClientSettingsPage() {
         <section className="bg-[#1a1a24] rounded-2xl border border-red-500/20 p-6">
           <div className="flex items-center gap-2 mb-2">
             <Trash2 className="w-5 h-5 text-red-400" />
-            <h2 className="font-semibold text-lg text-red-400">Supprimer mon compte</h2>
+            <h2 className="font-semibold text-lg text-red-400">{t.deleteAccount}</h2>
           </div>
           <p className="text-sm text-gray-500 mb-4">
-            Cette action est irréversible. Toutes vos données (réservations, avis, favoris, messages) seront définitivement supprimées.
+            {t.deleteAccountWarning}
           </p>
 
           {!showDeleteConfirm ? (
@@ -625,17 +627,17 @@ export default function ClientSettingsPage() {
               onClick={() => setShowDeleteConfirm(true)}
               className="px-4 py-2 border border-red-500/30 text-red-400 rounded-xl text-sm hover:bg-red-500/10"
             >
-              Supprimer mon compte
+              {t.deleteAccount}
             </button>
           ) : (
             <div className="bg-red-500/5 border border-red-500/20 rounded-xl p-4 space-y-3">
               <div className="flex items-center gap-2 text-red-400 text-sm font-medium">
                 <AlertTriangle className="w-4 h-4" />
-                Confirmez la suppression en entrant votre mot de passe
+                {t.confirmDeletion}
               </div>
               <input
                 type="password"
-                placeholder="Votre mot de passe"
+                placeholder={t.yourPasswordPlaceholder}
                 value={deletePassword}
                 onChange={(e) => setDeletePassword(e.target.value)}
                 className="w-full bg-[#080810] border border-red-500/30 rounded-xl px-3 py-2.5 text-sm text-white focus:border-red-500 focus:outline-none max-w-sm"
@@ -648,13 +650,13 @@ export default function ClientSettingsPage() {
                   className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-xl text-sm hover:bg-red-700 disabled:opacity-50"
                 >
                   {deleting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                  Confirmer la suppression
+                  {t.confirmDelete}
                 </button>
                 <button
                   onClick={() => { setShowDeleteConfirm(false); setDeletePassword(''); setDeleteError(''); }}
                   className="px-4 py-2 text-gray-400 text-sm hover:bg-[#2a2a36] rounded-xl"
                 >
-                  Annuler
+                  {t.cancel}
                 </button>
               </div>
             </div>

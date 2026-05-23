@@ -41,13 +41,6 @@ interface SessionUser {
   userType?: 'HOTEL' | 'RESTAURANT' | 'ATTRACTION' | 'PROVIDER' | null;
 }
 
-const USER_TYPE_LABELS: Record<string, string> = {
-  HOTEL: 'Hébergement',
-  RESTAURANT: 'Restaurateur',
-  ATTRACTION: 'Attraction',
-  PROVIDER: 'Prestataire',
-};
-
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
@@ -69,8 +62,17 @@ export default function Header() {
     { name: t.publishPlace, href: '/publier-lieu', icon: Plus, color: '#10b981' },
   ];
 
-  // Vérifier la session au chargement
+  // Vérifier la session au chargement (1 seule fois par session navigateur — évite hammering du serveur en cas de remount répété)
   useEffect(() => {
+    const SESSION_CACHE_KEY = 'mada-session-check-v1';
+    const SESSION_NEGATIVE_TTL = 30_000; // 30s : durée pendant laquelle on n'essaie pas de re-fetch après un 401
+
+    const cachedNegative = sessionStorage.getItem(SESSION_CACHE_KEY);
+    if (cachedNegative && Date.now() - parseInt(cachedNegative, 10) < SESSION_NEGATIVE_TTL) {
+      setIsLoading(false);
+      return;
+    }
+
     const checkSession = async () => {
       try {
         const response = await fetch('/api/auth/session', {
@@ -80,7 +82,13 @@ export default function Header() {
           const data = await response.json();
           if (data.success) {
             setUser(data.user);
+            sessionStorage.removeItem(SESSION_CACHE_KEY);
+          } else {
+            sessionStorage.setItem(SESSION_CACHE_KEY, Date.now().toString());
           }
+        } else if (response.status === 401) {
+          // Cache the 401 to prevent the hammer-loop on remounts
+          sessionStorage.setItem(SESSION_CACHE_KEY, Date.now().toString());
         }
       } catch {
         // Pas de session
@@ -278,10 +286,18 @@ export default function Header() {
                               <p className="font-medium text-slate-900">{user.firstName} {user.lastName}</p>
                               <p className="text-sm text-slate-500">
                                 {user.role === 'ADMIN'
-                                  ? 'Administrateur'
-                                  : user.userType
-                                    ? USER_TYPE_LABELS[user.userType] || 'Professionnel'
-                                    : 'Voyageur'}
+                                  ? t.roleAdmin
+                                  : user.userType === 'HOTEL'
+                                    ? t.userTypeHotel
+                                    : user.userType === 'RESTAURANT'
+                                      ? t.userTypeRestaurant
+                                      : user.userType === 'ATTRACTION'
+                                        ? t.userTypeAttraction
+                                        : user.userType === 'PROVIDER'
+                                          ? t.userTypeProvider
+                                          : user.userType
+                                            ? t.roleProvider
+                                            : t.roleTraveler}
                               </p>
                             </div>
                             <div className="py-2">
@@ -292,7 +308,7 @@ export default function Header() {
                                   className="flex items-center gap-3 px-4 py-2 text-slate-700 hover:bg-slate-50 transition-colors"
                                 >
                                   <User className="w-4 h-4" />
-                                  Administration
+                                  {t.adminLink}
                                 </Link>
                               ) : user.userType ? (
                                 <Link
@@ -301,7 +317,7 @@ export default function Header() {
                                   className="flex items-center gap-3 px-4 py-2 text-slate-700 hover:bg-slate-50 transition-colors"
                                 >
                                   <LayoutDashboard className="w-4 h-4 text-orange-500" />
-                                  Dashboard Pro
+                                  {t.proDashboard}
                                 </Link>
                               ) : (
                                 <Link
@@ -310,7 +326,7 @@ export default function Header() {
                                   className="flex items-center gap-3 px-4 py-2 text-slate-700 hover:bg-slate-50 transition-colors"
                                 >
                                   <User className="w-4 h-4" />
-                                  Mon espace
+                                  {t.myAccount}
                                 </Link>
                               )}
                               {user.role === 'CLIENT' && !user.userType && (

@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useCsrf } from '@/hooks/useCsrf';
 import ReviewPhotoUpload from '@/components/bons-plans/ReviewPhotoUpload';
+import { useTrans } from '@/i18n';
 
 interface ReviewableBooking {
   id: string;
@@ -39,6 +40,7 @@ interface ReviewableBooking {
 }
 
 export default function BookingReviewPage() {
+  const t = useTrans('clientBookingReview');
   const params = useParams();
   const router = useRouter();
   const bookingId = params.id as string;
@@ -99,15 +101,15 @@ export default function BookingReviewPage() {
     setError(null);
 
     if (rating === 0) {
-      setError('Veuillez selectionner une note');
+      setError(t.selectRatingError);
       return;
     }
     if (!comment || comment.length < 10) {
-      setError('Le commentaire doit contenir au moins 10 caracteres');
+      setError(t.commentMinError);
       return;
     }
     if (!csrfToken) {
-      setError('Token de securite manquant. Veuillez rafraichir la page.');
+      setError(t.csrfMissingError);
       return;
     }
 
@@ -130,12 +132,12 @@ export default function BookingReviewPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || 'Erreur lors de la publication');
+        throw new Error(data.error || t.submitError);
       }
 
       setSuccess(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erreur lors de la publication');
+      setError(err instanceof Error ? err.message : t.submitError);
     } finally {
       setIsSubmitting(false);
     }
@@ -161,16 +163,16 @@ export default function BookingReviewPage() {
       <div className="min-h-screen bg-[#0a0a0f] text-white">
         <div className="max-w-2xl mx-auto px-4 py-12 text-center">
           <AlertCircle className="w-12 h-12 mx-auto mb-4 text-gray-500" />
-          <h2 className="text-xl font-bold mb-2">Reservation introuvable</h2>
+          <h2 className="text-xl font-bold mb-2">{t.bookingNotFound}</h2>
           <p className="text-gray-400 mb-6">
-            Cette reservation n&apos;existe pas ou n&apos;est pas eligible pour un avis.
+            {t.bookingNotFoundDesc}
           </p>
           <Link
             href="/client/bookings"
             className="inline-flex items-center gap-2 px-4 py-2 bg-[#1a1a24] border border-[#2a2a36] rounded-lg text-sm text-gray-300 hover:text-white"
           >
             <ArrowLeft className="w-4 h-4" />
-            Retour aux reservations
+            {t.backToBookings}
           </Link>
         </div>
       </div>
@@ -188,11 +190,11 @@ export default function BookingReviewPage() {
             href="/client/bookings"
             className="inline-flex items-center gap-1 text-gray-500 hover:text-gray-300 text-sm mb-3"
           >
-            <ArrowLeft className="w-4 h-4" /> Mes reservations
+            <ArrowLeft className="w-4 h-4" /> {t.myBookings}
           </Link>
-          <h1 className="text-2xl font-bold text-white">Laisser un avis</h1>
+          <h1 className="text-2xl font-bold text-white">{t.title}</h1>
           <p className="text-sm text-gray-500 mt-1">
-            Partagez votre experience pour aider la communaute
+            {t.helpCommunity}
           </p>
         </div>
       </div>
@@ -226,7 +228,7 @@ export default function BookingReviewPage() {
                 {booking.checkOut && ` - ${formatDate(booking.checkOut)}`}
               </div>
               <div className="mt-1 text-xs font-mono text-gray-500">
-                Ref: {booking.reference}
+                {t.refLabel} {booking.reference}
               </div>
             </div>
           </div>
@@ -235,9 +237,9 @@ export default function BookingReviewPage() {
           <div className="mt-4 flex items-center gap-2 px-3 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
             <BadgeCheck className="w-5 h-5 text-emerald-400" />
             <div>
-              <p className="text-sm font-medium text-emerald-400">Avis verifie</p>
+              <p className="text-sm font-medium text-emerald-400">{t.verifiedReview}</p>
               <p className="text-xs text-emerald-400/70">
-                Cet avis sera lie a votre reservation et marque comme verifie
+                {t.verifiedReviewDesc}
               </p>
             </div>
           </div>
@@ -247,15 +249,15 @@ export default function BookingReviewPage() {
         {alreadyReviewed && (
           <div className="bg-[#1a1a24] rounded-xl border border-[#2a2a36] p-6 text-center">
             <CheckCircle className="w-12 h-12 mx-auto mb-3 text-emerald-400" />
-            <h3 className="text-lg font-bold text-white mb-1">Avis deja publie</h3>
+            <h3 className="text-lg font-bold text-white mb-1">{t.alreadyPublished}</h3>
             <p className="text-gray-400 text-sm mb-4">
-              Vous avez deja laisse un avis pour cette reservation.
+              {t.alreadyReviewed}
             </p>
             <Link
               href="/client/bookings"
               className="inline-flex items-center gap-2 px-4 py-2 bg-[#ff6b35] text-white rounded-lg text-sm hover:bg-[#e55a2b]"
             >
-              Retour aux reservations
+              {t.backToBookings}
             </Link>
           </div>
         )}
@@ -264,15 +266,15 @@ export default function BookingReviewPage() {
         {success && !alreadyReviewed && (
           <div className="bg-[#1a1a24] rounded-xl border border-[#2a2a36] p-6 text-center">
             <CheckCircle className="w-12 h-12 mx-auto mb-3 text-green-400" />
-            <h3 className="text-lg font-bold text-white mb-1">Merci pour votre avis !</h3>
+            <h3 className="text-lg font-bold text-white mb-1">{t.thanksForReview}</h3>
             <p className="text-gray-400 text-sm mb-4">
-              Votre avis verifie a ete publie avec succes.
+              {t.verifiedReviewPublished}
             </p>
             <Link
               href="/client/bookings"
               className="inline-flex items-center gap-2 px-4 py-2 bg-[#ff6b35] text-white rounded-lg text-sm hover:bg-[#e55a2b]"
             >
-              Retour aux reservations
+              {t.backToBookings}
             </Link>
           </div>
         )}
@@ -283,7 +285,7 @@ export default function BookingReviewPage() {
             onSubmit={handleSubmit}
             className="bg-[#1a1a24] rounded-2xl p-6 md:p-8 border border-[#2a2a36] space-y-5"
           >
-            <h3 className="text-lg font-bold text-white">Votre avis</h3>
+            <h3 className="text-lg font-bold text-white">{t.yourReview}</h3>
 
             {/* Error */}
             {error && (
@@ -296,7 +298,7 @@ export default function BookingReviewPage() {
             {/* Star Rating */}
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Votre note *
+                {t.yourRatingLabel}
               </label>
               <div className="flex items-center gap-1">
                 {Array.from({ length: 5 }).map((_, i) => {
@@ -332,14 +334,14 @@ export default function BookingReviewPage() {
                 htmlFor="review-title"
                 className="block text-sm font-medium text-slate-300 mb-1.5"
               >
-                Titre (optionnel)
+                {t.titleOptional}
               </label>
               <input
                 id="review-title"
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="Resumez votre experience"
+                placeholder={t.titleResumePlaceholder}
                 maxLength={100}
                 className="w-full px-4 py-2.5 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-orange-500/50 transition-colors"
               />
@@ -351,18 +353,18 @@ export default function BookingReviewPage() {
                 htmlFor="review-comment"
                 className="block text-sm font-medium text-slate-300 mb-1.5"
               >
-                Votre avis *
+                {t.yourReviewLabel}
               </label>
               <textarea
                 id="review-comment"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder="Partagez votre experience (min. 10 caracteres)"
+                placeholder={t.commentExperiencePlaceholder}
                 rows={4}
                 className="w-full px-4 py-2.5 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder-slate-500 text-sm resize-none focus:outline-none focus:border-orange-500/50 transition-colors"
               />
               <p className="mt-1 text-xs text-slate-500">
-                {comment.length}/10 caracteres minimum
+                {comment.length}/10 {t.minCharsHint}
               </p>
             </div>
 
@@ -370,7 +372,7 @@ export default function BookingReviewPage() {
             {csrfToken && (
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1.5">
-                  Photos (optionnel)
+                  {t.photosOptional}
                 </label>
                 <ReviewPhotoUpload
                   onImagesChange={handleImagesChange}
@@ -386,7 +388,7 @@ export default function BookingReviewPage() {
               disabled={isSubmitting || csrfLoading || rating === 0}
               className="w-full py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
-              {isSubmitting ? 'Publication en cours...' : 'Publier mon avis verifie'}
+              {isSubmitting ? t.submitting : t.publishVerifiedReview}
             </button>
           </form>
         )}

@@ -38,102 +38,133 @@ import {
   CITIES_BY_REGION,
   ATTRACTION_TYPES,
 } from '@/data/madagascar-regions';
+import { useTrans } from '@/i18n';
 
 const MapLocationPicker = dynamic(
   () => import('@/components/maps/MapLocationPicker'),
   { ssr: false }
 );
 
+// Steps: icons stay module-scoped; labels are resolved at render via t[`step${X}`]
 const STEPS = [
-  { id: 1, label: 'Informations', icon: Info },
-  { id: 2, label: 'Localisation', icon: MapPin },
-  { id: 3, label: 'Détails', icon: Sparkles },
-  { id: 4, label: 'Photos & Contact', icon: Camera },
-];
+  { id: 1, key: 'stepInfo', icon: Info },
+  { id: 2, key: 'stepLocation', icon: MapPin },
+  { id: 3, key: 'stepDetails', icon: Sparkles },
+  { id: 4, key: 'stepPhotosContact', icon: Camera },
+] as const;
 
-const BEST_SEASONS = [
-  { value: 'avril-octobre', label: 'Saison sèche (Avril - Octobre)' },
-  { value: 'novembre-mars', label: 'Saison des pluies (Novembre - Mars)' },
-  { value: 'toute-annee', label: 'Toute l\'année' },
-  { value: 'autre', label: 'Autre' },
-];
+// Enum values (sent to backend) — labels resolved at render via t.season_*
+const BEST_SEASON_VALUES = [
+  { value: 'avril-octobre', tKey: 'season_dry' },
+  { value: 'novembre-mars', tKey: 'season_wet' },
+  { value: 'toute-annee', tKey: 'season_yearround' },
+  { value: 'autre', tKey: 'season_other' },
+] as const;
 
-const PROVIDER_SERVICE_TYPES = [
-  { value: 'GUIDE', label: 'Guide touristique' },
-  { value: 'DRIVER', label: 'Chauffeur' },
-  { value: 'TOUR_OPERATOR', label: 'Tour opérateur' },
-  { value: 'CAR_RENTAL', label: 'Location de voiture' },
-  { value: 'PHOTOGRAPHER', label: 'Photographe' },
-  { value: 'TRANSLATOR', label: 'Traducteur / Interprète' },
-  { value: 'TRAVEL_AGENCY', label: 'Agence de voyage' },
-  { value: 'TRANSFER', label: 'Transfert' },
-  { value: 'BOAT_EXCURSION', label: 'Excursion en bateau' },
-  { value: 'OTHER', label: 'Autre' },
-];
+const PROVIDER_SERVICE_VALUES = [
+  { value: 'GUIDE', tKey: 'svc_guide' },
+  { value: 'DRIVER', tKey: 'svc_driver' },
+  { value: 'TOUR_OPERATOR', tKey: 'svc_touroperator' },
+  { value: 'CAR_RENTAL', tKey: 'svc_carrental' },
+  { value: 'PHOTOGRAPHER', tKey: 'svc_photographer' },
+  { value: 'TRANSLATOR', tKey: 'svc_translator' },
+  { value: 'TRAVEL_AGENCY', tKey: 'svc_travelagency' },
+  { value: 'TRANSFER', tKey: 'svc_transfer' },
+  { value: 'BOAT_EXCURSION', tKey: 'svc_boatexcursion' },
+  { value: 'OTHER', tKey: 'svc_other' },
+] as const;
 
-const PROVIDER_LANGUAGES = [
-  'Français', 'Anglais', 'Malgache', 'Allemand', 'Italien', 'Espagnol', 'Chinois', 'Japonais', 'Autre',
-];
+// Language enum-like values stored as French (DB compat) — display via t.lang_*
+const PROVIDER_LANGUAGE_VALUES = [
+  { value: 'Français', tKey: 'lang_francais' },
+  { value: 'Anglais', tKey: 'lang_anglais' },
+  { value: 'Malgache', tKey: 'lang_malgache' },
+  { value: 'Allemand', tKey: 'lang_allemand' },
+  { value: 'Italien', tKey: 'lang_italien' },
+  { value: 'Espagnol', tKey: 'lang_espagnol' },
+  { value: 'Chinois', tKey: 'lang_chinois' },
+  { value: 'Japonais', tKey: 'lang_japonais' },
+  { value: 'Autre', tKey: 'lang_autre' },
+] as const;
 
-const PRICE_UNITS = [
-  { value: 'par jour', label: 'Par jour' },
-  { value: 'par trajet', label: 'Par trajet' },
-  { value: 'par personne', label: 'Par personne' },
-  { value: 'par heure', label: 'Par heure' },
-  { value: 'autre', label: 'Autre' },
-];
+const PRICE_UNIT_VALUES = [
+  { value: 'par jour', tKey: 'priceUnit_perday' },
+  { value: 'par trajet', tKey: 'priceUnit_pertrip' },
+  { value: 'par personne', tKey: 'priceUnit_perperson' },
+  { value: 'par heure', tKey: 'priceUnit_perhour' },
+  { value: 'autre', tKey: 'priceUnit_other' },
+] as const;
 
-const HOTEL_TYPES = [
-  { value: 'hotel', label: 'Hôtel classique' },
-  { value: 'boutique-hotel', label: 'Hôtel de charme' },
-  { value: 'resort', label: 'Resort' },
-  { value: 'palace', label: 'Palace' },
-  { value: 'guesthouse', label: 'Maison d\'hôtes' },
-  { value: 'auberge', label: 'Auberge' },
-  { value: 'hostel', label: 'Auberge de jeunesse' },
-  { value: 'lodge', label: 'Lodge' },
-  { value: 'ecolodge', label: 'Écolodge' },
-  { value: 'villa', label: 'Villa' },
-  { value: 'bungalow', label: 'Bungalow' },
-  { value: 'apart-hotel', label: 'Apart-hôtel' },
-  { value: 'pension', label: 'Pension' },
-  { value: 'camping', label: 'Camping' },
-  { value: 'autre-hebergement', label: 'Autre' },
-];
+const HOTEL_TYPE_VALUES = [
+  { value: 'hotel', tKey: 'hotelType_hotel' },
+  { value: 'boutique-hotel', tKey: 'hotelType_boutique' },
+  { value: 'resort', tKey: 'hotelType_resort' },
+  { value: 'palace', tKey: 'hotelType_palace' },
+  { value: 'guesthouse', tKey: 'hotelType_guesthouse' },
+  { value: 'auberge', tKey: 'hotelType_auberge' },
+  { value: 'hostel', tKey: 'hotelType_hostel' },
+  { value: 'lodge', tKey: 'hotelType_lodge' },
+  { value: 'ecolodge', tKey: 'hotelType_ecolodge' },
+  { value: 'villa', tKey: 'hotelType_villa' },
+  { value: 'bungalow', tKey: 'hotelType_bungalow' },
+  { value: 'apart-hotel', tKey: 'hotelType_aparthotel' },
+  { value: 'pension', tKey: 'hotelType_pension' },
+  { value: 'camping', tKey: 'hotelType_camping' },
+  { value: 'autre-hebergement', tKey: 'hotelType_other' },
+] as const;
 
-const HOTEL_AMENITIES = [
-  { value: 'wifi', label: 'WiFi' },
-  { value: 'parking', label: 'Parking' },
-  { value: 'pool', label: 'Piscine' },
-  { value: 'restaurant', label: 'Restaurant' },
-  { value: 'spa', label: 'Spa' },
-  { value: 'ac', label: 'Climatisation' },
-  { value: 'tv', label: 'TV' },
-  { value: 'generator', label: 'Groupe électrogène' },
-  { value: 'autre', label: 'Autre' },
-];
+const HOTEL_AMENITY_VALUES = [
+  { value: 'wifi', tKey: 'hotelAmenity_wifi' },
+  { value: 'parking', tKey: 'hotelAmenity_parking' },
+  { value: 'pool', tKey: 'hotelAmenity_pool' },
+  { value: 'restaurant', tKey: 'hotelAmenity_restaurant' },
+  { value: 'spa', tKey: 'hotelAmenity_spa' },
+  { value: 'ac', tKey: 'hotelAmenity_ac' },
+  { value: 'tv', tKey: 'hotelAmenity_tv' },
+  { value: 'generator', tKey: 'hotelAmenity_generator' },
+  { value: 'autre', tKey: 'hotelAmenity_other' },
+] as const;
 
-const RESTAURANT_CATEGORIES = [
-  { value: 'RESTAURANT', label: 'Restaurant' },
-  { value: 'GARGOTE', label: 'Gargote' },
-  { value: 'LOUNGE', label: 'Lounge' },
-  { value: 'CAFE', label: 'Café / Salon de thé' },
-  { value: 'FAST_FOOD', label: 'Fast-food' },
-  { value: 'STREET_FOOD', label: 'Street food' },
-  { value: 'AUTRE', label: 'Autre' },
-];
+const RESTAURANT_CATEGORY_VALUES = [
+  { value: 'RESTAURANT', tKey: 'restCat_restaurant' },
+  { value: 'GARGOTE', tKey: 'restCat_gargote' },
+  { value: 'LOUNGE', tKey: 'restCat_lounge' },
+  { value: 'CAFE', tKey: 'restCat_cafe' },
+  { value: 'FAST_FOOD', tKey: 'restCat_fastfood' },
+  { value: 'STREET_FOOD', tKey: 'restCat_streetfood' },
+  { value: 'AUTRE', tKey: 'restCat_other' },
+] as const;
 
-const CUISINE_TYPES = [
-  'Malgache', 'Français', 'Chinois', 'Italien', 'Indien', 'Japonais', 'Africain', 'Fusion', 'Autre',
-];
+// Cuisine types stored in French (DB compat) — display via t.cuisine_*
+const CUISINE_TYPE_VALUES = [
+  { value: 'Malgache', tKey: 'cuisine_malgache' },
+  { value: 'Français', tKey: 'cuisine_francais' },
+  { value: 'Chinois', tKey: 'cuisine_chinois' },
+  { value: 'Italien', tKey: 'cuisine_italien' },
+  { value: 'Indien', tKey: 'cuisine_indien' },
+  { value: 'Japonais', tKey: 'cuisine_japonais' },
+  { value: 'Africain', tKey: 'cuisine_africain' },
+  { value: 'Fusion', tKey: 'cuisine_fusion' },
+  { value: 'Autre', tKey: 'cuisine_autre' },
+] as const;
 
-const PRICE_RANGES = [
-  { value: 'BUDGET', label: 'Budget (< 20 000 MGA)' },
-  { value: 'MODERATE', label: 'Modéré (20 000 - 50 000 MGA)' },
-  { value: 'UPSCALE', label: 'Haut de gamme (50 000 - 150 000 MGA)' },
-  { value: 'LUXURY', label: 'Luxe (> 150 000 MGA)' },
-  { value: 'AUTRE', label: 'Autre' },
-];
+const PRICE_RANGE_VALUES = [
+  { value: 'BUDGET', tKey: 'priceRange_budget' },
+  { value: 'MODERATE', tKey: 'priceRange_moderate' },
+  { value: 'UPSCALE', tKey: 'priceRange_upscale' },
+  { value: 'LUXURY', tKey: 'priceRange_luxury' },
+  { value: 'AUTRE', tKey: 'priceRange_other' },
+] as const;
+
+// Vehicle types (DB values left in French where they were)
+const VEHICLE_TYPE_VALUES = [
+  { value: 'berline', tKey: 'vehicle_sedan' },
+  { value: '4x4', tKey: 'vehicle_4x4' },
+  { value: 'minibus', tKey: 'vehicle_minibus' },
+  { value: 'van', tKey: 'vehicle_van' },
+  { value: 'moto', tKey: 'vehicle_motorbike' },
+  { value: 'autre', tKey: 'vehicle_other' },
+] as const;
 
 interface RoomTypeEntry {
   name: string;
@@ -209,6 +240,8 @@ interface FormData {
 }
 
 export default function PublierLieuPage() {
+  const t = useTrans('publishPlace');
+  const tt = t as Record<string, string>;
   const router = useRouter();
   const searchParams = useSearchParams();
   const { csrfToken } = useCsrf();
@@ -383,7 +416,7 @@ export default function PublierLieuPage() {
     setFormData((prev) => ({ ...prev, customOther: { ...prev.customOther, [key]: value } }));
   };
 
-  const renderOtherInput = (field: string, isVisible: boolean, placeholder = 'Précisez...') => {
+  const renderOtherInput = (field: string, isVisible: boolean, placeholder = t.otherSpecify) => {
     if (!isVisible) return null;
     return (
       <input
@@ -435,11 +468,11 @@ export default function PublierLieuPage() {
     const fileArray = Array.from(files);
     const validFiles = fileArray.filter((f) => {
       if (!f.type.startsWith('image/')) {
-        setError('Seules les images sont acceptées (JPEG, PNG, WebP)');
+        setError(t.errImagesOnly);
         return false;
       }
       if (f.size > 10 * 1024 * 1024) {
-        setError(`"${f.name}" dépasse 10 MB`);
+        setError(`"${f.name}" ${t.errFileTooBig}`);
         return false;
       }
       return true;
@@ -449,7 +482,7 @@ export default function PublierLieuPage() {
 
     const totalPhotos = formData.photos.length + validFiles.length;
     if (totalPhotos > 5) {
-      setError(`Maximum 5 photos (${formData.photos.length} déjà ajoutées)`);
+      setError(`${t.errMaxPhotos} (${formData.photos.length} ${t.errPhotosAlreadyAdded})`);
       return;
     }
 
@@ -507,7 +540,7 @@ export default function PublierLieuPage() {
       return formData.photoUrls;
     }
 
-    setUploadProgress(`Upload des photos (0/${filesToUpload.length})...`);
+    setUploadProgress(`${t.uploadingPhotos} (0/${filesToUpload.length})...`);
 
     const serverUrls = [...formData.photoUrls];
 
@@ -524,7 +557,7 @@ export default function PublierLieuPage() {
 
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      throw new Error(data.error || 'Erreur lors de l\'upload des photos');
+      throw new Error(data.error || t.errUpload);
     }
 
     const data = await res.json();
@@ -686,7 +719,7 @@ export default function PublierLieuPage() {
         };
       }
 
-      setUploadProgress('Envoi du formulaire...');
+      setUploadProgress(t.sendingForm);
 
       const res = await fetch(submitUrl, {
         method: 'POST',
@@ -698,12 +731,12 @@ export default function PublierLieuPage() {
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Erreur lors de la soumission');
+        throw new Error(data.error || t.errSubmit);
       }
 
       setSubmitted(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erreur lors de la soumission');
+      setError(err instanceof Error ? err.message : t.errSubmit);
     } finally {
       setIsSubmitting(false);
     }
@@ -721,17 +754,16 @@ export default function PublierLieuPage() {
           <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-10 h-10 text-green-400" />
           </div>
-          <h2 className="text-2xl font-bold text-white mb-3">Lieu soumis avec succes !</h2>
+          <h2 className="text-2xl font-bold text-white mb-3">{t.successTitle}</h2>
           <p className="text-gray-400 mb-8">
-            Votre lieu sera visible sur Mada Spot apres validation par notre equipe.
-            Vous serez notifie du resultat.
+            {t.successDesc}
           </p>
           <div className="flex gap-3 justify-center">
             <button
               onClick={() => router.push('/dashboard')}
               className="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all"
             >
-              Mon tableau de bord
+              {t.successDashboardBtn}
             </button>
             <button
               onClick={() => {
@@ -762,7 +794,7 @@ export default function PublierLieuPage() {
               }}
               className="px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white rounded-xl hover:shadow-lg transition-all"
             >
-              Soumettre un autre lieu
+              {t.successAnotherBtn}
             </button>
           </div>
         </motion.div>
@@ -780,11 +812,11 @@ export default function PublierLieuPage() {
             className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
-            Retour
+            {t.back}
           </button>
           <h1 className="text-lg font-bold flex items-center gap-2">
             {formData.establishmentType === 'HOTEL' ? <Building2 className="w-5 h-5 text-purple-400" /> : formData.establishmentType === 'RESTAURANT' ? <UtensilsCrossed className="w-5 h-5 text-amber-400" /> : formData.establishmentType === 'PROVIDER' ? <Users className="w-5 h-5 text-cyan-400" /> : <Mountain className="w-5 h-5 text-emerald-400" />}
-            {formData.establishmentType === 'HOTEL' ? 'Publier un hébergement' : formData.establishmentType === 'RESTAURANT' ? 'Publier un restaurant' : formData.establishmentType === 'PROVIDER' ? 'Publier un prestataire' : 'Publier un lieu'}
+            {formData.establishmentType === 'HOTEL' ? t.publishHotel : formData.establishmentType === 'RESTAURANT' ? t.publishRestaurant : formData.establishmentType === 'PROVIDER' ? t.publishProvider : t.publishPlace}
           </h1>
           <div className="w-20" />
         </div>
@@ -816,7 +848,7 @@ export default function PublierLieuPage() {
                     step >= s.id ? 'text-white' : 'text-gray-600'
                   }`}
                 >
-                  {s.label}
+                  {tt[s.key]}
                 </span>
               </div>
               {i < STEPS.length - 1 && (
@@ -850,11 +882,9 @@ export default function PublierLieuPage() {
             {step === 1 && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-xl font-bold mb-1">Informations de base</h2>
+                  <h2 className="text-xl font-bold mb-1">{t.step1Title}</h2>
                   <p className="text-gray-500 text-sm">
-                    {typeFromUrl
-                      ? 'Renseignez les informations de votre établissement'
-                      : 'Quel type d\'etablissement souhaitez-vous publier ?'}
+                    {typeFromUrl ? t.step1FillSubtitle : t.step1ChooseSubtitle}
                   </p>
                 </div>
 
@@ -872,12 +902,12 @@ export default function PublierLieuPage() {
                       : <Mountain className="w-6 h-6" />}
                     <div>
                       <div className="font-medium">
-                        Publication en tant que : {formData.establishmentType === 'HOTEL' ? 'Hébergement'
-                          : formData.establishmentType === 'RESTAURANT' ? 'Restaurant'
-                          : formData.establishmentType === 'PROVIDER' ? 'Prestataire'
-                          : 'Attraction'}
+                        {t.publishingAs} {formData.establishmentType === 'HOTEL' ? t.typeHotel
+                          : formData.establishmentType === 'RESTAURANT' ? t.typeRestaurant
+                          : formData.establishmentType === 'PROVIDER' ? t.typeProvider
+                          : t.typeAttraction}
                       </div>
-                      <div className="text-xs text-gray-500">Type lié à votre compte prestataire</div>
+                      <div className="text-xs text-gray-500">{t.typeLockedHint}</div>
                     </div>
                     <CheckCircle className="w-5 h-5 ml-auto opacity-60" />
                   </div>
@@ -887,12 +917,12 @@ export default function PublierLieuPage() {
                 {sessionLoading && !typeFromUrl ? (
                   <div className="flex items-center gap-3 p-4 rounded-xl bg-[#0c0c16] border border-[#1e1e2e] animate-pulse">
                     <Loader2 className="w-5 h-5 text-gray-500 animate-spin" />
-                    <span className="text-gray-500 text-sm">Chargement du profil...</span>
+                    <span className="text-gray-500 text-sm">{t.loadingProfile}</span>
                   </div>
                 ) : !typeFromUrl ? (
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Type d&apos;etablissement <span className="text-red-400">*</span>
+                      {t.typeLabel} <span className="text-red-400">*</span>
                     </label>
                     <div className="grid grid-cols-2 gap-3">
                       <button
@@ -906,8 +936,8 @@ export default function PublierLieuPage() {
                       >
                         <Building2 className="w-6 h-6" />
                         <div className="text-left">
-                          <div className="font-medium">Hébergement</div>
-                          <div className="text-xs text-gray-500">Hôtel, lodge, villa...</div>
+                          <div className="font-medium">{t.typeHotel}</div>
+                          <div className="text-xs text-gray-500">{t.typeHotelDesc}</div>
                         </div>
                       </button>
                       <button
@@ -921,8 +951,8 @@ export default function PublierLieuPage() {
                       >
                         <UtensilsCrossed className="w-6 h-6" />
                         <div className="text-left">
-                          <div className="font-medium">Restaurant</div>
-                          <div className="text-xs text-gray-500">Restaurant, café, lounge...</div>
+                          <div className="font-medium">{t.typeRestaurant}</div>
+                          <div className="text-xs text-gray-500">{t.typeRestaurantDesc}</div>
                         </div>
                       </button>
                       <button
@@ -936,8 +966,8 @@ export default function PublierLieuPage() {
                       >
                         <Mountain className="w-6 h-6" />
                         <div className="text-left">
-                          <div className="font-medium">Attraction</div>
-                          <div className="text-xs text-gray-500">Lieu touristique</div>
+                          <div className="font-medium">{t.typeAttraction}</div>
+                          <div className="text-xs text-gray-500">{t.typeAttractionDesc}</div>
                         </div>
                       </button>
                       <button
@@ -951,8 +981,8 @@ export default function PublierLieuPage() {
                       >
                         <Users className="w-6 h-6" />
                         <div className="text-left">
-                          <div className="font-medium">Prestataire</div>
-                          <div className="text-xs text-gray-500">Guide, chauffeur, agence...</div>
+                          <div className="font-medium">{t.typeProvider}</div>
+                          <div className="text-xs text-gray-500">{t.typeProviderDesc}</div>
                         </div>
                       </button>
                     </div>
@@ -961,26 +991,26 @@ export default function PublierLieuPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Nom {formData.establishmentType === 'PROVIDER' ? 'du prestataire' : formData.establishmentType === 'HOTEL' ? 'de l\'hébergement' : formData.establishmentType === 'RESTAURANT' ? 'du restaurant' : 'du lieu'} <span className="text-red-400">*</span>
+                    {formData.establishmentType === 'PROVIDER' ? t.nameLabelProvider : formData.establishmentType === 'HOTEL' ? t.nameLabelHotel : formData.establishmentType === 'RESTAURANT' ? t.nameLabelRestaurant : t.nameLabelPlace} <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
                     value={formData.name}
                     onChange={(e) => updateField('name', e.target.value)}
-                    placeholder={formData.establishmentType === 'PROVIDER' ? 'Ex: Madagascar Tours, Guide Jean...' : formData.establishmentType === 'HOTEL' ? 'Ex: Hotel Colbert, Villa Mahefa...' : formData.establishmentType === 'RESTAURANT' ? 'Ex: Chez Mariette, La Table d\'Hôte...' : 'Ex: Allée des Baobabs, Tsingy de Bemaraha...'}
+                    placeholder={formData.establishmentType === 'PROVIDER' ? t.namePlaceholderProvider : formData.establishmentType === 'HOTEL' ? t.namePlaceholderHotel : formData.establishmentType === 'RESTAURANT' ? t.namePlaceholderRestaurant : t.namePlaceholderPlace}
                     className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Courte description <span className="text-gray-600">(max 200 car.)</span>
+                    {t.shortDescriptionLabel} <span className="text-gray-600">{t.shortDescriptionLimit}</span>
                   </label>
                   <input
                     type="text"
                     value={formData.shortDescription}
                     onChange={(e) => updateField('shortDescription', e.target.value.slice(0, 200))}
-                    placeholder="Un apercu rapide..."
+                    placeholder={t.shortDescriptionPlaceholder}
                     className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                   />
                   <p className="text-xs text-gray-600 mt-1">{formData.shortDescription.length}/200</p>
@@ -988,12 +1018,12 @@ export default function PublierLieuPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Description complete <span className="text-red-400">*</span>
+                    {t.fullDescriptionLabel} <span className="text-red-400">*</span>
                   </label>
                   <textarea
                     value={formData.description}
                     onChange={(e) => updateField('description', e.target.value)}
-                    placeholder={formData.establishmentType === 'PROVIDER' ? 'Decrivez vos services, votre experience...' : formData.establishmentType === 'HOTEL' ? 'Decrivez votre hébergement : ambiance, emplacement, services...' : formData.establishmentType === 'RESTAURANT' ? 'Decrivez votre restaurant : ambiance, spécialités, ce qui le rend unique...' : 'Decrivez ce lieu en detail : ce qu\'on peut y voir, pourquoi le visiter...'}
+                    placeholder={formData.establishmentType === 'PROVIDER' ? t.fullDescriptionPlaceholderProvider : formData.establishmentType === 'HOTEL' ? t.fullDescriptionPlaceholderHotel : formData.establishmentType === 'RESTAURANT' ? t.fullDescriptionPlaceholderRestaurant : t.fullDescriptionPlaceholderPlace}
                     rows={5}
                     className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors resize-none"
                   />
@@ -1003,7 +1033,7 @@ export default function PublierLieuPage() {
                 {formData.establishmentType === 'ATTRACTION' && (
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Type d&apos;attraction <span className="text-red-400">*</span>
+                      {t.attractionTypeLabel} <span className="text-red-400">*</span>
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                       {ATTRACTION_TYPES.map((type) => (
@@ -1021,7 +1051,7 @@ export default function PublierLieuPage() {
                         </button>
                       ))}
                     </div>
-                    {renderOtherInput('attractionType', formData.attractionType === 'autre', 'Précisez le type d\'attraction...')}
+                    {renderOtherInput('attractionType', formData.attractionType === 'autre', t.otherAttractionType)}
                   </div>
                 )}
 
@@ -1029,10 +1059,10 @@ export default function PublierLieuPage() {
                 {formData.establishmentType === 'HOTEL' && (
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Type d&apos;hébergement <span className="text-red-400">*</span>
+                      {t.hotelTypeLabel} <span className="text-red-400">*</span>
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                      {HOTEL_TYPES.map((type) => (
+                      {HOTEL_TYPE_VALUES.map((type) => (
                         <button
                           key={type.value}
                           type="button"
@@ -1043,11 +1073,11 @@ export default function PublierLieuPage() {
                               : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:text-white hover:border-gray-600'
                           }`}
                         >
-                          {type.label}
+                          {tt[type.tKey]}
                         </button>
                       ))}
                     </div>
-                    {renderOtherInput('hotelType', formData.hotelType === 'autre-hebergement', 'Précisez le type d\'hébergement...')}
+                    {renderOtherInput('hotelType', formData.hotelType === 'autre-hebergement', t.otherHotelType)}
                   </div>
                 )}
 
@@ -1055,10 +1085,10 @@ export default function PublierLieuPage() {
                 {formData.establishmentType === 'RESTAURANT' && (
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Catégorie <span className="text-red-400">*</span>
+                      {t.restaurantCategoryLabel} <span className="text-red-400">*</span>
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                      {RESTAURANT_CATEGORIES.map((cat) => (
+                      {RESTAURANT_CATEGORY_VALUES.map((cat) => (
                         <button
                           key={cat.value}
                           type="button"
@@ -1069,11 +1099,11 @@ export default function PublierLieuPage() {
                               : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:text-white hover:border-gray-600'
                           }`}
                         >
-                          {cat.label}
+                          {tt[cat.tKey]}
                         </button>
                       ))}
                     </div>
-                    {renderOtherInput('restaurantCategory', formData.restaurantCategory === 'AUTRE', 'Précisez la catégorie...')}
+                    {renderOtherInput('restaurantCategory', formData.restaurantCategory === 'AUTRE', t.otherRestaurantCategory)}
                   </div>
                 )}
 
@@ -1081,10 +1111,10 @@ export default function PublierLieuPage() {
                 {formData.establishmentType === 'PROVIDER' && (
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Type de service <span className="text-red-400">*</span>
+                      {t.serviceTypeLabel} <span className="text-red-400">*</span>
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                      {PROVIDER_SERVICE_TYPES.map((type) => (
+                      {PROVIDER_SERVICE_VALUES.map((type) => (
                         <button
                           key={type.value}
                           type="button"
@@ -1095,11 +1125,11 @@ export default function PublierLieuPage() {
                               : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:text-white hover:border-gray-600'
                           }`}
                         >
-                          {type.label}
+                          {tt[type.tKey]}
                         </button>
                       ))}
                     </div>
-                    {renderOtherInput('serviceType', formData.serviceType === 'OTHER', 'Précisez le type de service...')}
+                    {renderOtherInput('serviceType', formData.serviceType === 'OTHER', t.otherServiceType)}
                   </div>
                 )}
               </div>
@@ -1109,15 +1139,15 @@ export default function PublierLieuPage() {
             {step === 2 && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-xl font-bold mb-1">Localisation</h2>
-                  <p className="text-gray-500 text-sm">Ou se trouve ce lieu ?</p>
+                  <h2 className="text-xl font-bold mb-1">{t.step2Title}</h2>
+                  <p className="text-gray-500 text-sm">{t.step2Subtitle}</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {/* Province */}
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Province <span className="text-red-400">*</span>
+                      {t.provinceLabel} <span className="text-red-400">*</span>
                     </label>
                     <select
                       value={formData.province}
@@ -1128,26 +1158,26 @@ export default function PublierLieuPage() {
                       }}
                       className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white focus:outline-none focus:border-orange-500 transition-colors"
                     >
-                      <option value="">Selectionner...</option>
+                      <option value="">{t.selectPlaceholder}</option>
                       {PROVINCES.map((p) => (
                         <option key={p} value={p}>{p}</option>
                       ))}
-                      <option value="Autre">Autre</option>
+                      <option value="Autre">{t.otherOption}</option>
                     </select>
-                    {renderOtherInput('province', formData.province === 'Autre', 'Entrez la province...')}
+                    {renderOtherInput('province', formData.province === 'Autre', t.otherProvince)}
                   </div>
 
                   {/* Region */}
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Region <span className="text-red-400">*</span>
+                      {t.regionLabel} <span className="text-red-400">*</span>
                     </label>
                     {formData.province === 'Autre' ? (
                       <input
                         type="text"
                         value={formData.customOther.region || ''}
                         onChange={(e) => updateCustomOther('region', e.target.value)}
-                        placeholder="Entrez la région..."
+                        placeholder={t.otherRegion}
                         className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                       />
                     ) : (
@@ -1161,13 +1191,13 @@ export default function PublierLieuPage() {
                           disabled={!formData.province}
                           className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white focus:outline-none focus:border-orange-500 transition-colors disabled:opacity-50"
                         >
-                          <option value="">Selectionner...</option>
+                          <option value="">{t.selectPlaceholder}</option>
                           {availableRegions.map((r) => (
                             <option key={r} value={r}>{r}</option>
                           ))}
-                          <option value="Autre">Autre</option>
+                          <option value="Autre">{t.otherOption}</option>
                         </select>
-                        {renderOtherInput('region', formData.region === 'Autre', 'Entrez la région...')}
+                        {renderOtherInput('region', formData.region === 'Autre', t.otherRegion)}
                       </>
                     )}
                   </div>
@@ -1175,14 +1205,14 @@ export default function PublierLieuPage() {
                   {/* Ville */}
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Ville <span className="text-red-400">*</span>
+                      {t.cityLabel} <span className="text-red-400">*</span>
                     </label>
                     {formData.province === 'Autre' || formData.region === 'Autre' ? (
                       <input
                         type="text"
                         value={formData.customOther.city || ''}
                         onChange={(e) => updateCustomOther('city', e.target.value)}
-                        placeholder="Entrez la ville..."
+                        placeholder={t.otherCity}
                         className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                       />
                     ) : (
@@ -1193,13 +1223,13 @@ export default function PublierLieuPage() {
                           disabled={!formData.region}
                           className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white focus:outline-none focus:border-orange-500 transition-colors disabled:opacity-50"
                         >
-                          <option value="">Selectionner...</option>
+                          <option value="">{t.selectPlaceholder}</option>
                           {availableCities.map((c) => (
                             <option key={c} value={c}>{c}</option>
                           ))}
-                          <option value="Autre">Autre</option>
+                          <option value="Autre">{t.otherOption}</option>
                         </select>
-                        {renderOtherInput('city', formData.city === 'Autre', 'Entrez la ville...')}
+                        {renderOtherInput('city', formData.city === 'Autre', t.otherCity)}
                       </>
                     )}
                   </div>
@@ -1207,20 +1237,20 @@ export default function PublierLieuPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Quartier / Zone <span className="text-gray-600">(optionnel)</span>
+                    {t.districtLabel} <span className="text-gray-600">{t.districtOptional}</span>
                   </label>
                   <input
                     type="text"
                     value={formData.district}
                     onChange={(e) => updateField('district', e.target.value)}
-                    placeholder="Ex: Centre-ville, RN7 km 15..."
+                    placeholder={t.districtPlaceholder}
                     className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-3">
-                    Position GPS <span className="text-gray-600">(cliquez sur la carte)</span>
+                    {t.gpsPositionLabel} <span className="text-gray-600">{t.gpsClickHint}</span>
                   </label>
                   <div className="rounded-xl overflow-hidden border border-[#1e1e2e] min-h-[300px] sm:min-h-[400px]">
                     <MapLocationPicker
@@ -1231,7 +1261,7 @@ export default function PublierLieuPage() {
                   </div>
                   {formData.latitude && formData.longitude && (
                     <p className="text-xs text-emerald-400 mt-2">
-                      Position : {parseFloat(formData.latitude).toFixed(5)}, {parseFloat(formData.longitude).toFixed(5)}
+                      {t.positionConfirmed} {parseFloat(formData.latitude).toFixed(5)}, {parseFloat(formData.longitude).toFixed(5)}
                     </p>
                   )}
                 </div>
@@ -1243,10 +1273,10 @@ export default function PublierLieuPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="text-xl font-bold mb-1">
-                    {formData.establishmentType === 'PROVIDER' ? 'Details du service' : formData.establishmentType === 'HOTEL' ? 'Details de l\'hébergement' : formData.establishmentType === 'RESTAURANT' ? 'Details du restaurant' : 'Details pratiques'}
+                    {formData.establishmentType === 'PROVIDER' ? t.step3TitleProvider : formData.establishmentType === 'HOTEL' ? t.step3TitleHotel : formData.establishmentType === 'RESTAURANT' ? t.step3TitleRestaurant : t.step3TitleAttraction}
                   </h2>
                   <p className="text-gray-500 text-sm">
-                    {formData.establishmentType === 'PROVIDER' ? 'Informations sur vos services' : formData.establishmentType === 'HOTEL' ? 'Classification, équipements et chambres' : formData.establishmentType === 'RESTAURANT' ? 'Cuisine, prix et services' : 'Informations utiles pour les visiteurs'}
+                    {formData.establishmentType === 'PROVIDER' ? t.step3SubtitleProvider : formData.establishmentType === 'HOTEL' ? t.step3SubtitleHotel : formData.establishmentType === 'RESTAURANT' ? t.step3SubtitleRestaurant : t.step3SubtitleAttraction}
                   </p>
                 </div>
 
@@ -1255,39 +1285,39 @@ export default function PublierLieuPage() {
                   <>
                     {/* Languages */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Langues parlees</label>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">{t.languagesLabel}</label>
                       <div className="flex flex-wrap gap-2">
-                        {PROVIDER_LANGUAGES.map((lang) => (
+                        {PROVIDER_LANGUAGE_VALUES.map((lang) => (
                           <button
-                            key={lang}
+                            key={lang.value}
                             type="button"
                             onClick={() => {
-                              const langs = formData.languages.includes(lang)
-                                ? formData.languages.filter((l) => l !== lang)
-                                : [...formData.languages, lang];
+                              const langs = formData.languages.includes(lang.value)
+                                ? formData.languages.filter((l) => l !== lang.value)
+                                : [...formData.languages, lang.value];
                               updateField('languages', langs);
                             }}
                             className={`px-3 py-2 rounded-lg text-sm transition-all ${
-                              formData.languages.includes(lang)
+                              formData.languages.includes(lang.value)
                                 ? 'bg-cyan-500/20 border border-cyan-500/50 text-cyan-400'
                                 : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:border-gray-600'
                             }`}
                           >
-                            {lang}
+                            {tt[lang.tKey]}
                           </button>
                         ))}
                       </div>
-                      {renderOtherInput('languages', formData.languages.includes('Autre'), 'Précisez la langue...')}
+                      {renderOtherInput('languages', formData.languages.includes('Autre'), t.otherLanguage)}
                     </div>
 
                     {/* Experience */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Experience</label>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">{t.experienceLabel}</label>
                       <input
                         type="text"
                         value={formData.experience}
                         onChange={(e) => updateField('experience', e.target.value)}
-                        placeholder="Ex: 5 ans, 10+ ans..."
+                        placeholder={t.experiencePlaceholder}
                         className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                       />
                     </div>
@@ -1295,38 +1325,38 @@ export default function PublierLieuPage() {
                     {/* Pricing */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">Prix minimum (MGA)</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.priceFromLabel}</label>
                         <input
                           type="number"
                           value={formData.priceFrom}
                           onChange={(e) => updateField('priceFrom', e.target.value)}
-                          placeholder="Ex: 50000"
+                          placeholder={t.priceFromPlaceholder}
                           className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">Prix maximum (MGA)</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.priceToLabel}</label>
                         <input
                           type="number"
                           value={formData.priceTo}
                           onChange={(e) => updateField('priceTo', e.target.value)}
-                          placeholder="Ex: 200000"
+                          placeholder={t.priceToPlaceholder}
                           className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">Unite de prix</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.priceUnitLabel}</label>
                         <select
                           value={formData.priceUnit}
                           onChange={(e) => updateField('priceUnit', e.target.value)}
                           className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white focus:outline-none focus:border-orange-500 transition-colors"
                         >
-                          <option value="">Selectionner...</option>
-                          {PRICE_UNITS.map((u) => (
-                            <option key={u.value} value={u.value}>{u.label}</option>
+                          <option value="">{t.selectPlaceholder}</option>
+                          {PRICE_UNIT_VALUES.map((u) => (
+                            <option key={u.value} value={u.value}>{tt[u.tKey]}</option>
                           ))}
                         </select>
-                        {renderOtherInput('priceUnit', formData.priceUnit === 'autre', 'Précisez l\'unité de prix...')}
+                        {renderOtherInput('priceUnit', formData.priceUnit === 'autre', t.otherPriceUnit)}
                       </div>
                     </div>
 
@@ -1334,29 +1364,26 @@ export default function PublierLieuPage() {
                     {(formData.serviceType === 'DRIVER' || formData.serviceType === 'CAR_RENTAL' || formData.serviceType === 'TRANSFER') && (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">Type de vehicule</label>
+                          <label className="block text-sm font-medium text-gray-300 mb-2">{t.vehicleTypeLabel}</label>
                           <select
                             value={formData.vehicleType}
                             onChange={(e) => updateField('vehicleType', e.target.value)}
                             className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white focus:outline-none focus:border-orange-500 transition-colors"
                           >
-                            <option value="">Selectionner...</option>
-                            <option value="berline">Berline</option>
-                            <option value="4x4">4x4</option>
-                            <option value="minibus">Minibus</option>
-                            <option value="van">Van</option>
-                            <option value="moto">Moto</option>
-                            <option value="autre">Autre</option>
+                            <option value="">{t.selectPlaceholder}</option>
+                            {VEHICLE_TYPE_VALUES.map((v) => (
+                              <option key={v.value} value={v.value}>{tt[v.tKey]}</option>
+                            ))}
                           </select>
-                          {renderOtherInput('vehicleType', formData.vehicleType === 'autre', 'Précisez le type de véhicule...')}
+                          {renderOtherInput('vehicleType', formData.vehicleType === 'autre', t.otherVehicleType)}
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">Capacite (passagers)</label>
+                          <label className="block text-sm font-medium text-gray-300 mb-2">{t.vehicleCapacityLabel}</label>
                           <input
                             type="number"
                             value={formData.vehicleCapacity}
                             onChange={(e) => updateField('vehicleCapacity', e.target.value)}
-                            placeholder="Ex: 4"
+                            placeholder={t.vehicleCapacityPlaceholder}
                             min="1"
                             max="50"
                             className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
@@ -1368,22 +1395,22 @@ export default function PublierLieuPage() {
                     {/* License / Operating zone */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">N° licence / agrement</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.licenseLabel}</label>
                         <input
                           type="text"
                           value={formData.licenseNumber}
                           onChange={(e) => updateField('licenseNumber', e.target.value)}
-                          placeholder="Optionnel"
+                          placeholder={t.licenseOptional}
                           className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">Zone d&apos;operation</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.operatingZoneLabel}</label>
                         <input
                           type="text"
                           value={formData.operatingZone}
                           onChange={(e) => updateField('operatingZone', e.target.value)}
-                          placeholder="Ex: Antananarivo, Nosy Be, tout Madagascar..."
+                          placeholder={t.operatingZonePlaceholder}
                           className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                         />
                       </div>
@@ -1396,7 +1423,7 @@ export default function PublierLieuPage() {
                   <>
                     {/* Free toggle */}
                     <div className="flex items-center justify-between p-4 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl">
-                      <span className="text-sm font-medium">Acces gratuit ?</span>
+                      <span className="text-sm font-medium">{t.freeAccess}</span>
                       <button
                         type="button"
                         onClick={() => updateField('isFree', !formData.isFree)}
@@ -1416,22 +1443,22 @@ export default function PublierLieuPage() {
                     {!formData.isFree && (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">Tarif local (MGA)</label>
+                          <label className="block text-sm font-medium text-gray-300 mb-2">{t.localFeeLabel}</label>
                           <input
                             type="number"
                             value={formData.entryFeeLocal}
                             onChange={(e) => updateField('entryFeeLocal', e.target.value)}
-                            placeholder="Ex: 10000"
+                            placeholder={t.localFeePlaceholder}
                             className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">Tarif etranger (MGA)</label>
+                          <label className="block text-sm font-medium text-gray-300 mb-2">{t.foreignFeeLabel}</label>
                           <input
                             type="number"
                             value={formData.entryFeeForeign}
                             onChange={(e) => updateField('entryFeeForeign', e.target.value)}
-                            placeholder="Ex: 45000"
+                            placeholder={t.foreignFeePlaceholder}
                             className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                           />
                         </div>
@@ -1441,51 +1468,51 @@ export default function PublierLieuPage() {
                     {/* Visit info */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">Duree de visite</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.visitDurationLabel}</label>
                         <input
                           type="text"
                           value={formData.visitDuration}
                           onChange={(e) => updateField('visitDuration', e.target.value)}
-                          placeholder="Ex: 2-3 heures"
+                          placeholder={t.visitDurationPlaceholder}
                           className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">Meilleur moment de la journee</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.bestTimeLabel}</label>
                         <input
                           type="text"
                           value={formData.bestTimeToVisit}
                           onChange={(e) => updateField('bestTimeToVisit', e.target.value)}
-                          placeholder="Ex: Lever de soleil, fin d'apres-midi"
+                          placeholder={t.bestTimePlaceholder}
                           className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Meilleure saison</label>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">{t.bestSeasonLabel}</label>
                       <select
                         value={formData.bestSeason}
                         onChange={(e) => updateField('bestSeason', e.target.value)}
                         className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white focus:outline-none focus:border-orange-500 transition-colors"
                       >
-                        <option value="">Selectionner...</option>
-                        {BEST_SEASONS.map((s) => (
-                          <option key={s.value} value={s.value}>{s.label}</option>
+                        <option value="">{t.selectPlaceholder}</option>
+                        {BEST_SEASON_VALUES.map((s) => (
+                          <option key={s.value} value={s.value}>{tt[s.tKey]}</option>
                         ))}
                       </select>
-                      {renderOtherInput('bestSeason', formData.bestSeason === 'autre', 'Précisez la saison...')}
+                      {renderOtherInput('bestSeason', formData.bestSeason === 'autre', t.otherBestSeason)}
                     </div>
 
                     {/* Features checkboxes */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-3">Equipements & services</label>
+                      <label className="block text-sm font-medium text-gray-300 mb-3">{t.amenitiesServicesLabel}</label>
                       <div className="grid grid-cols-2 gap-3">
                         {[
-                          { key: 'isAccessible' as const, label: 'Accessible PMR' },
-                          { key: 'hasGuide' as const, label: 'Guide disponible' },
-                          { key: 'hasParking' as const, label: 'Parking' },
-                          { key: 'hasRestaurant' as const, label: 'Restaurant sur place' },
+                          { key: 'isAccessible' as const, label: t.featAccessible },
+                          { key: 'hasGuide' as const, label: t.featGuide },
+                          { key: 'hasParking' as const, label: t.featParking },
+                          { key: 'hasRestaurant' as const, label: t.featRestaurant },
                         ].map((feat) => (
                           <button
                             key={feat.key}
@@ -1512,14 +1539,14 @@ export default function PublierLieuPage() {
 
                     {/* Highlights */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Points forts</label>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">{t.highlightsLabel}</label>
                       <div className="flex gap-2 mb-2">
                         <input
                           type="text"
                           value={highlightInput}
                           onChange={(e) => setHighlightInput(e.target.value)}
                           onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addHighlight())}
-                          placeholder="Ex: Vue panoramique, Faune endemique..."
+                          placeholder={t.highlightsPlaceholder}
                           className="flex-1 px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                         />
                         <button
@@ -1554,7 +1581,7 @@ export default function PublierLieuPage() {
                   <>
                     {/* Star Rating */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Classification (étoiles)</label>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">{t.starsClassLabel}</label>
                       <div className="flex gap-2">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <button
@@ -1571,16 +1598,16 @@ export default function PublierLieuPage() {
                           </button>
                         ))}
                         {formData.starRating > 0 && (
-                          <span className="flex items-center text-sm text-gray-400 ml-2">{formData.starRating} étoile{formData.starRating > 1 ? 's' : ''}</span>
+                          <span className="flex items-center text-sm text-gray-400 ml-2">{formData.starRating} {formData.starRating > 1 ? t.starsSuffixPlural : t.starsSuffixSingle}</span>
                         )}
                       </div>
                     </div>
 
                     {/* Amenities */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-3">Équipements & services</label>
+                      <label className="block text-sm font-medium text-gray-300 mb-3">{t.hotelAmenitiesLabel}</label>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        {HOTEL_AMENITIES.map((amenity) => (
+                        {HOTEL_AMENITY_VALUES.map((amenity) => (
                           <button
                             key={amenity.value}
                             type="button"
@@ -1603,11 +1630,11 @@ export default function PublierLieuPage() {
                             >
                               {formData.hotelAmenities.includes(amenity.value) && <Check className="w-3 h-3 text-white" />}
                             </div>
-                            <span className="text-sm">{amenity.label}</span>
+                            <span className="text-sm">{tt[amenity.tKey]}</span>
                           </button>
                         ))}
                       </div>
-                      {renderOtherInput('hotelAmenities', formData.hotelAmenities.includes('autre'), 'Précisez l\'équipement...')}
+                      {renderOtherInput('hotelAmenities', formData.hotelAmenities.includes('autre'), t.otherAmenity)}
                     </div>
 
                     {/* Check-in / Check-out */}
@@ -1615,7 +1642,7 @@ export default function PublierLieuPage() {
                       <div>
                         <label className="block text-sm font-medium text-gray-300 mb-2">
                           <Clock className="w-4 h-4 inline mr-1" />
-                          Heure de check-in
+                          {t.checkInTimeLabel}
                         </label>
                         <input
                           type="time"
@@ -1627,7 +1654,7 @@ export default function PublierLieuPage() {
                       <div>
                         <label className="block text-sm font-medium text-gray-300 mb-2">
                           <Clock className="w-4 h-4 inline mr-1" />
-                          Heure de check-out
+                          {t.checkOutTimeLabel}
                         </label>
                         <input
                           type="time"
@@ -1641,24 +1668,24 @@ export default function PublierLieuPage() {
                     {/* Room Types */}
                     <div>
                       <div className="flex items-center justify-between mb-3">
-                        <label className="block text-sm font-medium text-gray-300">Types de chambres</label>
+                        <label className="block text-sm font-medium text-gray-300">{t.roomTypesLabel}</label>
                         <button
                           type="button"
                           onClick={() => updateField('roomTypes', [...formData.roomTypes, { name: '', capacity: '2', pricePerNight: '' }])}
                           className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-500/10 border border-purple-500/30 rounded-lg text-purple-400 text-sm hover:bg-purple-500/20 transition-colors"
                         >
                           <Plus className="w-4 h-4" />
-                          Ajouter
+                          {t.addRoomBtn}
                         </button>
                       </div>
                       {formData.roomTypes.length === 0 && (
-                        <p className="text-sm text-gray-600 italic">Aucune chambre ajoutée. Cliquez sur &quot;Ajouter&quot; pour définir vos types de chambres.</p>
+                        <p className="text-sm text-gray-600 italic">{t.noRoomsHint}</p>
                       )}
                       <div className="space-y-3">
                         {formData.roomTypes.map((room, i) => (
                           <div key={i} className="p-4 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl space-y-3">
                             <div className="flex items-center justify-between">
-                              <span className="text-sm font-medium text-gray-400">Chambre {i + 1}</span>
+                              <span className="text-sm font-medium text-gray-400">{t.roomLabel} {i + 1}</span>
                               <button
                                 type="button"
                                 onClick={() => {
@@ -1679,7 +1706,7 @@ export default function PublierLieuPage() {
                                   updated[i] = { ...updated[i], name: e.target.value };
                                   updateField('roomTypes', updated);
                                 }}
-                                placeholder="Ex: Chambre Double"
+                                placeholder={t.roomNamePlaceholder}
                                 className="px-3 py-2 bg-[#070710] border border-[#1e1e2e] rounded-lg text-white text-sm placeholder:text-gray-600 focus:outline-none focus:border-purple-500"
                               />
                               <input
@@ -1690,7 +1717,7 @@ export default function PublierLieuPage() {
                                   updated[i] = { ...updated[i], capacity: e.target.value };
                                   updateField('roomTypes', updated);
                                 }}
-                                placeholder="Capacité"
+                                placeholder={t.roomCapacityPlaceholder}
                                 min="1"
                                 max="20"
                                 className="px-3 py-2 bg-[#070710] border border-[#1e1e2e] rounded-lg text-white text-sm placeholder:text-gray-600 focus:outline-none focus:border-purple-500"
@@ -1703,7 +1730,7 @@ export default function PublierLieuPage() {
                                   updated[i] = { ...updated[i], pricePerNight: e.target.value };
                                   updateField('roomTypes', updated);
                                 }}
-                                placeholder="Prix/nuit (MGA)"
+                                placeholder={t.roomPricePlaceholder}
                                 className="px-3 py-2 bg-[#070710] border border-[#1e1e2e] rounded-lg text-white text-sm placeholder:text-gray-600 focus:outline-none focus:border-purple-500"
                               />
                             </div>
@@ -1719,38 +1746,38 @@ export default function PublierLieuPage() {
                   <>
                     {/* Cuisine Types */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Types de cuisine</label>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">{t.cuisineLabel}</label>
                       <div className="flex flex-wrap gap-2">
-                        {CUISINE_TYPES.map((cuisine) => (
+                        {CUISINE_TYPE_VALUES.map((cuisine) => (
                           <button
-                            key={cuisine}
+                            key={cuisine.value}
                             type="button"
                             onClick={() => {
-                              const types = formData.cuisineTypes.includes(cuisine)
-                                ? formData.cuisineTypes.filter((c) => c !== cuisine)
-                                : [...formData.cuisineTypes, cuisine];
+                              const types = formData.cuisineTypes.includes(cuisine.value)
+                                ? formData.cuisineTypes.filter((c) => c !== cuisine.value)
+                                : [...formData.cuisineTypes, cuisine.value];
                               updateField('cuisineTypes', types);
                             }}
                             className={`px-3 py-2 rounded-lg text-sm transition-all ${
-                              formData.cuisineTypes.includes(cuisine)
+                              formData.cuisineTypes.includes(cuisine.value)
                                 ? 'bg-amber-500/20 border border-amber-500/50 text-amber-400'
                                 : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:border-gray-600'
                             }`}
                           >
-                            {cuisine}
+                            {tt[cuisine.tKey]}
                           </button>
                         ))}
                       </div>
-                      {renderOtherInput('cuisineTypes', formData.cuisineTypes.includes('Autre'), 'Précisez le type de cuisine...')}
+                      {renderOtherInput('cuisineTypes', formData.cuisineTypes.includes('Autre'), t.otherCuisineType)}
                     </div>
 
                     {/* Price Range */}
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Gamme de prix <span className="text-red-400">*</span>
+                        {t.priceRangeLabel} <span className="text-red-400">*</span>
                       </label>
                       <div className="grid grid-cols-2 gap-2">
-                        {PRICE_RANGES.map((range) => (
+                        {PRICE_RANGE_VALUES.map((range) => (
                           <button
                             key={range.value}
                             type="button"
@@ -1761,32 +1788,32 @@ export default function PublierLieuPage() {
                                 : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:text-white hover:border-gray-600'
                             }`}
                           >
-                            {range.label}
+                            {tt[range.tKey]}
                           </button>
                         ))}
                       </div>
-                      {renderOtherInput('priceRange', formData.priceRange === 'AUTRE', 'Précisez la gamme de prix...')}
+                      {renderOtherInput('priceRange', formData.priceRange === 'AUTRE', t.otherPriceRange)}
                     </div>
 
                     {/* Average prices */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">Prix moyen plat principal (MGA)</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.avgMainCourseLabel}</label>
                         <input
                           type="number"
                           value={formData.avgMainCourse}
                           onChange={(e) => updateField('avgMainCourse', e.target.value)}
-                          placeholder="Ex: 25000"
+                          placeholder={t.avgMainCoursePlaceholder}
                           className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-amber-500 transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">Prix moyen bière (MGA)</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.avgBeerLabel}</label>
                         <input
                           type="number"
                           value={formData.avgBeer}
                           onChange={(e) => updateField('avgBeer', e.target.value)}
-                          placeholder="Ex: 8000"
+                          placeholder={t.avgBeerPlaceholder}
                           className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-amber-500 transition-colors"
                         />
                       </div>
@@ -1794,15 +1821,15 @@ export default function PublierLieuPage() {
 
                     {/* Services */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-3">Services</label>
+                      <label className="block text-sm font-medium text-gray-300 mb-3">{t.servicesLabel}</label>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                         {([
-                          { key: 'hasDelivery' as const, label: 'Livraison' },
-                          { key: 'hasTakeaway' as const, label: 'À emporter' },
-                          { key: 'hasReservation' as const, label: 'Réservation' },
-                          { key: 'hasWifi' as const, label: 'WiFi' },
-                          { key: 'restHasParking' as const, label: 'Parking' },
-                          { key: 'hasGenerator' as const, label: 'Groupe électrogène' },
+                          { key: 'hasDelivery' as const, label: t.svcDelivery },
+                          { key: 'hasTakeaway' as const, label: t.svcTakeaway },
+                          { key: 'hasReservation' as const, label: t.svcReservation },
+                          { key: 'hasWifi' as const, label: t.svcWifi },
+                          { key: 'restHasParking' as const, label: t.svcParking },
+                          { key: 'hasGenerator' as const, label: t.svcGenerator },
                         ] as const).map((feat) => (
                           <button
                             key={feat.key}
@@ -1829,7 +1856,7 @@ export default function PublierLieuPage() {
 
                     {/* Specialties */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Spécialités</label>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">{t.specialtiesLabel}</label>
                       <div className="flex gap-2 mb-2">
                         <input
                           type="text"
@@ -1844,7 +1871,7 @@ export default function PublierLieuPage() {
                               }
                             }
                           }}
-                          placeholder="Ex: Romazava, Ravitoto, Pizza..."
+                          placeholder={t.specialtiesPlaceholder}
                           className="flex-1 px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-amber-500 transition-colors"
                         />
                         <button
@@ -1888,14 +1915,14 @@ export default function PublierLieuPage() {
             {step === 4 && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-xl font-bold mb-1">Photos & Contact</h2>
-                  <p className="text-gray-500 text-sm">Ajoutez des photos et vos coordonnees (optionnel)</p>
+                  <h2 className="text-xl font-bold mb-1">{t.step4Title}</h2>
+                  <p className="text-gray-500 text-sm">{t.step4Subtitle}</p>
                 </div>
 
                 {/* Photo upload - Drag & Drop */}
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-3">
-                    Photos <span className="text-gray-600">(max 5 — cliquez sur une photo pour en faire la couverture)</span>
+                    {t.photosLabel} <span className="text-gray-600">{t.photosHint}</span>
                   </label>
 
                   {/* Drag & Drop zone */}
@@ -1917,11 +1944,11 @@ export default function PublierLieuPage() {
                           <Camera className={`w-7 h-7 ${dragOver ? 'text-orange-400' : 'text-gray-500'}`} />
                         </div>
                         <p className="text-sm font-medium text-gray-300 mb-1">
-                          {dragOver ? 'Déposez vos photos ici' : 'Glissez-déposez vos photos ici'}
+                          {dragOver ? t.dropHere : t.dragDropHint}
                         </p>
-                        <p className="text-xs text-gray-600 mb-3">ou cliquez pour parcourir</p>
+                        <p className="text-xs text-gray-600 mb-3">{t.orClickHint}</p>
                         <span className="px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-sm font-medium rounded-lg">
-                          Choisir des photos
+                          {t.choosePhotos}
                         </span>
                         <input
                           type="file"
@@ -1949,12 +1976,12 @@ export default function PublierLieuPage() {
                           <img src={url} alt={`Photo ${i + 1}`} className="w-full h-full object-cover" />
                           {i === 0 && (
                             <span className="absolute top-2 left-2 px-2.5 py-1 bg-orange-500 text-white text-[10px] font-bold rounded-full shadow-lg">
-                              COUVERTURE
+                              {t.coverBadge}
                             </span>
                           )}
                           {i !== 0 && (
                             <span className="absolute bottom-2 left-2 px-2 py-0.5 bg-black/60 text-white text-[10px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                              Cliquer = couverture
+                              {t.clickToCover}
                             </span>
                           )}
                           <button
@@ -1980,7 +2007,7 @@ export default function PublierLieuPage() {
 
                 {/* Contact fields */}
                 <div className="space-y-4">
-                  <h3 className="text-sm font-medium text-gray-300">Contact <span className="text-gray-600">(optionnel)</span></h3>
+                  <h3 className="text-sm font-medium text-gray-300">{t.contactSectionTitle} <span className="text-gray-600">{t.contactOptional}</span></h3>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="relative">
@@ -1989,7 +2016,7 @@ export default function PublierLieuPage() {
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => updateField('phone', e.target.value)}
-                        placeholder="Telephone"
+                        placeholder={t.contactPhonePlaceholder}
                         className="w-full pl-10 pr-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                       />
                     </div>
@@ -1999,7 +2026,7 @@ export default function PublierLieuPage() {
                         type="email"
                         value={formData.email}
                         onChange={(e) => updateField('email', e.target.value)}
-                        placeholder="Email"
+                        placeholder={t.contactEmailPlaceholder}
                         className="w-full pl-10 pr-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                       />
                     </div>
@@ -2009,7 +2036,7 @@ export default function PublierLieuPage() {
                         type="url"
                         value={formData.website}
                         onChange={(e) => updateField('website', e.target.value)}
-                        placeholder="Site web"
+                        placeholder={t.contactWebsitePlaceholder}
                         className="w-full pl-10 pr-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                       />
                     </div>
@@ -2019,7 +2046,7 @@ export default function PublierLieuPage() {
                         type="text"
                         value={formData.facebook}
                         onChange={(e) => updateField('facebook', e.target.value)}
-                        placeholder="Facebook"
+                        placeholder={t.contactFacebookPlaceholder}
                         className="w-full pl-10 pr-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                       />
                     </div>
@@ -2029,7 +2056,7 @@ export default function PublierLieuPage() {
                         type="text"
                         value={formData.instagram}
                         onChange={(e) => updateField('instagram', e.target.value)}
-                        placeholder="Instagram"
+                        placeholder={t.contactInstagramPlaceholder}
                         className="w-full pl-10 pr-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                       />
                     </div>
@@ -2039,7 +2066,7 @@ export default function PublierLieuPage() {
                         type="tel"
                         value={formData.whatsapp}
                         onChange={(e) => updateField('whatsapp', e.target.value)}
-                        placeholder="WhatsApp"
+                        placeholder={t.contactWhatsappPlaceholder}
                         className="w-full pl-10 pr-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
                       />
                     </div>
@@ -2048,51 +2075,59 @@ export default function PublierLieuPage() {
 
                 {/* Recap */}
                 <div className="p-4 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl space-y-2">
-                  <h3 className="text-sm font-bold text-gray-300 mb-3">Recapitulatif</h3>
+                  <h3 className="text-sm font-bold text-gray-300 mb-3">{t.recapTitle}</h3>
                   <div className="grid grid-cols-2 gap-2 text-sm">
-                    <p className="text-gray-500">Nom :</p>
-                    <p className="text-white">{formData.name || '-'}</p>
-                    <p className="text-gray-500">Type :</p>
+                    <p className="text-gray-500">{t.recapName}</p>
+                    <p className="text-white">{formData.name || t.recapDash}</p>
+                    <p className="text-gray-500">{t.recapType}</p>
                     <p className="text-white">
-                      {formData.establishmentType === 'PROVIDER'
-                        ? PROVIDER_SERVICE_TYPES.find((t) => t.value === formData.serviceType)?.label || '-'
-                        : formData.establishmentType === 'HOTEL'
-                        ? HOTEL_TYPES.find((t) => t.value === formData.hotelType)?.label || '-'
-                        : formData.establishmentType === 'RESTAURANT'
-                        ? RESTAURANT_CATEGORIES.find((t) => t.value === formData.restaurantCategory)?.label || '-'
-                        : ATTRACTION_TYPES.find((t) => t.value === formData.attractionType)?.label || '-'}
+                      {(() => {
+                        if (formData.establishmentType === 'PROVIDER') {
+                          const found = PROVIDER_SERVICE_VALUES.find((x) => x.value === formData.serviceType);
+                          return found ? tt[found.tKey] : t.recapDash;
+                        }
+                        if (formData.establishmentType === 'HOTEL') {
+                          const found = HOTEL_TYPE_VALUES.find((x) => x.value === formData.hotelType);
+                          return found ? tt[found.tKey] : t.recapDash;
+                        }
+                        if (formData.establishmentType === 'RESTAURANT') {
+                          const found = RESTAURANT_CATEGORY_VALUES.find((x) => x.value === formData.restaurantCategory);
+                          return found ? tt[found.tKey] : t.recapDash;
+                        }
+                        return ATTRACTION_TYPES.find((x) => x.value === formData.attractionType)?.label || t.recapDash;
+                      })()}
                     </p>
-                    <p className="text-gray-500">Ville :</p>
-                    <p className="text-white">{formData.city || '-'}</p>
-                    <p className="text-gray-500">Region :</p>
-                    <p className="text-white">{formData.region || '-'}</p>
+                    <p className="text-gray-500">{t.recapCity}</p>
+                    <p className="text-white">{formData.city || t.recapDash}</p>
+                    <p className="text-gray-500">{t.recapRegion}</p>
+                    <p className="text-white">{formData.region || t.recapDash}</p>
                     {formData.establishmentType === 'PROVIDER' ? (
                       <>
-                        <p className="text-gray-500">Tarif :</p>
-                        <p className="text-white">{formData.priceFrom ? `${formData.priceFrom} MGA` : '-'}{formData.priceUnit ? ` ${formData.priceUnit}` : ''}</p>
+                        <p className="text-gray-500">{t.recapPrice}</p>
+                        <p className="text-white">{formData.priceFrom ? `${formData.priceFrom} MGA` : t.recapDash}{formData.priceUnit ? ` ${formData.priceUnit}` : ''}</p>
                       </>
                     ) : formData.establishmentType === 'HOTEL' ? (
                       <>
-                        <p className="text-gray-500">Étoiles :</p>
-                        <p className="text-white">{formData.starRating ? `${formData.starRating} étoile${formData.starRating > 1 ? 's' : ''}` : '-'}</p>
-                        <p className="text-gray-500">Chambres :</p>
-                        <p className="text-white">{formData.roomTypes.length} type(s)</p>
+                        <p className="text-gray-500">{t.recapStars}</p>
+                        <p className="text-white">{formData.starRating ? `${formData.starRating} ${formData.starRating > 1 ? t.starsSuffixPlural : t.starsSuffixSingle}` : t.recapDash}</p>
+                        <p className="text-gray-500">{t.recapRooms}</p>
+                        <p className="text-white">{formData.roomTypes.length} {t.recapRoomTypes}</p>
                       </>
                     ) : formData.establishmentType === 'RESTAURANT' ? (
                       <>
-                        <p className="text-gray-500">Gamme :</p>
-                        <p className="text-white">{PRICE_RANGES.find((r) => r.value === formData.priceRange)?.label || '-'}</p>
-                        <p className="text-gray-500">Cuisine :</p>
-                        <p className="text-white">{formData.cuisineTypes.length > 0 ? formData.cuisineTypes.join(', ') : '-'}</p>
+                        <p className="text-gray-500">{t.recapRangeLabel}</p>
+                        <p className="text-white">{(() => { const r = PRICE_RANGE_VALUES.find((x) => x.value === formData.priceRange); return r ? tt[r.tKey] : t.recapDash; })()}</p>
+                        <p className="text-gray-500">{t.recapCuisine}</p>
+                        <p className="text-white">{formData.cuisineTypes.length > 0 ? formData.cuisineTypes.map((c) => { const f = CUISINE_TYPE_VALUES.find((x) => x.value === c); return f ? tt[f.tKey] : c; }).join(', ') : t.recapDash}</p>
                       </>
                     ) : (
                       <>
-                        <p className="text-gray-500">Tarif :</p>
-                        <p className="text-white">{formData.isFree ? 'Gratuit' : formData.entryFeeLocal ? `${formData.entryFeeLocal} MGA` : '-'}</p>
+                        <p className="text-gray-500">{t.recapPrice}</p>
+                        <p className="text-white">{formData.isFree ? t.recapFree : formData.entryFeeLocal ? `${formData.entryFeeLocal} MGA` : t.recapDash}</p>
                       </>
                     )}
-                    <p className="text-gray-500">Photos :</p>
-                    <p className="text-white">{formData.photoUrls.length} photo(s)</p>
+                    <p className="text-gray-500">{t.recapPhotos}</p>
+                    <p className="text-white">{formData.photoUrls.length} {t.recapPhotoCount}</p>
                   </div>
                 </div>
               </div>
@@ -2109,7 +2144,7 @@ export default function PublierLieuPage() {
             className="flex items-center gap-2 px-5 py-3 text-gray-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            Precedent
+            {t.previousBtn}
           </button>
 
           {step < 4 ? (
@@ -2119,7 +2154,7 @@ export default function PublierLieuPage() {
               disabled={!canProceed()}
               className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-orange-500/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
-              Suivant
+              {t.nextBtn}
               <ArrowRight className="w-4 h-4" />
             </button>
           ) : (
@@ -2132,12 +2167,12 @@ export default function PublierLieuPage() {
               {isSubmitting ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  Soumission...
+                  {t.submittingBtn}
                 </>
               ) : (
                 <>
                   <Check className="w-4 h-4" />
-                  Soumettre mon lieu
+                  {t.submitBtn}
                 </>
               )}
             </button>
@@ -2166,9 +2201,9 @@ export default function PublierLieuPage() {
                 <div className="w-16 h-16 bg-orange-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <LogIn className="w-8 h-8 text-orange-400" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">Connexion requise</h3>
+                <h3 className="text-xl font-bold text-white mb-2">{t.authRequiredTitle}</h3>
                 <p className="text-gray-400 text-sm">
-                  Pour soumettre un lieu touristique, vous devez d&apos;abord vous connecter ou creer un compte.
+                  {t.authRequiredDesc}
                 </p>
               </div>
 
@@ -2178,14 +2213,14 @@ export default function PublierLieuPage() {
                   className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all"
                 >
                   <LogIn className="w-5 h-5" />
-                  Se connecter
+                  {t.authLoginBtn}
                 </button>
                 <button
                   onClick={() => saveFormAndRedirect('/register?redirect=/publier-lieu')}
                   className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-[#1e1e2e] text-white font-medium rounded-xl hover:bg-[#2a2a3e] transition-colors"
                 >
                   <UserPlus className="w-5 h-5" />
-                  Creer un compte
+                  {t.authRegisterBtn}
                 </button>
               </div>
 
@@ -2193,7 +2228,7 @@ export default function PublierLieuPage() {
                 onClick={() => setShowAuthModal(false)}
                 className="w-full mt-4 py-2 text-sm text-gray-500 hover:text-gray-300 transition-colors"
               >
-                Continuer a remplir le formulaire
+                {t.authContinueBtn}
               </button>
             </motion.div>
           </motion.div>

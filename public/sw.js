@@ -80,7 +80,7 @@ self.addEventListener('fetch', (event) => {
             caches.open(EVENT_BANNER_CACHE).then((cache) => cache.put(request, clone));
           }
           return response;
-        }).catch(() => cached);
+        }).catch(() => cached || Response.error());
       })
     );
     return;

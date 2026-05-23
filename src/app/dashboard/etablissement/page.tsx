@@ -11,6 +11,7 @@ import {
   Image as ImageIcon, Upload, CheckCircle, AlertCircle, Globe, Phone,
   Mail, Instagram, Facebook, MessageCircle
 } from 'lucide-react'
+import { useTrans } from '@/i18n'
 
 type Tab = 'general' | 'photos' | 'equipements' | 'horaires' | 'contact' | 'menu'
 
@@ -50,45 +51,48 @@ interface EstablishmentData {
   checkOutTime: string
 }
 
-const DAYS = [
-  { key: 'lundi', label: 'Lundi' },
-  { key: 'mardi', label: 'Mardi' },
-  { key: 'mercredi', label: 'Mercredi' },
-  { key: 'jeudi', label: 'Jeudi' },
-  { key: 'vendredi', label: 'Vendredi' },
-  { key: 'samedi', label: 'Samedi' },
-  { key: 'dimanche', label: 'Dimanche' },
-]
+// Day IDs - labels are loaded via t[`day_${key}`] at render time
+const DAY_KEYS = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'] as const
 
-const AMENITIES = [
-  { id: 'wifi', label: 'WiFi', icon: Wifi },
-  { id: 'parking', label: 'Parking', icon: Car },
-  { id: 'pool', label: 'Piscine', icon: Waves },
-  { id: 'generator', label: 'Groupe électrogène', icon: Zap },
-  { id: 'tv', label: 'TV', icon: Tv },
-  { id: 'ac', label: 'Climatisation', icon: Wind },
-  { id: 'restaurant', label: 'Restaurant', icon: UtensilsCrossed },
-  { id: 'cafe', label: 'Café/Bar', icon: Coffee },
-  { id: 'delivery', label: 'Livraison', icon: Truck },
-  { id: 'card_payment', label: 'Paiement CB', icon: CreditCard },
-]
+// Amenity IDs - labels are loaded via t[`amenity_${id}`] at render time
+const AMENITY_DEFS = [
+  { id: 'wifi', icon: Wifi },
+  { id: 'parking', icon: Car },
+  { id: 'pool', icon: Waves },
+  { id: 'generator', icon: Zap },
+  { id: 'tv', icon: Tv },
+  { id: 'ac', icon: Wind },
+  { id: 'restaurant', icon: UtensilsCrossed },
+  { id: 'cafe', icon: Coffee },
+  { id: 'delivery', icon: Truck },
+  { id: 'card_payment', icon: CreditCard },
+] as const
 
-const CATEGORIES = [
-  { value: 'HOTEL', label: 'Hôtel / Hébergement' },
-  { value: 'RESTAURANT', label: 'Restaurant' },
-  { value: 'ATTRACTION', label: 'Attraction / Loisir' },
-  { value: 'PROVIDER', label: 'Prestataire de service' },
-]
+// Category enum values are technical; labels come from t.cat_<value> at render
+const CATEGORY_VALUES = ['HOTEL', 'RESTAURANT', 'ATTRACTION', 'PROVIDER'] as const
+
+// Cuisine type IDs and labels for menu tab (label is also the saved value)
+const CUISINE_KEYS = [
+  { id: 'malgache', value: 'Malgache' },
+  { id: 'francais', value: 'Français' },
+  { id: 'chinois', value: 'Chinois' },
+  { id: 'italien', value: 'Italien' },
+  { id: 'indien', value: 'Indien' },
+  { id: 'japonais', value: 'Japonais' },
+  { id: 'fusion', value: 'Fusion' },
+  { id: 'streetfood', value: 'Street Food' },
+] as const
 
 const defaultHours = (): Record<string, { open: string; close: string; closed: boolean }> => {
   const hours: Record<string, { open: string; close: string; closed: boolean }> = {}
-  DAYS.forEach(d => {
-    hours[d.key] = { open: '08:00', close: '18:00', closed: false }
+  DAY_KEYS.forEach(key => {
+    hours[key] = { open: '08:00', close: '18:00', closed: false }
   })
   return hours
 }
 
 export default function EstablishmentPage() {
+  const t = useTrans('dashboardPro')
   const searchParams = useSearchParams()
   const initialTab = (searchParams.get('tab') as Tab) || 'general'
   const [activeTab, setActiveTab] = useState<Tab>(initialTab)
@@ -219,12 +223,12 @@ export default function EstablishmentPage() {
   }
 
   const tabs: { id: Tab; label: string; icon: React.ElementType }[] = [
-    { id: 'general', label: 'Général', icon: Building2 },
-    { id: 'photos', label: 'Photos', icon: Camera },
-    { id: 'equipements', label: 'Équipements', icon: Wifi },
-    { id: 'horaires', label: 'Horaires', icon: Clock },
-    { id: 'contact', label: 'Contact', icon: Phone },
-    ...(data.type === 'RESTAURANT' ? [{ id: 'menu' as Tab, label: 'Carte & Menu', icon: UtensilsCrossed }] : []),
+    { id: 'general', label: t.tabGeneral, icon: Building2 },
+    { id: 'photos', label: t.tabPhotos, icon: Camera },
+    { id: 'equipements', label: t.tabAmenities, icon: Wifi },
+    { id: 'horaires', label: t.tabHours, icon: Clock },
+    { id: 'contact', label: t.tabContact, icon: Phone },
+    ...(data.type === 'RESTAURANT' ? [{ id: 'menu' as Tab, label: t.tabMenu, icon: UtensilsCrossed }] : []),
   ]
 
   if (loading) {
@@ -242,10 +246,10 @@ export default function EstablishmentPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
-            {data.id ? 'Modifier mon établissement' : 'Publier un établissement'}
+            {data.id ? t.editEstablishment : t.publishEstablishment}
           </h1>
           <p className="text-gray-400 text-sm mt-1">
-            Complétez les informations pour une meilleure visibilité
+            {t.completeInfo}
           </p>
         </div>
         <button
@@ -260,7 +264,7 @@ export default function EstablishmentPage() {
           ) : (
             <Save className="w-4 h-4" />
           )}
-          {saving ? 'Sauvegarde...' : saved ? 'Sauvegardé !' : 'Sauvegarder'}
+          {saving ? t.saving : saved ? t.saved : t.save}
         </button>
       </div>
 
@@ -300,25 +304,25 @@ export default function EstablishmentPage() {
               {/* Type */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Catégorie d&apos;établissement
+                  {t.establishmentCategoryLabel}
                 </label>
                 {userType ? (
                   <div className="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-[#ff6b35]/30 bg-[#ff6b35]/10 text-[#ff6b35] text-sm font-medium">
-                    {CATEGORIES.find(c => c.value === data.type)?.label || data.type}
+                    {(t as Record<string, string>)[`cat_${data.type.toLowerCase()}`] || data.type}
                   </div>
                 ) : (
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                    {CATEGORIES.map((cat) => (
+                    {CATEGORY_VALUES.map((value) => (
                       <button
-                        key={cat.value}
-                        onClick={() => setData(prev => ({ ...prev, type: cat.value }))}
+                        key={value}
+                        onClick={() => setData(prev => ({ ...prev, type: value }))}
                         className={`p-3 rounded-xl border text-sm font-medium transition-all ${
-                          data.type === cat.value
+                          data.type === value
                             ? 'border-[#ff6b35] bg-[#ff6b35]/10 text-[#ff6b35]'
                             : 'border-white/10 text-gray-400 hover:border-white/20'
                         }`}
                       >
-                        {cat.label}
+                        {(t as Record<string, string>)[`cat_${value.toLowerCase()}`]}
                       </button>
                     ))}
                   </div>
@@ -328,13 +332,13 @@ export default function EstablishmentPage() {
               {/* Name */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Nom de l&apos;établissement *
+                  {t.establishmentNameLabel}
                 </label>
                 <input
                   type="text"
                   value={data.name}
                   onChange={(e) => setData(prev => ({ ...prev, name: e.target.value }))}
-                  placeholder="Ex: Hôtel Les Flamboyants"
+                  placeholder={t.establishmentNamePlaceholder}
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
                 />
               </div>
@@ -342,13 +346,13 @@ export default function EstablishmentPage() {
               {/* Description */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Description
+                  {t.descriptionLabel}
                 </label>
                 <textarea
                   value={data.description}
                   onChange={(e) => setData(prev => ({ ...prev, description: e.target.value }))}
                   rows={4}
-                  placeholder="Décrivez votre établissement..."
+                  placeholder={t.descriptionPlaceholder}
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50 resize-none"
                 />
               </div>
@@ -356,13 +360,13 @@ export default function EstablishmentPage() {
               {/* Short Description */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Description courte (pour les aperçus)
+                  {t.shortDescriptionLabel}
                 </label>
                 <input
                   type="text"
                   value={data.shortDescription}
                   onChange={(e) => setData(prev => ({ ...prev, shortDescription: e.target.value }))}
-                  placeholder="En une phrase..."
+                  placeholder={t.shortDescriptionPlaceholder}
                   maxLength={200}
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
                 />
@@ -371,34 +375,34 @@ export default function EstablishmentPage() {
               {/* Location */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Ville *</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">{t.cityLabel}</label>
                   <input
                     type="text"
                     value={data.city}
                     onChange={(e) => setData(prev => ({ ...prev, city: e.target.value }))}
-                    placeholder="Antananarivo"
+                    placeholder={t.cityPlaceholder}
                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Région</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">{t.regionLabel}</label>
                   <input
                     type="text"
                     value={data.region}
                     onChange={(e) => setData(prev => ({ ...prev, region: e.target.value }))}
-                    placeholder="Analamanga"
+                    placeholder={t.regionPlaceholder}
                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Adresse complète</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">{t.fullAddressLabel}</label>
                 <input
                   type="text"
                   value={data.address}
                   onChange={(e) => setData(prev => ({ ...prev, address: e.target.value }))}
-                  placeholder="Lot 123, Rue..."
+                  placeholder={t.fullAddressPlaceholder}
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
                 />
               </div>
@@ -407,7 +411,7 @@ export default function EstablishmentPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   <MapPin className="w-4 h-4 inline mr-1" />
-                  Coordonnées GPS
+                  {t.gpsCoordsLabel}
                 </label>
                 <div className="grid grid-cols-2 gap-4">
                   <input
@@ -415,7 +419,7 @@ export default function EstablishmentPage() {
                     step="any"
                     value={data.latitude || ''}
                     onChange={(e) => setData(prev => ({ ...prev, latitude: parseFloat(e.target.value) || null }))}
-                    placeholder="Latitude (ex: -18.9137)"
+                    placeholder={t.latPlaceholder}
                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
                   />
                   <input
@@ -423,7 +427,7 @@ export default function EstablishmentPage() {
                     step="any"
                     value={data.longitude || ''}
                     onChange={(e) => setData(prev => ({ ...prev, longitude: parseFloat(e.target.value) || null }))}
-                    placeholder="Longitude (ex: 47.5361)"
+                    placeholder={t.lngPlaceholder}
                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
                   />
                 </div>
@@ -436,23 +440,23 @@ export default function EstablishmentPage() {
                           latitude: pos.coords.latitude,
                           longitude: pos.coords.longitude,
                         })),
-                        () => alert('Impossible de récupérer la position')
+                        () => alert(t.positionUnavailable)
                       )
                     }
                   }}
                   className="mt-2 text-sm text-[#ff6b35] hover:text-orange-400 flex items-center gap-1"
                 >
-                  <MapPin className="w-3 h-3" /> Utiliser ma position actuelle
+                  <MapPin className="w-3 h-3" /> {t.useCurrentPosition}
                 </button>
               </div>
 
               {/* Hotel-specific fields */}
               {data.type === 'HOTEL' && (
                 <div className="space-y-4 p-4 bg-white/5 rounded-xl border border-white/10">
-                  <h3 className="text-sm font-medium text-[#ff6b35]">Informations hôtel</h3>
+                  <h3 className="text-sm font-medium text-[#ff6b35]">{t.hotelInfoTitle}</h3>
                   <div className="grid grid-cols-3 gap-4">
                     <div>
-                      <label className="block text-xs text-gray-400 mb-1">Étoiles</label>
+                      <label className="block text-xs text-gray-400 mb-1">{t.starsLabel}</label>
                       <div className="flex gap-1">
                         {[1,2,3,4,5].map((star) => (
                           <button
@@ -466,7 +470,7 @@ export default function EstablishmentPage() {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-xs text-gray-400 mb-1">Check-in</label>
+                      <label className="block text-xs text-gray-400 mb-1">{t.checkInLabel}</label>
                       <input
                         type="time"
                         value={data.checkInTime}
@@ -475,7 +479,7 @@ export default function EstablishmentPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-gray-400 mb-1">Check-out</label>
+                      <label className="block text-xs text-gray-400 mb-1">{t.checkOutLabel}</label>
                       <input
                         type="time"
                         value={data.checkOutTime}
@@ -494,7 +498,7 @@ export default function EstablishmentPage() {
             <div className="space-y-6">
               {/* Cover Image */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-3">Image de couverture</label>
+                <label className="block text-sm font-medium text-gray-300 mb-3">{t.coverImageLabel}</label>
                 <div className="relative">
                   {data.coverImage ? (
                     <div className="relative w-full h-48 rounded-xl overflow-hidden">
@@ -509,8 +513,8 @@ export default function EstablishmentPage() {
                   ) : (
                     <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-white/20 rounded-xl cursor-pointer hover:border-[#ff6b35]/50 transition-colors">
                       <Upload className="w-8 h-8 text-gray-500 mb-2" />
-                      <p className="text-sm text-gray-400">Cliquez pour uploader</p>
-                      <p className="text-xs text-gray-500">JPG, PNG (max 5MB)</p>
+                      <p className="text-sm text-gray-400">{t.clickToUpload}</p>
+                      <p className="text-xs text-gray-500">{t.imageFormatHint}</p>
                       <input
                         type="file"
                         accept="image/*"
@@ -525,9 +529,9 @@ export default function EstablishmentPage() {
               {/* Gallery with descriptions */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Galerie photos ({data.images.length}/20)
+                  {t.galleryLabel} ({data.images.length}/20)
                 </label>
-                <p className="text-xs text-gray-500 mb-3">Ajoutez une description à chaque photo pour aider les voyageurs.</p>
+                <p className="text-xs text-gray-500 mb-3">{t.galleryHint}</p>
                 <div className="space-y-3">
                   {data.images.map((img, index) => {
                     const galleryItems = data.gallery || [];
@@ -536,12 +540,12 @@ export default function EstablishmentPage() {
                       <div key={index} className="bg-[#0d1520] rounded-xl p-3">
                         <div className="flex gap-3 items-start">
                           <div className="relative w-16 h-16 sm:w-24 sm:h-24 rounded-lg overflow-hidden shrink-0">
-                            <img src={img} alt={`Photo ${index + 1}`} className="w-full h-full object-cover" />
+                            <img src={img} alt={`${t.photoIndexLabel} ${index + 1}`} className="w-full h-full object-cover" />
                           </div>
                           <div className="flex-1 min-w-0">
                             <input
                               type="text"
-                              placeholder="Description (ex: Vue piscine...)"
+                              placeholder={t.photoCaptionPlaceholder}
                               value={caption}
                               onChange={(e) => {
                                 const newGallery = [...galleryItems];
@@ -555,7 +559,7 @@ export default function EstablishmentPage() {
                               }}
                               className="w-full px-3 py-2 bg-[#1a1a24] border border-[#2a2a36] rounded-lg text-white text-sm placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
                             />
-                            <p className="text-xs text-gray-600 mt-1">Photo {index + 1}</p>
+                            <p className="text-xs text-gray-600 mt-1">{t.photoIndexLabel} {index + 1}</p>
                           </div>
                           <button
                             onClick={() => {
@@ -580,7 +584,7 @@ export default function EstablishmentPage() {
                       ) : (
                         <>
                           <Plus className="w-5 h-5 text-gray-500" />
-                          <span className="text-sm text-gray-400">Ajouter des photos</span>
+                          <span className="text-sm text-gray-400">{t.addPhotos}</span>
                         </>
                       )}
                       <input
@@ -600,10 +604,11 @@ export default function EstablishmentPage() {
           {/* EQUIPEMENTS TAB */}
           {activeTab === 'equipements' && (
             <div className="space-y-4">
-              <p className="text-sm text-gray-400">Sélectionnez les équipements disponibles</p>
+              <p className="text-sm text-gray-400">{t.selectAvailableAmenities}</p>
               <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
-                {AMENITIES.map((amenity) => {
+                {AMENITY_DEFS.map((amenity) => {
                   const selected = data.amenities.includes(amenity.id)
+                  const label = (t as Record<string, string>)[`amenity_${amenity.id}`]
                   return (
                     <button
                       key={amenity.id}
@@ -615,7 +620,7 @@ export default function EstablishmentPage() {
                       }`}
                     >
                       <amenity.icon className="w-6 h-6" />
-                      <span className="text-xs font-medium">{amenity.label}</span>
+                      <span className="text-xs font-medium">{label}</span>
                       {selected && <CheckCircle className="w-4 h-4" />}
                     </button>
                   )
@@ -628,24 +633,25 @@ export default function EstablishmentPage() {
           {activeTab === 'horaires' && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-400">Définissez vos horaires d&apos;ouverture</p>
+                <p className="text-sm text-gray-400">{t.setOpeningHours}</p>
                 <div className="flex items-center gap-2 text-xs">
                   <span className="w-3 h-3 rounded-full bg-emerald-500 inline-block" />
-                  <span className="text-gray-400">Ouvert</span>
+                  <span className="text-gray-400">{t.openLabel}</span>
                   <span className="w-3 h-3 rounded-full bg-red-500 inline-block ml-2" />
-                  <span className="text-gray-400">Fermé</span>
+                  <span className="text-gray-400">{t.closedLabel}</span>
                 </div>
               </div>
 
               <div className="space-y-3">
-                {DAYS.map((day) => {
-                  const hours = data.openingHours[day.key] || { open: '08:00', close: '18:00', closed: false }
+                {DAY_KEYS.map((dayKey) => {
+                  const hours = data.openingHours[dayKey] || { open: '08:00', close: '18:00', closed: false }
+                  const label = (t as Record<string, string>)[`day_${dayKey}`]
                   return (
-                    <div key={day.key} className="flex items-center gap-4 p-3 bg-white/5 rounded-xl">
-                      <span className="w-24 text-sm font-medium text-gray-300">{day.label}</span>
+                    <div key={dayKey} className="flex items-center gap-4 p-3 bg-white/5 rounded-xl">
+                      <span className="w-24 text-sm font-medium text-gray-300">{label}</span>
 
                       <button
-                        onClick={() => updateHours(day.key, 'closed', !hours.closed)}
+                        onClick={() => updateHours(dayKey, 'closed', !hours.closed)}
                         className={`w-12 h-6 rounded-full relative transition-colors ${
                           !hours.closed ? 'bg-emerald-500' : 'bg-gray-600'
                         }`}
@@ -660,19 +666,19 @@ export default function EstablishmentPage() {
                           <input
                             type="time"
                             value={hours.open}
-                            onChange={(e) => updateHours(day.key, 'open', e.target.value)}
+                            onChange={(e) => updateHours(dayKey, 'open', e.target.value)}
                             className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
                           />
-                          <span className="text-gray-500">à</span>
+                          <span className="text-gray-500">{t.toSeparator}</span>
                           <input
                             type="time"
                             value={hours.close}
-                            onChange={(e) => updateHours(day.key, 'close', e.target.value)}
+                            onChange={(e) => updateHours(dayKey, 'close', e.target.value)}
                             className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
                           />
                         </div>
                       ) : (
-                        <span className="text-sm text-red-400">Fermé</span>
+                        <span className="text-sm text-red-400">{t.closedLabel}</span>
                       )}
                     </div>
                   )
@@ -682,15 +688,15 @@ export default function EstablishmentPage() {
               {/* Restaurant-specific: Service Midi/Soir */}
               {data.type === 'RESTAURANT' && (
                 <div className="mt-6 p-4 bg-white/5 rounded-xl border border-white/10">
-                  <h3 className="text-sm font-medium text-[#ff6b35] mb-3">Services Restaurant</h3>
+                  <h3 className="text-sm font-medium text-[#ff6b35] mb-3">{t.restaurantServicesTitle}</h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-3 bg-white/5 rounded-lg border border-white/10">
-                      <p className="text-sm font-medium text-gray-900 mb-1">Service Midi</p>
-                      <p className="text-xs text-gray-400">11h30 - 14h30</p>
+                      <p className="text-sm font-medium text-gray-900 mb-1">{t.lunchService}</p>
+                      <p className="text-xs text-gray-400">{t.lunchServiceHours}</p>
                     </div>
                     <div className="p-3 bg-white/5 rounded-lg border border-white/10">
-                      <p className="text-sm font-medium text-gray-900 mb-1">Service Soir</p>
-                      <p className="text-xs text-gray-400">18h30 - 22h00</p>
+                      <p className="text-sm font-medium text-gray-900 mb-1">{t.dinnerService}</p>
+                      <p className="text-xs text-gray-400">{t.dinnerServiceHours}</p>
                     </div>
                   </div>
                 </div>
@@ -700,7 +706,7 @@ export default function EstablishmentPage() {
               <div className="mt-6">
                 <h3 className="text-sm font-medium text-gray-300 mb-3">
                   <AlertCircle className="w-4 h-4 inline mr-1" />
-                  Jours fériés / Fermetures exceptionnelles
+                  {t.holidaysTitle}
                 </h3>
                 <div className="flex gap-2 flex-wrap">
                   {data.holidays.map((holiday, i) => (
@@ -713,12 +719,12 @@ export default function EstablishmentPage() {
                   ))}
                   <button
                     onClick={() => {
-                      const date = prompt('Date de fermeture (JJ/MM/AAAA) :')
+                      const date = prompt(t.holidayDatePrompt)
                       if (date) setData(prev => ({ ...prev, holidays: [...prev.holidays, date] }))
                     }}
                     className="px-3 py-1 border border-dashed border-white/20 rounded-lg text-sm text-gray-400 hover:text-gray-900 hover:border-white/40 transition-colors"
                   >
-                    + Ajouter une date
+                    {t.addHolidayDate}
                   </button>
                 </div>
               </div>
@@ -729,13 +735,13 @@ export default function EstablishmentPage() {
           {activeTab === 'contact' && (
             <div className="space-y-4">
               {[
-                { icon: Phone, field: 'phone' as const, label: 'Téléphone principal', placeholder: '+261 34 00 000 00' },
-                { icon: Phone, field: 'phone2' as const, label: 'Téléphone secondaire', placeholder: '+261 33 00 000 00' },
-                { icon: Mail, field: 'email' as const, label: 'Email', placeholder: 'contact@monhotel.mg' },
-                { icon: Globe, field: 'website' as const, label: 'Site web', placeholder: 'https://www.monhotel.mg' },
-                { icon: Facebook, field: 'facebook' as const, label: 'Facebook', placeholder: 'https://facebook.com/monhotel' },
-                { icon: Instagram, field: 'instagram' as const, label: 'Instagram', placeholder: '@monhotel' },
-                { icon: MessageCircle, field: 'whatsapp' as const, label: 'WhatsApp', placeholder: '+261 34 00 000 00' },
+                { icon: Phone, field: 'phone' as const, label: t.contactPhoneMainLabel, placeholder: t.contactPhoneMainPlaceholder },
+                { icon: Phone, field: 'phone2' as const, label: t.contactPhoneSecondLabel, placeholder: t.contactPhoneSecondPlaceholder },
+                { icon: Mail, field: 'email' as const, label: t.contactEmailLabel, placeholder: t.contactEmailPlaceholder },
+                { icon: Globe, field: 'website' as const, label: t.contactWebsiteLabel, placeholder: t.contactWebsitePlaceholder },
+                { icon: Facebook, field: 'facebook' as const, label: t.contactFacebookLabel, placeholder: t.contactFacebookPlaceholder },
+                { icon: Instagram, field: 'instagram' as const, label: t.contactInstagramLabel, placeholder: t.contactInstagramPlaceholder },
+                { icon: MessageCircle, field: 'whatsapp' as const, label: t.contactWhatsappLabel, placeholder: t.contactWhatsappPlaceholder },
               ].map((item) => (
                 <div key={item.field} className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -761,34 +767,37 @@ export default function EstablishmentPage() {
             <div className="space-y-6">
               {/* Cuisine Types */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-3">Types de cuisine</label>
+                <label className="block text-sm font-medium text-gray-300 mb-3">{t.cuisineTypesLabel}</label>
                 <div className="flex gap-2 flex-wrap">
-                  {['Malgache', 'Français', 'Chinois', 'Italien', 'Indien', 'Japonais', 'Fusion', 'Street Food'].map((cuisine) => (
-                    <button
-                      key={cuisine}
-                      onClick={() => {
-                        setData(prev => ({
-                          ...prev,
-                          cuisineTypes: prev.cuisineTypes.includes(cuisine)
-                            ? prev.cuisineTypes.filter(c => c !== cuisine)
-                            : [...prev.cuisineTypes, cuisine],
-                        }))
-                      }}
-                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                        data.cuisineTypes.includes(cuisine)
-                          ? 'bg-[#ff6b35]/10 text-[#ff6b35] border border-[#ff6b35]/30'
-                          : 'bg-white/5 text-gray-400 border border-white/10 hover:border-white/20'
-                      }`}
-                    >
-                      {cuisine}
-                    </button>
-                  ))}
+                  {CUISINE_KEYS.map(({ id, value }) => {
+                    const label = (t as Record<string, string>)[`cuisine_${id}`]
+                    return (
+                      <button
+                        key={value}
+                        onClick={() => {
+                          setData(prev => ({
+                            ...prev,
+                            cuisineTypes: prev.cuisineTypes.includes(value)
+                              ? prev.cuisineTypes.filter(c => c !== value)
+                              : [...prev.cuisineTypes, value],
+                          }))
+                        }}
+                        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                          data.cuisineTypes.includes(value)
+                            ? 'bg-[#ff6b35]/10 text-[#ff6b35] border border-[#ff6b35]/30'
+                            : 'bg-white/5 text-gray-400 border border-white/10 hover:border-white/20'
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
 
               {/* Menu Photos */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-3">Photos du menu / carte</label>
+                <label className="block text-sm font-medium text-gray-300 mb-3">{t.menuPhotosLabel}</label>
                 <div className="grid grid-cols-3 gap-3">
                   {data.menuImages.map((img, index) => (
                     <div key={index} className="relative aspect-[3/4] rounded-xl overflow-hidden group">
@@ -803,7 +812,7 @@ export default function EstablishmentPage() {
                   ))}
                   <label className="aspect-[3/4] border-2 border-dashed border-white/20 rounded-xl cursor-pointer hover:border-[#ff6b35]/50 flex flex-col items-center justify-center transition-colors">
                     <ImageIcon className="w-8 h-8 text-gray-500 mb-2" />
-                    <span className="text-xs text-gray-500">Photo menu</span>
+                    <span className="text-xs text-gray-500">{t.menuPhotoLabel}</span>
                     <input
                       type="file"
                       accept="image/*"
@@ -818,9 +827,9 @@ export default function EstablishmentPage() {
               {/* Options */}
               <div className="space-y-3">
                 {[
-                  { field: 'hasDelivery' as const, label: 'Livraison disponible', icon: Truck },
-                  { field: 'hasTakeaway' as const, label: 'Vente à emporter', icon: Coffee },
-                  { field: 'hasReservation' as const, label: 'Réservation en ligne', icon: Calendar },
+                  { field: 'hasDelivery' as const, label: t.deliveryAvailable, icon: Truck },
+                  { field: 'hasTakeaway' as const, label: t.takeawayAvailable, icon: Coffee },
+                  { field: 'hasReservation' as const, label: t.onlineReservation, icon: Calendar },
                 ].map((opt) => (
                   <div key={opt.field} className="flex items-center justify-between p-3 bg-white/5 rounded-xl">
                     <div className="flex items-center gap-3">

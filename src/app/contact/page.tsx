@@ -5,15 +5,7 @@ import { Send, Loader2, CheckCircle, MapPin, Mail, Phone, ArrowLeft } from 'luci
 import Link from 'next/link';
 import { useCsrf } from '@/hooks/useCsrf';
 import PhoneInput from '@/components/ui/PhoneInput';
-
-const SUBJECTS = [
-  'Question générale',
-  'Problème technique',
-  'Signaler un abus',
-  'Partenariat',
-  'Suggestion',
-  'Autre',
-];
+import { useTrans } from '@/i18n';
 
 interface FieldErrors {
   name?: string;
@@ -23,34 +15,8 @@ interface FieldErrors {
   message?: string;
 }
 
-function validateField(field: string, value: string): string | undefined {
-  switch (field) {
-    case 'name':
-      if (!value.trim()) return 'Le nom est requis';
-      if (value.trim().length < 2) return 'Le nom doit contenir au moins 2 caractères';
-      if (value.trim().length > 100) return 'Le nom ne doit pas dépasser 100 caractères';
-      return undefined;
-    case 'email':
-      if (!value.trim()) return 'L\'email est requis';
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) return 'Format d\'email invalide';
-      return undefined;
-    case 'phone':
-      if (value.trim() && !/^[+]?[\d\s()-]{6,20}$/.test(value.trim())) return 'Format de téléphone invalide';
-      return undefined;
-    case 'subject':
-      if (!value) return 'Veuillez choisir un sujet';
-      return undefined;
-    case 'message':
-      if (!value.trim()) return 'Le message est requis';
-      if (value.trim().length < 10) return 'Le message doit contenir au moins 10 caractères';
-      if (value.trim().length > 5000) return 'Le message ne doit pas dépasser 5000 caractères';
-      return undefined;
-    default:
-      return undefined;
-  }
-}
-
 export default function ContactPage() {
+  const t = useTrans('contact');
   const { csrfToken } = useCsrf();
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
@@ -58,6 +24,42 @@ export default function ContactPage() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
+
+  const SUBJECTS = [
+    t.subjectGeneral,
+    t.subjectTechnical,
+    t.subjectAbuse,
+    t.subjectPartnership,
+    t.subjectSuggestion,
+    t.subjectOther,
+  ];
+
+  const validateField = (field: string, value: string): string | undefined => {
+    switch (field) {
+      case 'name':
+        if (!value.trim()) return t.nameRequired;
+        if (value.trim().length < 2) return t.nameMin;
+        if (value.trim().length > 100) return t.nameMax;
+        return undefined;
+      case 'email':
+        if (!value.trim()) return t.emailRequired;
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) return t.emailInvalid;
+        return undefined;
+      case 'phone':
+        if (value.trim() && !/^[+]?[\d\s()-]{6,20}$/.test(value.trim())) return t.phoneInvalid;
+        return undefined;
+      case 'subject':
+        if (!value) return t.subjectRequired;
+        return undefined;
+      case 'message':
+        if (!value.trim()) return t.messageRequired;
+        if (value.trim().length < 10) return t.messageMin;
+        if (value.trim().length > 5000) return t.messageMax;
+        return undefined;
+      default:
+        return undefined;
+    }
+  };
 
   const handleBlur = (field: string) => {
     setTouched((prev) => ({ ...prev, [field]: true }));
@@ -100,10 +102,10 @@ export default function ContactPage() {
       if (res.ok && data.success) {
         setSent(true);
       } else {
-        setError(data.error || 'Erreur lors de l\'envoi');
+        setError(data.error || t.sendError);
       }
     } catch {
-      setError('Erreur de connexion');
+      setError(t.connectionError);
     } finally {
       setSending(false);
     }
@@ -114,10 +116,10 @@ export default function ContactPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="text-center max-w-md">
           <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Message envoyé !</h2>
-          <p className="text-gray-500 mb-6">Nous avons bien reçu votre message et reviendrons vers vous dans les plus brefs délais.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{t.sentTitle}</h2>
+          <p className="text-gray-500 mb-6">{t.sentDesc}</p>
           <Link href="/" className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
-            Retour à l'accueil
+            {t.returnHome}
           </Link>
         </div>
       </div>
@@ -130,10 +132,10 @@ export default function ContactPage() {
       <div className="bg-gradient-to-r from-orange-500 to-pink-500 text-white">
         <div className="max-w-4xl mx-auto px-4 py-10">
           <Link href="/" className="inline-flex items-center gap-1 text-white/80 hover:text-white text-sm mb-4">
-            <ArrowLeft className="w-4 h-4" /> Retour
+            <ArrowLeft className="w-4 h-4" /> {t.backHome}
           </Link>
-          <h1 className="text-3xl font-bold">Contactez-nous</h1>
-          <p className="mt-2 text-white/80">Une question ? Un problème ? Notre équipe est là pour vous aider.</p>
+          <h1 className="text-3xl font-bold">{t.title}</h1>
+          <p className="mt-2 text-white/80">{t.subtitle}</p>
         </div>
       </div>
 
@@ -143,12 +145,12 @@ export default function ContactPage() {
           <div className="space-y-6">
             <div className="bg-white rounded-xl border p-5">
               <Mail className="w-6 h-6 text-orange-500 mb-2" />
-              <h3 className="font-semibold text-sm">Email</h3>
+              <h3 className="font-semibold text-sm">{t.email}</h3>
               <p className="text-sm text-gray-500 mt-1">support@madaspot.com</p>
             </div>
             <div className="bg-white rounded-xl border p-5">
               <Phone className="w-6 h-6 text-orange-500 mb-2" />
-              <h3 className="font-semibold text-sm">Téléphone & WhatsApp</h3>
+              <h3 className="font-semibold text-sm">{t.phoneWa}</h3>
               <a href="tel:+261341688296" className="block text-sm text-gray-700 mt-1 hover:text-orange-600 transition-colors">
                 +261 34 16 88 296
               </a>
@@ -158,13 +160,13 @@ export default function ContactPage() {
                 rel="noopener noreferrer"
                 className="inline-block text-xs text-emerald-600 hover:text-emerald-700 mt-1"
               >
-                Discuter sur WhatsApp →
+                {t.chatWa}
               </a>
             </div>
             <div className="bg-white rounded-xl border p-5">
               <MapPin className="w-6 h-6 text-orange-500 mb-2" />
-              <h3 className="font-semibold text-sm">Adresse</h3>
-              <p className="text-sm text-gray-500 mt-1">Antananarivo, Madagascar</p>
+              <h3 className="font-semibold text-sm">{t.address}</h3>
+              <p className="text-sm text-gray-500 mt-1">{t.addressValue}</p>
             </div>
           </div>
 
@@ -173,7 +175,7 @@ export default function ContactPage() {
             <form onSubmit={handleSubmit} className="bg-white rounded-xl border p-6 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">Nom complet *</label>
+                  <label className="text-sm font-medium text-gray-700 mb-1 block">{t.fullName}</label>
                   <input
                     type="text"
                     required
@@ -183,12 +185,12 @@ export default function ContactPage() {
                     onChange={(e) => handleChange('name', e.target.value)}
                     onBlur={() => handleBlur('name')}
                     className={`w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${touched.name && fieldErrors.name ? 'border-red-400' : ''}`}
-                    placeholder="Votre nom"
+                    placeholder={t.namePlaceholder}
                   />
                   {touched.name && fieldErrors.name && <p className="text-xs text-red-500 mt-1">{fieldErrors.name}</p>}
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">Email *</label>
+                  <label className="text-sm font-medium text-gray-700 mb-1 block">{t.emailLabel}</label>
                   <input
                     type="email"
                     required
@@ -196,7 +198,7 @@ export default function ContactPage() {
                     onChange={(e) => handleChange('email', e.target.value)}
                     onBlur={() => handleBlur('email')}
                     className={`w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${touched.email && fieldErrors.email ? 'border-red-400' : ''}`}
-                    placeholder="votre@email.com"
+                    placeholder={t.emailPlaceholder}
                   />
                   {touched.email && fieldErrors.email && <p className="text-xs text-red-500 mt-1">{fieldErrors.email}</p>}
                 </div>
@@ -204,7 +206,7 @@ export default function ContactPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">Téléphone</label>
+                  <label className="text-sm font-medium text-gray-700 mb-1 block">{t.phoneLabel}</label>
                   <PhoneInput
                     value={form.phone}
                     onChange={(val) => handleChange('phone', val)}
@@ -214,7 +216,7 @@ export default function ContactPage() {
                   {touched.phone && fieldErrors.phone && <p className="text-xs text-red-500 mt-1">{fieldErrors.phone}</p>}
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">Sujet *</label>
+                  <label className="text-sm font-medium text-gray-700 mb-1 block">{t.subjectLabel}</label>
                   <select
                     required
                     value={form.subject}
@@ -222,7 +224,7 @@ export default function ContactPage() {
                     onBlur={() => handleBlur('subject')}
                     className={`w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${touched.subject && fieldErrors.subject ? 'border-red-400' : ''}`}
                   >
-                    <option value="">Choisir un sujet</option>
+                    <option value="">{t.chooseSubject}</option>
                     {SUBJECTS.map((s) => <option key={s} value={s}>{s}</option>)}
                   </select>
                   {touched.subject && fieldErrors.subject && <p className="text-xs text-red-500 mt-1">{fieldErrors.subject}</p>}
@@ -230,7 +232,7 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">Message *</label>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">{t.messageLabel}</label>
                 <textarea
                   required
                   rows={5}
@@ -240,7 +242,7 @@ export default function ContactPage() {
                   onChange={(e) => handleChange('message', e.target.value)}
                   onBlur={() => handleBlur('message')}
                   className={`w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none ${touched.message && fieldErrors.message ? 'border-red-400' : ''}`}
-                  placeholder="Décrivez votre demande..."
+                  placeholder={t.messagePlaceholder}
                 />
                 <div className="flex justify-between mt-1">
                   {touched.message && fieldErrors.message ? <p className="text-xs text-red-500">{fieldErrors.message}</p> : <span />}
@@ -258,7 +260,7 @@ export default function ContactPage() {
                 className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600 disabled:opacity-50 transition-colors"
               >
                 {sending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
-                {sending ? 'Envoi en cours...' : 'Envoyer le message'}
+                {sending ? t.sending : t.sendMessage}
               </button>
             </form>
           </div>

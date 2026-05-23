@@ -13,6 +13,8 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { getImageUrl } from '@/lib/image-url'
+import { useTrans } from '@/i18n'
+type ClientSpaceTrans = ReturnType<typeof useTrans<'clientSpace'>>
 
 // ——— Types ———
 
@@ -93,13 +95,13 @@ const TYPE_PATHS: Record<string, string> = {
   HOTEL: 'hotels', RESTAURANT: 'restaurants', ATTRACTION: 'attractions', PROVIDER: 'prestataires',
 }
 
-const DEFAULT_CHECKLIST = [
-  { id: 'passport', label: 'Passeport / visa', checked: false },
-  { id: 'sunscreen', label: 'Crème solaire', checked: false },
-  { id: 'repellent', label: 'Anti-moustiques', checked: false },
-  { id: 'adapter', label: 'Adaptateur électrique', checked: false },
-  { id: 'cash', label: 'Ariary / espèces', checked: false },
-  { id: 'medication', label: 'Médicaments', checked: false },
+const CHECKLIST_ITEMS = [
+  { id: 'passport' as const, key: 'checklistPassport' as const },
+  { id: 'sunscreen' as const, key: 'checklistSunscreen' as const },
+  { id: 'repellent' as const, key: 'checklistRepellent' as const },
+  { id: 'adapter' as const, key: 'checklistAdapter' as const },
+  { id: 'cash' as const, key: 'checklistCash' as const },
+  { id: 'medication' as const, key: 'checklistMedication' as const },
 ]
 
 const WEATHER_ICONS: Record<number, string> = {
@@ -128,7 +130,7 @@ const slideUp = {
 
 // ——— Weather Widget Component ———
 
-function WeatherWidget() {
+function WeatherWidget({ t }: { t: ClientSpaceTrans }) {
   const [weather, setWeather] = useState<WeatherData | null>(null)
 
   useEffect(() => {
@@ -161,7 +163,7 @@ function WeatherWidget() {
     >
       <div className="flex items-center gap-2 mb-3">
         <CloudSun className="w-4 h-4 text-sky-400" />
-        <h3 className="text-sm font-semibold text-sky-300">Météo</h3>
+        <h3 className="text-sm font-semibold text-sky-300">{t.weather}</h3>
       </div>
       <div className="flex items-center gap-3">
         <span className="text-4xl">{icon}</span>
@@ -176,7 +178,7 @@ function WeatherWidget() {
 
 // ——— Currency Converter Widget ———
 
-function CurrencyWidget() {
+function CurrencyWidget({ t }: { t: ClientSpaceTrans }) {
   const [amount, setAmount] = useState('')
   const [currency, setCurrency] = useState('EUR')
 
@@ -193,14 +195,14 @@ function CurrencyWidget() {
     >
       <div className="flex items-center gap-2 mb-3">
         <DollarSign className="w-4 h-4 text-emerald-400" />
-        <h3 className="text-sm font-semibold text-emerald-300">Convertisseur</h3>
+        <h3 className="text-sm font-semibold text-emerald-300">{t.converter}</h3>
       </div>
       <div className="flex gap-2 mb-2">
         <input
           type="number"
           value={amount}
           onChange={e => setAmount(e.target.value)}
-          placeholder="Montant"
+          placeholder={t.amountPlaceholder}
           className="flex-1 bg-black/30 border border-emerald-500/20 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:border-emerald-400/50 w-0 min-w-0"
         />
         <select
@@ -227,24 +229,33 @@ function CurrencyWidget() {
 
 // ——— Travel Checklist Widget ———
 
-function ChecklistWidget() {
-  const [items, setItems] = useState(() => {
-    if (typeof window === 'undefined') return DEFAULT_CHECKLIST
+type ChecklistItem = { id: string; label: string; checked: boolean }
+
+function ChecklistWidget({ t }: { t: ClientSpaceTrans }) {
+  const defaultChecklist: ChecklistItem[] = CHECKLIST_ITEMS.map(c => ({ id: c.id, label: t[c.key], checked: false }))
+  const [items, setItems] = useState<ChecklistItem[]>(() => {
+    if (typeof window === 'undefined') return defaultChecklist
     try {
       const saved = localStorage.getItem('mada-travel-checklist')
-      return saved ? JSON.parse(saved) : DEFAULT_CHECKLIST
-    } catch { return DEFAULT_CHECKLIST }
+      const parsed = saved ? JSON.parse(saved) : null
+      if (!Array.isArray(parsed)) return defaultChecklist
+      // Refresh labels from current translations
+      return defaultChecklist.map(d => {
+        const found = parsed.find((p: ChecklistItem) => p.id === d.id)
+        return { ...d, checked: found?.checked ?? false }
+      })
+    } catch { return defaultChecklist }
   })
 
   const toggleItem = (id: string) => {
-    const updated = items.map((item: typeof DEFAULT_CHECKLIST[0]) =>
+    const updated = items.map((item) =>
       item.id === id ? { ...item, checked: !item.checked } : item
     )
     setItems(updated)
     localStorage.setItem('mada-travel-checklist', JSON.stringify(updated))
   }
 
-  const checkedCount = items.filter((i: typeof DEFAULT_CHECKLIST[0]) => i.checked).length
+  const checkedCount = items.filter((i) => i.checked).length
 
   return (
     <motion.div
@@ -257,12 +268,12 @@ function ChecklistWidget() {
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <BookOpen className="w-4 h-4 text-violet-400" />
-          <h3 className="text-sm font-semibold text-violet-300">Checklist Voyage</h3>
+          <h3 className="text-sm font-semibold text-violet-300">{t.travelChecklist}</h3>
         </div>
         <span className="text-xs text-violet-400/70">{checkedCount}/{items.length}</span>
       </div>
       <div className="space-y-1.5 max-h-[140px] overflow-y-auto scrollbar-thin">
-        {items.map((item: typeof DEFAULT_CHECKLIST[0]) => (
+        {items.map((item) => (
           <button
             key={item.id}
             onClick={() => toggleItem(item.id)}
@@ -286,6 +297,7 @@ function ChecklistWidget() {
 // ——— Main Dashboard ———
 
 export default function ClientDashboard() {
+  const t = useTrans('clientSpace')
   const router = useRouter()
   const [user, setUser] = useState<UserData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -360,9 +372,9 @@ export default function ClientDashboard() {
 
   const daysUntil = (d: string) => {
     const diff = Math.ceil((new Date(d).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
-    if (diff === 0) return "Aujourd'hui"
-    if (diff === 1) return 'Demain'
-    return `Dans ${diff} jours`
+    if (diff === 0) return t.today
+    if (diff === 1) return t.tomorrow
+    return t.inDays.replace('{days}', String(diff))
   }
 
   if (loading) {
@@ -377,15 +389,15 @@ export default function ClientDashboard() {
 
   const greeting = () => {
     const hour = new Date().getHours()
-    if (hour < 12) return 'Bonjour'
-    if (hour < 18) return 'Bon après-midi'
-    return 'Bonsoir'
+    if (hour < 12) return t.morning
+    if (hour < 18) return t.afternoon
+    return t.evening
   }
 
   const getLoyaltyTier = (points: number) => {
-    if (points >= 1000) return { name: 'Or', color: 'from-amber-500 to-yellow-400', text: 'text-amber-300', bg: 'bg-amber-500/10', border: 'border-amber-500/20' }
-    if (points >= 500) return { name: 'Argent', color: 'from-slate-300 to-gray-400', text: 'text-slate-300', bg: 'bg-slate-500/10', border: 'border-slate-500/20' }
-    return { name: 'Bronze', color: 'from-orange-700 to-amber-700', text: 'text-orange-300', bg: 'bg-orange-500/10', border: 'border-orange-500/20' }
+    if (points >= 1000) return { name: t.tierGold, color: 'from-amber-500 to-yellow-400', text: 'text-amber-300', bg: 'bg-amber-500/10', border: 'border-amber-500/20' }
+    if (points >= 500) return { name: t.tierSilver, color: 'from-slate-300 to-gray-400', text: 'text-slate-300', bg: 'bg-slate-500/10', border: 'border-slate-500/20' }
+    return { name: t.tierBronze, color: 'from-orange-700 to-amber-700', text: 'text-orange-300', bg: 'bg-orange-500/10', border: 'border-orange-500/20' }
   }
 
   const tier = getLoyaltyTier(stats.loyaltyPoints)
@@ -405,7 +417,7 @@ export default function ClientDashboard() {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-gray-900">{greeting()}, {user.firstName} !</h1>
-              <p className="text-gray-400 text-sm">Votre espace voyageur Mada Spot</p>
+              <p className="text-gray-400 text-sm">{t.travelerSpace}</p>
             </div>
           </div>
           <div className="flex gap-2">
@@ -414,7 +426,7 @@ export default function ClientDashboard() {
               className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#ff6b35] to-pink-500 text-white rounded-xl text-sm font-medium hover:opacity-90 transition-opacity shadow-lg shadow-orange-500/20"
             >
               <Mountain className="w-4 h-4" />
-              Devenir prestataire
+              {t.becomeProvider}
             </Link>
           </div>
         </motion.div>
@@ -436,7 +448,7 @@ export default function ClientDashboard() {
                 <div className="flex-1">
                   <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#0891b2]/20 border border-[#0891b2]/30 rounded-full mb-3">
                     <Plane className="w-3.5 h-3.5 text-[#0891b2]" />
-                    <span className="text-xs font-medium text-[#0891b2]">Mon prochain départ</span>
+                    <span className="text-xs font-medium text-[#0891b2]">{t.nextTrip}</span>
                     <span className="text-xs font-bold text-cyan-300">{daysUntil(nextBooking.checkIn)}</span>
                   </div>
 
@@ -474,14 +486,14 @@ export default function ClientDashboard() {
                       className="flex items-center gap-2 px-5 py-3 bg-[#0891b2] text-gray-900 rounded-xl text-sm font-semibold hover:bg-[#0891b2]/90 transition-colors shadow-lg shadow-cyan-500/20"
                     >
                       <Navigation className="w-4 h-4" />
-                      Obtenir l&apos;itinéraire
+                      {t.getDirections}
                     </a>
                   )}
                   <Link
                     href="/client/bookings"
                     className="flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 text-gray-300 rounded-xl text-sm hover:bg-gray-100 transition-colors text-center justify-center"
                   >
-                    Voir mes réservations
+                    {t.seeMyBookings}
                   </Link>
                 </div>
               </div>
@@ -493,10 +505,10 @@ export default function ClientDashboard() {
               <div className="relative p-6 sm:p-8">
                 <div className="flex items-center gap-2 mb-2">
                   <Sparkles className="w-5 h-5 text-[#ff6b35]" />
-                  <span className="text-[#ff6b35] font-medium text-sm">Explorez Madagascar</span>
+                  <span className="text-[#ff6b35] font-medium text-sm">{t.exploreMada}</span>
                 </div>
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
-                  Où allons-nous à Madagascar ?
+                  {t.whereToGo}
                 </h2>
                 <form onSubmit={handleSearch} className="flex gap-2 max-w-lg">
                   <div className="flex-1 relative">
@@ -505,7 +517,7 @@ export default function ClientDashboard() {
                       type="text"
                       value={searchQuery}
                       onChange={e => setSearchQuery(e.target.value)}
-                      placeholder="Chercher un hôtel, restaurant, attraction..."
+                      placeholder={t.searchPlaceholder}
                       className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:border-[#ff6b35]/50 transition-colors"
                     />
                   </div>
@@ -513,7 +525,7 @@ export default function ClientDashboard() {
                     type="submit"
                     className="px-6 py-3 bg-[#ff6b35] text-white rounded-xl text-sm font-semibold hover:bg-[#e55a2b] transition-colors shrink-0"
                   >
-                    Rechercher
+                    {t.searchButton}
                   </button>
                 </form>
               </div>
@@ -525,42 +537,42 @@ export default function ClientDashboard() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           {[
             {
-              label: 'Mes Favoris',
+              label: t.myFavorites,
               value: stats.favorites,
               icon: Heart,
               color: '#ef4444',
               href: '/client/favorites',
-              emptyText: 'Sauvegardez vos coups de coeur !',
-              subtitle: stats.favorites > 0 ? `${stats.favorites} lieu${stats.favorites > 1 ? 'x' : ''} sauvegardé${stats.favorites > 1 ? 's' : ''}` : undefined,
+              emptyText: t.myFavoritesEmpty,
+              subtitle: stats.favorites > 0 ? `${stats.favorites} ${stats.favorites > 1 ? t.placeSavedPlural : t.placeSavedSingle}` : undefined,
             },
             {
-              label: 'Mes Réservations',
+              label: t.myBookings,
               value: stats.totalBookings,
               icon: Calendar,
               color: '#0891b2',
               href: '/client/bookings',
-              emptyText: 'Réservez votre premier séjour !',
+              emptyText: t.myBookingsEmpty,
               subtitle: stats.totalBookings > 0
-                ? `${stats.upcomingBookings} à venir · ${stats.completedBookings} terminé${stats.completedBookings > 1 ? 'es' : ''}`
+                ? `${stats.upcomingBookings} ${t.upcomingLabel} · ${stats.completedBookings} ${stats.completedBookings > 1 ? t.completedPlural : t.completedSingle}`
                 : undefined,
             },
             {
-              label: 'Mes Contributions',
+              label: t.myContributions,
               value: stats.reviews,
               icon: Star,
               color: '#f59e0b',
               href: '/publier-avis',
-              emptyText: 'Partagez votre première expérience !',
-              subtitle: stats.reviews > 0 ? `${stats.reviews} avis publié${stats.reviews > 1 ? 's' : ''}` : undefined,
+              emptyText: t.myContributionsEmpty,
+              subtitle: stats.reviews > 0 ? `${stats.reviews} ${stats.reviews > 1 ? t.reviewPublishedPlural : t.reviewPublishedSingle}` : undefined,
             },
             {
-              label: 'Points Fidélité',
+              label: t.loyaltyPoints,
               value: stats.loyaltyPoints,
               icon: Trophy,
-              color: tier.name === 'Or' ? '#f59e0b' : tier.name === 'Argent' ? '#94a3b8' : '#ea580c',
+              color: tier.name === t.tierGold ? '#f59e0b' : tier.name === t.tierSilver ? '#94a3b8' : '#ea580c',
               href: '/client/fidelite',
-              emptyText: 'Voyagez pour gagner des points !',
-              subtitle: `Niveau ${tier.name}`,
+              emptyText: t.loyaltyPointsEmpty,
+              subtitle: `${t.loyaltyLevel} ${tier.name}`,
               isFidelity: true,
             },
           ].map((stat, index) => (
@@ -607,16 +619,16 @@ export default function ClientDashboard() {
         {/* ——— Explorer par Catégorie ——— */}
         <motion.div variants={slideUp} custom={6} initial="hidden" animate="visible" className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Explorer par catégorie</h2>
+            <h2 className="text-lg font-semibold text-gray-900">{t.exploreByCategory}</h2>
             <Link href="/bons-plans" className="text-sm text-[#ff6b35] hover:text-orange-400 flex items-center gap-1">
-              Voir tout <ArrowRight className="w-3.5 h-3.5" />
+              {t.seeAll} <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
               {
-                label: 'Hébergements',
-                desc: 'Hôtels, lodges, villas...',
+                label: t.accommodations,
+                desc: t.accommodationsDesc,
                 href: '/hotels',
                 icon: Hotel,
                 gradient: 'from-[#0891b2] to-cyan-600',
@@ -624,8 +636,8 @@ export default function ClientDashboard() {
                 type: 'HOTEL',
               },
               {
-                label: 'Restaurants',
-                desc: 'Gastronomie malgache et plus',
+                label: t.restaurants,
+                desc: t.restaurantsDesc,
                 href: '/restaurants',
                 icon: UtensilsCrossed,
                 gradient: 'from-orange-500 to-red-500',
@@ -633,8 +645,8 @@ export default function ClientDashboard() {
                 type: 'RESTAURANT',
               },
               {
-                label: 'Attractions',
-                desc: 'Parcs, plages, excursions...',
+                label: t.attractions,
+                desc: t.attractionsDesc,
                 href: '/attractions',
                 icon: Compass,
                 gradient: 'from-green-500 to-emerald-600',
@@ -668,7 +680,7 @@ export default function ClientDashboard() {
                             className="mt-3 inline-flex items-center gap-1 px-2.5 py-1 bg-white/5 rounded-lg"
                           >
                             <span className="text-xs font-semibold text-[#ff6b35]">{count}+</span>
-                            <span className="text-xs text-gray-400">à découvrir</span>
+                            <span className="text-xs text-gray-400">{t.toDiscover}</span>
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -684,9 +696,9 @@ export default function ClientDashboard() {
         {recentFavorites.length > 0 && (
           <motion.div variants={slideUp} custom={7} initial="hidden" animate="visible" className="mb-8">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900">Vos derniers favoris</h2>
+              <h2 className="text-lg font-semibold text-gray-900">{t.yourRecentFavorites}</h2>
               <Link href="/client/favorites" className="text-sm text-[#ff6b35] hover:text-orange-400 flex items-center gap-1">
-                Voir tout <ArrowRight className="w-3.5 h-3.5" />
+                {t.seeAll} <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
             <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#2a2a36]">
@@ -732,9 +744,9 @@ export default function ClientDashboard() {
 
         {/* ——— Practical Widgets: Météo + Convertisseur + Checklist ——— */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-          <WeatherWidget />
-          <CurrencyWidget />
-          <ChecklistWidget />
+          <WeatherWidget t={t} />
+          <CurrencyWidget t={t} />
+          <ChecklistWidget t={t} />
         </div>
 
         {/* ——— Messages Banner (if unread) ——— */}
@@ -747,9 +759,9 @@ export default function ClientDashboard() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-gray-900">
-                    {stats.unreadMessages} message{stats.unreadMessages > 1 ? 's' : ''} non lu{stats.unreadMessages > 1 ? 's' : ''}
+                    {stats.unreadMessages} {stats.unreadMessages > 1 ? t.unreadMessagePlural : t.unreadMessageSingle}
                   </p>
-                  <p className="text-sm text-gray-400 truncate">Vous avez des réponses de prestataires</p>
+                  <p className="text-sm text-gray-400 truncate">{t.providerResponses}</p>
                 </div>
                 <ArrowRight className="w-5 h-5 text-pink-400 shrink-0" />
               </div>
@@ -759,15 +771,15 @@ export default function ClientDashboard() {
 
         {/* ——— Quick Navigation ——— */}
         <motion.div variants={slideUp} custom={12} initial="hidden" animate="visible">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Accès rapide</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">{t.quickAccess}</h2>
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
             {[
-              { icon: Calendar, label: 'Réservations', href: '/client/bookings', color: '#0891b2' },
-              { icon: Heart, label: 'Favoris', href: '/client/favorites', color: '#ef4444' },
-              { icon: MessageSquare, label: 'Messages', href: '/client/messagerie', color: '#ec4899', badge: stats.unreadMessages || undefined },
-              { icon: Star, label: 'Mes avis', href: '/publier-avis', color: '#f59e0b' },
-              { icon: BookOpen, label: 'Publications', href: '/client/publications', color: '#a855f7' },
-              { icon: Settings, label: 'Paramètres', href: '/client/settings', color: '#6b7280' },
+              { icon: Calendar, label: t.bookings, href: '/client/bookings', color: '#0891b2' },
+              { icon: Heart, label: t.favorites, href: '/client/favorites', color: '#ef4444' },
+              { icon: MessageSquare, label: t.messages, href: '/client/messagerie', color: '#ec4899', badge: stats.unreadMessages || undefined },
+              { icon: Star, label: t.myReviews, href: '/publier-avis', color: '#f59e0b' },
+              { icon: BookOpen, label: t.publications, href: '/client/publications', color: '#a855f7' },
+              { icon: Settings, label: t.settings, href: '/client/settings', color: '#6b7280' },
             ].map((item) => (
               <Link key={item.label} href={item.href}>
                 <motion.div
@@ -797,7 +809,7 @@ export default function ClientDashboard() {
             className="inline-flex items-center gap-2 px-6 py-2.5 text-gray-500 hover:text-red-400 text-sm transition-colors"
           >
             <LogOut className="w-4 h-4" />
-            Déconnexion
+            {t.logout}
           </button>
         </motion.div>
 

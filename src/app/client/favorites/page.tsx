@@ -15,7 +15,9 @@ import {
   Mountain,
   Trash2,
   Loader2,
+  type LucideIcon,
 } from 'lucide-react'
+import { useTrans } from '@/i18n'
 
 interface Favorite {
   id: string
@@ -34,16 +36,16 @@ interface Favorite {
   }
 }
 
-const typeIcons: Record<string, any> = {
+const typeIcons: Record<string, LucideIcon> = {
   HOTEL: Building2,
   RESTAURANT: UtensilsCrossed,
   ATTRACTION: Mountain,
 }
-const typeLabels: Record<string, string> = {
-  HOTEL: 'Hôtel',
-  RESTAURANT: 'Restaurant',
-  ATTRACTION: 'Attraction',
-  PROVIDER: 'Prestataire',
+const typeLabelKeys: Record<string, string> = {
+  HOTEL: 'typeHotel',
+  RESTAURANT: 'typeRestaurant',
+  ATTRACTION: 'typeAttraction',
+  PROVIDER: 'typeProvider',
 }
 const typeColors: Record<string, string> = {
   HOTEL: 'bg-blue-500/10 text-blue-400',
@@ -59,6 +61,7 @@ const typePaths: Record<string, string> = {
 }
 
 export default function ClientFavoritesPage() {
+  const t = useTrans('clientFavorites')
   const router = useRouter()
   const [favorites, setFavorites] = useState<Favorite[]>([])
   const [loading, setLoading] = useState(true)
@@ -66,6 +69,7 @@ export default function ClientFavoritesPage() {
 
   useEffect(() => {
     fetchFavorites()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const fetchFavorites = async () => {
@@ -123,9 +127,9 @@ export default function ClientFavoritesPage() {
               <ArrowLeft className="w-5 h-5 text-gray-400" />
             </button>
             <div>
-              <h1 className="text-lg font-semibold text-gray-900">Mes favoris</h1>
+              <h1 className="text-lg font-semibold text-gray-900">{t.title}</h1>
               <p className="text-sm text-gray-500">
-                {favorites.length} établissement{favorites.length > 1 ? 's' : ''} sauvegardé{favorites.length > 1 ? 's' : ''}
+                {favorites.length} {favorites.length > 1 ? t.subtitlePlural : t.subtitleSingle}
               </p>
             </div>
           </div>
@@ -139,16 +143,16 @@ export default function ClientFavoritesPage() {
               <Heart className="w-8 h-8 text-red-400" />
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              Aucun favori
+              {t.noFavorites}
             </h3>
             <p className="text-gray-400 mb-6">
-              Parcourez les établissements et ajoutez vos préférés pour les retrouver facilement.
+              {t.noFavoritesDesc}
             </p>
             <Link
               href="/bons-plans"
               className="inline-flex items-center gap-2 px-6 py-3 bg-[#ff6b35] text-white rounded-xl hover:bg-[#e55a2b] transition-colors"
             >
-              Découvrir les établissements
+              {t.explore}
             </Link>
           </div>
         ) : (
@@ -159,6 +163,7 @@ export default function ClientFavoritesPage() {
               const href = typePaths[est.type]
                 ? `/bons-plans/${typePaths[est.type]}/${est.slug}`
                 : `/bons-plans`
+              const labelKey = typeLabelKeys[est.type] || 'typeProvider'
 
               return (
                 <div
@@ -183,7 +188,7 @@ export default function ClientFavoritesPage() {
                       )}
                       {est.isFeatured && (
                         <span className="absolute top-2 left-2 px-2 py-0.5 bg-gradient-to-r from-amber-500 to-orange-500 text-gray-900 text-[10px] font-medium rounded-full">
-                          Recommandé
+                          {t.featuredBadge}
                         </span>
                       )}
                     </Link>
@@ -193,7 +198,7 @@ export default function ClientFavoritesPage() {
                       <div>
                         <div className="flex items-center gap-2 mb-1">
                           <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${typeColors[est.type] || 'bg-gray-500/10 text-gray-400'}`}>
-                            {typeLabels[est.type] || est.type}
+                            {t[labelKey] || est.type}
                           </span>
                         </div>
                         <Link href={href}>
@@ -218,7 +223,7 @@ export default function ClientFavoritesPage() {
                             {est.rating?.toFixed(1) || '—'}
                           </span>
                           <span className="text-xs text-gray-500">
-                            ({est.reviewCount} avis)
+                            ({est.reviewCount} {t.reviewsLabel})
                           </span>
                         </div>
                         <button
@@ -231,7 +236,7 @@ export default function ClientFavoritesPage() {
                           ) : (
                             <Trash2 className="w-3.5 h-3.5" />
                           )}
-                          Retirer
+                          {t.remove}
                         </button>
                       </div>
                     </div>

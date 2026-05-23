@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, MessageSquare, Loader2 } from 'lucide-react'
 import ChatInterface from '@/components/chat/ChatInterface'
+import { useTrans } from '@/i18n'
 
 export default function ClientMessageriePage() {
+  const t = useTrans('clientSpace')
   const router = useRouter()
   const [userId, setUserId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -59,12 +61,12 @@ export default function ClientMessageriePage() {
             <div>
               <h1 className="text-2xl font-bold text-white flex items-center gap-2">
                 <MessageSquare className="w-6 h-6 text-[#ff6b35]" />
-                Mes messages
+                {t.myMessages}
               </h1>
               <p className="text-sm text-gray-500 mt-0.5">
                 {unreadHint > 0
-                  ? `${unreadHint} conversation${unreadHint > 1 ? 's' : ''} non lue${unreadHint > 1 ? 's' : ''}`
-                  : 'Toutes vos conversations avec les prestataires'
+                  ? `${unreadHint} ${unreadHint > 1 ? t.unreadConvPlural : t.unreadConvSingle}`
+                  : t.allConversationsHint
                 }
               </p>
             </div>

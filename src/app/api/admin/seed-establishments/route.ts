@@ -655,7 +655,7 @@ export async function POST() {
     // =============================================
     // INSERT ALL DATA
     // =============================================
-    let created = { restaurants: 0, hotels: 0, attractions: 0 };
+    const created = { restaurants: 0, hotels: 0, attractions: 0 };
 
     // Insert restaurants
     for (const r of restaurants) {

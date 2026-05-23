@@ -13,27 +13,28 @@ import {
   Zap,
   type LucideIcon,
 } from 'lucide-react';
+import { useTrans } from '@/i18n';
 
-interface Step {
+interface StepRaw {
   step: number;
-  title: string;
-  description: string;
+  titleKey: 'step1EstabTitle' | 'step2EstabTitle' | 'step3EstabTitle' | 'step4EstabTitle' | 'step1VisitorTitle' | 'step2VisitorTitle' | 'step3VisitorTitle' | 'step4VisitorTitle';
+  descKey: 'step1EstabDesc' | 'step2EstabDesc' | 'step3EstabDesc' | 'step4EstabDesc' | 'step1VisitorDesc' | 'step2VisitorDesc' | 'step3VisitorDesc' | 'step4VisitorDesc';
   icon: LucideIcon;
   color: string;
 }
 
-export const STEPS_ETABLISSEMENT: Step[] = [
-  { step: 1, title: 'Créez votre compte', description: "Inscrivez-vous gratuitement en quelques minutes. Renseignez votre type d'établissement et vos informations de base.", icon: UserPlus, color: '#00ff88' },
-  { step: 2, title: 'Complétez votre profil', description: 'Ajoutez des photos, votre localisation, vos horaires et une description attractive de votre établissement.', icon: FileCheck, color: '#ff6b35' },
-  { step: 3, title: 'Validation par notre équipe', description: 'Notre équipe vérifie votre annonce sous 24-48h pour garantir la qualité de la plateforme.', icon: CheckCircle2, color: '#3b82f6' },
-  { step: 4, title: 'Publiez et attirez des clients', description: 'Votre établissement est visible ! Créez des Flash Deals, gérez vos avis et suivez vos performances.', icon: Rocket, color: '#ff1493' },
+const STEPS_ETABLISSEMENT_RAW: StepRaw[] = [
+  { step: 1, titleKey: 'step1EstabTitle', descKey: 'step1EstabDesc', icon: UserPlus, color: '#00ff88' },
+  { step: 2, titleKey: 'step2EstabTitle', descKey: 'step2EstabDesc', icon: FileCheck, color: '#ff6b35' },
+  { step: 3, titleKey: 'step3EstabTitle', descKey: 'step3EstabDesc', icon: CheckCircle2, color: '#3b82f6' },
+  { step: 4, titleKey: 'step4EstabTitle', descKey: 'step4EstabDesc', icon: Rocket, color: '#ff1493' },
 ];
 
-export const STEPS_VISITEUR: Step[] = [
-  { step: 1, title: 'Explorez Madagascar', description: 'Parcourez les meilleurs hôtels, restaurants, activités et bons plans classés par région.', icon: Search, color: '#8b5cf6' },
-  { step: 2, title: 'Trouvez le bon plan', description: "Utilisez la carte interactive, les filtres par catégorie et les avis pour trouver l'offre parfaite.", icon: MapPin, color: '#22c55e' },
-  { step: 3, title: 'Profitez des Flash Deals', description: 'Bénéficiez de réductions exclusives et limitées dans le temps proposées par nos établissements.', icon: Zap, color: '#f59e0b' },
-  { step: 4, title: 'Partagez votre expérience', description: 'Laissez un avis pour aider les autres voyageurs et contribuez à la communauté Mada Spot.', icon: Star, color: '#ec4899' },
+const STEPS_VISITEUR_RAW: StepRaw[] = [
+  { step: 1, titleKey: 'step1VisitorTitle', descKey: 'step1VisitorDesc', icon: Search, color: '#8b5cf6' },
+  { step: 2, titleKey: 'step2VisitorTitle', descKey: 'step2VisitorDesc', icon: MapPin, color: '#22c55e' },
+  { step: 3, titleKey: 'step3VisitorTitle', descKey: 'step3VisitorDesc', icon: Zap, color: '#f59e0b' },
+  { step: 4, titleKey: 'step4VisitorTitle', descKey: 'step4VisitorDesc', icon: Star, color: '#ec4899' },
 ];
 
 export function AnimatedHero({ children }: { children: React.ReactNode }) {
@@ -58,17 +59,37 @@ export function AnimatedSection({ children, className }: { children: React.React
 }
 
 export function StepsGrid({ type }: { type: 'etablissement' | 'visiteur' }) {
-  const steps = type === 'etablissement' ? STEPS_ETABLISSEMENT : STEPS_VISITEUR;
+  const t = useTrans('commentCaMarche');
+  const steps = type === 'etablissement' ? STEPS_ETABLISSEMENT_RAW : STEPS_VISITEUR_RAW;
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {steps.map((item, i) => (
-        <AnimatedStepCard key={item.step} item={item} index={i} totalSteps={steps.length} />
+        <AnimatedStepCard
+          key={item.step}
+          item={item}
+          index={i}
+          totalSteps={steps.length}
+          title={t[item.titleKey]}
+          description={t[item.descKey]}
+        />
       ))}
     </div>
   );
 }
 
-function AnimatedStepCard({ item, index, totalSteps }: { item: Step; index: number; totalSteps: number }) {
+function AnimatedStepCard({
+  item,
+  index,
+  totalSteps,
+  title,
+  description,
+}: {
+  item: StepRaw;
+  index: number;
+  totalSteps: number;
+  title: string;
+  description: string;
+}) {
   const Icon = item.icon;
   return (
     <motion.div
@@ -87,8 +108,8 @@ function AnimatedStepCard({ item, index, totalSteps }: { item: Step; index: numb
         </div>
         <span className="text-3xl font-bold text-gray-300">{item.step}</span>
       </div>
-      <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-      <p className="text-sm text-gray-400 leading-relaxed">{item.description}</p>
+      <h3 className="text-lg font-semibold mb-2">{title}</h3>
+      <p className="text-sm text-gray-400 leading-relaxed">{description}</p>
       {index < totalSteps - 1 && (
         <ArrowRight className="hidden lg:block absolute -right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 z-10" />
       )}

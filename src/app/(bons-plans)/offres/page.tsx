@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
-import { Flame } from 'lucide-react';
 import { prisma } from '@/lib/db';
-import OffresContent from './OffresContent';
+import OffresContent, { OffresHero } from './OffresContent';
 
 export const metadata: Metadata = {
   title: 'Offres du Moment | Mada Spot',
@@ -120,22 +119,7 @@ export default async function OffresPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white">
-      {/* Hero */}
-      <div className="relative py-32 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-pink-500/10 to-purple-500/20" />
-        <div className="max-w-7xl mx-auto relative text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/20 border border-orange-500/30 rounded-full text-orange-400 text-sm mb-6">
-            <Flame className="w-4 h-4" />
-            Promotions exclusives des prestataires
-          </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-4">
-            Offres du <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">Moment</span>
-          </h1>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Profitez des réductions flash sur les hôtels, restaurants et activités à Madagascar
-          </p>
-        </div>
-      </div>
+      <OffresHero />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <OffresContent offres={offres} />

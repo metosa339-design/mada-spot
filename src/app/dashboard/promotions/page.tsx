@@ -6,6 +6,7 @@ import {
   Zap, Plus, Trash2, Clock, Calendar, Percent, Tag,
   Loader2, AlertCircle, CheckCircle, Sparkles, Timer
 } from 'lucide-react'
+import { useTrans } from '@/i18n'
 
 interface Promotion {
   key: string
@@ -27,6 +28,7 @@ interface Establishment {
 }
 
 function CountdownTimer({ endDate }: { endDate: string }) {
+  const t = useTrans('dashboardPromotions')
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0, expired: false })
 
   useEffect(() => {
@@ -47,16 +49,16 @@ function CountdownTimer({ endDate }: { endDate: string }) {
   }, [endDate])
 
   if (timeLeft.expired) {
-    return <span className="text-red-400 text-sm font-medium">Expiré</span>
+    return <span className="text-red-400 text-sm font-medium">{t.expired2}</span>
   }
 
   return (
     <div className="flex gap-2">
       {[
-        { value: timeLeft.days, label: 'j' },
-        { value: timeLeft.hours, label: 'h' },
-        { value: timeLeft.minutes, label: 'm' },
-        { value: timeLeft.seconds, label: 's' },
+        { value: timeLeft.days, label: t.dayShort },
+        { value: timeLeft.hours, label: t.hourShort },
+        { value: timeLeft.minutes, label: t.minShort },
+        { value: timeLeft.seconds, label: t.secShort },
       ].map((item, i) => (
         <div key={i} className="bg-black/40 rounded-lg px-2 py-1 text-center min-w-[40px]">
           <div className="text-gray-900 font-bold text-sm">{String(item.value).padStart(2, '0')}</div>
@@ -68,6 +70,7 @@ function CountdownTimer({ endDate }: { endDate: string }) {
 }
 
 export default function PromotionsPage() {
+  const t = useTrans('dashboardPromotions')
   const [promotions, setPromotions] = useState<Promotion[]>([])
   const [establishments, setEstablishments] = useState<Establishment[]>([])
   const [loading, setLoading] = useState(true)
@@ -103,7 +106,7 @@ export default function PromotionsPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!form.establishmentId || !form.title || !form.endDate) {
-      setError('Remplissez tous les champs obligatoires')
+      setError(t.fillRequired)
       return
     }
     setSaving(true)
@@ -116,24 +119,24 @@ export default function PromotionsPage() {
         body: JSON.stringify({ ...form, isActive: true }),
       })
       if (res.ok) {
-        setSuccess('Promotion créée !')
+        setSuccess(t.promoCreated)
         setShowForm(false)
         setForm({ establishmentId: '', title: '', description: '', discountPercent: 10, startDate: new Date().toISOString().split('T')[0], endDate: '' })
         fetchData()
         setTimeout(() => setSuccess(''), 3000)
       } else {
         const data = await res.json()
-        setError(data.error || 'Erreur lors de la création')
+        setError(data.error || t.createError)
       }
     } catch {
-      setError('Erreur réseau')
+      setError(t.networkError)
     } finally {
       setSaving(false)
     }
   }
 
   const handleDelete = async (key: string) => {
-    if (!confirm('Supprimer cette promotion ?')) return
+    if (!confirm(t.confirmDelete)) return
     try {
       await fetch('/api/dashboard/promotions', {
         method: 'DELETE',
@@ -163,16 +166,16 @@ export default function PromotionsPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
             <Zap className="w-7 h-7 text-yellow-400" />
-            Flash Deals & Promotions
+            {t.pageTitle}
           </h1>
-          <p className="text-gray-400 text-sm mt-1">Créez des offres irrésistibles avec compte à rebours</p>
+          <p className="text-gray-400 text-sm mt-1">{t.pageSubtitle}</p>
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
           className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#ff6b35] to-pink-500 text-white rounded-xl font-medium hover:opacity-90 transition-opacity"
         >
           <Plus className="w-4 h-4" />
-          Nouvelle promotion
+          {t.newPromo}
         </button>
       </div>
 
@@ -204,18 +207,18 @@ export default function PromotionsPage() {
           >
             <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-yellow-400" />
-              Créer une promotion
+              {t.formTitle}
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Établissement *</label>
+                <label className="block text-sm text-gray-400 mb-1">{t.establishmentRequired}</label>
                 <select
                   value={form.establishmentId}
                   onChange={(e) => setForm(f => ({ ...f, establishmentId: e.target.value }))}
                   className="w-full px-4 py-3 bg-gray-50 border border-white/10 rounded-xl text-gray-900 focus:outline-none focus:border-[#ff6b35] transition-colors"
                 >
-                  <option value="">Sélectionner...</option>
+                  <option value="">{t.selectPlaceholder}</option>
                   {establishments.map(e => (
                     <option key={e.id} value={e.id}>{e.name}</option>
                   ))}
@@ -223,29 +226,29 @@ export default function PromotionsPage() {
               </div>
 
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Titre de l&apos;offre *</label>
+                <label className="block text-sm text-gray-400 mb-1">{t.offerTitleRequired}</label>
                 <input
                   type="text"
                   value={form.title}
                   onChange={(e) => setForm(f => ({ ...f, title: e.target.value }))}
-                  placeholder="Ex: -20% ce week-end !"
+                  placeholder={t.offerTitlePlaceholder}
                   className="w-full px-4 py-3 bg-gray-50 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35] transition-colors"
                 />
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm text-gray-400 mb-1">Description</label>
+                <label className="block text-sm text-gray-400 mb-1">{t.descLabel}</label>
                 <textarea
                   value={form.description}
                   onChange={(e) => setForm(f => ({ ...f, description: e.target.value }))}
                   rows={2}
-                  placeholder="Décrivez votre offre..."
+                  placeholder={t.descriptionPlaceholder}
                   className="w-full px-4 py-3 bg-gray-50 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35] transition-colors resize-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm text-gray-400 mb-1">Réduction (%)</label>
+                <label className="block text-sm text-gray-400 mb-1">{t.discountLabel}</label>
                 <div className="flex items-center gap-3">
                   <input
                     type="range"
@@ -264,7 +267,7 @@ export default function PromotionsPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm text-gray-400 mb-1">Début</label>
+                  <label className="block text-sm text-gray-400 mb-1">{t.startLabel}</label>
                   <input
                     type="date"
                     value={form.startDate}
@@ -273,7 +276,7 @@ export default function PromotionsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-400 mb-1">Fin *</label>
+                  <label className="block text-sm text-gray-400 mb-1">{t.endRequired}</label>
                   <input
                     type="date"
                     value={form.endDate}
@@ -291,10 +294,10 @@ export default function PromotionsPage() {
                 className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#ff6b35] to-pink-500 text-white rounded-xl font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
               >
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
-                Lancer la promo
+                {t.launchPromo}
               </button>
               <button type="button" onClick={() => setShowForm(false)} className="px-6 py-2.5 bg-white/5 text-gray-400 rounded-xl hover:bg-gray-100 transition-colors">
-                Annuler
+                {t.cancel}
               </button>
             </div>
           </motion.form>
@@ -305,13 +308,13 @@ export default function PromotionsPage() {
       <div>
         <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
           <Timer className="w-5 h-5 text-green-400" />
-          Promotions actives ({activePromos.length})
+          {t.activePromos} ({activePromos.length})
         </h2>
         {activePromos.length === 0 ? (
           <div className="bg-white border border-white/10 rounded-2xl p-8 text-center">
             <Zap className="w-12 h-12 text-gray-600 mx-auto mb-3" />
-            <p className="text-gray-400">Aucune promotion active</p>
-            <p className="text-gray-500 text-sm mt-1">Créez votre première offre flash pour attirer plus de clients</p>
+            <p className="text-gray-400">{t.noActivePromo}</p>
+            <p className="text-gray-500 text-sm mt-1">{t.noActivePromoHint}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -346,7 +349,7 @@ export default function PromotionsPage() {
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-xs text-gray-500 mb-1">Expire dans</p>
+                    <p className="text-xs text-gray-500 mb-1">{t.expiresIn}</p>
                     <CountdownTimer endDate={promo.endDate} />
                   </div>
                   <button
@@ -367,7 +370,7 @@ export default function PromotionsPage() {
         <div>
           <h2 className="text-lg font-semibold text-gray-400 mb-4 flex items-center gap-2">
             <Clock className="w-5 h-5" />
-            Promotions passées ({expiredPromos.length})
+            {t.pastPromos} ({expiredPromos.length})
           </h2>
           <div className="space-y-2">
             {expiredPromos.map((promo) => (

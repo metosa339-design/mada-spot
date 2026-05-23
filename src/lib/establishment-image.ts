@@ -305,27 +305,32 @@ export function getEstablishmentImage(
   name: string,
   coverImage?: string | null,
 ): string {
-  // 1. Real cover image -> use it.
+  // 1. Real cover image -> use it (goes through getImageUrl since it may be a
+  // Cloudinary upload or remote URL).
   if (coverImage && coverImage.trim().length > 0) {
     return getImageUrl(coverImage);
   }
 
   const seed = name && name.length > 0 ? name : `${type}-${city ?? ''}`;
 
-  // 2. City match.
+  // 2-4. Fallbacks are local-only assets in /public/images/. Return the path
+  // as-is so Next.js Image serves them directly (passing through getImageUrl
+  // would rewrite to Cloudinary, which 404s for these never-uploaded files).
+  // Combine type + city images for variety AND type relevance.
+  // Type images are weighted 2x to favour visual coherence (a restaurant
+  // should look like a restaurant, not a generic city street).
   const cityKey = resolveCityKey(city);
-  if (cityKey && CITY_IMAGES[cityKey]?.length) {
-    return getImageUrl(pick(CITY_IMAGES[cityKey], seed));
-  }
-
-  // 3. Type fallback.
+  const cityImages = cityKey && CITY_IMAGES[cityKey] ? CITY_IMAGES[cityKey] : [];
   const typeKey = (type || '').toUpperCase();
-  if (TYPE_IMAGES[typeKey]?.length) {
-    return getImageUrl(pick(TYPE_IMAGES[typeKey], seed));
+  const typeImages = TYPE_IMAGES[typeKey] || [];
+
+  const pool = [...typeImages, ...typeImages, ...cityImages];
+  if (pool.length > 0) {
+    return pick(pool, seed);
   }
 
-  // 4. Ultimate.
-  return getImageUrl(ULTIMATE_FALLBACK);
+  // Ultimate fallback (should never hit if type is valid).
+  return ULTIMATE_FALLBACK;
 }
 
 /* ---------- Highlight (points forts) image matcher ---------- */
@@ -505,17 +510,19 @@ const HIGHLIGHT_DEFAULTS = [
 ];
 
 export function getHighlightImage(label: string, fallbackSeed?: string): string {
+  // Highlights are local-only assets — return path as-is (skip getImageUrl
+  // rewriting to Cloudinary which would 404 for never-uploaded files).
   const norm = normalise(label);
   if (norm) {
     for (const { keywords, images } of HIGHLIGHT_KEYWORDS) {
       for (const kw of keywords) {
         const nkw = normalise(kw);
         if (nkw && norm.includes(nkw)) {
-          return getImageUrl(pick(images, label));
+          return pick(images, label);
         }
       }
     }
   }
   const seed = fallbackSeed && fallbackSeed.length > 0 ? `${fallbackSeed}-${label}` : label || 'highlight';
-  return getImageUrl(pick(HIGHLIGHT_DEFAULTS, seed));
+  return pick(HIGHLIGHT_DEFAULTS, seed);
 }

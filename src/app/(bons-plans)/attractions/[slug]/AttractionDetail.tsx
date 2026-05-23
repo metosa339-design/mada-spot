@@ -10,7 +10,7 @@ import dynamic from 'next/dynamic';
 const DirectionsWidget = dynamic(() => import('@/components/maps/DirectionsWidget'), { ssr: false });
 import SourceAttribution from '@/components/bons-plans/SourceAttribution';
 import BookingChatWidget from '@/components/bons-plans/BookingChatWidget';
-import { getImageUrl } from '@/lib/image-url';
+import { getEstablishmentImage, getHighlightImage } from '@/lib/establishment-image';
 import SocialLinks from '@/components/bons-plans/SocialLinks';
 import ReviewPreview from '@/components/bons-plans/ReviewPreview';
 import OpenCloseBadge from '@/components/bons-plans/OpenCloseBadge';
@@ -110,97 +110,9 @@ const dayLabels: Record<string, string> = {
   sunday: 'Dimanche',
 };
 
-// Images par catégorie pour les attractions
-const ATTRACTION_IMAGES: Record<string, string[]> = {
-  tsingy: [
-    'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=800&q=80',
-    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80',
-  ],
-  baobab: [
-    'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=800&q=80',
-    'https://images.unsplash.com/photo-1625576553878-6a28f9733cd8?w=800&q=80',
-  ],
-  ile: [
-    'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&q=80',
-    'https://images.unsplash.com/photo-1559825481-12a05cc00344?w=800&q=80',
-    'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80',
-  ],
-  plage: [
-    'https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=800&q=80',
-    'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&q=80',
-    'https://images.unsplash.com/photo-1471922694854-ff1b63b20054?w=800&q=80',
-  ],
-  montagne: [
-    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
-    'https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?w=800&q=80',
-  ],
-  parc: [
-    'https://images.unsplash.com/photo-1590418606746-018840f9cd0f?w=800&q=80',
-    'https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80',
-    'https://images.unsplash.com/photo-1596005554384-d293674c91d7?w=800&q=80',
-  ],
-  reserve: [
-    'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800&q=80',
-    'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800&q=80',
-    'https://images.unsplash.com/photo-1474511320723-9a56873571b7?w=800&q=80',
-  ],
-  cascade: [
-    'https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=800&q=80',
-    'https://images.unsplash.com/photo-1467890947394-8171244e5410?w=800&q=80',
-  ],
-  train: [
-    'https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=800&q=80',
-    'https://images.unsplash.com/photo-1527684651001-731c474bbb5a?w=800&q=80',
-  ],
-  default: [
-    'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=800&q=80',
-    'https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=800&q=80',
-    'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800&q=80',
-    'https://images.unsplash.com/photo-1590418606746-018840f9cd0f?w=800&q=80',
-    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
-    'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&q=80',
-    'https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=800&q=80',
-  ],
-};
-
-const ATTRACTION_KEYWORDS: Record<string, string[]> = {
-  tsingy: ['tsingy', 'bemaraha'],
-  baobab: ['baobab', 'morondava', 'allée'],
-  ile: ['nosy', 'île', 'ile', 'iranja', 'tanikely', 'komba', 'nattes'],
-  plage: ['plage', 'beach', 'anakao', 'ifaty'],
-  montagne: ['montagne', 'makay', 'ambre', 'andringitra', 'massif', 'isalo'],
-  parc: ['parc', 'ranomafana', 'andasibe', 'masoala', 'mantadia'],
-  reserve: ['réserve', 'reserve', 'anja', 'berenty', 'ankarana', 'reniala'],
-  cascade: ['cascade', 'chute', 'waterfall'],
-  train: ['train', 'fce', 'fianarantsoa'],
-};
-
-function getAttractionImage(name: string, coverImage?: string | null): string {
-  if (coverImage && (coverImage.startsWith('http') || coverImage.startsWith('/'))) {
-    return getImageUrl(coverImage) || encodeURI(coverImage);
-  }
-
-  const lowerName = name.toLowerCase();
-
-  for (const [category, keywords] of Object.entries(ATTRACTION_KEYWORDS)) {
-    for (const keyword of keywords) {
-      if (lowerName.includes(keyword)) {
-        const images = ATTRACTION_IMAGES[category];
-        let hash = 0;
-        for (let i = 0; i < name.length; i++) {
-          hash = ((hash << 5) - hash) + name.charCodeAt(i);
-        }
-        return getImageUrl(images[Math.abs(hash) % images.length]);
-      }
-    }
-  }
-
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = ((hash << 5) - hash) + name.charCodeAt(i);
-  }
-  return getImageUrl(ATTRACTION_IMAGES.default[Math.abs(hash) % ATTRACTION_IMAGES.default.length]);
-}
+// Image resolution is delegated to lib/establishment-image (getEstablishmentImage /
+// getHighlightImage), so the previous local Unsplash-based ATTRACTION_IMAGES /
+// ATTRACTION_KEYWORDS maps were removed.
 
 export default function AttractionDetail() {
   const params = useParams();
@@ -283,6 +195,7 @@ export default function AttractionDetail() {
           coverImage={attraction.coverImage}
           images={attraction.images || []}
           establishmentName={attraction.name}
+          fallbackImage={getEstablishmentImage('ATTRACTION', attraction.city, attraction.name)}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-black/30 pointer-events-none" />
 
@@ -438,12 +351,12 @@ export default function AttractionDetail() {
                       className="group relative overflow-hidden rounded-xl bg-[#2a2a36] aspect-[4/3] cursor-pointer border border-[#3a3a46]"
                     >
                       <div
-                        className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:opacity-80 group-hover:scale-110 transition-all duration-700"
+                        className="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-all duration-700"
                         style={{
-                          backgroundImage: `url(${getAttractionImage(highlight)})`
+                          backgroundImage: `url(${getHighlightImage(highlight, attraction.name)})`
                         }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
                       <motion.div
                         initial={{ scale: 0 }}
                         whileInView={{ scale: 1 }}
@@ -763,7 +676,7 @@ export default function AttractionDetail() {
                     <div
                       className="relative h-48 bg-cover bg-center group-hover:scale-105 transition-transform duration-300"
                       style={{
-                        backgroundImage: `url(${getAttractionImage(a.name, a.coverImage)})`
+                        backgroundImage: `url(${getEstablishmentImage('ATTRACTION', a.city, a.name, a.coverImage)})`
                       }}
                     >
                       <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a24] via-transparent to-transparent" />

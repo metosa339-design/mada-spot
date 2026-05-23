@@ -11,7 +11,7 @@ const DirectionsWidget = dynamic(() => import('@/components/maps/DirectionsWidge
 import BookingChatWidget from '@/components/bons-plans/BookingChatWidget';
 import CategorizedGallery from '@/components/bons-plans/CategorizedGallery';
 import PhotoGallerySection from '@/components/bons-plans/PhotoGallerySection';
-import { getImageUrl } from '@/lib/image-url';
+import { getEstablishmentImage } from '@/lib/establishment-image';
 import SocialLinks from '@/components/bons-plans/SocialLinks';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -170,6 +170,7 @@ export default function ProviderDetail() {
         coverImage={provider.coverImage}
         images={provider.images || []}
         establishmentName={provider.name}
+        fallbackImage={getEstablishmentImage('PROVIDER', provider.city, provider.name)}
       />
 
       {/* Content */}
@@ -455,13 +456,13 @@ export default function ProviderDetail() {
                       className="flex items-center gap-3 p-3 bg-[#0d1520] rounded-xl hover:bg-[#0d1520]/80 transition-colors group"
                     >
                       <div className="w-12 h-12 rounded-lg overflow-hidden bg-[#2a2a36] flex-shrink-0 relative">
-                        {sp.coverImage ? (
-                          <Image src={getImageUrl(sp.coverImage)} alt={sp.name} fill sizes="48px" className="object-cover" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <Users className="w-5 h-5 text-slate-600" />
-                          </div>
-                        )}
+                        <Image
+                          src={getEstablishmentImage('PROVIDER', sp.city, sp.name, sp.coverImage)}
+                          alt={sp.name}
+                          fill
+                          sizes="48px"
+                          className="object-cover"
+                        />
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-medium text-white truncate group-hover:text-cyan-400 transition-colors">{sp.name}</p>

@@ -16,6 +16,11 @@ interface CategorizedGalleryProps {
   images: string[];
   categories?: GalleryCategory[];
   establishmentName: string;
+  /**
+   * Image to use when the establishment has no coverImage / images at all.
+   * Should already be an absolute or local path; getImageUrl is applied internally.
+   */
+  fallbackImage?: string | null;
 }
 
 export default function CategorizedGallery({
@@ -23,8 +28,14 @@ export default function CategorizedGallery({
   images,
   categories = [],
   establishmentName,
+  fallbackImage,
 }: CategorizedGalleryProps) {
-  const allImages = [coverImage, ...images].filter(Boolean).map((img) => getImageUrl(img as string)) as string[];
+  const baseImages = [coverImage, ...images].filter(Boolean) as string[];
+  const allImages = (
+    baseImages.length > 0
+      ? baseImages
+      : (fallbackImage ? [fallbackImage] : [])
+  ).map((img) => getImageUrl(img));
 
   // Build tabs: "Tous" + each category that has images
   const tabs: { label: string; images: string[] }[] = [

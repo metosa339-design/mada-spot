@@ -7,6 +7,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, MapPin, Star, X, UtensilsCrossed, Coffee, Wine, Truck, ShoppingBag, Wifi, Menu as _MenuIcon, Image as ImageIcon, Eye, SlidersHorizontal } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
+import { getEstablishmentImage } from '@/lib/establishment-image';
 import PhotoSlider from '@/components/ui/PhotoSlider';
 import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 import { useTrans } from '@/i18n';
@@ -389,19 +390,13 @@ function RestaurantsPageContent() {
                 >
                   {/* Image */}
                   <div className="relative w-32 sm:w-40 lg:w-full aspect-square lg:aspect-[4/3] flex-shrink-0 bg-gradient-to-br from-gray-100 to-gray-200 lg:from-[#1a1a24] lg:to-[#2a2a36]">
-                    {restaurant.coverImage ? (
-                      <NextImage
-                        src={getImageUrl(restaurant.coverImage)}
-                        alt={restaurant.name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <UtensilsCrossed className="w-16 h-16 text-slate-600" />
-                      </div>
-                    )}
+                    <NextImage
+                      src={getEstablishmentImage('RESTAURANT', restaurant.city, restaurant.name, restaurant.coverImage)}
+                      alt={restaurant.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
 
                     {/* Badges */}
                     <div className="absolute top-3 left-3 flex flex-wrap gap-2">

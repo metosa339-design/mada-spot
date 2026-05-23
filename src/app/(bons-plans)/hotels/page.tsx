@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Search, MapPin, Star, Building2, Filter, Wifi, Car, Utensils, Waves, Zap, Snowflake, Loader2, SlidersHorizontal } from 'lucide-react';
-import { getImageUrl } from '@/lib/image-url';
+import { getEstablishmentImage } from '@/lib/establishment-image';
 import PhotoSlider from '@/components/ui/PhotoSlider';
 import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 import { useTrans } from '@/i18n';
@@ -428,19 +428,13 @@ function HotelsPage() {
                   >
                     {/* Image — horizontal on mobile, vertical on desktop */}
                     <div className="relative w-32 sm:w-40 lg:w-full aspect-square lg:aspect-[4/3] bg-[#2a2a36] shrink-0">
-                      {hotel.coverImage ? (
-                        <Image
-                          src={getImageUrl(hotel.coverImage)}
-                          alt={hotel.name}
-                          fill
-                          sizes="(max-width: 1024px) 160px, 33vw"
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <Building2 className="w-10 h-10 text-slate-600" />
-                        </div>
-                      )}
+                      <Image
+                        src={getEstablishmentImage('HOTEL', hotel.city, hotel.name, hotel.coverImage)}
+                        alt={hotel.name}
+                        fill
+                        sizes="(max-width: 1024px) 160px, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
                       {hotel.starRating && (
                         <div className="absolute top-2 left-2 flex items-center gap-0.5 px-1.5 py-0.5 bg-black/60 backdrop-blur-sm rounded-md">
                           {[...Array(hotel.starRating)].map((_, i) => (

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Star, Building2, UtensilsCrossed, Mountain, Users, Crown, MapPin } from 'lucide-react';
-import { getImageUrl } from '@/lib/image-url';
+import { getEstablishmentImage } from '@/lib/establishment-image';
 
 interface Establishment {
   id: string;
@@ -139,19 +139,13 @@ export default function SearchResultCard({ establishment }: SearchResultCardProp
     >
       {/* Cover image */}
       <div className="relative aspect-video bg-[#1a1a24]">
-        {establishment.coverImage ? (
-          <Image
-            src={getImageUrl(establishment.coverImage)}
-            alt={establishment.name}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-600">
-            {typeConfig.icon && <div className="scale-[3] opacity-30">{typeConfig.icon}</div>}
-          </div>
-        )}
+        <Image
+          src={getEstablishmentImage(establishment.type, establishment.city, establishment.name, establishment.coverImage)}
+          alt={establishment.name}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
 
         {/* Type badge - top left */}
         <div className={`absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold text-white ${typeConfig.bgColor} backdrop-blur-sm`}>

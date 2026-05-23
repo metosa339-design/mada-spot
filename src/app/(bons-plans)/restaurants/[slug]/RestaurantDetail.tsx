@@ -28,6 +28,7 @@ import PhotoGallerySection from '@/components/bons-plans/PhotoGallerySection';
 import EnhancedContactButtons from '@/components/bons-plans/EnhancedContactButtons';
 import AccessInfo from '@/components/bons-plans/AccessInfo';
 import { getImageUrl } from '@/lib/image-url';
+import { getEstablishmentImage } from '@/lib/establishment-image';
 
 interface Restaurant {
   id: string;
@@ -313,6 +314,7 @@ export default function RestaurantDetail() {
             { label: 'Carte & Menu', images: restaurant.menuImages },
           ] : []}
           establishmentName={restaurant.name}
+          fallbackImage={getEstablishmentImage('RESTAURANT', restaurant.city, restaurant.name)}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/40 pointer-events-none" />
 
@@ -1054,19 +1056,13 @@ export default function RestaurantDetail() {
                   className="group bg-[#1a1a24] rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all"
                 >
                   <div className="relative h-48 bg-gradient-to-br from-slate-700 to-slate-800">
-                    {r.coverImage ? (
-                      <Image
-                        src={getImageUrl(r.coverImage)}
-                        alt={r.name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <UtensilsCrossed className="w-16 h-16 text-slate-500" />
-                      </div>
-                    )}
+                    <Image
+                      src={getEstablishmentImage('RESTAURANT', r.city, r.name, r.coverImage)}
+                      alt={r.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
                     <div className="absolute top-3 left-3 px-2 py-1 bg-orange-500/100 text-white text-xs font-medium rounded-full">
                       {categoryLabels[r.category]}
                     </div>

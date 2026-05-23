@@ -29,6 +29,7 @@ import ReviewPreview from '@/components/bons-plans/ReviewPreview';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { getImageUrl } from '@/lib/image-url';
+import { getEstablishmentImage } from '@/lib/establishment-image';
 import { useToast } from '@/contexts/ToastContext';
 
 interface RoomType {
@@ -232,6 +233,7 @@ export default function HotelDetail() {
             { label: 'Chambres', images: hotel.roomTypes.flatMap((r) => r.images || []) },
           ] : []}
           establishmentName={hotel.name}
+          fallbackImage={getEstablishmentImage('HOTEL', hotel.city, hotel.name)}
         />
 
         {/* Back button */}
@@ -618,19 +620,13 @@ export default function HotelDetail() {
                   className="group shrink-0 w-56 lg:w-auto bg-[#1a1a24] rounded-xl overflow-hidden border border-[#2a2a36] hover:shadow-lg lg:hover:border-orange-500/50 transition-all"
                 >
                   <div className="relative h-36 lg:h-48 bg-[#2a2a36]">
-                    {h.coverImage ? (
-                      <Image
-                        src={getImageUrl(h.coverImage)}
-                        alt={h.name}
-                        fill
-                        sizes="(max-width: 1024px) 224px, 33vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <Building2 className="w-12 h-12 text-slate-400" />
-                      </div>
-                    )}
+                    <Image
+                      src={getEstablishmentImage('HOTEL', h.city, h.name, h.coverImage)}
+                      alt={h.name}
+                      fill
+                      sizes="(max-width: 1024px) 224px, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
                   </div>
                   <div className="p-3 lg:p-4">
                     <h3 className="font-bold text-white text-sm group-hover:text-[#ff6b35] transition-colors line-clamp-1">

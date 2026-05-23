@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, MapPin, Star, X, Users, SlidersHorizontal, Car, Camera, Globe, Map as MapIcon, Compass, Briefcase, Ship, ArrowRight, Plus } from 'lucide-react';
-import { getImageUrl } from '@/lib/image-url';
+import { getEstablishmentImage } from '@/lib/establishment-image';
 import PhotoSlider from '@/components/ui/PhotoSlider';
 import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 import { useTrans } from '@/i18n';
@@ -373,19 +373,13 @@ function PrestatairesPageContent() {
                   className="group bg-[#1a1a24] rounded-2xl overflow-hidden border border-[#2a2a36] hover:border-orange-500/50 transition-all flex lg:block"
                 >
                   <div className="relative w-32 sm:w-40 lg:w-full aspect-square lg:aspect-[4/3] shrink-0 bg-gradient-to-br from-gray-100 to-gray-200 lg:from-[#1a1a24] lg:to-[#2a2a36]">
-                    {provider.coverImage ? (
-                      <Image
-                        src={getImageUrl(provider.coverImage)}
-                        alt={provider.name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <Users className="w-16 h-16 text-slate-600" />
-                      </div>
-                    )}
+                    <Image
+                      src={getEstablishmentImage('PROVIDER', provider.city, provider.name, provider.coverImage)}
+                      alt={provider.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
 
                     <div className="absolute top-3 left-3 flex flex-wrap gap-2">
                       <span className={`px-2 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${getServiceTypeColor(provider.serviceType)}`}>

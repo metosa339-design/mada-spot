@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getImageUrl } from '@/lib/image-url';
+import { getEstablishmentImage } from '@/lib/establishment-image';
 import { MapPin, Hotel, Utensils, Compass, Search, X, Star, ChevronRight, Loader2, List, Map, Users } from 'lucide-react';
 import { useTrans } from '@/i18n';
 
@@ -356,9 +356,6 @@ export default function CarteInteractivePage() {
                 ) : (
                   <div className="divide-y divide-slate-100">
                     {filteredMarkers.slice(0, 50).map((marker) => {
-                      const config = typeConfig[marker.type];
-                      const Icon = config.icon;
-
                       return (
                         <Link
                           key={marker.id}
@@ -370,21 +367,15 @@ export default function CarteInteractivePage() {
                           onMouseLeave={() => setSelectedMarker(null)}
                         >
                           <div className="flex gap-3">
-                            {marker.coverImage ? (
-                              <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                                <Image
-                                  src={getImageUrl(marker.coverImage)}
-                                  alt={marker.name}
-                                  fill
-                                  sizes="64px"
-                                  className="object-cover"
-                                />
-                              </div>
-                            ) : (
-                              <div className={`w-16 h-16 rounded-lg ${config.lightColor} flex items-center justify-center flex-shrink-0`}>
-                                <Icon className="w-6 h-6" />
-                              </div>
-                            )}
+                            <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                              <Image
+                                src={getEstablishmentImage(marker.type, marker.city, marker.name, marker.coverImage)}
+                                alt={marker.name}
+                                fill
+                                sizes="64px"
+                                className="object-cover"
+                              />
+                            </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-start justify-between gap-2">
                                 <h3 className="font-medium text-slate-900 truncate">
@@ -466,7 +457,6 @@ export default function CarteInteractivePage() {
                   <div className="grid gap-4">
                     {filteredMarkers.map((marker) => {
                       const config = typeConfig[marker.type];
-                      const Icon = config.icon;
 
                       return (
                         <motion.div
@@ -478,21 +468,15 @@ export default function CarteInteractivePage() {
                             href={getDetailUrl(marker)}
                             className="flex gap-4 p-4 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow"
                           >
-                            {marker.coverImage ? (
-                              <div className="relative w-32 h-24 rounded-xl overflow-hidden flex-shrink-0">
-                                <Image
-                                  src={getImageUrl(marker.coverImage)}
-                                  alt={marker.name}
-                                  fill
-                                  sizes="128px"
-                                  className="object-cover"
-                                />
-                              </div>
-                            ) : (
-                              <div className={`w-32 h-24 rounded-xl ${config.lightColor} flex items-center justify-center flex-shrink-0`}>
-                                <Icon className="w-10 h-10" />
-                              </div>
-                            )}
+                            <div className="relative w-32 h-24 rounded-xl overflow-hidden flex-shrink-0">
+                              <Image
+                                src={getEstablishmentImage(marker.type, marker.city, marker.name, marker.coverImage)}
+                                alt={marker.name}
+                                fill
+                                sizes="128px"
+                                className="object-cover"
+                              />
+                            </div>
 
                             <div className="flex-1">
                               <div className="flex items-start justify-between gap-2">

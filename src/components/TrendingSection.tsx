@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Star, MapPin, TrendingUp, Hotel, UtensilsCrossed, Compass } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getImageUrl } from '@/lib/image-url';
+import { getEstablishmentImage } from '@/lib/establishment-image';
 
 interface TrendingItem {
   id: string;
@@ -54,7 +54,6 @@ export default function TrendingSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {items.map((item) => {
             const typeConf = TYPE_CONFIG[item.type] || TYPE_CONFIG.ATTRACTION;
-            const TypeIcon = typeConf.icon;
 
             return (
               <Link
@@ -64,19 +63,13 @@ export default function TrendingSection() {
               >
                 {/* Image */}
                 <div className="relative h-44 bg-[#12121c]">
-                  {item.coverImage ? (
-                    <Image
-                      src={getImageUrl(item.coverImage)}
-                      alt={item.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-600">
-                      <TypeIcon className="w-12 h-12" />
-                    </div>
-                  )}
+                  <Image
+                    src={getEstablishmentImage(item.type, item.city, item.name, item.coverImage)}
+                    alt={item.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
                   {item.isFeatured && (
                     <span className="absolute top-2 left-2 px-2.5 py-1 bg-orange-500 text-white text-[10px] font-bold rounded-full flex items-center gap-1">
                       <Star className="w-3 h-3 fill-white" /> Featured

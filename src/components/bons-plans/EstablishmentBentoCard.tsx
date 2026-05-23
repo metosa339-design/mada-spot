@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Star, MapPin, Hotel, Utensils, Compass } from 'lucide-react';
 import OpenCloseBadge from './OpenCloseBadge';
-import { getImageUrl } from '@/lib/image-url';
+import { getEstablishmentImage } from '@/lib/establishment-image';
 
 interface BentoCardProps {
   establishment: {
@@ -60,19 +60,13 @@ export default memo(function EstablishmentBentoCard({ establishment, size = 'med
     >
       {/* Cover Image */}
       <div className={`relative overflow-hidden ${size === 'large' ? 'h-64' : 'h-44'}`}>
-        {establishment.coverImage ? (
-          <Image
-            src={getImageUrl(establishment.coverImage)}
-            alt={establishment.name}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-[#2a2a36] to-[#0a0a0f] flex items-center justify-center">
-            <TypeIcon className="w-12 h-12 text-gray-600" />
-          </div>
-        )}
+        <Image
+          src={getEstablishmentImage(establishment.type, establishment.city, establishment.name, establishment.coverImage)}
+          alt={establishment.name}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
+        />
 
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a2e] via-transparent to-transparent" />

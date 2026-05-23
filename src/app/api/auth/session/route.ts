@@ -9,10 +9,10 @@ export async function GET(request: NextRequest) {
     const sessionUser = await getAuthUser(request);
 
     if (!sessionUser) {
-      // Supprimer le cookie si la session est invalide
+      // Pas de session : 200 avec success:false (anonyme = état normal, pas une erreur)
       const response = NextResponse.json(
-        { success: false, error: 'Session invalide ou expirée' },
-        { status: 401 }
+        { success: false, user: null },
+        { status: 200 }
       );
       const clearCookieConfig = getClearSessionCookieConfig();
       response.cookies.set(clearCookieConfig);
@@ -75,9 +75,10 @@ export async function GET(request: NextRequest) {
     }
 
     if (!user) {
+      // Session pointe vers un user supprimé : 200 avec success:false (état anonyme)
       const response = NextResponse.json(
-        { success: false, error: 'Utilisateur non trouvé' },
-        { status: 401 }
+        { success: false, user: null },
+        { status: 200 }
       );
       const clearCookieConfig = getClearSessionCookieConfig();
       response.cookies.set(clearCookieConfig);

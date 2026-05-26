@@ -18,13 +18,13 @@ export default function QuickActionBar() {
       transition={{ delay: 0.5, type: 'spring', damping: 20 }}
       className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 lg:left-[calc(50%+130px)]"
     >
-      <div className="flex items-center gap-2 px-3 py-2 bg-[#111114]/95 backdrop-blur-xl border border-[#27272A] rounded-2xl shadow-2xl shadow-black/50">
+      <div className="flex items-center gap-2 px-3 py-2 bg-white/95 backdrop-blur-xl border border-[#E2E8F0] rounded-2xl shadow-2xl shadow-black/50">
         {actions.map((action) => (
           <Link key={action.href} href={action.href}>
             <motion.div
               whileHover={{ y: -2 }}
               transition={{ duration: 0.2 }}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors hover:bg-[#1A1A1F]"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-[#64748B] hover:text-[#0F172A] transition-colors hover:bg-white"
             >
               <action.icon className="w-4 h-4" style={{ color: action.color }} />
               <span className="hidden sm:inline">{action.label}</span>

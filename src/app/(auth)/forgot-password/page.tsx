@@ -42,14 +42,14 @@ export default function ForgotPasswordPage() {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-[#111114] rounded-xl border border-[#27272A] p-8 w-full max-w-md mx-auto"
+      className="bg-white rounded-xl border border-[#E2E8F0] p-8 w-full max-w-md mx-auto"
     >
       {sent ? (
         <div className="text-center">
           <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
-          <h2 className="text-[22px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-2">{t.forgotEmailSentTitle}</h2>
-          <p className="text-[13px] text-[#A1A1AA] mb-6 leading-relaxed">
-            {t.forgotEmailSentDescBefore} <strong className="text-[#FAFAFA] font-mono">{email}</strong>{t.forgotEmailSentDescAfter}
+          <h2 className="text-[22px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-2">{t.forgotEmailSentTitle}</h2>
+          <p className="text-[13px] text-[#64748B] mb-6 leading-relaxed">
+            {t.forgotEmailSentDescBefore} <strong className="text-[#0F172A] font-mono">{email}</strong>{t.forgotEmailSentDescAfter}
           </p>
           <Link href="/login" className="text-[13px] text-[#FF6B35] hover:underline">
             {t.backToLogin}
@@ -57,13 +57,13 @@ export default function ForgotPasswordPage() {
         </div>
       ) : (
         <>
-          <Link href="/login" className="flex items-center gap-1.5 text-[12px] text-[#A1A1AA] hover:text-[#FAFAFA] mb-6 transition-colors">
+          <Link href="/login" className="flex items-center gap-1.5 text-[12px] text-[#64748B] hover:text-[#0F172A] mb-6 transition-colors">
             <ArrowLeft className="w-3.5 h-3.5" /> {t.back}
           </Link>
 
           <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-2">Réinitialisation</p>
-          <h1 className="text-[22px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-2">{t.forgotTitle}</h1>
-          <p className="text-[13px] text-[#A1A1AA] mb-6 leading-relaxed">
+          <h1 className="text-[22px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-2">{t.forgotTitle}</h1>
+          <p className="text-[13px] text-[#64748B] mb-6 leading-relaxed">
             {t.forgotDesc}
           </p>
 
@@ -77,7 +77,7 @@ export default function ForgotPasswordPage() {
             <div>
               <label htmlFor="forgot-email" className="sr-only">{t.forgotEmailLabel}</label>
               <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#71717A]" aria-hidden="true" />
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" aria-hidden="true" />
                 <input
                   id="forgot-email"
                   type="email"
@@ -85,7 +85,7 @@ export default function ForgotPasswordPage() {
                   onChange={e => setEmail(e.target.value)}
                   required
                   placeholder={t.forgotEmailPlaceholder}
-                  className="w-full pl-10 pr-4 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-lg text-[#FAFAFA] placeholder:text-[#71717A] text-[14px] focus:outline-none focus:border-[#FF6B35]/40 transition-colors"
+                  className="w-full pl-10 pr-4 py-3 bg-white border border-[#E2E8F0] rounded-lg text-[#0F172A] placeholder:text-[#94A3B8] text-[14px] focus:outline-none focus:border-[#FF6B35]/40 transition-colors"
                 />
               </div>
             </div>

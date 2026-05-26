@@ -79,7 +79,7 @@ const BADGE_STYLES: Record<string, { bg: string; text: string; border: string; i
 
 const TYPE_LABELS: Record<string, { label: string; color: string }> = {
   EVENT: { label: 'Événement', color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' },
-  PROMOTION: { label: 'Promo', color: 'bg-[#FF6B35]/20 text-[#FDBA74] border-[#FF6B35]/30' },
+  PROMOTION: { label: 'Promo', color: 'bg-[#FFEDD5] text-[#FDBA74] border-[#FF6B35]/30' },
   ADVERTISEMENT: { label: 'Sponsorisé', color: 'bg-purple-500/20 text-purple-400 border-purple-500/30' },
 };
 
@@ -196,12 +196,12 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
               </h3>
 
               {event.description && (
-                <p className="text-[#52525B]/80 text-sm mb-3 line-clamp-2 max-w-xl">
+                <p className="text-[#CBD5E1]/80 text-sm mb-3 line-clamp-2 max-w-xl">
                   {event.description}
                 </p>
               )}
 
-              <div className="flex flex-wrap items-center gap-4 mb-4 text-sm text-[#52525B]">
+              <div className="flex flex-wrap items-center gap-4 mb-4 text-sm text-[#CBD5E1]">
                 <span className="flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5 text-[#FDBA74]" />
                   {event.city}
@@ -230,7 +230,7 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1A1A1F] hover:bg-[#1A1A1F] backdrop-blur-sm text-white font-semibold rounded-xl text-sm border border-[#3F3F46] transition-all"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-white backdrop-blur-sm text-white font-semibold rounded-xl text-sm border border-[#CBD5E1] transition-all"
                   >
                     {event.ctaLabel}
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -274,11 +274,11 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
 
           {/* Date badge (top-left) - glassmorphism */}
-          <div className="absolute top-3 left-3 bg-black/50 backdrop-blur-md rounded-xl px-3 py-2 text-center border border-[#27272A]">
+          <div className="absolute top-3 left-3 bg-black/50 backdrop-blur-md rounded-xl px-3 py-2 text-center border border-[#E2E8F0]">
             <div className="text-xl font-black text-white leading-tight">
               {format(startDate, 'd')}
             </div>
-            <div className="text-[9px] font-semibold text-[#52525B] uppercase tracking-wider">
+            <div className="text-[9px] font-semibold text-[#CBD5E1] uppercase tracking-wider">
               {format(startDate, 'MMM', { locale: fr })}
             </div>
           </div>
@@ -326,19 +326,19 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
               {event.title}
             </h3>
 
-            <div className="flex items-center gap-3 text-[#52525B] text-xs">
+            <div className="flex items-center gap-3 text-[#CBD5E1] text-xs">
               <span className="flex items-center gap-1">
                 <MapPin className="w-3 h-3 text-[#FDBA74]/70" />
                 {event.city}
               </span>
-              <span className="text-[#A1A1AA]">|</span>
+              <span className="text-[#64748B]">|</span>
               <span>{formatDateRange(event.startDate, event.endDate)}</span>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="bg-[#1A1A1F] px-4 py-3 flex items-center justify-between">
+        <div className="bg-white px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             {event.isRecurring && (
               <span className="flex items-center gap-1 text-[10px] text-amber-400/70">
@@ -346,7 +346,7 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
                 Récurrent
               </span>
             )}
-            <span className="text-[10px] text-[#A1A1AA]">
+            <span className="text-[10px] text-[#64748B]">
               {CATEGORY_LABELS[event.category] || 'Autre'}
             </span>
           </div>
@@ -365,7 +365,7 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
               <ExternalLink className="w-3 h-3 relative" />
             </a>
           ) : (
-            <span className="flex items-center gap-1 text-[11px] text-[#71717A] group-hover:text-[#FDBA74] transition-colors">
+            <span className="flex items-center gap-1 text-[11px] text-[#94A3B8] group-hover:text-[#FDBA74] transition-colors">
               Voir plus
               <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
             </span>

@@ -15,10 +15,10 @@ const InteractiveMapComponent = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="h-full w-full bg-[#0A0A0F] flex items-center justify-center">
+      <div className="h-full w-full bg-[#F8FAFC] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="w-8 h-8 text-[#FF6B35] animate-spin" />
-          <span className="text-[#A1A1AA] text-[13px]">Chargement de la carte...</span>
+          <span className="text-[#64748B] text-[13px]">Chargement de la carte...</span>
         </div>
       </div>
     )
@@ -54,25 +54,25 @@ const typeConfigBase = {
   HOTEL: {
     icon: Hotel,
     activeBg: 'bg-[#FF6B35] border-[#FF6B35] text-white',
-    pillBg: 'bg-[#FF6B35]/10 border-[#FF6B35]/30 text-[#FF6B35]',
+    pillBg: 'bg-[#FFF7ED] border-[#FF6B35]/30 text-[#FF6B35]',
     href: '/hotels',
   },
   RESTAURANT: {
     icon: Utensils,
     activeBg: 'bg-[#FF6B35] border-[#FF6B35] text-white',
-    pillBg: 'bg-[#FF6B35]/10 border-[#FF6B35]/30 text-[#FF6B35]',
+    pillBg: 'bg-[#FFF7ED] border-[#FF6B35]/30 text-[#FF6B35]',
     href: '/restaurants',
   },
   ATTRACTION: {
     icon: Compass,
     activeBg: 'bg-[#FF6B35] border-[#FF6B35] text-white',
-    pillBg: 'bg-[#FF6B35]/10 border-[#FF6B35]/30 text-[#FF6B35]',
+    pillBg: 'bg-[#FFF7ED] border-[#FF6B35]/30 text-[#FF6B35]',
     href: '/attractions',
   },
   PROVIDER: {
     icon: Users,
     activeBg: 'bg-[#FF6B35] border-[#FF6B35] text-white',
-    pillBg: 'bg-[#FF6B35]/10 border-[#FF6B35]/30 text-[#FF6B35]',
+    pillBg: 'bg-[#FFF7ED] border-[#FF6B35]/30 text-[#FF6B35]',
     href: '/prestataires',
   },
 };
@@ -173,54 +173,52 @@ export default function CarteInteractivePage() {
   const cities = [...new Set(markers.map((m) => m.city))].sort();
 
   return (
-    <div className="min-h-screen bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="min-h-screen bg-[#F8FAFC]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       {/* Hero Section */}
-      <section className="relative pt-24 pb-10 overflow-hidden bg-[#0A0A0F]">
-        <div className="absolute -top-32 -left-32 w-[400px] h-[400px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.08] pointer-events-none" />
-        <div className="absolute -bottom-20 -right-20 w-[350px] h-[350px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.10] pointer-events-none" />
+      <section className="relative pt-24 pb-10 overflow-hidden bg-[#F8FAFC]">
 
         <div className="max-w-7xl mx-auto px-4 relative">
           <div className="text-center">
             <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Exploration</p>
             <h1
-              className="text-[32px] sm:text-[44px] lg:text-[52px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-4"
+              className="text-[32px] sm:text-[44px] lg:text-[52px] font-semibold tracking-[-0.03em] text-[#0F172A] mb-4"
               style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
             >
               {t.interactiveMapTitle}
             </h1>
-            <p className="text-[15px] text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed">
+            <p className="text-[15px] text-[#64748B] max-w-2xl mx-auto leading-relaxed">
               {t.interactiveMapSubtitle}
             </p>
           </div>
 
           {/* Stats */}
           <div className="flex flex-wrap items-center justify-center gap-3 mt-7">
-            <div className="flex items-center gap-2 px-3.5 py-2 bg-[#111114] border border-[#27272A] rounded-lg">
+            <div className="flex items-center gap-2 px-3.5 py-2 bg-white border border-[#E2E8F0] rounded-lg">
               <Hotel className="w-4 h-4 text-[#FF6B35]" />
-              <span className="font-mono font-semibold text-[#FAFAFA] text-[14px]">{counts.hotels}</span>
-              <span className="text-[#A1A1AA] text-[13px]">{t.statHotels}</span>
+              <span className="font-mono font-semibold text-[#0F172A] text-[14px]">{counts.hotels}</span>
+              <span className="text-[#64748B] text-[13px]">{t.statHotels}</span>
             </div>
-            <div className="flex items-center gap-2 px-3.5 py-2 bg-[#111114] border border-[#27272A] rounded-lg">
+            <div className="flex items-center gap-2 px-3.5 py-2 bg-white border border-[#E2E8F0] rounded-lg">
               <Utensils className="w-4 h-4 text-[#FF6B35]" />
-              <span className="font-mono font-semibold text-[#FAFAFA] text-[14px]">{counts.restaurants}</span>
-              <span className="text-[#A1A1AA] text-[13px]">{t.statRestaurants}</span>
+              <span className="font-mono font-semibold text-[#0F172A] text-[14px]">{counts.restaurants}</span>
+              <span className="text-[#64748B] text-[13px]">{t.statRestaurants}</span>
             </div>
-            <div className="flex items-center gap-2 px-3.5 py-2 bg-[#111114] border border-[#27272A] rounded-lg">
+            <div className="flex items-center gap-2 px-3.5 py-2 bg-white border border-[#E2E8F0] rounded-lg">
               <Compass className="w-4 h-4 text-[#FF6B35]" />
-              <span className="font-mono font-semibold text-[#FAFAFA] text-[14px]">{counts.attractions}</span>
-              <span className="text-[#A1A1AA] text-[13px]">{t.statAttractions}</span>
+              <span className="font-mono font-semibold text-[#0F172A] text-[14px]">{counts.attractions}</span>
+              <span className="text-[#64748B] text-[13px]">{t.statAttractions}</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* Filters Bar */}
-      <div className="sticky top-0 z-40 bg-[#0A0A0F]/95 backdrop-blur-md border-b border-[#27272A]">
+      <div className="sticky top-0 z-40 bg-[#F8FAFC]/95 backdrop-blur-md border-b border-[#E2E8F0]">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex flex-wrap items-center gap-3">
             {/* Search */}
             <div className="relative flex-1 min-w-[200px]">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#71717A]" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" />
               <input
                 type="text"
                 placeholder={t.searchPlace}
@@ -228,14 +226,14 @@ export default function CarteInteractivePage() {
                 onChange={(e) =>
                   setFilters((prev) => ({ ...prev, search: e.target.value }))
                 }
-                className="w-full pl-10 pr-4 py-2.5 bg-[#111114] border border-[#27272A] rounded-lg text-[#FAFAFA] placeholder-[#71717A] text-[13px] focus:outline-none focus:border-[#3F3F46] transition-colors"
+                className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#E2E8F0] rounded-lg text-[#0F172A] placeholder-[#94A3B8] text-[13px] focus:outline-none focus:border-[#CBD5E1] transition-colors"
               />
               {filters.search && (
                 <button
                   onClick={() => setFilters((prev) => ({ ...prev, search: '' }))}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-[#1A1A1F] rounded-md"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-white rounded-md"
                 >
-                  <X className="w-3.5 h-3.5 text-[#A1A1AA]" />
+                  <X className="w-3.5 h-3.5 text-[#64748B]" />
                 </button>
               )}
             </div>
@@ -254,7 +252,7 @@ export default function CarteInteractivePage() {
                     className={`flex items-center gap-2 px-3.5 py-2 rounded-lg border font-medium text-[12px] transition-colors ${
                       isActive
                         ? config.activeBg
-                        : 'bg-[#111114] border-[#27272A] text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46]'
+                        : 'bg-white border-[#E2E8F0] text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1]'
                     }`}
                   >
                     <Icon className="w-3.5 h-3.5" />
@@ -270,7 +268,7 @@ export default function CarteInteractivePage() {
               onChange={(e) =>
                 setFilters((prev) => ({ ...prev, city: e.target.value }))
               }
-              className="px-4 py-2 bg-[#111114] border border-[#27272A] text-[#FAFAFA] rounded-lg focus:outline-none focus:border-[#3F3F46] text-[12px] font-medium"
+              className="px-4 py-2 bg-white border border-[#E2E8F0] text-[#0F172A] rounded-lg focus:outline-none focus:border-[#CBD5E1] text-[12px] font-medium"
             >
               <option value="">{t.allCities}</option>
               {cities.map((city) => (
@@ -281,13 +279,13 @@ export default function CarteInteractivePage() {
             </select>
 
             {/* View Toggle */}
-            <div className="flex items-center bg-[#111114] border border-[#27272A] rounded-lg p-1">
+            <div className="flex items-center bg-white border border-[#E2E8F0] rounded-lg p-1">
               <button
                 onClick={() => setViewMode('map')}
                 className={`p-1.5 rounded-md transition-colors ${
                   viewMode === 'map'
-                    ? 'bg-[#1A1A1F] text-[#FF6B35]'
-                    : 'text-[#71717A] hover:text-[#A1A1AA]'
+                    ? 'bg-white text-[#FF6B35]'
+                    : 'text-[#94A3B8] hover:text-[#64748B]'
                 }`}
               >
                 <Map className="w-4 h-4" />
@@ -296,8 +294,8 @@ export default function CarteInteractivePage() {
                 onClick={() => setViewMode('list')}
                 className={`p-1.5 rounded-md transition-colors ${
                   viewMode === 'list'
-                    ? 'bg-[#1A1A1F] text-[#FF6B35]'
-                    : 'text-[#71717A] hover:text-[#A1A1AA]'
+                    ? 'bg-white text-[#FF6B35]'
+                    : 'text-[#94A3B8] hover:text-[#64748B]'
                 }`}
               >
                 <List className="w-4 h-4" />
@@ -305,8 +303,8 @@ export default function CarteInteractivePage() {
             </div>
 
             {/* Results Count */}
-            <div className="text-[12px] text-[#71717A]">
-              <span className="font-mono font-semibold text-[#FAFAFA]">{filteredMarkers.length}</span> {t.resultsLabel}
+            <div className="text-[12px] text-[#94A3B8]">
+              <span className="font-mono font-semibold text-[#0F172A]">{filteredMarkers.length}</span> {t.resultsLabel}
             </div>
           </div>
         </div>
@@ -321,17 +319,17 @@ export default function CarteInteractivePage() {
               initial={{ x: -320, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -320, opacity: 0 }}
-              className="w-80 bg-[#111114] border-r border-[#27272A] overflow-hidden flex flex-col"
+              className="w-80 bg-white border-r border-[#E2E8F0] overflow-hidden flex flex-col"
             >
-              <div className="p-4 border-b border-[#27272A] flex items-center justify-between">
-                <h2 className="font-semibold text-[#FAFAFA] text-[14px]">
-                  {t.placesLabel} <span className="text-[#71717A] font-mono">({filteredMarkers.length})</span>
+              <div className="p-4 border-b border-[#E2E8F0] flex items-center justify-between">
+                <h2 className="font-semibold text-[#0F172A] text-[14px]">
+                  {t.placesLabel} <span className="text-[#94A3B8] font-mono">({filteredMarkers.length})</span>
                 </h2>
                 <button
                   onClick={() => setShowSidebar(false)}
-                  className="p-1.5 hover:bg-[#1A1A1F] rounded-md"
+                  className="p-1.5 hover:bg-white rounded-md"
                 >
-                  <X className="w-4 h-4 text-[#A1A1AA]" />
+                  <X className="w-4 h-4 text-[#64748B]" />
                 </button>
               </div>
 
@@ -339,28 +337,28 @@ export default function CarteInteractivePage() {
                 {isLoading ? (
                   <div className="p-8 text-center">
                     <Loader2 className="w-7 h-7 text-[#FF6B35] animate-spin mx-auto mb-3" />
-                    <p className="text-[#A1A1AA] text-[13px]">{t.loadingShort}</p>
+                    <p className="text-[#64748B] text-[13px]">{t.loadingShort}</p>
                   </div>
                 ) : filteredMarkers.length === 0 ? (
                   <div className="p-8 text-center">
-                    <MapPin className="w-12 h-12 text-[#3F3F46] mx-auto mb-3" />
-                    <p className="text-[#A1A1AA] text-[13px]">{t.noResultFound}</p>
+                    <MapPin className="w-12 h-12 text-[#CBD5E1] mx-auto mb-3" />
+                    <p className="text-[#64748B] text-[13px]">{t.noResultFound}</p>
                   </div>
                 ) : (
-                  <div className="divide-y divide-[#27272A]">
+                  <div className="divide-y divide-[#E2E8F0]">
                     {filteredMarkers.slice(0, 50).map((marker) => {
                       return (
                         <Link
                           key={marker.id}
                           href={getDetailUrl(marker)}
-                          className={`block p-3 hover:bg-[#1A1A1F] transition-colors ${
-                            selectedMarker?.id === marker.id ? 'bg-[#1A1A1F]' : ''
+                          className={`block p-3 hover:bg-white transition-colors ${
+                            selectedMarker?.id === marker.id ? 'bg-white' : ''
                           }`}
                           onMouseEnter={() => setSelectedMarker(marker)}
                           onMouseLeave={() => setSelectedMarker(null)}
                         >
                           <div className="flex gap-3">
-                            <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 border border-[#27272A]">
+                            <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 border border-[#E2E8F0]">
                               <Image
                                 src={getEstablishmentImage(marker.type, marker.city, marker.name, marker.coverImage)}
                                 alt={marker.name}
@@ -371,23 +369,23 @@ export default function CarteInteractivePage() {
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-start justify-between gap-2">
-                                <h3 className="font-medium text-[#FAFAFA] text-[13px] truncate">
+                                <h3 className="font-medium text-[#0F172A] text-[13px] truncate">
                                   {marker.name}
                                 </h3>
                                 {marker.isFeatured && (
-                                  <span className="px-1.5 py-0.5 bg-[#FF6B35]/10 border border-[#FF6B35]/30 text-[#FF6B35] text-[10px] font-semibold uppercase tracking-[0.1em] rounded">
+                                  <span className="px-1.5 py-0.5 bg-[#FFF7ED] border border-[#FF6B35]/30 text-[#FF6B35] text-[10px] font-semibold uppercase tracking-[0.1em] rounded">
                                     {t.topBadge}
                                   </span>
                                 )}
                               </div>
-                              <div className="flex items-center gap-1 text-[12px] text-[#A1A1AA] mt-0.5">
+                              <div className="flex items-center gap-1 text-[12px] text-[#64748B] mt-0.5">
                                 <MapPin className="w-3 h-3" />
                                 {marker.city}
                               </div>
                               <div className="flex items-center gap-3 mt-1.5">
                                 <div className="flex items-center gap-1">
                                   <Star className="w-3 h-3 text-[#FF6B35] fill-[#FF6B35]" />
-                                  <span className="text-[12px] font-mono text-[#FAFAFA]">{marker.rating.toFixed(1)}</span>
+                                  <span className="text-[12px] font-mono text-[#0F172A]">{marker.rating.toFixed(1)}</span>
                                 </div>
                                 {marker.priceIndicator && (
                                   <span className="text-[12px] font-mono text-[#FF6B35]">
@@ -396,7 +394,7 @@ export default function CarteInteractivePage() {
                                 )}
                               </div>
                             </div>
-                            <ChevronRight className="w-4 h-4 text-[#3F3F46] flex-shrink-0 self-center" />
+                            <ChevronRight className="w-4 h-4 text-[#CBD5E1] flex-shrink-0 self-center" />
                           </div>
                         </Link>
                       );
@@ -414,9 +412,9 @@ export default function CarteInteractivePage() {
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             onClick={() => setShowSidebar(true)}
-            className="absolute left-4 top-1/2 z-30 p-3 bg-[#111114] border border-[#27272A] hover:border-[#3F3F46] rounded-lg transition-colors"
+            className="absolute left-4 top-1/2 z-30 p-3 bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-lg transition-colors"
           >
-            <List className="w-4 h-4 text-[#FAFAFA]" />
+            <List className="w-4 h-4 text-[#0F172A]" />
           </motion.button>
         )}
 
@@ -429,20 +427,20 @@ export default function CarteInteractivePage() {
               onMarkerClick={setSelectedMarker}
             />
           ) : (
-            <div className="h-full overflow-y-auto bg-[#0A0A0F] p-6">
+            <div className="h-full overflow-y-auto bg-[#F8FAFC] p-6">
               <div className="max-w-4xl mx-auto">
                 {isLoading ? (
                   <div className="text-center py-20">
                     <Loader2 className="w-9 h-9 text-[#FF6B35] animate-spin mx-auto mb-4" />
-                    <p className="text-[#A1A1AA] text-[13px]">{t.loadingPlaces}</p>
+                    <p className="text-[#64748B] text-[13px]">{t.loadingPlaces}</p>
                   </div>
                 ) : filteredMarkers.length === 0 ? (
                   <div className="text-center py-20">
-                    <MapPin className="w-16 h-16 text-[#3F3F46] mx-auto mb-4" />
-                    <h3 className="text-[20px] font-semibold text-[#FAFAFA] mb-2">
+                    <MapPin className="w-16 h-16 text-[#CBD5E1] mx-auto mb-4" />
+                    <h3 className="text-[20px] font-semibold text-[#0F172A] mb-2">
                       {t.noResult}
                     </h3>
-                    <p className="text-[#A1A1AA] text-[13px]">
+                    <p className="text-[#64748B] text-[13px]">
                       {t.modifyFilters}
                     </p>
                   </div>
@@ -459,9 +457,9 @@ export default function CarteInteractivePage() {
                         >
                           <Link
                             href={getDetailUrl(marker)}
-                            className="flex gap-4 p-4 bg-[#111114] border border-[#27272A] hover:border-[#3F3F46] rounded-xl transition-colors"
+                            className="flex gap-4 p-4 bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-xl transition-colors"
                           >
-                            <div className="relative w-32 h-24 rounded-lg overflow-hidden flex-shrink-0 border border-[#27272A]">
+                            <div className="relative w-32 h-24 rounded-lg overflow-hidden flex-shrink-0 border border-[#E2E8F0]">
                               <Image
                                 src={getEstablishmentImage(marker.type, marker.city, marker.name, marker.coverImage)}
                                 alt={marker.name}
@@ -477,18 +475,18 @@ export default function CarteInteractivePage() {
                                   <span className={`inline-block px-2 py-0.5 ${config.pillBg} border text-[10px] font-semibold uppercase tracking-[0.1em] rounded mb-1.5`}>
                                     {config.label}
                                   </span>
-                                  <h3 className="text-[16px] font-semibold text-[#FAFAFA]">
+                                  <h3 className="text-[16px] font-semibold text-[#0F172A]">
                                     {marker.name}
                                   </h3>
                                 </div>
                                 {marker.isFeatured && (
-                                  <span className="px-2 py-1 bg-[#FF6B35]/10 border border-[#FF6B35]/30 text-[#FF6B35] text-[10px] font-semibold uppercase tracking-[0.1em] rounded-md">
+                                  <span className="px-2 py-1 bg-[#FFF7ED] border border-[#FF6B35]/30 text-[#FF6B35] text-[10px] font-semibold uppercase tracking-[0.1em] rounded-md">
                                     {t.recommended}
                                   </span>
                                 )}
                               </div>
 
-                              <div className="flex items-center gap-1 text-[#A1A1AA] text-[13px] mt-1">
+                              <div className="flex items-center gap-1 text-[#64748B] text-[13px] mt-1">
                                 <MapPin className="w-3.5 h-3.5" />
                                 {marker.city}, {marker.district}
                               </div>
@@ -496,8 +494,8 @@ export default function CarteInteractivePage() {
                               <div className="flex items-center gap-4 mt-2.5">
                                 <div className="flex items-center gap-1">
                                   <Star className="w-3.5 h-3.5 text-[#FF6B35] fill-[#FF6B35]" />
-                                  <span className="font-mono text-[#FAFAFA] text-[13px]">{marker.rating.toFixed(1)}</span>
-                                  <span className="text-[#71717A] text-[12px]">({marker.reviewCount})</span>
+                                  <span className="font-mono text-[#0F172A] text-[13px]">{marker.rating.toFixed(1)}</span>
+                                  <span className="text-[#94A3B8] text-[12px]">({marker.reviewCount})</span>
                                 </div>
                                 {marker.priceIndicator && (
                                   <span className="font-mono font-semibold text-[#FF6B35] text-[13px]">
@@ -505,14 +503,14 @@ export default function CarteInteractivePage() {
                                   </span>
                                 )}
                                 {marker.subtype && (
-                                  <span className="text-[12px] text-[#71717A]">
+                                  <span className="text-[12px] text-[#94A3B8]">
                                     {marker.subtype}
                                   </span>
                                 )}
                               </div>
                             </div>
 
-                            <ChevronRight className="w-5 h-5 text-[#3F3F46] self-center" />
+                            <ChevronRight className="w-5 h-5 text-[#CBD5E1] self-center" />
                           </Link>
                         </motion.div>
                       );

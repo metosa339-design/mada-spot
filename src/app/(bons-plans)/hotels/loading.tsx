@@ -1,6 +1,6 @@
 export default function HotelsLoading() {
   return (
-    <div className="min-h-screen bg-[#0a0a0f] pt-20 px-4">
+    <div className="min-h-screen bg-[#F8FAFC] pt-20 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8 animate-pulse">
           <div className="h-8 bg-white/5 rounded-lg w-48 mb-3" />

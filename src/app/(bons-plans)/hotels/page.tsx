@@ -56,7 +56,7 @@ const amenityKeys = ['wifi', 'parking', 'restaurant', 'pool', 'generator', 'ac',
 
 export default function HotelsPageWrapper() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-orange-500" /></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-orange-500" /></div>}>
       <HotelsPage />
     </Suspense>
   );
@@ -169,19 +169,19 @@ function HotelsPage() {
   const hasActiveFilters = minStars || minPrice || maxPrice || selectedAmenities.length > 0;
 
   return (
-    <main className="min-h-screen bg-[#0a0a0f]">
+    <main className="min-h-screen bg-[#F8FAFC]">
 
       {/* Header dark premium */}
-      <section className="bg-[#0A0A0F] border-b border-[#27272A]">
+      <section className="bg-[#F8FAFC] border-b border-[#E2E8F0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
             {/* Left: Title */}
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="flex-shrink-0">
-              <h1 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] flex items-center gap-2.5" style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}>
+              <h1 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] flex items-center gap-2.5" style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}>
                 <Building2 className="w-6 h-6 sm:w-7 sm:h-7 text-[#FF6B35] flex-shrink-0" />
                 {t.hotelsTitle}
               </h1>
-              <p className="text-[#A1A1AA] text-[13px] sm:text-[14px] mt-1.5">
+              <p className="text-[#64748B] text-[13px] sm:text-[14px] mt-1.5">
                 {t.hotelsSubtitle}
               </p>
             </motion.div>
@@ -192,25 +192,25 @@ function HotelsPage() {
                 { src: '/images/highlights/nosy-be-photo-365.jpg', alt: 'Nosy Be Madagascar' },
                 { src: '/images/highlights/plage-ramena-et-les-pirogues-444.jpg', alt: 'Plage Ramena Madagascar' },
               ]}
-              className="hidden lg:block w-44 h-28 rounded-xl border border-[#27272A] flex-shrink-0 overflow-hidden"
+              className="hidden lg:block w-44 h-28 rounded-xl border border-[#E2E8F0] flex-shrink-0 overflow-hidden"
             />
 
             {/* Right: Search bar */}
             <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 lg:max-w-lg w-full lg:w-auto">
-              <div className="flex-1 flex items-center gap-2 px-3 bg-[#111114] rounded-lg border border-[#27272A] focus-within:border-[#3F3F46] transition-colors">
-                <Search className="w-4 h-4 text-[#71717A]" />
+              <div className="flex-1 flex items-center gap-2 px-3 bg-white rounded-lg border border-[#E2E8F0] focus-within:border-[#CBD5E1] transition-colors">
+                <Search className="w-4 h-4 text-[#94A3B8]" />
                 <input
                   type="text"
                   placeholder={t.searchHotelPlaceholder}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 py-2.5 bg-transparent outline-none text-[#FAFAFA] text-[13px] placeholder:text-[#71717A]"
+                  className="flex-1 py-2.5 bg-transparent outline-none text-[#0F172A] text-[13px] placeholder:text-[#94A3B8]"
                 />
               </div>
               <select
                 value={selectedCity}
                 onChange={(e) => setSelectedCity(e.target.value)}
-                className="px-3 py-2.5 bg-[#111114] rounded-lg text-[13px] text-[#FAFAFA] outline-none cursor-pointer border border-[#27272A] hover:border-[#3F3F46] transition-colors"
+                className="px-3 py-2.5 bg-white rounded-lg text-[13px] text-[#0F172A] outline-none cursor-pointer border border-[#E2E8F0] hover:border-[#CBD5E1] transition-colors"
               >
                 <option value="">{t.allCities}</option>
                 {MADAGASCAR_CITIES_BY_PROVINCE.map((p) => (
@@ -226,7 +226,7 @@ function HotelsPage() {
                 className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-[13px] transition-colors ${
                   hasActiveFilters
                     ? 'bg-[#FF6B35] text-white shadow-[0_8px_30px_rgba(255,107,53,0.25)]'
-                    : 'bg-[#111114] text-[#A1A1AA] hover:text-[#FAFAFA] border border-[#27272A] hover:border-[#3F3F46]'
+                    : 'bg-white text-[#64748B] hover:text-[#0F172A] border border-[#E2E8F0] hover:border-[#CBD5E1]'
                 }`}
               >
                 <SlidersHorizontal className="w-4 h-4" />
@@ -239,7 +239,7 @@ function HotelsPage() {
       </section>
 
       {/* Advanced Filters (below hero) */}
-      <section className="relative z-10 bg-[#0A0A0F] border-b border-[#27272A]">
+      <section className="relative z-10 bg-[#F8FAFC] border-b border-[#E2E8F0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Advanced Filters */}
@@ -436,7 +436,7 @@ function HotelsPage() {
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       {hotel.starRating && (
-                        <div className="absolute top-2 left-2 flex items-center gap-0.5 px-1.5 py-0.5 bg-black/60 backdrop-blur-sm rounded-md">
+                        <div className="absolute top-2 left-2 flex items-center gap-0.5 px-1.5 py-0.5 bg-black/30 backdrop-blur-sm rounded-md">
                           {[...Array(hotel.starRating)].map((_, i) => (
                             <Star key={i} className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
                           ))}

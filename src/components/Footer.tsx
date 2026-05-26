@@ -58,19 +58,19 @@ export default function Footer() {
   };
 
   return (
-    <footer role="contentinfo" className="bg-[#0A0A0F] border-t border-[#27272A] text-[#D4D4D8]">
+    <footer role="contentinfo" className="bg-[#F8FAFC] border-t border-[#E2E8F0] text-[#334155]">
       {/* Newsletter compact */}
-      <div className="border-b border-[#27272A]">
+      <div className="border-b border-[#E2E8F0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
             <div>
               <h3
-                className="text-[18px] sm:text-[20px] font-semibold text-[#FAFAFA] tracking-[-0.01em]"
+                className="text-[18px] sm:text-[20px] font-semibold text-[#0F172A] tracking-[-0.01em]"
                 style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
               >
                 {t.newsletterTitle}
               </h3>
-              <p className="text-[13px] text-[#A1A1AA] mt-1">{t.newsletterDesc}</p>
+              <p className="text-[13px] text-[#64748B] mt-1">{t.newsletterDesc}</p>
             </div>
             <div className="w-full lg:w-auto">
               <div className="flex gap-2">
@@ -82,7 +82,7 @@ export default function Footer() {
                   onChange={(e) => setNlEmail(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleNewsletter()}
                   disabled={nlLoading}
-                  className="flex-1 lg:w-80 px-3.5 py-2.5 rounded-lg bg-[#111114] border border-[#27272A] text-[14px] text-[#FAFAFA] placeholder:text-[#71717A] outline-none focus:border-[#FF6B35]/40 disabled:opacity-50 transition-colors"
+                  className="flex-1 lg:w-80 px-3.5 py-2.5 rounded-lg bg-white border border-[#E2E8F0] text-[14px] text-[#0F172A] placeholder:text-[#94A3B8] outline-none focus:border-[#FF6B35]/40 disabled:opacity-50 transition-colors"
                 />
                 <button
                   onClick={handleNewsletter}
@@ -111,32 +111,32 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Explorer */}
           <div>
-            <h4 className="text-[11px] uppercase tracking-[0.1em] text-[#71717A] font-semibold mb-4">
+            <h4 className="text-[11px] uppercase tracking-[0.1em] text-[#94A3B8] font-semibold mb-4">
               {t.explore}
             </h4>
             <ul className="space-y-2.5">
               <li>
-                <Link href="/hotels" className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors">
+                <Link href="/hotels" className="text-[13px] text-[#64748B] hover:text-[#0F172A] transition-colors">
                   {t.hotels}
                 </Link>
               </li>
               <li>
-                <Link href="/restaurants" className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors">
+                <Link href="/restaurants" className="text-[13px] text-[#64748B] hover:text-[#0F172A] transition-colors">
                   {t.restaurants}
                 </Link>
               </li>
               <li>
-                <Link href="/attractions" className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors">
+                <Link href="/attractions" className="text-[13px] text-[#64748B] hover:text-[#0F172A] transition-colors">
                   {t.attractions}
                 </Link>
               </li>
               <li>
-                <Link href="/carte" className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors">
+                <Link href="/carte" className="text-[13px] text-[#64748B] hover:text-[#0F172A] transition-colors">
                   {t.interactiveMap}
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors">
+                <Link href="/blog" className="text-[13px] text-[#64748B] hover:text-[#0F172A] transition-colors">
                   Blog
                 </Link>
               </li>
@@ -145,7 +145,7 @@ export default function Footer() {
 
           {/* Pros */}
           <div>
-            <h4 className="text-[11px] uppercase tracking-[0.1em] text-[#71717A] font-semibold mb-4">
+            <h4 className="text-[11px] uppercase tracking-[0.1em] text-[#94A3B8] font-semibold mb-4">
               {t.contact /* fallback label slot */}
             </h4>
             <ul className="space-y-2.5">
@@ -161,20 +161,20 @@ export default function Footer() {
               <li>
                 <Link
                   href="/comment-ca-marche"
-                  className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors"
+                  className="text-[13px] text-[#64748B] hover:text-[#0F172A] transition-colors"
                 >
                   {t.howItWorks}
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors">
+                <Link href="/faq" className="text-[13px] text-[#64748B] hover:text-[#0F172A] transition-colors">
                   {t.faq}
                 </Link>
               </li>
               <li>
                 <Link
                   href="/a-propos"
-                  className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors"
+                  className="text-[13px] text-[#64748B] hover:text-[#0F172A] transition-colors"
                 >
                   {t.about}
                 </Link>
@@ -184,27 +184,27 @@ export default function Footer() {
 
           {/* Légal */}
           <div>
-            <h4 className="text-[11px] uppercase tracking-[0.1em] text-[#71717A] font-semibold mb-4">
+            <h4 className="text-[11px] uppercase tracking-[0.1em] text-[#94A3B8] font-semibold mb-4">
               {t.legalNotice}
             </h4>
             <ul className="space-y-2.5">
               <li>
                 <Link
                   href="/mentions-legales"
-                  className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors"
+                  className="text-[13px] text-[#64748B] hover:text-[#0F172A] transition-colors"
                 >
                   {t.legalNotice}
                 </Link>
               </li>
               <li>
-                <Link href="/cgu" className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors">
+                <Link href="/cgu" className="text-[13px] text-[#64748B] hover:text-[#0F172A] transition-colors">
                   {t.terms}
                 </Link>
               </li>
               <li>
                 <Link
                   href="/politique-confidentialite"
-                  className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors"
+                  className="text-[13px] text-[#64748B] hover:text-[#0F172A] transition-colors"
                 >
                   {t.privacy}
                 </Link>
@@ -214,38 +214,38 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-[11px] uppercase tracking-[0.1em] text-[#71717A] font-semibold mb-4">
+            <h4 className="text-[11px] uppercase tracking-[0.1em] text-[#94A3B8] font-semibold mb-4">
               {t.contact}
             </h4>
             <ul className="space-y-3 mb-5">
-              <li className="flex items-start gap-2.5 text-[13px] text-[#A1A1AA]">
-                <MapPin className="w-4 h-4 text-[#71717A] shrink-0 mt-0.5" />
+              <li className="flex items-start gap-2.5 text-[13px] text-[#64748B]">
+                <MapPin className="w-4 h-4 text-[#94A3B8] shrink-0 mt-0.5" />
                 <span>Ampandrana, Antananarivo 101, Madagascar</span>
               </li>
-              <li className="flex items-center gap-2.5 text-[13px] text-[#A1A1AA]">
-                <Mail className="w-4 h-4 text-[#71717A] shrink-0" />
-                <a href="mailto:contact@madaspot.com" className="hover:text-[#FAFAFA] transition-colors">
+              <li className="flex items-center gap-2.5 text-[13px] text-[#64748B]">
+                <Mail className="w-4 h-4 text-[#94A3B8] shrink-0" />
+                <a href="mailto:contact@madaspot.com" className="hover:text-[#0F172A] transition-colors">
                   contact@madaspot.com
                 </a>
               </li>
             </ul>
 
             <div>
-              <p className="text-[11px] uppercase tracking-[0.1em] text-[#71717A] font-semibold mb-2.5">
+              <p className="text-[11px] uppercase tracking-[0.1em] text-[#94A3B8] font-semibold mb-2.5">
                 {t.downloadApp}
               </p>
               <div className="flex gap-2">
                 <button
                   onClick={() => toastInfo(t.comingSoon)}
                   aria-label="App Store"
-                  className="px-3 py-1.5 bg-[#111114] border border-[#27272A] rounded-md text-[11px] text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-colors"
+                  className="px-3 py-1.5 bg-white border border-[#E2E8F0] rounded-md text-[11px] text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-colors"
                 >
                   App Store
                 </button>
                 <button
                   onClick={() => toastInfo(t.comingSoon)}
                   aria-label="Play Store"
-                  className="px-3 py-1.5 bg-[#111114] border border-[#27272A] rounded-md text-[11px] text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-colors"
+                  className="px-3 py-1.5 bg-white border border-[#E2E8F0] rounded-md text-[11px] text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-colors"
                 >
                   Play Store
                 </button>
@@ -256,19 +256,19 @@ export default function Footer() {
       </div>
 
       {/* Bottom */}
-      <div className="border-t border-[#27272A]">
+      <div className="border-t border-[#E2E8F0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <Image src="/logo.png" alt="Mada Spot" width={28} height={28} className="w-7 h-7 object-contain" />
               <div>
                 <p
-                  className="text-[13px] font-semibold text-[#FAFAFA]"
+                  className="text-[13px] font-semibold text-[#0F172A]"
                   style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
                 >
                   Mada<span className="text-[#FF6B35]">Spot</span>
                 </p>
-                <p className="text-[11px] text-[#71717A]">© {currentYear} · {t.allRights}</p>
+                <p className="text-[11px] text-[#94A3B8]">© {currentYear} · {t.allRights}</p>
               </div>
             </div>
 
@@ -278,7 +278,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="w-8 h-8 rounded-md bg-[#111114] border border-[#27272A] flex items-center justify-center text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-colors"
+                className="w-8 h-8 rounded-md bg-white border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-colors"
               >
                 <Facebook className="w-4 h-4" />
               </a>
@@ -287,7 +287,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Twitter"
-                className="w-8 h-8 rounded-md bg-[#111114] border border-[#27272A] flex items-center justify-center text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-colors"
+                className="w-8 h-8 rounded-md bg-white border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-colors"
               >
                 <Twitter className="w-4 h-4" />
               </a>
@@ -296,7 +296,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="w-8 h-8 rounded-md bg-[#111114] border border-[#27272A] flex items-center justify-center text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-colors"
+                className="w-8 h-8 rounded-md bg-white border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-colors"
               >
                 <Instagram className="w-4 h-4" />
               </a>
@@ -305,7 +305,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="YouTube"
-                className="w-8 h-8 rounded-md bg-[#111114] border border-[#27272A] flex items-center justify-center text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-colors"
+                className="w-8 h-8 rounded-md bg-white border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-colors"
               >
                 <Youtube className="w-4 h-4" />
               </a>

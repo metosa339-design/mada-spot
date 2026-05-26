@@ -64,7 +64,7 @@ export default function PharmaciesPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0a0a0f]">
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
       <Header />
 
       <main className="flex-1 py-8">

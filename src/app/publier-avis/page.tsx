@@ -76,7 +76,7 @@ export default function PublierAvisPage() {
 
   if (checkingAuth) {
     return (
-      <div className="min-h-screen bg-[#0A0A0F] flex items-center justify-center">
+      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-[#FF6B35] animate-spin" />
       </div>
     )
@@ -85,7 +85,7 @@ export default function PublierAvisPage() {
   if (!user) return null
 
   return (
-    <div className="min-h-screen bg-[#0A0A0F] pt-24 pb-16">
+    <div className="min-h-screen bg-[#F8FAFC] pt-24 pb-16">
       <div className="max-w-2xl mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -94,7 +94,7 @@ export default function PublierAvisPage() {
           className="text-center mb-8"
         >
           <h1 className="text-3xl font-bold text-white mb-2">{t.title}</h1>
-          <p className="text-[#71717A]">{t.subtitle}</p>
+          <p className="text-[#94A3B8]">{t.subtitle}</p>
         </motion.div>
 
         {!selected ? (
@@ -106,14 +106,14 @@ export default function PublierAvisPage() {
             className="space-y-4"
           >
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#71717A]" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#94A3B8]" />
               <input
                 type="text"
                 value={query}
                 onChange={e => handleSearch(e.target.value)}
                 placeholder={t.searchPlaceholder}
                 autoFocus
-                className="w-full pl-12 pr-4 py-4 bg-[#1A1A1F] border border-[#27272A] rounded-2xl text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#FF6B35] transition-colors"
+                className="w-full pl-12 pr-4 py-4 bg-white border border-[#E2E8F0] rounded-2xl text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#FF6B35] transition-colors"
               />
               {searching && (
                 <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#FDBA74] animate-spin" />
@@ -122,14 +122,14 @@ export default function PublierAvisPage() {
 
             {/* Results */}
             {results.length > 0 && (
-              <div className="bg-[#1A1A1F] border border-[#27272A] rounded-2xl overflow-hidden divide-y divide-[#27272A]">
+              <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden divide-y divide-[#E2E8F0]">
                 {results.map(est => {
                   const Icon = (TYPE_ICONS[est.type] || Building2) as React.ComponentType<{ className?: string }>
                   return (
                     <button
                       key={est.id}
                       onClick={() => setSelected(est)}
-                      className="w-full flex items-center gap-4 p-4 hover:bg-[#1A1A1F] transition-colors text-left"
+                      className="w-full flex items-center gap-4 p-4 hover:bg-white transition-colors text-left"
                     >
                       {est.coverImage ? (
                         <img
@@ -138,16 +138,16 @@ export default function PublierAvisPage() {
                           className="w-14 h-14 rounded-xl object-cover flex-shrink-0"
                         />
                       ) : (
-                        <div className="w-14 h-14 rounded-xl bg-[#1A1A1F] flex items-center justify-center flex-shrink-0">
-                          <Icon className="w-6 h-6 text-[#A1A1AA]" />
+                        <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center flex-shrink-0">
+                          <Icon className="w-6 h-6 text-[#64748B]" />
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-white truncate">{est.name}</p>
                         <div className="flex items-center gap-2 mt-0.5">
                           <span className="text-xs text-[#FDBA74]">{TYPE_LABELS[est.type] || est.type}</span>
-                          <span className="text-xs text-[#A1A1AA]">·</span>
-                          <span className="flex items-center gap-1 text-xs text-[#71717A]">
+                          <span className="text-xs text-[#64748B]">·</span>
+                          <span className="flex items-center gap-1 text-xs text-[#94A3B8]">
                             <MapPin className="w-3 h-3" />
                             {est.city}
                           </span>
@@ -155,7 +155,7 @@ export default function PublierAvisPage() {
                         {est.rating > 0 && (
                           <div className="flex items-center gap-1 mt-0.5">
                             <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-                            <span className="text-xs text-[#71717A]">{est.rating.toFixed(1)} ({est.reviewCount} {t.reviewsCount})</span>
+                            <span className="text-xs text-[#94A3B8]">{est.rating.toFixed(1)} ({est.reviewCount} {t.reviewsCount})</span>
                           </div>
                         )}
                       </div>
@@ -167,7 +167,7 @@ export default function PublierAvisPage() {
 
             {query.length >= 2 && !searching && results.length === 0 && !showGhostForm && !ghostCreated && (
               <div className="text-center py-8 space-y-4">
-                <p className="text-[#71717A] text-sm">{t.noResultPrefix} &quot;{query}&quot;</p>
+                <p className="text-[#94A3B8] text-sm">{t.noResultPrefix} &quot;{query}&quot;</p>
                 <button
                   onClick={() => setShowGhostForm(true)}
                   className="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-medium rounded-xl hover:opacity-90 transition-opacity text-sm"
@@ -175,7 +175,7 @@ export default function PublierAvisPage() {
                   <Plus className="w-4 h-4" />
                   {t.createAndReview}
                 </button>
-                <p className="text-xs text-[#A1A1AA]">{t.addToMap}</p>
+                <p className="text-xs text-[#64748B]">{t.addToMap}</p>
               </div>
             )}
 
@@ -196,8 +196,8 @@ export default function PublierAvisPage() {
 
             {query.length < 2 && (
               <div className="text-center py-12">
-                <Search className="w-12 h-12 text-[#D4D4D8] mx-auto mb-3" />
-                <p className="text-[#71717A] text-sm">{t.searchHint}</p>
+                <Search className="w-12 h-12 text-[#334155] mx-auto mb-3" />
+                <p className="text-[#94A3B8] text-sm">{t.searchHint}</p>
               </div>
             )}
           </motion.div>
@@ -211,13 +211,13 @@ export default function PublierAvisPage() {
             {/* Selected establishment header */}
             <button
               onClick={() => setSelected(null)}
-              className="flex items-center gap-2 text-sm text-[#71717A] hover:text-white transition-colors"
+              className="flex items-center gap-2 text-sm text-[#94A3B8] hover:text-white transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               {t.changeEstablishment}
             </button>
 
-            <div className="flex items-center gap-4 p-4 bg-[#1A1A1F] border border-[#FF6B35]/20 rounded-2xl">
+            <div className="flex items-center gap-4 p-4 bg-white border border-[#FF6B35]/20 rounded-2xl">
               {selected.coverImage ? (
                 <img
                   src={getImageUrl(selected.coverImage)}
@@ -225,16 +225,16 @@ export default function PublierAvisPage() {
                   className="w-16 h-16 rounded-xl object-cover flex-shrink-0"
                 />
               ) : (
-                <div className="w-16 h-16 rounded-xl bg-[#1A1A1F] flex items-center justify-center flex-shrink-0">
-                  {(() => { const Icon = (TYPE_ICONS[selected.type] || Building2) as React.ComponentType<{ className?: string }>; return <Icon className="w-7 h-7 text-[#A1A1AA]" /> })()}
+                <div className="w-16 h-16 rounded-xl bg-white flex items-center justify-center flex-shrink-0">
+                  {(() => { const Icon = (TYPE_ICONS[selected.type] || Building2) as React.ComponentType<{ className?: string }>; return <Icon className="w-7 h-7 text-[#64748B]" /> })()}
                 </div>
               )}
               <div>
                 <p className="font-semibold text-white">{selected.name}</p>
                 <div className="flex items-center gap-2 mt-0.5">
                   <span className="text-xs text-[#FDBA74]">{TYPE_LABELS[selected.type]}</span>
-                  <span className="text-xs text-[#A1A1AA]">·</span>
-                  <span className="text-xs text-[#71717A] flex items-center gap-1">
+                  <span className="text-xs text-[#64748B]">·</span>
+                  <span className="text-xs text-[#94A3B8] flex items-center gap-1">
                     <MapPin className="w-3 h-3" />
                     {selected.city}
                   </span>

@@ -28,7 +28,7 @@ export default function BentoGrid({ establishments, columns = 3 }: BentoGridProp
   if (establishments.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-[#71717A]">Aucun établissement trouvé</p>
+        <p className="text-[#94A3B8]">Aucun établissement trouvé</p>
       </div>
     );
   }

@@ -23,7 +23,7 @@ export default function OwnerBio({ owner, establishmentName }: OwnerBioProps) {
     <motion.section
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-[#1A1A1F] rounded-2xl p-6 md:p-8 border border-[#2a2a36]"
+      className="bg-white rounded-2xl p-6 md:p-8 border border-[#2a2a36]"
     >
       <div className="flex items-center gap-2 mb-4">
         <UserCircle2 className="w-5 h-5 text-[#FDBA74]" />
@@ -56,10 +56,10 @@ export default function OwnerBio({ owner, establishmentName }: OwnerBioProps) {
             </h3>
             <BadgeCheck className="w-4 h-4 text-emerald-400" />
           </div>
-          <p className="text-sm text-[#71717A]">
+          <p className="text-sm text-[#94A3B8]">
             Gerant de {establishmentName}
           </p>
-          <div className="flex items-center gap-1 mt-1 text-xs text-[#71717A]">
+          <div className="flex items-center gap-1 mt-1 text-xs text-[#94A3B8]">
             <Calendar className="w-3 h-3" />
             <span>Membre depuis {year}</span>
           </div>

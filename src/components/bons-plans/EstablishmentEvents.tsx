@@ -44,7 +44,7 @@ export default function EstablishmentEvents({ establishmentId, city }: Establish
   if (loading || events.length === 0) return null;
 
   return (
-    <section className="bg-[#1A1A1F] rounded-2xl p-6 md:p-8 border border-[#2a2a36]">
+    <section className="bg-white rounded-2xl p-6 md:p-8 border border-[#2a2a36]">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <Calendar className="w-5 h-5 text-pink-400" />

@@ -65,7 +65,7 @@ export default function FAQPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
@@ -74,18 +74,17 @@ export default function FAQPage() {
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="relative bg-[#0A0A0F] py-16 sm:py-20 pt-28 overflow-hidden">
-          <div className="absolute -top-32 -left-20 w-[400px] h-[400px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.08] pointer-events-none" />
+        <section className="relative bg-[#F8FAFC] py-16 sm:py-20 pt-28 overflow-hidden">
           <div className="relative max-w-7xl mx-auto px-4">
-            <Link href="/" className="inline-flex items-center gap-1.5 text-[#A1A1AA] hover:text-[#FAFAFA] text-[13px] mb-6 transition-colors">
+            <Link href="/" className="inline-flex items-center gap-1.5 text-[#64748B] hover:text-[#0F172A] text-[13px] mb-6 transition-colors">
               <ArrowLeft className="w-3.5 h-3.5" /> {t.backToHome}
             </Link>
             <div className="flex items-center gap-2 mb-4">
               <HelpCircle className="w-5 h-5 text-[#FF6B35]" />
               <span className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] font-semibold">{t.helpCenter}</span>
             </div>
-            <h1 className="text-[32px] sm:text-[44px] lg:text-[52px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-4">{t.heroTitle}</h1>
-            <p className="text-[15px] sm:text-[17px] text-[#A1A1AA] max-w-2xl leading-relaxed">
+            <h1 className="text-[32px] sm:text-[44px] lg:text-[52px] font-semibold tracking-[-0.03em] text-[#0F172A] mb-4">{t.heroTitle}</h1>
+            <p className="text-[15px] sm:text-[17px] text-[#64748B] max-w-2xl leading-relaxed">
               {t.heroSubtitle}
             </p>
           </div>
@@ -99,10 +98,10 @@ export default function FAQPage() {
         </section>
 
         {/* Contact CTA */}
-        <section className="py-12 sm:py-16 bg-[#0F0F14] border-y border-[#27272A]">
+        <section className="py-12 sm:py-16 bg-[#0F0F14] border-y border-[#E2E8F0]">
           <div className="max-w-3xl mx-auto px-4 text-center">
-            <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-2">{t.notFoundTitle}</h2>
-            <p className="text-[#A1A1AA] text-[14px] mb-6 leading-relaxed">
+            <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-2">{t.notFoundTitle}</h2>
+            <p className="text-[#64748B] text-[14px] mb-6 leading-relaxed">
               {t.notFoundText}
             </p>
             <Link

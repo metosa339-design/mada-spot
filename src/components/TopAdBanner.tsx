@@ -90,7 +90,7 @@ export default function TopAdBanner({ ad }: TopAdBannerProps) {
           {/* Close Button */}
           <button
             onClick={handleClose}
-            className="absolute top-2 right-2 z-10 bg-black/40 hover:bg-black/60 text-white rounded-full p-1 transition-all opacity-70 hover:opacity-100"
+            className="absolute top-2 right-2 z-10 bg-black/40 hover:bg-black/30 text-white rounded-full p-1 transition-all opacity-70 hover:opacity-100"
             title="Fermer"
           >
             <X className="w-4 h-4" />

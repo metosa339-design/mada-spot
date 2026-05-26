@@ -38,7 +38,7 @@ interface Provider {
 
 export default function PrestatairesPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center"><div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" /></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center"><div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" /></div>}>
       <PrestatairesPageContent />
     </Suspense>
   );
@@ -158,18 +158,18 @@ function PrestatairesPageContent() {
   const hasActiveFilters = selectedServiceType || selectedPriceRange || selectedCity;
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f]">
+    <div className="min-h-screen bg-[#F8FAFC]">
       {/* Header dark premium */}
-      <section className="bg-[#0A0A0F] border-b border-[#27272A]">
+      <section className="bg-[#F8FAFC] border-b border-[#E2E8F0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
             {/* Left: Title */}
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="flex-shrink-0">
-              <h1 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] flex items-center gap-2.5" style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}>
+              <h1 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] flex items-center gap-2.5" style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}>
                 <Users className="w-6 h-6 sm:w-7 sm:h-7 text-[#FF6B35] flex-shrink-0" />
                 {t.providersHeaderTitle}
               </h1>
-              <p className="text-[#A1A1AA] text-[13px] sm:text-[14px] mt-1.5">{t.providersHeaderSubtitle}</p>
+              <p className="text-[#64748B] text-[13px] sm:text-[14px] mt-1.5">{t.providersHeaderSubtitle}</p>
             </motion.div>
 
             {/* Center: sliding photo */}
@@ -178,16 +178,16 @@ function PrestatairesPageContent() {
                 { src: '/images/highlights/Chauffeur.png', alt: 'Chauffeur Madagascar' },
                 { src: '/images/highlights/Guide.png', alt: 'Guide touristique Madagascar' },
               ]}
-              className="hidden lg:block w-44 h-28 rounded-xl border border-[#27272A] flex-shrink-0 overflow-hidden"
+              className="hidden lg:block w-44 h-28 rounded-xl border border-[#E2E8F0] flex-shrink-0 overflow-hidden"
             />
 
             {/* Right: Search bar */}
             <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 lg:max-w-lg w-full lg:w-auto">
-              <div className="flex-1 flex items-center gap-2 px-3 bg-[#111114] rounded-lg border border-[#27272A] focus-within:border-[#3F3F46] transition-colors">
-                <Search className="w-4 h-4 text-[#71717A]" />
-                <input type="text" placeholder={t.searchProviderShortPlaceholder} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="flex-1 py-2.5 bg-transparent outline-none text-[#FAFAFA] text-[13px] placeholder:text-[#71717A]" />
+              <div className="flex-1 flex items-center gap-2 px-3 bg-white rounded-lg border border-[#E2E8F0] focus-within:border-[#CBD5E1] transition-colors">
+                <Search className="w-4 h-4 text-[#94A3B8]" />
+                <input type="text" placeholder={t.searchProviderShortPlaceholder} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="flex-1 py-2.5 bg-transparent outline-none text-[#0F172A] text-[13px] placeholder:text-[#94A3B8]" />
               </div>
-              <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)} className="px-3 py-2.5 bg-[#111114] rounded-lg text-[13px] text-[#FAFAFA] outline-none cursor-pointer border border-[#27272A] hover:border-[#3F3F46] transition-colors">
+              <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)} className="px-3 py-2.5 bg-white rounded-lg text-[13px] text-[#0F172A] outline-none cursor-pointer border border-[#E2E8F0] hover:border-[#CBD5E1] transition-colors">
                 <option value="">{t.allCities}</option>
                 {MADAGASCAR_CITIES_BY_PROVINCE.map((p) => (
                   <optgroup key={p.province} label={p.province}>
@@ -197,7 +197,7 @@ function PrestatairesPageContent() {
                   </optgroup>
                 ))}
               </select>
-              <button onClick={() => setShowFilters(!showFilters)} className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-[13px] transition-colors ${hasActiveFilters ? 'bg-[#FF6B35] text-white shadow-[0_8px_30px_rgba(255,107,53,0.25)]' : 'bg-[#111114] text-[#A1A1AA] hover:text-[#FAFAFA] border border-[#27272A] hover:border-[#3F3F46]'}`}>
+              <button onClick={() => setShowFilters(!showFilters)} className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-[13px] transition-colors ${hasActiveFilters ? 'bg-[#FF6B35] text-white shadow-[0_8px_30px_rgba(255,107,53,0.25)]' : 'bg-white text-[#64748B] hover:text-[#0F172A] border border-[#E2E8F0] hover:border-[#CBD5E1]'}`}>
                 <SlidersHorizontal className="w-4 h-4" />
                 {t.filters}
                 {hasActiveFilters && <span className="w-1.5 h-1.5 bg-white rounded-full" />}
@@ -208,7 +208,7 @@ function PrestatairesPageContent() {
       </section>
 
       {/* Advanced Filters (below hero) */}
-      <section className="relative z-10 bg-[#0A0A0F] border-b border-[#27272A]">
+      <section className="relative z-10 bg-[#F8FAFC] border-b border-[#E2E8F0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatePresence>
             {showFilters && (

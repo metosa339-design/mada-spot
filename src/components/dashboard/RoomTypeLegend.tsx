@@ -14,7 +14,7 @@ export default function RoomTypeLegend({ roomTypes, colorMap }: RoomTypeLegendPr
         const color = colorMap.get(rt.id)
         if (!color) return null
         return (
-          <span key={rt.id} className="flex items-center gap-1.5 text-xs text-[#A1A1AA]">
+          <span key={rt.id} className="flex items-center gap-1.5 text-xs text-[#64748B]">
             <span className={`w-2.5 h-2.5 rounded-full ${color.dot}`} />
             {rt.name}
           </span>

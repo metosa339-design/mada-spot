@@ -66,7 +66,7 @@ export default memo(function EstablishmentBentoCard({
     >
       <Link
         href={detailUrl}
-        className="group relative block overflow-hidden rounded-xl bg-[#111114] border border-[#27272A] hover:border-[#FF6B35]/30 hover:shadow-[0_8px_30px_rgba(255,107,53,0.08)] transition-all duration-300"
+        className="group relative block overflow-hidden rounded-xl bg-white border border-[#E2E8F0] hover:border-[#FF6B35]/30 hover:shadow-[0_8px_30px_rgba(255,107,53,0.08)] transition-all duration-300"
       >
         {/* Cover Image */}
         <div className={`relative overflow-hidden ${size === 'large' ? 'h-64' : 'aspect-[4/3]'}`}>
@@ -84,12 +84,12 @@ export default memo(function EstablishmentBentoCard({
           />
 
           {/* Gradient overlay subtle */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F]/60 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
           {/* Type badge */}
-          <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2 py-1 bg-[#0A0A0F]/70 backdrop-blur-md rounded-md border border-[#27272A]">
-            <TypeIcon className="w-3 h-3 text-[#A1A1AA]" />
-            <span className="text-[10px] font-medium text-[#FAFAFA] tracking-wide">
+          <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2 py-1 bg-[#F8FAFC]/70 backdrop-blur-md rounded-md border border-[#E2E8F0]">
+            <TypeIcon className="w-3 h-3 text-[#64748B]" />
+            <span className="text-[10px] font-medium text-[#0F172A] tracking-wide">
               {config.label}
             </span>
           </div>
@@ -114,21 +114,21 @@ export default memo(function EstablishmentBentoCard({
         </div>
 
         {/* Content */}
-        <div className="p-4 border-t border-[#27272A]">
-          <h3 className="text-[14px] font-semibold text-[#FAFAFA] leading-tight group-hover:text-[#FF6B35] transition-colors line-clamp-1 tracking-[-0.01em]">
+        <div className="p-4 border-t border-[#E2E8F0]">
+          <h3 className="text-[14px] font-semibold text-[#0F172A] leading-tight group-hover:text-[#FF6B35] transition-colors line-clamp-1 tracking-[-0.01em]">
             {establishment.name}
           </h3>
 
           {/* Category + City */}
-          <div className="flex items-center gap-1.5 mt-1.5 text-[12px] text-[#A1A1AA]">
+          <div className="flex items-center gap-1.5 mt-1.5 text-[12px] text-[#64748B]">
             {categoryLabel && (
               <>
                 <span className="text-[#FDBA74]">{categoryLabel}</span>
-                <span className="text-[#52525B]">·</span>
+                <span className="text-[#CBD5E1]">·</span>
               </>
             )}
             <div className="flex items-center gap-1 min-w-0">
-              <MapPin className="w-3 h-3 text-[#71717A] shrink-0" />
+              <MapPin className="w-3 h-3 text-[#94A3B8] shrink-0" />
               <span className="truncate">
                 {establishment.city}
                 {establishment.district ? `, ${establishment.district}` : ''}
@@ -137,17 +137,17 @@ export default memo(function EstablishmentBentoCard({
           </div>
 
           {/* Rating + Price */}
-          <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#27272A]">
+          <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#E2E8F0]">
             <div className="flex items-center gap-1.5">
               <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
-              <span className="text-[13px] font-semibold text-[#FAFAFA] font-mono tabular-nums">
+              <span className="text-[13px] font-semibold text-[#0F172A] font-mono tabular-nums">
                 {establishment.rating.toFixed(1)}
               </span>
-              <span className="text-[11px] text-[#71717A]">({establishment.reviewCount})</span>
+              <span className="text-[11px] text-[#94A3B8]">({establishment.reviewCount})</span>
             </div>
 
             {establishment.priceIndicator && (
-              <span className="text-[12px] font-medium font-mono text-[#FAFAFA]">
+              <span className="text-[12px] font-medium font-mono text-[#0F172A]">
                 {establishment.priceIndicator}
               </span>
             )}

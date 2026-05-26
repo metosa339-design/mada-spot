@@ -72,23 +72,21 @@ function Countdown({ endDate }: { endDate: string }) {
 export function OffresHero() {
   const t = useTrans('offres');
   return (
-    <div className="relative py-24 md:py-32 px-4 overflow-hidden bg-[#0A0A0F]">
+    <div className="relative py-24 md:py-32 px-4 overflow-hidden bg-[#F8FAFC]">
       {/* Ambient blobs */}
-      <div className="absolute -top-32 -left-32 w-[400px] h-[400px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.08] pointer-events-none" />
-      <div className="absolute -bottom-32 -right-32 w-[400px] h-[400px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.10] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#FF6B35]/10 border border-[#FF6B35]/30 rounded-md text-[#FF6B35] text-[11px] font-semibold uppercase tracking-[0.15em] mb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#FFF7ED] border border-[#FF6B35]/30 rounded-md text-[#FF6B35] text-[11px] font-semibold uppercase tracking-[0.15em] mb-6">
           <Flame className="w-3.5 h-3.5" />
           {t.heroBadge}
         </div>
         <h1
-          className="text-[32px] sm:text-[44px] lg:text-[56px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-4"
+          className="text-[32px] sm:text-[44px] lg:text-[56px] font-semibold tracking-[-0.03em] text-[#0F172A] mb-4"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
         >
           {t.heroTitlePart1} <span className="text-[#FF6B35]">{t.heroTitleHighlight}</span>
         </h1>
-        <p className="text-[15px] text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed">
+        <p className="text-[15px] text-[#64748B] max-w-2xl mx-auto leading-relaxed">
           {t.heroDesc}
         </p>
       </div>
@@ -107,9 +105,9 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
   if (offres.length === 0) {
     return (
       <div className="text-center py-20">
-        <Search className="w-14 h-14 text-[#3F3F46] mx-auto mb-6" />
-        <h2 className="text-[22px] font-semibold text-[#FAFAFA] mb-3">{t.emptyTitle}</h2>
-        <p className="text-[#A1A1AA] max-w-md mx-auto mb-8 leading-relaxed">
+        <Search className="w-14 h-14 text-[#CBD5E1] mx-auto mb-6" />
+        <h2 className="text-[22px] font-semibold text-[#0F172A] mb-3">{t.emptyTitle}</h2>
+        <p className="text-[#64748B] max-w-md mx-auto mb-8 leading-relaxed">
           {t.emptyDesc}
         </p>
         <Link
@@ -127,7 +125,7 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
     <>
       {/* Filtres */}
       <div className="flex items-center gap-2 mb-10 overflow-x-auto pb-2 scrollbar-hide">
-        <Filter className="w-4 h-4 text-[#71717A] flex-shrink-0" />
+        <Filter className="w-4 h-4 text-[#94A3B8] flex-shrink-0" />
         {CATEGORIES_RAW.map(cat => (
           <button
             key={cat.id}
@@ -137,7 +135,7 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
             className={`px-4 py-2 rounded-lg text-[13px] font-medium whitespace-nowrap transition-colors border ${
               activeCategory === cat.id
                 ? 'bg-[#FF6B35] border-[#FF6B35] text-white'
-                : 'bg-[#111114] border-[#27272A] text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46]'
+                : 'bg-white border-[#E2E8F0] text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1]'
             }`}
           >
             {t[cat.labelKey]}
@@ -148,7 +146,7 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
       {/* Empty filtered state */}
       {filteredOffres.length === 0 && (
         <div className="text-center py-16">
-          <p className="text-[#A1A1AA] text-[14px]">{t.emptyFilter}</p>
+          <p className="text-[#64748B] text-[14px]">{t.emptyFilter}</p>
           <button
             onClick={() => setActiveCategory('all')}
             className="mt-4 text-[#FF6B35] hover:underline text-[13px]"
@@ -168,10 +166,10 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
           >
             <Link
               href={offre.href}
-              className="bg-[#111114] border border-[#27272A] hover:border-[#3F3F46] rounded-xl overflow-hidden transition-colors group block"
+              className="bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-xl overflow-hidden transition-colors group block"
             >
               {/* Image */}
-              <div className="relative h-48 overflow-hidden bg-[#1A1A1F]">
+              <div className="relative h-48 overflow-hidden bg-white">
                 {offre.image ? (
                   <Image
                     src={getImageUrl(offre.image)}
@@ -181,9 +179,9 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
                     className="object-cover"
                   />
                 ) : (
-                  <div className="absolute inset-0 bg-[#1A1A1F]" />
+                  <div className="absolute inset-0 bg-white" />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F]/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
                 {/* Discount Badge */}
                 {offre.discountPercent > 0 && (
@@ -193,13 +191,13 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
                 )}
 
                 {/* Promo label */}
-                <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#FF6B35]/10 backdrop-blur-md border border-[#FF6B35]/30 rounded-md text-[#FF6B35] text-[11px] font-semibold uppercase tracking-[0.1em] flex items-center gap-1">
+                <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#FFF7ED] backdrop-blur-md border border-[#FF6B35]/30 rounded-md text-[#FF6B35] text-[11px] font-semibold uppercase tracking-[0.1em] flex items-center gap-1">
                   <Flame className="w-3 h-3" /> {t.promoLabel}
                 </div>
 
                 {/* Location */}
-                <div className="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] rounded-md text-[#FAFAFA] text-[11px]">
-                  <MapPin className="w-3 h-3 text-[#A1A1AA]" />
+                <div className="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-white/80 backdrop-blur-md border border-[#E2E8F0] rounded-md text-[#0F172A] text-[11px]">
+                  <MapPin className="w-3 h-3 text-[#64748B]" />
                   {offre.location}
                 </div>
               </div>
@@ -207,19 +205,19 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
               {/* Content */}
               <div className="p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-[11px] uppercase tracking-[0.15em] text-[#71717A] capitalize">{offre.category}</span>
+                  <span className="text-[11px] uppercase tracking-[0.15em] text-[#94A3B8] capitalize">{offre.category}</span>
                   {offre.rating > 0 && (
                     <div className="flex items-center gap-1">
                       <Star className="w-3.5 h-3.5 text-[#FF6B35] fill-[#FF6B35]" />
-                      <span className="text-[13px] font-mono text-[#FAFAFA]">{offre.rating.toFixed(1)}</span>
+                      <span className="text-[13px] font-mono text-[#0F172A]">{offre.rating.toFixed(1)}</span>
                       {offre.reviewCount > 0 && (
-                        <span className="text-[11px] text-[#71717A]">({offre.reviewCount})</span>
+                        <span className="text-[11px] text-[#94A3B8]">({offre.reviewCount})</span>
                       )}
                     </div>
                   )}
                 </div>
 
-                <h2 className="text-[16px] font-semibold text-[#FAFAFA] mb-1 line-clamp-1 group-hover:text-[#FF6B35] transition-colors">{offre.title}</h2>
+                <h2 className="text-[16px] font-semibold text-[#0F172A] mb-1 line-clamp-1 group-hover:text-[#FF6B35] transition-colors">{offre.title}</h2>
 
                 {/* Promo title */}
                 <div className="flex items-center gap-1.5 mb-2">
@@ -228,30 +226,30 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
                 </div>
 
                 {offre.description && (
-                  <p className="text-[12px] text-[#A1A1AA] mb-3 line-clamp-2 leading-relaxed">{offre.description}</p>
+                  <p className="text-[12px] text-[#64748B] mb-3 line-clamp-2 leading-relaxed">{offre.description}</p>
                 )}
 
                 <div className="flex items-end justify-between gap-3">
                   <div className="min-w-0">
                     {offre.discountedPrice && offre.price ? (
                       <div className="flex items-center gap-2 flex-wrap">
-                        <p className="text-[18px] font-semibold font-mono text-[#FAFAFA]">
+                        <p className="text-[18px] font-semibold font-mono text-[#0F172A]">
                           {formatPrice(offre.discountedPrice)}
                         </p>
-                        <p className="text-[12px] font-mono text-[#71717A] line-through">
+                        <p className="text-[12px] font-mono text-[#94A3B8] line-through">
                           {formatPrice(offre.price)}
                         </p>
                       </div>
                     ) : offre.price ? (
-                      <p className="text-[18px] font-semibold font-mono text-[#FAFAFA]">
+                      <p className="text-[18px] font-semibold font-mono text-[#0F172A]">
                         {formatPrice(offre.price)}
                       </p>
                     ) : (
-                      <span className="text-[12px] text-[#A1A1AA]">{t.priceOnRequest}</span>
+                      <span className="text-[12px] text-[#64748B]">{t.priceOnRequest}</span>
                     )}
                     <Countdown endDate={offre.endDate} />
                   </div>
-                  <span className="px-3.5 py-2 bg-[#1A1A1F] border border-[#27272A] group-hover:bg-[#FF6B35] group-hover:border-[#FF6B35] text-[#FAFAFA] group-hover:text-white rounded-lg text-[12px] font-medium transition-colors flex items-center gap-1 shrink-0">
+                  <span className="px-3.5 py-2 bg-white border border-[#E2E8F0] group-hover:bg-[#FF6B35] group-hover:border-[#FF6B35] text-[#0F172A] group-hover:text-white rounded-lg text-[12px] font-medium transition-colors flex items-center gap-1 shrink-0">
                     {t.seeBtn}
                     <ArrowRight className="w-3.5 h-3.5" />
                   </span>

@@ -52,7 +52,7 @@ export default function ReportReviewDialog({ reviewId, establishmentId, onClose 
   }
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={onClose}>
+    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={onClose}>
       <div className="bg-[#1a1a24] border border-[#2a2a36] rounded-2xl max-w-md w-full p-6" onClick={e => e.stopPropagation()}>
         {submitted ? (
           <div className="text-center py-4">

@@ -46,10 +46,10 @@ export default function NotificationBell() {
       {/* Bell Button */}
       <button
         onClick={() => setOpen(!open)}
-        className="relative p-2 rounded-lg hover:bg-[#1A1A1F] transition-colors"
+        className="relative p-2 rounded-lg hover:bg-white transition-colors"
         aria-label="Notifications"
       >
-        <Bell className="w-4 h-4 text-[#A1A1AA]" />
+        <Bell className="w-4 h-4 text-[#64748B]" />
         {unreadCount > 0 && (
           <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-[#FF6B35] text-white text-[10px] font-semibold font-mono rounded-full flex items-center justify-center">
             {unreadCount > 9 ? '9+' : unreadCount}
@@ -59,10 +59,10 @@ export default function NotificationBell() {
 
       {/* Dropdown Panel */}
       {open && (
-        <div className="absolute right-0 top-12 w-80 sm:w-96 bg-[#111114] rounded-xl shadow-2xl border border-[#27272A] z-50 overflow-hidden">
+        <div className="absolute right-0 top-12 w-80 sm:w-96 bg-white rounded-xl shadow-2xl border border-[#E2E8F0] z-50 overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-[#27272A] bg-[#0F0F14]">
-            <h3 className="font-semibold text-[13px] text-[#FAFAFA]">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-[#E2E8F0] bg-[#0F0F14]">
+            <h3 className="font-semibold text-[13px] text-[#0F172A]">
               Notifications {unreadCount > 0 && <span className="text-[#FF6B35] font-mono">({unreadCount})</span>}
             </h3>
             <div className="flex gap-3 items-center">
@@ -75,7 +75,7 @@ export default function NotificationBell() {
                   Tout lire
                 </button>
               )}
-              <button onClick={() => setOpen(false)} aria-label="Fermer les notifications" className="text-[#71717A] hover:text-[#FAFAFA]">
+              <button onClick={() => setOpen(false)} aria-label="Fermer les notifications" className="text-[#94A3B8] hover:text-[#0F172A]">
                 <X className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -84,17 +84,17 @@ export default function NotificationBell() {
           {/* List */}
           <div className="max-h-80 overflow-y-auto">
             {notifications.length === 0 ? (
-              <div className="py-8 text-center text-[#71717A] text-[12px]">
+              <div className="py-8 text-center text-[#94A3B8] text-[12px]">
                 <Bell className="w-7 h-7 mx-auto mb-2 opacity-50" />
                 Aucune notification
               </div>
             ) : (
               notifications.map((notif) => {
-                const dotColor = TYPE_COLORS[notif.type] || 'bg-[#71717A]';
+                const dotColor = TYPE_COLORS[notif.type] || 'bg-[#94A3B8]';
                 return (
                   <div
                     key={notif.id}
-                    className={`flex items-start gap-3 px-4 py-3 border-b border-[#27272A] last:border-0 hover:bg-[#1A1A1F] transition-colors cursor-pointer ${
+                    className={`flex items-start gap-3 px-4 py-3 border-b border-[#E2E8F0] last:border-0 hover:bg-white transition-colors cursor-pointer ${
                       !notif.isRead ? 'bg-[#FF6B35]/5' : ''
                     }`}
                     onClick={() => {
@@ -103,9 +103,9 @@ export default function NotificationBell() {
                   >
                     <span className={`w-2 h-2 rounded-full shrink-0 mt-1.5 ${dotColor}`} />
                     <div className="flex-1 min-w-0">
-                      <div className="text-[13px] font-medium text-[#FAFAFA] truncate">{notif.title}</div>
-                      <div className="text-[11px] text-[#A1A1AA] line-clamp-2 mt-0.5 leading-relaxed">{notif.message}</div>
-                      <div className="text-[10px] font-mono text-[#71717A] mt-1">{timeAgo(notif.createdAt)}</div>
+                      <div className="text-[13px] font-medium text-[#0F172A] truncate">{notif.title}</div>
+                      <div className="text-[11px] text-[#64748B] line-clamp-2 mt-0.5 leading-relaxed">{notif.message}</div>
+                      <div className="text-[10px] font-mono text-[#94A3B8] mt-1">{timeAgo(notif.createdAt)}</div>
                     </div>
                     {!notif.isRead && (
                       <button
@@ -113,7 +113,7 @@ export default function NotificationBell() {
                           e.stopPropagation();
                           markAsRead([notif.id]);
                         }}
-                        className="shrink-0 p-1 hover:bg-[#FF6B35]/10 rounded"
+                        className="shrink-0 p-1 hover:bg-[#FFF7ED] rounded"
                         title="Marquer comme lu"
                         aria-label="Marquer la notification comme lue"
                       >

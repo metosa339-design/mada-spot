@@ -722,7 +722,7 @@ export default function ClientDashboard() {
                           </div>
                         )}
                         {est.rating && est.rating > 0 && (
-                          <div className="absolute bottom-1.5 left-1.5 flex items-center gap-0.5 bg-black/60 backdrop-blur-sm rounded px-1.5 py-0.5">
+                          <div className="absolute bottom-1.5 left-1.5 flex items-center gap-0.5 bg-black/30 backdrop-blur-sm rounded px-1.5 py-0.5">
                             <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
                             <span className="text-gray-900 text-[10px] font-medium">{est.rating.toFixed(1)}</span>
                           </div>

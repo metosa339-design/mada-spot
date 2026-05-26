@@ -270,12 +270,12 @@ export default function RestaurantDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0A0A0F] pt-24" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <div className="min-h-screen bg-[#F8FAFC] pt-24" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="animate-pulse space-y-8">
-            <div className="h-96 bg-[#111114] rounded-2xl border border-[#27272A]" />
-            <div className="h-8 bg-[#111114] rounded w-1/3" />
-            <div className="h-4 bg-[#111114] rounded w-2/3" />
+            <div className="h-96 bg-white rounded-2xl border border-[#E2E8F0]" />
+            <div className="h-8 bg-white rounded w-1/3" />
+            <div className="h-4 bg-white rounded w-2/3" />
           </div>
         </div>
       </div>
@@ -284,11 +284,11 @@ export default function RestaurantDetail() {
 
   if (!restaurant) {
     return (
-      <div className="min-h-screen bg-[#0A0A0F] pt-24" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <div className="min-h-screen bg-[#F8FAFC] pt-24" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         <div className="max-w-7xl mx-auto px-4 py-12 text-center">
-          <UtensilsCrossed className="w-16 h-16 mx-auto text-[#3F3F46] mb-4" />
-          <h1 className="text-2xl font-bold text-[#FAFAFA] mb-2">Restaurant non trouvé</h1>
-          <p className="text-[#A1A1AA] mb-6">Le restaurant que vous recherchez n&apos;existe pas.</p>
+          <UtensilsCrossed className="w-16 h-16 mx-auto text-[#CBD5E1] mb-4" />
+          <h1 className="text-2xl font-bold text-[#0F172A] mb-2">Restaurant non trouvé</h1>
+          <p className="text-[#64748B] mb-6">Le restaurant que vous recherchez n&apos;existe pas.</p>
           <Link
             href="/restaurants"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[#FF6B35] hover:bg-[#F97316] text-white rounded-lg text-[14px] font-medium transition-all shadow-[0_8px_30px_rgba(255,107,53,0.25)]"
@@ -304,9 +304,9 @@ export default function RestaurantDetail() {
   const CategoryIcon = categoryIcons[restaurant.category] || UtensilsCrossed;
 
   return (
-    <div className="min-h-screen bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="min-h-screen bg-[#F8FAFC]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       {/* ==================== 1. EN-TÊTE VISUEL ==================== */}
-      <div className="relative h-[50vh] md:h-[60vh] bg-[#0A0A0F]">
+      <div className="relative h-[50vh] md:h-[60vh] bg-[#F8FAFC]">
         <CategorizedGallery
           coverImage={restaurant.coverImage}
           images={restaurant.images || []}
@@ -316,12 +316,12 @@ export default function RestaurantDetail() {
           establishmentName={restaurant.name}
           fallbackImage={getEstablishmentImage('RESTAURANT', restaurant.city, restaurant.name)}
         />
-        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#0A0A0F] via-[#0A0A0F]/60 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
 
         {/* Navigation */}
         <Link
           href="/restaurants"
-          className="absolute top-24 left-4 md:left-8 flex items-center gap-2 px-4 py-2 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] rounded-lg text-[#FAFAFA] hover:bg-[#1A1A1F]/90 hover:border-[#3F3F46] transition-colors z-10"
+          className="absolute top-24 left-4 md:left-8 flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-md border border-[#E2E8F0] rounded-lg text-[#0F172A] hover:bg-white/90 hover:border-[#CBD5E1] transition-colors z-10"
         >
           <ArrowLeft className="w-4 h-4" />
           <span className="hidden md:inline text-[13px] font-medium">Retour</span>
@@ -334,7 +334,7 @@ export default function RestaurantDetail() {
             className={`p-2.5 rounded-lg backdrop-blur-md border transition-colors ${
               isFavorite
                 ? 'bg-[#FF6B35] border-[#FF6B35] text-white'
-                : 'bg-[#111114]/80 border-[#27272A] text-[#FAFAFA] hover:bg-[#1A1A1F]/90 hover:border-[#3F3F46]'
+                : 'bg-white/80 border-[#E2E8F0] text-[#0F172A] hover:bg-white/90 hover:border-[#CBD5E1]'
             }`}
           >
             <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
@@ -350,7 +350,7 @@ export default function RestaurantDetail() {
                 toastSuccess('Lien copié !');
               }
             }}
-            className="p-2.5 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] rounded-lg text-[#FAFAFA] hover:bg-[#1A1A1F]/90 hover:border-[#3F3F46] transition-colors"
+            className="p-2.5 bg-white/80 backdrop-blur-md border border-[#E2E8F0] rounded-lg text-[#0F172A] hover:bg-white/90 hover:border-[#CBD5E1] transition-colors"
           >
             <Share2 className="w-4 h-4" />
           </button>
@@ -364,13 +364,13 @@ export default function RestaurantDetail() {
             {/* Badges row */}
             <div className="flex flex-wrap items-center gap-2 mb-3">
               {/* Catégorie */}
-              <span className="flex items-center gap-1.5 px-2.5 py-1 bg-[#FF6B35]/10 border border-[#FF6B35]/30 text-[#FF6B35] rounded-md text-[11px] font-semibold uppercase tracking-[0.1em]">
+              <span className="flex items-center gap-1.5 px-2.5 py-1 bg-[#FFF7ED] border border-[#FF6B35]/30 text-[#FF6B35] rounded-md text-[11px] font-semibold uppercase tracking-[0.1em]">
                 <CategoryIcon className="w-3.5 h-3.5" />
                 {categoryLabels[restaurant.category]}
               </span>
 
               {/* Gamme de prix */}
-              <span className="px-2.5 py-1 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] text-[#FAFAFA] rounded-md text-[12px] font-mono font-semibold">
+              <span className="px-2.5 py-1 bg-white/80 backdrop-blur-md border border-[#E2E8F0] text-[#0F172A] rounded-md text-[12px] font-mono font-semibold">
                 {getPriceRangeSymbol(restaurant.priceRange)}
               </span>
 
@@ -387,30 +387,30 @@ export default function RestaurantDetail() {
               )}
 
               {restaurant.isFeatured && (
-                <span className="px-2.5 py-1 bg-[#FF6B35]/10 border border-[#FF6B35]/30 text-[#FF6B35] rounded-md text-[11px] font-semibold uppercase tracking-[0.1em]">
+                <span className="px-2.5 py-1 bg-[#FFF7ED] border border-[#FF6B35]/30 text-[#FF6B35] rounded-md text-[11px] font-semibold uppercase tracking-[0.1em]">
                   Recommandé
                 </span>
               )}
             </div>
 
             {/* Titre */}
-            <h1 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-3 flex items-center gap-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <h1 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#0F172A] mb-3 flex items-center gap-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               {restaurant.name}
               {restaurant.isClaimed && <VerifiedBadge variant="verified" size="lg" />}
             </h1>
 
             {/* Infos rapides */}
-            <div className="flex flex-wrap items-center gap-4 text-[#D4D4D8] text-[14px]">
+            <div className="flex flex-wrap items-center gap-4 text-[#334155] text-[14px]">
               <span className="flex items-center gap-1.5">
-                <MapPin className="w-4 h-4 text-[#A1A1AA]" />
+                <MapPin className="w-4 h-4 text-[#64748B]" />
                 {restaurant.district}, {restaurant.city}
               </span>
 
               {/* Note communautaire */}
-              <span className="flex items-center gap-1.5 bg-[#111114]/70 backdrop-blur-md border border-[#27272A] px-3 py-1 rounded-md">
+              <span className="flex items-center gap-1.5 bg-white/70 backdrop-blur-md border border-[#E2E8F0] px-3 py-1 rounded-md">
                 <Star className="w-4 h-4 text-[#FF6B35] fill-[#FF6B35]" />
-                <span className="font-mono text-[#FAFAFA]">{restaurant.rating?.toFixed(1)}</span>
-                <span className="text-[#A1A1AA] text-[12px]">({restaurant.reviewCount} avis)</span>
+                <span className="font-mono text-[#0F172A]">{restaurant.rating?.toFixed(1)}</span>
+                <span className="text-[#64748B] text-[12px]">({restaurant.reviewCount} avis)</span>
               </span>
             </div>
           </div>
@@ -432,19 +432,19 @@ export default function RestaurantDetail() {
 
             {/* ==================== 2. BLOC MENU-SCOPE ==================== */}
             {(restaurant.menuImages?.length > 0 || restaurant.signatureDish) && (
-              <section className="bg-[#111114] border border-[#27272A] rounded-xl overflow-hidden">
+              <section className="bg-white border border-[#E2E8F0] rounded-xl overflow-hidden">
                 <div className="p-6 md:p-8">
                   <div className="flex items-start justify-between mb-6 gap-4">
                     <div>
                       <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-2">Menu-Scope</p>
-                      <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] flex items-center gap-2">
+                      <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] flex items-center gap-2">
                         <ImageIcon className="w-5 h-5 text-[#FF6B35]" />
                         Menu &amp; prix
                       </h2>
-                      <p className="text-[#A1A1AA] text-[13px] mt-1">
+                      <p className="text-[#64748B] text-[13px] mt-1">
                         Photos du menu avec prix réels
                       </p>
-                      <div className="flex items-center gap-2 mt-2 text-[#71717A] text-[12px]">
+                      <div className="flex items-center gap-2 mt-2 text-[#94A3B8] text-[12px]">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
                         {priceUpdateText}
                       </div>
@@ -454,7 +454,7 @@ export default function RestaurantDetail() {
                         href={restaurant.menuPdfUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="shrink-0 flex items-center gap-2 px-4 py-2.5 bg-[#1A1A1F] border border-[#27272A] hover:border-[#3F3F46] rounded-lg text-[#FAFAFA] text-[13px] font-medium transition-colors"
+                        className="shrink-0 flex items-center gap-2 px-4 py-2.5 bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-lg text-[#0F172A] text-[13px] font-medium transition-colors"
                       >
                         <FileText className="w-4 h-4" />
                         Télécharger PDF
@@ -464,14 +464,14 @@ export default function RestaurantDetail() {
 
                   {/* Plat Signature */}
                   {restaurant.signatureDish && (
-                    <div className="bg-[#1A1A1F] border border-[#27272A] rounded-xl p-5 mb-6">
+                    <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 mb-6">
                       <div className="flex items-center gap-2 mb-4 text-[#FF6B35]">
                         <Sparkles className="w-4 h-4" />
                         <span className="text-[11px] uppercase tracking-[0.18em] font-semibold">Plat signature</span>
                       </div>
                       <div className="flex gap-4">
                         {restaurant.signatureDish.image && (
-                          <div className="relative w-28 h-28 rounded-lg overflow-hidden border border-[#27272A] shrink-0">
+                          <div className="relative w-28 h-28 rounded-lg overflow-hidden border border-[#E2E8F0] shrink-0">
                             <Image
                               src={getImageUrl(restaurant.signatureDish.image)}
                               alt={restaurant.signatureDish.name}
@@ -482,9 +482,9 @@ export default function RestaurantDetail() {
                           </div>
                         )}
                         <div className="flex-1">
-                          <h3 className="text-[18px] font-semibold text-[#FAFAFA]">{restaurant.signatureDish.name}</h3>
-                          <p className="text-[#A1A1AA] text-[13px] mt-1 leading-relaxed">{restaurant.signatureDish.description}</p>
-                          <p className="text-[22px] font-semibold font-mono text-[#FAFAFA] mt-2">
+                          <h3 className="text-[18px] font-semibold text-[#0F172A]">{restaurant.signatureDish.name}</h3>
+                          <p className="text-[#64748B] text-[13px] mt-1 leading-relaxed">{restaurant.signatureDish.description}</p>
+                          <p className="text-[22px] font-semibold font-mono text-[#0F172A] mt-2">
                             {convert(restaurant.signatureDish.price)}
                           </p>
                         </div>
@@ -503,7 +503,7 @@ export default function RestaurantDetail() {
                               setMenuImageIndex(index);
                               setShowMenuGallery(true);
                             }}
-                            className="relative aspect-[3/4] rounded-lg overflow-hidden group border border-[#27272A] hover:border-[#3F3F46] transition-colors"
+                            className="relative aspect-[3/4] rounded-lg overflow-hidden group border border-[#E2E8F0] hover:border-[#CBD5E1] transition-colors"
                           >
                             <Image
                               src={img}
@@ -516,7 +516,7 @@ export default function RestaurantDetail() {
                               <ZoomIn className="w-7 h-7 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
                             </div>
                             {index === 3 && restaurant.menuImages.length > 4 && (
-                              <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                                 <span className="text-[18px] font-semibold font-mono text-white">+{restaurant.menuImages.length - 4}</span>
                               </div>
                             )}
@@ -529,7 +529,7 @@ export default function RestaurantDetail() {
                           setMenuImageIndex(0);
                           setShowMenuGallery(true);
                         }}
-                        className="mt-4 w-full py-3 bg-[#1A1A1F] border border-[#27272A] hover:border-[#3F3F46] text-[#FAFAFA] text-[13px] font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+                        className="mt-4 w-full py-3 bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] text-[#0F172A] text-[13px] font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
                       >
                         <ImageIcon className="w-4 h-4" />
                         Voir tout le menu ({restaurant.menuImages.length} pages)
@@ -542,36 +542,36 @@ export default function RestaurantDetail() {
 
             {/* Prix moyens */}
             {(restaurant.avgMainCourse || restaurant.avgBeer) && (
-              <section className="bg-[#111114] border border-[#27272A] rounded-xl p-6 md:p-8">
+              <section className="bg-white border border-[#E2E8F0] rounded-xl p-6 md:p-8">
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Tarifs</p>
-                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-5">
+                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-5">
                   Prix moyens constatés
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {restaurant.avgMainCourse && (
-                    <div className="p-5 bg-[#1A1A1F] rounded-lg border border-[#27272A]">
+                    <div className="p-5 bg-white rounded-lg border border-[#E2E8F0]">
                       <div className="flex items-center gap-2 text-[#FF6B35] mb-2">
                         <UtensilsCrossed className="w-4 h-4" />
                         <span className="text-[11px] uppercase tracking-[0.15em] font-semibold">Plat principal</span>
                       </div>
-                      <p className="text-[24px] font-semibold font-mono text-[#FAFAFA]">
+                      <p className="text-[24px] font-semibold font-mono text-[#0F172A]">
                         ~{convert(restaurant.avgMainCourse)}
                       </p>
                     </div>
                   )}
                   {restaurant.avgBeer && (
-                    <div className="p-5 bg-[#1A1A1F] rounded-lg border border-[#27272A]">
+                    <div className="p-5 bg-white rounded-lg border border-[#E2E8F0]">
                       <div className="flex items-center gap-2 text-[#FF6B35] mb-2">
                         <Coffee className="w-4 h-4" />
                         <span className="text-[11px] uppercase tracking-[0.15em] font-semibold">Boisson</span>
                       </div>
-                      <p className="text-[24px] font-semibold font-mono text-[#FAFAFA]">
+                      <p className="text-[24px] font-semibold font-mono text-[#0F172A]">
                         ~{convert(restaurant.avgBeer)}
                       </p>
                     </div>
                   )}
                 </div>
-                <p className="text-[12px] text-[#A1A1AA] mt-4 flex items-center gap-2">
+                <p className="text-[12px] text-[#64748B] mt-4 flex items-center gap-2">
                   <AlertCircle className="w-3.5 h-3.5" />
                   {getPriceRangeLabel(restaurant.priceRange)}
                 </p>
@@ -579,23 +579,23 @@ export default function RestaurantDetail() {
             )}
 
             {/* Description */}
-            <section className="bg-[#111114] border border-[#27272A] rounded-xl p-6 md:p-8">
+            <section className="bg-white border border-[#E2E8F0] rounded-xl p-6 md:p-8">
               <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">À propos</p>
-              <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-4">
+              <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-4">
                 L&apos;établissement
               </h2>
-              <p className="text-[#D4D4D8] leading-relaxed whitespace-pre-line max-w-[65ch]">
+              <p className="text-[#334155] leading-relaxed whitespace-pre-line max-w-[65ch]">
                 {t(restaurant.description || restaurant.shortDescription, restaurant.descriptionEn || restaurant.shortDescriptionEn)}
               </p>
 
               {restaurant.cuisineTypes?.length > 0 && (
-                <div className="mt-5 pt-5 border-t border-[#27272A]">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-[#A1A1AA] mb-3">Types de cuisine</p>
+                <div className="mt-5 pt-5 border-t border-[#E2E8F0]">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-[#64748B] mb-3">Types de cuisine</p>
                   <div className="flex flex-wrap gap-2">
                     {restaurant.cuisineTypes.map((cuisine) => (
                       <span
                         key={cuisine}
-                        className="px-3 py-1.5 bg-[#1A1A1F] border border-[#27272A] text-[#D4D4D8] rounded-md text-[12px] font-medium"
+                        className="px-3 py-1.5 bg-white border border-[#E2E8F0] text-[#334155] rounded-md text-[12px] font-medium"
                       >
                         {cuisine}
                       </span>
@@ -617,9 +617,9 @@ export default function RestaurantDetail() {
             {restaurant.owner && <OwnerBio owner={restaurant.owner} establishmentName={restaurant.name} />}
 
             {/* ==================== 3. INFOS PRATIQUES MADAGASCAR ==================== */}
-            <section className="bg-[#111114] border border-[#27272A] rounded-xl p-6 md:p-8">
+            <section className="bg-white border border-[#E2E8F0] rounded-xl p-6 md:p-8">
               <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Check-list Mada</p>
-              <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-6">
+              <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-6">
                 Infos pratiques
               </h2>
 
@@ -627,17 +627,17 @@ export default function RestaurantDetail() {
                 {/* Groupe électrogène */}
                 <div className={`flex items-center gap-3 p-4 rounded-lg border ${
                   restaurant.hasGenerator
-                    ? 'bg-[#1A1A1F] border-[#3F3F46]'
-                    : 'bg-[#1A1A1F]/50 border-[#27272A]'
+                    ? 'bg-white border-[#CBD5E1]'
+                    : 'bg-white/50 border-[#E2E8F0]'
                 }`}>
                   <div className={`w-9 h-9 rounded-md flex items-center justify-center shrink-0 ${
-                    restaurant.hasGenerator ? 'bg-[#FF6B35]/10 border border-[#FF6B35]/20' : 'bg-[#27272A]'
+                    restaurant.hasGenerator ? 'bg-[#FFF7ED] border border-[#FF6B35]/20' : 'bg-[#F1F5F9]'
                   }`}>
-                    <Zap className={`w-4 h-4 ${restaurant.hasGenerator ? 'text-[#FF6B35]' : 'text-[#71717A]'}`} />
+                    <Zap className={`w-4 h-4 ${restaurant.hasGenerator ? 'text-[#FF6B35]' : 'text-[#94A3B8]'}`} />
                   </div>
                   <div>
-                    <p className="font-medium text-[#FAFAFA] text-[13px]">Groupe électrogène</p>
-                    <p className="text-[11px] text-[#A1A1AA]">
+                    <p className="font-medium text-[#0F172A] text-[13px]">Groupe électrogène</p>
+                    <p className="text-[11px] text-[#64748B]">
                       {restaurant.hasGenerator ? 'Service continu' : 'Non disponible'}
                     </p>
                   </div>
@@ -646,17 +646,17 @@ export default function RestaurantDetail() {
                 {/* WiFi */}
                 <div className={`flex items-center gap-3 p-4 rounded-lg border ${
                   restaurant.hasWifi
-                    ? 'bg-[#1A1A1F] border-[#3F3F46]'
-                    : 'bg-[#1A1A1F]/50 border-[#27272A]'
+                    ? 'bg-white border-[#CBD5E1]'
+                    : 'bg-white/50 border-[#E2E8F0]'
                 }`}>
                   <div className={`w-9 h-9 rounded-md flex items-center justify-center shrink-0 ${
-                    restaurant.hasWifi ? 'bg-[#FF6B35]/10 border border-[#FF6B35]/20' : 'bg-[#27272A]'
+                    restaurant.hasWifi ? 'bg-[#FFF7ED] border border-[#FF6B35]/20' : 'bg-[#F1F5F9]'
                   }`}>
-                    <Wifi className={`w-4 h-4 ${restaurant.hasWifi ? 'text-[#FF6B35]' : 'text-[#71717A]'}`} />
+                    <Wifi className={`w-4 h-4 ${restaurant.hasWifi ? 'text-[#FF6B35]' : 'text-[#94A3B8]'}`} />
                   </div>
                   <div>
-                    <p className="font-medium text-[#FAFAFA] text-[13px]">WiFi gratuit</p>
-                    <p className="text-[11px] text-[#A1A1AA]">
+                    <p className="font-medium text-[#0F172A] text-[13px]">WiFi gratuit</p>
+                    <p className="text-[11px] text-[#64748B]">
                       {restaurant.hasWifi ? 'Haut débit' : 'Non disponible'}
                     </p>
                   </div>
@@ -665,17 +665,17 @@ export default function RestaurantDetail() {
                 {/* Parking */}
                 <div className={`flex items-center gap-3 p-4 rounded-lg border ${
                   restaurant.hasParking
-                    ? 'bg-[#1A1A1F] border-[#3F3F46]'
-                    : 'bg-[#1A1A1F]/50 border-[#27272A]'
+                    ? 'bg-white border-[#CBD5E1]'
+                    : 'bg-white/50 border-[#E2E8F0]'
                 }`}>
                   <div className={`w-9 h-9 rounded-md flex items-center justify-center shrink-0 ${
-                    restaurant.hasParking ? 'bg-[#FF6B35]/10 border border-[#FF6B35]/20' : 'bg-[#27272A]'
+                    restaurant.hasParking ? 'bg-[#FFF7ED] border border-[#FF6B35]/20' : 'bg-[#F1F5F9]'
                   }`}>
-                    <Car className={`w-4 h-4 ${restaurant.hasParking ? 'text-[#FF6B35]' : 'text-[#71717A]'}`} />
+                    <Car className={`w-4 h-4 ${restaurant.hasParking ? 'text-[#FF6B35]' : 'text-[#94A3B8]'}`} />
                   </div>
                   <div>
-                    <p className="font-medium text-[#FAFAFA] text-[13px]">Parking sécurisé</p>
-                    <p className="text-[11px] text-[#A1A1AA]">
+                    <p className="font-medium text-[#0F172A] text-[13px]">Parking sécurisé</p>
+                    <p className="text-[11px] text-[#64748B]">
                       {restaurant.hasParking ? 'Gardien présent' : 'Non disponible'}
                     </p>
                   </div>
@@ -684,17 +684,17 @@ export default function RestaurantDetail() {
                 {/* Mobile Money */}
                 <div className={`flex items-center gap-3 p-4 rounded-lg border ${
                   restaurant.hasMobileMoney
-                    ? 'bg-[#1A1A1F] border-[#3F3F46]'
-                    : 'bg-[#1A1A1F]/50 border-[#27272A]'
+                    ? 'bg-white border-[#CBD5E1]'
+                    : 'bg-white/50 border-[#E2E8F0]'
                 }`}>
                   <div className={`w-9 h-9 rounded-md flex items-center justify-center shrink-0 ${
-                    restaurant.hasMobileMoney ? 'bg-[#FF6B35]/10 border border-[#FF6B35]/20' : 'bg-[#27272A]'
+                    restaurant.hasMobileMoney ? 'bg-[#FFF7ED] border border-[#FF6B35]/20' : 'bg-[#F1F5F9]'
                   }`}>
-                    <Smartphone className={`w-4 h-4 ${restaurant.hasMobileMoney ? 'text-[#FF6B35]' : 'text-[#71717A]'}`} />
+                    <Smartphone className={`w-4 h-4 ${restaurant.hasMobileMoney ? 'text-[#FF6B35]' : 'text-[#94A3B8]'}`} />
                   </div>
                   <div>
-                    <p className="font-medium text-[#FAFAFA] text-[13px]">Mobile Money</p>
-                    <p className="text-[11px] text-[#A1A1AA]">
+                    <p className="font-medium text-[#0F172A] text-[13px]">Mobile Money</p>
+                    <p className="text-[11px] text-[#64748B]">
                       {restaurant.hasMobileMoney ? 'MVola / OM' : 'Espèces uniquement'}
                     </p>
                   </div>
@@ -703,17 +703,17 @@ export default function RestaurantDetail() {
                 {/* Live Music */}
                 <div className={`flex items-center gap-3 p-4 rounded-lg border ${
                   restaurant.hasLiveMusic
-                    ? 'bg-[#1A1A1F] border-[#3F3F46]'
-                    : 'bg-[#1A1A1F]/50 border-[#27272A]'
+                    ? 'bg-white border-[#CBD5E1]'
+                    : 'bg-white/50 border-[#E2E8F0]'
                 }`}>
                   <div className={`w-9 h-9 rounded-md flex items-center justify-center shrink-0 ${
-                    restaurant.hasLiveMusic ? 'bg-[#FF6B35]/10 border border-[#FF6B35]/20' : 'bg-[#27272A]'
+                    restaurant.hasLiveMusic ? 'bg-[#FFF7ED] border border-[#FF6B35]/20' : 'bg-[#F1F5F9]'
                   }`}>
-                    <Music className={`w-4 h-4 ${restaurant.hasLiveMusic ? 'text-[#FF6B35]' : 'text-[#71717A]'}`} />
+                    <Music className={`w-4 h-4 ${restaurant.hasLiveMusic ? 'text-[#FF6B35]' : 'text-[#94A3B8]'}`} />
                   </div>
                   <div>
-                    <p className="font-medium text-[#FAFAFA] text-[13px]">Live Music</p>
-                    <p className="text-[11px] text-[#A1A1AA]">
+                    <p className="font-medium text-[#0F172A] text-[13px]">Live Music</p>
+                    <p className="text-[11px] text-[#64748B]">
                       {restaurant.hasLiveMusic
                         ? restaurant.liveMusicDays?.join(', ') || 'Certains soirs'
                         : 'Non disponible'}
@@ -724,17 +724,17 @@ export default function RestaurantDetail() {
                 {/* Espace fumeur */}
                 <div className={`flex items-center gap-3 p-4 rounded-lg border ${
                   restaurant.hasSmokingArea
-                    ? 'bg-[#1A1A1F] border-[#3F3F46]'
-                    : 'bg-[#1A1A1F]/50 border-[#27272A]'
+                    ? 'bg-white border-[#CBD5E1]'
+                    : 'bg-white/50 border-[#E2E8F0]'
                 }`}>
                   <div className={`w-9 h-9 rounded-md flex items-center justify-center shrink-0 ${
-                    restaurant.hasSmokingArea ? 'bg-[#FF6B35]/10 border border-[#FF6B35]/20' : 'bg-[#27272A]'
+                    restaurant.hasSmokingArea ? 'bg-[#FFF7ED] border border-[#FF6B35]/20' : 'bg-[#F1F5F9]'
                   }`}>
-                    <Cigarette className={`w-4 h-4 ${restaurant.hasSmokingArea ? 'text-[#FF6B35]' : 'text-[#71717A]'}`} />
+                    <Cigarette className={`w-4 h-4 ${restaurant.hasSmokingArea ? 'text-[#FF6B35]' : 'text-[#94A3B8]'}`} />
                   </div>
                   <div>
-                    <p className="font-medium text-[#FAFAFA] text-[13px]">Espace fumeur</p>
-                    <p className="text-[11px] text-[#A1A1AA]">
+                    <p className="font-medium text-[#0F172A] text-[13px]">Espace fumeur</p>
+                    <p className="text-[11px] text-[#64748B]">
                       {restaurant.hasSmokingArea ? 'Terrasse dédiée' : 'Non-fumeur'}
                     </p>
                   </div>
@@ -742,36 +742,36 @@ export default function RestaurantDetail() {
               </div>
 
               {/* Autres services */}
-              <div className="mt-6 pt-6 border-t border-[#27272A]">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-[#A1A1AA] mb-3">Autres services</p>
+              <div className="mt-6 pt-6 border-t border-[#E2E8F0]">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#64748B] mb-3">Autres services</p>
                 <div className="flex flex-wrap gap-2">
                   {restaurant.hasDelivery && (
-                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A1A1F] border border-[#27272A] text-[#D4D4D8] rounded-md text-[12px]">
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#E2E8F0] text-[#334155] rounded-md text-[12px]">
                       <Truck className="w-3.5 h-3.5 text-[#FF6B35]" /> Livraison
                     </span>
                   )}
                   {restaurant.hasTakeaway && (
-                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A1A1F] border border-[#27272A] text-[#D4D4D8] rounded-md text-[12px]">
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#E2E8F0] text-[#334155] rounded-md text-[12px]">
                       <ShoppingBag className="w-3.5 h-3.5 text-[#FF6B35]" /> À emporter
                     </span>
                   )}
                   {restaurant.hasReservation && (
-                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A1A1F] border border-[#27272A] text-[#D4D4D8] rounded-md text-[12px]">
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#E2E8F0] text-[#334155] rounded-md text-[12px]">
                       <Calendar className="w-3.5 h-3.5 text-[#FF6B35]" /> Réservation
                     </span>
                   )}
                   {restaurant.isChildFriendly && (
-                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A1A1F] border border-[#27272A] text-[#D4D4D8] rounded-md text-[12px]">
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#E2E8F0] text-[#334155] rounded-md text-[12px]">
                       <Baby className="w-3.5 h-3.5 text-[#FF6B35]" /> Enfants bienvenus
                     </span>
                   )}
                   {restaurant.isPetFriendly && (
-                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A1A1F] border border-[#27272A] text-[#D4D4D8] rounded-md text-[12px]">
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#E2E8F0] text-[#334155] rounded-md text-[12px]">
                       <Dog className="w-3.5 h-3.5 text-[#FF6B35]" /> Animaux acceptés
                     </span>
                   )}
                   {restaurant.isAccessible && (
-                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A1A1F] border border-[#27272A] text-[#D4D4D8] rounded-md text-[12px]">
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#E2E8F0] text-[#334155] rounded-md text-[12px]">
                       <Accessibility className="w-3.5 h-3.5 text-[#FF6B35]" /> Accessible PMR
                     </span>
                   )}
@@ -781,9 +781,9 @@ export default function RestaurantDetail() {
 
             {/* Horaires */}
             {restaurant.openingHours && Object.keys(restaurant.openingHours).length > 0 && (
-              <section className="bg-[#111114] border border-[#27272A] rounded-xl p-6 md:p-8">
+              <section className="bg-white border border-[#E2E8F0] rounded-xl p-6 md:p-8">
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Horaires</p>
-                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-4">
+                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-4">
                   Horaires d&apos;ouverture
                 </h2>
                 <div className="space-y-1.5">
@@ -797,21 +797,21 @@ export default function RestaurantDetail() {
                       <div
                         key={day}
                         className={`flex items-center justify-between py-2.5 px-4 rounded-lg border ${
-                          isToday ? 'bg-[#FF6B35]/8 border-[#FF6B35]/25' : 'bg-[#1A1A1F] border-[#27272A]'
+                          isToday ? 'bg-[#FF6B35]/8 border-[#FF6B35]/25' : 'bg-white border-[#E2E8F0]'
                         }`}
                       >
-                        <span className={`text-[13px] font-medium ${isToday ? 'text-[#FF6B35]' : 'text-[#D4D4D8]'}`}>
+                        <span className={`text-[13px] font-medium ${isToday ? 'text-[#FF6B35]' : 'text-[#334155]'}`}>
                           {dayLabels[day]}
                           {isToday && (
                             <span className="ml-2 text-[11px] text-[#FF6B35]/70">(aujourd&apos;hui)</span>
                           )}
                         </span>
                         {hours?.closed ? (
-                          <span className="text-[#71717A] text-[13px] font-mono">Fermé</span>
+                          <span className="text-[#94A3B8] text-[13px] font-mono">Fermé</span>
                         ) : hours ? (
-                          <span className="text-[#FAFAFA] text-[13px] font-mono">{hours.open} – {hours.close}</span>
+                          <span className="text-[#0F172A] text-[13px] font-mono">{hours.open} – {hours.close}</span>
                         ) : (
-                          <span className="text-[#71717A] text-[13px] font-mono">-</span>
+                          <span className="text-[#94A3B8] text-[13px] font-mono">-</span>
                         )}
                       </div>
                     );
@@ -822,28 +822,28 @@ export default function RestaurantDetail() {
 
             {/* ==================== 5. SECTION AVIS & PREUVE SOCIALE ==================== */}
             {restaurant.reviews?.length > 0 && (
-              <section className="bg-[#111114] border border-[#27272A] rounded-xl p-6 md:p-8">
+              <section className="bg-white border border-[#E2E8F0] rounded-xl p-6 md:p-8">
                 <div className="flex items-center justify-between mb-6 gap-4">
                   <div>
                     <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Communauté</p>
-                    <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA]">
+                    <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A]">
                       Avis clients vérifiés
                     </h2>
-                    <p className="text-[13px] text-[#A1A1AA] mt-1">
+                    <p className="text-[13px] text-[#64748B] mt-1">
                       {restaurant.reviewCount} avis de vrais clients
                     </p>
                   </div>
                   <div className="text-center shrink-0">
-                    <div className="flex items-center gap-2 bg-[#1A1A1F] border border-[#27272A] px-4 py-2.5 rounded-lg">
+                    <div className="flex items-center gap-2 bg-white border border-[#E2E8F0] px-4 py-2.5 rounded-lg">
                       <Star className="w-5 h-5 text-[#FF6B35] fill-[#FF6B35]" />
-                      <span className="text-[22px] font-semibold font-mono text-[#FAFAFA]">{restaurant.rating?.toFixed(1)}</span>
+                      <span className="text-[22px] font-semibold font-mono text-[#0F172A]">{restaurant.rating?.toFixed(1)}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-6">
                   {restaurant.reviews.map((review) => (
-                    <div key={review.id} className="border-b border-[#27272A] pb-6 last:border-0 last:pb-0">
+                    <div key={review.id} className="border-b border-[#E2E8F0] pb-6 last:border-0 last:pb-0">
                       <div className="flex items-start gap-4">
                         {/* Avatar */}
                         <div className="relative w-11 h-11 rounded-full bg-gradient-to-br from-[#FF6B35] to-amber-500 flex items-center justify-center text-white font-semibold flex-shrink-0 overflow-hidden">
@@ -857,7 +857,7 @@ export default function RestaurantDetail() {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-start justify-between gap-3">
                             <div>
-                              <p className="font-semibold text-[#FAFAFA] text-[14px] flex items-center gap-2 flex-wrap">
+                              <p className="font-semibold text-[#0F172A] text-[14px] flex items-center gap-2 flex-wrap">
                                 {review.authorName}
                                 {review.isVerified && (
                                   <span className="flex items-center gap-1 text-[11px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md">
@@ -865,7 +865,7 @@ export default function RestaurantDetail() {
                                   </span>
                                 )}
                               </p>
-                              <p className="text-[12px] font-mono text-[#71717A] mt-0.5">
+                              <p className="text-[12px] font-mono text-[#94A3B8] mt-0.5">
                                 {new Date(review.createdAt).toLocaleDateString('fr-FR', {
                                   year: 'numeric',
                                   month: 'long',
@@ -878,7 +878,7 @@ export default function RestaurantDetail() {
                                 <Star
                                   key={i}
                                   className={`w-3.5 h-3.5 ${
-                                    i < review.rating ? 'text-[#FF6B35] fill-[#FF6B35]' : 'text-[#3F3F46]'
+                                    i < review.rating ? 'text-[#FF6B35] fill-[#FF6B35]' : 'text-[#CBD5E1]'
                                   }`}
                                 />
                               ))}
@@ -886,15 +886,15 @@ export default function RestaurantDetail() {
                           </div>
 
                           {review.title && (
-                            <p className="font-medium text-[#FAFAFA] text-[14px] mt-3">{review.title}</p>
+                            <p className="font-medium text-[#0F172A] text-[14px] mt-3">{review.title}</p>
                           )}
-                          <p className="text-[#D4D4D8] text-[13px] mt-1 leading-relaxed">{review.comment}</p>
+                          <p className="text-[#334155] text-[13px] mt-1 leading-relaxed">{review.comment}</p>
 
                           {/* Photos du client */}
                           {review.images && review.images.length > 0 && (
                             <div className="flex gap-2 mt-3">
                               {review.images.map((img, idx) => (
-                                <div key={idx} className="relative w-20 h-20 rounded-lg overflow-hidden border border-[#27272A]">
+                                <div key={idx} className="relative w-20 h-20 rounded-lg overflow-hidden border border-[#E2E8F0]">
                                   <Image
                                     src={img}
                                     alt={`Photo de ${review.authorName}`}
@@ -909,7 +909,7 @@ export default function RestaurantDetail() {
 
                           {/* Bouton utile */}
                           <div className="flex items-center gap-4 mt-3">
-                            <button className="flex items-center gap-1.5 text-[12px] text-[#A1A1AA] hover:text-[#FF6B35] transition-colors">
+                            <button className="flex items-center gap-1.5 text-[12px] text-[#64748B] hover:text-[#FF6B35] transition-colors">
                               <ThumbsUp className="w-3.5 h-3.5" />
                               Utile ({review.helpfulCount || 0})
                             </button>
@@ -917,17 +917,17 @@ export default function RestaurantDetail() {
 
                           {/* Réponse du propriétaire */}
                           {review.ownerResponse && (
-                            <div className="mt-4 ml-2 p-4 bg-[#1A1A1F] rounded-lg border-l-2 border-[#FF6B35]">
+                            <div className="mt-4 ml-2 p-4 bg-white rounded-lg border-l-2 border-[#FF6B35]">
                               <p className="text-[12px] font-semibold text-[#FF6B35] mb-2 flex items-center gap-2">
                                 <MessageCircle className="w-3.5 h-3.5" />
                                 Réponse de l&apos;établissement
                                 {review.ownerResponseDate && (
-                                  <span className="font-normal font-mono text-[#71717A]">
+                                  <span className="font-normal font-mono text-[#94A3B8]">
                                     • {new Date(review.ownerResponseDate).toLocaleDateString('fr-FR')}
                                   </span>
                                 )}
                               </p>
-                              <p className="text-[13px] text-[#D4D4D8] leading-relaxed">{review.ownerResponse}</p>
+                              <p className="text-[13px] text-[#334155] leading-relaxed">{review.ownerResponse}</p>
                             </div>
                           )}
                         </div>
@@ -938,7 +938,7 @@ export default function RestaurantDetail() {
 
                 {/* Bouton voir plus d'avis */}
                 {restaurant.reviewCount > restaurant.reviews.length && (
-                  <button className="mt-6 w-full py-3 bg-[#1A1A1F] border border-[#27272A] hover:border-[#3F3F46] text-[#FAFAFA] text-[13px] font-medium rounded-lg transition-colors">
+                  <button className="mt-6 w-full py-3 bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] text-[#0F172A] text-[13px] font-medium rounded-lg transition-colors">
                     Voir les {restaurant.reviewCount - restaurant.reviews.length} autres avis
                   </button>
                 )}
@@ -955,17 +955,17 @@ export default function RestaurantDetail() {
             <PromoBanner establishmentId={restaurant.id} />
             <FomoBanner establishmentId={restaurant.id} />
             {/* Contact card */}
-            <div className="bg-[#111114] rounded-xl p-6 border border-[#27272A]">
+            <div className="bg-white rounded-xl p-6 border border-[#E2E8F0]">
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-2">
-                  <span className="text-[22px] font-semibold font-mono text-[#FAFAFA]">
+                  <span className="text-[22px] font-semibold font-mono text-[#0F172A]">
                     {getPriceRangeSymbol(restaurant.priceRange)}
                   </span>
-                  <span className="text-[12px] text-[#A1A1AA]">{categoryLabels[restaurant.category]}</span>
+                  <span className="text-[12px] text-[#64748B]">{categoryLabels[restaurant.category]}</span>
                 </div>
-                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A1A1F] border border-[#27272A] rounded-lg">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#E2E8F0] rounded-lg">
                   <Star className="w-3.5 h-3.5 text-[#FF6B35] fill-[#FF6B35]" />
-                  <span className="font-mono text-[#FAFAFA] text-[13px]">{restaurant.rating?.toFixed(1)}</span>
+                  <span className="font-mono text-[#0F172A] text-[13px]">{restaurant.rating?.toFixed(1)}</span>
                 </div>
               </div>
 
@@ -982,7 +982,7 @@ export default function RestaurantDetail() {
                       {openStatus.message}
                     </p>
                     {!openStatus.isOpen && openStatus.nextOpen && (
-                      <p className="text-[11px] text-[#A1A1AA] mt-0.5">Prochaine ouverture : {openStatus.nextOpen}</p>
+                      <p className="text-[11px] text-[#64748B] mt-0.5">Prochaine ouverture : {openStatus.nextOpen}</p>
                     )}
                   </div>
                 </div>
@@ -1007,7 +1007,7 @@ export default function RestaurantDetail() {
               />
 
               {(restaurant.website || restaurant.facebook || restaurant.instagram) && (
-                <div className="mt-4 pt-4 border-t border-[#27272A]">
+                <div className="mt-4 pt-4 border-t border-[#E2E8F0]">
                   <SocialLinks
                     website={restaurant.website}
                     facebook={restaurant.facebook}
@@ -1023,7 +1023,7 @@ export default function RestaurantDetail() {
         {/* ==================== CARTE & ACCÈS — full width below grid ==================== */}
         {restaurant.latitude && restaurant.longitude && (
           <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="rounded-xl overflow-hidden border border-[#27272A]">
+            <div className="rounded-xl overflow-hidden border border-[#E2E8F0]">
               <DirectionsWidget
                 destinationLat={restaurant.latitude}
                 destinationLng={restaurant.longitude}
@@ -1035,13 +1035,13 @@ export default function RestaurantDetail() {
 
             <div className="space-y-6">
               {/* Adresse et repères */}
-              <div className="bg-[#111114] border border-[#27272A] rounded-xl p-6 space-y-4 self-start">
-                <p className="text-[13px] text-[#D4D4D8] leading-relaxed">
-                  <span className="text-[11px] uppercase tracking-[0.18em] text-[#A1A1AA] block mb-1">Adresse</span>
+              <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 space-y-4 self-start">
+                <p className="text-[13px] text-[#334155] leading-relaxed">
+                  <span className="text-[11px] uppercase tracking-[0.18em] text-[#64748B] block mb-1">Adresse</span>
                   {restaurant.address || `${restaurant.district}, ${restaurant.city}, ${restaurant.region}`}
                 </p>
                 {restaurant.localLandmark && (
-                  <div className="text-[13px] text-[#D4D4D8] bg-[#1A1A1F] p-3 rounded-lg border border-[#27272A] leading-relaxed">
+                  <div className="text-[13px] text-[#334155] bg-white p-3 rounded-lg border border-[#E2E8F0] leading-relaxed">
                     <span className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] block mb-1">Repère</span>
                     {restaurant.localLandmark}
                   </div>
@@ -1077,7 +1077,7 @@ export default function RestaurantDetail() {
         {similarRestaurants.length > 0 && (
           <section className="mt-12">
             <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Continuer l&apos;exploration</p>
-            <h2 className="text-[22px] sm:text-[28px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-6">
+            <h2 className="text-[22px] sm:text-[28px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-6">
               Restaurants similaires
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -1089,9 +1089,9 @@ export default function RestaurantDetail() {
                 >
                   <Link
                     href={`/restaurants/${r.slug}`}
-                    className="group block bg-[#111114] rounded-xl overflow-hidden border border-[#27272A] hover:border-[#3F3F46] transition-colors"
+                    className="group block bg-white rounded-xl overflow-hidden border border-[#E2E8F0] hover:border-[#CBD5E1] transition-colors"
                   >
-                    <div className="relative h-48 bg-[#1A1A1F]">
+                    <div className="relative h-48 bg-white">
                       <Image
                         src={getEstablishmentImage('RESTAURANT', r.city, r.name, r.coverImage)}
                         alt={r.name}
@@ -1099,24 +1099,24 @@ export default function RestaurantDetail() {
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         className="object-cover"
                       />
-                      <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#FF6B35]/10 backdrop-blur-md border border-[#FF6B35]/30 text-[#FF6B35] text-[11px] font-semibold uppercase tracking-[0.1em] rounded-md">
+                      <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#FFF7ED] backdrop-blur-md border border-[#FF6B35]/30 text-[#FF6B35] text-[11px] font-semibold uppercase tracking-[0.1em] rounded-md">
                         {categoryLabels[r.category]}
                       </div>
-                      <div className="absolute top-3 right-3 px-2.5 py-1 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] text-[#FAFAFA] text-[12px] font-mono font-semibold rounded-md">
+                      <div className="absolute top-3 right-3 px-2.5 py-1 bg-white/80 backdrop-blur-md border border-[#E2E8F0] text-[#0F172A] text-[12px] font-mono font-semibold rounded-md">
                         {getPriceRangeSymbol(r.priceRange)}
                       </div>
                     </div>
                     <div className="p-4">
-                      <h3 className="font-semibold text-[#FAFAFA] text-[14px] group-hover:text-[#FF6B35] transition-colors line-clamp-1">
+                      <h3 className="font-semibold text-[#0F172A] text-[14px] group-hover:text-[#FF6B35] transition-colors line-clamp-1">
                         {r.name}
                       </h3>
-                      <p className="text-[12px] text-[#A1A1AA] flex items-center gap-1 mt-1">
+                      <p className="text-[12px] text-[#64748B] flex items-center gap-1 mt-1">
                         <MapPin className="w-3 h-3" />
                         {r.city}
                       </p>
                       <div className="flex items-center gap-1.5 mt-3">
                         <Star className="w-3.5 h-3.5 text-[#FF6B35] fill-[#FF6B35]" />
-                        <span className="font-mono text-[#FAFAFA] text-[13px]">{r.rating?.toFixed(1)}</span>
+                        <span className="font-mono text-[#0F172A] text-[13px]">{r.rating?.toFixed(1)}</span>
                       </div>
                     </div>
                   </Link>
@@ -1208,7 +1208,7 @@ export default function RestaurantDetail() {
                         className={`flex-shrink-0 w-16 h-20 rounded-lg overflow-hidden border transition-all relative ${
                           index === menuImageIndex
                             ? 'border-[#FF6B35]'
-                            : 'border-[#27272A] opacity-50 hover:opacity-100'
+                            : 'border-[#E2E8F0] opacity-50 hover:opacity-100'
                         }`}
                       >
                         <Image

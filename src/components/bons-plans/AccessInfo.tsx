@@ -93,15 +93,15 @@ export default function AccessInfo({ city, district, address, hasParking, latitu
   if (tips.length === 0 && !fullAddress) return null;
 
   return (
-    <div className="bg-[#1A1A1F] rounded-2xl p-6 border border-[#2a2a36] self-start">
+    <div className="bg-white rounded-2xl p-6 border border-[#2a2a36] self-start">
       <div className="flex items-center gap-2 mb-4">
         <Car className="w-5 h-5 text-[#FDBA74]" />
         <h3 className="font-semibold text-white">Acces & Transport</h3>
       </div>
 
       {fullAddress && (
-        <div className="flex items-start gap-2 mb-4 text-sm text-[#71717A]">
-          <MapPin className="w-4 h-4 text-[#71717A] flex-shrink-0 mt-0.5" />
+        <div className="flex items-start gap-2 mb-4 text-sm text-[#94A3B8]">
+          <MapPin className="w-4 h-4 text-[#94A3B8] flex-shrink-0 mt-0.5" />
           <span>{fullAddress}</span>
         </div>
       )}

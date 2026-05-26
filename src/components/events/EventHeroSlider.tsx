@@ -38,7 +38,7 @@ interface EventHeroSliderProps {
 
 const BADGE_STYLES: Record<string, { bg: string; text: string; border: string }> = {
   NOUVEAU: { bg: 'bg-emerald-500/20', text: 'text-emerald-400', border: 'border-emerald-500/40' },
-  PROMO: { bg: 'bg-[#FF6B35]/20', text: 'text-[#FDBA74]', border: 'border-[#FF6B35]/40' },
+  PROMO: { bg: 'bg-[#FFEDD5]', text: 'text-[#FDBA74]', border: 'border-[#FF6B35]/40' },
   EXCLUSIF: { bg: 'bg-purple-500/20', text: 'text-purple-400', border: 'border-purple-500/40' },
   OFFICIEL: { bg: 'bg-blue-500/20', text: 'text-blue-400', border: 'border-blue-500/40' },
 };
@@ -135,7 +135,7 @@ export default function EventHeroSlider({ events }: EventHeroSliderProps) {
               <div className="px-6 sm:px-10 md:px-14 max-w-2xl">
                 {/* Type + Badge tags */}
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#1A1A1F] backdrop-blur-sm text-white border border-[#3F3F46]">
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-white backdrop-blur-sm text-white border border-[#CBD5E1]">
                     {TYPE_LABELS[event.eventType || 'EVENT'] || 'Événement'}
                   </span>
                   {badgeStyle && (
@@ -153,13 +153,13 @@ export default function EventHeroSlider({ events }: EventHeroSliderProps) {
 
                 {/* Description */}
                 {event.description && (
-                  <p className="text-[#52525B] text-sm sm:text-base mb-4 line-clamp-2 max-w-lg">
+                  <p className="text-[#CBD5E1] text-sm sm:text-base mb-4 line-clamp-2 max-w-lg">
                     {event.description}
                   </p>
                 )}
 
                 {/* Meta */}
-                <div className="flex flex-wrap items-center gap-4 mb-5 text-sm text-[#52525B]">
+                <div className="flex flex-wrap items-center gap-4 mb-5 text-sm text-[#CBD5E1]">
                   <span className="flex items-center gap-1.5">
                     <MapPin className="w-4 h-4 text-[#FDBA74]" />
                     {event.city}
@@ -184,7 +184,7 @@ export default function EventHeroSlider({ events }: EventHeroSliderProps) {
                       href={event.ctaLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-5 py-2.5 bg-[#1A1A1F] hover:bg-[#1A1A1F] backdrop-blur-sm text-white font-semibold rounded-xl text-sm border border-[#3F3F46] transition-colors flex items-center gap-2"
+                      className="px-5 py-2.5 bg-white hover:bg-white backdrop-blur-sm text-white font-semibold rounded-xl text-sm border border-[#CBD5E1] transition-colors flex items-center gap-2"
                     >
                       {event.ctaLabel}
                       <ExternalLink className="w-3.5 h-3.5" />
@@ -202,13 +202,13 @@ export default function EventHeroSlider({ events }: EventHeroSliderProps) {
         <>
           <button
             onClick={prev}
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm border border-[#27272A] text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm border border-[#E2E8F0] text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/30"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={next}
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm border border-[#27272A] text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm border border-[#E2E8F0] text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/30"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -225,7 +225,7 @@ export default function EventHeroSlider({ events }: EventHeroSliderProps) {
               className={`transition-all rounded-full ${
                 i === current
                   ? 'w-8 h-2 bg-[#FF6B35]'
-                  : 'w-2 h-2 bg-[#111114]/40 hover:bg-[#111114]/60'
+                  : 'w-2 h-2 bg-white/40 hover:bg-white/60'
               }`}
             />
           ))}
@@ -234,7 +234,7 @@ export default function EventHeroSlider({ events }: EventHeroSliderProps) {
 
       {/* Progress bar */}
       {events.length > 1 && (
-        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1A1A1F]">
+        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white">
           <motion.div
             key={current}
             className="h-full bg-[#FF6B35]"

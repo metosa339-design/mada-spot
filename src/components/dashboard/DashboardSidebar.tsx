@@ -111,7 +111,7 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       {/* Logo / Brand */}
-      <div className="p-4 border-b border-[#27272A]">
+      <div className="p-4 border-b border-[#E2E8F0]">
         <div className="flex items-center gap-3">
           <div
             className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -121,10 +121,10 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
           </div>
           {!collapsed && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-w-0">
-              <p className="text-sm font-semibold text-[#FAFAFA] truncate">
+              <p className="text-sm font-semibold text-[#0F172A] truncate">
                 {user.clientProfile?.companyName || `${user.firstName} ${user.lastName}`}
               </p>
-              <p className="text-xs text-[#71717A]">{getUserTypeLabel(user.userType)}</p>
+              <p className="text-xs text-[#94A3B8]">{getUserTypeLabel(user.userType)}</p>
             </motion.div>
           )}
         </div>
@@ -143,7 +143,7 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all relative group ${
                 active
                   ? ''
-                  : 'text-[#A1A1AA] hover:bg-[#111114] hover:text-[#FAFAFA]'
+                  : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A]'
               }`}
               style={active ? { backgroundColor: `${accent}14`, color: accent } : undefined}
             >
@@ -176,7 +176,7 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
       </nav>
 
       {/* Bottom Section */}
-      <div className="border-t border-[#27272A] p-3 space-y-1">
+      <div className="border-t border-[#E2E8F0] p-3 space-y-1">
         {BOTTOM_LINKS.map((link) => {
           const active = isActive(link.href)
           return (
@@ -185,7 +185,7 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
               href={link.href}
               onClick={() => setMobileOpen(false)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
-                active ? 'bg-[#1A1A1F] text-[#FAFAFA]' : 'text-[#A1A1AA] hover:bg-[#111114] hover:text-[#FAFAFA]'
+                active ? 'bg-[#F8FAFC] text-[#0F172A]' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A]'
               }`}
             >
               {(() => { const Icon = link.icon as React.ComponentType<{ className?: string }>; return <Icon className="w-5 h-5 flex-shrink-0" /> })()}
@@ -206,7 +206,7 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
       {/* Collapse Toggle */}
       <button
         onClick={() => setCollapsed(!collapsed)}
-        className="hidden lg:flex items-center justify-center p-3 border-t border-[#27272A] text-[#71717A] hover:text-[#FAFAFA] transition-colors"
+        className="hidden lg:flex items-center justify-center p-3 border-t border-[#E2E8F0] text-[#94A3B8] hover:text-[#0F172A] transition-colors"
       >
         {collapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
       </button>
@@ -218,7 +218,7 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
       {/* Mobile Toggle */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[#111114] border border-[#27272A] rounded-xl text-[#FAFAFA]"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white border border-[#E2E8F0] rounded-xl text-[#0F172A]"
       >
         <Menu className="w-5 h-5" />
       </button>
@@ -231,7 +231,7 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setMobileOpen(false)}
-            className="lg:hidden fixed inset-0 bg-black/70 z-40"
+            className="lg:hidden fixed inset-0 bg-black/35 z-40"
           />
         )}
       </AnimatePresence>
@@ -244,11 +244,11 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
             animate={{ x: 0 }}
             exit={{ x: -280 }}
             transition={{ type: 'spring', damping: 25 }}
-            className="lg:hidden fixed left-0 top-0 bottom-0 w-[280px] bg-[#0A0A0F] border-r border-[#27272A] z-50"
+            className="lg:hidden fixed left-0 top-0 bottom-0 w-[280px] bg-white border-r border-[#E2E8F0] z-50"
           >
             <button
               onClick={() => setMobileOpen(false)}
-              className="absolute top-4 right-4 p-1 text-[#71717A] hover:text-[#FAFAFA]"
+              className="absolute top-4 right-4 p-1 text-[#94A3B8] hover:text-[#0F172A]"
             >
               <X className="w-5 h-5" />
             </button>
@@ -259,7 +259,7 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
 
       {/* Desktop Sidebar */}
       <aside
-        className={`hidden lg:flex flex-col bg-[#0A0A0F] border-r border-[#27272A] transition-all duration-300 ${
+        className={`hidden lg:flex flex-col bg-white border-r border-[#E2E8F0] transition-all duration-300 ${
           collapsed ? 'w-[72px]' : 'w-[260px]'
         }`}
       >

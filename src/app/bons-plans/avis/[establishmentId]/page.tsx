@@ -100,7 +100,7 @@ export default function AllReviewsPage() {
   const hasMore = reviews.length < total
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white">
+    <div className="min-h-screen bg-[#F8FAFC] text-white">
       <div className="max-w-3xl mx-auto px-4 pt-24 pb-12">
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">

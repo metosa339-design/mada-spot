@@ -311,14 +311,14 @@ export default function ClientSettingsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
+      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-[#ff6b35]" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white">
+    <div className="min-h-screen bg-[#F8FAFC] text-white">
       <div className="max-w-2xl mx-auto px-4 pt-24 pb-8">
         <Link href="/client" className="inline-flex items-center gap-1 text-gray-500 hover:text-gray-300 text-sm mb-6">
           <ArrowLeft className="w-4 h-4" /> {t.myArea}
@@ -526,7 +526,7 @@ export default function ClientSettingsPage() {
 
         {/* OTP Verification Modal */}
         {otpModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4">
             <div className="bg-[#1a1a24] border border-[#2a2a36] rounded-2xl w-full max-w-md p-6 relative">
               <button
                 onClick={() => setOtpModal(null)}

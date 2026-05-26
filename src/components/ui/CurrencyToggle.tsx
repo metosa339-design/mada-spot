@@ -12,7 +12,7 @@ export default function CurrencyToggle() {
   const { currency, setCurrency } = useCurrency();
 
   return (
-    <div className="flex items-center bg-[#1A1A1F] backdrop-blur-sm rounded-full border border-[#3F3F46] overflow-hidden">
+    <div className="flex items-center bg-white backdrop-blur-sm rounded-full border border-[#CBD5E1] overflow-hidden">
       {currencies.map((c) => (
         <button
           key={c.id}
@@ -20,7 +20,7 @@ export default function CurrencyToggle() {
           className={`px-2.5 py-1.5 text-xs font-medium transition-all ${
             currency === c.id
               ? 'bg-[#FF6B35] text-white'
-              : 'text-white/60 hover:text-white hover:bg-[#1A1A1F]'
+              : 'text-white/60 hover:text-white hover:bg-white'
           }`}
           title={`Afficher en ${c.id}`}
         >

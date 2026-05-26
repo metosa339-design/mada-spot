@@ -408,7 +408,7 @@ export default function MapLocationPicker({
               onKeyDown={handleSearchKeyDown}
               onFocus={() => searchItems.length > 0 && setShowResults(true)}
               placeholder="Rechercher une ville, un lieu, une adresse..."
-              className="w-full pl-10 pr-8 py-3 bg-[#0a0a0f] border border-[#2a2a36] rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#ff6b35] transition-colors text-sm"
+              className="w-full pl-10 pr-8 py-3 bg-[#F8FAFC] border border-[#2a2a36] rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#ff6b35] transition-colors text-sm"
             />
             {isSearching && (
               <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#ff6b35] animate-spin" />
@@ -527,7 +527,7 @@ export default function MapLocationPicker({
         {/* Instruction overlay */}
         {!position && (
           <div className="absolute bottom-3 left-3 right-3 z-10 pointer-events-none">
-            <div className="bg-black/70 backdrop-blur-sm rounded-lg px-3 py-2 text-center">
+            <div className="bg-black/35 backdrop-blur-sm rounded-lg px-3 py-2 text-center">
               <span className="text-xs text-gray-300">Recherchez un lieu ou cliquez sur la carte</span>
             </div>
           </div>

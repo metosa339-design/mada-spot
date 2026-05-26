@@ -65,7 +65,7 @@ export default function EnhancedContactButtons({
           <a
             href={`tel:${phone2}`}
             onClick={() => trackClick(establishmentId, 'phone')}
-            className="flex items-center justify-center gap-2 w-full py-2.5 border border-[#2a2a36] text-[#52525B] font-medium rounded-xl hover:bg-[#2a2a36] transition-colors text-sm"
+            className="flex items-center justify-center gap-2 w-full py-2.5 border border-[#2a2a36] text-[#CBD5E1] font-medium rounded-xl hover:bg-[#2a2a36] transition-colors text-sm"
           >
             <Phone className="w-4 h-4" />
             {phone2}
@@ -75,7 +75,7 @@ export default function EnhancedContactButtons({
           <a
             href={`mailto:${email}`}
             onClick={() => trackClick(establishmentId, 'email')}
-            className="flex items-center justify-center gap-2 w-full py-2.5 border border-[#2a2a36] text-[#52525B] font-medium rounded-xl hover:bg-[#2a2a36] transition-colors text-sm"
+            className="flex items-center justify-center gap-2 w-full py-2.5 border border-[#2a2a36] text-[#CBD5E1] font-medium rounded-xl hover:bg-[#2a2a36] transition-colors text-sm"
           >
             <Mail className="w-4 h-4" />
             Email
@@ -85,7 +85,7 @@ export default function EnhancedContactButtons({
 
       {/* Mobile sticky footer bar */}
       {(phone || whatsapp) && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-[#0A0A0F]/95 backdrop-blur-md border-t border-[#2a2a36] px-4 py-3 flex items-center gap-3">
+        <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-[#F8FAFC]/95 backdrop-blur-md border-t border-[#2a2a36] px-4 py-3 flex items-center gap-3">
           {whatsapp && (
             <a
               href={`https://wa.me/${whatsapp.replace(/\D/g, '')}?text=${whatsappMsg}`}

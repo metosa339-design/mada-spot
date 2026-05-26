@@ -17,7 +17,7 @@ export default function ResetPasswordPage() {
 
 function ResetFallback() {
   const t = useTrans('auth');
-  return <div className="bg-[#111114] rounded-xl border border-[#27272A] p-8 text-center text-[#A1A1AA]">{t.loading}</div>;
+  return <div className="bg-white rounded-xl border border-[#E2E8F0] p-8 text-center text-[#64748B]">{t.loading}</div>;
 }
 
 function ResetPasswordForm() {
@@ -38,11 +38,11 @@ function ResetPasswordForm() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="bg-[#111114] rounded-xl border border-[#27272A] p-8 text-center"
+        className="bg-white rounded-xl border border-[#E2E8F0] p-8 text-center"
       >
         <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
-        <h2 className="text-[20px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-2">{t.invalidLinkTitle}</h2>
-        <p className="text-[13px] text-[#A1A1AA] mb-5 leading-relaxed">{t.invalidLinkDesc}</p>
+        <h2 className="text-[20px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-2">{t.invalidLinkTitle}</h2>
+        <p className="text-[13px] text-[#64748B] mb-5 leading-relaxed">{t.invalidLinkDesc}</p>
         <Link href="/forgot-password" className="text-[13px] text-[#FF6B35] hover:underline">
           {t.requestNewLink}
         </Link>
@@ -88,11 +88,11 @@ function ResetPasswordForm() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="bg-[#111114] rounded-xl border border-[#27272A] p-8 text-center"
+        className="bg-white rounded-xl border border-[#E2E8F0] p-8 text-center"
       >
         <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
-        <h2 className="text-[20px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-2">{t.resetSuccessTitle}</h2>
-        <p className="text-[13px] text-[#A1A1AA] leading-relaxed">{t.resetSuccessDesc}</p>
+        <h2 className="text-[20px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-2">{t.resetSuccessTitle}</h2>
+        <p className="text-[13px] text-[#64748B] leading-relaxed">{t.resetSuccessDesc}</p>
       </motion.div>
     );
   }
@@ -102,11 +102,11 @@ function ResetPasswordForm() {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-[#111114] rounded-xl border border-[#27272A] p-8 w-full max-w-md mx-auto"
+      className="bg-white rounded-xl border border-[#E2E8F0] p-8 w-full max-w-md mx-auto"
     >
       <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-2">Sécurité</p>
-      <h1 className="text-[22px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-2">{t.resetTitle}</h1>
-      <p className="text-[13px] text-[#A1A1AA] mb-6 leading-relaxed">{t.resetDesc}</p>
+      <h1 className="text-[22px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-2">{t.resetTitle}</h1>
+      <p className="text-[13px] text-[#64748B] mb-6 leading-relaxed">{t.resetDesc}</p>
 
       {error && (
         <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-[13px] mb-4">
@@ -118,7 +118,7 @@ function ResetPasswordForm() {
         <div>
           <label htmlFor="reset-new-password" className="sr-only">{t.newPasswordLabel}</label>
           <div className="relative">
-            <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#71717A]" aria-hidden="true" />
+            <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" aria-hidden="true" />
             <input
               id="reset-new-password"
               type={showPassword ? 'text' : 'password'}
@@ -127,12 +127,12 @@ function ResetPasswordForm() {
               required
               placeholder={t.newPasswordPlaceholder}
               minLength={6}
-              className="w-full pl-10 pr-10 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-lg text-[#FAFAFA] placeholder:text-[#71717A] text-[14px] focus:outline-none focus:border-[#FF6B35]/40 transition-colors"
+              className="w-full pl-10 pr-10 py-3 bg-white border border-[#E2E8F0] rounded-lg text-[#0F172A] placeholder:text-[#94A3B8] text-[14px] focus:outline-none focus:border-[#FF6B35]/40 transition-colors"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#71717A] hover:text-[#FAFAFA] transition-colors"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#0F172A] transition-colors"
               aria-label={showPassword ? t.hidePassword : t.showPassword}
             >
               {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -143,7 +143,7 @@ function ResetPasswordForm() {
         <div>
           <label htmlFor="reset-confirm-password" className="sr-only">{t.confirmPasswordLabel}</label>
           <div className="relative">
-            <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#71717A]" aria-hidden="true" />
+            <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" aria-hidden="true" />
             <input
               id="reset-confirm-password"
               type={showPassword ? 'text' : 'password'}
@@ -151,7 +151,7 @@ function ResetPasswordForm() {
               onChange={e => setConfirmPassword(e.target.value)}
               required
               placeholder={t.confirmPasswordLabel}
-              className="w-full pl-10 pr-4 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-lg text-[#FAFAFA] placeholder:text-[#71717A] text-[14px] focus:outline-none focus:border-[#FF6B35]/40 transition-colors"
+              className="w-full pl-10 pr-4 py-3 bg-white border border-[#E2E8F0] rounded-lg text-[#0F172A] placeholder:text-[#94A3B8] text-[14px] focus:outline-none focus:border-[#FF6B35]/40 transition-colors"
             />
           </div>
         </div>

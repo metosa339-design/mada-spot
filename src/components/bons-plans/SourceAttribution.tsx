@@ -25,9 +25,9 @@ export default memo(function SourceAttribution({
   if (!dataSource || dataSource === 'manual') return null;
 
   return (
-    <div className="border-t border-[#27272A] pt-4 mt-6 space-y-3">
+    <div className="border-t border-[#E2E8F0] pt-4 mt-6 space-y-3">
       {sourceAttribution && (
-        <div className="flex items-start gap-2 text-xs text-[#71717A]">
+        <div className="flex items-start gap-2 text-xs text-[#94A3B8]">
           <Info className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
           <p>
             Source des informations : {sourceAttribution} via Mada Spot API.
@@ -42,7 +42,7 @@ export default memo(function SourceAttribution({
             href={sourceUrl}
             target="_blank"
             rel="nofollow noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs text-[#71717A] hover:text-[#A1A1AA] transition-colors"
+            className="flex items-center gap-1.5 text-xs text-[#94A3B8] hover:text-[#64748B] transition-colors"
           >
             <ExternalLink className="w-3.5 h-3.5" />
             Voir la fiche originale

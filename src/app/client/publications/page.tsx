@@ -77,14 +77,14 @@ export default function ClientPublicationsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
+      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#ff6b35]" />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white">
+    <div className="min-h-screen bg-[#F8FAFC] text-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-12">
 
         {/* Header */}

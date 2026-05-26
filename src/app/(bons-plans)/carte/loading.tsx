@@ -1,6 +1,6 @@
 export default function CarteLoading() {
   return (
-    <div className="min-h-screen bg-[#0a0a0f] pt-20 px-4">
+    <div className="min-h-screen bg-[#F8FAFC] pt-20 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6 animate-pulse">
           <div className="h-8 bg-white/5 rounded-lg w-60 mb-3" />

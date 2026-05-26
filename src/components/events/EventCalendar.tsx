@@ -134,7 +134,7 @@ export default function EventCalendar({
         <button
           onClick={handlePrevMonth}
           aria-label="Mois précédent"
-          className="p-2 rounded-xl hover:bg-[#1A1A1F] text-[#71717A] hover:text-white transition-all active:scale-95"
+          className="p-2 rounded-xl hover:bg-white text-[#94A3B8] hover:text-white transition-all active:scale-95"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
@@ -153,7 +153,7 @@ export default function EventCalendar({
         <button
           onClick={handleNextMonth}
           aria-label="Mois suivant"
-          className="p-2 rounded-xl hover:bg-[#1A1A1F] text-[#71717A] hover:text-white transition-all active:scale-95"
+          className="p-2 rounded-xl hover:bg-white text-[#94A3B8] hover:text-white transition-all active:scale-95"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
@@ -164,7 +164,7 @@ export default function EventCalendar({
         {DAY_NAMES.map((day) => (
           <div
             key={day}
-            className="text-center text-[10px] font-semibold text-[#A1A1AA] uppercase tracking-wider py-2"
+            className="text-center text-[10px] font-semibold text-[#64748B] uppercase tracking-wider py-2"
           >
             {day}
           </div>
@@ -205,13 +205,13 @@ export default function EventCalendar({
                 className={`
                   relative aspect-square flex flex-col items-center justify-center rounded-xl
                   text-sm transition-all duration-300 group
-                  ${!inCurrentMonth ? 'text-[#FAFAFA] opacity-40' : 'text-[#71717A]'}
+                  ${!inCurrentMonth ? 'text-[#0F172A] opacity-40' : 'text-[#94A3B8]'}
                   ${isSelected
                     ? 'bg-gradient-to-br from-[#FF6B35] via-[#ff3d7f] to-[#7c3aed] text-white shadow-lg shadow-[#FF6B35]/20 scale-110 z-10'
                     : isCurrentDay
                       ? 'bg-gradient-to-br from-[#FF6B35]/15 to-purple-500/15 ring-1 ring-orange-500/40 text-[#FDBA74]'
                       : hasEvents
-                        ? 'hover:bg-[#111114]/[0.06] cursor-pointer hover:scale-105'
+                        ? 'hover:bg-white/[0.06] cursor-pointer hover:scale-105'
                         : 'cursor-default'
                   }
                 `}
@@ -240,7 +240,7 @@ export default function EventCalendar({
                         <span
                           key={type}
                           className={`w-[5px] h-[5px] rounded-full ${dot.color} ${
-                            isSelected ? 'bg-[#111114] shadow-sm shadow-white/50' : `shadow-sm ${dot.glow}`
+                            isSelected ? 'bg-white shadow-sm shadow-white/50' : `shadow-sm ${dot.glow}`
                           }`}
                         />
                       );
@@ -269,7 +269,7 @@ export default function EventCalendar({
         ].map(({ label, color }) => (
           <div key={label} className="flex items-center gap-1.5">
             <span className={`w-2 h-2 rounded-full ${color}`} />
-            <span className="text-[10px] text-[#71717A]">{label}</span>
+            <span className="text-[10px] text-[#94A3B8]">{label}</span>
           </div>
         ))}
       </div>

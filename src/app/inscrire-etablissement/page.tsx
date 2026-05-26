@@ -55,12 +55,10 @@ export default function InscrireEtablissementPage() {
     { q: t.faq6Q, a: t.faq6A },
   ];
   return (
-    <div className="min-h-screen bg-[#0A0A0F] text-[#FAFAFA]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-[#0A0A0F] pt-24 sm:pt-32 pb-16 sm:pb-24">
-        <div className="absolute -top-32 -left-20 w-[420px] h-[420px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.10] pointer-events-none" />
-        <div className="absolute -bottom-32 -right-20 w-[380px] h-[380px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.08] pointer-events-none" />
+      <section className="relative overflow-hidden bg-[#F8FAFC] pt-24 sm:pt-32 pb-16 sm:pb-24">
 
         <div className="relative max-w-6xl mx-auto px-4">
           <motion.div
@@ -69,13 +67,13 @@ export default function InscrireEtablissementPage() {
             transition={{ duration: 0.7, ease: EASE }}
             className="text-center max-w-3xl mx-auto"
           >
-            <span className="inline-flex items-center px-3 py-1.5 bg-[#FF6B35]/10 border border-[#FF6B35]/30 rounded-md text-[11px] text-[#FF6B35] font-semibold uppercase tracking-[0.15em] mb-6">
+            <span className="inline-flex items-center px-3 py-1.5 bg-[#FFF7ED] border border-[#FF6B35]/30 rounded-md text-[11px] text-[#FF6B35] font-semibold uppercase tracking-[0.15em] mb-6">
               {t.heroBadge}
             </span>
-            <h1 className="text-[32px] sm:text-[44px] lg:text-[56px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-6 leading-[1.05]">
+            <h1 className="text-[32px] sm:text-[44px] lg:text-[56px] font-semibold tracking-[-0.03em] text-[#0F172A] mb-6 leading-[1.05]">
               {t.heroTitlePart1} <span className="text-[#FF6B35]">{t.heroBrand}</span>
             </h1>
-            <p className="text-[15px] sm:text-[17px] text-[#A1A1AA] mb-8 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-[15px] sm:text-[17px] text-[#64748B] mb-8 leading-relaxed max-w-2xl mx-auto">
               {t.heroDesc}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -97,9 +95,9 @@ export default function InscrireEtablissementPage() {
             className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-3"
           >
             {stats.map((stat) => (
-              <div key={stat.label} className="text-center bg-[#111114] border border-[#27272A] rounded-xl py-5 px-3">
-                <p className="text-[26px] sm:text-[32px] font-semibold font-mono text-[#FAFAFA]">{stat.value}</p>
-                <p className="text-[11px] uppercase tracking-[0.15em] text-[#A1A1AA] mt-1">{stat.label}</p>
+              <div key={stat.label} className="text-center bg-white border border-[#E2E8F0] rounded-xl py-5 px-3">
+                <p className="text-[26px] sm:text-[32px] font-semibold font-mono text-[#0F172A]">{stat.value}</p>
+                <p className="text-[11px] uppercase tracking-[0.15em] text-[#64748B] mt-1">{stat.label}</p>
               </div>
             ))}
           </motion.div>
@@ -117,10 +115,10 @@ export default function InscrireEtablissementPage() {
           className="text-center mb-12"
         >
           <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Catégories</p>
-          <h2 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-4">
+          <h2 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#0F172A] mb-4">
             {t.categoriesTitle}
           </h2>
-          <p className="text-[#A1A1AA] text-[15px] max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[#64748B] text-[15px] max-w-2xl mx-auto leading-relaxed">
             {t.categoriesSubtitle}
           </p>
         </motion.div>
@@ -135,20 +133,20 @@ export default function InscrireEtablissementPage() {
               viewport={{ once: true, margin: '-80px' }}
               whileHover={{ y: -2 }}
               transition={{ duration: 0.2 }}
-              className="bg-[#111114] rounded-xl border border-[#27272A] hover:border-[#3F3F46] p-6 transition-colors"
+              className="bg-white rounded-xl border border-[#E2E8F0] hover:border-[#CBD5E1] p-6 transition-colors"
             >
-              <div className="w-12 h-12 rounded-lg bg-[#FF6B35]/10 border border-[#FF6B35]/20 flex items-center justify-center mb-4">
+              <div className="w-12 h-12 rounded-lg bg-[#FFF7ED] border border-[#FF6B35]/20 flex items-center justify-center mb-4">
                 <cat.icon className="w-5 h-5 text-[#FF6B35]" />
               </div>
-              <h3 className="text-[16px] font-semibold text-[#FAFAFA] mb-2">{cat.title}</h3>
-              <p className="text-[13px] text-[#A1A1AA] leading-relaxed">{cat.description}</p>
+              <h3 className="text-[16px] font-semibold text-[#0F172A] mb-2">{cat.title}</h3>
+              <p className="text-[13px] text-[#64748B] leading-relaxed">{cat.description}</p>
             </motion.div>
           ))}
         </div>
       </section>
 
       {/* How it works */}
-      <section className="bg-[#0F0F14] border-y border-[#27272A]">
+      <section className="bg-[#0F0F14] border-y border-[#E2E8F0]">
         <div className="max-w-6xl mx-auto px-4 py-16 sm:py-20">
           <motion.div
             variants={fadeUp}
@@ -159,10 +157,10 @@ export default function InscrireEtablissementPage() {
             className="text-center mb-12"
           >
             <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Processus</p>
-            <h2 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-4">
+            <h2 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#0F172A] mb-4">
               {t.stepsTitle}
             </h2>
-            <p className="text-[#A1A1AA] text-[15px] max-w-2xl mx-auto leading-relaxed">
+            <p className="text-[#64748B] text-[15px] max-w-2xl mx-auto leading-relaxed">
               {t.stepsSubtitle}
             </p>
           </motion.div>
@@ -177,12 +175,12 @@ export default function InscrireEtablissementPage() {
                 viewport={{ once: true, margin: '-80px' }}
                 className="text-center"
               >
-                <div className="w-14 h-14 rounded-xl bg-[#FF6B35]/10 border border-[#FF6B35]/25 flex items-center justify-center mx-auto mb-4">
+                <div className="w-14 h-14 rounded-xl bg-[#FFF7ED] border border-[#FF6B35]/25 flex items-center justify-center mx-auto mb-4">
                   <step.icon className="w-6 h-6 text-[#FF6B35]" />
                 </div>
                 <div className="text-[11px] font-mono font-semibold uppercase tracking-[0.18em] text-[#FF6B35] mb-2">{t.stepLabel} {i + 1}</div>
-                <h3 className="text-[16px] font-semibold text-[#FAFAFA] mb-2">{step.title}</h3>
-                <p className="text-[13px] text-[#A1A1AA] leading-relaxed">{step.description}</p>
+                <h3 className="text-[16px] font-semibold text-[#0F172A] mb-2">{step.title}</h3>
+                <p className="text-[13px] text-[#64748B] leading-relaxed">{step.description}</p>
               </motion.div>
             ))}
           </div>
@@ -200,10 +198,10 @@ export default function InscrireEtablissementPage() {
           className="text-center mb-12"
         >
           <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Avantages</p>
-          <h2 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-4">
+          <h2 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#0F172A] mb-4">
             {t.benefitsTitle}
           </h2>
-          <p className="text-[#A1A1AA] text-[15px] max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[#64748B] text-[15px] max-w-2xl mx-auto leading-relaxed">
             {t.benefitsSubtitle}
           </p>
         </motion.div>
@@ -218,14 +216,14 @@ export default function InscrireEtablissementPage() {
               viewport={{ once: true, margin: '-80px' }}
               whileHover={{ y: -2 }}
               transition={{ duration: 0.2 }}
-              className="flex gap-4 p-5 bg-[#111114] rounded-xl border border-[#27272A] hover:border-[#3F3F46] transition-colors"
+              className="flex gap-4 p-5 bg-white rounded-xl border border-[#E2E8F0] hover:border-[#CBD5E1] transition-colors"
             >
-              <div className="w-11 h-11 rounded-lg bg-[#FF6B35]/10 border border-[#FF6B35]/20 flex items-center justify-center shrink-0">
+              <div className="w-11 h-11 rounded-lg bg-[#FFF7ED] border border-[#FF6B35]/20 flex items-center justify-center shrink-0">
                 <b.icon className="w-5 h-5 text-[#FF6B35]" />
               </div>
               <div>
-                <h3 className="font-semibold text-[#FAFAFA] text-[15px] mb-1">{b.title}</h3>
-                <p className="text-[13px] text-[#A1A1AA] leading-relaxed">{b.text}</p>
+                <h3 className="font-semibold text-[#0F172A] text-[15px] mb-1">{b.title}</h3>
+                <p className="text-[13px] text-[#64748B] leading-relaxed">{b.text}</p>
               </div>
             </motion.div>
           ))}
@@ -233,7 +231,7 @@ export default function InscrireEtablissementPage() {
       </section>
 
       {/* FAQ */}
-      <section className="bg-[#0F0F14] border-y border-[#27272A]">
+      <section className="bg-[#0F0F14] border-y border-[#E2E8F0]">
         <div className="max-w-3xl mx-auto px-4 py-16 sm:py-20">
           <motion.div
             variants={fadeUp}
@@ -244,7 +242,7 @@ export default function InscrireEtablissementPage() {
             className="text-center mb-12"
           >
             <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Questions</p>
-            <h2 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-4">
+            <h2 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#0F172A] mb-4">
               {t.faqTitle}
             </h2>
           </motion.div>
@@ -257,13 +255,13 @@ export default function InscrireEtablissementPage() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: '-80px' }}
-                className="group bg-[#111114] rounded-xl border border-[#27272A] hover:border-[#3F3F46] overflow-hidden transition-colors"
+                className="group bg-white rounded-xl border border-[#E2E8F0] hover:border-[#CBD5E1] overflow-hidden transition-colors"
               >
-                <summary className="flex items-center justify-between p-5 cursor-pointer font-semibold text-[#FAFAFA] text-[14px] hover:text-[#FF6B35] transition-colors list-none">
+                <summary className="flex items-center justify-between p-5 cursor-pointer font-semibold text-[#0F172A] text-[14px] hover:text-[#FF6B35] transition-colors list-none">
                   {faq.q}
-                  <ArrowRight className="w-4 h-4 rotate-90 group-open:rotate-[270deg] transition-transform shrink-0 ml-4 text-[#A1A1AA]" />
+                  <ArrowRight className="w-4 h-4 rotate-90 group-open:rotate-[270deg] transition-transform shrink-0 ml-4 text-[#64748B]" />
                 </summary>
-                <div className="px-5 pb-5 text-[13px] text-[#D4D4D8] leading-relaxed">
+                <div className="px-5 pb-5 text-[13px] text-[#334155] leading-relaxed">
                   {faq.a}
                 </div>
               </motion.details>
@@ -296,14 +294,13 @@ export default function InscrireEtablissementPage() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
-          className="relative text-center bg-[#111114] border border-[#27272A] rounded-2xl p-8 sm:p-12 overflow-hidden"
+          className="relative text-center bg-white border border-[#E2E8F0] rounded-2xl p-8 sm:p-12 overflow-hidden"
         >
-          <div className="absolute -top-24 -right-24 w-[300px] h-[300px] bg-[#FF6B35] rounded-full blur-[100px] opacity-[0.10] pointer-events-none" />
           <div className="relative">
-            <h2 className="text-[24px] sm:text-[32px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-4">
+            <h2 className="text-[24px] sm:text-[32px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-4">
               {t.finalCtaTitle}
             </h2>
-            <p className="text-[#A1A1AA] text-[15px] mb-8 max-w-lg mx-auto leading-relaxed">
+            <p className="text-[#64748B] text-[15px] mb-8 max-w-lg mx-auto leading-relaxed">
               {t.finalCtaText}
             </p>
             <Link
@@ -313,7 +310,7 @@ export default function InscrireEtablissementPage() {
               {t.finalCtaButton}
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <p className="text-[#71717A] text-[12px] mt-4">
+            <p className="text-[#94A3B8] text-[12px] mt-4">
               {t.finalCtaFootnote}
             </p>
           </div>

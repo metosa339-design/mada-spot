@@ -152,7 +152,7 @@ export default function BookingReviewPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
+      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-[#ff6b35]" />
       </div>
     );
@@ -160,7 +160,7 @@ export default function BookingReviewPage() {
 
   if (notFound) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] text-white">
+      <div className="min-h-screen bg-[#F8FAFC] text-white">
         <div className="max-w-2xl mx-auto px-4 py-12 text-center">
           <AlertCircle className="w-12 h-12 mx-auto mb-4 text-gray-500" />
           <h2 className="text-xl font-bold mb-2">{t.bookingNotFound}</h2>
@@ -182,7 +182,7 @@ export default function BookingReviewPage() {
   if (!booking) return null;
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white">
+    <div className="min-h-screen bg-[#F8FAFC] text-white">
       {/* Header */}
       <div className="border-b border-[#2a2a36] pt-20">
         <div className="max-w-2xl mx-auto px-4 py-6">

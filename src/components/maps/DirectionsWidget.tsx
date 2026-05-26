@@ -188,7 +188,7 @@ export default function DirectionsWidget({
         <button
           onClick={handleGeolocation}
           disabled={isLocating}
-          className="flex items-center gap-2 w-full px-4 py-2.5 bg-[#0a0a0f] border border-[#2a2a36] rounded-xl text-sm text-white hover:border-[#ff6b35] transition-colors disabled:opacity-50"
+          className="flex items-center gap-2 w-full px-4 py-2.5 bg-[#F8FAFC] border border-[#2a2a36] rounded-xl text-sm text-white hover:border-[#ff6b35] transition-colors disabled:opacity-50"
         >
           <Crosshair className={`w-4 h-4 text-blue-400 ${isLocating ? 'animate-spin' : ''}`} />
           <span>{userPosition ? td.positionDetected : td.useMyPosition}</span>
@@ -225,7 +225,7 @@ export default function DirectionsWidget({
 
       {/* Fallback when no coordinates */}
       {isMounted && (destinationLat === 0 || destinationLng === 0) && (
-        <div className="h-48 bg-[#0a0a0f] flex flex-col items-center justify-center gap-2 text-slate-500">
+        <div className="h-48 bg-[#F8FAFC] flex flex-col items-center justify-center gap-2 text-slate-500">
           <MapPin className="w-8 h-8" />
           <p className="text-sm">{td.coordinatesUnavailable}</p>
           <p className="text-xs">{td.useGoogleMapsToLocate}</p>
@@ -242,7 +242,7 @@ export default function DirectionsWidget({
               className={`flex flex-col items-center gap-1.5 py-3 rounded-xl border text-sm font-medium transition-all ${
                 transportMode === id
                   ? 'bg-[#ff6b35]/10 border-[#ff6b35] text-[#ff6b35]'
-                  : 'bg-[#0a0a0f] border-[#2a2a36] text-gray-400 hover:border-gray-500'
+                  : 'bg-[#F8FAFC] border-[#2a2a36] text-gray-400 hover:border-gray-500'
               }`}
             >
               <Icon className="w-5 h-5" />
@@ -253,7 +253,7 @@ export default function DirectionsWidget({
 
         {/* Distance & time estimates */}
         {distance !== null && (
-          <div className="flex items-center justify-between px-4 py-3 bg-[#0a0a0f] rounded-xl">
+          <div className="flex items-center justify-between px-4 py-3 bg-[#F8FAFC] rounded-xl">
             <div className="text-center">
               <p className="text-lg font-bold text-white">{distance < 1 ? `${Math.round(distance * 1000)} m` : `${distance.toFixed(1)} km`}</p>
               <p className="text-xs text-gray-500">{td.distance}</p>

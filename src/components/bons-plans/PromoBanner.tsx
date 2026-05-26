@@ -63,7 +63,7 @@ export default function PromoBanner({ establishmentId }: PromoBannerProps) {
                   </span>
                 </div>
                 {promo.description && (
-                  <p className="text-xs text-[#71717A] line-clamp-2">{promo.description}</p>
+                  <p className="text-xs text-[#94A3B8] line-clamp-2">{promo.description}</p>
                 )}
                 <div className="flex items-center gap-1 mt-2 text-xs text-orange-300">
                   <Clock className="w-3 h-3" />

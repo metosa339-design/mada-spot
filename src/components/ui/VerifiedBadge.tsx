@@ -29,7 +29,7 @@ const config: Record<BadgeVariant, { icon: any; label: string; color: string; bg
     icon: Star,
     label: 'Top Rated',
     color: 'text-[#FDBA74]',
-    bg: 'bg-[#FF6B35]/10',
+    bg: 'bg-[#FFF7ED]',
     border: 'border-[#FF6B35]/30',
   },
   'level2': {
@@ -42,16 +42,16 @@ const config: Record<BadgeVariant, { icon: any; label: string; color: string; bg
   'level1': {
     icon: Shield,
     label: 'Niveau 1',
-    color: 'text-[#71717A]',
-    bg: 'bg-[#52525B]/10',
-    border: 'border-[#3F3F46]',
+    color: 'text-[#94A3B8]',
+    bg: 'bg-[#F1F5F9]',
+    border: 'border-[#CBD5E1]',
   },
   'new': {
     icon: Star,
     label: 'Nouveau',
-    color: 'text-[#71717A]',
-    bg: 'bg-[#52525B]/10',
-    border: 'border-[#3F3F46]',
+    color: 'text-[#94A3B8]',
+    bg: 'bg-[#F1F5F9]',
+    border: 'border-[#CBD5E1]',
   },
 };
 

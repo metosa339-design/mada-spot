@@ -76,7 +76,7 @@ export default function SearchResultCard({ establishment }: SearchResultCardProp
       case 'RESTAURANT':
         if (establishment.restaurant?.priceRange) {
           return (
-            <span className="text-[11px] text-[#D4D4D8] bg-[#1A1A1F] border border-[#27272A] px-2 py-0.5 rounded-md">
+            <span className="text-[11px] text-[#334155] bg-white border border-[#E2E8F0] px-2 py-0.5 rounded-md">
               {PRICE_RANGE_LABELS[establishment.restaurant.priceRange] || establishment.restaurant.priceRange}
             </span>
           );
@@ -85,7 +85,7 @@ export default function SearchResultCard({ establishment }: SearchResultCardProp
       case 'ATTRACTION':
         if (establishment.attraction) {
           return (
-            <span className="text-[11px] text-[#D4D4D8] bg-[#1A1A1F] border border-[#27272A] px-2 py-0.5 rounded-md">
+            <span className="text-[11px] text-[#334155] bg-white border border-[#E2E8F0] px-2 py-0.5 rounded-md">
               {establishment.attraction.isFree ? 'Gratuit' : establishment.attraction.attractionType}
             </span>
           );
@@ -94,7 +94,7 @@ export default function SearchResultCard({ establishment }: SearchResultCardProp
       case 'PROVIDER':
         if (establishment.provider?.serviceType) {
           return (
-            <span className="text-[11px] text-[#D4D4D8] bg-[#1A1A1F] border border-[#27272A] px-2 py-0.5 rounded-md">
+            <span className="text-[11px] text-[#334155] bg-white border border-[#E2E8F0] px-2 py-0.5 rounded-md">
               {SERVICE_TYPE_LABELS[establishment.provider.serviceType] || establishment.provider.serviceType}
             </span>
           );
@@ -109,10 +109,10 @@ export default function SearchResultCard({ establishment }: SearchResultCardProp
     <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
       <Link
         href={detailUrl}
-        className="group block bg-[#111114] border border-[#27272A] hover:border-[#3F3F46] rounded-xl overflow-hidden transition-colors"
+        className="group block bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-xl overflow-hidden transition-colors"
       >
         {/* Cover image */}
-        <div className="relative aspect-video bg-[#1A1A1F]">
+        <div className="relative aspect-video bg-white">
           <Image
             src={getEstablishmentImage(establishment.type, establishment.city, establishment.name, establishment.coverImage)}
             alt={establishment.name}
@@ -122,14 +122,14 @@ export default function SearchResultCard({ establishment }: SearchResultCardProp
           />
 
           {/* Type badge - top left */}
-          <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold uppercase tracking-[0.1em] bg-[#FF6B35]/10 border border-[#FF6B35]/30 text-[#FF6B35] backdrop-blur-md">
+          <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold uppercase tracking-[0.1em] bg-[#FFF7ED] border border-[#FF6B35]/30 text-[#FF6B35] backdrop-blur-md">
             {typeConfig.icon}
             {typeConfig.label}
           </div>
 
           {/* Featured badge - top right */}
           {establishment.isFeatured && (
-            <div className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold uppercase tracking-[0.1em] bg-[#FF6B35]/10 border border-[#FF6B35]/30 text-[#FF6B35] backdrop-blur-md">
+            <div className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold uppercase tracking-[0.1em] bg-[#FFF7ED] border border-[#FF6B35]/30 text-[#FF6B35] backdrop-blur-md">
               <Crown className="w-3 h-3" />
               Vedette
             </div>
@@ -138,11 +138,11 @@ export default function SearchResultCard({ establishment }: SearchResultCardProp
 
         {/* Content */}
         <div className="p-4">
-          <h3 className="text-[15px] font-semibold text-[#FAFAFA] group-hover:text-[#FF6B35] transition-colors line-clamp-1">
+          <h3 className="text-[15px] font-semibold text-[#0F172A] group-hover:text-[#FF6B35] transition-colors line-clamp-1">
             {establishment.name}
           </h3>
 
-          <div className="flex items-center gap-1.5 mt-1.5 text-[12px] text-[#A1A1AA]">
+          <div className="flex items-center gap-1.5 mt-1.5 text-[12px] text-[#64748B]">
             <MapPin className="w-3 h-3 shrink-0" />
             <span className="truncate">
               {establishment.city}
@@ -154,15 +154,15 @@ export default function SearchResultCard({ establishment }: SearchResultCardProp
             {establishment.rating > 0 && (
               <div className="flex items-center gap-1">
                 <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
-                <span className="text-[13px] font-mono text-[#FAFAFA]">{establishment.rating.toFixed(1)}</span>
-                <span className="text-[11px] text-[#71717A]">({establishment.reviewCount})</span>
+                <span className="text-[13px] font-mono text-[#0F172A]">{establishment.rating.toFixed(1)}</span>
+                <span className="text-[11px] text-[#94A3B8]">({establishment.reviewCount})</span>
               </div>
             )}
             {renderTypeSpecificInfo()}
           </div>
 
           {establishment.shortDescription && (
-            <p className="mt-2.5 text-[12px] text-[#A1A1AA] line-clamp-2 leading-relaxed">
+            <p className="mt-2.5 text-[12px] text-[#64748B] line-clamp-2 leading-relaxed">
               {establishment.shortDescription}
             </p>
           )}

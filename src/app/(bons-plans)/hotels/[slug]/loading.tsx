@@ -1,6 +1,6 @@
 export default function HotelDetailLoading() {
   return (
-    <div className="min-h-screen bg-[#0a0a0f]">
+    <div className="min-h-screen bg-[#F8FAFC]">
       {/* Hero image skeleton */}
       <div className="relative h-[50vh] bg-white/5 animate-pulse" />
 

@@ -332,9 +332,9 @@ export default function CalendrierPage() {
 
   if (!establishment) {
     return (
-      <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-8 text-center">
-        <Calendar className="w-12 h-12 text-[#A1A1AA] mx-auto mb-3" />
-        <p className="text-[#71717A]">{t.noEstablishment}</p>
+      <div className="bg-white border border-[#E2E8F0] rounded-2xl p-8 text-center">
+        <Calendar className="w-12 h-12 text-[#64748B] mx-auto mb-3" />
+        <p className="text-[#94A3B8]">{t.noEstablishment}</p>
       </div>
     )
   }
@@ -344,33 +344,33 @@ export default function CalendrierPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-[#FAFAFA] flex items-center gap-2">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#0F172A] flex items-center gap-2">
             <Calendar className="w-6 sm:w-7 h-6 sm:h-7" style={{ color: ACCENT }} />
             {t.title}
           </h1>
-          <p className="text-[#71717A] text-sm mt-1">{establishment.name}</p>
+          <p className="text-[#94A3B8] text-sm mt-1">{establishment.name}</p>
         </div>
         <div className="flex items-center gap-2 self-start sm:self-auto">
-          <button onClick={prevMonth} className="p-2 hover:bg-[#111114] rounded-lg transition-colors text-[#71717A] hover:text-[#FAFAFA]">
+          <button onClick={prevMonth} className="p-2 hover:bg-white rounded-lg transition-colors text-[#94A3B8] hover:text-[#0F172A]">
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <span className="text-base sm:text-lg font-semibold text-[#FAFAFA] min-w-[140px] sm:min-w-[160px] text-center capitalize">
+          <span className="text-base sm:text-lg font-semibold text-[#0F172A] min-w-[140px] sm:min-w-[160px] text-center capitalize">
             {t[MONTH_KEYS[month]]} {year}
           </span>
-          <button onClick={nextMonth} className="p-2 hover:bg-[#111114] rounded-lg transition-colors text-[#71717A] hover:text-[#FAFAFA]">
+          <button onClick={nextMonth} className="p-2 hover:bg-white rounded-lg transition-colors text-[#94A3B8] hover:text-[#0F172A]">
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>
       </div>
 
       {/* Timeline Grid */}
-      <div className="bg-[#111114] border border-[#27272A] rounded-2xl overflow-hidden">
+      <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden">
         <div className="overflow-x-auto" ref={scrollRef}>
           <div style={{ minWidth: `${daysInMonth * 48 + 180}px` }}>
             {/* Day headers */}
-            <div className="flex border-b border-[#27272A] sticky top-0 bg-[#111114] z-10">
-              <div className="w-[180px] flex-shrink-0 p-3 border-r border-[#27272A]">
-                <span className="text-xs text-[#71717A] font-medium">{t.roomsColumn}</span>
+            <div className="flex border-b border-[#E2E8F0] sticky top-0 bg-white z-10">
+              <div className="w-[180px] flex-shrink-0 p-3 border-r border-[#E2E8F0]">
+                <span className="text-xs text-[#94A3B8] font-medium">{t.roomsColumn}</span>
               </div>
               {Array.from({ length: daysInMonth }, (_, i) => {
                 const day = i + 1
@@ -384,14 +384,14 @@ export default function CalendrierPage() {
                   <div
                     key={day}
                     data-today={isToday || undefined}
-                    className={`w-12 flex-shrink-0 text-center py-2 border-r border-[#27272A] ${
-                      isToday ? 'bg-cyan-500/10' : isWeekend ? 'bg-[#111114]/[0.02]' : ''
+                    className={`w-12 flex-shrink-0 text-center py-2 border-r border-[#E2E8F0] ${
+                      isToday ? 'bg-cyan-500/10' : isWeekend ? 'bg-white/[0.02]' : ''
                     }`}
                   >
-                    <div className={`text-[10px] font-medium ${isToday ? 'text-cyan-400' : 'text-[#71717A]'}`}>
+                    <div className={`text-[10px] font-medium ${isToday ? 'text-cyan-400' : 'text-[#94A3B8]'}`}>
                       {t[DAY_SHORT_KEYS[dayOfWeek]]}
                     </div>
-                    <div className={`text-sm font-bold ${isToday ? 'text-cyan-400' : isBlocked ? 'text-red-400' : 'text-[#52525B]'}`}>
+                    <div className={`text-sm font-bold ${isToday ? 'text-cyan-400' : isBlocked ? 'text-red-400' : 'text-[#CBD5E1]'}`}>
                       {day}
                     </div>
                     {isBlocked && <Lock className="w-2.5 h-2.5 text-red-400 mx-auto" />}
@@ -405,14 +405,14 @@ export default function CalendrierPage() {
               const rowBookings = getRowBookings(row.id)
 
               return (
-                <div key={row.id || 'general'} className="flex border-b border-[#27272A] hover:bg-[#111114]/[0.02] transition-colors">
+                <div key={row.id || 'general'} className="flex border-b border-[#E2E8F0] hover:bg-white/[0.02] transition-colors">
                   {/* Room label */}
-                  <div className="w-[180px] flex-shrink-0 p-3 border-r border-[#27272A] flex items-center gap-2">
+                  <div className="w-[180px] flex-shrink-0 p-3 border-r border-[#E2E8F0] flex items-center gap-2">
                     <BedDouble className="w-4 h-4 text-cyan-400 flex-shrink-0" />
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-[#FAFAFA] truncate">{row.label}</p>
+                      <p className="text-sm font-medium text-[#0F172A] truncate">{row.label}</p>
                       {row.capacity && (
-                        <p className="text-[10px] text-[#71717A]">
+                        <p className="text-[10px] text-[#94A3B8]">
                           {row.capacity} {t.persSuffix} {row.price ? `· ${row.price.toLocaleString('fr-FR')} Ar` : ''}
                         </p>
                       )}
@@ -444,7 +444,7 @@ export default function CalendrierPage() {
                     return (
                       <div
                         key={day}
-                        className={`w-12 flex-shrink-0 h-14 border-r border-[#27272A] relative ${
+                        className={`w-12 flex-shrink-0 h-14 border-r border-[#E2E8F0] relative ${
                           isToday ? 'bg-cyan-500/5' : ''
                         } ${isPast && !cellBooking ? 'opacity-40' : ''}`}
                       >
@@ -472,7 +472,7 @@ export default function CalendrierPage() {
                             title={`${cellBooking.guestName} — ${STATUS_LABEL_KEYS[cellBooking.status] ? t[STATUS_LABEL_KEYS[cellBooking.status]] : cellBooking.status}`}
                           >
                             {(cellPosition === 'start' || cellPosition === 'single') && (
-                              <span className="text-[10px] font-medium text-[#FAFAFA] px-1.5 truncate whitespace-nowrap">
+                              <span className="text-[10px] font-medium text-[#0F172A] px-1.5 truncate whitespace-nowrap">
                                 {cellBooking.guestName.split(' ')[0]}
                               </span>
                             )}
@@ -483,10 +483,10 @@ export default function CalendrierPage() {
                         {!cellBooking && !isBlocked && !isPast && (
                           <button
                             onClick={(e) => handleEmptyCellClick(e, dateStr, row.id)}
-                            className="absolute inset-0 hover:bg-[#111114] transition-colors group"
+                            className="absolute inset-0 hover:bg-white transition-colors group"
                             title={t.addReservationOrBlock}
                           >
-                            <Plus className="w-3 h-3 text-[#A1A1AA] opacity-0 group-hover:opacity-100 transition-opacity mx-auto" />
+                            <Plus className="w-3 h-3 text-[#64748B] opacity-0 group-hover:opacity-100 transition-opacity mx-auto" />
                           </button>
                         )}
                       </div>
@@ -499,7 +499,7 @@ export default function CalendrierPage() {
         </div>
 
         {/* Legend */}
-        <div className="flex flex-wrap gap-4 p-4 border-t border-[#27272A] text-xs text-[#71717A]">
+        <div className="flex flex-wrap gap-4 p-4 border-t border-[#E2E8F0] text-xs text-[#94A3B8]">
           <span className="flex items-center gap-1.5"><div className="w-3 h-2 rounded-sm bg-cyan-600" /> {t.legendConfirmed}</span>
           <span className="flex items-center gap-1.5"><div className="w-3 h-2 rounded-sm bg-amber-500/80" /> {t.legendPending2}</span>
           <span className="flex items-center gap-1.5"><div className="w-3 h-2 rounded-sm bg-blue-500" /> {t.legendCompleted}</span>
@@ -509,9 +509,9 @@ export default function CalendrierPage() {
       </div>
 
       {/* Reservation Table */}
-      <div className="bg-[#111114] border border-[#27272A] rounded-2xl overflow-hidden">
-        <div className="flex items-center justify-between p-4 border-b border-[#27272A]">
-          <h2 className="text-lg font-semibold text-[#FAFAFA] flex items-center gap-2">
+      <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden">
+        <div className="flex items-center justify-between p-4 border-b border-[#E2E8F0]">
+          <h2 className="text-lg font-semibold text-[#0F172A] flex items-center gap-2">
             <Calendar className="w-5 h-5" style={{ color: ACCENT }} />
             {t.monthBookings}
           </h2>
@@ -537,23 +537,23 @@ export default function CalendrierPage() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.12 }}
-            className="fixed z-50 bg-[#111114] border border-[#27272A] rounded-xl shadow-2xl shadow-black/40 py-1 min-w-[200px]"
+            className="fixed z-50 bg-white border border-[#E2E8F0] rounded-xl shadow-2xl shadow-black/40 py-1 min-w-[200px]"
             style={{ left: contextMenu.x, top: contextMenu.y }}
             onClick={e => e.stopPropagation()}
           >
-            <p className="px-3 py-1.5 text-[10px] text-[#71717A] font-medium border-b border-[#27272A]">
+            <p className="px-3 py-1.5 text-[10px] text-[#94A3B8] font-medium border-b border-[#E2E8F0]">
               {new Date(contextMenu.dateStr).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}
             </p>
             <button
               onClick={() => openQuickAdd(contextMenu.dateStr, contextMenu.roomTypeId)}
-              className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-[#FAFAFA] hover:bg-[#111114] transition-colors"
+              className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-[#0F172A] hover:bg-white transition-colors"
             >
               <Plus className="w-4 h-4 text-cyan-400" />
               {t.addReservation}
             </button>
             <button
               onClick={() => toggleBlock(contextMenu.dateStr)}
-              className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-[#FAFAFA] hover:bg-[#111114] transition-colors"
+              className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-[#0F172A] hover:bg-white transition-colors"
             >
               <Ban className="w-4 h-4 text-red-400" />
               {t.blockThisDate}
@@ -569,22 +569,22 @@ export default function CalendrierPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4"
             onClick={() => setQuickAdd(null)}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-[#111114] border border-[#27272A] rounded-2xl p-6 w-full max-w-md"
+              className="bg-white border border-[#E2E8F0] rounded-2xl p-6 w-full max-w-md"
               onClick={e => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-5">
-                <h3 className="text-lg font-bold text-[#FAFAFA] flex items-center gap-2">
+                <h3 className="text-lg font-bold text-[#0F172A] flex items-center gap-2">
                   <Plus className="w-5 h-5" style={{ color: ACCENT }} />
                   {t.quickAddTitle}
                 </h3>
-                <button onClick={() => setQuickAdd(null)} className="p-1 text-[#71717A] hover:text-[#FAFAFA] transition-colors">
+                <button onClick={() => setQuickAdd(null)} className="p-1 text-[#94A3B8] hover:text-[#0F172A] transition-colors">
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -595,57 +595,57 @@ export default function CalendrierPage() {
                 )}
 
                 <div>
-                  <label className="text-xs text-[#71717A] block mb-1">{t.clientNameRequired}</label>
+                  <label className="text-xs text-[#94A3B8] block mb-1">{t.clientNameRequired}</label>
                   <input
                     type="text"
                     value={qaName}
                     onChange={e => setQaName(e.target.value)}
                     placeholder={t.clientNamePlaceholder}
-                    className="w-full px-3 py-2.5 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-sm text-[#FAFAFA] placeholder:text-[#A1A1AA] focus:outline-none focus:border-cyan-500/50"
+                    className="w-full px-3 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#0F172A] placeholder:text-[#64748B] focus:outline-none focus:border-cyan-500/50"
                     autoFocus
                   />
                 </div>
 
                 <div>
-                  <label className="text-xs text-[#71717A] block mb-1">{t.phoneLabel}</label>
+                  <label className="text-xs text-[#94A3B8] block mb-1">{t.phoneLabel}</label>
                   <input
                     type="tel"
                     value={qaPhone}
                     onChange={e => setQaPhone(e.target.value)}
                     placeholder={t.phonePlaceholder}
-                    className="w-full px-3 py-2.5 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-sm text-[#FAFAFA] placeholder:text-[#A1A1AA] focus:outline-none focus:border-cyan-500/50"
+                    className="w-full px-3 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#0F172A] placeholder:text-[#64748B] focus:outline-none focus:border-cyan-500/50"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs text-[#71717A] block mb-1">{t.arrivalRequired}</label>
+                    <label className="text-xs text-[#94A3B8] block mb-1">{t.arrivalRequired}</label>
                     <input
                       type="date"
                       value={quickAdd.dateStr}
                       readOnly
-                      className="w-full px-3 py-2.5 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-sm text-[#FAFAFA] focus:outline-none opacity-70"
+                      className="w-full px-3 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#0F172A] focus:outline-none opacity-70"
                     />
                   </div>
                   <div>
-                    <label className="text-xs text-[#71717A] block mb-1">{t.departureLabel}</label>
+                    <label className="text-xs text-[#94A3B8] block mb-1">{t.departureLabel}</label>
                     <input
                       type="date"
                       value={qaCheckOut}
                       onChange={e => setQaCheckOut(e.target.value)}
                       min={quickAdd.dateStr}
-                      className="w-full px-3 py-2.5 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-sm text-[#FAFAFA] focus:outline-none focus:border-cyan-500/50"
+                      className="w-full px-3 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#0F172A] focus:outline-none focus:border-cyan-500/50"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs text-[#71717A] block mb-1">{t.guestsLabel}</label>
+                    <label className="text-xs text-[#94A3B8] block mb-1">{t.guestsLabel}</label>
                     <select
                       value={qaGuests}
                       onChange={e => setQaGuests(Number(e.target.value))}
-                      className="w-full px-3 py-2.5 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-sm text-[#FAFAFA] focus:outline-none"
+                      className="w-full px-3 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#0F172A] focus:outline-none"
                     >
                       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
                         <option key={n} value={n}>{n}</option>
@@ -654,11 +654,11 @@ export default function CalendrierPage() {
                   </div>
                   {roomTypes.length > 0 && (
                     <div>
-                      <label className="text-xs text-[#71717A] block mb-1">{t.roomLabel}</label>
+                      <label className="text-xs text-[#94A3B8] block mb-1">{t.roomLabel}</label>
                       <select
                         value={qaRoomTypeId || ''}
                         onChange={e => setQaRoomTypeId(e.target.value || null)}
-                        className="w-full px-3 py-2.5 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-sm text-[#FAFAFA] focus:outline-none"
+                        className="w-full px-3 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#0F172A] focus:outline-none"
                       >
                         <option value="">{t.roomNone}</option>
                         {roomTypes.map(r => (
@@ -672,7 +672,7 @@ export default function CalendrierPage() {
                 <button
                   onClick={submitQuickAdd}
                   disabled={qaLoading}
-                  className="w-full py-3 text-[#FAFAFA] font-medium rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full py-3 text-[#0F172A] font-medium rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50"
                   style={{ backgroundColor: ACCENT }}
                 >
                   {qaLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
@@ -691,61 +691,61 @@ export default function CalendrierPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4"
             onClick={() => setSelectedBooking(null)}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-[#111114] border border-[#27272A] rounded-2xl p-6 w-full max-w-md"
+              className="bg-white border border-[#E2E8F0] rounded-2xl p-6 w-full max-w-md"
               onClick={e => e.stopPropagation()}
             >
               {/* Modal Header */}
               <div className="flex items-start justify-between mb-5">
                 <div>
-                  <h3 className="text-lg font-bold text-[#FAFAFA]">{selectedBooking.guestName}</h3>
+                  <h3 className="text-lg font-bold text-[#0F172A]">{selectedBooking.guestName}</h3>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium text-[#FAFAFA] ${STATUS_COLORS[selectedBooking.status] || 'bg-[#52525B]/15'}`}>
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium text-[#0F172A] ${STATUS_COLORS[selectedBooking.status] || 'bg-[#F1F5F9]'}`}>
                       {STATUS_LABEL_KEYS[selectedBooking.status] ? t[STATUS_LABEL_KEYS[selectedBooking.status]] : selectedBooking.status}
                     </span>
-                    <span className="text-xs text-[#71717A] flex items-center gap-1">
+                    <span className="text-xs text-[#94A3B8] flex items-center gap-1">
                       <Hash className="w-3 h-3" />
                       {selectedBooking.reference}
                     </span>
                   </div>
                 </div>
-                <button onClick={() => setSelectedBooking(null)} className="p-1 text-[#71717A] hover:text-[#FAFAFA] transition-colors">
+                <button onClick={() => setSelectedBooking(null)} className="p-1 text-[#94A3B8] hover:text-[#0F172A] transition-colors">
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               {/* Details */}
               <div className="space-y-3 mb-5">
-                <div className="flex items-center gap-3 p-3 bg-[#1A1A1F] rounded-xl">
+                <div className="flex items-center gap-3 p-3 bg-white rounded-xl">
                   <Calendar className="w-4 h-4 text-cyan-400" />
                   <div>
-                    <p className="text-sm text-[#FAFAFA]">
+                    <p className="text-sm text-[#0F172A]">
                       {new Date(selectedBooking.checkIn).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
                       {selectedBooking.checkOut && (
                         <> → {new Date(selectedBooking.checkOut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}</>
                       )}
                     </p>
                     {selectedBooking.checkOut && (
-                      <p className="text-xs text-[#71717A]">
+                      <p className="text-xs text-[#94A3B8]">
                         {Math.ceil((new Date(selectedBooking.checkOut).getTime() - new Date(selectedBooking.checkIn).getTime()) / 86400000)} {t.nightsLabel}
                       </p>
                     )}
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 p-3 bg-[#1A1A1F] rounded-xl">
+                <div className="flex items-center gap-3 p-3 bg-white rounded-xl">
                   <Users className="w-4 h-4 text-cyan-400" />
-                  <span className="text-sm text-[#FAFAFA]">{selectedBooking.guestCount} {selectedBooking.guestCount > 1 ? t.personsLabel : t.personLabel}</span>
+                  <span className="text-sm text-[#0F172A]">{selectedBooking.guestCount} {selectedBooking.guestCount > 1 ? t.personsLabel : t.personLabel}</span>
                 </div>
 
                 {selectedBooking.totalPrice != null && (
-                  <div className="flex items-center gap-3 p-3 bg-[#1A1A1F] rounded-xl">
+                  <div className="flex items-center gap-3 p-3 bg-white rounded-xl">
                     <span className="text-sm font-bold" style={{ color: ACCENT }}>
                       {selectedBooking.totalPrice.toLocaleString('fr-FR')} MGA
                     </span>
@@ -753,9 +753,9 @@ export default function CalendrierPage() {
                 )}
 
                 {selectedBooking.guestPhone && (
-                  <div className="flex items-center gap-3 p-3 bg-[#1A1A1F] rounded-xl">
+                  <div className="flex items-center gap-3 p-3 bg-white rounded-xl">
                     <Phone className="w-4 h-4 text-cyan-400" />
-                    <span className="text-sm text-[#FAFAFA]">{selectedBooking.guestPhone}</span>
+                    <span className="text-sm text-[#0F172A]">{selectedBooking.guestPhone}</span>
                   </div>
                 )}
               </div>
@@ -797,7 +797,7 @@ export default function CalendrierPage() {
                 )}
                 <a
                   href="/dashboard/messagerie"
-                  className="flex-1 flex items-center justify-center gap-2 py-3 text-[#FAFAFA] font-medium rounded-xl hover:opacity-90 transition-opacity text-sm"
+                  className="flex-1 flex items-center justify-center gap-2 py-3 text-[#0F172A] font-medium rounded-xl hover:opacity-90 transition-opacity text-sm"
                   style={{ backgroundColor: ACCENT }}
                 >
                   <MessageCircle className="w-4 h-4" />

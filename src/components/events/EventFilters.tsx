@@ -16,27 +16,27 @@ interface EventFiltersProps {
 const BUTTON_COLORS: Record<string, { active: string; inactive: string }> = {
   pink: {
     active: 'bg-pink-500/20 text-pink-400 border-pink-500/50',
-    inactive: 'text-[#71717A] border-[#27272A] hover:border-pink-500/30 hover:text-pink-400',
+    inactive: 'text-[#94A3B8] border-[#E2E8F0] hover:border-pink-500/30 hover:text-pink-400',
   },
   purple: {
     active: 'bg-purple-500/20 text-purple-400 border-purple-500/50',
-    inactive: 'text-[#71717A] border-[#27272A] hover:border-purple-500/30 hover:text-purple-400',
+    inactive: 'text-[#94A3B8] border-[#E2E8F0] hover:border-purple-500/30 hover:text-purple-400',
   },
   green: {
     active: 'bg-green-500/20 text-green-400 border-green-500/50',
-    inactive: 'text-[#71717A] border-[#27272A] hover:border-green-500/30 hover:text-green-400',
+    inactive: 'text-[#94A3B8] border-[#E2E8F0] hover:border-green-500/30 hover:text-green-400',
   },
   emerald: {
     active: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/50',
-    inactive: 'text-[#71717A] border-[#27272A] hover:border-emerald-500/30 hover:text-emerald-400',
+    inactive: 'text-[#94A3B8] border-[#E2E8F0] hover:border-emerald-500/30 hover:text-emerald-400',
   },
   amber: {
     active: 'bg-amber-500/20 text-amber-400 border-amber-500/50',
-    inactive: 'text-[#71717A] border-[#27272A] hover:border-amber-500/30 hover:text-amber-400',
+    inactive: 'text-[#94A3B8] border-[#E2E8F0] hover:border-amber-500/30 hover:text-amber-400',
   },
   gray: {
-    active: 'bg-[#52525B]/20 text-[#52525B] border-[#3F3F46]/50',
-    inactive: 'text-[#71717A] border-[#27272A] hover:border-[#3F3F46]/30 hover:text-[#52525B]',
+    active: 'bg-[#F1F5F9] text-[#CBD5E1] border-[#CBD5E1]',
+    inactive: 'text-[#94A3B8] border-[#E2E8F0] hover:border-[#E2E8F0] hover:text-[#CBD5E1]',
   },
 };
 
@@ -74,14 +74,14 @@ export default function EventFilters({ filters, setFilter }: EventFiltersProps) 
         placeholder="Ville..."
         value={filters.city}
         onChange={(e) => setFilter('city', e.target.value)}
-        className="px-3 py-1.5 rounded-full text-sm bg-transparent border border-[#27272A] text-[#52525B] placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35]/50 transition-colors w-36"
+        className="px-3 py-1.5 rounded-full text-sm bg-transparent border border-[#E2E8F0] text-[#CBD5E1] placeholder:text-[#64748B] focus:outline-none focus:border-[#FF6B35]/50 transition-colors w-36"
       />
 
       {/* Clear all */}
       {hasActiveFilters && (
         <button
           onClick={clearAll}
-          className="flex items-center gap-1 px-3 py-1.5 rounded-full text-sm text-[#71717A] hover:text-[#52525B] border border-transparent hover:border-[#27272A] transition-all"
+          className="flex items-center gap-1 px-3 py-1.5 rounded-full text-sm text-[#94A3B8] hover:text-[#CBD5E1] border border-transparent hover:border-[#E2E8F0] transition-all"
         >
           <X className="w-3.5 h-3.5" />
           Effacer

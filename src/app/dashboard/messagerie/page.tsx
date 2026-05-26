@@ -16,8 +16,8 @@ export default function MessageriePage() {
   if (!userId) {
     return (
       <div className="max-w-7xl">
-        <div className="h-8 w-48 bg-[#1A1A1F] rounded animate-pulse mb-6" />
-        <div className="bg-[#1A1A1F] rounded-2xl h-[calc(100vh-200px)] animate-pulse" />
+        <div className="h-8 w-48 bg-white rounded animate-pulse mb-6" />
+        <div className="bg-white rounded-2xl h-[calc(100vh-200px)] animate-pulse" />
       </div>
     )
   }

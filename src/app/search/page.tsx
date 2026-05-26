@@ -135,21 +135,21 @@ function SearchPageContent() {
   const currentSortLabel = sortLabelMap[filters.sortBy || 'relevance'] || t.sortRelevance;
 
   return (
-    <div className="min-h-screen bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="min-h-screen bg-[#F8FAFC]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       {/* Search bar header */}
-      <div className="border-b border-[#27272A] bg-[#0F0F14] pt-24">
+      <div className="border-b border-[#E2E8F0] bg-[#0F0F14] pt-24">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <h1 className="sr-only">{t.srTitle}</h1>
           <form onSubmit={handleSearchSubmit}>
             <div className="flex gap-3">
               <div className="relative flex-1">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#71717A]" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" />
                 <input
                   type="text"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                   placeholder={t.inputPlaceholder}
-                  className="w-full pl-11 pr-4 py-3.5 rounded-lg bg-[#111114] border border-[#27272A] text-[#FAFAFA] placeholder-[#71717A] text-[14px] focus:outline-none focus:border-[#3F3F46] transition-colors"
+                  className="w-full pl-11 pr-4 py-3.5 rounded-lg bg-white border border-[#E2E8F0] text-[#0F172A] placeholder-[#94A3B8] text-[14px] focus:outline-none focus:border-[#CBD5E1] transition-colors"
                   autoFocus
                 />
               </div>
@@ -167,7 +167,7 @@ function SearchPageContent() {
 
       {/* Active filter chips */}
       {activeFilterCount > 0 && (
-        <div className="border-b border-[#27272A] bg-[#0F0F14]/50">
+        <div className="border-b border-[#E2E8F0] bg-[#0F0F14]/50">
           <div className="max-w-7xl mx-auto px-4 py-3">
             <ActiveFilterChips filters={filters} clearFilter={clearFilter} />
           </div>
@@ -179,7 +179,7 @@ function SearchPageContent() {
         <div className="flex gap-6">
           {/* Sidebar filters - desktop */}
           <aside className="hidden lg:block w-72 shrink-0">
-            <div className="sticky top-6 bg-[#111114] rounded-xl border border-[#27272A] p-5">
+            <div className="sticky top-6 bg-white rounded-xl border border-[#E2E8F0] p-5">
               <h2 className="text-[11px] font-semibold text-[#FF6B35] uppercase tracking-[0.18em] mb-5">{t.filtersTitle}</h2>
               <SearchFilters
                 filters={filters}
@@ -209,13 +209,13 @@ function SearchPageContent() {
           {/* Mobile filters panel */}
           {mobileFiltersOpen && (
             <div className="fixed inset-0 z-50 lg:hidden">
-              <div className="absolute inset-0 bg-black/60" onClick={() => setMobileFiltersOpen(false)} />
-              <div className="absolute right-0 top-0 bottom-0 w-full max-w-sm bg-[#111114] overflow-y-auto">
-                <div className="flex items-center justify-between p-5 border-b border-[#27272A]">
-                  <h2 className="text-[16px] font-semibold text-[#FAFAFA]">{t.filtersTitle}</h2>
+              <div className="absolute inset-0 bg-black/30" onClick={() => setMobileFiltersOpen(false)} />
+              <div className="absolute right-0 top-0 bottom-0 w-full max-w-sm bg-white overflow-y-auto">
+                <div className="flex items-center justify-between p-5 border-b border-[#E2E8F0]">
+                  <h2 className="text-[16px] font-semibold text-[#0F172A]">{t.filtersTitle}</h2>
                   <button
                     onClick={() => setMobileFiltersOpen(false)}
-                    className="w-9 h-9 flex items-center justify-center rounded-lg border border-[#27272A] hover:border-[#3F3F46] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors"
+                    className="w-9 h-9 flex items-center justify-center rounded-lg border border-[#E2E8F0] hover:border-[#CBD5E1] text-[#64748B] hover:text-[#0F172A] transition-colors"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -236,10 +236,10 @@ function SearchPageContent() {
           <div className="flex-1 min-w-0">
             {/* Results header */}
             <div className="flex items-center justify-between mb-5">
-              <div className="text-[#A1A1AA] text-[13px]">
+              <div className="text-[#64748B] text-[13px]">
                 {searched && !loading && (
                   <span>
-                    <span className="text-[#FAFAFA] font-mono font-semibold">{totalCount}</span>{' '}
+                    <span className="text-[#0F172A] font-mono font-semibold">{totalCount}</span>{' '}
                     {totalCount !== 1 ? t.resultsSuffixPlural : t.resultsSuffixSingular}
                     {filters.q && (
                       <span> {t.resultsFor2} &quot;<span className="text-[#FF6B35]">{filters.q}</span>&quot;</span>
@@ -252,9 +252,9 @@ function SearchPageContent() {
               <div className="relative">
                 <button
                   onClick={() => setSortOpen(!sortOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[#27272A] text-[12px] text-[#D4D4D8] hover:border-[#3F3F46] bg-[#111114] transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[#E2E8F0] text-[12px] text-[#334155] hover:border-[#CBD5E1] bg-white transition-colors"
                 >
-                  <span className="hidden sm:inline text-[#71717A]">{t.sortBy}</span>
+                  <span className="hidden sm:inline text-[#94A3B8]">{t.sortBy}</span>
                   <span className="font-medium">{currentSortLabel}</span>
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform ${sortOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -262,7 +262,7 @@ function SearchPageContent() {
                 {sortOpen && (
                   <>
                     <div className="fixed inset-0 z-10" onClick={() => setSortOpen(false)} />
-                    <div className="absolute right-0 top-full mt-1 w-48 bg-[#111114] border border-[#27272A] rounded-lg shadow-2xl z-20 overflow-hidden">
+                    <div className="absolute right-0 top-full mt-1 w-48 bg-white border border-[#E2E8F0] rounded-lg shadow-2xl z-20 overflow-hidden">
                       {SORT_OPTIONS.map((option) => (
                         <button
                           key={option.value}
@@ -272,8 +272,8 @@ function SearchPageContent() {
                           }}
                           className={`w-full text-left px-4 py-2.5 text-[12px] transition-colors ${
                             (filters.sortBy || 'relevance') === option.value
-                              ? 'bg-[#FF6B35]/10 text-[#FF6B35]'
-                              : 'text-[#D4D4D8] hover:bg-[#1A1A1F] hover:text-[#FAFAFA]'
+                              ? 'bg-[#FFF7ED] text-[#FF6B35]'
+                              : 'text-[#334155] hover:bg-white hover:text-[#0F172A]'
                           }`}
                         >
                           {sortLabelMap[option.value] || option.label}
@@ -289,12 +289,12 @@ function SearchPageContent() {
             {loading && (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                 {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="bg-[#111114] border border-[#27272A] rounded-xl overflow-hidden animate-pulse">
-                    <div className="aspect-video bg-[#1A1A1F]" />
+                  <div key={i} className="bg-white border border-[#E2E8F0] rounded-xl overflow-hidden animate-pulse">
+                    <div className="aspect-video bg-white" />
                     <div className="p-4 space-y-3">
-                      <div className="h-4 bg-[#1A1A1F] rounded w-3/4" />
-                      <div className="h-3 bg-[#1A1A1F] rounded w-1/2" />
-                      <div className="h-3 bg-[#1A1A1F] rounded w-2/3" />
+                      <div className="h-4 bg-white rounded w-3/4" />
+                      <div className="h-3 bg-white rounded w-1/2" />
+                      <div className="h-3 bg-white rounded w-2/3" />
                     </div>
                   </div>
                 ))}
@@ -304,15 +304,15 @@ function SearchPageContent() {
             {/* Empty state */}
             {!loading && searched && establishments.length === 0 && (
               <div className="text-center py-20">
-                <Search className="w-14 h-14 mx-auto mb-4 text-[#3F3F46]" />
-                <p className="text-[18px] font-semibold text-[#FAFAFA]">{t.noResultsTitle}</p>
-                <p className="text-[13px] text-[#A1A1AA] mt-2 max-w-md mx-auto leading-relaxed">
+                <Search className="w-14 h-14 mx-auto mb-4 text-[#CBD5E1]" />
+                <p className="text-[18px] font-semibold text-[#0F172A]">{t.noResultsTitle}</p>
+                <p className="text-[13px] text-[#64748B] mt-2 max-w-md mx-auto leading-relaxed">
                   {t.noResultsHint}
                 </p>
                 {activeFilterCount > 0 && (
                   <button
                     onClick={clearFilters}
-                    className="mt-5 px-5 py-2.5 rounded-lg bg-[#FF6B35]/10 border border-[#FF6B35]/30 text-[#FF6B35] text-[13px] font-medium hover:bg-[#FF6B35]/15 transition-colors"
+                    className="mt-5 px-5 py-2.5 rounded-lg bg-[#FFF7ED] border border-[#FF6B35]/30 text-[#FF6B35] text-[13px] font-medium hover:bg-[#FF6B35]/15 transition-colors"
                   >
                     {t.resetFilters}
                   </button>
@@ -323,9 +323,9 @@ function SearchPageContent() {
             {/* Initial state (not yet searched) */}
             {!loading && !searched && (
               <div className="text-center py-20">
-                <Search className="w-14 h-14 mx-auto mb-4 text-[#3F3F46]" />
-                <p className="text-[18px] font-semibold text-[#FAFAFA]">{t.initialTitle}</p>
-                <p className="text-[13px] text-[#A1A1AA] mt-2">
+                <Search className="w-14 h-14 mx-auto mb-4 text-[#CBD5E1]" />
+                <p className="text-[18px] font-semibold text-[#0F172A]">{t.initialTitle}</p>
+                <p className="text-[13px] text-[#64748B] mt-2">
                   {t.initialHint}
                 </p>
               </div>
@@ -363,7 +363,7 @@ export default function SearchPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#0A0A0F] flex items-center justify-center">
+        <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center">
           <Loader2 className="w-8 h-8 animate-spin text-[#FF6B35]" />
         </div>
       }

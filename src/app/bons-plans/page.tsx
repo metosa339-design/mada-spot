@@ -212,7 +212,7 @@ export default function BonsPlansPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0a0a0f] text-white">
+    <main className="min-h-screen bg-[#F8FAFC] text-white">
 
       {/* Hero Section - Warm Lifestyle Theme */}
       <section className="relative pt-20 pb-12 overflow-hidden">

@@ -45,13 +45,13 @@ export default function TrendingSection() {
   if (loading || items.length === 0) return null;
 
   return (
-    <section className="py-12 bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <section className="py-12 bg-[#F8FAFC]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center gap-2 mb-3">
           <TrendingUp className="w-4 h-4 text-[#FF6B35]" />
           <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] font-semibold">Tendances</p>
         </div>
-        <h2 className="text-[24px] sm:text-[32px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-6">
+        <h2 className="text-[24px] sm:text-[32px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-6">
           Les plus populaires
         </h2>
 
@@ -63,9 +63,9 @@ export default function TrendingSection() {
               <motion.div key={item.id} whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
                 <Link
                   href={item.url}
-                  className="group block bg-[#111114] rounded-xl border border-[#27272A] hover:border-[#3F3F46] overflow-hidden transition-colors"
+                  className="group block bg-white rounded-xl border border-[#E2E8F0] hover:border-[#CBD5E1] overflow-hidden transition-colors"
                 >
-                  <div className="relative h-44 bg-[#1A1A1F]">
+                  <div className="relative h-44 bg-white">
                     <Image
                       src={getEstablishmentImage(item.type, item.city, item.name, item.coverImage)}
                       alt={item.name}
@@ -74,35 +74,35 @@ export default function TrendingSection() {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                     {item.isFeatured && (
-                      <span className="absolute top-2 left-2 px-2.5 py-1 bg-[#FF6B35]/10 backdrop-blur-md border border-[#FF6B35]/30 text-[#FF6B35] text-[10px] font-semibold uppercase tracking-[0.1em] rounded-md flex items-center gap-1">
+                      <span className="absolute top-2 left-2 px-2.5 py-1 bg-[#FFF7ED] backdrop-blur-md border border-[#FF6B35]/30 text-[#FF6B35] text-[10px] font-semibold uppercase tracking-[0.1em] rounded-md flex items-center gap-1">
                         <Star className="w-3 h-3 fill-[#FF6B35]" /> Featured
                       </span>
                     )}
-                    <span className="absolute top-2 right-2 px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-[0.1em] bg-[#111114]/80 backdrop-blur-md border border-[#27272A] text-[#FAFAFA]">
+                    <span className="absolute top-2 right-2 px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-[0.1em] bg-white/80 backdrop-blur-md border border-[#E2E8F0] text-[#0F172A]">
                       {typeConf.label}
                     </span>
                   </div>
 
                   <div className="p-4">
-                    <h3 className="font-semibold text-[#FAFAFA] text-[14px] truncate group-hover:text-[#FF6B35] transition-colors">{item.name}</h3>
-                    <div className="flex items-center gap-1 text-[12px] text-[#A1A1AA] mt-1">
+                    <h3 className="font-semibold text-[#0F172A] text-[14px] truncate group-hover:text-[#FF6B35] transition-colors">{item.name}</h3>
+                    <div className="flex items-center gap-1 text-[12px] text-[#64748B] mt-1">
                       <MapPin className="w-3 h-3" /> {item.city}
                     </div>
                     {item.shortDescription && (
-                      <p className="text-[11px] text-[#71717A] mt-2 line-clamp-2 leading-relaxed">{item.shortDescription}</p>
+                      <p className="text-[11px] text-[#94A3B8] mt-2 line-clamp-2 leading-relaxed">{item.shortDescription}</p>
                     )}
                     <div className="flex items-center justify-between mt-3">
                       {item.rating ? (
                         <div className="flex items-center gap-1">
                           <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
-                          <span className="font-mono text-[#FAFAFA] text-[13px]">{item.rating.toFixed(1)}</span>
-                          <span className="text-[#71717A] text-[11px]">({item.reviewCount})</span>
+                          <span className="font-mono text-[#0F172A] text-[13px]">{item.rating.toFixed(1)}</span>
+                          <span className="text-[#94A3B8] text-[11px]">({item.reviewCount})</span>
                         </div>
                       ) : (
-                        <span className="text-[11px] text-[#71717A]">Pas encore noté</span>
+                        <span className="text-[11px] text-[#94A3B8]">Pas encore noté</span>
                       )}
                       {item.priceRange && (
-                        <span className="text-[11px] font-mono text-[#A1A1AA]">{item.priceRange}</span>
+                        <span className="text-[11px] font-mono text-[#64748B]">{item.priceRange}</span>
                       )}
                     </div>
                   </div>

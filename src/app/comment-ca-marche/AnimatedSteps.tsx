@@ -98,18 +98,18 @@ function AnimatedStepCard({
       viewport={{ once: true, margin: '-80px' }}
       transition={{ delay: index * 0.08, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ y: -2 }}
-      className="relative bg-[#111114] border border-[#27272A] hover:border-[#3F3F46] rounded-xl p-6 transition-colors"
+      className="relative bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-xl p-6 transition-colors"
     >
       <div className="flex items-center gap-3 mb-4">
-        <div className="w-11 h-11 rounded-lg bg-[#FF6B35]/10 border border-[#FF6B35]/25 flex items-center justify-center">
+        <div className="w-11 h-11 rounded-lg bg-[#FFF7ED] border border-[#FF6B35]/25 flex items-center justify-center">
           <Icon className="w-5 h-5 text-[#FF6B35]" />
         </div>
-        <span className="text-[28px] font-semibold font-mono text-[#3F3F46]">{item.step}</span>
+        <span className="text-[28px] font-semibold font-mono text-[#CBD5E1]">{item.step}</span>
       </div>
-      <h3 className="text-[16px] font-semibold text-[#FAFAFA] mb-2">{title}</h3>
-      <p className="text-[13px] text-[#A1A1AA] leading-relaxed">{description}</p>
+      <h3 className="text-[16px] font-semibold text-[#0F172A] mb-2">{title}</h3>
+      <p className="text-[13px] text-[#64748B] leading-relaxed">{description}</p>
       {index < totalSteps - 1 && (
-        <ArrowRight className="hidden lg:block absolute -right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#3F3F46] z-10" />
+        <ArrowRight className="hidden lg:block absolute -right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#CBD5E1] z-10" />
       )}
     </motion.div>
   );

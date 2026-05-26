@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import HeroV2 from '@/components/home/HeroV2';
+import HeroClean from '@/components/home/HeroClean';
 import { useTrans } from '@/i18n';
 import { getImageUrl } from '@/lib/image-url';
 
@@ -113,7 +113,7 @@ function getAttractionImage(name: string, coverImage?: string): string {
 
 export default function HomePageWrapper() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#0A0A0F]" />}>
+    <Suspense fallback={<div className="min-h-screen bg-[#F8FAFC]" />}>
       <HomePage />
     </Suspense>
   );
@@ -142,11 +142,11 @@ function HomePage() {
   }, []);
 
   return (
-    <main id="main-content" className="min-h-screen bg-[#0A0A0F] text-[#FAFAFA]">
+    <main id="main-content" className="min-h-screen bg-[#F8FAFC] text-[#0F172A]">
       <Header />
 
       {/* ===== HERO ===== */}
-      <HeroV2 />
+      <HeroClean />
 
       {/* ===== DESTINATIONS POPULAIRES ===== */}
       <PopularDestinationsSection t={t} />
@@ -194,7 +194,7 @@ function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
   ];
 
   return (
-    <section ref={ref} className="relative bg-[#0A0A0F] py-20 sm:py-24 border-b border-[#27272A]">
+    <section ref={ref} className="relative bg-[#F8FAFC] py-20 sm:py-24 border-b border-[#E2E8F0]">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
         <motion.div
           initial="hidden"
@@ -210,7 +210,7 @@ function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
           </motion.p>
           <motion.h2
             variants={fadeUp}
-            className="text-[32px] sm:text-[44px] lg:text-[52px] leading-[1.05] font-semibold tracking-[-0.03em] text-[#FAFAFA]"
+            className="text-[32px] sm:text-[44px] lg:text-[52px] leading-[1.05] font-semibold tracking-[-0.03em] text-[#0F172A]"
             style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
           >
             {t.popularDestinations}
@@ -227,7 +227,7 @@ function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
             <motion.div key={dest.name} variants={fadeUp} whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
               <Link
                 href={`/attractions?search=${encodeURIComponent(dest.name)}`}
-                className="group block bg-[#111114] rounded-xl border border-[#27272A] overflow-hidden hover:border-[#FF6B35]/30 hover:shadow-[0_8px_30px_rgba(255,107,53,0.08)] transition-all duration-300"
+                className="group block bg-white rounded-xl border border-[#E2E8F0] overflow-hidden hover:border-[#FF6B35]/30 hover:shadow-[0_8px_30px_rgba(255,107,53,0.08)] transition-all duration-300"
               >
                 <div className="relative aspect-[3/4] overflow-hidden">
                   <Image
@@ -237,11 +237,11 @@ function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
                     sizes="(max-width: 640px) 50vw, 33vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-[#0A0A0F]/30 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                 </div>
-                <div className="px-4 py-3.5 border-t border-[#27272A]">
-                  <p className="text-[15px] font-semibold text-[#FAFAFA] tracking-[-0.01em]">{dest.name}</p>
-                  <p className="text-[12px] text-[#71717A] mt-0.5">{dest.region}</p>
+                <div className="px-4 py-3.5 border-t border-[#E2E8F0]">
+                  <p className="text-[15px] font-semibold text-[#0F172A] tracking-[-0.01em]">{dest.name}</p>
+                  <p className="text-[12px] text-[#94A3B8] mt-0.5">{dest.region}</p>
                 </div>
               </Link>
             </motion.div>
@@ -266,7 +266,7 @@ function RecommendedSection({
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section ref={ref} className="relative bg-[#0A0A0F] py-20 sm:py-24 border-b border-[#27272A]">
+    <section ref={ref} className="relative bg-white py-20 sm:py-24 border-b border-[#E2E8F0]">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
         <motion.div
           initial="hidden"
@@ -283,7 +283,7 @@ function RecommendedSection({
             </motion.p>
             <motion.h2
               variants={fadeUp}
-              className="text-[32px] sm:text-[44px] lg:text-[52px] leading-[1.05] font-semibold tracking-[-0.03em] text-[#FAFAFA]"
+              className="text-[32px] sm:text-[44px] lg:text-[52px] leading-[1.05] font-semibold tracking-[-0.03em] text-[#0F172A]"
               style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
             >
               {t.recommendedPlaces}
@@ -292,7 +292,7 @@ function RecommendedSection({
           <motion.div variants={fadeUp}>
             <Link
               href="/attractions"
-              className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[13px] font-medium text-[#FAFAFA] bg-[#111114] border border-[#27272A] hover:border-[#3F3F46] transition-colors"
+              className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[13px] font-medium text-[#0F172A] bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] transition-colors"
             >
               {t.seeAll}
               <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
@@ -310,7 +310,7 @@ function RecommendedSection({
             <motion.div key={a.id} variants={fadeUp} whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
               <Link
                 href={`/attractions/${a.slug}`}
-                className="group block bg-[#111114] rounded-xl border border-[#27272A] overflow-hidden hover:border-[#FF6B35]/30 hover:shadow-[0_8px_30px_rgba(255,107,53,0.08)] transition-all duration-300"
+                className="group block bg-white rounded-xl border border-[#E2E8F0] overflow-hidden hover:border-[#FF6B35]/30 hover:shadow-[0_8px_30px_rgba(255,107,53,0.08)] transition-all duration-300"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
@@ -321,15 +321,15 @@ function RecommendedSection({
                     className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                   />
                 </div>
-                <div className="p-4 border-t border-[#27272A]">
-                  <h3 className="text-[14px] font-semibold text-[#FAFAFA] line-clamp-1">{a.name}</h3>
-                  <p className="text-[12px] text-[#71717A] mt-0.5">{a.city}</p>
+                <div className="p-4 border-t border-[#E2E8F0]">
+                  <h3 className="text-[14px] font-semibold text-[#0F172A] line-clamp-1">{a.name}</h3>
+                  <p className="text-[12px] text-[#94A3B8] mt-0.5">{a.city}</p>
                   <div className="flex items-center gap-1.5 mt-2.5">
                     <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
-                    <span className="text-[13px] font-semibold text-[#FAFAFA] font-mono tabular-nums">
+                    <span className="text-[13px] font-semibold text-[#0F172A] font-mono tabular-nums">
                       {a.rating?.toFixed(1) || '—'}
                     </span>
-                    <span className="text-[11px] text-[#71717A]">({a.reviewCount})</span>
+                    <span className="text-[11px] text-[#94A3B8]">({a.reviewCount})</span>
                   </div>
                 </div>
               </Link>
@@ -349,14 +349,7 @@ function ProBannerSection({ t }: { t: Record<string, string> }) {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section ref={ref} className="relative bg-[#0A0A0F] py-20 sm:py-28 border-b border-[#27272A] overflow-hidden">
-      {/* Ambient orange glow gauche */}
-      <div
-        aria-hidden
-        className="absolute top-1/2 -left-40 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[140px] opacity-[0.12] pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #FF6B35 0%, transparent 70%)' }}
-      />
-
+    <section ref={ref} className="relative bg-[#003B95] py-20 sm:py-28 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
         <motion.div
           initial="hidden"
@@ -367,7 +360,7 @@ function ProBannerSection({ t }: { t: Record<string, string> }) {
           <div>
             <motion.div
               variants={fadeUp}
-              className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#FF6B35]/[0.08] text-[#FDBA74] rounded-full text-[12px] font-medium border border-[#FF6B35]/20 mb-6"
+              className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/15 text-white rounded-full text-[12px] font-medium border border-white/20 mb-6"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B35]" />
               {t.bannerEyebrow}
@@ -375,16 +368,16 @@ function ProBannerSection({ t }: { t: Record<string, string> }) {
 
             <motion.h2
               variants={fadeUp}
-              className="text-[36px] sm:text-[48px] lg:text-[56px] leading-[1.04] font-semibold tracking-[-0.03em] text-[#FAFAFA]"
+              className="text-[36px] sm:text-[48px] lg:text-[56px] leading-[1.04] font-semibold tracking-[-0.03em] text-white"
               style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
             >
               {t.bannerTitlePart1}{' '}
-              <span className="text-[#FF6B35]">{t.bannerTitleHighlight}</span>
+              <span className="text-[#FFB088]">{t.bannerTitleHighlight}</span>
             </motion.h2>
 
             <motion.p
               variants={fadeUp}
-              className="mt-5 text-[15px] sm:text-[17px] text-[#A1A1AA] max-w-lg leading-[1.6]"
+              className="mt-5 text-[15px] sm:text-[17px] text-white/85 max-w-lg leading-[1.6]"
             >
               {t.bannerSubtitle}
             </motion.p>
@@ -392,7 +385,7 @@ function ProBannerSection({ t }: { t: Record<string, string> }) {
             <motion.div variants={fadeUp} className="mt-8">
               <Link
                 href="/inscrire-etablissement"
-                className="group inline-flex items-center gap-2 px-6 py-3.5 bg-[#FF6B35] hover:bg-[#F97316] text-white rounded-lg text-[14px] font-medium transition-colors shadow-[0_8px_30px_rgba(255,107,53,0.25)] hover:shadow-[0_12px_40px_rgba(255,107,53,0.35)]"
+                className="group inline-flex items-center gap-2 px-6 py-3.5 bg-[#FF6B35] hover:bg-[#F97316] text-white rounded-xl text-[14px] font-semibold transition-colors shadow-[0_4px_14px_rgba(255,107,53,0.25)] hover:shadow-[0_12px_40px_rgba(255,107,53,0.35)]"
               >
                 {t.bannerCta}
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
@@ -402,7 +395,7 @@ function ProBannerSection({ t }: { t: Record<string, string> }) {
 
           <motion.div
             variants={fadeUp}
-            className="relative aspect-[4/5] w-full max-w-[420px] lg:ml-auto rounded-2xl overflow-hidden border border-[#27272A] bg-[#111114]"
+            className="relative aspect-[4/5] w-full max-w-[420px] lg:ml-auto rounded-2xl overflow-hidden border border-white/15"
           >
             <Image
               src="/images/Attractions/nosy-be/nosy-be.jpg"
@@ -411,7 +404,7 @@ function ProBannerSection({ t }: { t: Record<string, string> }) {
               sizes="(max-width: 1024px) 100vw, 40vw"
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F]/60 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
           </motion.div>
         </motion.div>
       </div>
@@ -434,7 +427,7 @@ function WhyMadaSpotSection({ t }: { t: Record<string, string> }) {
   ];
 
   return (
-    <section ref={ref} className="relative bg-[#0A0A0F] py-20 sm:py-24 border-b border-[#27272A]">
+    <section ref={ref} className="relative bg-white py-20 sm:py-24 border-b border-[#E2E8F0]">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
         <motion.div
           initial="hidden"
@@ -450,7 +443,7 @@ function WhyMadaSpotSection({ t }: { t: Record<string, string> }) {
           </motion.p>
           <motion.h2
             variants={fadeUp}
-            className="text-[32px] sm:text-[44px] lg:text-[52px] leading-[1.05] font-semibold tracking-[-0.03em] text-[#FAFAFA]"
+            className="text-[32px] sm:text-[44px] lg:text-[52px] leading-[1.05] font-semibold tracking-[-0.03em] text-[#0F172A]"
             style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
           >
             La plateforme tourisme la plus directe de Madagascar.
@@ -469,15 +462,15 @@ function WhyMadaSpotSection({ t }: { t: Record<string, string> }) {
               variants={fadeUp}
               whileHover={{ y: -2 }}
               transition={{ duration: 0.2 }}
-              className="p-5 sm:p-6 bg-[#111114] border border-[#27272A] rounded-xl hover:border-[#3F3F46] transition-colors"
+              className="p-5 sm:p-6 bg-white border border-[#E2E8F0] rounded-xl hover:border-[#CBD5E1] transition-colors"
             >
-              <div className="w-11 h-11 rounded-full bg-[#1A1A1F] border border-[#27272A] flex items-center justify-center mb-4">
+              <div className="w-11 h-11 rounded-full bg-white border border-[#E2E8F0] flex items-center justify-center mb-4">
                 <item.icon className="w-5 h-5 text-[#FDBA74]" />
               </div>
-              <h4 className="text-[15px] font-semibold text-[#FAFAFA] tracking-[-0.01em]">
+              <h4 className="text-[15px] font-semibold text-[#0F172A] tracking-[-0.01em]">
                 {item.title}
               </h4>
-              <p className="mt-1.5 text-[13px] text-[#A1A1AA] leading-[1.55]">{item.desc}</p>
+              <p className="mt-1.5 text-[13px] text-[#64748B] leading-[1.55]">{item.desc}</p>
             </motion.div>
           ))}
         </motion.div>
@@ -501,7 +494,7 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
   const visibleDots = Math.ceil(REVIEWS.length / pageSize);
 
   return (
-    <section ref={ref} className="relative bg-[#0A0A0F] py-20 sm:py-24 border-b border-[#27272A] overflow-hidden">
+    <section ref={ref} className="relative bg-[#F8FAFC] py-20 sm:py-24 border-b border-[#E2E8F0] overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
         <motion.div
           initial="hidden"
@@ -518,12 +511,12 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
             </motion.p>
             <motion.h2
               variants={fadeUp}
-              className="text-[32px] sm:text-[44px] lg:text-[52px] leading-[1.05] font-semibold tracking-[-0.03em] text-[#FAFAFA]"
+              className="text-[32px] sm:text-[44px] lg:text-[52px] leading-[1.05] font-semibold tracking-[-0.03em] text-[#0F172A]"
               style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
             >
               {t.reviewsTitle}
             </motion.h2>
-            <motion.p variants={fadeUp} className="mt-3 text-[14px] text-[#A1A1AA]">
+            <motion.p variants={fadeUp} className="mt-3 text-[14px] text-[#64748B]">
               {REVIEWS.length}+ {t.reviewsTrustSuffix}
             </motion.p>
           </div>
@@ -533,7 +526,7 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
               onClick={goPrev}
               disabled={index === 0}
               aria-label="Précédent"
-              className="w-10 h-10 rounded-md bg-[#111114] border border-[#27272A] flex items-center justify-center text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+              className="w-10 h-10 rounded-md bg-white border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -541,7 +534,7 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
               onClick={goNext}
               disabled={index >= maxIndex}
               aria-label="Suivant"
-              className="w-10 h-10 rounded-md bg-[#111114] border border-[#27272A] flex items-center justify-center text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+              className="w-10 h-10 rounded-md bg-white border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -558,15 +551,15 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
             {REVIEWS.map((review, i) => (
               <div
                 key={`${review.name}-${i}`}
-                className="shrink-0 w-[85%] sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-2.5rem)/3)] p-6 bg-[#111114] border border-[#27272A] rounded-xl"
+                className="shrink-0 w-[85%] sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-2.5rem)/3)] p-6 bg-white border border-[#E2E8F0] rounded-xl"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#FF6B35] to-[#F59E0B] flex items-center justify-center text-white font-semibold text-[13px] shrink-0">
                     {getInitials(review.name)}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-[13px] font-semibold text-[#FAFAFA] truncate">{review.name}</p>
-                    <p className="text-[11px] text-[#71717A] truncate">
+                    <p className="text-[13px] font-semibold text-[#0F172A] truncate">{review.name}</p>
+                    <p className="text-[11px] text-[#94A3B8] truncate">
                       {review.role} · {review.city}
                     </p>
                   </div>
@@ -576,7 +569,7 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
                     <Star key={j} className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
                   ))}
                 </div>
-                <p className="text-[13px] text-[#D4D4D8] leading-[1.6] line-clamp-5">
+                <p className="text-[13px] text-[#334155] leading-[1.6] line-clamp-5">
                   &laquo;&nbsp;{review.text}&nbsp;&raquo;
                 </p>
               </div>
@@ -595,7 +588,7 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
                 onClick={() => setIndex(target)}
                 aria-label={`Page ${i + 1}`}
                 className={`h-1 rounded-full transition-all ${
-                  isActive ? 'w-8 bg-[#FF6B35]' : 'w-1.5 bg-[#3F3F46] hover:bg-[#52525B]'
+                  isActive ? 'w-8 bg-[#FF6B35]' : 'w-1.5 bg-[#CBD5E1] hover:bg-[#94A3B8]'
                 }`}
               />
             );
@@ -620,24 +613,24 @@ function NewsletterSection({ t }: { t: Record<string, string> }) {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section ref={ref} className="bg-[#0A0A0F] py-20 sm:py-24">
+    <section ref={ref} className="bg-[#F8FAFC] py-20 sm:py-24">
       <div className="max-w-3xl mx-auto px-5 sm:px-8">
         <motion.div
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
           variants={stagger}
-          className="p-8 sm:p-10 bg-[#111114] border border-[#27272A] rounded-2xl"
+          className="p-8 sm:p-10 bg-white border border-[#E2E8F0] rounded-2xl"
         >
           <motion.h2
             variants={fadeUp}
-            className="text-[24px] sm:text-[30px] font-semibold tracking-[-0.02em] text-[#FAFAFA] text-center"
+            className="text-[24px] sm:text-[30px] font-semibold tracking-[-0.02em] text-[#0F172A] text-center"
             style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
           >
             {t.newsletterTitleHome}
           </motion.h2>
           <motion.p
             variants={fadeUp}
-            className="mt-3 text-[14px] sm:text-[15px] text-[#A1A1AA] text-center max-w-md mx-auto"
+            className="mt-3 text-[14px] sm:text-[15px] text-[#64748B] text-center max-w-md mx-auto"
           >
             {t.newsletterDescHome}
           </motion.p>
@@ -649,7 +642,7 @@ function NewsletterSection({ t }: { t: Record<string, string> }) {
             <input
               type="email"
               placeholder={t.emailPlaceholderHome}
-              className="flex-1 px-4 py-3 rounded-lg bg-[#0A0A0F] border border-[#27272A] text-[14px] text-[#FAFAFA] placeholder:text-[#71717A] outline-none focus:border-[#FF6B35]/40 transition-colors"
+              className="flex-1 px-4 py-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-[14px] text-[#0F172A] placeholder:text-[#94A3B8] outline-none focus:border-[#FF6B35]/40 transition-colors"
             />
             <button
               type="submit"
@@ -677,14 +670,14 @@ function BottomNav({ t }: { t: Record<string, string> }) {
   ];
 
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-[#0A0A0F] border-t border-[#27272A] z-50 safe-area-pb">
+    <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#E2E8F0] shadow-[0_-2px_12px_rgba(15,23,42,0.04)] z-50 safe-area-pb">
       <div className="flex items-center justify-around py-2">
         {items.map((item) => (
           <Link
             key={item.label}
             href={item.href}
             className={`flex flex-col items-center gap-0.5 px-3 py-1.5 transition-colors ${
-              item.active ? 'text-[#FF6B35]' : 'text-[#71717A] hover:text-[#D4D4D8]'
+              item.active ? 'text-[#FF6B35]' : 'text-[#94A3B8] hover:text-[#334155]'
             }`}
           >
             <item.icon className="w-5 h-5" />

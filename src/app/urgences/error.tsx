@@ -15,7 +15,7 @@ export default function UrgencesError({
   }, [error]);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center px-4">
       <div className="text-center max-w-md">
         <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-red-500/10 flex items-center justify-center">
           <svg className="w-8 h-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">

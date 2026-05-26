@@ -41,7 +41,7 @@ export default function ClientMessageriePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
+      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-[#ff6b35]" />
       </div>
     )
@@ -50,7 +50,7 @@ export default function ClientMessageriePage() {
   if (!userId) return null
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white">
+    <div className="min-h-screen bg-[#F8FAFC] text-white">
       <div className="max-w-5xl mx-auto px-4 pt-24 pb-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">

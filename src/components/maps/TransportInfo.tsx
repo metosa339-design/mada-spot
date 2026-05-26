@@ -47,7 +47,7 @@ export default function TransportInfo({ city, district, destinationName: _destin
   const hasMore = nearbyLines.length > 4;
 
   return (
-    <div className="bg-[#0a0a0f] border border-[#2a2a36] rounded-xl p-4 space-y-3">
+    <div className="bg-[#F8FAFC] border border-[#2a2a36] rounded-xl p-4 space-y-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Bus className="w-4 h-4 text-[#ff6b35]" />

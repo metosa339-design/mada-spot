@@ -7,24 +7,24 @@ import { useTrans } from '@/i18n';
 export default function SoumettreEvenementPage() {
   const t = useTrans('events');
   return (
-    <div className="min-h-screen bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="min-h-screen bg-[#F8FAFC]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16">
         <Link
           href="/evenements"
-          className="inline-flex items-center gap-1.5 text-[#A1A1AA] hover:text-[#FAFAFA] text-[13px] mb-8 transition-colors"
+          className="inline-flex items-center gap-1.5 text-[#64748B] hover:text-[#0F172A] text-[13px] mb-8 transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           {t.backToEvents}
         </Link>
 
-        <div className="bg-[#111114] rounded-xl border border-[#27272A] p-8 text-center">
-          <div className="w-14 h-14 rounded-xl bg-[#FF6B35]/10 border border-[#FF6B35]/25 flex items-center justify-center mx-auto mb-4">
+        <div className="bg-white rounded-xl border border-[#E2E8F0] p-8 text-center">
+          <div className="w-14 h-14 rounded-xl bg-[#FFF7ED] border border-[#FF6B35]/25 flex items-center justify-center mx-auto mb-4">
             <ShieldAlert className="w-6 h-6 text-[#FF6B35]" />
           </div>
-          <h1 className="text-[20px] sm:text-[24px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-2">
+          <h1 className="text-[20px] sm:text-[24px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-2">
             {t.adminOnlyTitle}
           </h1>
-          <p className="text-[#A1A1AA] text-[14px] mb-6 leading-relaxed">
+          <p className="text-[#64748B] text-[14px] mb-6 leading-relaxed">
             {t.adminOnlyDesc}
           </p>
           <Link

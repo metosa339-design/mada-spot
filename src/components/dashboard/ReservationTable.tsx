@@ -111,7 +111,7 @@ export default function ReservationTable({
             className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
               activeTab === tab.key
                 ? 'bg-cyan-600 text-white'
-                : 'bg-[#1A1A1F] text-gray-400 hover:bg-[#1A1A1F] hover:text-white'
+                : 'bg-white text-gray-400 hover:bg-white hover:text-white'
             }`}
           >
             {tab.label}
@@ -130,7 +130,7 @@ export default function ReservationTable({
       </p>
 
       {/* Booking rows */}
-      <div className="divide-y divide-[#27272A] max-h-[500px] overflow-y-auto">
+      <div className="divide-y divide-[#E2E8F0] max-h-[500px] overflow-y-auto">
         <AnimatePresence mode="popLayout">
           {filtered.length > 0 ? (
             filtered.map((booking, i) => {
@@ -144,7 +144,7 @@ export default function ReservationTable({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2, delay: i * 0.02 }}
-                  className="p-4 hover:bg-[#111114] transition-colors"
+                  className="p-4 hover:bg-white transition-colors"
                   style={roomColor ? { borderLeft: `4px solid ${roomColor.hex}` } : undefined}
                 >
                   <div className="flex items-start gap-4">
@@ -242,7 +242,7 @@ export default function ReservationTable({
                               value={proposedDate}
                               onChange={e => setProposedDate(e.target.value)}
                               min={new Date().toISOString().split('T')[0]}
-                              className="px-3 py-1.5 bg-[#1A1A1F] border border-[#27272A] rounded-lg text-xs text-white focus:outline-none focus:border-blue-500/50"
+                              className="px-3 py-1.5 bg-white border border-[#E2E8F0] rounded-lg text-xs text-white focus:outline-none focus:border-blue-500/50"
                             />
                           </div>
                           {booking.checkOut && (
@@ -253,7 +253,7 @@ export default function ReservationTable({
                                 value={proposedCheckOut}
                                 onChange={e => setProposedCheckOut(e.target.value)}
                                 min={proposedDate || new Date().toISOString().split('T')[0]}
-                                className="px-3 py-1.5 bg-[#1A1A1F] border border-[#27272A] rounded-lg text-xs text-white focus:outline-none focus:border-blue-500/50"
+                                className="px-3 py-1.5 bg-white border border-[#E2E8F0] rounded-lg text-xs text-white focus:outline-none focus:border-blue-500/50"
                               />
                             </div>
                           )}

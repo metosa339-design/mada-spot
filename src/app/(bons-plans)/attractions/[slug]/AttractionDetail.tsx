@@ -156,12 +156,12 @@ export default function AttractionDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <div className="min-h-screen bg-[#F8FAFC]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         <div className="pt-24 max-w-7xl mx-auto px-4 py-12">
           <div className="animate-pulse space-y-8">
-            <div className="h-96 bg-[#111114] rounded-2xl border border-[#27272A]" />
-            <div className="h-8 bg-[#111114] rounded w-1/3" />
-            <div className="h-4 bg-[#111114] rounded w-2/3" />
+            <div className="h-96 bg-white rounded-2xl border border-[#E2E8F0]" />
+            <div className="h-8 bg-white rounded w-1/3" />
+            <div className="h-4 bg-white rounded w-2/3" />
           </div>
         </div>
       </div>
@@ -170,11 +170,11 @@ export default function AttractionDetail() {
 
   if (!attraction) {
     return (
-      <div className="min-h-screen bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <div className="min-h-screen bg-[#F8FAFC]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         <div className="pt-24 max-w-7xl mx-auto px-4 py-12 text-center">
-          <Mountain className="w-16 h-16 mx-auto text-[#3F3F46] mb-4" />
-          <h1 className="text-2xl font-bold text-[#FAFAFA] mb-2">Attraction non trouvée</h1>
-          <p className="text-[#A1A1AA] mb-6">L&apos;attraction que vous recherchez n&apos;existe pas.</p>
+          <Mountain className="w-16 h-16 mx-auto text-[#CBD5E1] mb-4" />
+          <h1 className="text-2xl font-bold text-[#0F172A] mb-2">Attraction non trouvée</h1>
+          <p className="text-[#64748B] mb-6">L&apos;attraction que vous recherchez n&apos;existe pas.</p>
           <Link
             href="/attractions"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[#FF6B35] hover:bg-[#F97316] text-white rounded-lg text-[14px] font-medium transition-all shadow-[0_8px_30px_rgba(255,107,53,0.25)]"
@@ -190,20 +190,20 @@ export default function AttractionDetail() {
   const TypeIcon = typeIcons[attraction.attractionType] || Camera;
 
   return (
-    <div className="min-h-screen bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="min-h-screen bg-[#F8FAFC]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       {/* Hero photo */}
-      <div className="relative h-[50vh] md:h-[60vh] bg-[#0A0A0F]">
+      <div className="relative h-[50vh] md:h-[60vh] bg-[#F8FAFC]">
         <CategorizedGallery
           coverImage={attraction.coverImage}
           images={attraction.images || []}
           establishmentName={attraction.name}
           fallbackImage={getEstablishmentImage('ATTRACTION', attraction.city, attraction.name)}
         />
-        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#0A0A0F] via-[#0A0A0F]/60 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
 
         <Link
           href="/attractions"
-          className="absolute top-24 left-4 md:left-8 flex items-center gap-2 px-4 py-2 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] rounded-lg text-[#FAFAFA] hover:bg-[#1A1A1F]/90 hover:border-[#3F3F46] transition-colors z-10"
+          className="absolute top-24 left-4 md:left-8 flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-md border border-[#E2E8F0] rounded-lg text-[#0F172A] hover:bg-white/90 hover:border-[#CBD5E1] transition-colors z-10"
         >
           <ArrowLeft className="w-4 h-4" />
           <span className="hidden md:inline text-[13px] font-medium">Retour</span>
@@ -215,7 +215,7 @@ export default function AttractionDetail() {
             className={`p-2.5 rounded-lg backdrop-blur-md border transition-colors ${
               isFavorite
                 ? 'bg-[#FF6B35] border-[#FF6B35] text-white'
-                : 'bg-[#111114]/80 border-[#27272A] text-[#FAFAFA] hover:bg-[#1A1A1F]/90 hover:border-[#3F3F46]'
+                : 'bg-white/80 border-[#E2E8F0] text-[#0F172A] hover:bg-white/90 hover:border-[#CBD5E1]'
             }`}
           >
             <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
@@ -231,7 +231,7 @@ export default function AttractionDetail() {
                 toastSuccess('Lien copié !');
               }
             }}
-            className="p-2.5 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] rounded-lg text-[#FAFAFA] hover:bg-[#1A1A1F]/90 hover:border-[#3F3F46] transition-colors"
+            className="p-2.5 bg-white/80 backdrop-blur-md border border-[#E2E8F0] rounded-lg text-[#0F172A] hover:bg-white/90 hover:border-[#CBD5E1] transition-colors"
           >
             <Share2 className="w-4 h-4" />
           </button>
@@ -242,7 +242,7 @@ export default function AttractionDetail() {
         <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8 z-10">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center gap-2 mb-3 flex-wrap">
-              <span className="flex items-center gap-1.5 px-2.5 py-1 bg-[#FF6B35]/10 border border-[#FF6B35]/30 text-[#FF6B35] rounded-md text-[11px] font-semibold uppercase tracking-[0.1em]">
+              <span className="flex items-center gap-1.5 px-2.5 py-1 bg-[#FFF7ED] border border-[#FF6B35]/30 text-[#FF6B35] rounded-md text-[11px] font-semibold uppercase tracking-[0.1em]">
                 <TypeIcon className="w-3.5 h-3.5" />
                 {typeLabels[attraction.attractionType]}
               </span>
@@ -251,29 +251,29 @@ export default function AttractionDetail() {
                   Entrée gratuite
                 </span>
               ) : (
-                <span className="px-2.5 py-1 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] text-[#FAFAFA] font-mono rounded-md text-[12px] font-semibold">
+                <span className="px-2.5 py-1 bg-white/80 backdrop-blur-md border border-[#E2E8F0] text-[#0F172A] font-mono rounded-md text-[12px] font-semibold">
                   {convert(attraction.entryFeeLocal)}
                 </span>
               )}
               {attraction.isFeatured && (
-                <span className="px-2.5 py-1 bg-[#FF6B35]/10 border border-[#FF6B35]/30 text-[#FF6B35] rounded-md text-[11px] font-semibold uppercase tracking-[0.1em]">
+                <span className="px-2.5 py-1 bg-[#FFF7ED] border border-[#FF6B35]/30 text-[#FF6B35] rounded-md text-[11px] font-semibold uppercase tracking-[0.1em]">
                   Incontournable
                 </span>
               )}
             </div>
-            <h1 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-3 flex items-center gap-2">
+            <h1 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#0F172A] mb-3 flex items-center gap-2">
               {attraction.name}
               {attraction.isClaimed && <VerifiedBadge variant="verified" size="lg" />}
             </h1>
-            <div className="flex flex-wrap items-center gap-4 text-[#D4D4D8] text-[14px]">
+            <div className="flex flex-wrap items-center gap-4 text-[#334155] text-[14px]">
               <span className="flex items-center gap-1.5">
-                <MapPin className="w-4 h-4 text-[#A1A1AA]" />
+                <MapPin className="w-4 h-4 text-[#64748B]" />
                 {attraction.district}, {attraction.city}
               </span>
               <span className="flex items-center gap-1.5">
                 <Star className="w-4 h-4 text-[#FF6B35] fill-[#FF6B35]" />
                 <span className="font-mono">{attraction.rating?.toFixed(1)}</span>
-                <span className="text-[#A1A1AA]">({attraction.reviewCount} avis)</span>
+                <span className="text-[#64748B]">({attraction.reviewCount} avis)</span>
               </span>
               {attraction.isAvailable !== undefined && (
                 <span className={`px-2.5 py-1 rounded-md text-[11px] font-medium border ${
@@ -285,7 +285,7 @@ export default function AttractionDetail() {
                 </span>
               )}
               {attraction.visitDuration && (
-                <span className="flex items-center gap-1.5 text-[#A1A1AA]">
+                <span className="flex items-center gap-1.5 text-[#64748B]">
                   <Clock className="w-4 h-4" />
                   {attraction.visitDuration}
                 </span>
@@ -314,13 +314,13 @@ export default function AttractionDetail() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-80px' }}
-              className="bg-[#111114] rounded-xl p-6 md:p-8 border border-[#27272A]"
+              className="bg-white rounded-xl p-6 md:p-8 border border-[#E2E8F0]"
             >
               <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">À propos</p>
-              <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-4">
+              <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-4">
                 Présentation
               </h2>
-              <p className="text-[#D4D4D8] leading-relaxed whitespace-pre-line max-w-[65ch]">
+              <p className="text-[#334155] leading-relaxed whitespace-pre-line max-w-[65ch]">
                 {t(attraction.description || attraction.shortDescription, attraction.descriptionEn || attraction.shortDescriptionEn)}
               </p>
             </motion.section>
@@ -344,10 +344,10 @@ export default function AttractionDetail() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: '-80px' }}
-                className="bg-[#111114] rounded-xl p-6 md:p-8 border border-[#27272A]"
+                className="bg-white rounded-xl p-6 md:p-8 border border-[#E2E8F0]"
               >
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">À voir absolument</p>
-                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-5">
+                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-5">
                   Points forts &amp; lieux à visiter
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -356,18 +356,18 @@ export default function AttractionDetail() {
                       key={index}
                       whileHover={{ y: -2 }}
                       transition={{ duration: 0.2 }}
-                      className="group relative overflow-hidden rounded-xl bg-[#1A1A1F] aspect-[4/3] border border-[#27272A] hover:border-[#3F3F46] transition-colors"
+                      className="group relative overflow-hidden rounded-xl bg-white aspect-[4/3] border border-[#E2E8F0] hover:border-[#CBD5E1] transition-colors"
                     >
                       <div
                         className="absolute inset-0 bg-cover bg-center"
                         style={{ backgroundImage: `url(${getHighlightImage(highlight, attraction.name)})` }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-[#0A0A0F]/40 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                       <div className="absolute top-3 right-3 w-7 h-7 bg-[#FF6B35] rounded-full flex items-center justify-center">
                         <Check className="w-4 h-4 text-white" />
                       </div>
                       <div className="absolute bottom-0 left-0 right-0 p-4">
-                        <p className="text-[#FAFAFA] font-semibold text-[13px] leading-snug">
+                        <p className="text-[#0F172A] font-semibold text-[13px] leading-snug">
                           {highlight}
                         </p>
                       </div>
@@ -384,28 +384,28 @@ export default function AttractionDetail() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: '-80px' }}
-                className="bg-[#111114] rounded-xl p-6 md:p-8 border border-[#27272A]"
+                className="bg-white rounded-xl p-6 md:p-8 border border-[#E2E8F0]"
               >
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Tarifs</p>
-                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-5">
+                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-5">
                   Tarifs d&apos;entrée
                 </h2>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="p-5 bg-[#1A1A1F] rounded-lg border border-[#27272A]">
+                  <div className="p-5 bg-white rounded-lg border border-[#E2E8F0]">
                     <div className="flex items-center gap-2 text-[#FF6B35] mb-2">
                       <Ticket className="w-4 h-4" />
                       <span className="text-[11px] uppercase tracking-[0.15em] font-semibold">Résidents</span>
                     </div>
-                    <p className="text-[24px] font-semibold font-mono text-[#FAFAFA]">
+                    <p className="text-[24px] font-semibold font-mono text-[#0F172A]">
                       {convert(attraction.entryFeeLocal)}
                     </p>
                   </div>
-                  <div className="p-5 bg-[#1A1A1F] rounded-lg border border-[#27272A]">
+                  <div className="p-5 bg-white rounded-lg border border-[#E2E8F0]">
                     <div className="flex items-center gap-2 text-[#FF6B35] mb-2">
                       <Ticket className="w-4 h-4" />
                       <span className="text-[11px] uppercase tracking-[0.15em] font-semibold">Touristes</span>
                     </div>
-                    <p className="text-[24px] font-semibold font-mono text-[#FAFAFA]">
+                    <p className="text-[24px] font-semibold font-mono text-[#0F172A]">
                       {convert(attraction.entryFeeForeign)}
                     </p>
                   </div>
@@ -419,60 +419,60 @@ export default function AttractionDetail() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-80px' }}
-              className="bg-[#111114] rounded-xl p-6 md:p-8 border border-[#27272A]"
+              className="bg-white rounded-xl p-6 md:p-8 border border-[#E2E8F0]"
             >
               <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Préparer la visite</p>
-              <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-5">
+              <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-5">
                 Informations pratiques
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {attraction.visitDuration && (
-                  <div className="flex items-center gap-3 p-4 bg-[#1A1A1F] rounded-lg border border-[#27272A]">
+                  <div className="flex items-center gap-3 p-4 bg-white rounded-lg border border-[#E2E8F0]">
                     <Clock className="w-4 h-4 text-[#FF6B35] shrink-0" />
                     <div>
-                      <p className="text-[11px] uppercase tracking-[0.15em] text-[#A1A1AA]">Durée</p>
-                      <p className="font-medium text-[#FAFAFA] text-[13px]">{attraction.visitDuration}</p>
+                      <p className="text-[11px] uppercase tracking-[0.15em] text-[#64748B]">Durée</p>
+                      <p className="font-medium text-[#0F172A] text-[13px]">{attraction.visitDuration}</p>
                     </div>
                   </div>
                 )}
                 {attraction.bestTimeToVisit && (
-                  <div className="flex items-center gap-3 p-4 bg-[#1A1A1F] rounded-lg border border-[#27272A]">
+                  <div className="flex items-center gap-3 p-4 bg-white rounded-lg border border-[#E2E8F0]">
                     <Sun className="w-4 h-4 text-[#FF6B35] shrink-0" />
                     <div>
-                      <p className="text-[11px] uppercase tracking-[0.15em] text-[#A1A1AA]">Période</p>
-                      <p className="font-medium text-[#FAFAFA] text-[13px]">{attraction.bestTimeToVisit}</p>
+                      <p className="text-[11px] uppercase tracking-[0.15em] text-[#64748B]">Période</p>
+                      <p className="font-medium text-[#0F172A] text-[13px]">{attraction.bestTimeToVisit}</p>
                     </div>
                   </div>
                 )}
                 <div className={`flex items-center gap-3 p-4 rounded-lg border ${
-                  attraction.hasGuide ? 'bg-[#1A1A1F] border-[#3F3F46]' : 'bg-[#1A1A1F]/50 border-[#27272A]'
+                  attraction.hasGuide ? 'bg-white border-[#CBD5E1]' : 'bg-white/50 border-[#E2E8F0]'
                 }`}>
-                  <Users className={`w-4 h-4 shrink-0 ${attraction.hasGuide ? 'text-[#FF6B35]' : 'text-[#71717A]'}`} />
+                  <Users className={`w-4 h-4 shrink-0 ${attraction.hasGuide ? 'text-[#FF6B35]' : 'text-[#94A3B8]'}`} />
                   <div>
-                    <p className="text-[11px] uppercase tracking-[0.15em] text-[#A1A1AA]">Guide</p>
-                    <p className={`font-medium text-[13px] ${attraction.hasGuide ? 'text-[#FAFAFA]' : 'text-[#71717A]'}`}>
+                    <p className="text-[11px] uppercase tracking-[0.15em] text-[#64748B]">Guide</p>
+                    <p className={`font-medium text-[13px] ${attraction.hasGuide ? 'text-[#0F172A]' : 'text-[#94A3B8]'}`}>
                       {attraction.hasGuide ? 'Disponible' : 'Non disponible'}
                     </p>
                   </div>
                 </div>
                 <div className={`flex items-center gap-3 p-4 rounded-lg border ${
-                  attraction.isAccessible ? 'bg-[#1A1A1F] border-[#3F3F46]' : 'bg-[#1A1A1F]/50 border-[#27272A]'
+                  attraction.isAccessible ? 'bg-white border-[#CBD5E1]' : 'bg-white/50 border-[#E2E8F0]'
                 }`}>
-                  <Accessibility className={`w-4 h-4 shrink-0 ${attraction.isAccessible ? 'text-[#FF6B35]' : 'text-[#71717A]'}`} />
+                  <Accessibility className={`w-4 h-4 shrink-0 ${attraction.isAccessible ? 'text-[#FF6B35]' : 'text-[#94A3B8]'}`} />
                   <div>
-                    <p className="text-[11px] uppercase tracking-[0.15em] text-[#A1A1AA]">Accessibilité</p>
-                    <p className={`font-medium text-[13px] ${attraction.isAccessible ? 'text-[#FAFAFA]' : 'text-[#71717A]'}`}>
+                    <p className="text-[11px] uppercase tracking-[0.15em] text-[#64748B]">Accessibilité</p>
+                    <p className={`font-medium text-[13px] ${attraction.isAccessible ? 'text-[#0F172A]' : 'text-[#94A3B8]'}`}>
                       {attraction.isAccessible ? 'Accessible' : 'Non accessible'}
                     </p>
                   </div>
                 </div>
                 <div className={`flex items-center gap-3 p-4 rounded-lg border ${
-                  attraction.hasParking ? 'bg-[#1A1A1F] border-[#3F3F46]' : 'bg-[#1A1A1F]/50 border-[#27272A]'
+                  attraction.hasParking ? 'bg-white border-[#CBD5E1]' : 'bg-white/50 border-[#E2E8F0]'
                 }`}>
-                  <ParkingCircle className={`w-4 h-4 shrink-0 ${attraction.hasParking ? 'text-[#FF6B35]' : 'text-[#71717A]'}`} />
+                  <ParkingCircle className={`w-4 h-4 shrink-0 ${attraction.hasParking ? 'text-[#FF6B35]' : 'text-[#94A3B8]'}`} />
                   <div>
-                    <p className="text-[11px] uppercase tracking-[0.15em] text-[#A1A1AA]">Parking</p>
-                    <p className={`font-medium text-[13px] ${attraction.hasParking ? 'text-[#FAFAFA]' : 'text-[#71717A]'}`}>
+                    <p className="text-[11px] uppercase tracking-[0.15em] text-[#64748B]">Parking</p>
+                    <p className={`font-medium text-[13px] ${attraction.hasParking ? 'text-[#0F172A]' : 'text-[#94A3B8]'}`}>
                       {attraction.hasParking ? 'Disponible' : 'Non disponible'}
                     </p>
                   </div>
@@ -487,10 +487,10 @@ export default function AttractionDetail() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: '-80px' }}
-                className="bg-[#111114] rounded-xl p-6 md:p-8 border border-[#27272A]"
+                className="bg-white rounded-xl p-6 md:p-8 border border-[#E2E8F0]"
               >
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Horaires</p>
-                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-4">
+                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-4">
                   Horaires d&apos;ouverture
                 </h2>
                 <div className="space-y-1.5">
@@ -504,19 +504,19 @@ export default function AttractionDetail() {
                       <div
                         key={day}
                         className={`flex items-center justify-between py-2.5 px-4 rounded-lg border ${
-                          isToday ? 'bg-[#FF6B35]/8 border-[#FF6B35]/25' : 'bg-[#1A1A1F] border-[#27272A]'
+                          isToday ? 'bg-[#FF6B35]/8 border-[#FF6B35]/25' : 'bg-white border-[#E2E8F0]'
                         }`}
                       >
-                        <span className={`text-[13px] font-medium ${isToday ? 'text-[#FF6B35]' : 'text-[#D4D4D8]'}`}>
+                        <span className={`text-[13px] font-medium ${isToday ? 'text-[#FF6B35]' : 'text-[#334155]'}`}>
                           {dayLabels[day]}
                           {isToday && <span className="ml-2 text-[11px] text-[#FF6B35]/70">(aujourd&apos;hui)</span>}
                         </span>
                         {hours?.closed ? (
-                          <span className="text-[#71717A] text-[13px] font-mono">Fermé</span>
+                          <span className="text-[#94A3B8] text-[13px] font-mono">Fermé</span>
                         ) : hours ? (
-                          <span className="text-[#FAFAFA] text-[13px] font-mono">{hours.open} – {hours.close}</span>
+                          <span className="text-[#0F172A] text-[13px] font-mono">{hours.open} – {hours.close}</span>
                         ) : (
-                          <span className="text-[#71717A] text-[13px] font-mono">-</span>
+                          <span className="text-[#94A3B8] text-[13px] font-mono">-</span>
                         )}
                       </div>
                     );
@@ -545,21 +545,21 @@ export default function AttractionDetail() {
               <PromoBanner establishmentId={attraction.id} />
               <FomoBanner establishmentId={attraction.id} />
 
-              <div className="bg-[#111114] rounded-xl p-6 border border-[#27272A]">
+              <div className="bg-white rounded-xl p-6 border border-[#E2E8F0]">
                 <div className="flex items-center justify-between mb-5">
                   <div>
-                    <p className="text-[11px] uppercase tracking-[0.18em] text-[#A1A1AA] mb-1">Tarif d&apos;entrée</p>
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-[#64748B] mb-1">Tarif d&apos;entrée</p>
                     {attraction.isFree ? (
                       <p className="text-[24px] font-semibold text-emerald-400">Gratuit</p>
                     ) : (
-                      <p className="text-[26px] font-semibold font-mono text-[#FAFAFA]">
+                      <p className="text-[26px] font-semibold font-mono text-[#0F172A]">
                         {convert(attraction.entryFeeLocal)}
                       </p>
                     )}
                   </div>
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A1A1F] border border-[#27272A] rounded-lg">
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#E2E8F0] rounded-lg">
                     <Star className="w-4 h-4 text-[#FF6B35] fill-[#FF6B35]" />
-                    <span className="font-mono text-[#FAFAFA] text-[14px]">{attraction.rating?.toFixed(1)}</span>
+                    <span className="font-mono text-[#0F172A] text-[14px]">{attraction.rating?.toFixed(1)}</span>
                   </div>
                 </div>
 
@@ -569,7 +569,7 @@ export default function AttractionDetail() {
                     <Info className="w-4 h-4 text-[#FF6B35] shrink-0 mt-0.5" />
                     <div className="text-[12px]">
                       <p className="font-semibold mb-1 text-[#FF6B35] text-[11px] uppercase tracking-[0.15em]">Conseils</p>
-                      <p className="text-[#D4D4D8] leading-relaxed">
+                      <p className="text-[#334155] leading-relaxed">
                         {attraction.bestTimeToVisit
                           ? `Meilleure période : ${attraction.bestTimeToVisit}`
                           : 'Pensez à réserver votre guide à l\'avance'}
@@ -602,7 +602,7 @@ export default function AttractionDetail() {
                 />
 
                 {(attraction.website || attraction.facebook || attraction.instagram) && (
-                  <div className="mt-4 pt-4 border-t border-[#27272A]">
+                  <div className="mt-4 pt-4 border-t border-[#E2E8F0]">
                     <SocialLinks
                       website={attraction.website}
                       facebook={attraction.facebook}
@@ -618,7 +618,7 @@ export default function AttractionDetail() {
         {/* Localisation & Directions — full width below grid */}
         {(attraction.latitude && attraction.longitude) && (
           <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="rounded-xl overflow-hidden border border-[#27272A]">
+            <div className="rounded-xl overflow-hidden border border-[#E2E8F0]">
               <DirectionsWidget
                 destinationLat={attraction.latitude}
                 destinationLng={attraction.longitude}
@@ -656,7 +656,7 @@ export default function AttractionDetail() {
         {similarAttractions.length > 0 && (
           <section className="mt-12">
             <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Continuer l&apos;exploration</p>
-            <h2 className="text-[22px] sm:text-[28px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-6">
+            <h2 className="text-[22px] sm:text-[28px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-6">
               Attractions similaires
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -670,7 +670,7 @@ export default function AttractionDetail() {
                   >
                     <Link
                       href={`/attractions/${a.slug}`}
-                      className="group block bg-[#111114] rounded-xl overflow-hidden border border-[#27272A] hover:border-[#3F3F46] transition-colors"
+                      className="group block bg-white rounded-xl overflow-hidden border border-[#E2E8F0] hover:border-[#CBD5E1] transition-colors"
                     >
                       <div
                         className="relative h-48 bg-cover bg-center"
@@ -678,8 +678,8 @@ export default function AttractionDetail() {
                           backgroundImage: `url(${getEstablishmentImage('ATTRACTION', a.city, a.name, a.coverImage)})`,
                         }}
                       >
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#111114] via-transparent to-transparent" />
-                        <div className="absolute top-3 left-3 flex items-center gap-1 px-2.5 py-1 bg-[#FF6B35]/10 backdrop-blur-md border border-[#FF6B35]/30 text-[#FF6B35] text-[11px] font-semibold uppercase tracking-[0.1em] rounded-md">
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                        <div className="absolute top-3 left-3 flex items-center gap-1 px-2.5 py-1 bg-[#FFF7ED] backdrop-blur-md border border-[#FF6B35]/30 text-[#FF6B35] text-[11px] font-semibold uppercase tracking-[0.1em] rounded-md">
                           <SimilarTypeIcon className="w-3 h-3" />
                           {typeLabels[a.attractionType]}
                         </div>
@@ -689,23 +689,23 @@ export default function AttractionDetail() {
                               Gratuit
                             </span>
                           ) : (
-                            <span className="px-2.5 py-1 bg-[#111114]/80 backdrop-blur-md text-[#FAFAFA] rounded-md text-[12px] font-mono font-semibold border border-[#27272A]">
+                            <span className="px-2.5 py-1 bg-white/80 backdrop-blur-md text-[#0F172A] rounded-md text-[12px] font-mono font-semibold border border-[#E2E8F0]">
                               {a.entryFeeLocal?.toLocaleString()} Ar
                             </span>
                           )}
                         </div>
                       </div>
                       <div className="p-4">
-                        <h3 className="font-semibold text-[#FAFAFA] text-[14px] group-hover:text-[#FF6B35] transition-colors">
+                        <h3 className="font-semibold text-[#0F172A] text-[14px] group-hover:text-[#FF6B35] transition-colors">
                           {a.name}
                         </h3>
-                        <p className="text-[12px] text-[#A1A1AA] flex items-center gap-1 mt-1">
+                        <p className="text-[12px] text-[#64748B] flex items-center gap-1 mt-1">
                           <MapPin className="w-3 h-3" />
                           {a.city}
                         </p>
                         <div className="flex items-center gap-1.5 mt-3">
                           <Star className="w-3.5 h-3.5 text-[#FF6B35] fill-[#FF6B35]" />
-                          <span className="font-mono text-[#FAFAFA] text-[13px]">{a.rating?.toFixed(1)}</span>
+                          <span className="font-mono text-[#0F172A] text-[13px]">{a.rating?.toFixed(1)}</span>
                         </div>
                       </div>
                     </Link>

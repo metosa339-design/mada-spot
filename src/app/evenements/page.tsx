@@ -160,20 +160,20 @@ export default function EvenementsPage() {
   }, [displayEvents, selectedDay, events]);
 
   return (
-    <div className="min-h-screen bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="min-h-screen bg-[#F8FAFC]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-lg bg-[#FF6B35]/10 border border-[#FF6B35]/25 flex items-center justify-center">
+            <div className="w-11 h-11 rounded-lg bg-[#FFF7ED] border border-[#FF6B35]/25 flex items-center justify-center">
               <Calendar className="w-5 h-5 text-[#FF6B35]" />
             </div>
             <div>
               <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-1">Agenda</p>
-              <h1 className="text-[24px] sm:text-[32px] font-semibold tracking-[-0.02em] text-[#FAFAFA]">
+              <h1 className="text-[24px] sm:text-[32px] font-semibold tracking-[-0.02em] text-[#0F172A]">
                 {t.heroTitle}
               </h1>
-              <p className="text-[#A1A1AA] text-[13px] mt-1">
+              <p className="text-[#64748B] text-[13px] mt-1">
                 {t.heroSubtitleAlt}
               </p>
             </div>
@@ -205,7 +205,7 @@ export default function EvenementsPage() {
         {loading && (
           <div className="flex flex-col items-center justify-center py-20 gap-3">
             <Loader2 className="w-8 h-8 text-[#FF6B35] animate-spin" />
-            <p className="text-[#A1A1AA] text-[13px]">{t.loadingEvents}</p>
+            <p className="text-[#64748B] text-[13px]">{t.loadingEvents}</p>
           </div>
         )}
 
@@ -230,29 +230,29 @@ export default function EvenementsPage() {
                 />
 
                 {/* Quick stats */}
-                <div className="bg-[#111114] rounded-xl border border-[#27272A] p-4">
+                <div className="bg-white rounded-xl border border-[#E2E8F0] p-4">
                   <div className="flex items-center gap-2 mb-3">
                     <Sparkles className="w-3.5 h-3.5 text-[#FF6B35]" />
                     <span className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#FF6B35]">{t.thisMonth}</span>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
-                    <div className="bg-[#1A1A1F] rounded-lg p-3 text-center border border-[#27272A]">
-                      <div className="text-[20px] font-semibold font-mono text-[#FAFAFA]">
+                    <div className="bg-white rounded-lg p-3 text-center border border-[#E2E8F0]">
+                      <div className="text-[20px] font-semibold font-mono text-[#0F172A]">
                         {events.length}
                       </div>
-                      <div className="text-[10px] uppercase tracking-[0.1em] text-[#A1A1AA] mt-1">{t.statEvents}</div>
+                      <div className="text-[10px] uppercase tracking-[0.1em] text-[#64748B] mt-1">{t.statEvents}</div>
                     </div>
-                    <div className="bg-[#1A1A1F] rounded-lg p-3 text-center border border-[#27272A]">
-                      <div className="text-[20px] font-semibold font-mono text-[#FAFAFA]">
+                    <div className="bg-white rounded-lg p-3 text-center border border-[#E2E8F0]">
+                      <div className="text-[20px] font-semibold font-mono text-[#0F172A]">
                         {events.filter((e) => e.badge).length}
                       </div>
-                      <div className="text-[10px] uppercase tracking-[0.1em] text-[#A1A1AA] mt-1">{t.statFeatured}</div>
+                      <div className="text-[10px] uppercase tracking-[0.1em] text-[#64748B] mt-1">{t.statFeatured}</div>
                     </div>
-                    <div className="bg-[#1A1A1F] rounded-lg p-3 text-center border border-[#27272A]">
-                      <div className="text-[20px] font-semibold font-mono text-[#FAFAFA]">
+                    <div className="bg-white rounded-lg p-3 text-center border border-[#E2E8F0]">
+                      <div className="text-[20px] font-semibold font-mono text-[#0F172A]">
                         {events.filter((e) => e.eventType === 'PROMOTION' || e.isPromotion).length}
                       </div>
-                      <div className="text-[10px] uppercase tracking-[0.1em] text-[#A1A1AA] mt-1">{t.statPromos}</div>
+                      <div className="text-[10px] uppercase tracking-[0.1em] text-[#64748B] mt-1">{t.statPromos}</div>
                     </div>
                   </div>
                 </div>
@@ -275,7 +275,7 @@ export default function EvenementsPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.3 }}
-                    className="text-[18px] font-semibold tracking-[-0.01em] text-[#FAFAFA]"
+                    className="text-[18px] font-semibold tracking-[-0.01em] text-[#0F172A]"
                   >
                     {selectedDay
                       ? format(selectedDay, "EEEE d MMMM yyyy", { locale: fr })
@@ -332,20 +332,20 @@ export default function EvenementsPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.4 }}
-                    className="text-center py-16 bg-[#111114] rounded-xl border border-[#27272A]"
+                    className="text-center py-16 bg-white rounded-xl border border-[#E2E8F0]"
                   >
                     <div>
-                      <div className="w-16 h-16 mx-auto mb-4 rounded-xl bg-[#FF6B35]/10 border border-[#FF6B35]/25 flex items-center justify-center">
+                      <div className="w-16 h-16 mx-auto mb-4 rounded-xl bg-[#FFF7ED] border border-[#FF6B35]/25 flex items-center justify-center">
                         <PartyPopper className="w-7 h-7 text-[#FF6B35]" />
                       </div>
 
-                      <p className="text-[#FAFAFA] font-semibold text-[16px] mb-2">
+                      <p className="text-[#0F172A] font-semibold text-[16px] mb-2">
                         {selectedDay
                           ? t.noEventThisDay
                           : t.noEventThisMonth}
                       </p>
 
-                      <p className="text-[#A1A1AA] text-[13px] max-w-md mx-auto mb-6 leading-relaxed">
+                      <p className="text-[#64748B] text-[13px] max-w-md mx-auto mb-6 leading-relaxed">
                         {selectedDay
                           ? t.noEventThisDayDesc
                           : t.noEventThisMonthDesc}
@@ -354,7 +354,7 @@ export default function EvenementsPage() {
                       {nextWeekendWithEvents && (
                         <button
                           onClick={() => handleDaySelect(nextWeekendWithEvents)}
-                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1A1A1F] border border-[#27272A] hover:border-[#3F3F46] rounded-lg text-[13px] font-medium text-[#FAFAFA] transition-colors group"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-lg text-[13px] font-medium text-[#0F172A] transition-colors group"
                         >
                           <Rocket className="w-3.5 h-3.5 text-[#FF6B35]" />
                           {t.seeDay} {format(nextWeekendWithEvents, 'EEEE d MMMM', { locale: fr })}
@@ -365,7 +365,7 @@ export default function EvenementsPage() {
                       {!nextWeekendWithEvents && selectedDay && (
                         <button
                           onClick={() => handleDaySelect(null)}
-                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1A1A1F] border border-[#27272A] hover:border-[#3F3F46] rounded-lg text-[13px] font-medium text-[#FAFAFA] transition-colors group"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-lg text-[13px] font-medium text-[#0F172A] transition-colors group"
                         >
                           <Calendar className="w-3.5 h-3.5 text-[#FF6B35]" />
                           {t.seeAllMonthEvents}

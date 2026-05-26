@@ -15,7 +15,7 @@ export default function ClientLayout({
   return (
     <>
       <Header />
-      <main id="main-content" className="min-h-screen bg-[#0a0a0f]">
+      <main id="main-content" className="min-h-screen bg-[#F8FAFC]">
         {children}
       </main>
       <Footer />

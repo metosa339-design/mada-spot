@@ -106,7 +106,7 @@ function DarkAccordion({ t }: { t: HelpTrans }) {
           <motion.div key={section.titleKey} variants={slideUp} custom={sIdx + 3} initial="hidden" animate="visible">
             <div className="flex items-center gap-2 mb-4">
               <SectionIcon className="w-4 h-4 text-[#FF6B35]" />
-              <h2 className="text-[16px] font-semibold tracking-[-0.01em] text-[#FAFAFA]">{t[section.titleKey]}</h2>
+              <h2 className="text-[16px] font-semibold tracking-[-0.01em] text-[#0F172A]">{t[section.titleKey]}</h2>
             </div>
             <div className="space-y-2.5">
               {section.items.map((item, iIdx) => {
@@ -115,19 +115,19 @@ function DarkAccordion({ t }: { t: HelpTrans }) {
                 return (
                   <div
                     key={key}
-                    className="bg-[#111114] rounded-xl border border-[#27272A] hover:border-[#3F3F46] transition-colors overflow-hidden"
+                    className="bg-white rounded-xl border border-[#E2E8F0] hover:border-[#CBD5E1] transition-colors overflow-hidden"
                   >
                     <button
                       onClick={() => toggle(key)}
-                      className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-[#1A1A1F] transition-colors"
+                      className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-white transition-colors"
                     >
-                      <span className="font-medium text-[#FAFAFA] text-[14px] pr-4">{t[item.questionKey]}</span>
+                      <span className="font-medium text-[#0F172A] text-[14px] pr-4">{t[item.questionKey]}</span>
                       <ChevronDown
-                        className={`w-4 h-4 text-[#A1A1AA] flex-shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                        className={`w-4 h-4 text-[#64748B] flex-shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
                       />
                     </button>
                     {isOpen && (
-                      <div className="px-5 pb-5 text-[#D4D4D8] text-[13px] leading-relaxed border-t border-[#27272A] pt-4">
+                      <div className="px-5 pb-5 text-[#334155] text-[13px] leading-relaxed border-t border-[#E2E8F0] pt-4">
                         {t[item.answerKey]}
                       </div>
                     )}
@@ -146,25 +146,24 @@ export default function AidePage() {
   const t = useTrans('helpPage')
 
   return (
-    <div className="min-h-screen bg-[#0A0A0F] text-[#FAFAFA]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-12">
 
         {/* Header */}
         <motion.div variants={slideUp} custom={0} initial="hidden" animate="visible" className="mb-8">
-          <Link href="/client" className="inline-flex items-center gap-1.5 text-[#A1A1AA] hover:text-[#FAFAFA] text-[13px] mb-4 transition-colors">
+          <Link href="/client" className="inline-flex items-center gap-1.5 text-[#64748B] hover:text-[#0F172A] text-[13px] mb-4 transition-colors">
             <ArrowLeft className="w-3.5 h-3.5" /> {t.backToClient}
           </Link>
 
-          <div className="relative overflow-hidden rounded-xl border border-[#27272A] bg-[#111114] p-8">
-            <div className="absolute -top-32 -right-20 w-[300px] h-[300px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.08] pointer-events-none" />
+          <div className="relative overflow-hidden rounded-xl border border-[#E2E8F0] bg-white p-8">
             <div className="relative">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-11 h-11 bg-[#FF6B35]/10 border border-[#FF6B35]/25 rounded-lg flex items-center justify-center">
+                <div className="w-11 h-11 bg-[#FFF7ED] border border-[#FF6B35]/25 rounded-lg flex items-center justify-center">
                   <HelpCircle className="w-5 h-5 text-[#FF6B35]" />
                 </div>
                 <div>
-                  <h1 className="text-[24px] sm:text-[28px] font-semibold tracking-[-0.02em] text-[#FAFAFA]">{t.title}</h1>
-                  <p className="text-[#A1A1AA] text-[13px] mt-0.5">{t.subtitle}</p>
+                  <h1 className="text-[24px] sm:text-[28px] font-semibold tracking-[-0.02em] text-[#0F172A]">{t.title}</h1>
+                  <p className="text-[#64748B] text-[13px] mt-0.5">{t.subtitle}</p>
                 </div>
               </div>
             </div>
@@ -182,12 +181,12 @@ export default function AidePage() {
                   <motion.div
                     whileHover={{ y: -2 }}
                     transition={{ duration: 0.2 }}
-                    className="bg-[#111114] border border-[#27272A] rounded-xl p-3 flex flex-col items-center gap-2 hover:border-[#3F3F46] transition-colors text-center"
+                    className="bg-white border border-[#E2E8F0] rounded-xl p-3 flex flex-col items-center gap-2 hover:border-[#CBD5E1] transition-colors text-center"
                   >
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-[#FF6B35]/10 border border-[#FF6B35]/20">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-[#FFF7ED] border border-[#FF6B35]/20">
                       <Icon className="w-3.5 h-3.5 text-[#FF6B35]" />
                     </div>
-                    <span className="text-[11px] text-[#D4D4D8]">{t[link.labelKey]}</span>
+                    <span className="text-[11px] text-[#334155]">{t[link.labelKey]}</span>
                   </motion.div>
                 </Link>
               )
@@ -203,11 +202,10 @@ export default function AidePage() {
 
         {/* Contact CTA */}
         <motion.div variants={slideUp} custom={10} initial="hidden" animate="visible" className="mt-12">
-          <div className="relative bg-[#111114] border border-[#27272A] rounded-xl p-8 text-center overflow-hidden">
-            <div className="absolute -top-24 -right-24 w-[300px] h-[300px] bg-[#FF6B35] rounded-full blur-[100px] opacity-[0.10] pointer-events-none" />
+          <div className="relative bg-white border border-[#E2E8F0] rounded-xl p-8 text-center overflow-hidden">
             <div className="relative">
-              <h2 className="text-[20px] sm:text-[24px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-2">{t.needMore}</h2>
-              <p className="text-[#A1A1AA] text-[13px] mb-6 leading-relaxed">
+              <h2 className="text-[20px] sm:text-[24px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-2">{t.needMore}</h2>
+              <p className="text-[#64748B] text-[13px] mb-6 leading-relaxed">
                 {t.needMoreDesc}
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -220,7 +218,7 @@ export default function AidePage() {
                 </Link>
                 <a
                   href="tel:+261340000000"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#1A1A1F] border border-[#27272A] hover:border-[#3F3F46] text-[#FAFAFA] rounded-lg text-[14px] font-medium transition-colors"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] text-[#0F172A] rounded-lg text-[14px] font-medium transition-colors"
                 >
                   <Phone className="w-4 h-4" />
                   <span className="font-mono">+261 34 00 000 00</span>

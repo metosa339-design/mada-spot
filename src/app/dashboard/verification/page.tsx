@@ -87,9 +87,9 @@ export default function VerificationPage() {
   if (loading) {
     return (
       <div className="space-y-6 max-w-3xl">
-        <div className="h-8 w-48 bg-[#1A1A1F] rounded animate-pulse" />
+        <div className="h-8 w-48 bg-white rounded animate-pulse" />
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="h-20 bg-[#111114] rounded-2xl animate-pulse" />
+          <div key={i} className="h-20 bg-white rounded-2xl animate-pulse" />
         ))}
       </div>
     )
@@ -99,8 +99,8 @@ export default function VerificationPage() {
     <div className="space-y-8 max-w-3xl">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-[#FAFAFA]">{t.title}</h1>
-        <p className="text-[#71717A] text-sm mt-1">
+        <h1 className="text-2xl font-bold text-[#0F172A]">{t.title}</h1>
+        <p className="text-[#94A3B8] text-sm mt-1">
           {t.subtitle}
         </p>
       </div>
@@ -112,12 +112,12 @@ export default function VerificationPage() {
         className={`p-6 rounded-2xl border ${
           isFullyVerified
             ? 'bg-emerald-500/10 border-emerald-500/30'
-            : 'bg-[#111114] border-[#27272A]'
+            : 'bg-white border-[#E2E8F0]'
         }`}
       >
         <div className="flex items-center gap-4">
           <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${
-            isFullyVerified ? 'bg-emerald-500/20' : 'bg-[#FF6B35]/10'
+            isFullyVerified ? 'bg-emerald-500/20' : 'bg-[#FFF7ED]'
           }`}>
             {isFullyVerified ? (
               <BadgeCheck className="w-7 h-7 text-emerald-400" />
@@ -126,10 +126,10 @@ export default function VerificationPage() {
             )}
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-[#FAFAFA]">
+            <h2 className="text-lg font-semibold text-[#0F172A]">
               {isFullyVerified ? t.verifiedTitle : t.inProgressTitle}
             </h2>
-            <p className="text-sm text-[#71717A]">
+            <p className="text-sm text-[#94A3B8]">
               {verifiedCount}/{totalRequired} {t.docsVerifiedSuffix}
               {isFullyVerified && ` ${t.verifiedNote}`}
             </p>
@@ -137,7 +137,7 @@ export default function VerificationPage() {
         </div>
 
         {/* Progress bar */}
-        <div className="mt-4 h-2 bg-[#1A1A1F] rounded-full overflow-hidden">
+        <div className="mt-4 h-2 bg-white rounded-full overflow-hidden">
           <div
             className={`h-full rounded-full transition-all duration-500 ${
               isFullyVerified ? 'bg-emerald-500' : 'bg-[#FF6B35]'
@@ -148,8 +148,8 @@ export default function VerificationPage() {
       </motion.div>
 
       {/* Why verify */}
-      <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-5">
-        <h3 className="text-sm font-medium text-[#FAFAFA] mb-3">{t.whyVerify}</h3>
+      <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5">
+        <h3 className="text-sm font-medium text-[#0F172A] mb-3">{t.whyVerify}</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {[
             { icon: BadgeCheck, textKey: 'benefit1', color: '#10b981' },
@@ -158,9 +158,9 @@ export default function VerificationPage() {
           ].map((item, i) => {
             const Icon = item.icon
             return (
-              <div key={i} className="flex items-start gap-2 p-3 bg-[#1A1A1F] rounded-xl">
+              <div key={i} className="flex items-start gap-2 p-3 bg-white rounded-xl">
                 <Icon className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: item.color }} />
-                <span className="text-xs text-[#52525B]">{t[item.textKey]}</span>
+                <span className="text-xs text-[#CBD5E1]">{t[item.textKey]}</span>
               </div>
             )
           })}
@@ -169,7 +169,7 @@ export default function VerificationPage() {
 
       {/* Documents List */}
       <div className="space-y-3">
-        <h2 className="text-sm font-medium text-[#71717A]">{t.requiredDocs}</h2>
+        <h2 className="text-sm font-medium text-[#94A3B8]">{t.requiredDocs}</h2>
         {DOC_TYPES.map((docType) => {
           const doc = getDocStatus(docType.id)
           const isUploading = uploading === docType.id
@@ -177,23 +177,23 @@ export default function VerificationPage() {
           return (
             <div
               key={docType.id}
-              className="flex items-center gap-4 p-4 bg-[#111114] border border-[#27272A] rounded-xl"
+              className="flex items-center gap-4 p-4 bg-white border border-[#E2E8F0] rounded-xl"
             >
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
                 doc?.status === 'VERIFIED' ? 'bg-emerald-500/10' :
                 doc?.status === 'PENDING' ? 'bg-yellow-500/10' :
                 doc?.status === 'REJECTED' ? 'bg-red-500/10' :
-                'bg-[#1A1A1F]'
+                'bg-white'
               }`}>
                 {doc?.status === 'VERIFIED' ? <CheckCircle className="w-5 h-5 text-emerald-400" /> :
                  doc?.status === 'PENDING' ? <Clock className="w-5 h-5 text-yellow-400" /> :
                  doc?.status === 'REJECTED' ? <XCircle className="w-5 h-5 text-red-400" /> :
-                 <FileText className="w-5 h-5 text-[#71717A]" />}
+                 <FileText className="w-5 h-5 text-[#94A3B8]" />}
               </div>
 
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-[#FAFAFA]">{t[docType.labelKey]}</p>
-                <p className="text-xs text-[#71717A]">{t[docType.descKey]}</p>
+                <p className="text-sm font-medium text-[#0F172A]">{t[docType.labelKey]}</p>
+                <p className="text-xs text-[#94A3B8]">{t[docType.descKey]}</p>
                 {doc?.status === 'REJECTED' && doc.note && (
                   <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
                     <AlertTriangle className="w-3 h-3" />
@@ -213,7 +213,7 @@ export default function VerificationPage() {
                   </span>
                 ) : (
                   <label className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium cursor-pointer transition-colors ${
-                    isUploading ? 'bg-[#1A1A1F] text-[#71717A]' : 'bg-[#FF6B35]/10 text-[#FF6B35] hover:bg-[#FF6B35]/20'
+                    isUploading ? 'bg-white text-[#94A3B8]' : 'bg-[#FFF7ED] text-[#FF6B35] hover:bg-[#FFEDD5]'
                   }`}>
                     {isUploading ? (
                       <div className="w-4 h-4 border-2 border-[#FF6B35]/30 border-t-[#ff6b35] rounded-full animate-spin" />

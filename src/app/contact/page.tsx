@@ -113,11 +113,11 @@ export default function ContactPage() {
 
   if (sent) {
     return (
-      <div className="min-h-screen bg-[#0A0A0F] flex items-center justify-center px-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center px-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         <div className="text-center max-w-md">
           <CheckCircle className="w-14 h-14 text-emerald-500 mx-auto mb-4" />
-          <h2 className="text-[24px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-2">{t.sentTitle}</h2>
-          <p className="text-[#A1A1AA] text-[14px] mb-6 leading-relaxed">{t.sentDesc}</p>
+          <h2 className="text-[24px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-2">{t.sentTitle}</h2>
+          <p className="text-[#64748B] text-[14px] mb-6 leading-relaxed">{t.sentDesc}</p>
           <Link
             href="/"
             className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#FF6B35] hover:bg-[#F97316] text-white rounded-lg text-[14px] font-medium transition-all shadow-[0_8px_30px_rgba(255,107,53,0.25)]"
@@ -130,22 +130,21 @@ export default function ContactPage() {
   }
 
   const inputClasses = (hasError: boolean) =>
-    `w-full bg-[#1A1A1F] border rounded-lg px-3.5 py-2.5 text-[14px] text-[#FAFAFA] placeholder-[#71717A] focus:outline-none transition-colors ${
-      hasError ? 'border-red-500/50 focus:border-red-500' : 'border-[#27272A] focus:border-[#FF6B35]/40'
+    `w-full bg-white border rounded-lg px-3.5 py-2.5 text-[14px] text-[#0F172A] placeholder-[#94A3B8] focus:outline-none transition-colors ${
+      hasError ? 'border-red-500/50 focus:border-red-500' : 'border-[#E2E8F0] focus:border-[#FF6B35]/40'
     }`;
 
   return (
-    <div className="min-h-screen bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="min-h-screen bg-[#F8FAFC]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       {/* Header */}
-      <div className="relative bg-[#0A0A0F] pt-28 pb-10 overflow-hidden">
-        <div className="absolute -top-32 -left-20 w-[400px] h-[400px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.10] pointer-events-none" />
+      <div className="relative bg-[#F8FAFC] pt-28 pb-10 overflow-hidden">
         <div className="relative max-w-4xl mx-auto px-4">
-          <Link href="/" className="inline-flex items-center gap-1.5 text-[#A1A1AA] hover:text-[#FAFAFA] text-[13px] mb-4 transition-colors">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-[#64748B] hover:text-[#0F172A] text-[13px] mb-4 transition-colors">
             <ArrowLeft className="w-3.5 h-3.5" /> {t.backHome}
           </Link>
           <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Nous contacter</p>
-          <h1 className="text-[32px] sm:text-[40px] font-semibold tracking-[-0.03em] text-[#FAFAFA]">{t.title}</h1>
-          <p className="mt-2 text-[#A1A1AA] text-[15px] leading-relaxed max-w-2xl">{t.subtitle}</p>
+          <h1 className="text-[32px] sm:text-[40px] font-semibold tracking-[-0.03em] text-[#0F172A]">{t.title}</h1>
+          <p className="mt-2 text-[#64748B] text-[15px] leading-relaxed max-w-2xl">{t.subtitle}</p>
         </div>
       </div>
 
@@ -153,15 +152,15 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Contact Info */}
           <div className="space-y-3">
-            <div className="bg-[#111114] rounded-xl border border-[#27272A] p-5">
+            <div className="bg-white rounded-xl border border-[#E2E8F0] p-5">
               <Mail className="w-5 h-5 text-[#FF6B35] mb-3" />
-              <h3 className="font-semibold text-[#FAFAFA] text-[13px]">{t.email}</h3>
-              <p className="text-[12px] font-mono text-[#A1A1AA] mt-1">support@madaspot.com</p>
+              <h3 className="font-semibold text-[#0F172A] text-[13px]">{t.email}</h3>
+              <p className="text-[12px] font-mono text-[#64748B] mt-1">support@madaspot.com</p>
             </div>
-            <div className="bg-[#111114] rounded-xl border border-[#27272A] p-5">
+            <div className="bg-white rounded-xl border border-[#E2E8F0] p-5">
               <Phone className="w-5 h-5 text-[#FF6B35] mb-3" />
-              <h3 className="font-semibold text-[#FAFAFA] text-[13px]">{t.phoneWa}</h3>
-              <a href="tel:+261341688296" className="block text-[12px] font-mono text-[#D4D4D8] mt-1 hover:text-[#FF6B35] transition-colors">
+              <h3 className="font-semibold text-[#0F172A] text-[13px]">{t.phoneWa}</h3>
+              <a href="tel:+261341688296" className="block text-[12px] font-mono text-[#334155] mt-1 hover:text-[#FF6B35] transition-colors">
                 +261 34 16 88 296
               </a>
               <a
@@ -173,19 +172,19 @@ export default function ContactPage() {
                 {t.chatWa}
               </a>
             </div>
-            <div className="bg-[#111114] rounded-xl border border-[#27272A] p-5">
+            <div className="bg-white rounded-xl border border-[#E2E8F0] p-5">
               <MapPin className="w-5 h-5 text-[#FF6B35] mb-3" />
-              <h3 className="font-semibold text-[#FAFAFA] text-[13px]">{t.address}</h3>
-              <p className="text-[12px] text-[#A1A1AA] mt-1">{t.addressValue}</p>
+              <h3 className="font-semibold text-[#0F172A] text-[13px]">{t.address}</h3>
+              <p className="text-[12px] text-[#64748B] mt-1">{t.addressValue}</p>
             </div>
           </div>
 
           {/* Form */}
           <div className="md:col-span-2">
-            <form onSubmit={handleSubmit} className="bg-[#111114] rounded-xl border border-[#27272A] p-6 space-y-4">
+            <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-[#E2E8F0] p-6 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA] mb-1.5 block">{t.fullName}</label>
+                  <label className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#64748B] mb-1.5 block">{t.fullName}</label>
                   <input
                     type="text"
                     required
@@ -200,7 +199,7 @@ export default function ContactPage() {
                   {touched.name && fieldErrors.name && <p className="text-[11px] text-red-400 mt-1">{fieldErrors.name}</p>}
                 </div>
                 <div>
-                  <label className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA] mb-1.5 block">{t.emailLabel}</label>
+                  <label className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#64748B] mb-1.5 block">{t.emailLabel}</label>
                   <input
                     type="email"
                     required
@@ -216,7 +215,7 @@ export default function ContactPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA] mb-1.5 block">{t.phoneLabel}</label>
+                  <label className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#64748B] mb-1.5 block">{t.phoneLabel}</label>
                   <PhoneInput
                     value={form.phone}
                     onChange={(val) => handleChange('phone', val)}
@@ -226,7 +225,7 @@ export default function ContactPage() {
                   {touched.phone && fieldErrors.phone && <p className="text-[11px] text-red-400 mt-1">{fieldErrors.phone}</p>}
                 </div>
                 <div>
-                  <label className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA] mb-1.5 block">{t.subjectLabel}</label>
+                  <label className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#64748B] mb-1.5 block">{t.subjectLabel}</label>
                   <select
                     required
                     value={form.subject}
@@ -242,7 +241,7 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <label className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA] mb-1.5 block">{t.messageLabel}</label>
+                <label className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#64748B] mb-1.5 block">{t.messageLabel}</label>
                 <textarea
                   required
                   rows={5}
@@ -256,7 +255,7 @@ export default function ContactPage() {
                 />
                 <div className="flex justify-between mt-1.5">
                   {touched.message && fieldErrors.message ? <p className="text-[11px] text-red-400">{fieldErrors.message}</p> : <span />}
-                  <span className="text-[11px] font-mono text-[#71717A]">{form.message.length}/5000</span>
+                  <span className="text-[11px] font-mono text-[#94A3B8]">{form.message.length}/5000</span>
                 </div>
               </div>
 

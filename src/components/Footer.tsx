@@ -1,19 +1,20 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { useToast } from '@/contexts/ToastContext';
 import { useTrans } from '@/i18n';
 import {
-  Zap,
   Facebook,
   Twitter,
   Instagram,
   Youtube,
   Mail,
   MapPin,
-  Heart,
   Loader2,
   CheckCircle,
+  ArrowRight,
 } from 'lucide-react';
 
 export default function Footer() {
@@ -57,18 +58,19 @@ export default function Footer() {
   };
 
   return (
-    <footer role="contentinfo" className="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-white">
-      {/* Newsletter Section */}
-      <div className="border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 py-12">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+    <footer role="contentinfo" className="bg-[#0A0A0F] border-t border-[#27272A] text-[#D4D4D8]">
+      {/* Newsletter compact */}
+      <div className="border-b border-[#27272A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
             <div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-2">
+              <h3
+                className="text-[18px] sm:text-[20px] font-semibold text-[#FAFAFA] tracking-[-0.01em]"
+                style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
+              >
                 {t.newsletterTitle}
               </h3>
-              <p className="text-gray-400">
-                {t.newsletterDesc}
-              </p>
+              <p className="text-[13px] text-[#A1A1AA] mt-1">{t.newsletterDesc}</p>
             </div>
             <div className="w-full lg:w-auto">
               <div className="flex gap-2">
@@ -80,20 +82,22 @@ export default function Footer() {
                   onChange={(e) => setNlEmail(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleNewsletter()}
                   disabled={nlLoading}
-                  className="flex-1 lg:w-80 px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-gray-400 focus:outline-none focus:border-[#ff6b35] disabled:opacity-50"
+                  className="flex-1 lg:w-80 px-3.5 py-2.5 rounded-lg bg-[#111114] border border-[#27272A] text-[14px] text-[#FAFAFA] placeholder:text-[#71717A] outline-none focus:border-[#FF6B35]/40 disabled:opacity-50 transition-colors"
                 />
                 <button
                   onClick={handleNewsletter}
                   disabled={nlLoading}
-                  className="btn-primary whitespace-nowrap disabled:opacity-50 flex items-center gap-2"
+                  className="px-4 py-2.5 rounded-lg bg-[#FF6B35] hover:bg-[#F97316] text-white text-[13px] font-medium whitespace-nowrap disabled:opacity-50 flex items-center gap-2 shadow-[0_8px_30px_rgba(255,107,53,0.25)] transition-colors"
                 >
-                  {nlLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                  {nlLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null}
                   {t.subscribe}
                 </button>
               </div>
               {nlMessage && (
-                <p className={`mt-2 text-sm flex items-center gap-1 ${nlError ? 'text-red-400' : 'text-green-400'}`}>
-                  {!nlError && <CheckCircle className="w-4 h-4" />}
+                <p
+                  className={`mt-2 text-[12px] flex items-center gap-1 ${nlError ? 'text-[#EF4444]' : 'text-[#10B981]'}`}
+                >
+                  {!nlError && <CheckCircle className="w-3.5 h-3.5" />}
                   {nlMessage}
                 </p>
               )}
@@ -102,86 +106,146 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Main Footer */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Brand */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center">
-                <Zap className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h4 className="text-lg font-bold">Mada Spot</h4>
-                <p className="text-xs text-gray-400">{t.brandDesc}</p>
-              </div>
-            </div>
-            <p className="text-sm text-gray-400 mb-4">
-              {t.brandDesc}
-            </p>
-            <div className="flex gap-3">
-              <a href="https://facebook.com/madaspot" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2 rounded-lg bg-white/10 hover:bg-[#ff6b35] transition-colors">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="https://twitter.com/madaspot" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="p-2 rounded-lg bg-white/10 hover:bg-[#ff6b35] transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="https://instagram.com/madaspot" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 rounded-lg bg-white/10 hover:bg-[#ff6b35] transition-colors">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="https://youtube.com/@madaspot" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="p-2 rounded-lg bg-white/10 hover:bg-[#ff6b35] transition-colors">
-                <Youtube className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
-
+      {/* Colonnes */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Explorer */}
           <div>
-            <h4 className="font-semibold mb-4 text-[#ff6b35]">{t.explore}</h4>
-            <ul className="space-y-2">
-              <li><a href="/hotels" className="text-sm text-gray-400 hover:text-white transition-colors">{t.hotels}</a></li>
-              <li><a href="/restaurants" className="text-sm text-gray-400 hover:text-white transition-colors">{t.restaurants}</a></li>
-              <li><a href="/attractions" className="text-sm text-gray-400 hover:text-white transition-colors">{t.attractions}</a></li>
-              <li><a href="/carte" className="text-sm text-gray-400 hover:text-white transition-colors">{t.interactiveMap}</a></li>
-              <li><a href="/blog" className="text-sm text-gray-400 hover:text-white transition-colors">Blog</a></li>
-              <li><a href="/inscrire-etablissement" className="text-sm text-orange-400 hover:text-orange-300 font-medium transition-colors">{t.registerEstablishment}</a></li>
-              <li><a href="/comment-ca-marche" className="text-sm text-gray-400 hover:text-white transition-colors">{t.howItWorks}</a></li>
-              <li><a href="/a-propos" className="text-sm text-gray-400 hover:text-white transition-colors">{t.about}</a></li>
-              <li><a href="/faq" className="text-sm text-gray-400 hover:text-white transition-colors">{t.faq}</a></li>
+            <h4 className="text-[11px] uppercase tracking-[0.1em] text-[#71717A] font-semibold mb-4">
+              {t.explore}
+            </h4>
+            <ul className="space-y-2.5">
+              <li>
+                <Link href="/hotels" className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors">
+                  {t.hotels}
+                </Link>
+              </li>
+              <li>
+                <Link href="/restaurants" className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors">
+                  {t.restaurants}
+                </Link>
+              </li>
+              <li>
+                <Link href="/attractions" className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors">
+                  {t.attractions}
+                </Link>
+              </li>
+              <li>
+                <Link href="/carte" className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors">
+                  {t.interactiveMap}
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors">
+                  Blog
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Pros */}
+          <div>
+            <h4 className="text-[11px] uppercase tracking-[0.1em] text-[#71717A] font-semibold mb-4">
+              {t.contact /* fallback label slot */}
+            </h4>
+            <ul className="space-y-2.5">
+              <li>
+                <Link
+                  href="/inscrire-etablissement"
+                  className="group inline-flex items-center gap-1.5 text-[13px] text-[#FDBA74] hover:text-[#FF6B35] font-medium transition-colors"
+                >
+                  {t.registerEstablishment}
+                  <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/comment-ca-marche"
+                  className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors"
+                >
+                  {t.howItWorks}
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors">
+                  {t.faq}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/a-propos"
+                  className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors"
+                >
+                  {t.about}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Légal */}
+          <div>
+            <h4 className="text-[11px] uppercase tracking-[0.1em] text-[#71717A] font-semibold mb-4">
+              {t.legalNotice}
+            </h4>
+            <ul className="space-y-2.5">
+              <li>
+                <Link
+                  href="/mentions-legales"
+                  className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors"
+                >
+                  {t.legalNotice}
+                </Link>
+              </li>
+              <li>
+                <Link href="/cgu" className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors">
+                  {t.terms}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/politique-confidentialite"
+                  className="text-[13px] text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors"
+                >
+                  {t.privacy}
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="font-semibold mb-4 text-[#ff6b35]">{t.contact}</h4>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-3 text-sm text-gray-400">
-                <MapPin className="w-5 h-5 text-[#ff6b35]" />
-                <span>Ampandrana, Antananarivo 101 Madagascar</span>
+            <h4 className="text-[11px] uppercase tracking-[0.1em] text-[#71717A] font-semibold mb-4">
+              {t.contact}
+            </h4>
+            <ul className="space-y-3 mb-5">
+              <li className="flex items-start gap-2.5 text-[13px] text-[#A1A1AA]">
+                <MapPin className="w-4 h-4 text-[#71717A] shrink-0 mt-0.5" />
+                <span>Ampandrana, Antananarivo 101, Madagascar</span>
               </li>
-              <li className="flex items-center gap-3 text-sm text-gray-400">
-                <Mail className="w-5 h-5 text-[#ff6b35]" />
-                <a href="mailto:contact@madaspot.com" className="hover:text-white transition-colors">
+              <li className="flex items-center gap-2.5 text-[13px] text-[#A1A1AA]">
+                <Mail className="w-4 h-4 text-[#71717A] shrink-0" />
+                <a href="mailto:contact@madaspot.com" className="hover:text-[#FAFAFA] transition-colors">
                   contact@madaspot.com
                 </a>
               </li>
             </ul>
 
-            {/* Download App */}
-            <div className="mt-6">
-              <p className="text-sm text-gray-400 mb-2">{t.downloadApp}</p>
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.1em] text-[#71717A] font-semibold mb-2.5">
+                {t.downloadApp}
+              </p>
               <div className="flex gap-2">
                 <button
                   onClick={() => toastInfo(t.comingSoon)}
                   aria-label="App Store"
-                  className="px-4 py-2 bg-white/10 rounded-lg text-xs hover:bg-white/20 transition-colors"
+                  className="px-3 py-1.5 bg-[#111114] border border-[#27272A] rounded-md text-[11px] text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-colors"
                 >
                   App Store
                 </button>
                 <button
                   onClick={() => toastInfo(t.comingSoon)}
                   aria-label="Play Store"
-                  className="px-4 py-2 bg-white/10 rounded-lg text-xs hover:bg-white/20 transition-colors"
+                  className="px-3 py-1.5 bg-[#111114] border border-[#27272A] rounded-md text-[11px] text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-colors"
                 >
                   Play Store
                 </button>
@@ -191,28 +255,61 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-400">
-            <div className="flex items-center gap-1">
-              <span>© {currentYear} madaspot.com</span>
-              <span>•</span>
-              <span>{t.madeWith}</span>
-              <Heart className="w-4 h-4 text-red-500 fill-current" />
-              <span>{t.inMadagascar}</span>
+      {/* Bottom */}
+      <div className="border-t border-[#27272A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <Image src="/logo.png" alt="Mada Spot" width={28} height={28} className="w-7 h-7 object-contain" />
+              <div>
+                <p
+                  className="text-[13px] font-semibold text-[#FAFAFA]"
+                  style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
+                >
+                  Mada<span className="text-[#FF6B35]">Spot</span>
+                </p>
+                <p className="text-[11px] text-[#71717A]">© {currentYear} · {t.allRights}</p>
+              </div>
             </div>
-            <div className="flex flex-wrap items-center gap-4">
-              <a href="/mentions-legales" className="hover:text-white transition-colors">{t.legalNotice}</a>
-              <a href="/cgu" className="hover:text-white transition-colors">{t.terms}</a>
-              <a href="/politique-confidentialite" className="hover:text-white transition-colors">{t.privacy}</a>
-              <a href="/contact" className="hover:text-white transition-colors">{t.contact}</a>
-            </div>
-          </div>
 
-          {/* Mentions légales */}
-          <div className="mt-4 p-3 bg-white/5 rounded-lg text-xs text-gray-500 text-center">
-            {t.allRights}
+            <div className="flex items-center gap-2">
+              <a
+                href="https://facebook.com/madaspot"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="w-8 h-8 rounded-md bg-[#111114] border border-[#27272A] flex items-center justify-center text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-colors"
+              >
+                <Facebook className="w-4 h-4" />
+              </a>
+              <a
+                href="https://twitter.com/madaspot"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+                className="w-8 h-8 rounded-md bg-[#111114] border border-[#27272A] flex items-center justify-center text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-colors"
+              >
+                <Twitter className="w-4 h-4" />
+              </a>
+              <a
+                href="https://instagram.com/madaspot"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="w-8 h-8 rounded-md bg-[#111114] border border-[#27272A] flex items-center justify-center text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-colors"
+              >
+                <Instagram className="w-4 h-4" />
+              </a>
+              <a
+                href="https://youtube.com/@madaspot"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+                className="w-8 h-8 rounded-md bg-[#111114] border border-[#27272A] flex items-center justify-center text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46] transition-colors"
+              >
+                <Youtube className="w-4 h-4" />
+              </a>
+            </div>
           </div>
         </div>
       </div>

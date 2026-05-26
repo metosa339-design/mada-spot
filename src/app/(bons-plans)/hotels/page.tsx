@@ -171,17 +171,17 @@ function HotelsPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0f]">
 
-      {/* Header épuré */}
-      <section className="bg-[#FDFBF7] border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      {/* Header dark premium */}
+      <section className="bg-[#0A0A0F] border-b border-[#27272A]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
             {/* Left: Title */}
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex-shrink-0">
-              <h1 className="text-xl sm:text-2xl font-bold text-[#2D241E] flex items-center gap-2">
-                <Building2 className="w-6 h-6 sm:w-7 sm:h-7 text-[#D97706] flex-shrink-0" />
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="flex-shrink-0">
+              <h1 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] flex items-center gap-2.5" style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}>
+                <Building2 className="w-6 h-6 sm:w-7 sm:h-7 text-[#FF6B35] flex-shrink-0" />
                 {t.hotelsTitle}
               </h1>
-              <p className="text-[#8B7E6E] text-xs sm:text-sm mt-1">
+              <p className="text-[#A1A1AA] text-[13px] sm:text-[14px] mt-1.5">
                 {t.hotelsSubtitle}
               </p>
             </motion.div>
@@ -192,25 +192,25 @@ function HotelsPage() {
                 { src: '/images/highlights/nosy-be-photo-365.jpg', alt: 'Nosy Be Madagascar' },
                 { src: '/images/highlights/plage-ramena-et-les-pirogues-444.jpg', alt: 'Plage Ramena Madagascar' },
               ]}
-              className="hidden lg:block w-44 h-28 rounded-xl shadow-md border border-gray-200 flex-shrink-0"
+              className="hidden lg:block w-44 h-28 rounded-xl border border-[#27272A] flex-shrink-0 overflow-hidden"
             />
 
             {/* Right: Search bar */}
             <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0 lg:max-w-lg w-full lg:w-auto">
-              <div className="flex-1 flex items-center gap-2 px-3 bg-white rounded-xl shadow-md border border-gray-100">
-                <Search className="w-4 h-4 text-gray-400" />
+              <div className="flex-1 flex items-center gap-2 px-3 bg-[#111114] rounded-lg border border-[#27272A] focus-within:border-[#3F3F46] transition-colors">
+                <Search className="w-4 h-4 text-[#71717A]" />
                 <input
                   type="text"
                   placeholder={t.searchHotelPlaceholder}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 py-2.5 bg-transparent outline-none text-[#2D241E] text-sm placeholder:text-gray-400"
+                  className="flex-1 py-2.5 bg-transparent outline-none text-[#FAFAFA] text-[13px] placeholder:text-[#71717A]"
                 />
               </div>
               <select
                 value={selectedCity}
                 onChange={(e) => setSelectedCity(e.target.value)}
-                className="px-3 py-2.5 bg-white rounded-xl text-sm text-[#2D241E] outline-none cursor-pointer shadow-md border border-gray-100"
+                className="px-3 py-2.5 bg-[#111114] rounded-lg text-[13px] text-[#FAFAFA] outline-none cursor-pointer border border-[#27272A] hover:border-[#3F3F46] transition-colors"
               >
                 <option value="">{t.allCities}</option>
                 {MADAGASCAR_CITIES_BY_PROVINCE.map((p) => (
@@ -223,15 +223,15 @@ function HotelsPage() {
               </select>
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm transition-colors ${
+                className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-[13px] transition-colors ${
                   hasActiveFilters
-                    ? 'bg-[#D97706] text-white shadow-md'
-                    : 'bg-white text-[#8B7E6E] hover:text-[#D97706] shadow-md border border-gray-100'
+                    ? 'bg-[#FF6B35] text-white shadow-[0_8px_30px_rgba(255,107,53,0.25)]'
+                    : 'bg-[#111114] text-[#A1A1AA] hover:text-[#FAFAFA] border border-[#27272A] hover:border-[#3F3F46]'
                 }`}
               >
                 <SlidersHorizontal className="w-4 h-4" />
                 {t.filters}
-                {hasActiveFilters && <span className="w-2 h-2 bg-white rounded-full" />}
+                {hasActiveFilters && <span className="w-1.5 h-1.5 bg-white rounded-full" />}
               </button>
             </div>
           </div>
@@ -239,7 +239,7 @@ function HotelsPage() {
       </section>
 
       {/* Advanced Filters (below hero) */}
-      <section className="relative z-10 bg-white border-b border-gray-200">
+      <section className="relative z-10 bg-[#0A0A0F] border-b border-[#27272A]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Advanced Filters */}

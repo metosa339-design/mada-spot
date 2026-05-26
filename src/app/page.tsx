@@ -194,13 +194,13 @@ function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
   ];
 
   return (
-    <section ref={ref} className="relative bg-[#F8FAFC] py-20 sm:py-24 border-b border-[#E2E8F0]">
+    <section ref={ref} className="relative bg-[#F8FAFC] py-16 sm:py-20 border-b border-[#E2E8F0]">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
         <motion.div
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
           variants={stagger}
-          className="mb-12"
+          className="mb-8"
         >
           <motion.p
             variants={fadeUp}
@@ -266,13 +266,13 @@ function RecommendedSection({
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section ref={ref} className="relative bg-white py-20 sm:py-24 border-b border-[#E2E8F0]">
+    <section ref={ref} className="relative bg-white py-16 sm:py-20 border-b border-[#E2E8F0]">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
         <motion.div
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
           variants={stagger}
-          className="flex items-end justify-between mb-12 gap-4"
+          className="flex items-end justify-between mb-8 gap-4"
         >
           <div>
             <motion.p
@@ -349,13 +349,13 @@ function ProBannerSection({ t }: { t: Record<string, string> }) {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section ref={ref} className="relative bg-[#003B95] py-20 sm:py-28 overflow-hidden">
+    <section ref={ref} className="relative bg-[#003B95] py-14 sm:py-20 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
         <motion.div
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
           variants={stagger}
-          className="grid lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-16 items-center"
+          className="grid lg:grid-cols-[1fr_1.05fr] gap-8 lg:gap-12 items-center"
         >
           <div>
             <motion.div
@@ -395,13 +395,13 @@ function ProBannerSection({ t }: { t: Record<string, string> }) {
 
           <motion.div
             variants={fadeUp}
-            className="relative aspect-[4/5] w-full max-w-[420px] lg:ml-auto rounded-2xl overflow-hidden border border-white/15"
+            className="relative aspect-[5/4] sm:aspect-[4/3] lg:aspect-[5/4] w-full max-w-[560px] lg:max-w-none lg:ml-auto rounded-2xl overflow-hidden border border-white/15 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.45)]"
           >
             <Image
               src="/images/Attractions/nosy-be/nosy-be.jpg"
               alt="Madagascar"
               fill
-              sizes="(max-width: 1024px) 100vw, 40vw"
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
@@ -427,13 +427,13 @@ function WhyMadaSpotSection({ t }: { t: Record<string, string> }) {
   ];
 
   return (
-    <section ref={ref} className="relative bg-white py-20 sm:py-24 border-b border-[#E2E8F0]">
+    <section ref={ref} className="relative bg-white py-16 sm:py-20 border-b border-[#E2E8F0]">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
         <motion.div
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
           variants={stagger}
-          className="mb-12 max-w-2xl"
+          className="mb-8 max-w-2xl"
         >
           <motion.p
             variants={fadeUp}
@@ -494,13 +494,13 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
   const visibleDots = Math.ceil(REVIEWS.length / pageSize);
 
   return (
-    <section ref={ref} className="relative bg-[#F8FAFC] py-20 sm:py-24 border-b border-[#E2E8F0] overflow-hidden">
+    <section ref={ref} className="relative bg-[#F8FAFC] py-16 sm:py-20 border-b border-[#E2E8F0] overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
         <motion.div
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
           variants={stagger}
-          className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12"
+          className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8"
         >
           <div>
             <motion.p
@@ -613,7 +613,7 @@ function NewsletterSection({ t }: { t: Record<string, string> }) {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section ref={ref} className="bg-[#F8FAFC] py-20 sm:py-24">
+    <section ref={ref} className="bg-[#F8FAFC] py-16 sm:py-20">
       <div className="max-w-3xl mx-auto px-5 sm:px-8">
         <motion.div
           initial="hidden"

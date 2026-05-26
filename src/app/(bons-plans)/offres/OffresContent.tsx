@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { MapPin, Star, Flame, ArrowRight, Filter, Search, Clock, Tag } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
 import { useTrans } from '@/i18n';
@@ -61,7 +62,7 @@ function Countdown({ endDate }: { endDate: string }) {
   if (!remaining) return null;
 
   return (
-    <span className="inline-flex items-center gap-1 text-xs text-orange-300/80">
+    <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[#FF6B35] mt-1">
       <Clock className="w-3 h-3" />
       {remaining}
     </span>
@@ -71,17 +72,23 @@ function Countdown({ endDate }: { endDate: string }) {
 export function OffresHero() {
   const t = useTrans('offres');
   return (
-    <div className="relative py-32 px-4 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-pink-500/10 to-purple-500/20" />
+    <div className="relative py-24 md:py-32 px-4 overflow-hidden bg-[#0A0A0F]">
+      {/* Ambient blobs */}
+      <div className="absolute -top-32 -left-32 w-[400px] h-[400px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.08] pointer-events-none" />
+      <div className="absolute -bottom-32 -right-32 w-[400px] h-[400px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.10] pointer-events-none" />
+
       <div className="max-w-7xl mx-auto relative text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/20 border border-orange-500/30 rounded-full text-orange-400 text-sm mb-6">
-          <Flame className="w-4 h-4" />
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#FF6B35]/10 border border-[#FF6B35]/30 rounded-md text-[#FF6B35] text-[11px] font-semibold uppercase tracking-[0.15em] mb-6">
+          <Flame className="w-3.5 h-3.5" />
           {t.heroBadge}
         </div>
-        <h1 className="text-5xl md:text-6xl font-bold mb-4">
-          {t.heroTitlePart1} <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">{t.heroTitleHighlight}</span>
+        <h1
+          className="text-[32px] sm:text-[44px] lg:text-[56px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-4"
+          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+        >
+          {t.heroTitlePart1} <span className="text-[#FF6B35]">{t.heroTitleHighlight}</span>
         </h1>
-        <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+        <p className="text-[15px] text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed">
           {t.heroDesc}
         </p>
       </div>
@@ -100,14 +107,14 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
   if (offres.length === 0) {
     return (
       <div className="text-center py-20">
-        <Search className="w-16 h-16 text-gray-600 mx-auto mb-6" />
-        <h2 className="text-2xl font-bold text-gray-300 mb-3">{t.emptyTitle}</h2>
-        <p className="text-gray-500 max-w-md mx-auto mb-8">
+        <Search className="w-14 h-14 text-[#3F3F46] mx-auto mb-6" />
+        <h2 className="text-[22px] font-semibold text-[#FAFAFA] mb-3">{t.emptyTitle}</h2>
+        <p className="text-[#A1A1AA] max-w-md mx-auto mb-8 leading-relaxed">
           {t.emptyDesc}
         </p>
         <Link
           href="/bons-plans"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-orange-500/30 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#FF6B35] hover:bg-[#F97316] text-white rounded-lg text-[14px] font-medium transition-all shadow-[0_8px_30px_rgba(255,107,53,0.25)] hover:shadow-[0_12px_40px_rgba(255,107,53,0.35)]"
         >
           {t.emptyCta}
           <ArrowRight className="w-4 h-4" />
@@ -119,18 +126,18 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
   return (
     <>
       {/* Filtres */}
-      <div className="flex items-center gap-3 mb-10 overflow-x-auto pb-2">
-        <Filter className="w-5 h-5 text-gray-500 flex-shrink-0" />
+      <div className="flex items-center gap-2 mb-10 overflow-x-auto pb-2 scrollbar-hide">
+        <Filter className="w-4 h-4 text-[#71717A] flex-shrink-0" />
         {CATEGORIES_RAW.map(cat => (
           <button
             key={cat.id}
             onClick={() => setActiveCategory(cat.id)}
             aria-label={`${t.filterAria} ${t[cat.labelKey]}`}
             aria-pressed={activeCategory === cat.id}
-            className={`px-5 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
+            className={`px-4 py-2 rounded-lg text-[13px] font-medium whitespace-nowrap transition-colors border ${
               activeCategory === cat.id
-                ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                : 'bg-[#1a1a24] border border-[#2a2a36] text-gray-400 hover:text-white hover:border-orange-500/50'
+                ? 'bg-[#FF6B35] border-[#FF6B35] text-white'
+                : 'bg-[#111114] border-[#27272A] text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46]'
             }`}
           >
             {t[cat.labelKey]}
@@ -141,10 +148,10 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
       {/* Empty filtered state */}
       {filteredOffres.length === 0 && (
         <div className="text-center py-16">
-          <p className="text-gray-400 text-lg">{t.emptyFilter}</p>
+          <p className="text-[#A1A1AA] text-[14px]">{t.emptyFilter}</p>
           <button
             onClick={() => setActiveCategory('all')}
-            className="mt-4 text-orange-400 hover:text-orange-300 transition-colors"
+            className="mt-4 text-[#FF6B35] hover:underline text-[13px]"
           >
             {t.showAll}
           </button>
@@ -154,99 +161,104 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
       {/* Offres Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredOffres.map((offre) => (
-          <Link
+          <motion.div
             key={offre.id}
-            href={offre.href}
-            className="bg-[#1a1a24] border border-[#2a2a36] rounded-2xl overflow-hidden hover:border-orange-500/50 transition-all group block"
+            whileHover={{ y: -2 }}
+            transition={{ duration: 0.2 }}
           >
-            {/* Image */}
-            <div className="relative h-48 overflow-hidden">
-              {offre.image ? (
-                <Image
-                  src={getImageUrl(offre.image)}
-                  alt={offre.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              ) : (
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 to-pink-500/30" />
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            <Link
+              href={offre.href}
+              className="bg-[#111114] border border-[#27272A] hover:border-[#3F3F46] rounded-xl overflow-hidden transition-colors group block"
+            >
+              {/* Image */}
+              <div className="relative h-48 overflow-hidden bg-[#1A1A1F]">
+                {offre.image ? (
+                  <Image
+                    src={getImageUrl(offre.image)}
+                    alt={offre.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-[#1A1A1F]" />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F]/60 to-transparent" />
 
-              {/* Discount Badge */}
-              {offre.discountPercent > 0 && (
-                <div className="absolute top-4 right-4 px-3 py-1.5 bg-red-500 rounded-lg text-white font-bold text-sm shadow-lg shadow-red-500/30">
-                  -{offre.discountPercent}%
-                </div>
-              )}
-
-              {/* Promo label */}
-              <div className="absolute top-4 left-4 px-3 py-1.5 bg-gradient-to-r from-orange-500 to-pink-500 rounded-lg text-white text-xs font-bold flex items-center gap-1">
-                <Flame className="w-3 h-3" /> {t.promoLabel}
-              </div>
-
-              {/* Location */}
-              <div className="absolute bottom-4 left-4 flex items-center gap-1.5 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-lg text-white text-xs">
-                <MapPin className="w-3 h-3 text-orange-400" />
-                {offre.location}
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="p-5">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-gray-400 capitalize">{offre.category}</span>
-                {offre.rating > 0 && (
-                  <div className="flex items-center gap-1">
-                    <Star className="w-3.5 h-3.5 text-orange-400 fill-orange-400" />
-                    <span className="text-sm font-medium">{offre.rating.toFixed(1)}</span>
-                    {offre.reviewCount > 0 && (
-                      <span className="text-xs text-gray-500">({offre.reviewCount})</span>
-                    )}
+                {/* Discount Badge */}
+                {offre.discountPercent > 0 && (
+                  <div className="absolute top-3 right-3 px-2.5 py-1 bg-[#FF6B35] rounded-md text-white font-semibold text-[12px] font-mono shadow-[0_4px_20px_rgba(255,107,53,0.4)]">
+                    -{offre.discountPercent}%
                   </div>
                 )}
+
+                {/* Promo label */}
+                <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#FF6B35]/10 backdrop-blur-md border border-[#FF6B35]/30 rounded-md text-[#FF6B35] text-[11px] font-semibold uppercase tracking-[0.1em] flex items-center gap-1">
+                  <Flame className="w-3 h-3" /> {t.promoLabel}
+                </div>
+
+                {/* Location */}
+                <div className="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] rounded-md text-[#FAFAFA] text-[11px]">
+                  <MapPin className="w-3 h-3 text-[#A1A1AA]" />
+                  {offre.location}
+                </div>
               </div>
 
-              <h2 className="text-lg font-bold mb-1 line-clamp-1">{offre.title}</h2>
+              {/* Content */}
+              <div className="p-5">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[11px] uppercase tracking-[0.15em] text-[#71717A] capitalize">{offre.category}</span>
+                  {offre.rating > 0 && (
+                    <div className="flex items-center gap-1">
+                      <Star className="w-3.5 h-3.5 text-[#FF6B35] fill-[#FF6B35]" />
+                      <span className="text-[13px] font-mono text-[#FAFAFA]">{offre.rating.toFixed(1)}</span>
+                      {offre.reviewCount > 0 && (
+                        <span className="text-[11px] text-[#71717A]">({offre.reviewCount})</span>
+                      )}
+                    </div>
+                  )}
+                </div>
 
-              {/* Promo title */}
-              <div className="flex items-center gap-1.5 mb-2">
-                <Tag className="w-3 h-3 text-orange-400" />
-                <span className="text-sm text-orange-300 font-medium line-clamp-1">{offre.promoTitle}</span>
-              </div>
+                <h2 className="text-[16px] font-semibold text-[#FAFAFA] mb-1 line-clamp-1 group-hover:text-[#FF6B35] transition-colors">{offre.title}</h2>
 
-              {offre.description && (
-                <p className="text-sm text-gray-400 mb-3 line-clamp-2">{offre.description}</p>
-              )}
+                {/* Promo title */}
+                <div className="flex items-center gap-1.5 mb-2">
+                  <Tag className="w-3 h-3 text-[#FF6B35]" />
+                  <span className="text-[12px] text-[#FF6B35] font-medium line-clamp-1">{offre.promoTitle}</span>
+                </div>
 
-              <div className="flex items-center justify-between">
-                <div>
-                  {offre.discountedPrice && offre.price ? (
-                    <div className="flex items-center gap-2">
-                      <p className="text-xl font-bold text-orange-400">
-                        {formatPrice(offre.discountedPrice)}
-                      </p>
-                      <p className="text-sm text-gray-500 line-through">
+                {offre.description && (
+                  <p className="text-[12px] text-[#A1A1AA] mb-3 line-clamp-2 leading-relaxed">{offre.description}</p>
+                )}
+
+                <div className="flex items-end justify-between gap-3">
+                  <div className="min-w-0">
+                    {offre.discountedPrice && offre.price ? (
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className="text-[18px] font-semibold font-mono text-[#FAFAFA]">
+                          {formatPrice(offre.discountedPrice)}
+                        </p>
+                        <p className="text-[12px] font-mono text-[#71717A] line-through">
+                          {formatPrice(offre.price)}
+                        </p>
+                      </div>
+                    ) : offre.price ? (
+                      <p className="text-[18px] font-semibold font-mono text-[#FAFAFA]">
                         {formatPrice(offre.price)}
                       </p>
-                    </div>
-                  ) : offre.price ? (
-                    <p className="text-xl font-bold text-orange-400">
-                      {formatPrice(offre.price)}
-                    </p>
-                  ) : (
-                    <span className="text-sm text-gray-500">{t.priceOnRequest}</span>
-                  )}
-                  <Countdown endDate={offre.endDate} />
+                    ) : (
+                      <span className="text-[12px] text-[#A1A1AA]">{t.priceOnRequest}</span>
+                    )}
+                    <Countdown endDate={offre.endDate} />
+                  </div>
+                  <span className="px-3.5 py-2 bg-[#1A1A1F] border border-[#27272A] group-hover:bg-[#FF6B35] group-hover:border-[#FF6B35] text-[#FAFAFA] group-hover:text-white rounded-lg text-[12px] font-medium transition-colors flex items-center gap-1 shrink-0">
+                    {t.seeBtn}
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
                 </div>
-                <span className="px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white rounded-xl text-sm font-semibold group-hover:shadow-lg group-hover:shadow-orange-500/30 transition-all flex items-center gap-1">
-                  {t.seeBtn}
-                  <ArrowRight className="w-4 h-4" />
-                </span>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </motion.div>
         ))}
       </div>
     </>

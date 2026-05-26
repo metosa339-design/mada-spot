@@ -172,22 +172,25 @@ export default function HotelDetail() {
     return Array.from({ length: 5 }).map((_, i) => (
       <Star
         key={i}
-        className={`w-5 h-5 ${i < count ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
+        className={`w-4 h-4 ${i < count ? 'text-[#FF6B35] fill-[#FF6B35]' : 'text-[#3F3F46]'}`}
       />
     ));
   };
 
+  const { t } = useLanguage();
+  const { convert } = useCurrency();
+
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] pt-24">
+      <div className="min-h-screen bg-[#0A0A0F] pt-24" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="animate-pulse space-y-8">
-            <div className="h-64 lg:h-96 bg-slate-200 rounded-2xl" />
-            <div className="h-8 bg-slate-200 rounded w-1/3" />
-            <div className="h-4 bg-slate-200 rounded w-2/3" />
+            <div className="h-64 lg:h-96 bg-[#111114] rounded-2xl border border-[#27272A]" />
+            <div className="h-8 bg-[#111114] rounded w-1/3" />
+            <div className="h-4 bg-[#111114] rounded w-2/3" />
             <div className="grid grid-cols-3 gap-6">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="h-64 bg-slate-200 rounded-xl" />
+                <div key={i} className="h-64 bg-[#111114] rounded-xl border border-[#27272A]" />
               ))}
             </div>
           </div>
@@ -198,14 +201,14 @@ export default function HotelDetail() {
 
   if (!hotel) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] pt-24">
+      <div className="min-h-screen bg-[#0A0A0F] pt-24" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         <div className="max-w-7xl mx-auto px-4 py-12 text-center">
-          <Building2 className="w-16 h-16 mx-auto text-slate-300 mb-4" />
-          <h1 className="text-2xl font-bold text-white mb-2">Hotel non trouve</h1>
-          <p className="text-slate-400 mb-6">L&apos;hotel que vous recherchez n&apos;existe pas ou a ete supprime.</p>
+          <Building2 className="w-16 h-16 mx-auto text-[#3F3F46] mb-4" />
+          <h1 className="text-2xl font-bold text-[#FAFAFA] mb-2">Hôtel non trouvé</h1>
+          <p className="text-[#A1A1AA] mb-6">L&apos;hôtel que vous recherchez n&apos;existe pas ou a été supprimé.</p>
           <Link
             href="/hotels"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#FF6B35] hover:bg-[#F97316] text-white rounded-lg text-[14px] font-medium transition-all shadow-[0_8px_30px_rgba(255,107,53,0.25)]"
           >
             <ArrowLeft className="w-5 h-5" />
             Retour aux hôtels
@@ -215,16 +218,13 @@ export default function HotelDetail() {
     );
   }
 
-  const { t } = useLanguage();
-  const { convert } = useCurrency();
-
   const lowestPrice = hotel.roomTypes?.length > 0
     ? Math.min(...hotel.roomTypes.map((r) => r.pricePerNight))
     : null;
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f]">
-      {/* Header avec image */}
+    <div className="min-h-screen bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      {/* Hero photo */}
       <div className="relative">
         <CategorizedGallery
           coverImage={hotel.coverImage}
@@ -236,24 +236,29 @@ export default function HotelDetail() {
           fallbackImage={getEstablishmentImage('HOTEL', hotel.city, hotel.name)}
         />
 
+        {/* Overlay dark gradient bottom-to-transparent */}
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0A0A0F] via-[#0A0A0F]/60 to-transparent pointer-events-none" />
+
         {/* Back button */}
         <Link
           href="/hotels"
-          className="absolute top-24 left-4 md:left-8 flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors z-30"
+          className="absolute top-24 left-4 md:left-8 flex items-center gap-2 px-4 py-2 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] rounded-lg text-[#FAFAFA] hover:bg-[#1A1A1F]/90 hover:border-[#3F3F46] transition-colors z-30"
         >
-          <ArrowLeft className="w-5 h-5" />
-          <span className="hidden md:inline">Retour</span>
+          <ArrowLeft className="w-4 h-4" />
+          <span className="hidden md:inline text-[13px] font-medium">Retour</span>
         </Link>
 
         {/* Actions */}
         <div className="absolute top-24 right-4 md:right-8 flex items-center gap-2 z-30">
           <button
             onClick={() => setIsFavorite(!isFavorite)}
-            className={`p-3 rounded-full backdrop-blur-sm transition-colors ${
-              isFavorite ? 'bg-red-500 text-white' : 'bg-white/20 text-white hover:bg-white/30'
+            className={`p-2.5 rounded-lg backdrop-blur-md border transition-colors ${
+              isFavorite
+                ? 'bg-[#FF6B35] border-[#FF6B35] text-white'
+                : 'bg-[#111114]/80 border-[#27272A] text-[#FAFAFA] hover:bg-[#1A1A1F]/90 hover:border-[#3F3F46]'
             }`}
           >
-            <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
+            <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
           </button>
           <button
             onClick={async () => {
@@ -266,9 +271,9 @@ export default function HotelDetail() {
                 toastSuccess('Lien copié !');
               }
             }}
-            className="p-3 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors"
+            className="p-2.5 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] rounded-lg text-[#FAFAFA] hover:bg-[#1A1A1F]/90 hover:border-[#3F3F46] transition-colors"
           >
-            <Share2 className="w-5 h-5" />
+            <Share2 className="w-4 h-4" />
           </button>
           <CurrencyToggle />
           <LanguageToggle />
@@ -277,29 +282,35 @@ export default function HotelDetail() {
         {/* Info overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8 z-30">
           <div className="max-w-7xl mx-auto">
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-2 mb-3">
               {renderStars(hotel.starRating)}
               {hotel.isFeatured && (
-                <span className="ml-2 px-2 py-1 bg-yellow-400 text-yellow-900 text-xs font-semibold rounded-full">
+                <span className="ml-2 px-2.5 py-1 bg-[#FF6B35]/10 border border-[#FF6B35]/30 text-[#FF6B35] text-[11px] font-semibold rounded-md uppercase tracking-[0.1em]">
                   Recommandé
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-3 flex-wrap">
-              <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">{hotel.name}</h1>
+            <div className="flex items-center gap-3 flex-wrap mb-3">
+              <h1
+                className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#FAFAFA]"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              >
+                {hotel.name}
+              </h1>
               {hotel.isClaimed && <VerifiedBadge variant="verified" size="lg" />}
             </div>
-            <div className="flex flex-wrap items-center gap-4 text-white/90">
-              <span className="flex items-center gap-1">
-                <MapPin className="w-4 h-4" />
+            <div className="flex flex-wrap items-center gap-4 text-[#D4D4D8] text-[14px]">
+              <span className="flex items-center gap-1.5">
+                <MapPin className="w-4 h-4 text-[#A1A1AA]" />
                 {hotel.district}, {hotel.city}
               </span>
-              <span className="flex items-center gap-1">
-                <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                {hotel.rating?.toFixed(1)} ({hotel.reviewCount} avis)
+              <span className="flex items-center gap-1.5">
+                <Star className="w-4 h-4 text-[#FF6B35] fill-[#FF6B35]" />
+                <span className="font-mono">{hotel.rating?.toFixed(1)}</span>
+                <span className="text-[#A1A1AA]">({hotel.reviewCount} avis)</span>
               </span>
               {lowestPrice && (
-                <span className="flex items-center gap-1 font-semibold">
+                <span className="flex items-center gap-1.5 font-mono text-[#FAFAFA]">
                   À partir de {convert(lowestPrice)}/nuit
                 </span>
               )}
@@ -324,9 +335,12 @@ export default function HotelDetail() {
           {/* Main content */}
           <div className="lg:col-span-2 space-y-8">
             {/* Description */}
-            <section className="bg-[#1a1a24] rounded-2xl p-6 md:p-8 border border-[#2a2a36]">
-              <h2 className="text-xl font-bold text-white mb-4">Presentation</h2>
-              <p className="text-slate-400 leading-relaxed whitespace-pre-line">
+            <section className="bg-[#111114] rounded-xl p-6 md:p-8 border border-[#27272A]">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">À propos</p>
+              <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-4">
+                Présentation
+              </h2>
+              <p className="text-[#D4D4D8] leading-relaxed whitespace-pre-line max-w-[65ch]">
                 {t(hotel.description || hotel.shortDescription, hotel.descriptionEn || hotel.shortDescriptionEn)}
               </p>
             </section>
@@ -347,20 +361,28 @@ export default function HotelDetail() {
 
             {/* Équipements */}
             {hotel.amenities?.length > 0 && (
-              <section className="bg-[#1a1a24] rounded-2xl p-6 md:p-8 border border-[#2a2a36]">
-                <h2 className="text-xl font-bold text-white mb-6">Equipements & Services</h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <section className="bg-[#111114] rounded-xl p-6 md:p-8 border border-[#27272A]">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Services</p>
+                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-6">
+                  Équipements & services
+                </h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {hotel.amenities.map((amenity) => {
                     const Icon = amenityIcons[amenity] || Check;
                     return (
-                      <div key={amenity} className="flex items-center gap-3 p-3 bg-[#0d1520] rounded-xl border border-gray-100 lg:border-transparent">
-                        <div className="w-9 h-9 bg-orange-500/20 rounded-lg flex items-center justify-center">
-                          <Icon className="w-4 h-4 text-[#ff6b35]" />
+                      <motion.div
+                        key={amenity}
+                        whileHover={{ y: -2 }}
+                        transition={{ duration: 0.2 }}
+                        className="flex items-center gap-3 p-3 bg-[#1A1A1F] rounded-lg border border-[#27272A] hover:border-[#3F3F46] transition-colors"
+                      >
+                        <div className="w-9 h-9 bg-[#FF6B35]/10 border border-[#FF6B35]/20 rounded-md flex items-center justify-center shrink-0">
+                          <Icon className="w-4 h-4 text-[#FF6B35]" />
                         </div>
-                        <span className="text-slate-300 text-sm font-medium">
+                        <span className="text-[#D4D4D8] text-[13px] font-medium">
                           {amenityLabels[amenity] || amenity}
                         </span>
-                      </div>
+                      </motion.div>
                     );
                   })}
                 </div>
@@ -369,9 +391,12 @@ export default function HotelDetail() {
 
             {/* Horaires d'ouverture */}
             {hotel.openingHours && Object.keys(hotel.openingHours).length > 0 && (
-              <section className="bg-[#1a1a24] rounded-2xl p-6 md:p-8 border border-[#2a2a36]">
-                <h2 className="text-xl font-bold text-white mb-4">Horaires d'ouverture</h2>
-                <div className="space-y-2">
+              <section className="bg-[#111114] rounded-xl p-6 md:p-8 border border-[#27272A]">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Horaires</p>
+                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-4">
+                  Horaires d&apos;ouverture
+                </h2>
+                <div className="space-y-1.5">
                   {['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].map((day) => {
                     const hours = hotel.openingHours?.[day];
                     const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
@@ -385,20 +410,22 @@ export default function HotelDetail() {
                     return (
                       <div
                         key={day}
-                        className={`flex items-center justify-between py-2 px-3 rounded-lg ${
-                          isToday ? 'bg-orange-500/10 border border-orange-500/30' : 'bg-[#2a2a36]/50'
+                        className={`flex items-center justify-between py-2.5 px-4 rounded-lg ${
+                          isToday
+                            ? 'bg-[#FF6B35]/8 border border-[#FF6B35]/25'
+                            : 'bg-[#1A1A1F] border border-[#27272A]'
                         }`}
                       >
-                        <span className={`font-medium ${isToday ? 'text-orange-400' : 'text-slate-300'}`}>
+                        <span className={`text-[13px] font-medium ${isToday ? 'text-[#FF6B35]' : 'text-[#D4D4D8]'}`}>
                           {dayLabels[day]}
-                          {isToday && <span className="ml-2 text-xs text-orange-400/70">(aujourd&apos;hui)</span>}
+                          {isToday && <span className="ml-2 text-[11px] text-[#FF6B35]/70">(aujourd&apos;hui)</span>}
                         </span>
                         {hours?.closed ? (
-                          <span className="text-slate-500">Fermé</span>
+                          <span className="text-[#71717A] text-[13px] font-mono">Fermé</span>
                         ) : hours ? (
-                          <span className="text-slate-300">{hours.open} - {hours.close}</span>
+                          <span className="text-[#FAFAFA] text-[13px] font-mono">{hours.open} – {hours.close}</span>
                         ) : (
-                          <span className="text-slate-500">-</span>
+                          <span className="text-[#71717A] text-[13px] font-mono">-</span>
                         )}
                       </div>
                     );
@@ -409,52 +436,58 @@ export default function HotelDetail() {
 
             {/* Chambres */}
             {hotel.roomTypes?.length > 0 && (
-              <section className="bg-[#1a1a24] rounded-2xl p-6 md:p-8 border border-[#2a2a36]">
-                <h2 className="text-xl font-bold text-white mb-6">Types de chambres</h2>
+              <section className="bg-[#111114] rounded-xl p-6 md:p-8 border border-[#27272A]">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Hébergement</p>
+                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-6">
+                  Types de chambres
+                </h2>
                 <div className="space-y-4">
                   {hotel.roomTypes.map((room) => (
                     <motion.div
                       key={room.id}
-                      className={`border-2 rounded-xl p-4 md:p-6 cursor-pointer transition-all ${
+                      className={`rounded-xl p-4 md:p-6 cursor-pointer transition-colors border ${
                         selectedRoom?.id === room.id
-                          ? 'border-orange-500 bg-orange-500/10'
-                          : 'border-[#2a2a36] hover:border-orange-500/50'
+                          ? 'border-[#FF6B35] bg-[#FF6B35]/8'
+                          : 'border-[#27272A] bg-[#1A1A1F] hover:border-[#3F3F46]'
                       }`}
                       onClick={() => setSelectedRoom(room)}
-                      whileHover={{ scale: 1.01 }}
+                      whileHover={{ y: -2 }}
+                      transition={{ duration: 0.2 }}
                     >
                       <div className="flex flex-col md:flex-row md:items-start gap-4">
                         {room.images?.[0] && (
-                          <Image
-                            src={getImageUrl(room.images[0])}
-                            alt={room.name}
-                            width={160}
-                            height={128}
-                            className="w-full md:w-40 h-32 object-cover rounded-lg"
-                          />
+                          <div className="relative w-full md:w-40 h-32 rounded-lg overflow-hidden border border-[#27272A]">
+                            <Image
+                              src={getImageUrl(room.images[0])}
+                              alt={room.name}
+                              width={160}
+                              height={128}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
                         )}
                         <div className="flex-1">
-                          <div className="flex items-start justify-between mb-2">
-                            <h3 className="text-lg font-semibold text-white">{room.name}</h3>
-                            <div className="text-right">
-                              <p className="text-xl font-bold text-orange-400">
+                          <div className="flex items-start justify-between mb-2 gap-3">
+                            <h3 className="text-[16px] font-semibold text-[#FAFAFA]">{room.name}</h3>
+                            <div className="text-right shrink-0">
+                              <p className="text-[20px] font-semibold font-mono text-[#FAFAFA]">
                                 {convert(room.pricePerNight)}
                               </p>
-                              <p className="text-sm text-slate-400">par nuit</p>
+                              <p className="text-[12px] text-[#A1A1AA]">par nuit</p>
                             </div>
                           </div>
-                          <p className="text-slate-400 text-sm mb-3">{room.description}</p>
-                          <div className="flex flex-wrap items-center gap-4 text-sm text-slate-400">
-                            <span className="flex items-center gap-1">
-                              <Users className="w-4 h-4" />
+                          <p className="text-[#D4D4D8] text-[13px] mb-3 leading-relaxed">{room.description}</p>
+                          <div className="flex flex-wrap items-center gap-4 text-[12px] text-[#A1A1AA]">
+                            <span className="flex items-center gap-1.5">
+                              <Users className="w-3.5 h-3.5" />
                               {room.capacity} personnes
                             </span>
-                            <span className="flex items-center gap-1">
-                              <Bed className="w-4 h-4" />
+                            <span className="flex items-center gap-1.5">
+                              <Bed className="w-3.5 h-3.5" />
                               {room.bedType}
                             </span>
                             {room.size > 0 && (
-                              <span>{room.size} m²</span>
+                              <span className="font-mono">{room.size} m²</span>
                             )}
                           </div>
                           {room.amenities?.length > 0 && (
@@ -462,13 +495,13 @@ export default function HotelDetail() {
                               {room.amenities.slice(0, 4).map((a) => (
                                 <span
                                   key={a}
-                                  className="px-2 py-1 bg-[#0d1520] text-slate-400 text-xs rounded-full"
+                                  className="px-2.5 py-1 bg-[#0A0A0F] text-[#A1A1AA] text-[11px] rounded-md border border-[#27272A]"
                                 >
                                   {amenityLabels[a] || a}
                                 </span>
                               ))}
                               {room.amenities.length > 4 && (
-                                <span className="px-2 py-1 text-slate-500 text-xs">
+                                <span className="px-2.5 py-1 text-[#71717A] text-[11px]">
                                   +{room.amenities.length - 4} autres
                                 </span>
                               )}
@@ -504,30 +537,30 @@ export default function HotelDetail() {
               <FomoBanner establishmentId={hotel.id} />
 
               {/* Reservation card */}
-              <div className="bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] shadow-sm lg:shadow-none">
-                <div className="flex items-center justify-between mb-4">
+              <div className="bg-[#111114] rounded-xl p-6 border border-[#27272A]">
+                <div className="flex items-center justify-between mb-5">
                   <div>
-                    <p className="text-sm text-slate-400">A partir de</p>
-                    <p className="text-2xl font-bold text-[#ff6b35]">
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-[#A1A1AA] mb-1">À partir de</p>
+                    <p className="text-[28px] font-semibold font-mono text-[#FAFAFA]">
                       {lowestPrice ? convert(lowestPrice) : 'Sur demande'}
                     </p>
-                    <p className="text-sm text-slate-400">par nuit</p>
+                    <p className="text-[12px] text-[#A1A1AA]">par nuit</p>
                   </div>
-                  <div className="flex items-center gap-1 px-3 py-1.5 bg-[#0d1520] rounded-lg">
-                    <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                    <span className="font-bold text-white">{hotel.rating?.toFixed(1)}</span>
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A1A1F] border border-[#27272A] rounded-lg">
+                    <Star className="w-4 h-4 text-[#FF6B35] fill-[#FF6B35]" />
+                    <span className="font-mono text-[#FAFAFA] text-[14px]">{hotel.rating?.toFixed(1)}</span>
                   </div>
                 </div>
 
                 {/* Horaires */}
-                <div className="flex items-center gap-4 p-3 bg-[#0d1520] rounded-lg mb-4">
-                  <Clock className="w-5 h-5 text-slate-400" />
-                  <div className="text-sm">
-                    <p className="text-slate-400">
-                      Check-in: <span className="font-medium text-white">{hotel.checkInTime || '14:00'}</span>
+                <div className="flex items-center gap-3 p-3 bg-[#1A1A1F] border border-[#27272A] rounded-lg mb-4">
+                  <Clock className="w-4 h-4 text-[#A1A1AA] shrink-0" />
+                  <div className="text-[12px]">
+                    <p className="text-[#A1A1AA]">
+                      Check-in : <span className="font-mono text-[#FAFAFA]">{hotel.checkInTime || '14:00'}</span>
                     </p>
-                    <p className="text-slate-400">
-                      Check-out: <span className="font-medium text-white">{hotel.checkOutTime || '11:00'}</span>
+                    <p className="text-[#A1A1AA]">
+                      Check-out : <span className="font-mono text-[#FAFAFA]">{hotel.checkOutTime || '11:00'}</span>
                     </p>
                   </div>
                 </div>
@@ -560,7 +593,7 @@ export default function HotelDetail() {
 
                 {/* Liens sociaux */}
                 {(hotel.website || hotel.facebook || hotel.instagram) && (
-                  <div className="mt-4 pt-4 border-t border-[#2a2a36]">
+                  <div className="mt-4 pt-4 border-t border-[#27272A]">
                     <SocialLinks
                       website={hotel.website}
                       facebook={hotel.facebook}
@@ -576,13 +609,15 @@ export default function HotelDetail() {
         {/* Localisation & Directions — full width below grid */}
         {(hotel.latitude && hotel.longitude) && (
           <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <DirectionsWidget
-              destinationLat={hotel.latitude}
-              destinationLng={hotel.longitude}
-              destinationName={hotel.name}
-              city={hotel.city}
-              district={hotel.district}
-            />
+            <div className="rounded-xl overflow-hidden border border-[#27272A]">
+              <DirectionsWidget
+                destinationLat={hotel.latitude}
+                destinationLng={hotel.longitude}
+                destinationName={hotel.name}
+                city={hotel.city}
+                district={hotel.district}
+              />
+            </div>
             <AccessInfo
               city={hotel.city}
               district={hotel.district}
@@ -611,44 +646,53 @@ export default function HotelDetail() {
         {/* Hôtels similaires */}
         {similarHotels.length > 0 && (
           <section className="mt-12">
-            <h2 className="text-2xl font-bold text-white mb-6">Hotels similaires</h2>
+            <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Continuer l&apos;exploration</p>
+            <h2 className="text-[22px] sm:text-[28px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-6">
+              Hôtels similaires
+            </h2>
             <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:pb-0">
               {similarHotels.map((h) => (
-                <Link
+                <motion.div
                   key={h.id}
-                  href={`/hotels/${h.slug}`}
-                  className="group shrink-0 w-56 lg:w-auto bg-[#1a1a24] rounded-xl overflow-hidden border border-[#2a2a36] hover:shadow-lg lg:hover:border-orange-500/50 transition-all"
+                  whileHover={{ y: -2 }}
+                  transition={{ duration: 0.2 }}
+                  className="shrink-0 w-56 lg:w-auto"
                 >
-                  <div className="relative h-36 lg:h-48 bg-[#2a2a36]">
-                    <Image
-                      src={getEstablishmentImage('HOTEL', h.city, h.name, h.coverImage)}
-                      alt={h.name}
-                      fill
-                      sizes="(max-width: 1024px) 224px, 33vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="p-3 lg:p-4">
-                    <h3 className="font-bold text-white text-sm group-hover:text-[#ff6b35] transition-colors line-clamp-1">
-                      {h.name}
-                    </h3>
-                    <p className="text-xs text-slate-400 flex items-center gap-1 mt-1">
-                      <MapPin className="w-3 h-3" />
-                      {h.city}
-                    </p>
-                    <div className="flex items-center justify-between mt-2">
-                      <div className="flex items-center gap-1">
-                        <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-                        <span className="font-bold text-white text-sm">{h.rating?.toFixed(1)}</span>
-                      </div>
-                      {h.lowestPrice && (
-                        <p className="text-[#ff6b35] font-bold text-sm">
-                          {convert(h.lowestPrice)}
-                        </p>
-                      )}
+                  <Link
+                    href={`/hotels/${h.slug}`}
+                    className="group block bg-[#111114] rounded-xl overflow-hidden border border-[#27272A] hover:border-[#3F3F46] transition-colors"
+                  >
+                    <div className="relative h-36 lg:h-48 bg-[#1A1A1F]">
+                      <Image
+                        src={getEstablishmentImage('HOTEL', h.city, h.name, h.coverImage)}
+                        alt={h.name}
+                        fill
+                        sizes="(max-width: 1024px) 224px, 33vw"
+                        className="object-cover"
+                      />
                     </div>
-                  </div>
-                </Link>
+                    <div className="p-4">
+                      <h3 className="font-semibold text-[#FAFAFA] text-[14px] group-hover:text-[#FF6B35] transition-colors line-clamp-1">
+                        {h.name}
+                      </h3>
+                      <p className="text-[12px] text-[#A1A1AA] flex items-center gap-1 mt-1">
+                        <MapPin className="w-3 h-3" />
+                        {h.city}
+                      </p>
+                      <div className="flex items-center justify-between mt-3">
+                        <div className="flex items-center gap-1">
+                          <Star className="w-3.5 h-3.5 text-[#FF6B35] fill-[#FF6B35]" />
+                          <span className="font-mono text-[#FAFAFA] text-[13px]">{h.rating?.toFixed(1)}</span>
+                        </div>
+                        {h.lowestPrice && (
+                          <p className="font-mono text-[#FAFAFA] text-[13px]">
+                            {convert(h.lowestPrice)}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
               ))}
             </div>
           </section>

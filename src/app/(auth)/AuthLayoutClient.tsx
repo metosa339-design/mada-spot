@@ -11,92 +11,75 @@ export default function AuthLayoutClient({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a24] to-[#0a0a0f] flex">
+    <div className="min-h-screen bg-[#0A0A0F] flex" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       {/* Partie gauche - Branding */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-        {/* Background image */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center opacity-25"
           style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=1200&q=80)' }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0f] via-[#0a0a0f]/80 to-[#0a0a0f]/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0F] via-[#0A0A0F]/90 to-[#0A0A0F]/50" />
 
-        {/* Cercles décoratifs */}
-        <div className="absolute -top-40 -left-40 w-80 h-80 bg-orange-500/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -right-40 w-80 h-80 bg-pink-500/20 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -left-40 w-[420px] h-[420px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.12]" />
+        <div className="absolute -bottom-40 -right-40 w-[380px] h-[380px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.08]" />
 
-        {/* Contenu */}
         <div className="relative z-10 flex flex-col justify-center px-12 xl:px-20">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
             <Link href="/" className="flex items-center gap-3 mb-8">
-              <Image src="/logo.png" alt="Mada Spot" width={48} height={48} className="w-12 h-12 object-contain" />
-              <span className="text-3xl font-bold text-white">
-                Mada<span className="text-orange-500"> Spot</span>
+              <Image src="/logo.png" alt="Mada Spot" width={44} height={44} className="w-11 h-11 object-contain" />
+              <span className="text-[24px] font-semibold tracking-[-0.02em] text-[#FAFAFA]">
+                Mada<span className="text-[#FF6B35]"> Spot</span>
               </span>
             </Link>
 
-            <h1 className="text-4xl xl:text-5xl font-bold text-white mb-6 leading-tight">
-              Bienvenue sur<br />
-              <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">Mada Spot</span>
+            <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Bienvenue</p>
+            <h1 className="text-[36px] xl:text-[48px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-6 leading-[1.05]">
+              Explorez<br />
+              <span className="text-[#FF6B35]">Madagascar</span>
             </h1>
 
-            <p className="text-lg text-gray-300 mb-10 max-w-md">
-              Découvrez les meilleurs hôtels, restaurants et attractions
-              de Madagascar.
+            <p className="text-[15px] text-[#D4D4D8] mb-10 max-w-md leading-relaxed">
+              Découvrez les meilleurs hôtels, restaurants et attractions de Madagascar.
             </p>
 
-            {/* Avantages */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-orange-500/20 flex items-center justify-center">
-                  <MapPin className="w-5 h-5 text-orange-400" />
+            <div className="space-y-3">
+              {[
+                { icon: MapPin, title: 'Bons plans locaux', desc: 'Les meilleures adresses de Madagascar' },
+                { icon: Star, title: 'Avis vérifiés', desc: 'Des retours authentiques' },
+                { icon: Shield, title: 'Réservation facile', desc: 'Réservez en quelques clics' },
+              ].map(({ icon: Icon, title, desc }) => (
+                <div key={title} className="flex items-center gap-3 p-3 bg-[#111114]/60 backdrop-blur-md border border-[#27272A] rounded-lg">
+                  <div className="w-9 h-9 rounded-md bg-[#FF6B35]/10 border border-[#FF6B35]/20 flex items-center justify-center shrink-0">
+                    <Icon className="w-4 h-4 text-[#FF6B35]" />
+                  </div>
+                  <div>
+                    <p className="text-[#FAFAFA] font-medium text-[13px]">{title}</p>
+                    <p className="text-[11px] text-[#A1A1AA]">{desc}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-white font-medium">Bons plans locaux</p>
-                  <p className="text-sm text-gray-400">Les meilleures adresses de Madagascar</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-pink-500/20 flex items-center justify-center">
-                  <Star className="w-5 h-5 text-pink-400" />
-                </div>
-                <div>
-                  <p className="text-white font-medium">Avis vérifiés</p>
-                  <p className="text-sm text-gray-400">Des retours authentiques</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center">
-                  <Shield className="w-5 h-5 text-green-400" />
-                </div>
-                <div>
-                  <p className="text-white font-medium">Réservation facile</p>
-                  <p className="text-sm text-gray-400">Réservez en quelques clics</p>
-                </div>
-              </div>
+              ))}
             </div>
           </motion.div>
         </div>
       </div>
 
       {/* Partie droite - Formulaire */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12 bg-[#0A0A0F]">
         <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
           className="w-full max-w-md"
         >
-          {/* Logo mobile */}
           <div className="lg:hidden mb-8 text-center">
-            <Link href="/" className="inline-flex items-center gap-3">
-              <Image src="/logo.png" alt="Mada Spot" width={40} height={40} className="w-10 h-10 object-contain" />
-              <span className="text-2xl font-bold text-white">
-                Mada<span className="text-orange-500"> Spot</span>
+            <Link href="/" className="inline-flex items-center gap-2">
+              <Image src="/logo.png" alt="Mada Spot" width={36} height={36} className="w-9 h-9 object-contain" />
+              <span className="text-[20px] font-semibold tracking-[-0.02em] text-[#FAFAFA]">
+                Mada<span className="text-[#FF6B35]"> Spot</span>
               </span>
             </Link>
           </div>

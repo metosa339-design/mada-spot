@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Star, MapPin, TrendingUp, Hotel, UtensilsCrossed, Compass } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { getEstablishmentImage } from '@/lib/establishment-image';
 
 interface TrendingItem {
@@ -21,10 +22,10 @@ interface TrendingItem {
   url: string;
 }
 
-const TYPE_CONFIG: Record<string, { label: string; icon: any; color: string }> = {
-  HOTEL: { label: 'Hôtel', icon: Hotel, color: 'bg-blue-500/20 text-blue-400' },
-  RESTAURANT: { label: 'Restaurant', icon: UtensilsCrossed, color: 'bg-orange-500/20 text-orange-400' },
-  ATTRACTION: { label: 'Attraction', icon: Compass, color: 'bg-green-500/20 text-green-400' },
+const TYPE_CONFIG: Record<string, { label: string; icon: any }> = {
+  HOTEL: { label: 'Hôtel', icon: Hotel },
+  RESTAURANT: { label: 'Restaurant', icon: UtensilsCrossed },
+  ATTRACTION: { label: 'Attraction', icon: Compass },
 };
 
 export default function TrendingSection() {
@@ -44,67 +45,69 @@ export default function TrendingSection() {
   if (loading || items.length === 0) return null;
 
   return (
-    <section className="py-12">
+    <section className="py-12 bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <div className="max-w-6xl mx-auto px-4">
-        <div className="flex items-center gap-2 mb-6">
-          <TrendingUp className="w-6 h-6 text-orange-500" />
-          <h2 className="text-2xl font-bold text-white">Tendances</h2>
+        <div className="flex items-center gap-2 mb-3">
+          <TrendingUp className="w-4 h-4 text-[#FF6B35]" />
+          <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] font-semibold">Tendances</p>
         </div>
+        <h2 className="text-[24px] sm:text-[32px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-6">
+          Les plus populaires
+        </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {items.map((item) => {
             const typeConf = TYPE_CONFIG[item.type] || TYPE_CONFIG.ATTRACTION;
 
             return (
-              <Link
-                key={item.id}
-                href={item.url}
-                className="group bg-[#1a1a2e] rounded-xl border border-[#2a2a36] overflow-hidden hover:border-[#ff6b35]/50 transition-all"
-              >
-                {/* Image */}
-                <div className="relative h-44 bg-[#12121c]">
-                  <Image
-                    src={getEstablishmentImage(item.type, item.city, item.name, item.coverImage)}
-                    alt={item.name}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                  {item.isFeatured && (
-                    <span className="absolute top-2 left-2 px-2.5 py-1 bg-orange-500 text-white text-[10px] font-bold rounded-full flex items-center gap-1">
-                      <Star className="w-3 h-3 fill-white" /> Featured
+              <motion.div key={item.id} whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+                <Link
+                  href={item.url}
+                  className="group block bg-[#111114] rounded-xl border border-[#27272A] hover:border-[#3F3F46] overflow-hidden transition-colors"
+                >
+                  <div className="relative h-44 bg-[#1A1A1F]">
+                    <Image
+                      src={getEstablishmentImage(item.type, item.city, item.name, item.coverImage)}
+                      alt={item.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                    {item.isFeatured && (
+                      <span className="absolute top-2 left-2 px-2.5 py-1 bg-[#FF6B35]/10 backdrop-blur-md border border-[#FF6B35]/30 text-[#FF6B35] text-[10px] font-semibold uppercase tracking-[0.1em] rounded-md flex items-center gap-1">
+                        <Star className="w-3 h-3 fill-[#FF6B35]" /> Featured
+                      </span>
+                    )}
+                    <span className="absolute top-2 right-2 px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-[0.1em] bg-[#111114]/80 backdrop-blur-md border border-[#27272A] text-[#FAFAFA]">
+                      {typeConf.label}
                     </span>
-                  )}
-                  <span className={`absolute top-2 right-2 px-2.5 py-1 rounded-full text-[10px] font-medium ${typeConf.color}`}>
-                    {typeConf.label}
-                  </span>
-                </div>
+                  </div>
 
-                {/* Info */}
-                <div className="p-4">
-                  <h3 className="font-semibold text-white truncate">{item.name}</h3>
-                  <div className="flex items-center gap-1 text-sm text-gray-400 mt-1">
-                    <MapPin className="w-3.5 h-3.5" /> {item.city}
-                  </div>
-                  {item.shortDescription && (
-                    <p className="text-xs text-gray-500 mt-2 line-clamp-2">{item.shortDescription}</p>
-                  )}
-                  <div className="flex items-center justify-between mt-3">
-                    {item.rating ? (
-                      <div className="flex items-center gap-1 text-sm">
-                        <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                        <span className="font-medium text-white">{item.rating.toFixed(1)}</span>
-                        <span className="text-gray-500 text-xs">({item.reviewCount})</span>
-                      </div>
-                    ) : (
-                      <span className="text-xs text-gray-500">Pas encore noté</span>
+                  <div className="p-4">
+                    <h3 className="font-semibold text-[#FAFAFA] text-[14px] truncate group-hover:text-[#FF6B35] transition-colors">{item.name}</h3>
+                    <div className="flex items-center gap-1 text-[12px] text-[#A1A1AA] mt-1">
+                      <MapPin className="w-3 h-3" /> {item.city}
+                    </div>
+                    {item.shortDescription && (
+                      <p className="text-[11px] text-[#71717A] mt-2 line-clamp-2 leading-relaxed">{item.shortDescription}</p>
                     )}
-                    {item.priceRange && (
-                      <span className="text-xs text-gray-400">{item.priceRange}</span>
-                    )}
+                    <div className="flex items-center justify-between mt-3">
+                      {item.rating ? (
+                        <div className="flex items-center gap-1">
+                          <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
+                          <span className="font-mono text-[#FAFAFA] text-[13px]">{item.rating.toFixed(1)}</span>
+                          <span className="text-[#71717A] text-[11px]">({item.reviewCount})</span>
+                        </div>
+                      ) : (
+                        <span className="text-[11px] text-[#71717A]">Pas encore noté</span>
+                      )}
+                      {item.priceRange && (
+                        <span className="text-[11px] font-mono text-[#A1A1AA]">{item.priceRange}</span>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              </motion.div>
             );
           })}
         </div>

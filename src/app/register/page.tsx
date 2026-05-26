@@ -63,21 +63,21 @@ export default function RegisterChooserPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white">
+    <div className="min-h-screen bg-[#0A0A0F] text-[#FAFAFA]">
       {/* Header minimaliste */}
-      <div className="border-b border-[#2a2a36]">
+      <div className="border-b border-[#27272A]">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <Image src="/logo.png" alt="Mada Spot" width={36} height={36} className="w-9 h-9 object-contain" />
-            <span className="text-xl font-bold text-white">
-              Mada<span className="text-orange-500"> Spot</span>
+            <span className="text-xl font-bold text-[#FAFAFA]">
+              Mada<span className="text-[#FF6B35]"> Spot</span>
             </span>
           </Link>
           <Link
             href="/login"
-            className="text-sm text-gray-400 hover:text-white transition-colors"
+            className="text-sm text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors"
           >
-            {t.chooserAlreadyAccount} <span className="text-orange-400 font-medium">{t.chooserLogIn}</span>
+            {t.chooserAlreadyAccount} <span className="text-[#FF6B35] font-medium">{t.chooserLogIn}</span>
           </Link>
         </div>
       </div>
@@ -94,10 +94,10 @@ export default function RegisterChooserPage() {
             >
               {/* Titre */}
               <div className="text-center mb-10">
-                <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">
+                <h1 className="text-3xl sm:text-4xl font-bold text-[#FAFAFA] mb-3">
                   {t.chooserHeroTitle}
                 </h1>
-                <p className="text-gray-400 max-w-lg mx-auto">
+                <p className="text-[#A1A1AA] max-w-lg mx-auto">
                   {t.chooserHeroDesc}
                 </p>
               </div>
@@ -110,7 +110,7 @@ export default function RegisterChooserPage() {
                   whileTap={{ scale: 0.98 }}
                   onClick={() => router.push('/register-client')}
                   aria-label={t.chooserTravelerAriaLabel}
-                  className="group relative bg-[#1a1a24] rounded-2xl border-2 border-[#2a2a36] hover:border-cyan-500/50 text-left transition-all overflow-hidden"
+                  className="group relative bg-[#111114] rounded-2xl border-2 border-[#27272A] hover:border-cyan-500/50 text-left transition-all overflow-hidden"
                 >
                   {/* Photo header - 2 images side by side */}
                   <div className="relative h-40 w-full overflow-hidden grid grid-cols-2">
@@ -132,20 +132,20 @@ export default function RegisterChooserPage() {
                         sizes="(max-width: 640px) 50vw, 25vw"
                       />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a24] via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-transparent to-transparent" />
                   </div>
 
                   {/* Icône flottante à cheval sur la photo */}
                   <div className="relative flex justify-center -mt-8 z-10">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/30 border-4 border-[#1a1a24]">
-                      <Compass className="w-8 h-8 text-white" aria-hidden="true" />
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/30 border-4 border-[#0A0A0F]">
+                      <Compass className="w-8 h-8 text-[#FAFAFA]" aria-hidden="true" />
                     </div>
                   </div>
 
                   {/* Contenu */}
                   <div className="px-8 pb-8 pt-4">
-                    <h2 className="text-xl font-bold text-white mb-2 text-center">{t.chooserTravelerTitle}</h2>
-                    <p className="text-gray-400 text-sm mb-5 text-center">
+                    <h2 className="text-xl font-bold text-[#FAFAFA] mb-2 text-center">{t.chooserTravelerTitle}</h2>
+                    <p className="text-[#A1A1AA] text-sm mb-5 text-center">
                       {t.chooserTravelerDesc}
                     </p>
                     <div className="space-y-2">
@@ -155,7 +155,7 @@ export default function RegisterChooserPage() {
                         { icon: Star, text: t.chooserTravelerBenefit3 },
                         { icon: MapPin, text: t.chooserTravelerBenefit4 },
                       ].map((item) => (
-                        <div key={item.text} className="flex items-center gap-2 text-sm text-gray-500">
+                        <div key={item.text} className="flex items-center gap-2 text-sm text-[#71717A]">
                           <item.icon className="w-4 h-4 text-cyan-400" aria-hidden="true" />
                           {item.text}
                         </div>
@@ -174,7 +174,7 @@ export default function RegisterChooserPage() {
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setMode('pro')}
                   aria-label={t.chooserProAriaLabel}
-                  className="group relative bg-[#1a1a24] rounded-2xl border-2 border-[#2a2a36] hover:border-[#ff6b35]/50 text-left transition-all overflow-hidden"
+                  className="group relative bg-[#111114] rounded-2xl border-2 border-[#27272A] hover:border-[#FF6B35]/50 text-left transition-all overflow-hidden"
                 >
                   {/* Photo header - 2 images side by side */}
                   <div className="relative h-40 w-full overflow-hidden grid grid-cols-2">
@@ -196,20 +196,20 @@ export default function RegisterChooserPage() {
                         sizes="(max-width: 640px) 50vw, 25vw"
                       />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a24] via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-transparent to-transparent" />
                   </div>
 
                   {/* Icône flottante à cheval sur la photo */}
                   <div className="relative flex justify-center -mt-8 z-10">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#ff6b35] to-pink-500 flex items-center justify-center shadow-lg shadow-orange-500/30 border-4 border-[#1a1a24]">
-                      <Handshake className="w-8 h-8 text-white" aria-hidden="true" />
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF6B35] to-pink-500 flex items-center justify-center shadow-lg shadow-orange-500/30 border-4 border-[#0A0A0F]">
+                      <Handshake className="w-8 h-8 text-[#FAFAFA]" aria-hidden="true" />
                     </div>
                   </div>
 
                   {/* Contenu */}
                   <div className="px-8 pb-8 pt-4">
-                    <h2 className="text-xl font-bold text-white mb-2 text-center">{t.chooserProTitle}</h2>
-                    <p className="text-gray-400 text-sm mb-5 text-center">
+                    <h2 className="text-xl font-bold text-[#FAFAFA] mb-2 text-center">{t.chooserProTitle}</h2>
+                    <p className="text-[#A1A1AA] text-sm mb-5 text-center">
                       {t.chooserProDesc}
                     </p>
                     <div className="space-y-2">
@@ -219,13 +219,13 @@ export default function RegisterChooserPage() {
                         { icon: Shield, text: t.chooserProBenefit3 },
                         { icon: Sparkles, text: t.chooserProBenefit4 },
                       ].map((item) => (
-                        <div key={item.text} className="flex items-center gap-2 text-sm text-gray-500">
-                          <item.icon className="w-4 h-4 text-[#ff6b35]" aria-hidden="true" />
+                        <div key={item.text} className="flex items-center gap-2 text-sm text-[#71717A]">
+                          <item.icon className="w-4 h-4 text-[#FF6B35]" aria-hidden="true" />
                           {item.text}
                         </div>
                       ))}
                     </div>
-                    <div className="mt-6 flex items-center justify-center gap-2 text-[#ff6b35] font-medium text-sm group-hover:gap-3 transition-all">
+                    <div className="mt-6 flex items-center justify-center gap-2 text-[#FF6B35] font-medium text-sm group-hover:gap-3 transition-all">
                       {t.chooserProCta}
                       <ArrowRight className="w-4 h-4" aria-hidden="true" />
                     </div>
@@ -234,7 +234,7 @@ export default function RegisterChooserPage() {
               </div>
 
               {/* Texte rassurant */}
-              <p className="text-center text-gray-600 text-sm">
+              <p className="text-center text-[#52525B] text-sm">
                 {t.chooserReassurance}
               </p>
             </motion.div>
@@ -249,7 +249,7 @@ export default function RegisterChooserPage() {
               {/* Bouton retour */}
               <button
                 onClick={() => { setMode('choose'); setSelectedSubtype(null); setExpandedType(null) }}
-                className="flex items-center gap-2 text-sm text-gray-400 hover:text-white mb-6 transition-colors"
+                className="flex items-center gap-2 text-sm text-[#A1A1AA] hover:text-[#FAFAFA] mb-6 transition-colors"
               >
                 <ArrowRight className="w-4 h-4 rotate-180" />
                 {t.chooserBackToChoice}
@@ -258,33 +258,33 @@ export default function RegisterChooserPage() {
               {/* Étapes indicateur */}
               <div className="flex items-center justify-center gap-2 mb-8">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-[#ff6b35] text-white flex items-center justify-center text-sm font-bold">
+                  <div className="w-8 h-8 rounded-full bg-[#FF6B35] text-[#FAFAFA] flex items-center justify-center text-sm font-bold">
                     1
                   </div>
-                  <span className="text-sm font-medium text-white">{t.chooserStepType}</span>
+                  <span className="text-sm font-medium text-[#FAFAFA]">{t.chooserStepType}</span>
                 </div>
-                <div className="w-8 h-px bg-[#2a2a36]" />
+                <div className="w-8 h-px bg-[#1A1A1F]" />
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-[#2a2a36] text-gray-500 flex items-center justify-center text-sm font-bold">
+                  <div className="w-8 h-8 rounded-full bg-[#1A1A1F] text-[#71717A] flex items-center justify-center text-sm font-bold">
                     2
                   </div>
-                  <span className="text-sm text-gray-500">{t.chooserStepAccount}</span>
+                  <span className="text-sm text-[#71717A]">{t.chooserStepAccount}</span>
                 </div>
-                <div className="w-8 h-px bg-[#2a2a36]" />
+                <div className="w-8 h-px bg-[#1A1A1F]" />
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-[#2a2a36] text-gray-500 flex items-center justify-center text-sm font-bold">
+                  <div className="w-8 h-8 rounded-full bg-[#1A1A1F] text-[#71717A] flex items-center justify-center text-sm font-bold">
                     3
                   </div>
-                  <span className="text-sm text-gray-500">{t.chooserStepPublication}</span>
+                  <span className="text-sm text-[#71717A]">{t.chooserStepPublication}</span>
                 </div>
               </div>
 
               {/* Titre */}
               <div className="text-center mb-10">
-                <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">
+                <h2 className="text-3xl sm:text-4xl font-bold text-[#FAFAFA] mb-3">
                   {t.chooserProStepTitle}
                 </h2>
-                <p className="text-gray-400 max-w-lg mx-auto">
+                <p className="text-[#A1A1AA] max-w-lg mx-auto">
                   {t.chooserProStepDesc}
                 </p>
               </div>
@@ -300,10 +300,10 @@ export default function RegisterChooserPage() {
                     <motion.div
                       key={category.type}
                       layout
-                      className={`bg-[#1a1a24] rounded-2xl border overflow-hidden transition-colors ${
+                      className={`bg-[#111114] rounded-2xl border overflow-hidden transition-colors ${
                         hasSelection
-                          ? 'border-[#ff6b35]/50 shadow-lg shadow-[#ff6b35]/5'
-                          : 'border-[#2a2a36] hover:border-[#3a3a46]'
+                          ? 'border-[#FF6B35]/50 shadow-lg shadow-[#FF6B35]/5'
+                          : 'border-[#27272A] hover:border-[#3F3F46]'
                       }`}
                     >
                       <button
@@ -313,24 +313,24 @@ export default function RegisterChooserPage() {
                         <div
                           className={`w-14 h-14 rounded-xl flex items-center justify-center bg-gradient-to-br ${category.gradient} shrink-0`}
                         >
-                          <Icon className="w-7 h-7 text-white" />
+                          <Icon className="w-7 h-7 text-[#FAFAFA]" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <h2 className="text-lg font-semibold text-white">{category.label}</h2>
-                            <span className="text-xs text-gray-500 bg-[#2a2a36] px-2 py-0.5 rounded-full">
+                            <h2 className="text-lg font-semibold text-[#FAFAFA]">{category.label}</h2>
+                            <span className="text-xs text-[#71717A] bg-[#1A1A1F] px-2 py-0.5 rounded-full">
                               {category.subtypes.length} {t.chooserSubtypesCount}
                             </span>
                           </div>
-                          <p className="text-sm text-gray-400 mt-0.5 truncate">{category.description}</p>
+                          <p className="text-sm text-[#A1A1AA] mt-0.5 truncate">{category.description}</p>
                           {hasSelection && (
-                            <p className="text-xs text-[#ff6b35] mt-1 font-medium">
+                            <p className="text-xs text-[#FF6B35] mt-1 font-medium">
                               {category.subtypes.find((s) => s.value === selectedSubtype?.subtype)?.label}
                             </p>
                           )}
                         </div>
                         <ChevronDown
-                          className={`w-5 h-5 text-gray-500 transition-transform shrink-0 ${
+                          className={`w-5 h-5 text-[#71717A] transition-transform shrink-0 ${
                             isExpanded ? 'rotate-180' : ''
                           }`}
                         />
@@ -346,8 +346,8 @@ export default function RegisterChooserPage() {
                             className="overflow-hidden"
                           >
                             <div className="px-5 pb-5 sm:px-6 sm:pb-6 pt-0">
-                              <div className="border-t border-[#2a2a36] pt-4">
-                                <p className="text-xs text-gray-500 mb-3 uppercase tracking-wider font-medium">
+                              <div className="border-t border-[#27272A] pt-4">
+                                <p className="text-xs text-[#71717A] mb-3 uppercase tracking-wider font-medium">
                                   {t.chooserSelectSubtype}
                                 </p>
                                 <div className="flex flex-wrap gap-2">
@@ -362,8 +362,8 @@ export default function RegisterChooserPage() {
                                         onClick={() => handleSelectSubtype(category, subtype.value)}
                                         className={`group relative px-3.5 py-2 rounded-xl text-sm font-medium transition-all ${
                                           isSelected
-                                            ? 'bg-[#ff6b35] text-white shadow-lg shadow-[#ff6b35]/20'
-                                            : 'bg-[#0a0a0f] border border-[#2a2a36] text-gray-300 hover:border-[#ff6b35]/40 hover:text-white'
+                                            ? 'bg-[#FF6B35] text-[#FAFAFA] shadow-lg shadow-[#FF6B35]/20'
+                                            : 'bg-[#0A0A0F] border border-[#27272A] text-[#D4D4D8] hover:border-[#FF6B35]/40 hover:text-[#FAFAFA]'
                                         }`}
                                         title={subtype.description}
                                       >
@@ -391,8 +391,8 @@ export default function RegisterChooserPage() {
                   disabled={!selectedSubtype}
                   className={`w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl text-base font-semibold transition-all ${
                     selectedSubtype
-                      ? 'bg-gradient-to-r from-[#ff6b35] to-pink-500 text-white shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30'
-                      : 'bg-[#2a2a36] text-gray-500 cursor-not-allowed'
+                      ? 'bg-gradient-to-r from-[#FF6B35] to-pink-500 text-[#FAFAFA] shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30'
+                      : 'bg-[#1A1A1F] text-[#71717A] cursor-not-allowed'
                   }`}
                 >
                   <Sparkles className="w-5 h-5" />

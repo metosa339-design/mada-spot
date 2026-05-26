@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { Star, Building2, UtensilsCrossed, Mountain, Users, Crown, MapPin } from 'lucide-react';
 import { getEstablishmentImage } from '@/lib/establishment-image';
 
@@ -28,39 +29,11 @@ interface SearchResultCardProps {
   establishment: Establishment;
 }
 
-const TYPE_CONFIG: Record<string, { label: string; color: string; bgColor: string; borderColor: string; icon: React.ReactNode; plural: string }> = {
-  HOTEL: {
-    label: 'Hôtel',
-    color: 'text-purple-300',
-    bgColor: 'bg-purple-500/80',
-    borderColor: 'border-purple-500/30',
-    icon: <Building2 className="w-3 h-3" />,
-    plural: 'hotels',
-  },
-  RESTAURANT: {
-    label: 'Restaurant',
-    color: 'text-amber-300',
-    bgColor: 'bg-amber-500/80',
-    borderColor: 'border-amber-500/30',
-    icon: <UtensilsCrossed className="w-3 h-3" />,
-    plural: 'restaurants',
-  },
-  ATTRACTION: {
-    label: 'Attraction',
-    color: 'text-orange-300',
-    bgColor: 'bg-orange-500/80',
-    borderColor: 'border-orange-500/30',
-    icon: <Mountain className="w-3 h-3" />,
-    plural: 'attractions',
-  },
-  PROVIDER: {
-    label: 'Prestataire',
-    color: 'text-cyan-300',
-    bgColor: 'bg-cyan-500/80',
-    borderColor: 'border-cyan-500/30',
-    icon: <Users className="w-3 h-3" />,
-    plural: 'prestataires',
-  },
+const TYPE_CONFIG: Record<string, { label: string; icon: React.ReactNode; plural: string }> = {
+  HOTEL: { label: 'Hôtel', icon: <Building2 className="w-3 h-3" />, plural: 'hotels' },
+  RESTAURANT: { label: 'Restaurant', icon: <UtensilsCrossed className="w-3 h-3" />, plural: 'restaurants' },
+  ATTRACTION: { label: 'Attraction', icon: <Mountain className="w-3 h-3" />, plural: 'attractions' },
+  PROVIDER: { label: 'Prestataire', icon: <Users className="w-3 h-3" />, plural: 'prestataires' },
 };
 
 const PRICE_RANGE_LABELS: Record<string, string> = {
@@ -92,9 +65,9 @@ export default function SearchResultCard({ establishment }: SearchResultCardProp
       case 'HOTEL':
         if (establishment.hotel?.starRating) {
           return (
-            <span className="flex items-center gap-1 text-xs text-yellow-400">
+            <span className="flex items-center gap-0.5">
               {Array.from({ length: establishment.hotel.starRating }).map((_, i) => (
-                <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                <Star key={i} className="w-3 h-3 fill-[#FF6B35] text-[#FF6B35]" />
               ))}
             </span>
           );
@@ -103,7 +76,7 @@ export default function SearchResultCard({ establishment }: SearchResultCardProp
       case 'RESTAURANT':
         if (establishment.restaurant?.priceRange) {
           return (
-            <span className="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">
+            <span className="text-[11px] text-[#D4D4D8] bg-[#1A1A1F] border border-[#27272A] px-2 py-0.5 rounded-md">
               {PRICE_RANGE_LABELS[establishment.restaurant.priceRange] || establishment.restaurant.priceRange}
             </span>
           );
@@ -112,7 +85,7 @@ export default function SearchResultCard({ establishment }: SearchResultCardProp
       case 'ATTRACTION':
         if (establishment.attraction) {
           return (
-            <span className="text-xs text-orange-400 bg-orange-500/10 px-2 py-0.5 rounded-full">
+            <span className="text-[11px] text-[#D4D4D8] bg-[#1A1A1F] border border-[#27272A] px-2 py-0.5 rounded-md">
               {establishment.attraction.isFree ? 'Gratuit' : establishment.attraction.attractionType}
             </span>
           );
@@ -121,7 +94,7 @@ export default function SearchResultCard({ establishment }: SearchResultCardProp
       case 'PROVIDER':
         if (establishment.provider?.serviceType) {
           return (
-            <span className="text-xs text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full">
+            <span className="text-[11px] text-[#D4D4D8] bg-[#1A1A1F] border border-[#27272A] px-2 py-0.5 rounded-md">
               {SERVICE_TYPE_LABELS[establishment.provider.serviceType] || establishment.provider.serviceType}
             </span>
           );
@@ -133,70 +106,68 @@ export default function SearchResultCard({ establishment }: SearchResultCardProp
   };
 
   return (
-    <Link
-      href={detailUrl}
-      className="group block bg-[#0c0c16] border border-[#1e1e2e] rounded-xl overflow-hidden hover:scale-[1.02] hover:border-[#2e2e3e] transition-all duration-200"
-    >
-      {/* Cover image */}
-      <div className="relative aspect-video bg-[#1a1a24]">
-        <Image
-          src={getEstablishmentImage(establishment.type, establishment.city, establishment.name, establishment.coverImage)}
-          alt={establishment.name}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        />
+    <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+      <Link
+        href={detailUrl}
+        className="group block bg-[#111114] border border-[#27272A] hover:border-[#3F3F46] rounded-xl overflow-hidden transition-colors"
+      >
+        {/* Cover image */}
+        <div className="relative aspect-video bg-[#1A1A1F]">
+          <Image
+            src={getEstablishmentImage(establishment.type, establishment.city, establishment.name, establishment.coverImage)}
+            alt={establishment.name}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
 
-        {/* Type badge - top left */}
-        <div className={`absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold text-white ${typeConfig.bgColor} backdrop-blur-sm`}>
-          {typeConfig.icon}
-          {typeConfig.label}
-        </div>
-
-        {/* Featured badge - top right */}
-        {establishment.isFeatured && (
-          <div className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold text-yellow-900 bg-gradient-to-r from-yellow-400 to-amber-400">
-            <Crown className="w-3 h-3" />
-            En vedette
+          {/* Type badge - top left */}
+          <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold uppercase tracking-[0.1em] bg-[#FF6B35]/10 border border-[#FF6B35]/30 text-[#FF6B35] backdrop-blur-md">
+            {typeConfig.icon}
+            {typeConfig.label}
           </div>
-        )}
-      </div>
 
-      {/* Content */}
-      <div className="p-4">
-        {/* Name */}
-        <h3 className="text-base font-semibold text-white group-hover:text-orange-400 transition-colors line-clamp-1">
-          {establishment.name}
-        </h3>
-
-        {/* City and region */}
-        <div className="flex items-center gap-1.5 mt-1.5 text-sm text-gray-400">
-          <MapPin className="w-3.5 h-3.5 shrink-0" />
-          <span className="truncate">
-            {establishment.city}
-            {establishment.region && `, ${establishment.region}`}
-          </span>
-        </div>
-
-        {/* Rating + review count + type-specific info */}
-        <div className="flex items-center gap-3 mt-3">
-          {establishment.rating > 0 && (
-            <div className="flex items-center gap-1">
-              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-              <span className="text-sm font-medium text-white">{establishment.rating.toFixed(1)}</span>
-              <span className="text-xs text-gray-500">({establishment.reviewCount})</span>
+          {/* Featured badge - top right */}
+          {establishment.isFeatured && (
+            <div className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold uppercase tracking-[0.1em] bg-[#FF6B35]/10 border border-[#FF6B35]/30 text-[#FF6B35] backdrop-blur-md">
+              <Crown className="w-3 h-3" />
+              Vedette
             </div>
           )}
-          {renderTypeSpecificInfo()}
         </div>
 
-        {/* Short description */}
-        {establishment.shortDescription && (
-          <p className="mt-2.5 text-sm text-gray-400 line-clamp-2 leading-relaxed">
-            {establishment.shortDescription}
-          </p>
-        )}
-      </div>
-    </Link>
+        {/* Content */}
+        <div className="p-4">
+          <h3 className="text-[15px] font-semibold text-[#FAFAFA] group-hover:text-[#FF6B35] transition-colors line-clamp-1">
+            {establishment.name}
+          </h3>
+
+          <div className="flex items-center gap-1.5 mt-1.5 text-[12px] text-[#A1A1AA]">
+            <MapPin className="w-3 h-3 shrink-0" />
+            <span className="truncate">
+              {establishment.city}
+              {establishment.region && `, ${establishment.region}`}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3 mt-3">
+            {establishment.rating > 0 && (
+              <div className="flex items-center gap-1">
+                <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
+                <span className="text-[13px] font-mono text-[#FAFAFA]">{establishment.rating.toFixed(1)}</span>
+                <span className="text-[11px] text-[#71717A]">({establishment.reviewCount})</span>
+              </div>
+            )}
+            {renderTypeSpecificInfo()}
+          </div>
+
+          {establishment.shortDescription && (
+            <p className="mt-2.5 text-[12px] text-[#A1A1AA] line-clamp-2 leading-relaxed">
+              {establishment.shortDescription}
+            </p>
+          )}
+        </div>
+      </Link>
+    </motion.div>
   );
 }

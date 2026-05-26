@@ -67,15 +67,15 @@ export default function CategorizedGallery({
 
   if (allImages.length === 0) {
     return (
-      <div className="relative h-[50vh] md:h-[60vh] bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center">
-        <Building2 className="w-24 h-24 text-slate-500" />
+      <div className="relative h-[50vh] md:h-[60vh] bg-[#111114] border-y border-[#27272A] flex items-center justify-center">
+        <Building2 className="w-20 h-20 text-[#3F3F46]" />
       </div>
     );
   }
 
   return (
     <>
-      <div className="relative h-[50vh] md:h-[60vh] bg-slate-900 group">
+      <div className="relative h-[50vh] md:h-[60vh] bg-[#0A0A0F] group">
         {/* Main image */}
         <AnimatePresence mode="wait">
           <motion.div
@@ -96,22 +96,22 @@ export default function CategorizedGallery({
           </motion.div>
         </AnimatePresence>
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F]/70 via-transparent to-[#0A0A0F]/30 pointer-events-none" />
 
         {/* Category tabs */}
         {tabs.length > 1 && (
-          <div className="absolute top-20 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+          <div className="absolute top-24 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
             {tabs.map((tab, i) => (
               <button
                 key={tab.label}
                 onClick={() => switchTab(i)}
-                className={`px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm transition-all ${
+                className={`px-3 py-1.5 rounded-md text-[12px] font-medium border backdrop-blur-md transition-colors ${
                   activeTab === i
-                    ? 'bg-orange-500 text-white'
-                    : 'bg-black/40 text-white/70 hover:bg-black/60 hover:text-white'
+                    ? 'bg-[#FF6B35] border-[#FF6B35] text-white'
+                    : 'bg-[#111114]/80 border-[#27272A] text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46]'
                 }`}
               >
-                {tab.label} ({tab.images.length})
+                {tab.label} <span className="font-mono opacity-70">({tab.images.length})</span>
               </button>
             ))}
           </div>
@@ -122,15 +122,15 @@ export default function CategorizedGallery({
           <>
             <button
               onClick={prev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors z-10"
+              className="absolute left-4 top-1/2 -translate-y-1/2 p-2.5 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] hover:border-[#3F3F46] rounded-lg text-[#FAFAFA] transition-colors z-10"
             >
-              <ChevronLeft className="w-6 h-6" />
+              <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={next}
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors z-10"
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-2.5 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] hover:border-[#3F3F46] rounded-lg text-[#FAFAFA] transition-colors z-10"
             >
-              <ChevronRight className="w-6 h-6" />
+              <ChevronRight className="w-5 h-5" />
             </button>
           </>
         )}
@@ -138,9 +138,9 @@ export default function CategorizedGallery({
         {/* Zoom button */}
         <button
           onClick={() => setLightbox(true)}
-          className="absolute bottom-20 right-4 p-2.5 bg-black/50 backdrop-blur-sm rounded-lg text-white/80 hover:text-white hover:bg-black/70 transition-all z-10"
+          className="absolute bottom-20 right-4 p-2 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] hover:border-[#3F3F46] rounded-lg text-[#FAFAFA] transition-colors z-10"
         >
-          <ZoomIn className="w-5 h-5" />
+          <ZoomIn className="w-4 h-4" />
         </button>
 
         {/* Thumbnail strip */}
@@ -150,8 +150,8 @@ export default function CategorizedGallery({
               <button
                 key={i}
                 onClick={() => setCurrentIndex(i)}
-                className={`w-10 h-10 rounded-lg overflow-hidden border-2 transition-all ${
-                  currentIndex === i ? 'border-orange-500 scale-110' : 'border-white/30 opacity-70 hover:opacity-100'
+                className={`w-10 h-10 rounded-md overflow-hidden border transition-colors ${
+                  currentIndex === i ? 'border-[#FF6B35]' : 'border-[#27272A] opacity-70 hover:opacity-100'
                 }`}
               >
                 <Image
@@ -164,13 +164,13 @@ export default function CategorizedGallery({
               </button>
             ))}
             {currentImages.length > 8 && (
-              <span className="text-xs text-white/60 ml-1">+{currentImages.length - 8}</span>
+              <span className="text-[11px] font-mono text-[#A1A1AA] ml-1">+{currentImages.length - 8}</span>
             )}
           </div>
         )}
 
         {/* Counter */}
-        <div className="absolute top-4 right-4 px-3 py-1 bg-black/50 backdrop-blur-sm rounded-full text-sm text-white/80 z-10">
+        <div className="absolute top-4 right-4 px-2.5 py-1 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] rounded-md text-[12px] font-mono text-[#FAFAFA] z-10">
           {currentIndex + 1} / {currentImages.length}
         </div>
       </div>
@@ -187,24 +187,24 @@ export default function CategorizedGallery({
           >
             <button
               onClick={() => setLightbox(false)}
-              className="absolute top-4 right-4 p-2 bg-white/10 rounded-full text-white hover:bg-white/20 z-10"
+              className="absolute top-4 right-4 p-2.5 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] hover:border-[#3F3F46] rounded-lg text-[#FAFAFA] z-10"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5" />
             </button>
 
             {currentImages.length > 1 && (
               <>
                 <button
                   onClick={(e) => { e.stopPropagation(); prev(); }}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 rounded-full text-white hover:bg-white/20"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] hover:border-[#3F3F46] rounded-lg text-[#FAFAFA]"
                 >
-                  <ChevronLeft className="w-8 h-8" />
+                  <ChevronLeft className="w-6 h-6" />
                 </button>
                 <button
                   onClick={(e) => { e.stopPropagation(); next(); }}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 rounded-full text-white hover:bg-white/20"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-[#111114]/80 backdrop-blur-md border border-[#27272A] hover:border-[#3F3F46] rounded-lg text-[#FAFAFA]"
                 >
-                  <ChevronRight className="w-8 h-8" />
+                  <ChevronRight className="w-6 h-6" />
                 </button>
               </>
             )}
@@ -218,7 +218,7 @@ export default function CategorizedGallery({
               />
             </div>
 
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/60 text-sm">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[#A1A1AA] text-[12px] font-mono">
               {currentIndex + 1} / {currentImages.length}
             </div>
           </motion.div>

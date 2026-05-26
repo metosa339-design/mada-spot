@@ -160,29 +160,25 @@ export default function EvenementsPage() {
   }, [displayEvents, selectedDay, events]);
 
   return (
-    <div className="min-h-screen bg-[#070710]">
+    <div className="min-h-screen bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8"
-        >
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500/20 to-purple-500/20 flex items-center justify-center border border-orange-500/10">
-              <Calendar className="w-6 h-6 text-orange-400" />
+            <div className="w-11 h-11 rounded-lg bg-[#FF6B35]/10 border border-[#FF6B35]/25 flex items-center justify-center">
+              <Calendar className="w-5 h-5 text-[#FF6B35]" />
             </div>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-1">Agenda</p>
+              <h1 className="text-[24px] sm:text-[32px] font-semibold tracking-[-0.02em] text-[#FAFAFA]">
                 {t.heroTitle}
               </h1>
-              <p className="text-gray-400 text-sm mt-0.5">
+              <p className="text-[#A1A1AA] text-[13px] mt-1">
                 {t.heroSubtitleAlt}
               </p>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Hero Slider - Pinned/Featured events */}
         {pinnedEvents.length > 0 && (
@@ -208,11 +204,8 @@ export default function EvenementsPage() {
         {/* Loading */}
         {loading && (
           <div className="flex flex-col items-center justify-center py-20 gap-3">
-            <div className="relative">
-              <Loader2 className="w-10 h-10 text-orange-400 animate-spin" />
-              <div className="absolute inset-0 w-10 h-10 rounded-full bg-orange-500/20 animate-ping" />
-            </div>
-            <p className="text-gray-500 text-sm">{t.loadingEvents}</p>
+            <Loader2 className="w-8 h-8 text-[#FF6B35] animate-spin" />
+            <p className="text-[#A1A1AA] text-[13px]">{t.loadingEvents}</p>
           </div>
         )}
 
@@ -237,30 +230,29 @@ export default function EvenementsPage() {
                 />
 
                 {/* Quick stats */}
-                <div className="bg-[#0a0a14] rounded-2xl border border-[#1a1a2a] p-4 overflow-hidden relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/[0.03] to-purple-500/[0.03] pointer-events-none" />
-                  <div className="relative flex items-center gap-2 mb-3">
-                    <Sparkles className="w-4 h-4 text-orange-400" />
-                    <span className="text-sm font-semibold text-white">{t.thisMonth}</span>
+                <div className="bg-[#111114] rounded-xl border border-[#27272A] p-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Sparkles className="w-3.5 h-3.5 text-[#FF6B35]" />
+                    <span className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#FF6B35]">{t.thisMonth}</span>
                   </div>
-                  <div className="relative grid grid-cols-3 gap-2">
-                    <div className="bg-[#070710] rounded-xl p-3 text-center border border-[#1a1a2a]">
-                      <div className="text-xl font-black bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent">
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="bg-[#1A1A1F] rounded-lg p-3 text-center border border-[#27272A]">
+                      <div className="text-[20px] font-semibold font-mono text-[#FAFAFA]">
                         {events.length}
                       </div>
-                      <div className="text-[9px] text-gray-500 mt-0.5 font-medium">{t.statEvents}</div>
+                      <div className="text-[10px] uppercase tracking-[0.1em] text-[#A1A1AA] mt-1">{t.statEvents}</div>
                     </div>
-                    <div className="bg-[#070710] rounded-xl p-3 text-center border border-[#1a1a2a]">
-                      <div className="text-xl font-black text-purple-400">
+                    <div className="bg-[#1A1A1F] rounded-lg p-3 text-center border border-[#27272A]">
+                      <div className="text-[20px] font-semibold font-mono text-[#FAFAFA]">
                         {events.filter((e) => e.badge).length}
                       </div>
-                      <div className="text-[9px] text-gray-500 mt-0.5 font-medium">{t.statFeatured}</div>
+                      <div className="text-[10px] uppercase tracking-[0.1em] text-[#A1A1AA] mt-1">{t.statFeatured}</div>
                     </div>
-                    <div className="bg-[#070710] rounded-xl p-3 text-center border border-[#1a1a2a]">
-                      <div className="text-xl font-black text-emerald-400">
+                    <div className="bg-[#1A1A1F] rounded-lg p-3 text-center border border-[#27272A]">
+                      <div className="text-[20px] font-semibold font-mono text-[#FAFAFA]">
                         {events.filter((e) => e.eventType === 'PROMOTION' || e.isPromotion).length}
                       </div>
-                      <div className="text-[9px] text-gray-500 mt-0.5 font-medium">{t.statPromos}</div>
+                      <div className="text-[10px] uppercase tracking-[0.1em] text-[#A1A1AA] mt-1">{t.statPromos}</div>
                     </div>
                   </div>
                 </div>
@@ -279,11 +271,11 @@ export default function EvenementsPage() {
                 <AnimatePresence mode="wait">
                   <motion.h2
                     key={selectedDay?.toDateString() || 'all'}
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
+                    exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.3 }}
-                    className="text-lg font-bold text-white"
+                    className="text-[18px] font-semibold tracking-[-0.01em] text-[#FAFAFA]"
                   >
                     {selectedDay
                       ? format(selectedDay, "EEEE d MMMM yyyy", { locale: fr })
@@ -291,14 +283,12 @@ export default function EvenementsPage() {
                   </motion.h2>
                 </AnimatePresence>
                 {selectedDay && (
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                  <button
                     onClick={() => handleDaySelect(null)}
-                    className="text-xs text-orange-400 hover:text-orange-300 transition-colors px-3 py-1.5 rounded-full border border-orange-500/20 hover:border-orange-500/40"
+                    className="text-[12px] text-[#FF6B35] hover:text-[#F97316] transition-colors px-3 py-1.5 rounded-lg border border-[#FF6B35]/25 hover:border-[#FF6B35]/40"
                   >
                     {t.seeWholeMonth}
-                  </motion.button>
+                  </button>
                 )}
               </motion.div>
 
@@ -342,70 +332,45 @@ export default function EvenementsPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.4 }}
-                    className="text-center py-16 bg-[#0a0a14] rounded-2xl border border-[#1a1a2a] relative overflow-hidden"
+                    className="text-center py-16 bg-[#111114] rounded-xl border border-[#27272A]"
                   >
-                    {/* Decorative gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500/[0.03] via-transparent to-purple-500/[0.03] pointer-events-none" />
+                    <div>
+                      <div className="w-16 h-16 mx-auto mb-4 rounded-xl bg-[#FF6B35]/10 border border-[#FF6B35]/25 flex items-center justify-center">
+                        <PartyPopper className="w-7 h-7 text-[#FF6B35]" />
+                      </div>
 
-                    <div className="relative">
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-                        className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-orange-500/10 to-purple-500/10 border border-orange-500/10 flex items-center justify-center"
-                      >
-                        <PartyPopper className="w-10 h-10 text-gray-600" />
-                      </motion.div>
-
-                      <motion.p
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                        className="text-gray-300 font-semibold text-lg mb-2"
-                      >
+                      <p className="text-[#FAFAFA] font-semibold text-[16px] mb-2">
                         {selectedDay
                           ? t.noEventThisDay
                           : t.noEventThisMonth}
-                      </motion.p>
+                      </p>
 
-                      <motion.p
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4 }}
-                        className="text-gray-500 text-sm max-w-md mx-auto mb-6"
-                      >
+                      <p className="text-[#A1A1AA] text-[13px] max-w-md mx-auto mb-6 leading-relaxed">
                         {selectedDay
                           ? t.noEventThisDayDesc
                           : t.noEventThisMonthDesc}
-                      </motion.p>
+                      </p>
 
-                      {/* Suggest next day with events */}
                       {nextWeekendWithEvents && (
-                        <motion.button
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.5 }}
+                        <button
                           onClick={() => handleDaySelect(nextWeekendWithEvents)}
-                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#ff6b35]/20 to-[#7c3aed]/20 border border-orange-500/20 rounded-xl text-sm font-medium text-orange-400 hover:text-orange-300 hover:border-orange-500/40 transition-all group"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1A1A1F] border border-[#27272A] hover:border-[#3F3F46] rounded-lg text-[13px] font-medium text-[#FAFAFA] transition-colors group"
                         >
-                          <Rocket className="w-4 h-4" />
+                          <Rocket className="w-3.5 h-3.5 text-[#FF6B35]" />
                           {t.seeDay} {format(nextWeekendWithEvents, 'EEEE d MMMM', { locale: fr })}
-                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </motion.button>
+                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                        </button>
                       )}
 
                       {!nextWeekendWithEvents && selectedDay && (
-                        <motion.button
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.5 }}
+                        <button
                           onClick={() => handleDaySelect(null)}
-                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#ff6b35]/20 to-[#7c3aed]/20 border border-orange-500/20 rounded-xl text-sm font-medium text-orange-400 hover:text-orange-300 hover:border-orange-500/40 transition-all group"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1A1A1F] border border-[#27272A] hover:border-[#3F3F46] rounded-lg text-[13px] font-medium text-[#FAFAFA] transition-colors group"
                         >
-                          <Calendar className="w-4 h-4" />
+                          <Calendar className="w-3.5 h-3.5 text-[#FF6B35]" />
                           {t.seeAllMonthEvents}
-                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </motion.button>
+                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                        </button>
                       )}
                     </div>
                   </motion.div>

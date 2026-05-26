@@ -7,29 +7,29 @@ import { useTrans } from '@/i18n';
 export default function SoumettreEvenementPage() {
   const t = useTrans('events');
   return (
-    <div className="min-h-screen bg-[#070710]">
+    <div className="min-h-screen bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16">
         <Link
           href="/evenements"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-gray-300 text-sm mb-8 transition-colors"
+          className="inline-flex items-center gap-1.5 text-[#A1A1AA] hover:text-[#FAFAFA] text-[13px] mb-8 transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-3.5 h-3.5" />
           {t.backToEvents}
         </Link>
 
-        <div className="bg-[#0c0c16] rounded-2xl border border-[#1e1e2e] p-8 text-center">
-          <div className="w-16 h-16 rounded-full bg-orange-500/10 flex items-center justify-center mx-auto mb-4">
-            <ShieldAlert className="w-8 h-8 text-orange-400" />
+        <div className="bg-[#111114] rounded-xl border border-[#27272A] p-8 text-center">
+          <div className="w-14 h-14 rounded-xl bg-[#FF6B35]/10 border border-[#FF6B35]/25 flex items-center justify-center mx-auto mb-4">
+            <ShieldAlert className="w-6 h-6 text-[#FF6B35]" />
           </div>
-          <h1 className="text-xl font-semibold text-white mb-2">
+          <h1 className="text-[20px] sm:text-[24px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-2">
             {t.adminOnlyTitle}
           </h1>
-          <p className="text-gray-400 mb-6">
+          <p className="text-[#A1A1AA] text-[14px] mb-6 leading-relaxed">
             {t.adminOnlyDesc}
           </p>
           <Link
             href="/evenements"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-pink-500 text-white font-medium hover:shadow-lg hover:shadow-orange-500/25 transition-all text-sm"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg bg-[#FF6B35] hover:bg-[#F97316] text-white font-medium text-[14px] transition-all shadow-[0_8px_30px_rgba(255,107,53,0.25)] hover:shadow-[0_12px_40px_rgba(255,107,53,0.35)]"
           >
             <Calendar className="w-4 h-4" />
             {t.seeEvents}

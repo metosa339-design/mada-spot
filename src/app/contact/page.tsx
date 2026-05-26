@@ -113,12 +113,15 @@ export default function ContactPage() {
 
   if (sent) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[#0A0A0F] flex items-center justify-center px-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         <div className="text-center max-w-md">
-          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">{t.sentTitle}</h2>
-          <p className="text-gray-500 mb-6">{t.sentDesc}</p>
-          <Link href="/" className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
+          <CheckCircle className="w-14 h-14 text-emerald-500 mx-auto mb-4" />
+          <h2 className="text-[24px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-2">{t.sentTitle}</h2>
+          <p className="text-[#A1A1AA] text-[14px] mb-6 leading-relaxed">{t.sentDesc}</p>
+          <Link
+            href="/"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#FF6B35] hover:bg-[#F97316] text-white rounded-lg text-[14px] font-medium transition-all shadow-[0_8px_30px_rgba(255,107,53,0.25)]"
+          >
             {t.returnHome}
           </Link>
         </div>
@@ -126,56 +129,63 @@ export default function ContactPage() {
     );
   }
 
+  const inputClasses = (hasError: boolean) =>
+    `w-full bg-[#1A1A1F] border rounded-lg px-3.5 py-2.5 text-[14px] text-[#FAFAFA] placeholder-[#71717A] focus:outline-none transition-colors ${
+      hasError ? 'border-red-500/50 focus:border-red-500' : 'border-[#27272A] focus:border-[#FF6B35]/40'
+    }`;
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       {/* Header */}
-      <div className="bg-gradient-to-r from-orange-500 to-pink-500 text-white">
-        <div className="max-w-4xl mx-auto px-4 py-10">
-          <Link href="/" className="inline-flex items-center gap-1 text-white/80 hover:text-white text-sm mb-4">
-            <ArrowLeft className="w-4 h-4" /> {t.backHome}
+      <div className="relative bg-[#0A0A0F] pt-28 pb-10 overflow-hidden">
+        <div className="absolute -top-32 -left-20 w-[400px] h-[400px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.10] pointer-events-none" />
+        <div className="relative max-w-4xl mx-auto px-4">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-[#A1A1AA] hover:text-[#FAFAFA] text-[13px] mb-4 transition-colors">
+            <ArrowLeft className="w-3.5 h-3.5" /> {t.backHome}
           </Link>
-          <h1 className="text-3xl font-bold">{t.title}</h1>
-          <p className="mt-2 text-white/80">{t.subtitle}</p>
+          <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">Nous contacter</p>
+          <h1 className="text-[32px] sm:text-[40px] font-semibold tracking-[-0.03em] text-[#FAFAFA]">{t.title}</h1>
+          <p className="mt-2 text-[#A1A1AA] text-[15px] leading-relaxed max-w-2xl">{t.subtitle}</p>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="max-w-4xl mx-auto px-4 py-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Contact Info */}
-          <div className="space-y-6">
-            <div className="bg-white rounded-xl border p-5">
-              <Mail className="w-6 h-6 text-orange-500 mb-2" />
-              <h3 className="font-semibold text-sm">{t.email}</h3>
-              <p className="text-sm text-gray-500 mt-1">support@madaspot.com</p>
+          <div className="space-y-3">
+            <div className="bg-[#111114] rounded-xl border border-[#27272A] p-5">
+              <Mail className="w-5 h-5 text-[#FF6B35] mb-3" />
+              <h3 className="font-semibold text-[#FAFAFA] text-[13px]">{t.email}</h3>
+              <p className="text-[12px] font-mono text-[#A1A1AA] mt-1">support@madaspot.com</p>
             </div>
-            <div className="bg-white rounded-xl border p-5">
-              <Phone className="w-6 h-6 text-orange-500 mb-2" />
-              <h3 className="font-semibold text-sm">{t.phoneWa}</h3>
-              <a href="tel:+261341688296" className="block text-sm text-gray-700 mt-1 hover:text-orange-600 transition-colors">
+            <div className="bg-[#111114] rounded-xl border border-[#27272A] p-5">
+              <Phone className="w-5 h-5 text-[#FF6B35] mb-3" />
+              <h3 className="font-semibold text-[#FAFAFA] text-[13px]">{t.phoneWa}</h3>
+              <a href="tel:+261341688296" className="block text-[12px] font-mono text-[#D4D4D8] mt-1 hover:text-[#FF6B35] transition-colors">
                 +261 34 16 88 296
               </a>
               <a
                 href="https://wa.me/261341688296"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block text-xs text-emerald-600 hover:text-emerald-700 mt-1"
+                className="inline-block text-[11px] text-emerald-400 hover:text-emerald-300 mt-2"
               >
                 {t.chatWa}
               </a>
             </div>
-            <div className="bg-white rounded-xl border p-5">
-              <MapPin className="w-6 h-6 text-orange-500 mb-2" />
-              <h3 className="font-semibold text-sm">{t.address}</h3>
-              <p className="text-sm text-gray-500 mt-1">{t.addressValue}</p>
+            <div className="bg-[#111114] rounded-xl border border-[#27272A] p-5">
+              <MapPin className="w-5 h-5 text-[#FF6B35] mb-3" />
+              <h3 className="font-semibold text-[#FAFAFA] text-[13px]">{t.address}</h3>
+              <p className="text-[12px] text-[#A1A1AA] mt-1">{t.addressValue}</p>
             </div>
           </div>
 
           {/* Form */}
           <div className="md:col-span-2">
-            <form onSubmit={handleSubmit} className="bg-white rounded-xl border p-6 space-y-4">
+            <form onSubmit={handleSubmit} className="bg-[#111114] rounded-xl border border-[#27272A] p-6 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">{t.fullName}</label>
+                  <label className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA] mb-1.5 block">{t.fullName}</label>
                   <input
                     type="text"
                     required
@@ -184,55 +194,55 @@ export default function ContactPage() {
                     value={form.name}
                     onChange={(e) => handleChange('name', e.target.value)}
                     onBlur={() => handleBlur('name')}
-                    className={`w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${touched.name && fieldErrors.name ? 'border-red-400' : ''}`}
+                    className={inputClasses(Boolean(touched.name && fieldErrors.name))}
                     placeholder={t.namePlaceholder}
                   />
-                  {touched.name && fieldErrors.name && <p className="text-xs text-red-500 mt-1">{fieldErrors.name}</p>}
+                  {touched.name && fieldErrors.name && <p className="text-[11px] text-red-400 mt-1">{fieldErrors.name}</p>}
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">{t.emailLabel}</label>
+                  <label className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA] mb-1.5 block">{t.emailLabel}</label>
                   <input
                     type="email"
                     required
                     value={form.email}
                     onChange={(e) => handleChange('email', e.target.value)}
                     onBlur={() => handleBlur('email')}
-                    className={`w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${touched.email && fieldErrors.email ? 'border-red-400' : ''}`}
+                    className={inputClasses(Boolean(touched.email && fieldErrors.email))}
                     placeholder={t.emailPlaceholder}
                   />
-                  {touched.email && fieldErrors.email && <p className="text-xs text-red-500 mt-1">{fieldErrors.email}</p>}
+                  {touched.email && fieldErrors.email && <p className="text-[11px] text-red-400 mt-1">{fieldErrors.email}</p>}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">{t.phoneLabel}</label>
+                  <label className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA] mb-1.5 block">{t.phoneLabel}</label>
                   <PhoneInput
                     value={form.phone}
                     onChange={(val) => handleChange('phone', val)}
                     variant="light"
                     error={touched.phone && fieldErrors.phone ? fieldErrors.phone : undefined}
                   />
-                  {touched.phone && fieldErrors.phone && <p className="text-xs text-red-500 mt-1">{fieldErrors.phone}</p>}
+                  {touched.phone && fieldErrors.phone && <p className="text-[11px] text-red-400 mt-1">{fieldErrors.phone}</p>}
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">{t.subjectLabel}</label>
+                  <label className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA] mb-1.5 block">{t.subjectLabel}</label>
                   <select
                     required
                     value={form.subject}
                     onChange={(e) => handleChange('subject', e.target.value)}
                     onBlur={() => handleBlur('subject')}
-                    className={`w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${touched.subject && fieldErrors.subject ? 'border-red-400' : ''}`}
+                    className={inputClasses(Boolean(touched.subject && fieldErrors.subject))}
                   >
                     <option value="">{t.chooseSubject}</option>
                     {SUBJECTS.map((s) => <option key={s} value={s}>{s}</option>)}
                   </select>
-                  {touched.subject && fieldErrors.subject && <p className="text-xs text-red-500 mt-1">{fieldErrors.subject}</p>}
+                  {touched.subject && fieldErrors.subject && <p className="text-[11px] text-red-400 mt-1">{fieldErrors.subject}</p>}
                 </div>
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">{t.messageLabel}</label>
+                <label className="text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA] mb-1.5 block">{t.messageLabel}</label>
                 <textarea
                   required
                   rows={5}
@@ -241,25 +251,25 @@ export default function ContactPage() {
                   value={form.message}
                   onChange={(e) => handleChange('message', e.target.value)}
                   onBlur={() => handleBlur('message')}
-                  className={`w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none ${touched.message && fieldErrors.message ? 'border-red-400' : ''}`}
+                  className={`${inputClasses(Boolean(touched.message && fieldErrors.message))} resize-none`}
                   placeholder={t.messagePlaceholder}
                 />
-                <div className="flex justify-between mt-1">
-                  {touched.message && fieldErrors.message ? <p className="text-xs text-red-500">{fieldErrors.message}</p> : <span />}
-                  <span className="text-xs text-gray-400">{form.message.length}/5000</span>
+                <div className="flex justify-between mt-1.5">
+                  {touched.message && fieldErrors.message ? <p className="text-[11px] text-red-400">{fieldErrors.message}</p> : <span />}
+                  <span className="text-[11px] font-mono text-[#71717A]">{form.message.length}/5000</span>
                 </div>
               </div>
 
               {error && (
-                <div className="text-sm text-red-600 bg-red-50 px-4 py-2 rounded-lg">{error}</div>
+                <div className="text-[13px] text-red-400 bg-red-500/10 border border-red-500/30 px-4 py-3 rounded-lg">{error}</div>
               )}
 
               <button
                 type="submit"
                 disabled={sending}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600 disabled:opacity-50 transition-colors"
+                className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-[#FF6B35] hover:bg-[#F97316] text-white rounded-lg text-[14px] font-medium disabled:opacity-50 transition-all shadow-[0_8px_30px_rgba(255,107,53,0.25)] hover:shadow-[0_12px_40px_rgba(255,107,53,0.35)]"
               >
-                {sending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
+                {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                 {sending ? t.sending : t.sendMessage}
               </button>
             </form>

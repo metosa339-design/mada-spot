@@ -162,22 +162,22 @@ export default function EventDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#070710] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-orange-400 animate-spin" />
+      <div className="min-h-screen bg-[#0A0A0F] flex items-center justify-center" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        <Loader2 className="w-8 h-8 text-[#FF6B35] animate-spin" />
       </div>
     );
   }
 
   if (error || !event) {
     return (
-      <div className="min-h-screen bg-[#070710] flex flex-col items-center justify-center">
-        <Calendar className="w-16 h-16 text-gray-700 mb-4" />
-        <p className="text-gray-400 text-lg mb-4">{error || t.eventNotFound}</p>
+      <div className="min-h-screen bg-[#0A0A0F] flex flex-col items-center justify-center" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        <Calendar className="w-16 h-16 text-[#3F3F46] mb-4" />
+        <p className="text-[#A1A1AA] text-[15px] mb-6">{error || t.eventNotFound}</p>
         <Link
           href="/evenements"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 transition-colors"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#111114] border border-[#27272A] hover:border-[#3F3F46] text-[#FAFAFA] text-[13px] font-medium transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-3.5 h-3.5" />
           {t.backToEvents}
         </Link>
       </div>
@@ -190,7 +190,7 @@ export default function EventDetailPage() {
   const gradient = GRADIENT_BG[color] || GRADIENT_BG.gray;
 
   return (
-    <div className="min-h-screen bg-[#070710]">
+    <div className="min-h-screen bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       {/* JSON-LD structured data for SEO */}
       <script
         type="application/ld+json"
@@ -218,9 +218,9 @@ export default function EventDetailPage() {
         <div className="absolute top-24 left-4 sm:left-8">
           <Link
             href="/evenements"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-black/50 backdrop-blur-sm text-white text-sm hover:bg-black/70 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#111114]/80 backdrop-blur-md border border-[#27272A] hover:border-[#3F3F46] text-[#FAFAFA] text-[13px] font-medium transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-3.5 h-3.5" />
             {t.backToEvents}
           </Link>
         </div>
@@ -248,21 +248,19 @@ export default function EventDetailPage() {
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl sm:text-4xl font-bold text-white mb-6">
+        <h1 className="text-[28px] sm:text-[40px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-6 leading-[1.1]">
           {event.title}
         </h1>
 
         {/* Meta info */}
         <div className="space-y-3 mb-8">
-          {/* Date */}
-          <div className="flex items-center gap-3 text-gray-300">
-            <Calendar className="w-5 h-5 text-orange-400 flex-shrink-0" />
+          <div className="flex items-center gap-3 text-[#D4D4D8] text-[14px]">
+            <Calendar className="w-4 h-4 text-[#FF6B35] flex-shrink-0" />
             <span>{formatDateRange(event.startDate, event.endDate)}</span>
           </div>
 
-          {/* Location */}
-          <div className="flex items-center gap-3 text-gray-300">
-            <MapPin className="w-5 h-5 text-orange-400 flex-shrink-0" />
+          <div className="flex items-center gap-3 text-[#D4D4D8] text-[14px]">
+            <MapPin className="w-4 h-4 text-[#FF6B35] flex-shrink-0" />
             <span>
               {event.location ? `${event.location}, ` : ''}
               {event.city}
@@ -270,18 +268,16 @@ export default function EventDetailPage() {
             </span>
           </div>
 
-          {/* Organizer */}
           {event.organizer && (
-            <div className="flex items-center gap-3 text-gray-300">
-              <User className="w-5 h-5 text-orange-400 flex-shrink-0" />
+            <div className="flex items-center gap-3 text-[#D4D4D8] text-[14px]">
+              <User className="w-4 h-4 text-[#FF6B35] flex-shrink-0" />
               <span>{t.organizedBy} {event.organizer}</span>
             </div>
           )}
 
-          {/* Recurring */}
           {event.isRecurring && (
-            <div className="flex items-center gap-3 text-amber-400/80">
-              <Repeat className="w-5 h-5 flex-shrink-0" />
+            <div className="flex items-center gap-3 text-[#FF6B35] text-[14px]">
+              <Repeat className="w-4 h-4 flex-shrink-0" />
               <span>{t.recurringEvent}{event.recurrenceRule ? ` - ${event.recurrenceRule}` : ''}</span>
             </div>
           )}
@@ -289,9 +285,9 @@ export default function EventDetailPage() {
 
         {/* Description */}
         {event.description && (
-          <div className="bg-[#0c0c16] rounded-2xl border border-[#1e1e2e] p-6 mb-8">
-            <h2 className="text-lg font-semibold text-white mb-3">{t.description}</h2>
-            <div className="text-gray-400 leading-relaxed whitespace-pre-wrap">
+          <div className="bg-[#111114] rounded-xl border border-[#27272A] p-6 mb-6">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">{t.description}</p>
+            <div className="text-[#D4D4D8] leading-relaxed whitespace-pre-wrap text-[14px] max-w-[65ch]">
               {event.description}
             </div>
           </div>
@@ -299,32 +295,32 @@ export default function EventDetailPage() {
 
         {/* Linked establishment */}
         {event.establishment && (
-          <div className="bg-[#0c0c16] rounded-2xl border border-[#1e1e2e] p-6 mb-8">
-            <h2 className="text-lg font-semibold text-white mb-3">{t.linkedPlace}</h2>
+          <div className="bg-[#111114] rounded-xl border border-[#27272A] p-6 mb-6">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">{t.linkedPlace}</p>
             <Link
               href={`/bons-plans/${event.establishment.type === 'HOTEL' ? 'hotels' : event.establishment.type === 'RESTAURANT' ? 'restaurants' : event.establishment.type === 'ATTRACTION' ? 'attractions' : 'prestataires'}/${event.establishment.slug}`}
               className="flex items-center gap-4 group"
             >
-              <div className="w-16 h-16 rounded-xl overflow-hidden bg-gray-800 flex-shrink-0">
+              <div className="w-14 h-14 rounded-lg overflow-hidden bg-[#1A1A1F] border border-[#27272A] flex-shrink-0">
                 {event.establishment.coverImage ? (
                   <Image
                     src={getImageUrl(event.establishment.coverImage)}
                     alt={event.establishment.name}
-                    width={64}
-                    height={64}
+                    width={56}
+                    height={56}
                     className="w-full h-full object-cover"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <Building2 className="w-6 h-6 text-gray-600" />
+                    <Building2 className="w-5 h-5 text-[#3F3F46]" />
                   </div>
                 )}
               </div>
               <div>
-                <p className="text-white font-medium group-hover:text-orange-400 transition-colors">
+                <p className="text-[#FAFAFA] font-semibold text-[14px] group-hover:text-[#FF6B35] transition-colors">
                   {event.establishment.name}
                 </p>
-                <p className="text-gray-500 text-sm">{event.establishment.city}</p>
+                <p className="text-[#A1A1AA] text-[12px] mt-0.5">{event.establishment.city}</p>
               </div>
             </Link>
           </div>
@@ -337,7 +333,7 @@ export default function EventDetailPage() {
               href={event.ctaLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl text-base transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#FF6B35] hover:bg-[#F97316] text-white rounded-lg text-[14px] font-medium transition-all shadow-[0_8px_30px_rgba(255,107,53,0.25)] hover:shadow-[0_12px_40px_rgba(255,107,53,0.35)]"
             >
               {event.ctaLabel}
               <ExternalLink className="w-4 h-4" />
@@ -348,9 +344,9 @@ export default function EventDetailPage() {
         {/* Back button */}
         <Link
           href="/evenements"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/5 text-gray-300 hover:bg-white/10 transition-colors"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#111114] border border-[#27272A] hover:border-[#3F3F46] text-[#FAFAFA] text-[13px] font-medium transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-3.5 h-3.5" />
           {t.backToEvents}
         </Link>
       </div>

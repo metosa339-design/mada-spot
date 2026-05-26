@@ -69,13 +69,13 @@ const FAQ_SECTIONS_RAW: FAQSectionRaw[] = [
   },
 ]
 
-const QUICK_LINKS: { icon: LucideIcon; labelKey: string; href: string; color: string }[] = [
-  { icon: Calendar, labelKey: 'qlBookings', href: '/client/bookings', color: '#0891b2' },
-  { icon: Heart, labelKey: 'qlFavorites', href: '/client/favorites', color: '#ef4444' },
-  { icon: Star, labelKey: 'qlPublishReview', href: '/publier-avis', color: '#f59e0b' },
-  { icon: CreditCard, labelKey: 'qlLoyalty', href: '/client/fidelite', color: '#8b5cf6' },
-  { icon: MapPin, labelKey: 'qlExplore', href: '/bons-plans', color: '#10b981' },
-  { icon: MessageSquare, labelKey: 'qlMessages', href: '/client/messagerie', color: '#ec4899' },
+const QUICK_LINKS: { icon: LucideIcon; labelKey: string; href: string }[] = [
+  { icon: Calendar, labelKey: 'qlBookings', href: '/client/bookings' },
+  { icon: Heart, labelKey: 'qlFavorites', href: '/client/favorites' },
+  { icon: Star, labelKey: 'qlPublishReview', href: '/publier-avis' },
+  { icon: CreditCard, labelKey: 'qlLoyalty', href: '/client/fidelite' },
+  { icon: MapPin, labelKey: 'qlExplore', href: '/bons-plans' },
+  { icon: MessageSquare, labelKey: 'qlMessages', href: '/client/messagerie' },
 ]
 
 const slideUp = {
@@ -99,35 +99,35 @@ function DarkAccordion({ t }: { t: HelpTrans }) {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       {FAQ_SECTIONS_RAW.map((section, sIdx) => {
         const SectionIcon = section.icon
         return (
           <motion.div key={section.titleKey} variants={slideUp} custom={sIdx + 3} initial="hidden" animate="visible">
-            <div className="flex items-center gap-2 mb-3">
-              <SectionIcon className="w-4 h-4 text-[#ff6b35]" />
-              <h2 className="text-lg font-bold text-white">{t[section.titleKey]}</h2>
+            <div className="flex items-center gap-2 mb-4">
+              <SectionIcon className="w-4 h-4 text-[#FF6B35]" />
+              <h2 className="text-[16px] font-semibold tracking-[-0.01em] text-[#FAFAFA]">{t[section.titleKey]}</h2>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               {section.items.map((item, iIdx) => {
                 const key = `${sIdx}-${iIdx}`
                 const isOpen = openItems.has(key)
                 return (
                   <div
                     key={key}
-                    className="bg-[#1a1a24] rounded-xl border border-[#2a2a36] overflow-hidden"
+                    className="bg-[#111114] rounded-xl border border-[#27272A] hover:border-[#3F3F46] transition-colors overflow-hidden"
                   >
                     <button
                       onClick={() => toggle(key)}
-                      className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-white/5 transition-colors"
+                      className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-[#1A1A1F] transition-colors"
                     >
-                      <span className="font-medium text-gray-200 pr-4">{t[item.questionKey]}</span>
+                      <span className="font-medium text-[#FAFAFA] text-[14px] pr-4">{t[item.questionKey]}</span>
                       <ChevronDown
-                        className={`w-5 h-5 text-gray-500 flex-shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                        className={`w-4 h-4 text-[#A1A1AA] flex-shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
                       />
                     </button>
                     {isOpen && (
-                      <div className="px-5 pb-4 text-gray-400 text-sm leading-relaxed">
+                      <div className="px-5 pb-5 text-[#D4D4D8] text-[13px] leading-relaxed border-t border-[#27272A] pt-4">
                         {t[item.answerKey]}
                       </div>
                     )}
@@ -146,25 +146,25 @@ export default function AidePage() {
   const t = useTrans('helpPage')
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white">
+    <div className="min-h-screen bg-[#0A0A0F] text-[#FAFAFA]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-12">
 
         {/* Header */}
         <motion.div variants={slideUp} custom={0} initial="hidden" animate="visible" className="mb-8">
-          <Link href="/client" className="inline-flex items-center gap-1.5 text-gray-400 hover:text-white text-sm mb-4 transition-colors">
-            <ArrowLeft className="w-4 h-4" /> {t.backToClient}
+          <Link href="/client" className="inline-flex items-center gap-1.5 text-[#A1A1AA] hover:text-[#FAFAFA] text-[13px] mb-4 transition-colors">
+            <ArrowLeft className="w-3.5 h-3.5" /> {t.backToClient}
           </Link>
 
-          <div className="relative overflow-hidden rounded-2xl border border-[#2a2a36] bg-gradient-to-br from-violet-500/10 via-[#0a0a0f] to-indigo-500/5 p-8">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-violet-500/10 to-transparent rounded-full -translate-y-1/2 translate-x-1/3" />
+          <div className="relative overflow-hidden rounded-xl border border-[#27272A] bg-[#111114] p-8">
+            <div className="absolute -top-32 -right-20 w-[300px] h-[300px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.08] pointer-events-none" />
             <div className="relative">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 bg-violet-500/20 rounded-xl flex items-center justify-center">
-                  <HelpCircle className="w-6 h-6 text-violet-400" />
+                <div className="w-11 h-11 bg-[#FF6B35]/10 border border-[#FF6B35]/25 rounded-lg flex items-center justify-center">
+                  <HelpCircle className="w-5 h-5 text-[#FF6B35]" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold">{t.title}</h1>
-                  <p className="text-gray-400 text-sm">{t.subtitle}</p>
+                  <h1 className="text-[24px] sm:text-[28px] font-semibold tracking-[-0.02em] text-[#FAFAFA]">{t.title}</h1>
+                  <p className="text-[#A1A1AA] text-[13px] mt-0.5">{t.subtitle}</p>
                 </div>
               </div>
             </div>
@@ -173,18 +173,22 @@ export default function AidePage() {
 
         {/* Quick Links */}
         <motion.div variants={slideUp} custom={1} initial="hidden" animate="visible" className="mb-10">
-          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">{t.quickActions}</h2>
+          <h2 className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3">{t.quickActions}</h2>
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
             {QUICK_LINKS.map(link => {
               const Icon = link.icon
               return (
                 <Link key={link.labelKey} href={link.href}>
-                  <div className="bg-[#1a1a24] border border-[#2a2a36] rounded-xl p-3 flex flex-col items-center gap-1.5 hover:border-[#ff6b35]/20 transition-all text-center">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${link.color}15` }}>
-                      <Icon className="w-4 h-4" style={{ color: link.color }} />
+                  <motion.div
+                    whileHover={{ y: -2 }}
+                    transition={{ duration: 0.2 }}
+                    className="bg-[#111114] border border-[#27272A] rounded-xl p-3 flex flex-col items-center gap-2 hover:border-[#3F3F46] transition-colors text-center"
+                  >
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-[#FF6B35]/10 border border-[#FF6B35]/20">
+                      <Icon className="w-3.5 h-3.5 text-[#FF6B35]" />
                     </div>
-                    <span className="text-[11px] text-gray-400">{t[link.labelKey]}</span>
-                  </div>
+                    <span className="text-[11px] text-[#D4D4D8]">{t[link.labelKey]}</span>
+                  </motion.div>
                 </Link>
               )
             })}
@@ -192,33 +196,36 @@ export default function AidePage() {
         </motion.div>
 
         {/* FAQ Sections */}
-        <motion.div variants={slideUp} custom={2} initial="hidden" animate="visible" className="mb-10">
-          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">{t.popularTopics}</h2>
+        <motion.div variants={slideUp} custom={2} initial="hidden" animate="visible" className="mb-8">
+          <h2 className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35]">{t.popularTopics}</h2>
         </motion.div>
         <DarkAccordion t={t} />
 
         {/* Contact CTA */}
         <motion.div variants={slideUp} custom={10} initial="hidden" animate="visible" className="mt-12">
-          <div className="bg-gradient-to-br from-[#ff6b35]/10 via-[#1a1a24] to-pink-500/5 border border-[#2a2a36] rounded-2xl p-8 text-center">
-            <h2 className="text-lg font-bold text-white mb-2">{t.needMore}</h2>
-            <p className="text-gray-400 text-sm mb-6">
-              {t.needMoreDesc}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#ff6b35] text-white rounded-xl font-medium hover:bg-[#e55a2b] transition-colors"
-              >
-                <Mail className="w-4 h-4" />
-                {t.contactBtn}
-              </Link>
-              <a
-                href="tel:+261340000000"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/5 border border-white/10 text-gray-300 rounded-xl font-medium hover:bg-white/10 transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-                +261 34 00 000 00
-              </a>
+          <div className="relative bg-[#111114] border border-[#27272A] rounded-xl p-8 text-center overflow-hidden">
+            <div className="absolute -top-24 -right-24 w-[300px] h-[300px] bg-[#FF6B35] rounded-full blur-[100px] opacity-[0.10] pointer-events-none" />
+            <div className="relative">
+              <h2 className="text-[20px] sm:text-[24px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-2">{t.needMore}</h2>
+              <p className="text-[#A1A1AA] text-[13px] mb-6 leading-relaxed">
+                {t.needMoreDesc}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#FF6B35] hover:bg-[#F97316] text-white rounded-lg text-[14px] font-medium transition-all shadow-[0_8px_30px_rgba(255,107,53,0.25)] hover:shadow-[0_12px_40px_rgba(255,107,53,0.35)]"
+                >
+                  <Mail className="w-4 h-4" />
+                  {t.contactBtn}
+                </Link>
+                <a
+                  href="tel:+261340000000"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#1A1A1F] border border-[#27272A] hover:border-[#3F3F46] text-[#FAFAFA] rounded-lg text-[14px] font-medium transition-colors"
+                >
+                  <Phone className="w-4 h-4" />
+                  <span className="font-mono">+261 34 00 000 00</span>
+                </a>
+              </div>
             </div>
           </div>
         </motion.div>

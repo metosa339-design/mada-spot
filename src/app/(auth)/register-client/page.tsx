@@ -39,7 +39,7 @@ export default function RegisterClientPage() {
 
 function RegisterFallback() {
   const t = useTrans('auth')
-  return <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-8 text-center text-slate-400">{t.loading}</div>
+  return <div className="bg-[#111114] rounded-xl border border-[#27272A] p-8 text-center text-[#A1A1AA]">{t.loading}</div>
 }
 
 const TYPE_ICONS: Record<string, any> = {
@@ -232,7 +232,7 @@ function RegisterClientForm() {
   // OTP Verification Screen
   if (showOtpStep) {
     return (
-      <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-8">
+      <div className="bg-[#111114] rounded-xl border border-[#27272A] p-8">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -244,20 +244,20 @@ function RegisterClientForm() {
             <Mail className="w-10 h-10 text-orange-400" />
           </div>
 
-          <h2 className="text-2xl font-bold text-white mb-2">{t.otpVerifyEmail}</h2>
-          <p className="text-slate-400 mb-2">
+          <h2 className="text-[24px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-2">{t.otpVerifyEmail}</h2>
+          <p className="text-[#A1A1AA] mb-2">
             {t.otpSentTo}
           </p>
           <p className="text-white font-semibold mb-1">{formData.email}</p>
           {formData.phone && (
-            <p className="text-xs text-slate-500 mb-6">
+            <p className="text-xs text-[#71717A] mb-6">
               <Phone className="w-3 h-3 inline mr-1" />
               {t.otpPhoneLabel} {formData.phone}
             </p>
           )}
 
-          <div className="bg-white/5 border border-white/10 rounded-xl p-5 mb-6">
-            <p className="text-sm text-slate-300 mb-4">
+          <div className="bg-[#1A1A1F] border border-[#27272A] rounded-lg p-5 mb-6">
+            <p className="text-sm text-[#D4D4D8] mb-4">
               {t.otpInstruction}
             </p>
 
@@ -273,7 +273,7 @@ function RegisterClientForm() {
                   value={digit}
                   onChange={(e) => handleOtpDigit(i, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(i, e)}
-                  className="w-12 h-14 text-center text-2xl font-bold bg-white border border-gray-300 rounded-xl text-gray-900 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none transition-all"
+                  className="w-12 h-14 text-center text-2xl font-mono font-semibold bg-[#1A1A1F] border border-[#27272A] rounded-lg text-[#FAFAFA] focus:border-[#FF6B35]/40 focus:outline-none transition-colors"
                 />
               ))}
             </div>
@@ -299,7 +299,7 @@ function RegisterClientForm() {
             <button
               onClick={() => handleVerifyOtp(otpCode.join(''))}
               disabled={otpVerifying || otpCode.some(d => !d)}
-              className="w-full py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+              className="w-full py-3 bg-[#FF6B35] hover:bg-[#F97316] text-white font-medium rounded-lg shadow-[0_8px_30px_rgba(255,107,53,0.25)] hover:shadow-[0_12px_40px_rgba(255,107,53,0.35)] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {otpVerifying ? (
                 <><Loader2 className="w-5 h-5 animate-spin" /> {t.otpVerifying}</>
@@ -311,13 +311,13 @@ function RegisterClientForm() {
 
           {/* Resend */}
           <div className="space-y-2">
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-[#71717A]">
               {t.otpNoCode}
             </p>
             <button
               onClick={handleSendOtp}
               disabled={otpSending || otpCooldown > 0}
-              className="text-sm text-orange-400 hover:text-orange-300 font-medium disabled:opacity-50 disabled:text-slate-600"
+              className="text-sm text-[#FF6B35] hover:text-[#F97316] font-medium disabled:opacity-50 disabled:text-[#52525B]"
             >
               {otpSending ? (
                 <><Loader2 className="w-3 h-3 inline animate-spin mr-1" /> {t.otpSending}</>
@@ -340,7 +340,7 @@ function RegisterClientForm() {
                 router.push(redirectTo || '/bons-plans')
               }
             }}
-            className="mt-6 text-xs text-slate-600 hover:text-slate-400 transition-colors"
+            className="mt-6 text-xs text-[#52525B] hover:text-[#A1A1AA] transition-colors"
           >
             {t.otpSkip}
           </button>
@@ -350,7 +350,7 @@ function RegisterClientForm() {
   }
 
   return (
-    <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-8">
+    <div className="bg-[#111114] rounded-xl border border-[#27272A] p-8">
       {/* Badge type/subtype si inscription depuis /register */}
       {category && subtypeInfo && TypeIcon && (
         <div className="mb-6 flex items-center gap-3 p-3 bg-[#ff6b35]/10 border border-[#ff6b35]/20 rounded-xl">
@@ -370,10 +370,10 @@ function RegisterClientForm() {
         <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center">
           <User className="w-7 h-7 text-white" />
         </div>
-        <h1 className="text-2xl font-bold text-white mb-2">
+        <h1 className="text-[24px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-2">
           {category ? t.registerProTitle : t.registerTitle}
         </h1>
-        <p className="text-slate-400">
+        <p className="text-[#A1A1AA]">
           {category
             ? t.registerProDesc.replace('{category}', category.label.toLowerCase())
             : t.registerDesc}
@@ -388,7 +388,7 @@ function RegisterClientForm() {
             { icon: MessageCircle, label: t.featureContact },
             { icon: Heart, label: t.favoritesLabel },
           ].map((item) => (
-            <div key={item.label} className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-slate-400">
+            <div key={item.label} className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A1A1F] border border-[#27272A] rounded-md text-xs text-[#A1A1AA]">
               <item.icon className="w-3 h-3 text-orange-400" />
               {item.label}
             </div>
@@ -411,16 +411,16 @@ function RegisterClientForm() {
         {/* Nom et Prénom */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="reg-firstName" className="block text-sm font-medium text-gray-700 mb-2">{t.firstName}</label>
+            <label htmlFor="reg-firstName" className="block text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA] mb-1.5">{t.firstName}</label>
             <div className="relative">
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" aria-hidden="true" />
+              <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#A1A1AA]" aria-hidden="true" />
               <input
                 id="reg-firstName"
                 type="text"
                 value={formData.firstName}
                 onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                 placeholder={t.firstNamePlaceholder}
-                className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
+                className="w-full pl-12 pr-4 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-lg text-[#FAFAFA] placeholder:text-[#71717A] text-[14px] focus:outline-none focus:border-[#FF6B35]/40 transition-colors"
                 required
               />
             </div>
@@ -429,14 +429,14 @@ function RegisterClientForm() {
             )}
           </div>
           <div>
-            <label htmlFor="reg-lastName" className="block text-sm font-medium text-gray-700 mb-2">{t.lastName}</label>
+            <label htmlFor="reg-lastName" className="block text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA] mb-1.5">{t.lastName}</label>
             <input
               id="reg-lastName"
               type="text"
               value={formData.lastName}
               onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
               placeholder={t.lastNamePlaceholder}
-              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
+              className="w-full px-4 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-lg text-[#FAFAFA] placeholder:text-[#71717A] text-[14px] focus:outline-none focus:border-[#FF6B35]/40 transition-colors"
               required
             />
             {fieldErrors.lastName && (
@@ -447,16 +447,16 @@ function RegisterClientForm() {
 
         {/* Email */}
         <div>
-          <label htmlFor="reg-email" className="block text-sm font-medium text-gray-700 mb-2">{t.email}</label>
+          <label htmlFor="reg-email" className="block text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA] mb-1.5">{t.email}</label>
           <div className="relative">
-            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" aria-hidden="true" />
+            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#A1A1AA]" aria-hidden="true" />
             <input
               id="reg-email"
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder={t.emailPlaceholder}
-              className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
+              className="w-full pl-12 pr-4 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-lg text-[#FAFAFA] placeholder:text-[#71717A] text-[14px] focus:outline-none focus:border-[#FF6B35]/40 transition-colors"
             />
           </div>
           {fieldErrors.email && (
@@ -466,7 +466,7 @@ function RegisterClientForm() {
 
         {/* Téléphone */}
         <div>
-          <label htmlFor="reg-phone" className="block text-sm font-medium text-gray-700 mb-2">{t.phone}</label>
+          <label htmlFor="reg-phone" className="block text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA] mb-1.5">{t.phone}</label>
           <PhoneInput
             id="reg-phone"
             value={formData.phone}
@@ -481,22 +481,22 @@ function RegisterClientForm() {
 
         {/* Mot de passe */}
         <div>
-          <label htmlFor="reg-password" className="block text-sm font-medium text-gray-700 mb-2">{t.password}</label>
+          <label htmlFor="reg-password" className="block text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA] mb-1.5">{t.password}</label>
           <div className="relative">
-            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" aria-hidden="true" />
+            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#A1A1AA]" aria-hidden="true" />
             <input
               id="reg-password"
               type={showPassword ? 'text' : 'password'}
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               placeholder={t.passwordMinPlaceholder}
-              className="w-full pl-12 pr-12 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
+              className="w-full pl-12 pr-12 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-lg text-[#FAFAFA] placeholder:text-[#71717A] text-[14px] focus:outline-none focus:border-[#FF6B35]/40 transition-colors"
               required
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors"
               aria-label={showPassword ? t.hidePassword : t.showPassword}
             >
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
@@ -509,16 +509,16 @@ function RegisterClientForm() {
 
         {/* Confirmation mot de passe */}
         <div>
-          <label htmlFor="reg-confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">{t.confirmPassword}</label>
+          <label htmlFor="reg-confirmPassword" className="block text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA] mb-1.5">{t.confirmPassword}</label>
           <div className="relative">
-            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" aria-hidden="true" />
+            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#A1A1AA]" aria-hidden="true" />
             <input
               id="reg-confirmPassword"
               type={showPassword ? 'text' : 'password'}
               value={formData.confirmPassword}
               onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
               placeholder={t.confirmPasswordPlaceholder}
-              className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
+              className="w-full pl-12 pr-4 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-lg text-[#FAFAFA] placeholder:text-[#71717A] text-[14px] focus:outline-none focus:border-[#FF6B35]/40 transition-colors"
               required
             />
             {formData.confirmPassword && formData.password === formData.confirmPassword && (
@@ -534,10 +534,10 @@ function RegisterClientForm() {
             id="acceptTerms"
             checked={formData.acceptTerms}
             onChange={(e) => setFormData({ ...formData, acceptTerms: e.target.checked })}
-            className="mt-1 w-4 h-4 rounded border-white/20 bg-white/5 text-orange-500 focus:ring-orange-500/50"
+            className="mt-1 w-4 h-4 rounded border-[#27272A] bg-[#1A1A1F] text-[#FF6B35] focus:ring-orange-500/50"
             required
           />
-          <label htmlFor="acceptTerms" className="text-sm text-slate-400">
+          <label htmlFor="acceptTerms" className="text-sm text-[#A1A1AA]">
             {t.termsAccept}{' '}
             <span className="text-orange-400">{t.termsLink}</span>{' '}
             {t.privacyConnector}{' '}
@@ -550,7 +550,7 @@ function RegisterClientForm() {
         <button
           type="submit"
           disabled={isLoading || !formData.acceptTerms}
-          className="w-full py-3.5 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full py-3.5 bg-[#FF6B35] hover:bg-[#F97316] text-white font-medium rounded-lg shadow-[0_8px_30px_rgba(255,107,53,0.25)] hover:shadow-[0_12px_40px_rgba(255,107,53,0.35)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {isLoading ? (
             <>
@@ -568,9 +568,9 @@ function RegisterClientForm() {
 
       {/* Lien connexion */}
       <div className="mt-8 text-center">
-        <p className="text-slate-400">
+        <p className="text-[#A1A1AA]">
           {t.haveAccountAlready}{' '}
-          <Link href={redirectTo ? `/login?redirect=${encodeURIComponent(redirectTo)}` : '/login'} className="text-orange-400 hover:text-orange-300 font-medium transition-colors">
+          <Link href={redirectTo ? `/login?redirect=${encodeURIComponent(redirectTo)}` : '/login'} className="text-[#FF6B35] hover:text-[#F97316] font-medium transition-colors">
             {t.logIn}
           </Link>
         </p>

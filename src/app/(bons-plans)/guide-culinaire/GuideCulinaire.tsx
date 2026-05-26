@@ -7,7 +7,6 @@ import Image from 'next/image';
 import { Sparkles, ChefHat, UtensilsCrossed, MapPin, Clock, Star, Wheat, Apple, Flame, Fish, ExternalLink, Facebook, Users, Map, ChevronRight } from 'lucide-react';
 import ScrollReveal, { StaggerContainer, StaggerItem } from '@/components/ui/ScrollReveal';
 import { getImageUrl } from '@/lib/image-url';
-import AnimatedGradientText from '@/components/ui/AnimatedGradientText';
 import {
   tableOfContents,
   traditionalDishes,
@@ -25,9 +24,9 @@ const iconMap: Record<string, typeof Wheat> = {
 };
 
 const difficultyColors: Record<string, string> = {
-  facile: 'text-green-400 bg-green-500/15 border-green-500/30',
-  moyen: 'text-amber-400 bg-amber-500/15 border-amber-500/30',
-  difficile: 'text-red-400 bg-red-500/15 border-red-500/30',
+  facile: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/25',
+  moyen: 'text-amber-400 bg-amber-500/10 border-amber-500/25',
+  difficile: 'text-red-400 bg-red-500/10 border-red-500/25',
 };
 
 export default function GuideCulinaire() {
@@ -62,51 +61,39 @@ export default function GuideCulinaire() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0a0a0f] text-white">
+    <main className="min-h-screen bg-[#0A0A0F] text-[#FAFAFA]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
 
       {/* ==================== SECTION 1: HERO ==================== */}
-      <section className="relative pt-20 pb-16 overflow-hidden">
+      <section className="relative pt-28 pb-16 overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&q=80"
             alt="Cuisine malgache"
             fill
-            className="object-cover opacity-20"
+            className="object-cover opacity-15"
             priority
           />
-          <div
-            className="absolute inset-0"
-            style={{
-              background: 'linear-gradient(135deg, rgba(255,107,53,0.4) 0%, rgba(255,20,147,0.25) 50%, rgba(148,0,211,0.35) 100%)',
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/50 to-transparent" />
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-pink-500/20 rounded-full blur-[100px]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-[#0A0A0F]/85 to-[#0A0A0F]/60" />
+          <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.10]" />
+          <div className="absolute bottom-0 right-1/4 w-[350px] h-[350px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.08]" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center"
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/20 backdrop-blur-sm rounded-full border border-orange-500/30 text-orange-400 text-sm font-medium mb-6">
-              <ChefHat className="w-4 h-4" />
+          <div className="text-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#FF6B35]/10 backdrop-blur-sm border border-[#FF6B35]/30 text-[#FF6B35] text-[11px] font-semibold uppercase tracking-[0.15em] rounded-md mb-6">
+              <ChefHat className="w-3.5 h-3.5" />
               {t.heroBadge}
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-4">
-              <AnimatedGradientText className="text-4xl sm:text-5xl lg:text-6xl font-black">
-                {t.heroMainTitle}
-              </AnimatedGradientText>
+            <h1 className="text-[32px] sm:text-[44px] lg:text-[56px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-4">
+              {t.heroMainTitle}
             </h1>
 
-            <p className="text-lg text-slate-300 max-w-2xl mx-auto mb-8">
+            <p className="text-[15px] text-[#D4D4D8] max-w-2xl mx-auto mb-8 leading-relaxed">
               {t.heroDescription}
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-4 text-sm">
+            <div className="flex flex-wrap items-center justify-center gap-2">
               {[
                 { label: t.statIconicDishes, icon: UtensilsCrossed },
                 { label: t.statMarkets, icon: MapPin },
@@ -114,29 +101,29 @@ export default function GuideCulinaire() {
               ].map((stat) => (
                 <div
                   key={stat.label}
-                  className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20"
+                  className="flex items-center gap-2 px-3.5 py-2 bg-[#111114] border border-[#27272A] rounded-lg"
                 >
-                  <stat.icon className="w-4 h-4 text-orange-400" />
-                  <span className="text-white font-medium">{stat.label}</span>
+                  <stat.icon className="w-3.5 h-3.5 text-[#FF6B35]" />
+                  <span className="text-[#FAFAFA] text-[13px] font-medium">{stat.label}</span>
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* ==================== SECTION 2: TABLE DES MATIERES ==================== */}
-      <nav className="sticky top-16 z-40 bg-[#0a0a0f]/90 backdrop-blur-md border-b border-[#2a2a36]">
+      <nav className="sticky top-16 z-40 bg-[#0A0A0F]/95 backdrop-blur-md border-b border-[#27272A]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 overflow-x-auto py-3 scrollbar-hide">
             {tableOfContents.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                className={`px-3.5 py-1.5 rounded-lg text-[12px] font-medium whitespace-nowrap border transition-colors ${
                   activeSection === item.id
-                    ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/25'
-                    : 'bg-[#1a1a24] text-slate-400 hover:text-white hover:bg-[#2a2a36] border border-[#2a2a36]'
+                    ? 'bg-[#FF6B35] border-[#FF6B35] text-white'
+                    : 'bg-[#111114] border-[#27272A] text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#3F3F46]'
                 }`}
               >
                 {item.label}
@@ -151,40 +138,37 @@ export default function GuideCulinaire() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <ScrollReveal animation="fadeUp">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-500/10 border border-orange-500/20 rounded-full text-orange-400 text-xs font-medium mb-4">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3 flex items-center gap-2">
                 <Sparkles className="w-3.5 h-3.5" />
                 {t.introBadge}
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-                {t.introTitlePart1}{' '}
-                <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-                  {t.introTitleHighlight}
-                </span>
+              </p>
+              <h2 className="text-[28px] sm:text-[36px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-6">
+                {t.introTitlePart1} <span className="text-[#FF6B35]">{t.introTitleHighlight}</span>
               </h2>
-              <div className="space-y-4 text-slate-300 leading-relaxed">
+              <div className="space-y-4 text-[#D4D4D8] leading-relaxed text-[15px] max-w-[65ch]">
                 <p>
-                  {t.introPara1Part1} <strong className="text-white">{t.introPara1Austronesian}</strong> {t.introPara1AustronesianDesc} <strong className="text-white">{t.introPara1African}</strong> {t.introPara1AfricanDesc} <strong className="text-white">{t.introPara1Arab}</strong> {t.introPara1ArabDesc} <strong className="text-white">{t.introPara1French}</strong> {t.introPara1FrenchDesc}
+                  {t.introPara1Part1} <strong className="text-[#FAFAFA] font-semibold">{t.introPara1Austronesian}</strong> {t.introPara1AustronesianDesc} <strong className="text-[#FAFAFA] font-semibold">{t.introPara1African}</strong> {t.introPara1AfricanDesc} <strong className="text-[#FAFAFA] font-semibold">{t.introPara1Arab}</strong> {t.introPara1ArabDesc} <strong className="text-[#FAFAFA] font-semibold">{t.introPara1French}</strong> {t.introPara1FrenchDesc}
                 </p>
                 <p>
                   {t.introPara2}
                 </p>
                 <p>
-                  {t.introPara3Part1} <strong className="text-orange-400">{t.introPara3Highlight}</strong>{t.introPara3Part2}
+                  {t.introPara3Part1} <strong className="text-[#FF6B35] font-semibold">{t.introPara3Highlight}</strong>{t.introPara3Part2}
                 </p>
               </div>
             </ScrollReveal>
 
             <ScrollReveal animation="fadeRight" delay={0.2}>
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-[#2a2a36]">
+              <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-[#27272A]">
                 <Image
                   src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&q=80"
                   alt="Ingrédients cuisine malgache"
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f]/80 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F]/85 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
-                  <p className="text-sm text-slate-300 italic">
+                  <p className="text-[13px] text-[#D4D4D8] italic leading-relaxed">
                     {t.introQuote}
                   </p>
                 </div>
@@ -199,17 +183,14 @@ export default function GuideCulinaire() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full text-orange-400 text-sm font-medium mb-4">
-                <UtensilsCrossed className="w-4 h-4" />
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3 flex items-center justify-center gap-2">
+                <UtensilsCrossed className="w-3.5 h-3.5" />
                 {t.dishesIconicBadge}
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-                {t.dishesTitlePart1}{' '}
-                <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-                  {t.dishesTitleHighlight}
-                </span>
+              </p>
+              <h2 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-4">
+                {t.dishesTitlePart1} <span className="text-[#FF6B35]">{t.dishesTitleHighlight}</span>
               </h2>
-              <p className="text-slate-400 max-w-2xl mx-auto">
+              <p className="text-[#A1A1AA] text-[15px] max-w-2xl mx-auto leading-relaxed">
                 {t.dishesSubtitle}
               </p>
             </div>
@@ -225,36 +206,38 @@ export default function GuideCulinaire() {
                   delay={index * 0.1}
                   className={isFeatured ? 'md:col-span-1 lg:row-span-2' : ''}
                 >
-                  <div
-                    className={`group bg-[#1a1a24] rounded-2xl border border-[#2a2a36] overflow-hidden hover:border-orange-500/50 transition-all h-full flex flex-col`}
+                  <motion.div
+                    whileHover={{ y: -2 }}
+                    transition={{ duration: 0.2 }}
+                    className="group bg-[#111114] rounded-xl border border-[#27272A] hover:border-[#3F3F46] overflow-hidden transition-colors h-full flex flex-col"
                   >
                     {/* Image */}
-                    <div className={`relative ${isFeatured ? 'aspect-[4/3]' : 'aspect-[16/9]'} overflow-hidden`}>
+                    <div className={`relative ${isFeatured ? 'aspect-[4/3]' : 'aspect-[16/9]'} overflow-hidden bg-[#1A1A1F]`}>
                       <Image
                         src={getImageUrl(dish.image)}
                         alt={dish.name}
                         fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="object-cover"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a24] via-transparent to-transparent opacity-60" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#111114]/80 via-transparent to-transparent" />
 
                       {/* Difficulty badge */}
-                      <div className={`absolute top-3 right-3 px-2.5 py-1 rounded-lg text-xs font-medium border ${difficultyColors[dish.difficulty]}`}>
+                      <div className={`absolute top-3 right-3 px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-[0.1em] border backdrop-blur-md ${difficultyColors[dish.difficulty]}`}>
                         {dish.difficulty}
                       </div>
 
                       {/* Category badge */}
-                      <div className="absolute top-3 left-3 px-2.5 py-1 bg-orange-500/20 backdrop-blur-sm text-orange-400 rounded-lg text-xs font-medium border border-orange-500/30">
+                      <div className="absolute top-3 left-3 px-2 py-0.5 bg-[#FF6B35]/10 backdrop-blur-md text-[#FF6B35] rounded-md text-[10px] font-semibold uppercase tracking-[0.1em] border border-[#FF6B35]/30">
                         {dish.category}
                       </div>
                     </div>
 
                     {/* Content */}
                     <div className="p-5 flex-1 flex flex-col">
-                      <h3 className="text-xl font-bold text-white mb-1">{dish.name}</h3>
-                      <p className="text-sm text-orange-400/80 italic mb-3">{dish.nameMg}</p>
+                      <h3 className="text-[18px] font-semibold text-[#FAFAFA] mb-1">{dish.name}</h3>
+                      <p className="text-[12px] text-[#FF6B35] italic mb-3 font-mono">{dish.nameMg}</p>
 
-                      <p className="text-slate-400 text-sm leading-relaxed mb-4 flex-1">
+                      <p className="text-[#A1A1AA] text-[13px] leading-relaxed mb-4 flex-1">
                         {isFeatured ? dish.longDescription : dish.description}
                       </p>
 
@@ -263,7 +246,7 @@ export default function GuideCulinaire() {
                         {dish.keyIngredients.map((ingredient) => (
                           <span
                             key={ingredient}
-                            className="px-2 py-0.5 bg-[#0d1520] text-slate-300 rounded text-xs border border-[#2a2a36]"
+                            className="px-2 py-0.5 bg-[#1A1A1F] text-[#D4D4D8] rounded text-[11px] border border-[#27272A]"
                           >
                             {ingredient}
                           </span>
@@ -272,8 +255,8 @@ export default function GuideCulinaire() {
 
                       {/* Restaurant links */}
                       {dish.restaurantSlugs.length > 0 && (
-                        <div className="pt-3 border-t border-[#2a2a36]">
-                          <p className="text-xs text-slate-400 mb-2 flex items-center gap-1">
+                        <div className="pt-3 border-t border-[#27272A]">
+                          <p className="text-[11px] uppercase tracking-[0.15em] text-[#71717A] mb-2 flex items-center gap-1">
                             <MapPin className="w-3 h-3" />
                             {t.whereToEat}
                           </p>
@@ -282,7 +265,7 @@ export default function GuideCulinaire() {
                               <Link
                                 key={resto.slug}
                                 href={`/restaurants/${resto.slug}`}
-                                className="text-xs text-orange-400 hover:text-orange-300 underline underline-offset-2 transition-colors"
+                                className="text-[12px] text-[#FF6B35] hover:underline transition-colors"
                               >
                                 {resto.name}
                               </Link>
@@ -291,7 +274,7 @@ export default function GuideCulinaire() {
                         </div>
                       )}
                     </div>
-                  </div>
+                  </motion.div>
                 </ScrollReveal>
               );
             })}
@@ -304,17 +287,14 @@ export default function GuideCulinaire() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-400 text-sm font-medium mb-4">
-                <Apple className="w-4 h-4" />
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3 flex items-center justify-center gap-2">
+                <Apple className="w-3.5 h-3.5" />
                 {t.productsBadge}
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-                {t.productsTitlePart1}{' '}
-                <span className="bg-gradient-to-r from-emerald-400 to-cyan-500 bg-clip-text text-transparent">
-                  {t.productsTitleHighlight}
-                </span>
+              </p>
+              <h2 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-4">
+                {t.productsTitlePart1} <span className="text-[#FF6B35]">{t.productsTitleHighlight}</span>
               </h2>
-              <p className="text-slate-400 max-w-2xl mx-auto">
+              <p className="text-[#A1A1AA] text-[15px] max-w-2xl mx-auto leading-relaxed">
                 {t.productsSubtitle}
               </p>
             </div>
@@ -325,28 +305,28 @@ export default function GuideCulinaire() {
               const IconComponent = iconMap[category.icon] || Wheat;
               return (
                 <StaggerItem key={category.id}>
-                  <div className={`bg-gradient-to-br ${category.gradient} rounded-2xl p-[1px]`}>
-                    <div className="bg-[#1a1a24] rounded-2xl p-5 h-full">
+                  <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }} className="h-full">
+                    <div className="bg-[#111114] rounded-xl border border-[#27272A] hover:border-[#3F3F46] transition-colors p-5 h-full">
                       <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 bg-[#0d1520] rounded-xl flex items-center justify-center border border-[#2a2a36]">
-                          <IconComponent className="w-5 h-5 text-orange-400" />
+                        <div className="w-10 h-10 bg-[#FF6B35]/10 border border-[#FF6B35]/20 rounded-lg flex items-center justify-center">
+                          <IconComponent className="w-4 h-4 text-[#FF6B35]" />
                         </div>
-                        <h3 className="text-lg font-bold text-white">{category.name}</h3>
+                        <h3 className="text-[15px] font-semibold text-[#FAFAFA]">{category.name}</h3>
                       </div>
 
                       <div className="space-y-4">
                         {category.products.map((product) => (
-                          <div key={product.name} className="group/product">
-                            <h4 className="font-semibold text-white text-sm mb-1">{product.name}</h4>
-                            <p className="text-xs text-slate-400 mb-1.5">{product.description}</p>
-                            <p className="text-xs text-orange-400/80 italic leading-relaxed">
-                              💡 {product.funFact}
+                          <div key={product.name}>
+                            <h4 className="font-semibold text-[#FAFAFA] text-[13px] mb-1">{product.name}</h4>
+                            <p className="text-[12px] text-[#A1A1AA] mb-1.5 leading-relaxed">{product.description}</p>
+                            <p className="text-[11px] text-[#FF6B35] italic leading-relaxed">
+                              {product.funFact}
                             </p>
                           </div>
                         ))}
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 </StaggerItem>
               );
             })}
@@ -359,17 +339,14 @@ export default function GuideCulinaire() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm font-medium mb-4">
-                <MapPin className="w-4 h-4" />
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3 flex items-center justify-center gap-2">
+                <MapPin className="w-3.5 h-3.5" />
                 {t.marketsBadge}
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-                {t.marketsTitlePart1}{' '}
-                <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-                  {t.marketsTitleHighlight}
-                </span>
+              </p>
+              <h2 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-4">
+                {t.marketsTitlePart1} <span className="text-[#FF6B35]">{t.marketsTitleHighlight}</span>
               </h2>
-              <p className="text-slate-400 max-w-2xl mx-auto">
+              <p className="text-[#A1A1AA] text-[15px] max-w-2xl mx-auto leading-relaxed">
                 {t.marketsSubtitle}
               </p>
             </div>
@@ -377,15 +354,15 @@ export default function GuideCulinaire() {
 
           {/* Desktop: Table */}
           <ScrollReveal>
-            <div className="hidden md:block bg-[#1a1a24] rounded-2xl border border-[#2a2a36] overflow-hidden">
+            <div className="hidden md:block bg-[#111114] rounded-xl border border-[#27272A] overflow-hidden">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-gradient-to-r from-orange-500/10 via-pink-500/10 to-purple-500/10">
-                    <th className="text-left px-6 py-4 text-sm font-semibold text-white">{t.marketColumnName}</th>
-                    <th className="text-left px-6 py-4 text-sm font-semibold text-white">{t.marketColumnLocation}</th>
-                    <th className="text-left px-6 py-4 text-sm font-semibold text-white">{t.marketColumnSpecialties}</th>
-                    <th className="text-left px-6 py-4 text-sm font-semibold text-white">
-                      <Clock className="w-4 h-4 inline mr-1" />
+                  <tr className="bg-[#1A1A1F] border-b border-[#27272A]">
+                    <th className="text-left px-6 py-3 text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA]">{t.marketColumnName}</th>
+                    <th className="text-left px-6 py-3 text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA]">{t.marketColumnLocation}</th>
+                    <th className="text-left px-6 py-3 text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA]">{t.marketColumnSpecialties}</th>
+                    <th className="text-left px-6 py-3 text-[11px] uppercase tracking-[0.15em] font-semibold text-[#A1A1AA]">
+                      <Clock className="w-3.5 h-3.5 inline mr-1" />
                       {t.marketColumnBestTime}
                     </th>
                   </tr>
@@ -394,17 +371,17 @@ export default function GuideCulinaire() {
                   {malagasyMarkets.map((market, index) => (
                     <tr
                       key={market.name}
-                      className={`border-t border-[#2a2a36] hover:bg-white/[0.02] transition-colors ${
-                        index % 2 === 0 ? 'bg-[#1a1a24]' : 'bg-[#15151f]'
+                      className={`border-t border-[#27272A] hover:bg-[#1A1A1F]/60 transition-colors ${
+                        index % 2 === 0 ? 'bg-[#111114]' : 'bg-[#0F0F14]'
                       }`}
                     >
                       <td className="px-6 py-4">
-                        <p className="font-semibold text-white">{market.name}</p>
-                        <p className="text-xs text-slate-400 mt-0.5 max-w-xs">{market.description}</p>
+                        <p className="font-semibold text-[#FAFAFA] text-[14px]">{market.name}</p>
+                        <p className="text-[12px] text-[#A1A1AA] mt-0.5 max-w-xs leading-relaxed">{market.description}</p>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="flex items-center gap-1.5 text-sm text-slate-300">
-                          <MapPin className="w-3.5 h-3.5 text-orange-400" />
+                        <span className="flex items-center gap-1.5 text-[13px] text-[#D4D4D8]">
+                          <MapPin className="w-3.5 h-3.5 text-[#FF6B35]" />
                           {market.location}
                         </span>
                       </td>
@@ -413,14 +390,14 @@ export default function GuideCulinaire() {
                           {market.specialties.map((spec) => (
                             <span
                               key={spec}
-                              className="px-2 py-0.5 bg-orange-500/10 text-orange-400 border border-orange-500/20 rounded text-xs font-medium"
+                              className="px-2 py-0.5 bg-[#1A1A1F] text-[#D4D4D8] border border-[#27272A] rounded text-[11px] font-medium"
                             >
                               {spec}
                             </span>
                           ))}
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-slate-300">{market.bestTime}</td>
+                      <td className="px-6 py-4 text-[13px] font-mono text-[#D4D4D8]">{market.bestTime}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -432,26 +409,26 @@ export default function GuideCulinaire() {
           <StaggerContainer className="md:hidden grid gap-4">
             {malagasyMarkets.map((market) => (
               <StaggerItem key={market.name}>
-                <div className="bg-[#1a1a24] rounded-2xl border border-[#2a2a36] p-5">
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-bold text-white">{market.name}</h3>
-                    <span className="text-xs text-slate-400 flex items-center gap-1">
+                <div className="bg-[#111114] rounded-xl border border-[#27272A] p-5">
+                  <div className="flex items-start justify-between mb-2 gap-3">
+                    <h3 className="font-semibold text-[#FAFAFA] text-[14px]">{market.name}</h3>
+                    <span className="text-[11px] text-[#A1A1AA] flex items-center gap-1 shrink-0">
                       <MapPin className="w-3 h-3" />
                       {market.location}
                     </span>
                   </div>
-                  <p className="text-sm text-slate-400 mb-3">{market.description}</p>
+                  <p className="text-[12px] text-[#A1A1AA] mb-3 leading-relaxed">{market.description}</p>
                   <div className="flex flex-wrap gap-1.5 mb-3">
                     {market.specialties.map((spec) => (
                       <span
                         key={spec}
-                        className="px-2 py-0.5 bg-orange-500/10 text-orange-400 border border-orange-500/20 rounded text-xs font-medium"
+                        className="px-2 py-0.5 bg-[#1A1A1F] text-[#D4D4D8] border border-[#27272A] rounded text-[11px] font-medium"
                       >
                         {spec}
                       </span>
                     ))}
                   </div>
-                  <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                  <div className="flex items-center gap-1.5 text-[11px] font-mono text-[#A1A1AA]">
                     <Clock className="w-3 h-3" />
                     {market.bestTime}
                   </div>
@@ -467,17 +444,14 @@ export default function GuideCulinaire() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-pink-500/10 border border-pink-500/20 rounded-full text-pink-400 text-sm font-medium mb-4">
-                <Star className="w-4 h-4" />
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] mb-3 flex items-center justify-center gap-2">
+                <Star className="w-3.5 h-3.5" />
                 {t.expBadge}
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-                {t.expTitlePart1}{' '}
-                <span className="bg-gradient-to-r from-pink-400 to-orange-500 bg-clip-text text-transparent">
-                  {t.expTitleHighlight}
-                </span>
+              </p>
+              <h2 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-4">
+                {t.expTitlePart1} <span className="text-[#FF6B35]">{t.expTitleHighlight}</span>
               </h2>
-              <p className="text-slate-400 max-w-2xl mx-auto">
+              <p className="text-[#A1A1AA] text-[15px] max-w-2xl mx-auto leading-relaxed">
                 {t.expSubtitle}
               </p>
             </div>
@@ -486,24 +460,28 @@ export default function GuideCulinaire() {
           <div className="grid sm:grid-cols-2 gap-5">
             {culinaryExperiences.map((exp, index) => (
               <ScrollReveal key={exp.id} delay={index * 0.1}>
-                <div className="group relative rounded-2xl overflow-hidden border border-[#2a2a36] hover:border-orange-500/50 transition-all h-full">
+                <motion.div
+                  whileHover={{ y: -2 }}
+                  transition={{ duration: 0.2 }}
+                  className="group relative rounded-xl overflow-hidden border border-[#27272A] hover:border-[#3F3F46] transition-colors h-full"
+                >
                   {/* Background image */}
                   <div className="absolute inset-0">
                     <Image
                       src={getImageUrl(exp.image)}
                       alt={exp.title}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/80 to-[#0a0a0f]/40" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-[#0A0A0F]/85 to-[#0A0A0F]/40" />
                   </div>
 
                   {/* Content overlay */}
                   <div className="relative p-6 flex flex-col min-h-[280px] justify-end">
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">
+                    <h3 className="text-[18px] font-semibold text-[#FAFAFA] mb-2 group-hover:text-[#FF6B35] transition-colors">
                       {exp.title}
                     </h3>
-                    <p className="text-sm text-slate-300 mb-4 leading-relaxed">
+                    <p className="text-[13px] text-[#D4D4D8] mb-4 leading-relaxed">
                       {exp.description}
                     </p>
 
@@ -512,14 +490,14 @@ export default function GuideCulinaire() {
                       {exp.highlights.map((highlight) => (
                         <span
                           key={highlight}
-                          className="px-2.5 py-1 bg-white/10 backdrop-blur-sm text-white/90 rounded-full text-xs font-medium border border-white/10"
+                          className="px-2.5 py-1 bg-[#111114]/80 backdrop-blur-md text-[#D4D4D8] rounded-md text-[11px] font-medium border border-[#27272A]"
                         >
                           {highlight}
                         </span>
                       ))}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </ScrollReveal>
             ))}
           </div>
@@ -531,36 +509,27 @@ export default function GuideCulinaire() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             {/* Facebook Community Card */}
-            <div
-              className="rounded-3xl p-8 md:p-10 text-center relative overflow-hidden mb-8"
-              style={{
-                background: 'linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(37,99,235,0.2) 50%, rgba(29,78,216,0.15) 100%)',
-                border: '1px solid rgba(59,130,246,0.3)',
-              }}
-            >
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-blue-400 to-blue-600" />
-              <div className="absolute top-4 right-4 w-32 h-32 bg-blue-500/10 rounded-full blur-[60px]" />
-
+            <div className="rounded-xl p-8 md:p-10 text-center relative overflow-hidden mb-8 bg-[#111114] border border-[#27272A]">
               <div className="relative z-10">
-                <div className="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-500/30">
-                  <Facebook className="w-8 h-8 text-blue-400" />
+                <div className="w-14 h-14 bg-[#FF6B35]/10 border border-[#FF6B35]/25 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Facebook className="w-6 h-6 text-[#FF6B35]" />
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+                <h2 className="text-[24px] sm:text-[28px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-2">
                   {t.communityTitle}
                 </h2>
-                <p className="text-slate-300 mb-6 max-w-lg mx-auto">
+                <p className="text-[#A1A1AA] text-[14px] mb-6 max-w-lg mx-auto leading-relaxed">
                   {t.communityDesc}
                 </p>
 
                 <div className="flex items-center justify-center gap-3 mb-6">
-                  <div className="flex items-center gap-2 text-sm text-slate-400">
-                    <Users className="w-4 h-4" />
+                  <div className="flex items-center gap-1.5 text-[12px] text-[#A1A1AA]">
+                    <Users className="w-3.5 h-3.5" />
                     {t.communityActive}
                   </div>
-                  <div className="w-1 h-1 rounded-full bg-slate-600" />
-                  <div className="flex items-center gap-2 text-sm text-slate-400">
-                    <MapPin className="w-4 h-4" />
+                  <div className="w-1 h-1 rounded-full bg-[#3F3F46]" />
+                  <div className="flex items-center gap-1.5 text-[12px] text-[#A1A1AA]">
+                    <MapPin className="w-3.5 h-3.5" />
                     Antananarivo
                   </div>
                 </div>
@@ -569,50 +538,54 @@ export default function GuideCulinaire() {
                   href="https://www.facebook.com/groups/1786623354790081/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all hover:shadow-lg hover:shadow-blue-500/25"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#FF6B35] hover:bg-[#F97316] text-white font-medium text-[14px] rounded-lg transition-all shadow-[0_8px_30px_rgba(255,107,53,0.25)] hover:shadow-[0_12px_40px_rgba(255,107,53,0.35)]"
                 >
-                  <Facebook className="w-5 h-5" />
+                  <Facebook className="w-4 h-4" />
                   {t.communityJoinBtn}
-                  <ExternalLink className="w-4 h-4" />
+                  <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               </div>
             </div>
 
             {/* CTA Cards */}
             <div className="grid sm:grid-cols-2 gap-4">
-              <Link
-                href="/restaurants"
-                className="group block bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-orange-500/50 transition-all"
-              >
-                <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-pink-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
-                  <UtensilsCrossed className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-lg font-bold text-white mb-1">{t.ctaAllRestaurants}</h3>
-                <p className="text-sm text-slate-400 mb-3">
-                  {t.ctaAllRestaurantsDesc}
-                </p>
-                <span className="flex items-center text-sm font-medium text-orange-400">
-                  {t.ctaExplore}
-                  <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </Link>
+              <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+                <Link
+                  href="/restaurants"
+                  className="group block bg-[#111114] rounded-xl p-6 border border-[#27272A] hover:border-[#3F3F46] transition-colors h-full"
+                >
+                  <div className="w-11 h-11 bg-[#FF6B35]/10 border border-[#FF6B35]/20 rounded-lg flex items-center justify-center mb-4">
+                    <UtensilsCrossed className="w-5 h-5 text-[#FF6B35]" />
+                  </div>
+                  <h3 className="text-[16px] font-semibold text-[#FAFAFA] mb-1">{t.ctaAllRestaurants}</h3>
+                  <p className="text-[12px] text-[#A1A1AA] mb-3 leading-relaxed">
+                    {t.ctaAllRestaurantsDesc}
+                  </p>
+                  <span className="flex items-center text-[13px] font-medium text-[#FF6B35]">
+                    {t.ctaExplore}
+                    <ChevronRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </Link>
+              </motion.div>
 
-              <Link
-                href="/carte"
-                className="group block bg-[#1a1a24] rounded-2xl p-6 border border-[#2a2a36] hover:border-purple-500/50 transition-all"
-              >
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
-                  <Map className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-lg font-bold text-white mb-1">{t.ctaSeeMap}</h3>
-                <p className="text-sm text-slate-400 mb-3">
-                  {t.ctaSeeMapDesc}
-                </p>
-                <span className="flex items-center text-sm font-medium text-purple-400">
-                  {t.ctaOpenMap}
-                  <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </Link>
+              <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+                <Link
+                  href="/carte"
+                  className="group block bg-[#111114] rounded-xl p-6 border border-[#27272A] hover:border-[#3F3F46] transition-colors h-full"
+                >
+                  <div className="w-11 h-11 bg-[#FF6B35]/10 border border-[#FF6B35]/20 rounded-lg flex items-center justify-center mb-4">
+                    <Map className="w-5 h-5 text-[#FF6B35]" />
+                  </div>
+                  <h3 className="text-[16px] font-semibold text-[#FAFAFA] mb-1">{t.ctaSeeMap}</h3>
+                  <p className="text-[12px] text-[#A1A1AA] mb-3 leading-relaxed">
+                    {t.ctaSeeMapDesc}
+                  </p>
+                  <span className="flex items-center text-[13px] font-medium text-[#FF6B35]">
+                    {t.ctaOpenMap}
+                    <ChevronRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </Link>
+              </motion.div>
             </div>
           </ScrollReveal>
         </div>

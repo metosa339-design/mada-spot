@@ -65,7 +65,7 @@ export default function FAQPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-[#0A0A0F]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
@@ -74,39 +74,40 @@ export default function FAQPage() {
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 text-white py-16">
-          <div className="max-w-7xl mx-auto px-4">
-            <Link href="/" className="inline-flex items-center gap-1 text-white/80 hover:text-white text-sm mb-6">
-              <ArrowLeft className="w-4 h-4" /> {t.backToHome}
+        <section className="relative bg-[#0A0A0F] py-16 sm:py-20 pt-28 overflow-hidden">
+          <div className="absolute -top-32 -left-20 w-[400px] h-[400px] bg-[#FF6B35] rounded-full blur-[120px] opacity-[0.08] pointer-events-none" />
+          <div className="relative max-w-7xl mx-auto px-4">
+            <Link href="/" className="inline-flex items-center gap-1.5 text-[#A1A1AA] hover:text-[#FAFAFA] text-[13px] mb-6 transition-colors">
+              <ArrowLeft className="w-3.5 h-3.5" /> {t.backToHome}
             </Link>
-            <div className="flex items-center gap-3 mb-4">
-              <HelpCircle className="w-8 h-8" />
-              <span className="text-blue-200 text-lg">{t.helpCenter}</span>
+            <div className="flex items-center gap-2 mb-4">
+              <HelpCircle className="w-5 h-5 text-[#FF6B35]" />
+              <span className="text-[11px] uppercase tracking-[0.18em] text-[#FF6B35] font-semibold">{t.helpCenter}</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">{t.heroTitle}</h1>
-            <p className="text-xl text-blue-100 max-w-2xl">
+            <h1 className="text-[32px] sm:text-[44px] lg:text-[52px] font-semibold tracking-[-0.03em] text-[#FAFAFA] mb-4">{t.heroTitle}</h1>
+            <p className="text-[15px] sm:text-[17px] text-[#A1A1AA] max-w-2xl leading-relaxed">
               {t.heroSubtitle}
             </p>
           </div>
         </section>
 
         {/* FAQ Content */}
-        <section className="py-12">
+        <section className="py-12 sm:py-16">
           <div className="max-w-3xl mx-auto px-4">
             <FAQAccordion sections={FAQ_SECTIONS} />
           </div>
         </section>
 
         {/* Contact CTA */}
-        <section className="py-12 bg-white">
+        <section className="py-12 sm:py-16 bg-[#0F0F14] border-y border-[#27272A]">
           <div className="max-w-3xl mx-auto px-4 text-center">
-            <h2 className="text-xl font-bold text-gray-900 mb-2">{t.notFoundTitle}</h2>
-            <p className="text-gray-600 mb-4">
+            <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#FAFAFA] mb-2">{t.notFoundTitle}</h2>
+            <p className="text-[#A1A1AA] text-[14px] mb-6 leading-relaxed">
               {t.notFoundText}
             </p>
             <Link
               href="/contact"
-              className="inline-flex px-6 py-3 bg-[#ff6b35] text-white rounded-xl font-medium hover:bg-[#e55a2b] transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#FF6B35] hover:bg-[#F97316] text-white rounded-lg text-[14px] font-medium transition-all shadow-[0_8px_30px_rgba(255,107,53,0.25)] hover:shadow-[0_12px_40px_rgba(255,107,53,0.35)]"
             >
               {t.contactUs}
             </Link>

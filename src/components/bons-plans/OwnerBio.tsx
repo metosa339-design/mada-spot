@@ -23,10 +23,10 @@ export default function OwnerBio({ owner, establishmentName }: OwnerBioProps) {
     <motion.section
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-[#1a1a24] rounded-2xl p-6 md:p-8 border border-[#2a2a36]"
+      className="bg-[#1A1A1F] rounded-2xl p-6 md:p-8 border border-[#2a2a36]"
     >
       <div className="flex items-center gap-2 mb-4">
-        <UserCircle2 className="w-5 h-5 text-orange-400" />
+        <UserCircle2 className="w-5 h-5 text-[#FDBA74]" />
         <h2 className="text-xl font-bold text-white">Le Mot de l&apos;Hote</h2>
       </div>
 
@@ -39,10 +39,10 @@ export default function OwnerBio({ owner, establishmentName }: OwnerBioProps) {
               alt={`${owner.firstName} ${owner.lastName}`}
               width={56}
               height={56}
-              className="w-14 h-14 rounded-full object-cover border-2 border-orange-500/30"
+              className="w-14 h-14 rounded-full object-cover border-2 border-[#FF6B35]/30"
             />
           ) : (
-            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg">
+            <div className="w-14 h-14 rounded-full bg-[#FF6B35] flex items-center justify-center text-white font-bold text-lg">
               {initials}
             </div>
           )}
@@ -56,10 +56,10 @@ export default function OwnerBio({ owner, establishmentName }: OwnerBioProps) {
             </h3>
             <BadgeCheck className="w-4 h-4 text-emerald-400" />
           </div>
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-[#71717A]">
             Gerant de {establishmentName}
           </p>
-          <div className="flex items-center gap-1 mt-1 text-xs text-slate-500">
+          <div className="flex items-center gap-1 mt-1 text-xs text-[#71717A]">
             <Calendar className="w-3 h-3" />
             <span>Membre depuis {year}</span>
           </div>

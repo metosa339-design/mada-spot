@@ -39,7 +39,7 @@ function MiniBarChart({ data, labels, color }: { data: number[]; labels: string[
             style={{ height: `${Math.max((val / max) * 100, 4)}%`, backgroundColor: color, opacity: 0.8 }}
             title={`${labels[i]}: ${val}`}
           />
-          <span className="text-[9px] text-gray-500 leading-none">{labels[i]}</span>
+          <span className="text-[9px] text-[#71717A] leading-none">{labels[i]}</span>
         </div>
       ))}
     </div>
@@ -60,15 +60,15 @@ function ProfileCompletion({ user, stats, accent, t }: { user: DashboardUser; st
   const percent = Math.round((doneCount / checks.length) * 100)
 
   return (
-    <div className="bg-white border border-white/10 rounded-2xl p-5">
+    <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-5">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+        <h3 className="text-sm font-semibold text-[#FAFAFA] flex items-center gap-2">
           <ShieldCheck className="w-4 h-4" style={{ color: accent }} />
           {t.profileCompletion}
         </h3>
         <span className="text-lg font-bold" style={{ color: accent }}>{percent}%</span>
       </div>
-      <div className="w-full bg-white/5 rounded-full h-2 mb-4">
+      <div className="w-full bg-[#1A1A1F] rounded-full h-2 mb-4">
         <div className="h-2 rounded-full transition-all" style={{ width: `${percent}%`, backgroundColor: accent }} />
       </div>
       <div className="space-y-2">
@@ -77,9 +77,9 @@ function ProfileCompletion({ user, stats, accent, t }: { user: DashboardUser; st
             {check.done ? (
               <CheckCircle className="w-3.5 h-3.5 text-green-400 flex-shrink-0" />
             ) : (
-              <div className="w-3.5 h-3.5 rounded-full border border-gray-600 flex-shrink-0" />
+              <div className="w-3.5 h-3.5 rounded-full border border-[#3F3F46] flex-shrink-0" />
             )}
-            <span className={check.done ? 'text-gray-400' : 'text-gray-500'}>{check.label}</span>
+            <span className={check.done ? 'text-[#71717A]' : 'text-[#71717A]'}>{check.label}</span>
           </div>
         ))}
       </div>
@@ -92,8 +92,8 @@ function StatCard({ label, value, icon: Icon, trend, color, href, sparkData }: {
 }) {
   const content = (
     <motion.div
-      whileHover={{ scale: 1.02, y: -2 }}
-      className="bg-white border border-white/10 rounded-2xl p-5 cursor-pointer transition-shadow hover:shadow-lg relative overflow-hidden"
+      whileHover={{ y: -2 }} transition={{ duration: 0.2 }}
+      className="bg-[#111114] border border-[#27272A] rounded-2xl p-5 cursor-pointer transition-shadow hover:shadow-lg relative overflow-hidden"
       style={{ '--hover-shadow': `${color}10` } as React.CSSProperties}
     >
       <div className="flex items-start justify-between mb-3">
@@ -109,8 +109,8 @@ function StatCard({ label, value, icon: Icon, trend, color, href, sparkData }: {
           </div>
         )}
       </div>
-      <p className="text-2xl font-bold text-gray-900">{value}</p>
-      <p className="text-sm text-gray-400 mt-1">{label}</p>
+      <p className="text-2xl font-bold text-[#FAFAFA]">{value}</p>
+      <p className="text-sm text-[#71717A] mt-1">{label}</p>
       {sparkData && sparkData.length > 1 && (
         <div className="absolute bottom-2 right-3 opacity-40">
           <SparkLine data={sparkData} color={color} height={30} />
@@ -140,7 +140,7 @@ function OccupancyGauge({ rate, color }: { rate: number; color: string }) {
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-xl font-bold text-gray-900">{Math.round(rate)}%</span>
+        <span className="text-xl font-bold text-[#FAFAFA]">{Math.round(rate)}%</span>
       </div>
     </div>
   )
@@ -157,13 +157,13 @@ function ResponseTimeBadge({ hours, t }: { hours: number; t: DashboardProTrans }
   const isPoor = hours > 12
 
   return (
-    <div className={`flex items-center gap-3 p-4 rounded-xl border border-white/10 ${config.bg}`}>
+    <div className={`flex items-center gap-3 p-4 rounded-xl border border-[#27272A] ${config.bg}`}>
       <div className={`relative ${isPoor ? 'animate-pulse' : ''}`}>
         <Clock className="w-8 h-8" style={{ color: config.color }} />
       </div>
       <div className="flex-1">
-        <p className="text-xs text-gray-400">{t.avgResponseTime}</p>
-        <p className="text-lg font-bold text-gray-900">{hours > 0 ? `${hours}h` : '—'}</p>
+        <p className="text-xs text-[#71717A]">{t.avgResponseTime}</p>
+        <p className="text-lg font-bold text-[#FAFAFA]">{hours > 0 ? `${hours}h` : '—'}</p>
       </div>
       <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ color: config.color, backgroundColor: `${config.color}20` }}>
         {config.label}
@@ -178,7 +178,7 @@ function BookingRow({ booking, accent, t }: { booking: BookingItem; accent: stri
     confirmed: 'bg-emerald-500/10 text-emerald-400',
     cancelled: 'bg-red-500/10 text-red-400',
     completed: 'bg-blue-500/10 text-blue-400',
-    no_show: 'bg-gray-500/10 text-gray-400',
+    no_show: 'bg-[#52525B]/10 text-[#71717A]',
   }
   const statusLabels: Record<string, string> = {
     pending: t.statusPending,
@@ -188,26 +188,26 @@ function BookingRow({ booking, accent, t }: { booking: BookingItem; accent: stri
     no_show: t.statusNoShow,
   }
   return (
-    <div className="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-xl transition-colors">
+    <div className="flex items-center gap-4 p-4 hover:bg-[#111114] rounded-xl transition-colors">
       <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${accent}15` }}>
         {booking.bookingType === 'hotel' ? <BedDouble className="w-5 h-5" style={{ color: accent }} /> :
          booking.bookingType === 'restaurant' ? <UtensilsCrossed className="w-5 h-5" style={{ color: accent }} /> :
          <Users className="w-5 h-5" style={{ color: accent }} />}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-gray-900 truncate">{booking.guestName}</p>
-        <p className="text-xs text-gray-400">
+        <p className="text-sm font-medium text-[#FAFAFA] truncate">{booking.guestName}</p>
+        <p className="text-xs text-[#71717A]">
           {new Date(booking.checkIn).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
           {booking.checkOut && ` → ${new Date(booking.checkOut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}`}
           {' · '}{booking.guestCount} pers.
         </p>
       </div>
       <div className="text-right">
-        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[booking.status] || 'bg-gray-500/10 text-gray-400'}`}>
+        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[booking.status] || 'bg-[#52525B]/10 text-[#71717A]'}`}>
           {statusLabels[booking.status] || booking.status}
         </span>
         {booking.totalPrice != null && (
-          <p className="text-xs text-gray-400 mt-1">{booking.totalPrice.toLocaleString('fr-FR')} MGA</p>
+          <p className="text-xs text-[#71717A] mt-1">{booking.totalPrice.toLocaleString('fr-FR')} MGA</p>
         )}
       </div>
     </div>
@@ -221,13 +221,13 @@ function PendingRow({ booking, onAction, t }: {
   t: DashboardProTrans
 }) {
   return (
-    <div className="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-xl transition-colors">
+    <div className="flex items-center gap-4 p-4 hover:bg-[#111114] rounded-xl transition-colors">
       <div className="w-10 h-10 bg-amber-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
         <Clock className="w-5 h-5 text-amber-400" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-gray-900 truncate">{booking.guestName}</p>
-        <p className="text-xs text-gray-400">
+        <p className="text-sm font-medium text-[#FAFAFA] truncate">{booking.guestName}</p>
+        <p className="text-xs text-[#71717A]">
           {new Date(booking.checkIn).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
           {booking.checkOut && ` → ${new Date(booking.checkOut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}`}
           {' · '}{booking.guestCount} pers.
@@ -236,7 +236,7 @@ function PendingRow({ booking, onAction, t }: {
       </div>
       <div className="flex items-center gap-2">
         {booking.totalPrice != null && (
-          <span className="text-xs text-gray-400 mr-2">{booking.totalPrice.toLocaleString('fr-FR')} Ar</span>
+          <span className="text-xs text-[#71717A] mr-2">{booking.totalPrice.toLocaleString('fr-FR')} Ar</span>
         )}
         <button
           onClick={() => onAction(booking.id, 'confirm')}
@@ -338,10 +338,10 @@ export default function DashboardHome() {
       <div className="space-y-6">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(8)].map((_, i) => (
-            <div key={i} className="bg-white rounded-2xl p-5 animate-pulse">
-              <div className="w-11 h-11 bg-white/5 rounded-xl mb-4" />
-              <div className="h-7 w-20 bg-white/5 rounded mb-2" />
-              <div className="h-4 w-24 bg-white/5 rounded" />
+            <div key={i} className="bg-[#111114] rounded-2xl p-5 animate-pulse">
+              <div className="w-11 h-11 bg-[#1A1A1F] rounded-xl mb-4" />
+              <div className="h-7 w-20 bg-[#1A1A1F] rounded mb-2" />
+              <div className="h-4 w-24 bg-[#1A1A1F] rounded" />
             </div>
           ))}
         </div>
@@ -366,8 +366,8 @@ export default function DashboardHome() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{greeting()}, {user?.firstName} !</h1>
-            <p className="text-gray-400 mt-1">{t.hotelDashboardSubtitle}</p>
+            <h1 className="text-2xl font-bold text-[#FAFAFA]">{greeting()}, {user?.firstName} !</h1>
+            <p className="text-[#71717A] mt-1">{t.hotelDashboardSubtitle}</p>
           </div>
           <div className="flex flex-wrap gap-2">
             {pendingBookings > 0 && (
@@ -382,13 +382,13 @@ export default function DashboardHome() {
         {/* Hotel Stat Cards — Bleu Lagon */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Occupancy with gauge */}
-          <div className="bg-white border border-white/10 rounded-2xl p-5">
+          <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-5">
             <div className="flex items-center gap-2 mb-3">
               <Percent className="w-4 h-4 text-cyan-500" />
-              <p className="text-sm text-gray-400">{t.occupancyRate}</p>
+              <p className="text-sm text-[#71717A]">{t.occupancyRate}</p>
             </div>
             <OccupancyGauge rate={stats.occupancyRate || 0} color="#0891b2" />
-            <p className="text-center text-xs text-gray-500 mt-2">{t.thisMonth}</p>
+            <p className="text-center text-xs text-[#71717A] mt-2">{t.thisMonth}</p>
           </div>
 
           <StatCard
@@ -420,13 +420,13 @@ export default function DashboardHome() {
         {/* Response Time Badge + Today Arrivals */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Response Time */}
-          <div className="bg-white border border-white/10 rounded-2xl p-5">
-            <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-5">
+            <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4 flex items-center gap-2">
               <Activity className="w-4 h-4 text-cyan-400" />
               {t.reactivity}
             </h3>
             <ResponseTimeBadge hours={stats.avgResponseTimeHours || 0} t={t} />
-            <p className="text-xs text-gray-500 mt-3">
+            <p className="text-xs text-[#71717A] mt-3">
               {(stats.avgResponseTimeHours || 0) <= 2
                 ? t.responseFast
                 : (stats.avgResponseTimeHours || 0) <= 12
@@ -436,23 +436,23 @@ export default function DashboardHome() {
           </div>
 
           {/* Today Arrivals */}
-          <div className="lg:col-span-2 bg-white border border-white/10 rounded-2xl overflow-hidden">
-            <div className="flex items-center justify-between p-5 border-b border-white/10">
-              <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+          <div className="lg:col-span-2 bg-[#111114] border border-[#27272A] rounded-2xl overflow-hidden">
+            <div className="flex items-center justify-between p-5 border-b border-[#27272A]">
+              <h3 className="text-sm font-semibold text-[#FAFAFA] flex items-center gap-2">
                 <UserCheck className="w-4 h-4 text-cyan-400" />
                 {t.todayArrivals}
               </h3>
-              <span className="text-xs text-gray-400">{todayArrivals.length} {todayArrivals.length !== 1 ? t.checkInPlural : t.checkInSingle}</span>
+              <span className="text-xs text-[#71717A]">{todayArrivals.length} {todayArrivals.length !== 1 ? t.checkInPlural : t.checkInSingle}</span>
             </div>
-            <div className="divide-y divide-white/5">
+            <div className="divide-y divide-[#27272A]">
               {todayArrivals.length > 0 ? todayArrivals.map((arrival, i) => (
-                <div key={i} className="flex items-center gap-4 p-4 hover:bg-gray-50 transition-colors">
+                <div key={i} className="flex items-center gap-4 p-4 hover:bg-[#111114] transition-colors">
                   <div className="w-10 h-10 bg-cyan-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
                     <BedDouble className="w-5 h-5 text-cyan-400" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">{arrival.guestName}</p>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-sm font-medium text-[#FAFAFA] truncate">{arrival.guestName}</p>
+                    <p className="text-xs text-[#71717A]">
                       {arrival.guestCount} pers.
                       {arrival.roomTypeName && ` · ${arrival.roomTypeName}`}
                       {' · '}{arrival.reference}
@@ -466,8 +466,8 @@ export default function DashboardHome() {
                 </div>
               )) : (
                 <div className="p-8 text-center">
-                  <CalendarDays className="w-10 h-10 text-gray-600 mx-auto mb-3" />
-                  <p className="text-sm text-gray-400">{t.noArrivalToday}</p>
+                  <CalendarDays className="w-10 h-10 text-[#A1A1AA] mx-auto mb-3" />
+                  <p className="text-sm text-[#71717A]">{t.noArrivalToday}</p>
                 </div>
               )}
             </div>
@@ -480,10 +480,10 @@ export default function DashboardHome() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white border border-amber-500/20 rounded-2xl overflow-hidden"
+              className="bg-[#111114] border border-amber-500/20 rounded-2xl overflow-hidden"
             >
-              <div className="flex items-center justify-between p-5 border-b border-white/10 bg-amber-500/5">
-                <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+              <div className="flex items-center justify-between p-5 border-b border-[#27272A] bg-amber-500/5">
+                <h3 className="text-sm font-semibold text-[#FAFAFA] flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4 text-amber-400" />
                   {t.pendingRequestsTitle}
                 </h3>
@@ -491,7 +491,7 @@ export default function DashboardHome() {
                   {t.seeAll} <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
-              <div className="divide-y divide-white/5">
+              <div className="divide-y divide-[#27272A]">
                 {pendingList.map((booking) => (
                   <PendingRow key={booking.id} booking={booking} onAction={handlePendingAction} t={t} />
                 ))}
@@ -510,39 +510,39 @@ export default function DashboardHome() {
 
         {/* Charts + Profile */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white border border-white/10 rounded-2xl p-5">
-            <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-5">
+            <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4 flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-cyan-500" />
               {t.bookingsThisWeek}
             </h3>
             <MiniBarChart data={weekBookings} labels={weekLabels} color="#0891b2" />
           </div>
 
-          <div className="bg-white border border-white/10 rounded-2xl p-5">
-            <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-5">
+            <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4 flex items-center gap-2">
               <Activity className="w-4 h-4 text-cyan-400" />
               {t.performance}
             </h3>
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between text-xs mb-1">
-                  <span className="text-gray-400">{t.confirmationRate}</span>
+                  <span className="text-[#71717A]">{t.confirmationRate}</span>
                   <span className="text-cyan-400 font-medium">
                     {stats.totalBookings ? Math.round((recentBookings.filter(b => b.status === 'confirmed').length / Math.max(recentBookings.length, 1)) * 100) : 0}%
                   </span>
                 </div>
-                <div className="w-full bg-white/5 rounded-full h-1.5">
+                <div className="w-full bg-[#1A1A1F] rounded-full h-1.5">
                   <div className="h-1.5 rounded-full bg-cyan-400" style={{ width: `${stats.totalBookings ? Math.round((recentBookings.filter(b => b.status === 'confirmed').length / Math.max(recentBookings.length, 1)) * 100) : 0}%` }} />
                 </div>
               </div>
               <div>
                 <div className="flex justify-between text-xs mb-1">
-                  <span className="text-gray-400">{t.answeredReviews}</span>
+                  <span className="text-[#71717A]">{t.answeredReviews}</span>
                   <span className="text-amber-400 font-medium">
                     {recentReviews.length ? Math.round((recentReviews.filter(r => r.ownerResponse).length / recentReviews.length) * 100) : 0}%
                   </span>
                 </div>
-                <div className="w-full bg-white/5 rounded-full h-1.5">
+                <div className="w-full bg-[#1A1A1F] rounded-full h-1.5">
                   <div className="h-1.5 rounded-full bg-amber-400" style={{ width: `${recentReviews.length ? Math.round((recentReviews.filter(r => r.ownerResponse).length / recentReviews.length) * 100) : 0}%` }} />
                 </div>
               </div>
@@ -554,52 +554,52 @@ export default function DashboardHome() {
 
         {/* Recent Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white border border-white/10 rounded-2xl overflow-hidden">
-            <div className="flex items-center justify-between p-5 border-b border-white/10">
-              <h2 className="text-lg font-semibold text-gray-900">{t.recentBookings}</h2>
+          <div className="bg-[#111114] border border-[#27272A] rounded-2xl overflow-hidden">
+            <div className="flex items-center justify-between p-5 border-b border-[#27272A]">
+              <h2 className="text-lg font-semibold text-[#FAFAFA]">{t.recentBookings}</h2>
               <Link href="/dashboard/reservations" className="text-sm text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
                 {t.seeAll} <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-            <div className="divide-y divide-white/5">
+            <div className="divide-y divide-[#27272A]">
               {recentBookings.length > 0 ? (
                 recentBookings.slice(0, 5).map((booking) => (
                   <BookingRow key={booking.id} booking={booking} accent="#0891b2" t={t} />
                 ))
               ) : (
                 <div className="p-8 text-center">
-                  <Calendar className="w-10 h-10 text-gray-600 mx-auto mb-3" />
-                  <p className="text-sm text-gray-400">{t.noRecentBookings}</p>
+                  <Calendar className="w-10 h-10 text-[#A1A1AA] mx-auto mb-3" />
+                  <p className="text-sm text-[#71717A]">{t.noRecentBookings}</p>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="bg-white border border-white/10 rounded-2xl overflow-hidden">
-            <div className="flex items-center justify-between p-5 border-b border-white/10">
-              <h2 className="text-lg font-semibold text-gray-900">{t.recentReviews}</h2>
+          <div className="bg-[#111114] border border-[#27272A] rounded-2xl overflow-hidden">
+            <div className="flex items-center justify-between p-5 border-b border-[#27272A]">
+              <h2 className="text-lg font-semibold text-[#FAFAFA]">{t.recentReviews}</h2>
               <Link href="/dashboard/avis" className="text-sm text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
                 {t.seeAll} <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-            <div className="divide-y divide-white/5">
+            <div className="divide-y divide-[#27272A]">
               {recentReviews.length > 0 ? (
                 recentReviews.slice(0, 5).map((review) => (
-                  <div key={review.id} className="p-4 hover:bg-gray-50 transition-colors">
+                  <div key={review.id} className="p-4 hover:bg-[#111114] transition-colors">
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">{review.authorName || t.anonymous}</p>
+                        <p className="text-sm font-medium text-[#FAFAFA] truncate">{review.authorName || t.anonymous}</p>
                         <div className="flex items-center gap-1 mt-0.5">
                           {[...Array(5)].map((_, i) => (
-                            <Star key={i} className={`w-3 h-3 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-600'}`} />
+                            <Star key={i} className={`w-3 h-3 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-[#A1A1AA]'}`} />
                           ))}
                         </div>
                       </div>
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-[#71717A]">
                         {new Date(review.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-300 line-clamp-2">{review.comment}</p>
+                    <p className="text-sm text-[#52525B] line-clamp-2">{review.comment}</p>
                     {!review.ownerResponse && (
                       <Link href="/dashboard/avis" className="text-xs text-cyan-400 mt-2 inline-block hover:underline">
                         {t.reply}
@@ -609,8 +609,8 @@ export default function DashboardHome() {
                 ))
               ) : (
                 <div className="p-8 text-center">
-                  <Star className="w-10 h-10 text-gray-600 mx-auto mb-3" />
-                  <p className="text-sm text-gray-400">{t.noRecentReviews}</p>
+                  <Star className="w-10 h-10 text-[#A1A1AA] mx-auto mb-3" />
+                  <p className="text-sm text-[#71717A]">{t.noRecentReviews}</p>
                 </div>
               )}
             </div>
@@ -626,12 +626,12 @@ export default function DashboardHome() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">{greeting()}, {user?.firstName} !</h2>
-          <p className="text-gray-400 mt-1">{t.genericDashboardSubtitle}</p>
+          <h2 className="text-2xl font-bold text-[#FAFAFA]">{greeting()}, {user?.firstName} !</h2>
+          <p className="text-[#71717A] mt-1">{t.genericDashboardSubtitle}</p>
         </div>
         <div className="flex flex-wrap gap-2">
           {pendingBookings > 0 && (
-            <Link href="/dashboard/reservations?tab=pending" className="flex items-center gap-2 px-4 py-2.5 bg-orange-500/15 border border-orange-500/30 rounded-xl text-orange-400 text-sm font-semibold hover:bg-orange-500/20 transition-colors animate-pulse">
+            <Link href="/dashboard/reservations?tab=pending" className="flex items-center gap-2 px-4 py-2.5 bg-[#FF6B35]/15 border border-[#FF6B35]/30 rounded-xl text-[#FDBA74] text-sm font-semibold hover:bg-[#FF6B35]/20 transition-colors animate-pulse">
               <AlertTriangle className="w-4 h-4" />
               {pendingBookings} {pendingBookings > 1 ? t.bookingsToValidatePlural : t.bookingsToValidateSingle}
             </Link>
@@ -663,48 +663,48 @@ export default function DashboardHome() {
 
       {/* Charts Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white border border-white/10 rounded-2xl p-5">
-          <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <BarChart3 className="w-4 h-4 text-[#10b981]" />
+        <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-5">
+          <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4 flex items-center gap-2">
+            <BarChart3 className="w-4 h-4 text-[#10B981]" />
             {t.bookingsThisWeek}
           </h3>
           <MiniBarChart data={weekBookings} labels={weekLabels} color="#10b981" />
         </div>
 
-        <div className="bg-white border border-white/10 rounded-2xl p-5">
-          <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
+        <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-5">
+          <h3 className="text-sm font-semibold text-[#FAFAFA] mb-4 flex items-center gap-2">
             <Activity className="w-4 h-4 text-cyan-400" />
             {t.performance}
           </h3>
           <div className="space-y-4">
             <div>
               <div className="flex justify-between text-xs mb-1">
-                <span className="text-gray-400">{t.avgResponseTime}</span>
+                <span className="text-[#71717A]">{t.avgResponseTime}</span>
                 <span className="text-cyan-400 font-medium">&lt; 2h</span>
               </div>
-              <div className="w-full bg-white/5 rounded-full h-1.5">
+              <div className="w-full bg-[#1A1A1F] rounded-full h-1.5">
                 <div className="h-1.5 rounded-full bg-cyan-400" style={{ width: '80%' }} />
               </div>
             </div>
             <div>
               <div className="flex justify-between text-xs mb-1">
-                <span className="text-gray-400">{t.confirmationRate}</span>
+                <span className="text-[#71717A]">{t.confirmationRate}</span>
                 <span className="text-green-400 font-medium">
                   {stats?.totalBookings ? Math.round((recentBookings.filter(b => b.status === 'confirmed').length / Math.max(recentBookings.length, 1)) * 100) : 0}%
                 </span>
               </div>
-              <div className="w-full bg-white/5 rounded-full h-1.5">
+              <div className="w-full bg-[#1A1A1F] rounded-full h-1.5">
                 <div className="h-1.5 rounded-full bg-green-400" style={{ width: `${stats?.totalBookings ? Math.round((recentBookings.filter(b => b.status === 'confirmed').length / Math.max(recentBookings.length, 1)) * 100) : 0}%` }} />
               </div>
             </div>
             <div>
               <div className="flex justify-between text-xs mb-1">
-                <span className="text-gray-400">{t.answeredReviews}</span>
+                <span className="text-[#71717A]">{t.answeredReviews}</span>
                 <span className="text-amber-400 font-medium">
                   {recentReviews.length ? Math.round((recentReviews.filter(r => r.ownerResponse).length / recentReviews.length) * 100) : 0}%
                 </span>
               </div>
-              <div className="w-full bg-white/5 rounded-full h-1.5">
+              <div className="w-full bg-[#1A1A1F] rounded-full h-1.5">
                 <div className="h-1.5 rounded-full bg-amber-400" style={{ width: `${recentReviews.length ? Math.round((recentReviews.filter(r => r.ownerResponse).length / recentReviews.length) * 100) : 0}%` }} />
               </div>
             </div>
@@ -716,54 +716,54 @@ export default function DashboardHome() {
 
       {/* Recent Content */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white border border-white/10 rounded-2xl overflow-hidden">
-          <div className="flex items-center justify-between p-5 border-b border-white/10">
-            <h2 className="text-lg font-semibold text-gray-900">{t.recentBookings}</h2>
-            <Link href="/dashboard/reservations" className="text-sm text-[#ff6b35] hover:text-orange-400 flex items-center gap-1">
+        <div className="bg-[#111114] border border-[#27272A] rounded-2xl overflow-hidden">
+          <div className="flex items-center justify-between p-5 border-b border-[#27272A]">
+            <h2 className="text-lg font-semibold text-[#FAFAFA]">{t.recentBookings}</h2>
+            <Link href="/dashboard/reservations" className="text-sm text-[#FF6B35] hover:text-[#FDBA74] flex items-center gap-1">
               {t.seeAll} <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="divide-y divide-white/5">
+          <div className="divide-y divide-[#27272A]">
             {recentBookings.length > 0 ? (
               recentBookings.slice(0, 5).map((booking) => (
                 <BookingRow key={booking.id} booking={booking} accent="#ff6b35" t={t} />
               ))
             ) : (
               <div className="p-8 text-center">
-                <Calendar className="w-10 h-10 text-gray-600 mx-auto mb-3" />
-                <p className="text-sm text-gray-400">{t.noRecentBookings}</p>
+                <Calendar className="w-10 h-10 text-[#A1A1AA] mx-auto mb-3" />
+                <p className="text-sm text-[#71717A]">{t.noRecentBookings}</p>
               </div>
             )}
           </div>
         </div>
 
-        <div className="bg-white border border-white/10 rounded-2xl overflow-hidden">
-          <div className="flex items-center justify-between p-5 border-b border-white/10">
-            <h2 className="text-lg font-semibold text-gray-900">{t.recentReviews}</h2>
-            <Link href="/dashboard/avis" className="text-sm text-[#ff6b35] hover:text-orange-400 flex items-center gap-1">
+        <div className="bg-[#111114] border border-[#27272A] rounded-2xl overflow-hidden">
+          <div className="flex items-center justify-between p-5 border-b border-[#27272A]">
+            <h2 className="text-lg font-semibold text-[#FAFAFA]">{t.recentReviews}</h2>
+            <Link href="/dashboard/avis" className="text-sm text-[#FF6B35] hover:text-[#FDBA74] flex items-center gap-1">
               {t.seeAll} <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="divide-y divide-white/5">
+          <div className="divide-y divide-[#27272A]">
             {recentReviews.length > 0 ? (
               recentReviews.slice(0, 5).map((review) => (
-                <div key={review.id} className="p-4 hover:bg-gray-50 transition-colors">
+                <div key={review.id} className="p-4 hover:bg-[#111114] transition-colors">
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">{review.authorName || t.anonymous}</p>
+                      <p className="text-sm font-medium text-[#FAFAFA] truncate">{review.authorName || t.anonymous}</p>
                       <div className="flex items-center gap-1 mt-0.5">
                         {[...Array(5)].map((_, i) => (
-                          <Star key={i} className={`w-3 h-3 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-600'}`} />
+                          <Star key={i} className={`w-3 h-3 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-[#A1A1AA]'}`} />
                         ))}
                       </div>
                     </div>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-[#71717A]">
                       {new Date(review.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-300 line-clamp-2">{review.comment}</p>
+                  <p className="text-sm text-[#52525B] line-clamp-2">{review.comment}</p>
                   {!review.ownerResponse && (
-                    <Link href="/dashboard/avis" className="text-xs text-[#ff6b35] mt-2 inline-block hover:underline">
+                    <Link href="/dashboard/avis" className="text-xs text-[#FF6B35] mt-2 inline-block hover:underline">
                       {t.reply}
                     </Link>
                   )}
@@ -771,8 +771,8 @@ export default function DashboardHome() {
               ))
             ) : (
               <div className="p-8 text-center">
-                <Star className="w-10 h-10 text-gray-600 mx-auto mb-3" />
-                <p className="text-sm text-gray-400">{t.noRecentReviews}</p>
+                <Star className="w-10 h-10 text-[#A1A1AA] mx-auto mb-3" />
+                <p className="text-sm text-[#71717A]">{t.noRecentReviews}</p>
               </div>
             )}
           </div>
@@ -791,14 +791,14 @@ export default function DashboardHome() {
         ].map((action) => (
           <Link key={action.href} href={action.href}>
             <motion.div
-              whileHover={{ scale: 1.03, y: -2 }}
+              whileHover={{ y: -2 }} transition={{ duration: 0.2 }}
               whileTap={{ scale: 0.97 }}
-              className="bg-white border border-white/10 rounded-2xl p-4 flex flex-col items-center gap-2 hover:border-[#ff6b35]/30 transition-colors cursor-pointer text-center"
+              className="bg-[#111114] border border-[#27272A] rounded-2xl p-4 flex flex-col items-center gap-2 hover:border-[#FF6B35]/30 transition-colors cursor-pointer text-center"
             >
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${action.color}15` }}>
                 <action.icon className="w-5 h-5" style={{ color: action.color }} />
               </div>
-              <span className="text-xs font-medium text-gray-400">{action.label}</span>
+              <span className="text-xs font-medium text-[#71717A]">{action.label}</span>
             </motion.div>
           </Link>
         ))}

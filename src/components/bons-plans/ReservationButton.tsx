@@ -46,7 +46,7 @@ export default function ReservationButton({
       <button
         onClick={handleReservation}
         disabled={isLoading}
-        className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-bold text-lg rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
+        className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#FF6B35] text-white font-bold text-lg rounded-xl hover:shadow-lg hover:shadow-[#FF6B35]/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
       >
         {isLoading ? (
           <>

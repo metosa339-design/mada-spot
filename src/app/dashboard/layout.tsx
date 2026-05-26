@@ -68,10 +68,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
+      <div className="min-h-screen bg-[#0A0A0F] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-2 border-[#ff6b35] border-t-transparent rounded-full animate-spin" />
-          <p className="text-gray-400 text-sm">{t.loadingDashboard}</p>
+          <div className="w-12 h-12 border-2 border-[#FF6B35] border-t-transparent rounded-full animate-spin" />
+          <p className="text-[#A1A1AA] text-sm">{t.loadingDashboard}</p>
         </div>
       </div>
     )
@@ -80,7 +80,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (!user) return null
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] flex">
+    <div className="min-h-screen bg-[#0A0A0F] flex">
       {/* Sidebar */}
       <DashboardSidebar
         user={user}
@@ -92,16 +92,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
         {/* Top Bar */}
-        <header className="h-16 border-b border-white/10 bg-[#0f0f17]/80 backdrop-blur-xl flex items-center justify-between px-4 lg:px-8 flex-shrink-0">
+        <header className="h-16 border-b border-[#27272A] bg-[#0A0A0F]/90 backdrop-blur-xl flex items-center justify-between px-4 lg:px-8 flex-shrink-0">
           <div className="flex-1 max-w-md ml-12 lg:ml-0">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#71717A]" />
               <input
                 type="text"
                 placeholder={t.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-xl text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50 transition-colors"
+                className="w-full pl-10 pr-4 py-2 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-sm text-[#FAFAFA] placeholder:text-[#71717A] focus:outline-none focus:border-[#FF6B35] transition-colors"
               />
             </div>
           </div>
@@ -110,24 +110,24 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {/* Notifications */}
             <Link
               href="/dashboard/parametres?tab=notifications"
-              className="relative p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors"
+              className="relative p-2 text-[#A1A1AA] hover:text-[#FAFAFA] hover:bg-[#111114] rounded-xl transition-colors"
             >
               <Bell className="w-5 h-5" />
               {notifications > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute -top-0.5 -right-0.5 bg-[#EF4444] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                   {notifications > 9 ? '9+' : notifications}
                 </span>
               )}
             </Link>
 
             {/* User Avatar */}
-            <Link href="/dashboard/parametres" className="flex items-center gap-3 pl-3 border-l border-white/10">
-              <div className="w-8 h-8 bg-gradient-to-br from-[#ff6b35] to-pink-500 rounded-lg flex items-center justify-center text-white text-sm font-bold">
+            <Link href="/dashboard/parametres" className="flex items-center gap-3 pl-3 border-l border-[#27272A]">
+              <div className="w-8 h-8 bg-[#FF6B35] rounded-lg flex items-center justify-center text-white text-sm font-bold">
                 {user.firstName[0]}
               </div>
               <div className="hidden md:block">
-                <p className="text-sm font-medium text-white leading-tight">{user.firstName}</p>
-                <p className="text-xs text-gray-500 leading-tight">
+                <p className="text-sm font-medium text-[#FAFAFA] leading-tight">{user.firstName}</p>
+                <p className="text-xs text-[#71717A] leading-tight">
                   {user.userType === 'HOTEL' ? t.userTypeHotel :
                    user.userType === 'RESTAURANT' ? t.userTypeRestaurant :
                    user.userType === 'ATTRACTION' ? t.userTypeAttraction :

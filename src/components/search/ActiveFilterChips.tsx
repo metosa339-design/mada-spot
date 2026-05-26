@@ -18,7 +18,7 @@ interface Chip {
 const TYPE_COLORS: Record<string, string> = {
   HOTEL: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
   RESTAURANT: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
-  ATTRACTION: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
+  ATTRACTION: 'bg-[#FF6B35]/20 text-[#FDBA74] border-[#FF6B35]/30',
   PROVIDER: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
 };
 
@@ -31,7 +31,7 @@ export default function ActiveFilterChips({ filters, clearFilter }: ActiveFilter
     chips.push({
       key: 'type',
       label: typeObj?.label || filters.type,
-      color: TYPE_COLORS[filters.type] || 'bg-gray-500/20 text-gray-300 border-gray-500/30',
+      color: TYPE_COLORS[filters.type] || 'bg-[#52525B]/20 text-[#52525B] border-[#3F3F46]/30',
     });
   }
 
@@ -84,7 +84,7 @@ export default function ActiveFilterChips({ filters, clearFilter }: ActiveFilter
       chips.push({
         key: 'amenities',
         label: `Équipements: ${amenityLabels.join(', ')}`,
-        color: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
+        color: 'bg-[#FF6B35]/20 text-[#FDBA74] border-[#FF6B35]/30',
       });
     }
   }

@@ -15,7 +15,7 @@ export default function GhostBanner({ isClaimed, establishmentId }: GhostBannerP
         <Sparkles className="w-5 h-5 text-violet-400 flex-shrink-0 mt-0.5" />
         <div className="flex-1">
           <p className="text-sm font-medium text-violet-300">Fiche communautaire</p>
-          <p className="text-xs text-gray-400 mt-0.5">
+          <p className="text-xs text-[#71717A] mt-0.5">
             Ce lieu a été ajouté par un voyageur et est en attente de vérification par notre équipe.
           </p>
           {!isClaimed && (

@@ -12,15 +12,15 @@ export default function CurrencyToggle() {
   const { currency, setCurrency } = useCurrency();
 
   return (
-    <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full border border-white/20 overflow-hidden">
+    <div className="flex items-center bg-[#1A1A1F] backdrop-blur-sm rounded-full border border-[#3F3F46] overflow-hidden">
       {currencies.map((c) => (
         <button
           key={c.id}
           onClick={() => setCurrency(c.id)}
           className={`px-2.5 py-1.5 text-xs font-medium transition-all ${
             currency === c.id
-              ? 'bg-orange-500 text-white'
-              : 'text-white/60 hover:text-white hover:bg-white/10'
+              ? 'bg-[#FF6B35] text-white'
+              : 'text-white/60 hover:text-white hover:bg-[#1A1A1F]'
           }`}
           title={`Afficher en ${c.id}`}
         >

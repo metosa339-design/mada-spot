@@ -143,9 +143,9 @@ export default function TarifsPage() {
   if (loading) {
     return (
       <div className="space-y-6 max-w-4xl">
-        <div className="h-8 w-48 bg-white/5 rounded animate-pulse" />
+        <div className="h-8 w-48 bg-[#1A1A1F] rounded animate-pulse" />
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="h-24 bg-white rounded-2xl animate-pulse" />
+          <div key={i} className="h-24 bg-[#111114] rounded-2xl animate-pulse" />
         ))}
       </div>
     )
@@ -156,8 +156,8 @@ export default function TarifsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{t.pageTitle}</h1>
-          <p className="text-gray-400 text-sm mt-1">{t.pageSubtitle}</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-[#FAFAFA]">{t.pageTitle}</h1>
+          <p className="text-[#71717A] text-sm mt-1">{t.pageSubtitle}</p>
         </div>
         <button
           onClick={() => {
@@ -166,7 +166,7 @@ export default function TarifsPage() {
             })
             setShowPerPriceMultipliers(false)
           }}
-          className="flex items-center gap-2 px-4 py-2.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-gray-900 rounded-xl text-sm font-medium transition-colors"
+          className="flex items-center gap-2 px-4 py-2.5 bg-[#FF6B35] hover:bg-[#F97316] text-[#FAFAFA] rounded-xl text-sm font-medium transition-colors"
         >
           <Plus className="w-4 h-4" />
           {t.newPeriod}
@@ -176,18 +176,18 @@ export default function TarifsPage() {
       {/* Vos prix actuels */}
       {establishments.length > 0 && establishments.some(e => e.prices.length > 0) && (
         <div className="space-y-4">
-          <h2 className="text-sm font-medium text-gray-400">{t.currentPrices}</h2>
+          <h2 className="text-sm font-medium text-[#71717A]">{t.currentPrices}</h2>
           {establishments.filter(e => e.prices.length > 0).map((estab) => {
             const TypeIcon = TYPE_ICONS[estab.type] || Building2
             return (
-              <div key={estab.id} className="bg-white border border-white/10 rounded-2xl p-5 space-y-4">
+              <div key={estab.id} className="bg-[#111114] border border-[#27272A] rounded-2xl p-5 space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-[#ff6b35]/10 flex items-center justify-center">
-                    <TypeIcon className="w-4.5 h-4.5 text-[#ff6b35]" />
+                  <div className="w-9 h-9 rounded-lg bg-[#FF6B35]/10 flex items-center justify-center">
+                    <TypeIcon className="w-4.5 h-4.5 text-[#FF6B35]" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-gray-900">{estab.name}</p>
-                    <p className="text-xs text-gray-500">{TYPE_LABEL_KEYS[estab.type] ? t[TYPE_LABEL_KEYS[estab.type]] : estab.type}</p>
+                    <p className="text-sm font-semibold text-[#FAFAFA]">{estab.name}</p>
+                    <p className="text-xs text-[#71717A]">{TYPE_LABEL_KEYS[estab.type] ? t[TYPE_LABEL_KEYS[estab.type]] : estab.type}</p>
                   </div>
                 </div>
 
@@ -195,14 +195,14 @@ export default function TarifsPage() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-white/5">
-                        <th className="text-left text-xs text-gray-500 font-medium pb-2 pr-4">{t.priceType}</th>
-                        <th className="text-right text-xs text-gray-500 font-medium pb-2 pr-4">{t.basePrice}</th>
+                      <tr className="border-b border-[#27272A]">
+                        <th className="text-left text-xs text-[#71717A] font-medium pb-2 pr-4">{t.priceType}</th>
+                        <th className="text-right text-xs text-[#71717A] font-medium pb-2 pr-4">{t.basePrice}</th>
                         {seasons.filter(s => s.isActive).map((season) => (
                           <th key={season.id} className="text-right text-xs font-medium pb-2 pr-4">
                             <span className={
                               season.priceMultiplier > 1 ? 'text-yellow-400' :
-                              season.priceMultiplier < 1 ? 'text-blue-400' : 'text-gray-400'
+                              season.priceMultiplier < 1 ? 'text-blue-400' : 'text-[#71717A]'
                             }>
                               {season.name}
                             </span>
@@ -212,20 +212,20 @@ export default function TarifsPage() {
                     </thead>
                     <tbody>
                       {estab.prices.map((price, idx) => (
-                        <tr key={idx} className="border-b border-white/5 last:border-0">
-                          <td className="py-2.5 pr-4 text-gray-300">{price.label}</td>
-                          <td className="py-2.5 pr-4 text-right text-gray-900 font-medium">{formatMGA(price.value)}</td>
+                        <tr key={idx} className="border-b border-[#27272A] last:border-0">
+                          <td className="py-2.5 pr-4 text-[#52525B]">{price.label}</td>
+                          <td className="py-2.5 pr-4 text-right text-[#FAFAFA] font-medium">{formatMGA(price.value)}</td>
                           {seasons.filter(s => s.isActive).map((season) => {
                             const multiplier = getMultiplierForPrice(season, price.label)
                             const result = price.value * multiplier
                             const diff = result - price.value
                             return (
                               <td key={season.id} className="py-2.5 pr-4 text-right">
-                                <span className="text-gray-900 font-medium">{formatMGA(result)}</span>
+                                <span className="text-[#FAFAFA] font-medium">{formatMGA(result)}</span>
                                 <br />
                                 <span className={`text-[10px] ${
                                   diff > 0 ? 'text-yellow-400/70' :
-                                  diff < 0 ? 'text-blue-400/70' : 'text-gray-600'
+                                  diff < 0 ? 'text-blue-400/70' : 'text-[#A1A1AA]'
                                 }`}>
                                   {diff > 0 ? '+' : ''}{formatMGA(diff)}
                                   {' '}({formatMultiplier(multiplier)})
@@ -240,7 +240,7 @@ export default function TarifsPage() {
                 </div>
 
                 {seasons.filter(s => s.isActive).length === 0 && (
-                  <p className="text-xs text-gray-500 italic">{t.seasonsHint}</p>
+                  <p className="text-xs text-[#71717A] italic">{t.seasonsHint}</p>
                 )}
               </div>
             )
@@ -250,12 +250,12 @@ export default function TarifsPage() {
 
       {/* Quick Presets */}
       <div>
-        <h2 className="text-sm font-medium text-gray-400 mb-3">{t.quickModels}</h2>
+        <h2 className="text-sm font-medium text-[#71717A] mb-3">{t.quickModels}</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {SEASON_PRESETS.map((preset) => (
             <motion.button
               key={preset.nameKey}
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ y: -2 }} transition={{ duration: 0.2 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => {
                 setEditing({
@@ -268,14 +268,14 @@ export default function TarifsPage() {
                 })
                 setShowPerPriceMultipliers(false)
               }}
-              className="flex items-center gap-3 p-4 bg-white border border-white/10 rounded-xl hover:border-white/20 transition-colors text-left"
+              className="flex items-center gap-3 p-4 bg-[#111114] border border-[#27272A] rounded-xl hover:border-[#3F3F46] transition-colors text-left"
             >
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${preset.color}15` }}>
                 <preset.icon className="w-5 h-5" style={{ color: preset.color }} />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-900">{t[preset.nameKey]}</p>
-                <p className="text-xs text-gray-400">{t[preset.monthsKey]} · {formatMultiplier(preset.multiplier)}</p>
+                <p className="text-sm font-medium text-[#FAFAFA]">{t[preset.nameKey]}</p>
+                <p className="text-xs text-[#71717A]">{t[preset.monthsKey]} · {formatMultiplier(preset.multiplier)}</p>
               </div>
             </motion.button>
           ))}
@@ -287,30 +287,30 @@ export default function TarifsPage() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white border border-[#ff6b35]/30 rounded-2xl p-6 space-y-4"
+          className="bg-[#111114] border border-[#FF6B35]/30 rounded-2xl p-6 space-y-4"
         >
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-[#FAFAFA]">
               {editing.id ? t.editPeriodTitle : t.newPeriodTitle}
             </h3>
-            <button onClick={() => { setEditing(null); setShowPerPriceMultipliers(false) }} className="text-gray-400 hover:text-gray-900">
+            <button onClick={() => { setEditing(null); setShowPerPriceMultipliers(false) }} className="text-[#71717A] hover:text-[#FAFAFA]">
               <X className="w-5 h-5" />
             </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs text-gray-400 mb-1">{t.periodName}</label>
+              <label className="block text-xs text-[#71717A] mb-1">{t.periodName}</label>
               <input
                 type="text"
                 value={editing.name}
                 onChange={(e) => setEditing(prev => prev ? { ...prev, name: e.target.value } : null)}
                 placeholder={t.periodNamePlaceholder}
-                className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                className="w-full px-3 py-2.5 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] text-sm focus:outline-none focus:border-[#FF6B35]"
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">{t.globalMultiplier}</label>
+              <label className="block text-xs text-[#71717A] mb-1">{t.globalMultiplier}</label>
               <div className="flex items-center gap-3">
                 <input
                   type="range"
@@ -319,11 +319,11 @@ export default function TarifsPage() {
                   step="0.1"
                   value={editing.priceMultiplier}
                   onChange={(e) => setEditing(prev => prev ? { ...prev, priceMultiplier: parseFloat(e.target.value) } : null)}
-                  className="flex-1 accent-[#ff6b35]"
+                  className="flex-1 accent-[#FF6B35]"
                 />
                 <span className={`text-sm font-bold min-w-[60px] text-right ${
                   editing.priceMultiplier > 1 ? 'text-yellow-400' :
-                  editing.priceMultiplier < 1 ? 'text-blue-400' : 'text-gray-400'
+                  editing.priceMultiplier < 1 ? 'text-blue-400' : 'text-[#71717A]'
                 }`}>
                   {formatMultiplier(editing.priceMultiplier)}
                 </span>
@@ -336,7 +336,7 @@ export default function TarifsPage() {
             <div className="space-y-3">
               <button
                 onClick={() => setShowPerPriceMultipliers(!showPerPriceMultipliers)}
-                className="flex items-center gap-2 text-sm text-[#ff6b35] hover:text-[#e55a2b] transition-colors"
+                className="flex items-center gap-2 text-sm text-[#FF6B35] hover:text-[#F97316] transition-colors"
               >
                 {showPerPriceMultipliers ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                 {t.perPriceMultipliers}
@@ -346,9 +346,9 @@ export default function TarifsPage() {
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
-                  className="bg-white/5 rounded-xl p-4 space-y-3"
+                  className="bg-[#1A1A1F] rounded-xl p-4 space-y-3"
                 >
-                  <p className="text-xs text-gray-500 mb-2">
+                  <p className="text-xs text-[#71717A] mb-2">
                     {t.perPriceHelp}
                   </p>
                   {uniquePriceLabels.map((label) => {
@@ -359,7 +359,7 @@ export default function TarifsPage() {
                       <div key={label} className="space-y-1">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <span className="text-xs text-gray-300">{label}</span>
+                            <span className="text-xs text-[#52525B]">{label}</span>
                             {hasCustom && (
                               <button
                                 onClick={() => {
@@ -370,7 +370,7 @@ export default function TarifsPage() {
                                     return { ...prev, priceMultipliers: updated }
                                   })
                                 }}
-                                className="text-[10px] text-gray-500 hover:text-red-400 transition-colors"
+                                className="text-[10px] text-[#71717A] hover:text-red-400 transition-colors"
                               >
                                 {t.resetBtn}
                               </button>
@@ -379,12 +379,12 @@ export default function TarifsPage() {
                           <div className="flex items-center gap-2">
                             <span className={`text-xs font-bold ${
                               currentValue > 1 ? 'text-yellow-400' :
-                              currentValue < 1 ? 'text-blue-400' : 'text-gray-400'
+                              currentValue < 1 ? 'text-blue-400' : 'text-[#71717A]'
                             }`}>
                               {formatMultiplier(currentValue)}
                             </span>
                             {basePrice !== undefined && (
-                              <span className="text-[10px] text-gray-600">
+                              <span className="text-[10px] text-[#A1A1AA]">
                                 = {formatMGA(basePrice * currentValue)}
                               </span>
                             )}
@@ -406,7 +406,7 @@ export default function TarifsPage() {
                               }
                             })
                           }}
-                          className="w-full accent-[#ff6b35]"
+                          className="w-full accent-[#FF6B35]"
                         />
                       </div>
                     )
@@ -420,24 +420,24 @@ export default function TarifsPage() {
           {establishments.some(e => e.prices.length > 0) && (
             editing.priceMultiplier !== 1 || Object.keys(editing.priceMultipliers).length > 0
           ) && (
-            <div className="bg-white/5 rounded-xl p-4 space-y-2">
-              <p className="text-xs text-gray-400 font-medium mb-2">{t.previewTitle}</p>
+            <div className="bg-[#1A1A1F] rounded-xl p-4 space-y-2">
+              <p className="text-xs text-[#71717A] font-medium mb-2">{t.previewTitle}</p>
               {establishments.filter(e => e.prices.length > 0).map((estab) => (
                 <div key={estab.id} className="space-y-1">
-                  <p className="text-xs text-gray-500">{estab.name}</p>
+                  <p className="text-xs text-[#71717A]">{estab.name}</p>
                   {estab.prices.map((price, idx) => {
                     const multiplier = getEditingMultiplierForPrice(price.label)
                     return (
                       <div key={idx} className="flex items-center gap-2 text-xs">
-                        <span className="text-gray-400 w-40 truncate">{price.label}</span>
-                        <span className="text-gray-500">{formatMGA(price.value)}</span>
-                        <ArrowRight className="w-3 h-3 text-gray-600" />
+                        <span className="text-[#71717A] w-40 truncate">{price.label}</span>
+                        <span className="text-[#71717A]">{formatMGA(price.value)}</span>
+                        <ArrowRight className="w-3 h-3 text-[#A1A1AA]" />
                         <span className={`font-semibold ${
-                          multiplier > 1 ? 'text-yellow-400' : multiplier < 1 ? 'text-blue-400' : 'text-gray-400'
+                          multiplier > 1 ? 'text-yellow-400' : multiplier < 1 ? 'text-blue-400' : 'text-[#71717A]'
                         }`}>
                           {formatMGA(price.value * multiplier)}
                         </span>
-                        <span className="text-gray-600 text-[10px]">
+                        <span className="text-[#A1A1AA] text-[10px]">
                           ({formatMultiplier(multiplier)})
                         </span>
                       </div>
@@ -450,21 +450,21 @@ export default function TarifsPage() {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs text-gray-400 mb-1">{t.startDateLabel}</label>
+              <label className="block text-xs text-[#71717A] mb-1">{t.startDateLabel}</label>
               <input
                 type="date"
                 value={editing.startDate}
                 onChange={(e) => setEditing(prev => prev ? { ...prev, startDate: e.target.value } : null)}
-                className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                className="w-full px-3 py-2.5 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] text-sm focus:outline-none focus:border-[#FF6B35]"
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">{t.endDateLabel}</label>
+              <label className="block text-xs text-[#71717A] mb-1">{t.endDateLabel}</label>
               <input
                 type="date"
                 value={editing.endDate}
                 onChange={(e) => setEditing(prev => prev ? { ...prev, endDate: e.target.value } : null)}
-                className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                className="w-full px-3 py-2.5 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] text-sm focus:outline-none focus:border-[#FF6B35]"
               />
             </div>
           </div>
@@ -472,14 +472,14 @@ export default function TarifsPage() {
           <div className="flex justify-end gap-3">
             <button
               onClick={() => { setEditing(null); setShowPerPriceMultipliers(false) }}
-              className="px-4 py-2 text-gray-400 hover:text-gray-900 text-sm transition-colors"
+              className="px-4 py-2 text-[#71717A] hover:text-[#FAFAFA] text-sm transition-colors"
             >
               {t.cancel}
             </button>
             <button
               onClick={handleSave}
               disabled={saving || !editing.name || !editing.startDate || !editing.endDate}
-              className="flex items-center gap-2 px-5 py-2 bg-[#ff6b35] hover:bg-[#e55a2b] text-gray-900 rounded-xl text-sm font-medium transition-colors disabled:opacity-50"
+              className="flex items-center gap-2 px-5 py-2 bg-[#FF6B35] hover:bg-[#F97316] text-[#FAFAFA] rounded-xl text-sm font-medium transition-colors disabled:opacity-50"
             >
               {saving ? (
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -494,29 +494,29 @@ export default function TarifsPage() {
 
       {/* Existing Seasons */}
       <div className="space-y-3">
-        <h2 className="text-sm font-medium text-gray-400">{t.activePeriods}</h2>
+        <h2 className="text-sm font-medium text-[#71717A]">{t.activePeriods}</h2>
         {seasons.length > 0 ? (
           seasons.map((season) => (
             <motion.div
               key={season.id}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="p-4 bg-white border border-white/10 rounded-xl space-y-3"
+              className="p-4 bg-[#111114] border border-[#27272A] rounded-xl space-y-3"
             >
               <div className="flex items-center gap-4">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
                   season.priceMultiplier > 1 ? 'bg-yellow-500/10' :
-                  season.priceMultiplier < 1 ? 'bg-blue-500/10' : 'bg-gray-500/10'
+                  season.priceMultiplier < 1 ? 'bg-blue-500/10' : 'bg-[#52525B]/10'
                 }`}>
                   <Percent className={`w-5 h-5 ${
                     season.priceMultiplier > 1 ? 'text-yellow-400' :
-                    season.priceMultiplier < 1 ? 'text-blue-400' : 'text-gray-400'
+                    season.priceMultiplier < 1 ? 'text-blue-400' : 'text-[#71717A]'
                   }`} />
                 </div>
 
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">{season.name}</p>
-                  <p className="text-xs text-gray-400">
+                  <p className="text-sm font-medium text-[#FAFAFA]">{season.name}</p>
+                  <p className="text-xs text-[#71717A]">
                     {new Date(season.startDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
                     {' \u2192 '}
                     {new Date(season.endDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
@@ -525,7 +525,7 @@ export default function TarifsPage() {
 
                 <span className={`text-sm font-bold ${
                   season.priceMultiplier > 1 ? 'text-yellow-400' :
-                  season.priceMultiplier < 1 ? 'text-blue-400' : 'text-gray-400'
+                  season.priceMultiplier < 1 ? 'text-blue-400' : 'text-[#71717A]'
                 }`}>
                   {formatMultiplier(season.priceMultiplier)}
                 </span>
@@ -544,13 +544,13 @@ export default function TarifsPage() {
                       })
                       setShowPerPriceMultipliers(!!season.priceMultipliers && Object.keys(season.priceMultipliers).length > 0)
                     }}
-                    className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                    className="p-2 text-[#71717A] hover:text-[#FAFAFA] hover:bg-[#111114] rounded-lg transition-colors"
                   >
                     <Edit2 className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleDelete(season.id)}
-                    className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                    className="p-2 text-[#71717A] hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -565,7 +565,7 @@ export default function TarifsPage() {
                       key={label}
                       className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium ${
                         mult > 1 ? 'bg-yellow-500/10 text-yellow-400' :
-                        mult < 1 ? 'bg-blue-500/10 text-blue-400' : 'bg-gray-500/10 text-gray-400'
+                        mult < 1 ? 'bg-blue-500/10 text-blue-400' : 'bg-[#52525B]/10 text-[#71717A]'
                       }`}
                     >
                       {label}: {formatMultiplier(mult)}
@@ -576,10 +576,10 @@ export default function TarifsPage() {
             </motion.div>
           ))
         ) : (
-          <div className="p-8 bg-white border border-white/10 rounded-2xl text-center">
-            <Calendar className="w-10 h-10 text-gray-600 mx-auto mb-3" />
-            <p className="text-sm text-gray-400">{t.noPeriodTitle}</p>
-            <p className="text-xs text-gray-500 mt-1">{t.noPeriodHint}</p>
+          <div className="p-8 bg-[#111114] border border-[#27272A] rounded-2xl text-center">
+            <Calendar className="w-10 h-10 text-[#A1A1AA] mx-auto mb-3" />
+            <p className="text-sm text-[#71717A]">{t.noPeriodTitle}</p>
+            <p className="text-xs text-[#71717A] mt-1">{t.noPeriodHint}</p>
           </div>
         )}
       </div>

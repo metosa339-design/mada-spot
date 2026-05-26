@@ -61,8 +61,8 @@ function CountdownTimer({ endDate }: { endDate: string }) {
         { value: timeLeft.seconds, label: t.secShort },
       ].map((item, i) => (
         <div key={i} className="bg-black/40 rounded-lg px-2 py-1 text-center min-w-[40px]">
-          <div className="text-gray-900 font-bold text-sm">{String(item.value).padStart(2, '0')}</div>
-          <div className="text-gray-500 text-[10px]">{item.label}</div>
+          <div className="text-[#FAFAFA] font-bold text-sm">{String(item.value).padStart(2, '0')}</div>
+          <div className="text-[#71717A] text-[10px]">{item.label}</div>
         </div>
       ))}
     </div>
@@ -154,7 +154,7 @@ export default function PromotionsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-8 h-8 text-[#ff6b35] animate-spin" />
+        <Loader2 className="w-8 h-8 text-[#FF6B35] animate-spin" />
       </div>
     )
   }
@@ -164,15 +164,15 @@ export default function PromotionsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-[#FAFAFA] flex items-center gap-2">
             <Zap className="w-7 h-7 text-yellow-400" />
             {t.pageTitle}
           </h1>
-          <p className="text-gray-400 text-sm mt-1">{t.pageSubtitle}</p>
+          <p className="text-[#71717A] text-sm mt-1">{t.pageSubtitle}</p>
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#ff6b35] to-pink-500 text-white rounded-xl font-medium hover:opacity-90 transition-opacity"
+          className="flex items-center gap-2 px-4 py-2.5 bg-[#FF6B35] text-white rounded-xl font-medium hover:opacity-90 transition-opacity"
         >
           <Plus className="w-4 h-4" />
           {t.newPromo}
@@ -203,20 +203,20 @@ export default function PromotionsPage() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             onSubmit={handleSubmit}
-            className="bg-white border border-white/10 rounded-2xl p-6 space-y-4 overflow-hidden"
+            className="bg-[#111114] border border-[#27272A] rounded-2xl p-6 space-y-4 overflow-hidden"
           >
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-[#FAFAFA] flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-yellow-400" />
               {t.formTitle}
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm text-gray-400 mb-1">{t.establishmentRequired}</label>
+                <label className="block text-sm text-[#71717A] mb-1">{t.establishmentRequired}</label>
                 <select
                   value={form.establishmentId}
                   onChange={(e) => setForm(f => ({ ...f, establishmentId: e.target.value }))}
-                  className="w-full px-4 py-3 bg-gray-50 border border-white/10 rounded-xl text-gray-900 focus:outline-none focus:border-[#ff6b35] transition-colors"
+                  className="w-full px-4 py-3 bg-[#111114] border border-[#27272A] rounded-xl text-[#FAFAFA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                 >
                   <option value="">{t.selectPlaceholder}</option>
                   {establishments.map(e => (
@@ -226,29 +226,29 @@ export default function PromotionsPage() {
               </div>
 
               <div>
-                <label className="block text-sm text-gray-400 mb-1">{t.offerTitleRequired}</label>
+                <label className="block text-sm text-[#71717A] mb-1">{t.offerTitleRequired}</label>
                 <input
                   type="text"
                   value={form.title}
                   onChange={(e) => setForm(f => ({ ...f, title: e.target.value }))}
                   placeholder={t.offerTitlePlaceholder}
-                  className="w-full px-4 py-3 bg-gray-50 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35] transition-colors"
+                  className="w-full px-4 py-3 bg-[#111114] border border-[#27272A] rounded-xl text-[#FAFAFA] placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                 />
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm text-gray-400 mb-1">{t.descLabel}</label>
+                <label className="block text-sm text-[#71717A] mb-1">{t.descLabel}</label>
                 <textarea
                   value={form.description}
                   onChange={(e) => setForm(f => ({ ...f, description: e.target.value }))}
                   rows={2}
                   placeholder={t.descriptionPlaceholder}
-                  className="w-full px-4 py-3 bg-gray-50 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35] transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-[#111114] border border-[#27272A] rounded-xl text-[#FAFAFA] placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors resize-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm text-gray-400 mb-1">{t.discountLabel}</label>
+                <label className="block text-sm text-[#71717A] mb-1">{t.discountLabel}</label>
                 <div className="flex items-center gap-3">
                   <input
                     type="range"
@@ -257,9 +257,9 @@ export default function PromotionsPage() {
                     step={5}
                     value={form.discountPercent}
                     onChange={(e) => setForm(f => ({ ...f, discountPercent: parseInt(e.target.value) }))}
-                    className="flex-1 accent-[#ff6b35]"
+                    className="flex-1 accent-[#FF6B35]"
                   />
-                  <span className="bg-[#ff6b35] text-white font-bold px-3 py-1 rounded-lg text-sm min-w-[50px] text-center">
+                  <span className="bg-[#FF6B35] text-white font-bold px-3 py-1 rounded-lg text-sm min-w-[50px] text-center">
                     -{form.discountPercent}%
                   </span>
                 </div>
@@ -267,21 +267,21 @@ export default function PromotionsPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm text-gray-400 mb-1">{t.startLabel}</label>
+                  <label className="block text-sm text-[#71717A] mb-1">{t.startLabel}</label>
                   <input
                     type="date"
                     value={form.startDate}
                     onChange={(e) => setForm(f => ({ ...f, startDate: e.target.value }))}
-                    className="w-full px-3 py-3 bg-gray-50 border border-white/10 rounded-xl text-gray-900 focus:outline-none focus:border-[#ff6b35] transition-colors"
+                    className="w-full px-3 py-3 bg-[#111114] border border-[#27272A] rounded-xl text-[#FAFAFA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-400 mb-1">{t.endRequired}</label>
+                  <label className="block text-sm text-[#71717A] mb-1">{t.endRequired}</label>
                   <input
                     type="date"
                     value={form.endDate}
                     onChange={(e) => setForm(f => ({ ...f, endDate: e.target.value }))}
-                    className="w-full px-3 py-3 bg-gray-50 border border-white/10 rounded-xl text-gray-900 focus:outline-none focus:border-[#ff6b35] transition-colors"
+                    className="w-full px-3 py-3 bg-[#111114] border border-[#27272A] rounded-xl text-[#FAFAFA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                   />
                 </div>
               </div>
@@ -291,12 +291,12 @@ export default function PromotionsPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#ff6b35] to-pink-500 text-white rounded-xl font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
+                className="flex items-center gap-2 px-6 py-2.5 bg-[#FF6B35] text-white rounded-xl font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
               >
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
                 {t.launchPromo}
               </button>
-              <button type="button" onClick={() => setShowForm(false)} className="px-6 py-2.5 bg-white/5 text-gray-400 rounded-xl hover:bg-gray-100 transition-colors">
+              <button type="button" onClick={() => setShowForm(false)} className="px-6 py-2.5 bg-[#1A1A1F] text-[#71717A] rounded-xl hover:bg-[#1A1A1F] transition-colors">
                 {t.cancel}
               </button>
             </div>
@@ -306,15 +306,15 @@ export default function PromotionsPage() {
 
       {/* Active Promotions */}
       <div>
-        <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+        <h2 className="text-lg font-semibold text-[#FAFAFA] mb-4 flex items-center gap-2">
           <Timer className="w-5 h-5 text-green-400" />
           {t.activePromos} ({activePromos.length})
         </h2>
         {activePromos.length === 0 ? (
-          <div className="bg-white border border-white/10 rounded-2xl p-8 text-center">
-            <Zap className="w-12 h-12 text-gray-600 mx-auto mb-3" />
-            <p className="text-gray-400">{t.noActivePromo}</p>
-            <p className="text-gray-500 text-sm mt-1">{t.noActivePromoHint}</p>
+          <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-8 text-center">
+            <Zap className="w-12 h-12 text-[#A1A1AA] mx-auto mb-3" />
+            <p className="text-[#71717A]">{t.noActivePromo}</p>
+            <p className="text-[#71717A] text-sm mt-1">{t.noActivePromoHint}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -323,38 +323,38 @@ export default function PromotionsPage() {
                 key={promo.key}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-gradient-to-br from-[#1a1a24] to-[#1a1a24] border border-[#ff6b35]/30 rounded-2xl p-5 relative overflow-hidden"
+                className="bg-[#1A1A1F] border border-[#FF6B35]/30 rounded-2xl p-5 relative overflow-hidden"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-[#ff6b35]/5 rounded-full -translate-x-4 -translate-y-4" />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-[#FF6B35]/5 rounded-full -translate-x-4 -translate-y-4" />
 
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <span className="text-xs text-gray-400">{promo.establishmentName}</span>
-                    <h3 className="text-gray-900 font-bold text-lg">{promo.title}</h3>
+                    <span className="text-xs text-[#71717A]">{promo.establishmentName}</span>
+                    <h3 className="text-[#FAFAFA] font-bold text-lg">{promo.title}</h3>
                   </div>
-                  <div className="bg-[#ff6b35] text-white font-bold px-3 py-1.5 rounded-xl text-lg flex items-center gap-1">
+                  <div className="bg-[#FF6B35] text-white font-bold px-3 py-1.5 rounded-xl text-lg flex items-center gap-1">
                     <Percent className="w-4 h-4" />
                     {promo.discountPercent}
                   </div>
                 </div>
 
                 {promo.description && (
-                  <p className="text-gray-400 text-sm mb-3">{promo.description}</p>
+                  <p className="text-[#71717A] text-sm mb-3">{promo.description}</p>
                 )}
 
-                <div className="flex items-center gap-2 text-xs text-gray-500 mb-4">
+                <div className="flex items-center gap-2 text-xs text-[#71717A] mb-4">
                   <Calendar className="w-3.5 h-3.5" />
                   {new Date(promo.startDate).toLocaleDateString('fr-FR')} → {new Date(promo.endDate).toLocaleDateString('fr-FR')}
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-xs text-gray-500 mb-1">{t.expiresIn}</p>
+                    <p className="text-xs text-[#71717A] mb-1">{t.expiresIn}</p>
                     <CountdownTimer endDate={promo.endDate} />
                   </div>
                   <button
                     onClick={() => handleDelete(promo.key)}
-                    className="p-2 text-gray-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                    className="p-2 text-[#71717A] hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -368,21 +368,21 @@ export default function PromotionsPage() {
       {/* Expired/Inactive */}
       {expiredPromos.length > 0 && (
         <div>
-          <h2 className="text-lg font-semibold text-gray-400 mb-4 flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-[#71717A] mb-4 flex items-center gap-2">
             <Clock className="w-5 h-5" />
             {t.pastPromos} ({expiredPromos.length})
           </h2>
           <div className="space-y-2">
             {expiredPromos.map((promo) => (
-              <div key={promo.key} className="bg-white/50 border border-white/5 rounded-xl p-4 flex items-center justify-between opacity-60">
+              <div key={promo.key} className="bg-[#1A1A1F] border border-[#27272A] rounded-xl p-4 flex items-center justify-between opacity-60">
                 <div>
-                  <span className="text-xs text-gray-500">{promo.establishmentName}</span>
-                  <p className="text-gray-300 font-medium">{promo.title}</p>
-                  <p className="text-xs text-gray-500 flex items-center gap-1 mt-1">
+                  <span className="text-xs text-[#71717A]">{promo.establishmentName}</span>
+                  <p className="text-[#52525B] font-medium">{promo.title}</p>
+                  <p className="text-xs text-[#71717A] flex items-center gap-1 mt-1">
                     <Tag className="w-3 h-3" /> -{promo.discountPercent}% • {new Date(promo.endDate).toLocaleDateString('fr-FR')}
                   </p>
                 </div>
-                <button onClick={() => handleDelete(promo.key)} className="p-2 text-gray-600 hover:text-red-400 rounded-lg transition-colors">
+                <button onClick={() => handleDelete(promo.key)} className="p-2 text-[#A1A1AA] hover:text-red-400 rounded-lg transition-colors">
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>

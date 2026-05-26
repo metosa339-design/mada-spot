@@ -72,14 +72,14 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 const BADGE_STYLES: Record<string, { bg: string; text: string; border: string; icon: React.ComponentType<{ className?: string }> }> = {
   NOUVEAU: { bg: 'bg-emerald-500/25', text: 'text-emerald-300', border: 'border-emerald-400/40', icon: Sparkles },
-  PROMO: { bg: 'bg-orange-500/25', text: 'text-orange-300', border: 'border-orange-400/40', icon: Zap },
+  PROMO: { bg: 'bg-[#FF6B35]/25', text: 'text-[#FDBA74]', border: 'border-[#FF6B35]/40', icon: Zap },
   EXCLUSIF: { bg: 'bg-purple-500/25', text: 'text-purple-300', border: 'border-purple-400/40', icon: Crown },
   OFFICIEL: { bg: 'bg-blue-500/25', text: 'text-blue-300', border: 'border-blue-400/40', icon: Sparkles },
 };
 
 const TYPE_LABELS: Record<string, { label: string; color: string }> = {
   EVENT: { label: 'Événement', color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' },
-  PROMOTION: { label: 'Promo', color: 'bg-orange-500/20 text-orange-400 border-orange-500/30' },
+  PROMOTION: { label: 'Promo', color: 'bg-[#FF6B35]/20 text-[#FDBA74] border-[#FF6B35]/30' },
   ADVERTISEMENT: { label: 'Sponsorisé', color: 'bg-purple-500/20 text-purple-400 border-purple-500/30' },
 };
 
@@ -134,7 +134,7 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
       >
         <Link
           href={`/evenements/${event.slug}`}
-          className="group block relative rounded-2xl overflow-hidden border border-[#1a1a2a] hover:border-orange-500/30 transition-all duration-500 hover:shadow-2xl hover:shadow-orange-500/10"
+          className="group block relative rounded-2xl overflow-hidden border border-[#1a1a2a] hover:border-[#FF6B35]/30 transition-all duration-500 hover:shadow-2xl hover:shadow-[#FF6B35]/10"
         >
           {/* Full-width immersive image */}
           <div className="relative h-[260px] sm:h-[320px] overflow-hidden">
@@ -157,7 +157,7 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
 
             {/* VIP Crown badge */}
             <div className="absolute top-4 left-4 flex items-center gap-2">
-              <span className="px-3 py-1.5 rounded-full text-[10px] font-bold bg-gradient-to-r from-amber-500/30 to-orange-500/30 text-amber-300 border border-amber-400/40 backdrop-blur-md flex items-center gap-1.5 shadow-lg shadow-amber-500/10">
+              <span className="px-3 py-1.5 rounded-full text-[10px] font-bold bg-gradient-to-r from-amber-500/30 to-[#FF6B35]/30 text-amber-300 border border-amber-400/40 backdrop-blur-md flex items-center gap-1.5 shadow-lg shadow-amber-500/10">
                 <Crown className="w-3 h-3" />
                 VIP
               </span>
@@ -184,30 +184,30 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
 
             {/* Pinned indicator */}
             {event.isPinned && (
-              <div className="absolute top-4 left-[140px] w-7 h-7 rounded-full bg-orange-500/80 backdrop-blur-sm flex items-center justify-center shadow-lg shadow-orange-500/20">
+              <div className="absolute top-4 left-[140px] w-7 h-7 rounded-full bg-[#FF6B35]/80 backdrop-blur-sm flex items-center justify-center shadow-lg shadow-[#FF6B35]/20">
                 <Pin className="w-3.5 h-3.5 text-white" />
               </div>
             )}
 
             {/* Content overlay - bottom */}
             <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
-              <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 line-clamp-2 group-hover:text-orange-200 transition-colors">
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 line-clamp-2 group-hover:text-[#FDBA74] transition-colors">
                 {event.title}
               </h3>
 
               {event.description && (
-                <p className="text-gray-300/80 text-sm mb-3 line-clamp-2 max-w-xl">
+                <p className="text-[#52525B]/80 text-sm mb-3 line-clamp-2 max-w-xl">
                   {event.description}
                 </p>
               )}
 
-              <div className="flex flex-wrap items-center gap-4 mb-4 text-sm text-gray-300">
+              <div className="flex flex-wrap items-center gap-4 mb-4 text-sm text-[#52525B]">
                 <span className="flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-orange-400" />
+                  <MapPin className="w-3.5 h-3.5 text-[#FDBA74]" />
                   {event.city}
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-orange-400" />
+                  <Calendar className="w-3.5 h-3.5 text-[#FDBA74]" />
                   {formatDateRange(event.startDate, event.endDate)}
                 </span>
                 {event.isRecurring && (
@@ -220,7 +220,7 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
 
               {/* CTA Buttons */}
               <div className="flex items-center gap-3">
-                <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#ff6b35] to-[#ff3d7f] text-white font-semibold rounded-xl text-sm shadow-lg shadow-orange-500/20 group-hover:shadow-orange-500/40 transition-shadow">
+                <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#FF6B35] text-white font-semibold rounded-xl text-sm shadow-lg shadow-[#FF6B35]/20 group-hover:shadow-[#FF6B35]/40 transition-shadow">
                   Voir les détails
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
@@ -230,7 +230,7 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold rounded-xl text-sm border border-white/20 transition-all"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1A1A1F] hover:bg-[#1A1A1F] backdrop-blur-sm text-white font-semibold rounded-xl text-sm border border-[#3F3F46] transition-all"
                   >
                     {event.ctaLabel}
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -253,7 +253,7 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
     >
       <Link
         href={`/evenements/${event.slug}`}
-        className="group block relative rounded-2xl overflow-hidden border border-[#1a1a2a] hover:border-orange-500/20 transition-all duration-500 hover:shadow-xl hover:shadow-black/30 hover:scale-[1.03]"
+        className="group block relative rounded-2xl overflow-hidden border border-[#1a1a2a] hover:border-[#FF6B35]/20 transition-all duration-500 hover:shadow-xl hover:shadow-black/30 hover:scale-[1.03]"
       >
         {/* Image with immersive overlay */}
         <div className="relative aspect-[16/10] overflow-hidden">
@@ -274,11 +274,11 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
 
           {/* Date badge (top-left) - glassmorphism */}
-          <div className="absolute top-3 left-3 bg-black/50 backdrop-blur-md rounded-xl px-3 py-2 text-center border border-white/10">
+          <div className="absolute top-3 left-3 bg-black/50 backdrop-blur-md rounded-xl px-3 py-2 text-center border border-[#27272A]">
             <div className="text-xl font-black text-white leading-tight">
               {format(startDate, 'd')}
             </div>
-            <div className="text-[9px] font-semibold text-gray-300 uppercase tracking-wider">
+            <div className="text-[9px] font-semibold text-[#52525B] uppercase tracking-wider">
               {format(startDate, 'MMM', { locale: fr })}
             </div>
           </div>
@@ -291,7 +291,7 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
               </span>
             )}
             {event.isPromotion && (
-              <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-gradient-to-r from-orange-500/25 to-pink-500/25 text-orange-300 border border-orange-400/30 backdrop-blur-md">
+              <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-gradient-to-r from-[#FF6B35]/25 to-[#FF6B35]/25 text-[#FDBA74] border border-[#FF6B35]/30 backdrop-blur-md">
                 Promo
               </span>
             )}
@@ -315,30 +315,30 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
 
           {/* Pinned glow */}
           {event.isPinned && (
-            <div className="absolute top-3 left-[72px] w-6 h-6 rounded-full bg-orange-500/80 backdrop-blur-sm flex items-center justify-center shadow-lg shadow-orange-500/30">
+            <div className="absolute top-3 left-[72px] w-6 h-6 rounded-full bg-[#FF6B35]/80 backdrop-blur-sm flex items-center justify-center shadow-lg shadow-[#FF6B35]/30">
               <Pin className="w-3 h-3 text-white" />
             </div>
           )}
 
           {/* Bottom content on image */}
           <div className="absolute bottom-0 left-0 right-0 p-4">
-            <h3 className="text-white font-bold text-base leading-tight mb-1.5 line-clamp-2 group-hover:text-orange-200 transition-colors">
+            <h3 className="text-white font-bold text-base leading-tight mb-1.5 line-clamp-2 group-hover:text-[#FDBA74] transition-colors">
               {event.title}
             </h3>
 
-            <div className="flex items-center gap-3 text-gray-300 text-xs">
+            <div className="flex items-center gap-3 text-[#52525B] text-xs">
               <span className="flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-orange-400/70" />
+                <MapPin className="w-3 h-3 text-[#FDBA74]/70" />
                 {event.city}
               </span>
-              <span className="text-gray-600">|</span>
+              <span className="text-[#A1A1AA]">|</span>
               <span>{formatDateRange(event.startDate, event.endDate)}</span>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="bg-[#0c0c16] px-4 py-3 flex items-center justify-between">
+        <div className="bg-[#1A1A1F] px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             {event.isRecurring && (
               <span className="flex items-center gap-1 text-[10px] text-amber-400/70">
@@ -346,7 +346,7 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
                 Récurrent
               </span>
             )}
-            <span className="text-[10px] text-gray-600">
+            <span className="text-[10px] text-[#A1A1AA]">
               {CATEGORY_LABELS[event.category] || 'Autre'}
             </span>
           </div>
@@ -357,7 +357,7 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="relative inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-[#ff6b35] to-[#ff3d7f] rounded-lg text-[11px] font-semibold text-white shadow-md shadow-orange-500/15 hover:shadow-orange-500/30 transition-shadow overflow-hidden"
+              className="relative inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#FF6B35] rounded-lg text-[11px] font-semibold text-white shadow-md shadow-[#FF6B35]/15 hover:shadow-[#FF6B35]/30 transition-shadow overflow-hidden"
             >
               {/* Shimmer effect */}
               <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
@@ -365,7 +365,7 @@ export default function EventCard({ event, index = 0, isVip }: EventCardProps) {
               <ExternalLink className="w-3 h-3 relative" />
             </a>
           ) : (
-            <span className="flex items-center gap-1 text-[11px] text-gray-500 group-hover:text-orange-400 transition-colors">
+            <span className="flex items-center gap-1 text-[11px] text-[#71717A] group-hover:text-[#FDBA74] transition-colors">
               Voir plus
               <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
             </span>

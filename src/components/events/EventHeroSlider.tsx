@@ -38,7 +38,7 @@ interface EventHeroSliderProps {
 
 const BADGE_STYLES: Record<string, { bg: string; text: string; border: string }> = {
   NOUVEAU: { bg: 'bg-emerald-500/20', text: 'text-emerald-400', border: 'border-emerald-500/40' },
-  PROMO: { bg: 'bg-orange-500/20', text: 'text-orange-400', border: 'border-orange-500/40' },
+  PROMO: { bg: 'bg-[#FF6B35]/20', text: 'text-[#FDBA74]', border: 'border-[#FF6B35]/40' },
   EXCLUSIF: { bg: 'bg-purple-500/20', text: 'text-purple-400', border: 'border-purple-500/40' },
   OFFICIEL: { bg: 'bg-blue-500/20', text: 'text-blue-400', border: 'border-blue-500/40' },
 };
@@ -123,7 +123,7 @@ export default function EventHeroSlider({ events }: EventHeroSliderProps) {
                 priority
               />
             ) : (
-              <div className="w-full h-full bg-gradient-to-br from-orange-600 via-pink-600 to-purple-700" />
+              <div className="w-full h-full bg-gradient-to-br from-[#FF6B35] via-pink-600 to-purple-700" />
             )}
 
             {/* Dark overlay gradient */}
@@ -135,7 +135,7 @@ export default function EventHeroSlider({ events }: EventHeroSliderProps) {
               <div className="px-6 sm:px-10 md:px-14 max-w-2xl">
                 {/* Type + Badge tags */}
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-white/10 backdrop-blur-sm text-white border border-white/20">
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#1A1A1F] backdrop-blur-sm text-white border border-[#3F3F46]">
                     {TYPE_LABELS[event.eventType || 'EVENT'] || 'Événement'}
                   </span>
                   {badgeStyle && (
@@ -153,19 +153,19 @@ export default function EventHeroSlider({ events }: EventHeroSliderProps) {
 
                 {/* Description */}
                 {event.description && (
-                  <p className="text-gray-300 text-sm sm:text-base mb-4 line-clamp-2 max-w-lg">
+                  <p className="text-[#52525B] text-sm sm:text-base mb-4 line-clamp-2 max-w-lg">
                     {event.description}
                   </p>
                 )}
 
                 {/* Meta */}
-                <div className="flex flex-wrap items-center gap-4 mb-5 text-sm text-gray-300">
+                <div className="flex flex-wrap items-center gap-4 mb-5 text-sm text-[#52525B]">
                   <span className="flex items-center gap-1.5">
-                    <MapPin className="w-4 h-4 text-orange-400" />
+                    <MapPin className="w-4 h-4 text-[#FDBA74]" />
                     {event.city}
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <Calendar className="w-4 h-4 text-orange-400" />
+                    <Calendar className="w-4 h-4 text-[#FDBA74]" />
                     {format(new Date(event.startDate), 'd MMM yyyy', { locale: fr })}
                     {event.endDate && ` - ${format(new Date(event.endDate), 'd MMM yyyy', { locale: fr })}`}
                   </span>
@@ -175,7 +175,7 @@ export default function EventHeroSlider({ events }: EventHeroSliderProps) {
                 <div className="flex items-center gap-3">
                   <Link
                     href={`/evenements/${event.slug}`}
-                    className="px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl text-sm transition-colors"
+                    className="px-5 py-2.5 bg-[#FF6B35] hover:bg-[#F97316] text-white font-semibold rounded-xl text-sm transition-colors"
                   >
                     Voir les détails
                   </Link>
@@ -184,7 +184,7 @@ export default function EventHeroSlider({ events }: EventHeroSliderProps) {
                       href={event.ctaLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-5 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold rounded-xl text-sm border border-white/20 transition-colors flex items-center gap-2"
+                      className="px-5 py-2.5 bg-[#1A1A1F] hover:bg-[#1A1A1F] backdrop-blur-sm text-white font-semibold rounded-xl text-sm border border-[#3F3F46] transition-colors flex items-center gap-2"
                     >
                       {event.ctaLabel}
                       <ExternalLink className="w-3.5 h-3.5" />
@@ -202,13 +202,13 @@ export default function EventHeroSlider({ events }: EventHeroSliderProps) {
         <>
           <button
             onClick={prev}
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm border border-white/10 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm border border-[#27272A] text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={next}
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm border border-white/10 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm border border-[#27272A] text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -224,8 +224,8 @@ export default function EventHeroSlider({ events }: EventHeroSliderProps) {
               onClick={() => goTo(i)}
               className={`transition-all rounded-full ${
                 i === current
-                  ? 'w-8 h-2 bg-orange-500'
-                  : 'w-2 h-2 bg-white/40 hover:bg-white/60'
+                  ? 'w-8 h-2 bg-[#FF6B35]'
+                  : 'w-2 h-2 bg-[#111114]/40 hover:bg-[#111114]/60'
               }`}
             />
           ))}
@@ -234,10 +234,10 @@ export default function EventHeroSlider({ events }: EventHeroSliderProps) {
 
       {/* Progress bar */}
       {events.length > 1 && (
-        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white/10">
+        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1A1A1F]">
           <motion.div
             key={current}
-            className="h-full bg-orange-500"
+            className="h-full bg-[#FF6B35]"
             initial={{ width: '0%' }}
             animate={{ width: '100%' }}
             transition={{ duration: 6, ease: 'linear' }}

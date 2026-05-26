@@ -69,11 +69,11 @@ export default function PhotoGallerySection({ images, gallery, coverImage }: Pho
 
   return (
     <>
-      <section className="bg-[#1a1a24] rounded-2xl p-4 sm:p-6 md:p-8 border border-[#2a2a36]">
+      <section className="bg-[#1A1A1F] rounded-2xl p-4 sm:p-6 md:p-8 border border-[#2a2a36]">
         <div className="flex items-center gap-3 mb-4 sm:mb-6">
-          <Camera className="w-5 h-5 text-orange-400" />
+          <Camera className="w-5 h-5 text-[#FDBA74]" />
           <h2 className="text-lg sm:text-xl font-bold text-white">Galerie Photos</h2>
-          <span className="text-xs sm:text-sm text-slate-500">({allItems.length})</span>
+          <span className="text-xs sm:text-sm text-[#71717A]">({allItems.length})</span>
         </div>
 
         {/* Grid - 2 cols mobile, 3 tablet, 4 desktop */}
@@ -83,7 +83,7 @@ export default function PhotoGallerySection({ images, gallery, coverImage }: Pho
               key={index}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="group relative aspect-[4/3] rounded-lg sm:rounded-xl overflow-hidden cursor-pointer bg-[#0a0a0f]"
+              className="group relative aspect-[4/3] rounded-lg sm:rounded-xl overflow-hidden cursor-pointer bg-[#0A0A0F]"
               onClick={() => openLightbox(index)}
             >
               <Image
@@ -121,7 +121,7 @@ export default function PhotoGallerySection({ images, gallery, coverImage }: Pho
             {/* Close */}
             <button
               onClick={closeLightbox}
-              className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 text-white/70 hover:text-white bg-white/10 rounded-full z-10"
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 text-white/70 hover:text-white bg-[#1A1A1F] rounded-full z-10"
             >
               <X className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
@@ -134,13 +134,13 @@ export default function PhotoGallerySection({ images, gallery, coverImage }: Pho
             {/* Navigation - hidden on mobile (swipe instead), visible on desktop */}
             <button
               onClick={(e) => { e.stopPropagation(); prevImage(); }}
-              className="hidden sm:block absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 bg-white/10 rounded-full text-white hover:bg-white/20 z-10"
+              className="hidden sm:block absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 bg-[#1A1A1F] rounded-full text-white hover:bg-[#1A1A1F] z-10"
             >
               <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
             <button
               onClick={(e) => { e.stopPropagation(); nextImage(); }}
-              className="hidden sm:block absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 bg-white/10 rounded-full text-white hover:bg-white/20 z-10"
+              className="hidden sm:block absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 bg-[#1A1A1F] rounded-full text-white hover:bg-[#1A1A1F] z-10"
             >
               <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
@@ -149,13 +149,13 @@ export default function PhotoGallerySection({ images, gallery, coverImage }: Pho
             <div className="sm:hidden absolute bottom-28 left-0 right-0 flex justify-between px-4 z-10">
               <button
                 onClick={(e) => { e.stopPropagation(); prevImage(); }}
-                className="p-3 bg-white/10 rounded-full text-white active:bg-white/20"
+                className="p-3 bg-[#1A1A1F] rounded-full text-white active:bg-[#0A0A0F]"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
                 onClick={(e) => { e.stopPropagation(); nextImage(); }}
-                className="p-3 bg-white/10 rounded-full text-white active:bg-white/20"
+                className="p-3 bg-[#1A1A1F] rounded-full text-white active:bg-[#0A0A0F]"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -190,7 +190,7 @@ export default function PhotoGallerySection({ images, gallery, coverImage }: Pho
                   key={i}
                   onClick={() => setLightboxIndex(i)}
                   className={`relative w-12 h-9 sm:w-16 sm:h-12 rounded-md sm:rounded-lg overflow-hidden shrink-0 border-2 transition-colors ${
-                    i === lightboxIndex ? 'border-orange-500' : 'border-transparent opacity-60 hover:opacity-100'
+                    i === lightboxIndex ? 'border-[#FF6B35]' : 'border-transparent opacity-60 hover:opacity-100'
                   }`}
                 >
                   <Image

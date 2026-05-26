@@ -82,7 +82,7 @@ function BarChart({ data, color }: { data: { label: string; value: number }[]; c
             className="w-full rounded-t-md min-h-[4px]"
             style={{ backgroundColor: color }}
           />
-          <span className="text-[10px] text-gray-500 truncate max-w-full">{item.label}</span>
+          <span className="text-[10px] text-[#71717A] truncate max-w-full">{item.label}</span>
         </div>
       ))}
     </div>
@@ -144,10 +144,10 @@ export default function StatistiquesPage() {
   if (loading) {
     return (
       <div className="space-y-6 max-w-6xl">
-        <div className="h-8 w-48 bg-white/5 rounded animate-pulse" />
+        <div className="h-8 w-48 bg-[#1A1A1F] rounded animate-pulse" />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-32 bg-white rounded-2xl animate-pulse" />
+            <div key={i} className="h-32 bg-[#111114] rounded-2xl animate-pulse" />
           ))}
         </div>
       </div>
@@ -194,10 +194,10 @@ export default function StatistiquesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{t.title}</h1>
-          <p className="text-gray-400 text-sm mt-1">{t.pageSubtitle}</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-[#FAFAFA]">{t.title}</h1>
+          <p className="text-[#71717A] text-sm mt-1">{t.pageSubtitle}</p>
         </div>
-        <div className="flex gap-1 bg-white border border-white/10 rounded-xl p-1 self-start sm:self-auto">
+        <div className="flex gap-1 bg-[#111114] border border-[#27272A] rounded-xl p-1 self-start sm:self-auto">
           {[
             { value: '7d' as const, label: t.period7d },
             { value: '30d' as const, label: t.period30d },
@@ -207,7 +207,7 @@ export default function StatistiquesPage() {
               key={p.value}
               onClick={() => setPeriod(p.value)}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                period === p.value ? 'bg-[#ff6b35] text-white' : 'text-gray-400 hover:text-white'
+                period === p.value ? 'bg-[#FF6B35] text-white' : 'text-[#71717A] hover:text-white'
               }`}
             >
               {p.label}
@@ -224,7 +224,7 @@ export default function StatistiquesPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="bg-white border border-white/10 rounded-2xl p-5"
+            className="bg-[#111114] border border-[#27272A] rounded-2xl p-5"
           >
             <div className="flex items-start justify-between mb-3">
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${card.color}15` }}>
@@ -239,8 +239,8 @@ export default function StatistiquesPage() {
                 </span>
               )}
             </div>
-            <p className="text-xl font-bold text-gray-900">{card.value}</p>
-            <p className="text-xs text-gray-400 mt-1 mb-3">{card.label}</p>
+            <p className="text-xl font-bold text-[#FAFAFA]">{card.value}</p>
+            <p className="text-xs text-[#71717A] mt-1 mb-3">{card.label}</p>
             {card.chartData.length > 0 && (
               <MiniChart data={card.chartData} color={card.color} />
             )}
@@ -251,24 +251,24 @@ export default function StatistiquesPage() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Sources de trafic */}
-        <div className="bg-white border border-white/10 rounded-2xl p-6">
-          <h3 className="text-sm font-medium text-gray-900 mb-4 flex items-center gap-2">
-            <BarChart3 className="w-4 h-4 text-gray-400" />
+        <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-6">
+          <h3 className="text-sm font-medium text-[#FAFAFA] mb-4 flex items-center gap-2">
+            <BarChart3 className="w-4 h-4 text-[#71717A]" />
             {t.topSources}
           </h3>
           <div className="space-y-3">
             {(stats?.topSources || []).map((source, i) => (
               <div key={i}>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm text-gray-300">{source.source}</span>
-                  <span className="text-xs text-gray-400">{source.count} ({source.percentage}%)</span>
+                  <span className="text-sm text-[#52525B]">{source.source}</span>
+                  <span className="text-xs text-[#71717A]">{source.count} ({source.percentage}%)</span>
                 </div>
-                <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                <div className="h-2 bg-[#1A1A1F] rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${source.percentage}%` }}
                     transition={{ delay: i * 0.1, duration: 0.5 }}
-                    className="h-full rounded-full bg-[#ff6b35]"
+                    className="h-full rounded-full bg-[#FF6B35]"
                   />
                 </div>
               </div>
@@ -277,9 +277,9 @@ export default function StatistiquesPage() {
         </div>
 
         {/* Revenus mensuels */}
-        <div className="bg-white border border-white/10 rounded-2xl p-6">
-          <h3 className="text-sm font-medium text-gray-900 mb-4 flex items-center gap-2">
-            <DollarSign className="w-4 h-4 text-gray-400" />
+        <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-6">
+          <h3 className="text-sm font-medium text-[#FAFAFA] mb-4 flex items-center gap-2">
+            <DollarSign className="w-4 h-4 text-[#71717A]" />
             {t.monthlyRevenue}
           </h3>
           {stats?.monthlyRevenue && stats.monthlyRevenue.length > 0 ? (
@@ -288,7 +288,7 @@ export default function StatistiquesPage() {
               color="#ff6b35"
             />
           ) : (
-            <div className="h-32 flex items-center justify-center text-gray-500 text-sm">
+            <div className="h-32 flex items-center justify-center text-[#71717A] text-sm">
               {t.noData}
             </div>
           )}
@@ -297,8 +297,8 @@ export default function StatistiquesPage() {
 
       {/* Conversion Funnel */}
       {analytics?.funnel && (
-        <div className="bg-white border border-white/10 rounded-2xl p-6">
-          <h3 className="text-sm font-medium text-gray-900 mb-5">{t.conversionFunnel}</h3>
+        <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-6">
+          <h3 className="text-sm font-medium text-[#FAFAFA] mb-5">{t.conversionFunnel}</h3>
           <div className="space-y-3">
             {[
               { label: t.funnelViews, value: analytics.funnel.views, color: '#8b5cf6' },
@@ -313,15 +313,15 @@ export default function StatistiquesPage() {
               return (
                 <div key={step.label}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm text-gray-300">{step.label}</span>
+                    <span className="text-sm text-[#52525B]">{step.label}</span>
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-gray-900">{step.value.toLocaleString('fr-FR')}</span>
+                      <span className="text-sm font-medium text-[#FAFAFA]">{step.value.toLocaleString('fr-FR')}</span>
                       {convRate !== null && (
-                        <span className="text-[10px] text-gray-500">({convRate}%)</span>
+                        <span className="text-[10px] text-[#71717A]">({convRate}%)</span>
                       )}
                     </div>
                   </div>
-                  <div className="h-3 bg-white/5 rounded-full overflow-hidden">
+                  <div className="h-3 bg-[#1A1A1F] rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${pct}%` }}
@@ -340,8 +340,8 @@ export default function StatistiquesPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Occupancy Heatmap */}
         {analytics?.occupancyByDay && (
-          <div className="bg-white border border-white/10 rounded-2xl p-6">
-            <h3 className="text-sm font-medium text-gray-900 mb-5">{t.occupancyByDay}</h3>
+          <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-6">
+            <h3 className="text-sm font-medium text-[#FAFAFA] mb-5">{t.occupancyByDay}</h3>
             <div className="grid grid-cols-7 gap-2">
               {analytics.occupancyByDay.map((d, i) => (
                 <motion.div
@@ -352,16 +352,16 @@ export default function StatistiquesPage() {
                   className="flex flex-col items-center gap-2"
                 >
                   <div
-                    className="w-full aspect-square rounded-xl flex items-center justify-center border border-white/5"
+                    className="w-full aspect-square rounded-xl flex items-center justify-center border border-[#27272A]"
                     style={{
                       backgroundColor: `rgba(255, 107, 53, ${d.rate * 0.8})`,
                     }}
                   >
-                    <span className="text-xs font-medium text-gray-900">
+                    <span className="text-xs font-medium text-[#FAFAFA]">
                       {Math.round(d.rate * 100)}%
                     </span>
                   </div>
-                  <span className="text-[10px] text-gray-500">{d.day}</span>
+                  <span className="text-[10px] text-[#71717A]">{d.day}</span>
                 </motion.div>
               ))}
             </div>
@@ -370,16 +370,16 @@ export default function StatistiquesPage() {
 
         {/* Revenue Comparison */}
         {analytics?.revenueComparison && analytics.revenueComparison.current.length > 0 && (
-          <div className="bg-white border border-white/10 rounded-2xl p-6">
-            <h3 className="text-sm font-medium text-gray-900 mb-2">{t.currentVsPrevious}</h3>
+          <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-6">
+            <h3 className="text-sm font-medium text-[#FAFAFA] mb-2">{t.currentVsPrevious}</h3>
             <div className="flex items-center gap-4 mb-4">
               <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded-sm bg-[#ff6b35]" />
-                <span className="text-[10px] text-gray-400">{t.currentLegend}</span>
+                <div className="w-3 h-3 rounded-sm bg-[#FF6B35]" />
+                <span className="text-[10px] text-[#71717A]">{t.currentLegend}</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded-sm bg-[#2a2a36]" />
-                <span className="text-[10px] text-gray-400">{t.previousLegend}</span>
+                <div className="w-3 h-3 rounded-sm bg-[#1A1A1F]" />
+                <span className="text-[10px] text-[#71717A]">{t.previousLegend}</span>
               </div>
             </div>
             <div className="flex items-end gap-1 h-32">
@@ -396,13 +396,13 @@ export default function StatistiquesPage() {
                       initial={{ height: 0 }}
                       animate={{ height: `${(prev?.value || 0) / max * 100}%` }}
                       transition={{ delay: i * 0.05, duration: 0.5 }}
-                      className="flex-1 rounded-t bg-[#2a2a36] min-h-[2px]"
+                      className="flex-1 rounded-t bg-[#1A1A1F] min-h-[2px]"
                     />
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${week.value / max * 100}%` }}
                       transition={{ delay: i * 0.05 + 0.1, duration: 0.5 }}
-                      className="flex-1 rounded-t bg-[#ff6b35] min-h-[2px]"
+                      className="flex-1 rounded-t bg-[#FF6B35] min-h-[2px]"
                     />
                   </div>
                 )
@@ -410,7 +410,7 @@ export default function StatistiquesPage() {
             </div>
             <div className="flex gap-1 mt-1">
               {analytics.revenueComparison.current.map(w => (
-                <span key={w.label} className="flex-1 text-center text-[9px] text-gray-500">{w.label}</span>
+                <span key={w.label} className="flex-1 text-center text-[9px] text-[#71717A]">{w.label}</span>
               ))}
             </div>
           </div>
@@ -418,19 +418,19 @@ export default function StatistiquesPage() {
       </div>
 
       {/* SEO JSON-LD note */}
-      <div className="bg-white border border-white/10 rounded-2xl p-5">
-        <h3 className="text-sm font-medium text-gray-900 mb-2">{t.seoTitle}</h3>
-        <p className="text-xs text-gray-400">
+      <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-5">
+        <h3 className="text-sm font-medium text-[#FAFAFA] mb-2">{t.seoTitle}</h3>
+        <p className="text-xs text-[#71717A]">
           {t.seoDesc}
         </p>
         <div className="mt-3 flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span className="text-xs text-gray-400">{t.structuredDataActive}</span>
+            <span className="text-xs text-[#71717A]">{t.structuredDataActive}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span className="text-xs text-gray-400">{t.schemaLocalBusiness}</span>
+            <span className="text-xs text-[#71717A]">{t.schemaLocalBusiness}</span>
           </div>
         </div>
       </div>

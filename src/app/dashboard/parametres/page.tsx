@@ -122,8 +122,8 @@ export default function ParametresPage() {
   if (loading) {
     return (
       <div className="space-y-6 max-w-3xl">
-        <div className="h-8 w-48 bg-white/5 rounded animate-pulse" />
-        <div className="h-[400px] bg-white rounded-2xl animate-pulse" />
+        <div className="h-8 w-48 bg-[#1A1A1F] rounded animate-pulse" />
+        <div className="h-[400px] bg-[#111114] rounded-2xl animate-pulse" />
       </div>
     )
   }
@@ -138,20 +138,20 @@ export default function ParametresPage() {
     <div className="space-y-6 max-w-3xl">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">{t.parameters}</h1>
-        <p className="text-gray-400 text-sm mt-1">{t.parametersDesc}</p>
+        <h1 className="text-2xl font-bold text-[#FAFAFA]">{t.parameters}</h1>
+        <p className="text-[#71717A] text-sm mt-1">{t.parametersDesc}</p>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 bg-white border border-white/10 rounded-xl p-1 overflow-x-auto">
+      <div className="flex gap-1 bg-[#111114] border border-[#27272A] rounded-xl p-1 overflow-x-auto">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
               activeTab === tab.id
-                ? 'bg-[#ff6b35] text-white'
-                : 'text-gray-400 hover:text-gray-900 hover:bg-gray-50'
+                ? 'bg-[#FF6B35] text-white'
+                : 'text-[#71717A] hover:text-[#FAFAFA] hover:bg-[#111114]'
             }`}
           >
             <tab.icon className="w-4 h-4" />
@@ -167,88 +167,88 @@ export default function ParametresPage() {
           animate={{ opacity: 1, y: 0 }}
           className="space-y-6"
         >
-          <div className="bg-white border border-white/10 rounded-2xl p-6 space-y-4">
-            <h3 className="text-sm font-medium text-gray-400 flex items-center gap-2">
+          <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-6 space-y-4">
+            <h3 className="text-sm font-medium text-[#71717A] flex items-center gap-2">
               <User className="w-4 h-4" /> {t.personalInfo}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs text-gray-400 mb-1">{t.firstName}</label>
+                <label className="block text-xs text-[#71717A] mb-1">{t.firstName}</label>
                 <input
                   type="text"
                   value={profile.firstName}
                   onChange={(e) => setProfile(p => ({ ...p, firstName: e.target.value }))}
-                  className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full px-3 py-2.5 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] text-sm focus:outline-none focus:border-[#FF6B35]"
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-400 mb-1">{t.lastName}</label>
+                <label className="block text-xs text-[#71717A] mb-1">{t.lastName}</label>
                 <input
                   type="text"
                   value={profile.lastName}
                   onChange={(e) => setProfile(p => ({ ...p, lastName: e.target.value }))}
-                  className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full px-3 py-2.5 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] text-sm focus:outline-none focus:border-[#FF6B35]"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">{t.email}</label>
+              <label className="block text-xs text-[#71717A] mb-1">{t.email}</label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#71717A]" />
                 <input
                   type="email"
                   value={profile.email}
                   onChange={(e) => setProfile(p => ({ ...p, email: e.target.value }))}
-                  className="w-full pl-10 pr-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full pl-10 pr-3 py-2.5 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] text-sm focus:outline-none focus:border-[#FF6B35]"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">{t.phone}</label>
+              <label className="block text-xs text-[#71717A] mb-1">{t.phone}</label>
               <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#71717A]" />
                 <input
                   type="tel"
                   value={profile.phone}
                   onChange={(e) => setProfile(p => ({ ...p, phone: e.target.value }))}
-                  className="w-full pl-10 pr-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full pl-10 pr-3 py-2.5 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] text-sm focus:outline-none focus:border-[#FF6B35]"
                 />
               </div>
             </div>
           </div>
 
-          <div className="bg-white border border-white/10 rounded-2xl p-6 space-y-4">
-            <h3 className="text-sm font-medium text-gray-400 flex items-center gap-2">
+          <div className="bg-[#111114] border border-[#27272A] rounded-2xl p-6 space-y-4">
+            <h3 className="text-sm font-medium text-[#71717A] flex items-center gap-2">
               <Building2 className="w-4 h-4" /> {t.companyInfo}
             </h3>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">{t.companyName}</label>
+              <label className="block text-xs text-[#71717A] mb-1">{t.companyName}</label>
               <input
                 type="text"
                 value={profile.companyName}
                 onChange={(e) => setProfile(p => ({ ...p, companyName: e.target.value }))}
-                className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                className="w-full px-3 py-2.5 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] text-sm focus:outline-none focus:border-[#FF6B35]"
               />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs text-gray-400 mb-1">{t.nif}</label>
+                <label className="block text-xs text-[#71717A] mb-1">{t.nif}</label>
                 <input
                   type="text"
                   value={profile.nif}
                   onChange={(e) => setProfile(p => ({ ...p, nif: e.target.value }))}
                   placeholder={t.nifPlaceholder}
-                  className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full px-3 py-2.5 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] text-sm placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35]"
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-400 mb-1">{t.stat}</label>
+                <label className="block text-xs text-[#71717A] mb-1">{t.stat}</label>
                 <input
                   type="text"
                   value={profile.stat}
                   onChange={(e) => setProfile(p => ({ ...p, stat: e.target.value }))}
                   placeholder={t.statPlaceholder}
-                  className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full px-3 py-2.5 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] text-sm placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35]"
                 />
               </div>
             </div>
@@ -257,7 +257,7 @@ export default function ParametresPage() {
           <button
             onClick={handleSaveProfile}
             disabled={saving}
-            className="flex items-center gap-2 px-6 py-2.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-gray-900 rounded-xl font-medium text-sm transition-colors disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-2.5 bg-[#FF6B35] hover:bg-[#F97316] text-[#FAFAFA] rounded-xl font-medium text-sm transition-colors disabled:opacity-50"
           >
             {saving ? (
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -276,15 +276,15 @@ export default function ParametresPage() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white border border-white/10 rounded-2xl p-6 space-y-4"
+          className="bg-[#111114] border border-[#27272A] rounded-2xl p-6 space-y-4"
         >
-          <h3 className="text-sm font-medium text-gray-400 flex items-center gap-2">
+          <h3 className="text-sm font-medium text-[#71717A] flex items-center gap-2">
             <Lock className="w-4 h-4" /> {t.changePassword}
           </h3>
 
           {['current', 'newPass', 'confirm'].map((field) => (
             <div key={field}>
-              <label className="block text-xs text-gray-400 mb-1">
+              <label className="block text-xs text-[#71717A] mb-1">
                 {field === 'current' ? t.currentPassword :
                  field === 'newPass' ? t.newPassword : t.confirmNewPassword}
               </label>
@@ -293,11 +293,11 @@ export default function ParametresPage() {
                   type={showPasswords ? 'text' : 'password'}
                   value={passwordData[field as keyof typeof passwordData]}
                   onChange={(e) => setPasswordData(p => ({ ...p, [field]: e.target.value }))}
-                  className="w-full px-3 py-2.5 pr-10 bg-white/5 border border-white/10 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full px-3 py-2.5 pr-10 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] text-sm focus:outline-none focus:border-[#FF6B35]"
                 />
                 <button
                   onClick={() => setShowPasswords(!showPasswords)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#71717A] hover:text-[#52525B]"
                 >
                   {showPasswords ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -308,7 +308,7 @@ export default function ParametresPage() {
           <button
             onClick={handleChangePassword}
             disabled={!passwordData.current || !passwordData.newPass || !passwordData.confirm}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-gray-900 rounded-xl font-medium text-sm transition-colors disabled:opacity-50"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#FF6B35] hover:bg-[#F97316] text-[#FAFAFA] rounded-xl font-medium text-sm transition-colors disabled:opacity-50"
           >
             <Lock className="w-4 h-4" />
             {t.updatePassword}
@@ -321,9 +321,9 @@ export default function ParametresPage() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white border border-white/10 rounded-2xl p-6 space-y-4"
+          className="bg-[#111114] border border-[#27272A] rounded-2xl p-6 space-y-4"
         >
-          <h3 className="text-sm font-medium text-gray-400 flex items-center gap-2">
+          <h3 className="text-sm font-medium text-[#71717A] flex items-center gap-2">
             <Bell className="w-4 h-4" /> {t.notificationPrefs}
           </h3>
 
@@ -334,18 +334,18 @@ export default function ParametresPage() {
             { key: 'pushBooking', label: t.notifPushBooking, desc: t.notifPushBookingDesc },
             { key: 'pushMessage', label: t.notifPushMessage, desc: t.notifPushMessageDesc },
           ].map((item) => (
-            <div key={item.key} className="flex items-center justify-between p-3 bg-white/5 rounded-xl">
+            <div key={item.key} className="flex items-center justify-between p-3 bg-[#1A1A1F] rounded-xl">
               <div>
-                <p className="text-sm font-medium text-gray-900">{item.label}</p>
-                <p className="text-xs text-gray-400">{item.desc}</p>
+                <p className="text-sm font-medium text-[#FAFAFA]">{item.label}</p>
+                <p className="text-xs text-[#71717A]">{item.desc}</p>
               </div>
               <button
                 onClick={() => setNotifications(n => ({ ...n, [item.key]: !n[item.key as keyof typeof n] }))}
                 className={`w-12 h-6 rounded-full relative transition-colors ${
-                  notifications[item.key as keyof typeof notifications] ? 'bg-[#ff6b35]' : 'bg-gray-600'
+                  notifications[item.key as keyof typeof notifications] ? 'bg-[#FF6B35]' : 'bg-[#3F3F46]'
                 }`}
               >
-                <div className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-all ${
+                <div className={`w-5 h-5 bg-[#111114] rounded-full absolute top-0.5 transition-all ${
                   notifications[item.key as keyof typeof notifications] ? 'left-6' : 'left-0.5'
                 }`} />
               </button>

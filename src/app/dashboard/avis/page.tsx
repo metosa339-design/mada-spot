@@ -30,7 +30,7 @@ function StarRating({ rating, size = 'sm' }: { rating: number; size?: 'sm' | 'md
               ? 'text-yellow-400 fill-yellow-400'
               : i - 0.5 <= rating
                 ? 'text-yellow-400 fill-yellow-400/50'
-                : 'text-gray-600'
+                : 'text-[#A1A1AA]'
           }`}
         />
       ))}
@@ -111,15 +111,15 @@ export default function AvisPage() {
   if (loading) {
     return (
       <div className="space-y-6 max-w-7xl">
-        <div className="h-8 w-48 bg-white/5 rounded animate-pulse" />
+        <div className="h-8 w-48 bg-[#1A1A1F] rounded animate-pulse" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="bg-white rounded-2xl p-5 h-28 animate-pulse" />
+            <div key={i} className="bg-[#111114] rounded-2xl p-5 h-28 animate-pulse" />
           ))}
         </div>
         <div className="space-y-4">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="bg-white rounded-2xl h-40 animate-pulse" />
+            <div key={i} className="bg-[#111114] rounded-2xl h-40 animate-pulse" />
           ))}
         </div>
       </div>
@@ -134,8 +134,8 @@ export default function AvisPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        <h1 className="text-2xl font-bold text-gray-900">{t.pageTitle}</h1>
-        <p className="text-gray-400 mt-1">{t.pageSubtitle}</p>
+        <h1 className="text-2xl font-bold text-[#FAFAFA]">{t.pageTitle}</h1>
+        <p className="text-[#71717A] mt-1">{t.pageSubtitle}</p>
       </motion.div>
 
       {/* Summary Cards */}
@@ -145,7 +145,7 @@ export default function AvisPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.05 }}
-          className="bg-white border border-white/10 rounded-2xl p-5"
+          className="bg-[#111114] border border-[#27272A] rounded-2xl p-5"
         >
           <div className="flex items-start justify-between mb-3">
             <div className="w-11 h-11 rounded-xl bg-yellow-500/10 flex items-center justify-center">
@@ -153,11 +153,11 @@ export default function AvisPage() {
             </div>
           </div>
           <div className="flex items-baseline gap-2 mb-1">
-            <p className="text-3xl font-bold text-gray-900">{averageRating.toFixed(1)}</p>
-            <span className="text-sm text-gray-500">/ 5</span>
+            <p className="text-3xl font-bold text-[#FAFAFA]">{averageRating.toFixed(1)}</p>
+            <span className="text-sm text-[#71717A]">/ 5</span>
           </div>
           <StarRating rating={Math.round(averageRating)} size="md" />
-          <p className="text-sm text-gray-400 mt-2">{t.averageRating}</p>
+          <p className="text-sm text-[#71717A] mt-2">{t.averageRating}</p>
         </motion.div>
 
         {/* Total avis */}
@@ -165,15 +165,15 @@ export default function AvisPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="bg-white border border-white/10 rounded-2xl p-5"
+          className="bg-[#111114] border border-[#27272A] rounded-2xl p-5"
         >
           <div className="flex items-start justify-between mb-3">
             <div className="w-11 h-11 rounded-xl bg-blue-500/10 flex items-center justify-center">
               <MessageSquare className="w-5 h-5 text-blue-400" />
             </div>
           </div>
-          <p className="text-3xl font-bold text-gray-900">{totalReviews}</p>
-          <p className="text-sm text-gray-400 mt-2">{t.totalReviewsLabel}</p>
+          <p className="text-3xl font-bold text-[#FAFAFA]">{totalReviews}</p>
+          <p className="text-sm text-[#71717A] mt-2">{t.totalReviewsLabel}</p>
         </motion.div>
 
         {/* Avis sans réponse */}
@@ -181,15 +181,15 @@ export default function AvisPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.15 }}
-          className="bg-white border border-white/10 rounded-2xl p-5"
+          className="bg-[#111114] border border-[#27272A] rounded-2xl p-5"
         >
           <div className="flex items-start justify-between mb-3">
-            <div className="w-11 h-11 rounded-xl bg-orange-500/10 flex items-center justify-center">
-              <AlertTriangle className="w-5 h-5 text-orange-400" />
+            <div className="w-11 h-11 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center">
+              <AlertTriangle className="w-5 h-5 text-[#FDBA74]" />
             </div>
           </div>
-          <p className="text-3xl font-bold text-gray-900">{unansweredCount}</p>
-          <p className="text-sm text-gray-400 mt-2">{t.unansweredLabel}</p>
+          <p className="text-3xl font-bold text-[#FAFAFA]">{unansweredCount}</p>
+          <p className="text-sm text-[#71717A] mt-2">{t.unansweredLabel}</p>
         </motion.div>
       </div>
 
@@ -201,13 +201,13 @@ export default function AvisPage() {
             onClick={() => setActiveFilter(tab.key)}
             className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
               activeFilter === tab.key
-                ? 'bg-[#ff6b35] text-white shadow-lg shadow-[#ff6b35]/20'
-                : 'bg-white/5 text-gray-400 hover:bg-gray-100 hover:text-white'
+                ? 'bg-[#FF6B35] text-white shadow-lg shadow-[#ff6b35]/20'
+                : 'bg-[#1A1A1F] text-[#71717A] hover:bg-[#1A1A1F] hover:text-white'
             }`}
           >
             {t[tab.labelKey]}
             {tab.key === 'unanswered' && unansweredCount > 0 && (
-              <span className="ml-2 bg-white/20 text-gray-900 text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+              <span className="ml-2 bg-[#FAFAFA]/20 text-[#FAFAFA] text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                 {unansweredCount}
               </span>
             )}
@@ -231,25 +231,25 @@ export default function AvisPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.3, delay: i * 0.04 }}
-                className="bg-white border border-white/10 rounded-2xl overflow-hidden"
+                className="bg-[#111114] border border-[#27272A] rounded-2xl overflow-hidden"
               >
                 <div className="p-5">
                   {/* Review header */}
                   <div className="flex items-start justify-between gap-4 mb-3">
                     <div className="flex items-start gap-3">
                       {/* Author avatar */}
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
-                        <span className="text-gray-900 text-sm font-bold">
+                      <div className="w-10 h-10 rounded-full bg-[#FF6B35] flex items-center justify-center flex-shrink-0">
+                        <span className="text-[#FAFAFA] text-sm font-bold">
                           {(review.authorName || 'A').charAt(0).toUpperCase()}
                         </span>
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-gray-900">
+                        <p className="text-sm font-semibold text-[#FAFAFA]">
                           {review.authorName || t.anonymous}
                         </p>
                         <div className="flex items-center gap-3 mt-0.5">
                           <StarRating rating={review.rating} />
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-[#71717A]">
                             {new Date(review.createdAt).toLocaleDateString('fr-FR', {
                               day: 'numeric',
                               month: 'long',
@@ -270,7 +270,7 @@ export default function AvisPage() {
                       )}
                       {/* Establishment name */}
                       {review.establishment?.name && (
-                        <span className="text-[10px] bg-white/5 text-gray-400 px-2 py-1 rounded-lg">
+                        <span className="text-[10px] bg-[#1A1A1F] text-[#71717A] px-2 py-1 rounded-lg">
                           {review.establishment.name}
                         </span>
                       )}
@@ -279,11 +279,11 @@ export default function AvisPage() {
 
                   {/* Review title */}
                   {review.title && (
-                    <p className="text-sm font-medium text-gray-900 mb-1">{review.title}</p>
+                    <p className="text-sm font-medium text-[#FAFAFA] mb-1">{review.title}</p>
                   )}
 
                   {/* Review comment */}
-                  <p className="text-sm text-gray-300 leading-relaxed">{review.comment}</p>
+                  <p className="text-sm text-[#52525B] leading-relaxed">{review.comment}</p>
 
                   {/* Flag reason */}
                   {review.isFlagged && review.flagReason && (
@@ -295,11 +295,11 @@ export default function AvisPage() {
 
                   {/* Owner response */}
                   {review.ownerResponse && (
-                    <div className="mt-4 pl-4 border-l-2 border-[#ff6b35]/30 bg-[#ff6b35]/5 rounded-r-xl p-3">
-                      <p className="text-xs font-medium text-[#ff6b35] mb-1">{t.yourReplyTitle}</p>
-                      <p className="text-sm text-gray-300">{review.ownerResponse}</p>
+                    <div className="mt-4 pl-4 border-l-2 border-[#FF6B35]/30 bg-[#FF6B35]/5 rounded-r-xl p-3">
+                      <p className="text-xs font-medium text-[#FF6B35] mb-1">{t.yourReplyTitle}</p>
+                      <p className="text-sm text-[#52525B]">{review.ownerResponse}</p>
                       {review.respondedAt && (
-                        <p className="text-[10px] text-gray-500 mt-2">
+                        <p className="text-[10px] text-[#71717A] mt-2">
                           {t.repliedOn} {new Date(review.respondedAt).toLocaleDateString('fr-FR', {
                             day: 'numeric',
                             month: 'long',
@@ -325,19 +325,19 @@ export default function AvisPage() {
                             onChange={(e) => setReplyText(e.target.value)}
                             placeholder={t.replyPlaceholder2}
                             rows={3}
-                            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50 transition-colors resize-none"
+                            className="w-full px-4 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-sm text-[#FAFAFA] placeholder:text-[#71717A] focus:outline-none focus:border-[#FF6B35] transition-colors resize-none"
                           />
                           <div className="flex items-center justify-end gap-2 mt-2">
                             <button
                               onClick={() => { setReplyingTo(null); setReplyText('') }}
-                              className="px-3 py-1.5 text-xs text-gray-400 hover:text-gray-900 transition-colors"
+                              className="px-3 py-1.5 text-xs text-[#71717A] hover:text-[#FAFAFA] transition-colors"
                             >
                               {t.cancel}
                             </button>
                             <button
                               onClick={() => submitResponse(review.id)}
                               disabled={!replyText.trim() || submitting}
-                              className="flex items-center gap-1.5 px-4 py-1.5 bg-[#ff6b35] hover:bg-[#ff6b35]/80 disabled:bg-white/10 disabled:text-gray-600 text-gray-900 rounded-lg text-xs font-medium transition-colors"
+                              className="flex items-center gap-1.5 px-4 py-1.5 bg-[#FF6B35] hover:bg-[#F97316] disabled:bg-[#27272A] disabled:text-[#52525B] text-white rounded-lg text-xs font-medium transition-colors"
                             >
                               {submitting ? (
                                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -351,7 +351,7 @@ export default function AvisPage() {
                       ) : (
                         <button
                           onClick={() => { setReplyingTo(review.id); setReplyText('') }}
-                          className="flex items-center gap-1.5 text-xs font-medium text-[#ff6b35] hover:text-orange-400 transition-colors"
+                          className="flex items-center gap-1.5 text-xs font-medium text-[#FF6B35] hover:text-[#FDBA74] transition-colors"
                         >
                           <MessageSquare className="w-3.5 h-3.5" />
                           {t.reply}
@@ -366,11 +366,11 @@ export default function AvisPage() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="bg-white border border-white/10 rounded-2xl p-12 text-center"
+              className="bg-[#111114] border border-[#27272A] rounded-2xl p-12 text-center"
             >
-              <Star className="w-12 h-12 text-gray-600 mx-auto mb-3" />
-              <p className="text-sm text-gray-400">{t.noReviewsFound}</p>
-              <p className="text-xs text-gray-600 mt-1">
+              <Star className="w-12 h-12 text-[#A1A1AA] mx-auto mb-3" />
+              <p className="text-sm text-[#71717A]">{t.noReviewsFound}</p>
+              <p className="text-xs text-[#A1A1AA] mt-1">
                 {activeFilter !== 'all'
                   ? t.tryAnotherFilter
                   : t.reviewsWillAppear}

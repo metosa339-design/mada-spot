@@ -234,8 +234,8 @@ export default function EstablishmentPage() {
   if (loading) {
     return (
       <div className="space-y-6">
-        <div className="h-8 w-64 bg-white/5 rounded animate-pulse" />
-        <div className="h-[400px] bg-white rounded-2xl animate-pulse" />
+        <div className="h-8 w-64 bg-[#1A1A1F] rounded animate-pulse" />
+        <div className="h-[400px] bg-[#111114] rounded-2xl animate-pulse" />
       </div>
     )
   }
@@ -245,17 +245,17 @@ export default function EstablishmentPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#FAFAFA]">
             {data.id ? t.editEstablishment : t.publishEstablishment}
           </h1>
-          <p className="text-gray-400 text-sm mt-1">
+          <p className="text-[#71717A] text-sm mt-1">
             {t.completeInfo}
           </p>
         </div>
         <button
           onClick={handleSave}
           disabled={saving}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] hover:bg-[#e55a2b] text-gray-900 rounded-xl font-medium text-sm transition-colors disabled:opacity-50 shrink-0 self-start sm:self-auto"
+          className="flex items-center gap-2 px-5 py-2.5 bg-[#FF6B35] hover:bg-[#F97316] text-[#FAFAFA] rounded-xl font-medium text-sm transition-colors disabled:opacity-50 shrink-0 self-start sm:self-auto"
         >
           {saving ? (
             <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -269,7 +269,7 @@ export default function EstablishmentPage() {
       </div>
 
       {/* Tab Navigation */}
-      <div className="flex gap-1 bg-white border border-white/10 rounded-xl p-1 overflow-x-auto">
+      <div className="flex gap-1 bg-[#111114] border border-[#27272A] rounded-xl p-1 overflow-x-auto">
         {tabs.map((tab) => {
           const Icon = tab.icon as React.ComponentType<{ className?: string }>;
           return (
@@ -278,8 +278,8 @@ export default function EstablishmentPage() {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
                 activeTab === tab.id
-                  ? 'bg-[#ff6b35] text-white'
-                  : 'text-gray-400 hover:text-gray-900 hover:bg-gray-50'
+                  ? 'bg-[#FF6B35] text-white'
+                  : 'text-[#71717A] hover:text-[#FAFAFA] hover:bg-[#111114]'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -296,18 +296,18 @@ export default function EstablishmentPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="bg-white border border-white/10 rounded-2xl p-6"
+          className="bg-[#111114] border border-[#27272A] rounded-2xl p-6"
         >
           {/* GENERAL TAB */}
           {activeTab === 'general' && (
             <div className="space-y-6">
               {/* Type */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-[#52525B] mb-2">
                   {t.establishmentCategoryLabel}
                 </label>
                 {userType ? (
-                  <div className="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-[#ff6b35]/30 bg-[#ff6b35]/10 text-[#ff6b35] text-sm font-medium">
+                  <div className="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-[#FF6B35]/30 bg-[#FF6B35]/10 text-[#FF6B35] text-sm font-medium">
                     {(t as Record<string, string>)[`cat_${data.type.toLowerCase()}`] || data.type}
                   </div>
                 ) : (
@@ -318,8 +318,8 @@ export default function EstablishmentPage() {
                         onClick={() => setData(prev => ({ ...prev, type: value }))}
                         className={`p-3 rounded-xl border text-sm font-medium transition-all ${
                           data.type === value
-                            ? 'border-[#ff6b35] bg-[#ff6b35]/10 text-[#ff6b35]'
-                            : 'border-white/10 text-gray-400 hover:border-white/20'
+                            ? 'border-[#FF6B35] bg-[#FF6B35]/10 text-[#FF6B35]'
+                            : 'border-[#27272A] text-[#71717A] hover:border-[#3F3F46]'
                         }`}
                       >
                         {(t as Record<string, string>)[`cat_${value.toLowerCase()}`]}
@@ -331,7 +331,7 @@ export default function EstablishmentPage() {
 
               {/* Name */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-[#52525B] mb-2">
                   {t.establishmentNameLabel}
                 </label>
                 <input
@@ -339,13 +339,13 @@ export default function EstablishmentPage() {
                   value={data.name}
                   onChange={(e) => setData(prev => ({ ...prev, name: e.target.value }))}
                   placeholder={t.establishmentNamePlaceholder}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full px-4 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] placeholder:text-[#71717A] focus:outline-none focus:border-[#FF6B35]"
                 />
               </div>
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-[#52525B] mb-2">
                   {t.descriptionLabel}
                 </label>
                 <textarea
@@ -353,13 +353,13 @@ export default function EstablishmentPage() {
                   onChange={(e) => setData(prev => ({ ...prev, description: e.target.value }))}
                   rows={4}
                   placeholder={t.descriptionPlaceholder}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50 resize-none"
+                  className="w-full px-4 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] placeholder:text-[#71717A] focus:outline-none focus:border-[#FF6B35] resize-none"
                 />
               </div>
 
               {/* Short Description */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-[#52525B] mb-2">
                   {t.shortDescriptionLabel}
                 </label>
                 <input
@@ -368,48 +368,48 @@ export default function EstablishmentPage() {
                   onChange={(e) => setData(prev => ({ ...prev, shortDescription: e.target.value }))}
                   placeholder={t.shortDescriptionPlaceholder}
                   maxLength={200}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full px-4 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] placeholder:text-[#71717A] focus:outline-none focus:border-[#FF6B35]"
                 />
               </div>
 
               {/* Location */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">{t.cityLabel}</label>
+                  <label className="block text-sm font-medium text-[#52525B] mb-2">{t.cityLabel}</label>
                   <input
                     type="text"
                     value={data.city}
                     onChange={(e) => setData(prev => ({ ...prev, city: e.target.value }))}
                     placeholder={t.cityPlaceholder}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
+                    className="w-full px-4 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] placeholder:text-[#71717A] focus:outline-none focus:border-[#FF6B35]"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">{t.regionLabel}</label>
+                  <label className="block text-sm font-medium text-[#52525B] mb-2">{t.regionLabel}</label>
                   <input
                     type="text"
                     value={data.region}
                     onChange={(e) => setData(prev => ({ ...prev, region: e.target.value }))}
                     placeholder={t.regionPlaceholder}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
+                    className="w-full px-4 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] placeholder:text-[#71717A] focus:outline-none focus:border-[#FF6B35]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">{t.fullAddressLabel}</label>
+                <label className="block text-sm font-medium text-[#52525B] mb-2">{t.fullAddressLabel}</label>
                 <input
                   type="text"
                   value={data.address}
                   onChange={(e) => setData(prev => ({ ...prev, address: e.target.value }))}
                   placeholder={t.fullAddressPlaceholder}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full px-4 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] placeholder:text-[#71717A] focus:outline-none focus:border-[#FF6B35]"
                 />
               </div>
 
               {/* Map Geolocation */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-[#52525B] mb-2">
                   <MapPin className="w-4 h-4 inline mr-1" />
                   {t.gpsCoordsLabel}
                 </label>
@@ -420,7 +420,7 @@ export default function EstablishmentPage() {
                     value={data.latitude || ''}
                     onChange={(e) => setData(prev => ({ ...prev, latitude: parseFloat(e.target.value) || null }))}
                     placeholder={t.latPlaceholder}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
+                    className="w-full px-4 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] placeholder:text-[#71717A] focus:outline-none focus:border-[#FF6B35]"
                   />
                   <input
                     type="number"
@@ -428,7 +428,7 @@ export default function EstablishmentPage() {
                     value={data.longitude || ''}
                     onChange={(e) => setData(prev => ({ ...prev, longitude: parseFloat(e.target.value) || null }))}
                     placeholder={t.lngPlaceholder}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
+                    className="w-full px-4 py-3 bg-[#1A1A1F] border border-[#27272A] rounded-xl text-[#FAFAFA] placeholder:text-[#71717A] focus:outline-none focus:border-[#FF6B35]"
                   />
                 </div>
                 <button
@@ -444,7 +444,7 @@ export default function EstablishmentPage() {
                       )
                     }
                   }}
-                  className="mt-2 text-sm text-[#ff6b35] hover:text-orange-400 flex items-center gap-1"
+                  className="mt-2 text-sm text-[#FF6B35] hover:text-[#FDBA74] flex items-center gap-1"
                 >
                   <MapPin className="w-3 h-3" /> {t.useCurrentPosition}
                 </button>
@@ -452,17 +452,17 @@ export default function EstablishmentPage() {
 
               {/* Hotel-specific fields */}
               {data.type === 'HOTEL' && (
-                <div className="space-y-4 p-4 bg-white/5 rounded-xl border border-white/10">
-                  <h3 className="text-sm font-medium text-[#ff6b35]">{t.hotelInfoTitle}</h3>
+                <div className="space-y-4 p-4 bg-[#1A1A1F] rounded-xl border border-[#27272A]">
+                  <h3 className="text-sm font-medium text-[#FF6B35]">{t.hotelInfoTitle}</h3>
                   <div className="grid grid-cols-3 gap-4">
                     <div>
-                      <label className="block text-xs text-gray-400 mb-1">{t.starsLabel}</label>
+                      <label className="block text-xs text-[#71717A] mb-1">{t.starsLabel}</label>
                       <div className="flex gap-1">
                         {[1,2,3,4,5].map((star) => (
                           <button
                             key={star}
                             onClick={() => setData(prev => ({ ...prev, starRating: star }))}
-                            className={`text-lg ${star <= data.starRating ? 'text-yellow-400' : 'text-gray-600'}`}
+                            className={`text-lg ${star <= data.starRating ? 'text-yellow-400' : 'text-[#A1A1AA]'}`}
                           >
                             ★
                           </button>
@@ -470,21 +470,21 @@ export default function EstablishmentPage() {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-xs text-gray-400 mb-1">{t.checkInLabel}</label>
+                      <label className="block text-xs text-[#71717A] mb-1">{t.checkInLabel}</label>
                       <input
                         type="time"
                         value={data.checkInTime}
                         onChange={(e) => setData(prev => ({ ...prev, checkInTime: e.target.value }))}
-                        className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                        className="w-full px-3 py-2 bg-[#1A1A1F] border border-[#27272A] rounded-lg text-[#FAFAFA] text-sm focus:outline-none focus:border-[#FF6B35]"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-gray-400 mb-1">{t.checkOutLabel}</label>
+                      <label className="block text-xs text-[#71717A] mb-1">{t.checkOutLabel}</label>
                       <input
                         type="time"
                         value={data.checkOutTime}
                         onChange={(e) => setData(prev => ({ ...prev, checkOutTime: e.target.value }))}
-                        className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                        className="w-full px-3 py-2 bg-[#1A1A1F] border border-[#27272A] rounded-lg text-[#FAFAFA] text-sm focus:outline-none focus:border-[#FF6B35]"
                       />
                     </div>
                   </div>
@@ -498,23 +498,23 @@ export default function EstablishmentPage() {
             <div className="space-y-6">
               {/* Cover Image */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-3">{t.coverImageLabel}</label>
+                <label className="block text-sm font-medium text-[#52525B] mb-3">{t.coverImageLabel}</label>
                 <div className="relative">
                   {data.coverImage ? (
                     <div className="relative w-full h-48 rounded-xl overflow-hidden">
                       <img src={getImageUrl(data.coverImage)} alt="Cover" className="w-full h-full object-cover" />
                       <button
                         onClick={() => setData(prev => ({ ...prev, coverImage: '' }))}
-                        className="absolute top-2 right-2 p-1 bg-red-500 rounded-lg text-gray-900"
+                        className="absolute top-2 right-2 p-1 bg-red-500 rounded-lg text-[#FAFAFA]"
                       >
                         <X className="w-4 h-4" />
                       </button>
                     </div>
                   ) : (
-                    <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-white/20 rounded-xl cursor-pointer hover:border-[#ff6b35]/50 transition-colors">
-                      <Upload className="w-8 h-8 text-gray-500 mb-2" />
-                      <p className="text-sm text-gray-400">{t.clickToUpload}</p>
-                      <p className="text-xs text-gray-500">{t.imageFormatHint}</p>
+                    <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-[#3F3F46] rounded-xl cursor-pointer hover:border-[#FF6B35]/50 transition-colors">
+                      <Upload className="w-8 h-8 text-[#71717A] mb-2" />
+                      <p className="text-sm text-[#71717A]">{t.clickToUpload}</p>
+                      <p className="text-xs text-[#71717A]">{t.imageFormatHint}</p>
                       <input
                         type="file"
                         accept="image/*"
@@ -528,16 +528,16 @@ export default function EstablishmentPage() {
 
               {/* Gallery with descriptions */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-[#52525B] mb-1">
                   {t.galleryLabel} ({data.images.length}/20)
                 </label>
-                <p className="text-xs text-gray-500 mb-3">{t.galleryHint}</p>
+                <p className="text-xs text-[#71717A] mb-3">{t.galleryHint}</p>
                 <div className="space-y-3">
                   {data.images.map((img, index) => {
                     const galleryItems = data.gallery || [];
                     const caption = galleryItems.find(g => g.url === img)?.caption || '';
                     return (
-                      <div key={index} className="bg-[#0d1520] rounded-xl p-3">
+                      <div key={index} className="bg-[#1A1A1F] rounded-xl p-3">
                         <div className="flex gap-3 items-start">
                           <div className="relative w-16 h-16 sm:w-24 sm:h-24 rounded-lg overflow-hidden shrink-0">
                             <img src={img} alt={`${t.photoIndexLabel} ${index + 1}`} className="w-full h-full object-cover" />
@@ -557,9 +557,9 @@ export default function EstablishmentPage() {
                                 }
                                 setData(prev => ({ ...prev, gallery: newGallery }));
                               }}
-                              className="w-full px-3 py-2 bg-[#1a1a24] border border-[#2a2a36] rounded-lg text-white text-sm placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
+                              className="w-full px-3 py-2 bg-[#1A1A1F] border border-[#3F3F46] rounded-lg text-white text-sm placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35]"
                             />
-                            <p className="text-xs text-gray-600 mt-1">{t.photoIndexLabel} {index + 1}</p>
+                            <p className="text-xs text-[#A1A1AA] mt-1">{t.photoIndexLabel} {index + 1}</p>
                           </div>
                           <button
                             onClick={() => {
@@ -578,13 +578,13 @@ export default function EstablishmentPage() {
                     );
                   })}
                   {data.images.length < 20 && (
-                    <label className="flex items-center justify-center gap-2 w-full py-4 border-2 border-dashed border-white/20 rounded-xl cursor-pointer hover:border-[#ff6b35]/50 transition-colors">
+                    <label className="flex items-center justify-center gap-2 w-full py-4 border-2 border-dashed border-[#3F3F46] rounded-xl cursor-pointer hover:border-[#FF6B35]/50 transition-colors">
                       {uploadingImages ? (
-                        <div className="w-6 h-6 border-2 border-[#ff6b35] border-t-transparent rounded-full animate-spin" />
+                        <div className="w-6 h-6 border-2 border-[#FF6B35] border-t-transparent rounded-full animate-spin" />
                       ) : (
                         <>
-                          <Plus className="w-5 h-5 text-gray-500" />
-                          <span className="text-sm text-gray-400">{t.addPhotos}</span>
+                          <Plus className="w-5 h-5 text-[#71717A]" />
+                          <span className="text-sm text-[#71717A]">{t.addPhotos}</span>
                         </>
                       )}
                       <input
@@ -604,7 +604,7 @@ export default function EstablishmentPage() {
           {/* EQUIPEMENTS TAB */}
           {activeTab === 'equipements' && (
             <div className="space-y-4">
-              <p className="text-sm text-gray-400">{t.selectAvailableAmenities}</p>
+              <p className="text-sm text-[#71717A]">{t.selectAvailableAmenities}</p>
               <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
                 {AMENITY_DEFS.map((amenity) => {
                   const selected = data.amenities.includes(amenity.id)
@@ -615,8 +615,8 @@ export default function EstablishmentPage() {
                       onClick={() => toggleAmenity(amenity.id)}
                       className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${
                         selected
-                          ? 'border-[#ff6b35] bg-[#ff6b35]/10 text-[#ff6b35]'
-                          : 'border-white/10 text-gray-400 hover:border-white/20 hover:text-gray-300'
+                          ? 'border-[#FF6B35] bg-[#FF6B35]/10 text-[#FF6B35]'
+                          : 'border-[#27272A] text-[#71717A] hover:border-[#3F3F46] hover:text-[#52525B]'
                       }`}
                     >
                       <amenity.icon className="w-6 h-6" />
@@ -633,12 +633,12 @@ export default function EstablishmentPage() {
           {activeTab === 'horaires' && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-400">{t.setOpeningHours}</p>
+                <p className="text-sm text-[#71717A]">{t.setOpeningHours}</p>
                 <div className="flex items-center gap-2 text-xs">
                   <span className="w-3 h-3 rounded-full bg-emerald-500 inline-block" />
-                  <span className="text-gray-400">{t.openLabel}</span>
+                  <span className="text-[#71717A]">{t.openLabel}</span>
                   <span className="w-3 h-3 rounded-full bg-red-500 inline-block ml-2" />
-                  <span className="text-gray-400">{t.closedLabel}</span>
+                  <span className="text-[#71717A]">{t.closedLabel}</span>
                 </div>
               </div>
 
@@ -647,16 +647,16 @@ export default function EstablishmentPage() {
                   const hours = data.openingHours[dayKey] || { open: '08:00', close: '18:00', closed: false }
                   const label = (t as Record<string, string>)[`day_${dayKey}`]
                   return (
-                    <div key={dayKey} className="flex items-center gap-4 p-3 bg-white/5 rounded-xl">
-                      <span className="w-24 text-sm font-medium text-gray-300">{label}</span>
+                    <div key={dayKey} className="flex items-center gap-4 p-3 bg-[#1A1A1F] rounded-xl">
+                      <span className="w-24 text-sm font-medium text-[#52525B]">{label}</span>
 
                       <button
                         onClick={() => updateHours(dayKey, 'closed', !hours.closed)}
                         className={`w-12 h-6 rounded-full relative transition-colors ${
-                          !hours.closed ? 'bg-emerald-500' : 'bg-gray-600'
+                          !hours.closed ? 'bg-emerald-500' : 'bg-[#3F3F46]'
                         }`}
                       >
-                        <div className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-all ${
+                        <div className={`w-5 h-5 bg-[#111114] rounded-full absolute top-0.5 transition-all ${
                           !hours.closed ? 'left-6' : 'left-0.5'
                         }`} />
                       </button>
@@ -667,14 +667,14 @@ export default function EstablishmentPage() {
                             type="time"
                             value={hours.open}
                             onChange={(e) => updateHours(dayKey, 'open', e.target.value)}
-                            className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                            className="px-3 py-1.5 bg-[#1A1A1F] border border-[#27272A] rounded-lg text-[#FAFAFA] text-sm focus:outline-none focus:border-[#FF6B35]"
                           />
-                          <span className="text-gray-500">{t.toSeparator}</span>
+                          <span className="text-[#71717A]">{t.toSeparator}</span>
                           <input
                             type="time"
                             value={hours.close}
                             onChange={(e) => updateHours(dayKey, 'close', e.target.value)}
-                            className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]/50"
+                            className="px-3 py-1.5 bg-[#1A1A1F] border border-[#27272A] rounded-lg text-[#FAFAFA] text-sm focus:outline-none focus:border-[#FF6B35]"
                           />
                         </div>
                       ) : (
@@ -687,16 +687,16 @@ export default function EstablishmentPage() {
 
               {/* Restaurant-specific: Service Midi/Soir */}
               {data.type === 'RESTAURANT' && (
-                <div className="mt-6 p-4 bg-white/5 rounded-xl border border-white/10">
-                  <h3 className="text-sm font-medium text-[#ff6b35] mb-3">{t.restaurantServicesTitle}</h3>
+                <div className="mt-6 p-4 bg-[#1A1A1F] rounded-xl border border-[#27272A]">
+                  <h3 className="text-sm font-medium text-[#FF6B35] mb-3">{t.restaurantServicesTitle}</h3>
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="p-3 bg-white/5 rounded-lg border border-white/10">
-                      <p className="text-sm font-medium text-gray-900 mb-1">{t.lunchService}</p>
-                      <p className="text-xs text-gray-400">{t.lunchServiceHours}</p>
+                    <div className="p-3 bg-[#1A1A1F] rounded-lg border border-[#27272A]">
+                      <p className="text-sm font-medium text-[#FAFAFA] mb-1">{t.lunchService}</p>
+                      <p className="text-xs text-[#71717A]">{t.lunchServiceHours}</p>
                     </div>
-                    <div className="p-3 bg-white/5 rounded-lg border border-white/10">
-                      <p className="text-sm font-medium text-gray-900 mb-1">{t.dinnerService}</p>
-                      <p className="text-xs text-gray-400">{t.dinnerServiceHours}</p>
+                    <div className="p-3 bg-[#1A1A1F] rounded-lg border border-[#27272A]">
+                      <p className="text-sm font-medium text-[#FAFAFA] mb-1">{t.dinnerService}</p>
+                      <p className="text-xs text-[#71717A]">{t.dinnerServiceHours}</p>
                     </div>
                   </div>
                 </div>
@@ -704,7 +704,7 @@ export default function EstablishmentPage() {
 
               {/* Jours fériés */}
               <div className="mt-6">
-                <h3 className="text-sm font-medium text-gray-300 mb-3">
+                <h3 className="text-sm font-medium text-[#52525B] mb-3">
                   <AlertCircle className="w-4 h-4 inline mr-1" />
                   {t.holidaysTitle}
                 </h3>
@@ -722,7 +722,7 @@ export default function EstablishmentPage() {
                       const date = prompt(t.holidayDatePrompt)
                       if (date) setData(prev => ({ ...prev, holidays: [...prev.holidays, date] }))
                     }}
-                    className="px-3 py-1 border border-dashed border-white/20 rounded-lg text-sm text-gray-400 hover:text-gray-900 hover:border-white/40 transition-colors"
+                    className="px-3 py-1 border border-dashed border-[#3F3F46] rounded-lg text-sm text-[#71717A] hover:text-[#FAFAFA] hover:border-white/40 transition-colors"
                   >
                     {t.addHolidayDate}
                   </button>
@@ -744,17 +744,17 @@ export default function EstablishmentPage() {
                 { icon: MessageCircle, field: 'whatsapp' as const, label: t.contactWhatsappLabel, placeholder: t.contactWhatsappPlaceholder },
               ].map((item) => (
                 <div key={item.field} className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <item.icon className="w-5 h-5 text-gray-400" />
+                  <div className="w-10 h-10 bg-[#1A1A1F] rounded-xl flex items-center justify-center flex-shrink-0">
+                    <item.icon className="w-5 h-5 text-[#71717A]" />
                   </div>
                   <div className="flex-1">
-                    <label className="block text-xs text-gray-400 mb-1">{item.label}</label>
+                    <label className="block text-xs text-[#71717A] mb-1">{item.label}</label>
                     <input
                       type="text"
                       value={data[item.field]}
                       onChange={(e) => setData(prev => ({ ...prev, [item.field]: e.target.value }))}
                       placeholder={item.placeholder}
-                      className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-gray-900 text-sm placeholder:text-gray-500 focus:outline-none focus:border-[#ff6b35]/50"
+                      className="w-full px-3 py-2 bg-[#1A1A1F] border border-[#27272A] rounded-lg text-[#FAFAFA] text-sm placeholder:text-[#71717A] focus:outline-none focus:border-[#FF6B35]"
                     />
                   </div>
                 </div>
@@ -767,7 +767,7 @@ export default function EstablishmentPage() {
             <div className="space-y-6">
               {/* Cuisine Types */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-3">{t.cuisineTypesLabel}</label>
+                <label className="block text-sm font-medium text-[#52525B] mb-3">{t.cuisineTypesLabel}</label>
                 <div className="flex gap-2 flex-wrap">
                   {CUISINE_KEYS.map(({ id, value }) => {
                     const label = (t as Record<string, string>)[`cuisine_${id}`]
@@ -784,8 +784,8 @@ export default function EstablishmentPage() {
                         }}
                         className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
                           data.cuisineTypes.includes(value)
-                            ? 'bg-[#ff6b35]/10 text-[#ff6b35] border border-[#ff6b35]/30'
-                            : 'bg-white/5 text-gray-400 border border-white/10 hover:border-white/20'
+                            ? 'bg-[#FF6B35]/10 text-[#FF6B35] border border-[#FF6B35]/30'
+                            : 'bg-[#1A1A1F] text-[#71717A] border border-[#27272A] hover:border-[#3F3F46]'
                         }`}
                       >
                         {label}
@@ -797,22 +797,22 @@ export default function EstablishmentPage() {
 
               {/* Menu Photos */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-3">{t.menuPhotosLabel}</label>
+                <label className="block text-sm font-medium text-[#52525B] mb-3">{t.menuPhotosLabel}</label>
                 <div className="grid grid-cols-3 gap-3">
                   {data.menuImages.map((img, index) => (
                     <div key={index} className="relative aspect-[3/4] rounded-xl overflow-hidden group">
                       <img src={img} alt={`Menu ${index + 1}`} className="w-full h-full object-cover" />
                       <button
                         onClick={() => setData(prev => ({ ...prev, menuImages: prev.menuImages.filter((_, i) => i !== index) }))}
-                        className="absolute top-1 right-1 p-1 bg-red-500 rounded-lg text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="absolute top-1 right-1 p-1 bg-red-500 rounded-lg text-[#FAFAFA] opacity-0 group-hover:opacity-100 transition-opacity"
                       >
                         <X className="w-3 h-3" />
                       </button>
                     </div>
                   ))}
-                  <label className="aspect-[3/4] border-2 border-dashed border-white/20 rounded-xl cursor-pointer hover:border-[#ff6b35]/50 flex flex-col items-center justify-center transition-colors">
-                    <ImageIcon className="w-8 h-8 text-gray-500 mb-2" />
-                    <span className="text-xs text-gray-500">{t.menuPhotoLabel}</span>
+                  <label className="aspect-[3/4] border-2 border-dashed border-[#3F3F46] rounded-xl cursor-pointer hover:border-[#FF6B35]/50 flex flex-col items-center justify-center transition-colors">
+                    <ImageIcon className="w-8 h-8 text-[#71717A] mb-2" />
+                    <span className="text-xs text-[#71717A]">{t.menuPhotoLabel}</span>
                     <input
                       type="file"
                       accept="image/*"
@@ -831,18 +831,18 @@ export default function EstablishmentPage() {
                   { field: 'hasTakeaway' as const, label: t.takeawayAvailable, icon: Coffee },
                   { field: 'hasReservation' as const, label: t.onlineReservation, icon: Calendar },
                 ].map((opt) => (
-                  <div key={opt.field} className="flex items-center justify-between p-3 bg-white/5 rounded-xl">
+                  <div key={opt.field} className="flex items-center justify-between p-3 bg-[#1A1A1F] rounded-xl">
                     <div className="flex items-center gap-3">
-                      <opt.icon className="w-5 h-5 text-gray-400" />
-                      <span className="text-sm text-gray-300">{opt.label}</span>
+                      <opt.icon className="w-5 h-5 text-[#71717A]" />
+                      <span className="text-sm text-[#52525B]">{opt.label}</span>
                     </div>
                     <button
                       onClick={() => setData(prev => ({ ...prev, [opt.field]: !prev[opt.field] }))}
                       className={`w-12 h-6 rounded-full relative transition-colors ${
-                        data[opt.field] ? 'bg-[#ff6b35]' : 'bg-gray-600'
+                        data[opt.field] ? 'bg-[#FF6B35]' : 'bg-[#3F3F46]'
                       }`}
                     >
-                      <div className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-all ${
+                      <div className={`w-5 h-5 bg-[#111114] rounded-full absolute top-0.5 transition-all ${
                         data[opt.field] ? 'left-6' : 'left-0.5'
                       }`} />
                     </button>

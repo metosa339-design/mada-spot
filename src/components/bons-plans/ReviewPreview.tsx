@@ -41,7 +41,7 @@ export default memo(function ReviewPreview({
   if (displayedReviews.length === 0) return null;
 
   return (
-    <div className="bg-[#1a1a24] rounded-2xl p-6 md:p-8 border border-[#2a2a36]">
+    <div className="bg-[#1A1A1F] rounded-2xl p-6 md:p-8 border border-[#2a2a36]">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-white">
           Avis clients ({reviewCount})
@@ -59,10 +59,10 @@ export default memo(function ReviewPreview({
             <p className="text-3xl font-bold text-white">{rating?.toFixed(1)}</p>
             <div className="flex items-center gap-0.5 mt-1">
               {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} className={`w-3 h-3 ${i < Math.round(rating) ? 'text-yellow-400 fill-yellow-400' : 'text-slate-600'}`} />
+                <Star key={i} className={`w-3 h-3 ${i < Math.round(rating) ? 'text-yellow-400 fill-yellow-400' : 'text-[#A1A1AA]'}`} />
               ))}
             </div>
-            <p className="text-[10px] text-slate-500 mt-1">{reviewCount} avis</p>
+            <p className="text-[10px] text-[#71717A] mt-1">{reviewCount} avis</p>
           </div>
           <div className="flex-1 space-y-1">
             {[5, 4, 3, 2, 1].map((star) => {
@@ -70,11 +70,11 @@ export default memo(function ReviewPreview({
               const pct = reviewCount > 0 ? (count / reviewCount) * 100 : 0;
               return (
                 <div key={star} className="flex items-center gap-2 text-xs">
-                  <span className="text-slate-400 w-3 text-right">{star}</span>
-                  <div className="flex-1 h-1.5 bg-[#1a1a24] rounded-full overflow-hidden">
+                  <span className="text-[#71717A] w-3 text-right">{star}</span>
+                  <div className="flex-1 h-1.5 bg-[#1A1A1F] rounded-full overflow-hidden">
                     <div className="h-full bg-yellow-400 rounded-full transition-all" style={{ width: `${pct}%` }} />
                   </div>
-                  <span className="text-slate-500 w-6 text-right">{count}</span>
+                  <span className="text-[#71717A] w-6 text-right">{count}</span>
                 </div>
               );
             })}
@@ -87,7 +87,7 @@ export default memo(function ReviewPreview({
           <div key={review.id} className="border-b border-[#2a2a36] pb-5 last:border-0 last:pb-0">
             <div className="flex items-start gap-3">
               {/* Avatar initiale */}
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#FF6B35] to-[#FF6B35] flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                 {(review.authorName || '?').charAt(0).toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
@@ -102,7 +102,7 @@ export default memo(function ReviewPreview({
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-[#71717A]">
                       {new Date(review.createdAt).toLocaleDateString('fr-FR', {
                         year: 'numeric',
                         month: 'long',
@@ -115,7 +115,7 @@ export default memo(function ReviewPreview({
                       <Star
                         key={i}
                         className={`w-3.5 h-3.5 ${
-                          i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-slate-600'
+                          i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-[#A1A1AA]'
                         }`}
                       />
                     ))}
@@ -124,7 +124,7 @@ export default memo(function ReviewPreview({
                 {review.title && (
                   <p className="font-medium text-white mt-1.5 text-sm">{review.title}</p>
                 )}
-                <p className="text-slate-300 mt-1 text-sm leading-relaxed">{review.comment}</p>
+                <p className="text-[#52525B] mt-1 text-sm leading-relaxed">{review.comment}</p>
                 {(() => {
                   if (!review.images) return null;
                   let parsedImages: string[];
@@ -137,8 +137,8 @@ export default memo(function ReviewPreview({
                   return <ReviewImageGallery images={parsedImages} />;
                 })()}
                 {review.ownerResponse && (
-                  <div className="mt-3 p-3 bg-orange-500/10 rounded-lg border-l-2 border-orange-500">
-                    <p className="text-xs font-medium text-orange-300 mb-1">
+                  <div className="mt-3 p-3 bg-[#FF6B35]/10 rounded-lg border-l-2 border-[#FF6B35]">
+                    <p className="text-xs font-medium text-[#FDBA74] mb-1">
                       Réponse de l'établissement
                     </p>
                     <p className="text-xs text-orange-200">{review.ownerResponse}</p>
@@ -153,7 +153,7 @@ export default memo(function ReviewPreview({
       {reviewCount > maxReviews && establishmentId && (
         <Link
           href={`/bons-plans/avis/${establishmentId}`}
-          className="mt-4 w-full py-2.5 border border-[#2a2a36] text-slate-300 font-medium text-sm rounded-xl hover:bg-[#2a2a36] transition-colors block text-center"
+          className="mt-4 w-full py-2.5 border border-[#2a2a36] text-[#52525B] font-medium text-sm rounded-xl hover:bg-[#2a2a36] transition-colors block text-center"
         >
           Voir tous les {reviewCount} avis
         </Link>

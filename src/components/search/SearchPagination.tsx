@@ -42,8 +42,8 @@ export default function SearchPagination({ currentPage, totalPages, onPageChange
         disabled={currentPage <= 1}
         className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-medium transition-all ${
           currentPage <= 1
-            ? 'border-[#1e1e2e] text-gray-600 cursor-not-allowed'
-            : 'border-[#1e1e2e] text-gray-300 hover:border-gray-600 hover:text-white'
+            ? 'border-[#27272A] text-[#A1A1AA] cursor-not-allowed'
+            : 'border-[#27272A] text-[#52525B] hover:border-[#3F3F46] hover:text-white'
         }`}
       >
         <ArrowLeft className="w-4 h-4" />
@@ -56,12 +56,12 @@ export default function SearchPagination({ currentPage, totalPages, onPageChange
           <>
             <button
               onClick={() => onPageChange(1)}
-              className="w-9 h-9 flex items-center justify-center rounded-lg border border-[#1e1e2e] text-gray-400 hover:border-gray-600 hover:text-white text-sm transition-all"
+              className="w-9 h-9 flex items-center justify-center rounded-lg border border-[#27272A] text-[#71717A] hover:border-[#3F3F46] hover:text-white text-sm transition-all"
             >
               1
             </button>
             {pages[0] > 2 && (
-              <span className="w-9 h-9 flex items-center justify-center text-gray-600 text-sm">...</span>
+              <span className="w-9 h-9 flex items-center justify-center text-[#A1A1AA] text-sm">...</span>
             )}
           </>
         )}
@@ -72,8 +72,8 @@ export default function SearchPagination({ currentPage, totalPages, onPageChange
             onClick={() => onPageChange(page)}
             className={`w-9 h-9 flex items-center justify-center rounded-lg border text-sm font-medium transition-all ${
               page === currentPage
-                ? 'bg-orange-500 border-orange-500 text-white'
-                : 'border-[#1e1e2e] text-gray-400 hover:border-gray-600 hover:text-white'
+                ? 'bg-[#FF6B35] border-[#FF6B35] text-white'
+                : 'border-[#27272A] text-[#71717A] hover:border-[#3F3F46] hover:text-white'
             }`}
           >
             {page}
@@ -83,11 +83,11 @@ export default function SearchPagination({ currentPage, totalPages, onPageChange
         {pages[pages.length - 1] < totalPages && (
           <>
             {pages[pages.length - 1] < totalPages - 1 && (
-              <span className="w-9 h-9 flex items-center justify-center text-gray-600 text-sm">...</span>
+              <span className="w-9 h-9 flex items-center justify-center text-[#A1A1AA] text-sm">...</span>
             )}
             <button
               onClick={() => onPageChange(totalPages)}
-              className="w-9 h-9 flex items-center justify-center rounded-lg border border-[#1e1e2e] text-gray-400 hover:border-gray-600 hover:text-white text-sm transition-all"
+              className="w-9 h-9 flex items-center justify-center rounded-lg border border-[#27272A] text-[#71717A] hover:border-[#3F3F46] hover:text-white text-sm transition-all"
             >
               {totalPages}
             </button>
@@ -101,8 +101,8 @@ export default function SearchPagination({ currentPage, totalPages, onPageChange
         disabled={currentPage >= totalPages}
         className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-medium transition-all ${
           currentPage >= totalPages
-            ? 'border-[#1e1e2e] text-gray-600 cursor-not-allowed'
-            : 'border-[#1e1e2e] text-gray-300 hover:border-gray-600 hover:text-white'
+            ? 'border-[#27272A] text-[#A1A1AA] cursor-not-allowed'
+            : 'border-[#27272A] text-[#52525B] hover:border-[#3F3F46] hover:text-white'
         }`}
       >
         <span className="hidden sm:inline">Suivant</span>

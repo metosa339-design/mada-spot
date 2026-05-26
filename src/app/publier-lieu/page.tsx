@@ -424,7 +424,7 @@ export default function PublierLieuPage() {
         value={formData.customOther[field] || ''}
         onChange={(e) => updateCustomOther(field, e.target.value)}
         placeholder={placeholder}
-        className="w-full mt-2 px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+        className="w-full mt-2 px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
       />
     );
   };
@@ -745,7 +745,7 @@ export default function PublierLieuPage() {
   // Success screen
   if (submitted) {
     return (
-      <div className="min-h-screen bg-[#070710] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[#0A0A0F] flex items-center justify-center px-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -755,13 +755,13 @@ export default function PublierLieuPage() {
             <CheckCircle className="w-10 h-10 text-green-400" />
           </div>
           <h2 className="text-2xl font-bold text-white mb-3">{t.successTitle}</h2>
-          <p className="text-gray-400 mb-8">
+          <p className="text-[#71717A] mb-8">
             {t.successDesc}
           </p>
           <div className="flex gap-3 justify-center">
             <button
               onClick={() => router.push('/dashboard')}
-              className="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all"
+              className="px-6 py-3 bg-[#FF6B35] text-white rounded-xl hover:bg-[#F97316] transition-all"
             >
               {t.successDashboardBtn}
             </button>
@@ -792,7 +792,7 @@ export default function PublierLieuPage() {
                   customOther: {},
                 });
               }}
-              className="px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white rounded-xl hover:shadow-lg transition-all"
+              className="px-6 py-3 bg-[#FF6B35] text-white rounded-xl hover:shadow-lg transition-all"
             >
               {t.successAnotherBtn}
             </button>
@@ -803,13 +803,13 @@ export default function PublierLieuPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#070710] text-white">
+    <div className="min-h-screen bg-[#0A0A0F] text-white">
       {/* Header */}
-      <div className="border-b border-[#1e1e2e]">
+      <div className="border-b border-[#27272A]">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+            className="flex items-center gap-2 text-[#71717A] hover:text-white transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
             {t.back}
@@ -833,8 +833,8 @@ export default function PublierLieuPage() {
                     step > s.id
                       ? 'bg-emerald-500 text-white'
                       : step === s.id
-                      ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                      : 'bg-[#1e1e2e] text-gray-500'
+                      ? 'bg-[#FF6B35] text-white'
+                      : 'bg-[#1A1A1F] text-[#71717A]'
                   }`}
                 >
                   {step > s.id ? (
@@ -845,7 +845,7 @@ export default function PublierLieuPage() {
                 </div>
                 <span
                   className={`text-xs mt-1.5 hidden sm:block ${
-                    step >= s.id ? 'text-white' : 'text-gray-600'
+                    step >= s.id ? 'text-white' : 'text-[#A1A1AA]'
                   }`}
                 >
                   {tt[s.key]}
@@ -854,7 +854,7 @@ export default function PublierLieuPage() {
               {i < STEPS.length - 1 && (
                 <div
                   className={`flex-1 h-0.5 mx-2 ${
-                    step > s.id ? 'bg-emerald-500' : 'bg-[#1e1e2e]'
+                    step > s.id ? 'bg-emerald-500' : 'bg-[#1A1A1F]'
                   }`}
                 />
               )}
@@ -883,7 +883,7 @@ export default function PublierLieuPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="text-xl font-bold mb-1">{t.step1Title}</h2>
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-[#71717A] text-sm">
                     {typeFromUrl ? t.step1FillSubtitle : t.step1ChooseSubtitle}
                   </p>
                 </div>
@@ -894,7 +894,7 @@ export default function PublierLieuPage() {
                     formData.establishmentType === 'HOTEL' ? 'bg-purple-500/10 border-2 border-purple-500 text-purple-400'
                     : formData.establishmentType === 'RESTAURANT' ? 'bg-amber-500/10 border-2 border-amber-500 text-amber-400'
                     : formData.establishmentType === 'PROVIDER' ? 'bg-cyan-500/10 border-2 border-cyan-500 text-cyan-400'
-                    : 'bg-orange-500/10 border-2 border-orange-500 text-orange-400'
+                    : 'bg-[#FF6B35]/10 border-2 border-[#FF6B35] text-[#FDBA74]'
                   }`}>
                     {formData.establishmentType === 'HOTEL' ? <Building2 className="w-6 h-6" />
                       : formData.establishmentType === 'RESTAURANT' ? <UtensilsCrossed className="w-6 h-6" />
@@ -907,7 +907,7 @@ export default function PublierLieuPage() {
                           : formData.establishmentType === 'PROVIDER' ? t.typeProvider
                           : t.typeAttraction}
                       </div>
-                      <div className="text-xs text-gray-500">{t.typeLockedHint}</div>
+                      <div className="text-xs text-[#71717A]">{t.typeLockedHint}</div>
                     </div>
                     <CheckCircle className="w-5 h-5 ml-auto opacity-60" />
                   </div>
@@ -915,13 +915,13 @@ export default function PublierLieuPage() {
 
                 {/* Type selector: loading / locked / selectable */}
                 {sessionLoading && !typeFromUrl ? (
-                  <div className="flex items-center gap-3 p-4 rounded-xl bg-[#0c0c16] border border-[#1e1e2e] animate-pulse">
-                    <Loader2 className="w-5 h-5 text-gray-500 animate-spin" />
-                    <span className="text-gray-500 text-sm">{t.loadingProfile}</span>
+                  <div className="flex items-center gap-3 p-4 rounded-xl bg-[#0A0A0F] border border-[#27272A] animate-pulse">
+                    <Loader2 className="w-5 h-5 text-[#71717A] animate-spin" />
+                    <span className="text-[#71717A] text-sm">{t.loadingProfile}</span>
                   </div>
                 ) : !typeFromUrl ? (
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-[#52525B] mb-2">
                       {t.typeLabel} <span className="text-red-400">*</span>
                     </label>
                     <div className="grid grid-cols-2 gap-3">
@@ -931,13 +931,13 @@ export default function PublierLieuPage() {
                         className={`flex items-center gap-3 p-4 rounded-xl transition-all ${
                           formData.establishmentType === 'HOTEL'
                             ? 'bg-purple-500/10 border-2 border-purple-500 text-purple-400'
-                            : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:border-gray-600'
+                            : 'bg-[#0A0A0F] border border-[#27272A] text-[#71717A] hover:border-[#3F3F46]'
                         }`}
                       >
                         <Building2 className="w-6 h-6" />
                         <div className="text-left">
                           <div className="font-medium">{t.typeHotel}</div>
-                          <div className="text-xs text-gray-500">{t.typeHotelDesc}</div>
+                          <div className="text-xs text-[#71717A]">{t.typeHotelDesc}</div>
                         </div>
                       </button>
                       <button
@@ -946,13 +946,13 @@ export default function PublierLieuPage() {
                         className={`flex items-center gap-3 p-4 rounded-xl transition-all ${
                           formData.establishmentType === 'RESTAURANT'
                             ? 'bg-amber-500/10 border-2 border-amber-500 text-amber-400'
-                            : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:border-gray-600'
+                            : 'bg-[#0A0A0F] border border-[#27272A] text-[#71717A] hover:border-[#3F3F46]'
                         }`}
                       >
                         <UtensilsCrossed className="w-6 h-6" />
                         <div className="text-left">
                           <div className="font-medium">{t.typeRestaurant}</div>
-                          <div className="text-xs text-gray-500">{t.typeRestaurantDesc}</div>
+                          <div className="text-xs text-[#71717A]">{t.typeRestaurantDesc}</div>
                         </div>
                       </button>
                       <button
@@ -960,14 +960,14 @@ export default function PublierLieuPage() {
                         onClick={() => updateField('establishmentType', 'ATTRACTION')}
                         className={`flex items-center gap-3 p-4 rounded-xl transition-all ${
                           formData.establishmentType === 'ATTRACTION'
-                            ? 'bg-orange-500/10 border-2 border-orange-500 text-orange-400'
-                            : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:border-gray-600'
+                            ? 'bg-[#FF6B35]/10 border-2 border-[#FF6B35] text-[#FDBA74]'
+                            : 'bg-[#0A0A0F] border border-[#27272A] text-[#71717A] hover:border-[#3F3F46]'
                         }`}
                       >
                         <Mountain className="w-6 h-6" />
                         <div className="text-left">
                           <div className="font-medium">{t.typeAttraction}</div>
-                          <div className="text-xs text-gray-500">{t.typeAttractionDesc}</div>
+                          <div className="text-xs text-[#71717A]">{t.typeAttractionDesc}</div>
                         </div>
                       </button>
                       <button
@@ -976,13 +976,13 @@ export default function PublierLieuPage() {
                         className={`flex items-center gap-3 p-4 rounded-xl transition-all ${
                           formData.establishmentType === 'PROVIDER'
                             ? 'bg-cyan-500/10 border-2 border-cyan-500 text-cyan-400'
-                            : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:border-gray-600'
+                            : 'bg-[#0A0A0F] border border-[#27272A] text-[#71717A] hover:border-[#3F3F46]'
                         }`}
                       >
                         <Users className="w-6 h-6" />
                         <div className="text-left">
                           <div className="font-medium">{t.typeProvider}</div>
-                          <div className="text-xs text-gray-500">{t.typeProviderDesc}</div>
+                          <div className="text-xs text-[#71717A]">{t.typeProviderDesc}</div>
                         </div>
                       </button>
                     </div>
@@ -990,7 +990,7 @@ export default function PublierLieuPage() {
                 ) : null}
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-[#52525B] mb-2">
                     {formData.establishmentType === 'PROVIDER' ? t.nameLabelProvider : formData.establishmentType === 'HOTEL' ? t.nameLabelHotel : formData.establishmentType === 'RESTAURANT' ? t.nameLabelRestaurant : t.nameLabelPlace} <span className="text-red-400">*</span>
                   </label>
                   <input
@@ -998,26 +998,26 @@ export default function PublierLieuPage() {
                     value={formData.name}
                     onChange={(e) => updateField('name', e.target.value)}
                     placeholder={formData.establishmentType === 'PROVIDER' ? t.namePlaceholderProvider : formData.establishmentType === 'HOTEL' ? t.namePlaceholderHotel : formData.establishmentType === 'RESTAURANT' ? t.namePlaceholderRestaurant : t.namePlaceholderPlace}
-                    className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                    className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    {t.shortDescriptionLabel} <span className="text-gray-600">{t.shortDescriptionLimit}</span>
+                  <label className="block text-sm font-medium text-[#52525B] mb-2">
+                    {t.shortDescriptionLabel} <span className="text-[#A1A1AA]">{t.shortDescriptionLimit}</span>
                   </label>
                   <input
                     type="text"
                     value={formData.shortDescription}
                     onChange={(e) => updateField('shortDescription', e.target.value.slice(0, 200))}
                     placeholder={t.shortDescriptionPlaceholder}
-                    className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                    className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                   />
-                  <p className="text-xs text-gray-600 mt-1">{formData.shortDescription.length}/200</p>
+                  <p className="text-xs text-[#A1A1AA] mt-1">{formData.shortDescription.length}/200</p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-[#52525B] mb-2">
                     {t.fullDescriptionLabel} <span className="text-red-400">*</span>
                   </label>
                   <textarea
@@ -1025,14 +1025,14 @@ export default function PublierLieuPage() {
                     onChange={(e) => updateField('description', e.target.value)}
                     placeholder={formData.establishmentType === 'PROVIDER' ? t.fullDescriptionPlaceholderProvider : formData.establishmentType === 'HOTEL' ? t.fullDescriptionPlaceholderHotel : formData.establishmentType === 'RESTAURANT' ? t.fullDescriptionPlaceholderRestaurant : t.fullDescriptionPlaceholderPlace}
                     rows={5}
-                    className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors resize-none"
+                    className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors resize-none"
                   />
                 </div>
 
                 {/* Attraction Type (only for ATTRACTION) */}
                 {formData.establishmentType === 'ATTRACTION' && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-[#52525B] mb-2">
                       {t.attractionTypeLabel} <span className="text-red-400">*</span>
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -1043,8 +1043,8 @@ export default function PublierLieuPage() {
                           onClick={() => updateField('attractionType', type.value)}
                           className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                             formData.attractionType === type.value
-                              ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                              : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:text-white hover:border-gray-600'
+                              ? 'bg-[#FF6B35] text-white'
+                              : 'bg-[#0A0A0F] border border-[#27272A] text-[#71717A] hover:text-white hover:border-[#3F3F46]'
                           }`}
                         >
                           {type.label}
@@ -1058,7 +1058,7 @@ export default function PublierLieuPage() {
                 {/* Hotel Type (only for HOTEL) */}
                 {formData.establishmentType === 'HOTEL' && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-[#52525B] mb-2">
                       {t.hotelTypeLabel} <span className="text-red-400">*</span>
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -1070,7 +1070,7 @@ export default function PublierLieuPage() {
                           className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                             formData.hotelType === type.value
                               ? 'bg-gradient-to-r from-purple-500 to-violet-500 text-white'
-                              : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:text-white hover:border-gray-600'
+                              : 'bg-[#0A0A0F] border border-[#27272A] text-[#71717A] hover:text-white hover:border-[#3F3F46]'
                           }`}
                         >
                           {tt[type.tKey]}
@@ -1084,7 +1084,7 @@ export default function PublierLieuPage() {
                 {/* Restaurant Category (only for RESTAURANT) */}
                 {formData.establishmentType === 'RESTAURANT' && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-[#52525B] mb-2">
                       {t.restaurantCategoryLabel} <span className="text-red-400">*</span>
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -1096,7 +1096,7 @@ export default function PublierLieuPage() {
                           className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                             formData.restaurantCategory === cat.value
                               ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-white'
-                              : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:text-white hover:border-gray-600'
+                              : 'bg-[#0A0A0F] border border-[#27272A] text-[#71717A] hover:text-white hover:border-[#3F3F46]'
                           }`}
                         >
                           {tt[cat.tKey]}
@@ -1110,7 +1110,7 @@ export default function PublierLieuPage() {
                 {/* Service Type (only for PROVIDER) */}
                 {formData.establishmentType === 'PROVIDER' && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-[#52525B] mb-2">
                       {t.serviceTypeLabel} <span className="text-red-400">*</span>
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -1122,7 +1122,7 @@ export default function PublierLieuPage() {
                           className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                             formData.serviceType === type.value
                               ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white'
-                              : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:text-white hover:border-gray-600'
+                              : 'bg-[#0A0A0F] border border-[#27272A] text-[#71717A] hover:text-white hover:border-[#3F3F46]'
                           }`}
                         >
                           {tt[type.tKey]}
@@ -1140,13 +1140,13 @@ export default function PublierLieuPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="text-xl font-bold mb-1">{t.step2Title}</h2>
-                  <p className="text-gray-500 text-sm">{t.step2Subtitle}</p>
+                  <p className="text-[#71717A] text-sm">{t.step2Subtitle}</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {/* Province */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-[#52525B] mb-2">
                       {t.provinceLabel} <span className="text-red-400">*</span>
                     </label>
                     <select
@@ -1156,7 +1156,7 @@ export default function PublierLieuPage() {
                         updateField('region', '');
                         updateField('city', '');
                       }}
-                      className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white focus:outline-none focus:border-orange-500 transition-colors"
+                      className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white focus:outline-none focus:border-[#FF6B35] transition-colors"
                     >
                       <option value="">{t.selectPlaceholder}</option>
                       {PROVINCES.map((p) => (
@@ -1169,7 +1169,7 @@ export default function PublierLieuPage() {
 
                   {/* Region */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-[#52525B] mb-2">
                       {t.regionLabel} <span className="text-red-400">*</span>
                     </label>
                     {formData.province === 'Autre' ? (
@@ -1178,7 +1178,7 @@ export default function PublierLieuPage() {
                         value={formData.customOther.region || ''}
                         onChange={(e) => updateCustomOther('region', e.target.value)}
                         placeholder={t.otherRegion}
-                        className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                        className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                       />
                     ) : (
                       <>
@@ -1189,7 +1189,7 @@ export default function PublierLieuPage() {
                             updateField('city', '');
                           }}
                           disabled={!formData.province}
-                          className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white focus:outline-none focus:border-orange-500 transition-colors disabled:opacity-50"
+                          className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white focus:outline-none focus:border-[#FF6B35] transition-colors disabled:opacity-50"
                         >
                           <option value="">{t.selectPlaceholder}</option>
                           {availableRegions.map((r) => (
@@ -1204,7 +1204,7 @@ export default function PublierLieuPage() {
 
                   {/* Ville */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-[#52525B] mb-2">
                       {t.cityLabel} <span className="text-red-400">*</span>
                     </label>
                     {formData.province === 'Autre' || formData.region === 'Autre' ? (
@@ -1213,7 +1213,7 @@ export default function PublierLieuPage() {
                         value={formData.customOther.city || ''}
                         onChange={(e) => updateCustomOther('city', e.target.value)}
                         placeholder={t.otherCity}
-                        className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                        className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                       />
                     ) : (
                       <>
@@ -1221,7 +1221,7 @@ export default function PublierLieuPage() {
                           value={formData.city}
                           onChange={(e) => updateField('city', e.target.value)}
                           disabled={!formData.region}
-                          className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white focus:outline-none focus:border-orange-500 transition-colors disabled:opacity-50"
+                          className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white focus:outline-none focus:border-[#FF6B35] transition-colors disabled:opacity-50"
                         >
                           <option value="">{t.selectPlaceholder}</option>
                           {availableCities.map((c) => (
@@ -1236,23 +1236,23 @@ export default function PublierLieuPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    {t.districtLabel} <span className="text-gray-600">{t.districtOptional}</span>
+                  <label className="block text-sm font-medium text-[#52525B] mb-2">
+                    {t.districtLabel} <span className="text-[#A1A1AA]">{t.districtOptional}</span>
                   </label>
                   <input
                     type="text"
                     value={formData.district}
                     onChange={(e) => updateField('district', e.target.value)}
                     placeholder={t.districtPlaceholder}
-                    className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                    className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-3">
-                    {t.gpsPositionLabel} <span className="text-gray-600">{t.gpsClickHint}</span>
+                  <label className="block text-sm font-medium text-[#52525B] mb-3">
+                    {t.gpsPositionLabel} <span className="text-[#A1A1AA]">{t.gpsClickHint}</span>
                   </label>
-                  <div className="rounded-xl overflow-hidden border border-[#1e1e2e] min-h-[300px] sm:min-h-[400px]">
+                  <div className="rounded-xl overflow-hidden border border-[#27272A] min-h-[300px] sm:min-h-[400px]">
                     <MapLocationPicker
                       onLocationSelect={handleLocationSelect}
                       initialLat={formData.latitude ? parseFloat(formData.latitude) : undefined}
@@ -1275,7 +1275,7 @@ export default function PublierLieuPage() {
                   <h2 className="text-xl font-bold mb-1">
                     {formData.establishmentType === 'PROVIDER' ? t.step3TitleProvider : formData.establishmentType === 'HOTEL' ? t.step3TitleHotel : formData.establishmentType === 'RESTAURANT' ? t.step3TitleRestaurant : t.step3TitleAttraction}
                   </h2>
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-[#71717A] text-sm">
                     {formData.establishmentType === 'PROVIDER' ? t.step3SubtitleProvider : formData.establishmentType === 'HOTEL' ? t.step3SubtitleHotel : formData.establishmentType === 'RESTAURANT' ? t.step3SubtitleRestaurant : t.step3SubtitleAttraction}
                   </p>
                 </div>
@@ -1285,7 +1285,7 @@ export default function PublierLieuPage() {
                   <>
                     {/* Languages */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">{t.languagesLabel}</label>
+                      <label className="block text-sm font-medium text-[#52525B] mb-2">{t.languagesLabel}</label>
                       <div className="flex flex-wrap gap-2">
                         {PROVIDER_LANGUAGE_VALUES.map((lang) => (
                           <button
@@ -1300,7 +1300,7 @@ export default function PublierLieuPage() {
                             className={`px-3 py-2 rounded-lg text-sm transition-all ${
                               formData.languages.includes(lang.value)
                                 ? 'bg-cyan-500/20 border border-cyan-500/50 text-cyan-400'
-                                : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:border-gray-600'
+                                : 'bg-[#0A0A0F] border border-[#27272A] text-[#71717A] hover:border-[#3F3F46]'
                             }`}
                           >
                             {tt[lang.tKey]}
@@ -1312,44 +1312,44 @@ export default function PublierLieuPage() {
 
                     {/* Experience */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">{t.experienceLabel}</label>
+                      <label className="block text-sm font-medium text-[#52525B] mb-2">{t.experienceLabel}</label>
                       <input
                         type="text"
                         value={formData.experience}
                         onChange={(e) => updateField('experience', e.target.value)}
                         placeholder={t.experiencePlaceholder}
-                        className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                        className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                       />
                     </div>
 
                     {/* Pricing */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.priceFromLabel}</label>
+                        <label className="block text-sm font-medium text-[#52525B] mb-2">{t.priceFromLabel}</label>
                         <input
                           type="number"
                           value={formData.priceFrom}
                           onChange={(e) => updateField('priceFrom', e.target.value)}
                           placeholder={t.priceFromPlaceholder}
-                          className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                          className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.priceToLabel}</label>
+                        <label className="block text-sm font-medium text-[#52525B] mb-2">{t.priceToLabel}</label>
                         <input
                           type="number"
                           value={formData.priceTo}
                           onChange={(e) => updateField('priceTo', e.target.value)}
                           placeholder={t.priceToPlaceholder}
-                          className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                          className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.priceUnitLabel}</label>
+                        <label className="block text-sm font-medium text-[#52525B] mb-2">{t.priceUnitLabel}</label>
                         <select
                           value={formData.priceUnit}
                           onChange={(e) => updateField('priceUnit', e.target.value)}
-                          className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white focus:outline-none focus:border-orange-500 transition-colors"
+                          className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white focus:outline-none focus:border-[#FF6B35] transition-colors"
                         >
                           <option value="">{t.selectPlaceholder}</option>
                           {PRICE_UNIT_VALUES.map((u) => (
@@ -1364,11 +1364,11 @@ export default function PublierLieuPage() {
                     {(formData.serviceType === 'DRIVER' || formData.serviceType === 'CAR_RENTAL' || formData.serviceType === 'TRANSFER') && (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">{t.vehicleTypeLabel}</label>
+                          <label className="block text-sm font-medium text-[#52525B] mb-2">{t.vehicleTypeLabel}</label>
                           <select
                             value={formData.vehicleType}
                             onChange={(e) => updateField('vehicleType', e.target.value)}
-                            className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white focus:outline-none focus:border-orange-500 transition-colors"
+                            className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white focus:outline-none focus:border-[#FF6B35] transition-colors"
                           >
                             <option value="">{t.selectPlaceholder}</option>
                             {VEHICLE_TYPE_VALUES.map((v) => (
@@ -1378,7 +1378,7 @@ export default function PublierLieuPage() {
                           {renderOtherInput('vehicleType', formData.vehicleType === 'autre', t.otherVehicleType)}
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">{t.vehicleCapacityLabel}</label>
+                          <label className="block text-sm font-medium text-[#52525B] mb-2">{t.vehicleCapacityLabel}</label>
                           <input
                             type="number"
                             value={formData.vehicleCapacity}
@@ -1386,7 +1386,7 @@ export default function PublierLieuPage() {
                             placeholder={t.vehicleCapacityPlaceholder}
                             min="1"
                             max="50"
-                            className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                            className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                           />
                         </div>
                       </div>
@@ -1395,23 +1395,23 @@ export default function PublierLieuPage() {
                     {/* License / Operating zone */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.licenseLabel}</label>
+                        <label className="block text-sm font-medium text-[#52525B] mb-2">{t.licenseLabel}</label>
                         <input
                           type="text"
                           value={formData.licenseNumber}
                           onChange={(e) => updateField('licenseNumber', e.target.value)}
                           placeholder={t.licenseOptional}
-                          className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                          className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.operatingZoneLabel}</label>
+                        <label className="block text-sm font-medium text-[#52525B] mb-2">{t.operatingZoneLabel}</label>
                         <input
                           type="text"
                           value={formData.operatingZone}
                           onChange={(e) => updateField('operatingZone', e.target.value)}
                           placeholder={t.operatingZonePlaceholder}
-                          className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                          className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                         />
                       </div>
                     </div>
@@ -1422,17 +1422,17 @@ export default function PublierLieuPage() {
                 {formData.establishmentType === 'ATTRACTION' && (
                   <>
                     {/* Free toggle */}
-                    <div className="flex items-center justify-between p-4 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl">
+                    <div className="flex items-center justify-between p-4 bg-[#0A0A0F] border border-[#27272A] rounded-xl">
                       <span className="text-sm font-medium">{t.freeAccess}</span>
                       <button
                         type="button"
                         onClick={() => updateField('isFree', !formData.isFree)}
                         className={`w-12 h-6 rounded-full transition-colors ${
-                          formData.isFree ? 'bg-emerald-500' : 'bg-gray-700'
+                          formData.isFree ? 'bg-emerald-500' : 'bg-[#3F3F46]'
                         }`}
                       >
                         <div
-                          className={`w-5 h-5 bg-white rounded-full transition-transform ${
+                          className={`w-5 h-5 bg-[#111114] rounded-full transition-transform ${
                             formData.isFree ? 'translate-x-6' : 'translate-x-0.5'
                           }`}
                         />
@@ -1443,23 +1443,23 @@ export default function PublierLieuPage() {
                     {!formData.isFree && (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">{t.localFeeLabel}</label>
+                          <label className="block text-sm font-medium text-[#52525B] mb-2">{t.localFeeLabel}</label>
                           <input
                             type="number"
                             value={formData.entryFeeLocal}
                             onChange={(e) => updateField('entryFeeLocal', e.target.value)}
                             placeholder={t.localFeePlaceholder}
-                            className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                            className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-300 mb-2">{t.foreignFeeLabel}</label>
+                          <label className="block text-sm font-medium text-[#52525B] mb-2">{t.foreignFeeLabel}</label>
                           <input
                             type="number"
                             value={formData.entryFeeForeign}
                             onChange={(e) => updateField('entryFeeForeign', e.target.value)}
                             placeholder={t.foreignFeePlaceholder}
-                            className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                            className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                           />
                         </div>
                       </div>
@@ -1468,33 +1468,33 @@ export default function PublierLieuPage() {
                     {/* Visit info */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.visitDurationLabel}</label>
+                        <label className="block text-sm font-medium text-[#52525B] mb-2">{t.visitDurationLabel}</label>
                         <input
                           type="text"
                           value={formData.visitDuration}
                           onChange={(e) => updateField('visitDuration', e.target.value)}
                           placeholder={t.visitDurationPlaceholder}
-                          className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                          className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.bestTimeLabel}</label>
+                        <label className="block text-sm font-medium text-[#52525B] mb-2">{t.bestTimeLabel}</label>
                         <input
                           type="text"
                           value={formData.bestTimeToVisit}
                           onChange={(e) => updateField('bestTimeToVisit', e.target.value)}
                           placeholder={t.bestTimePlaceholder}
-                          className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                          className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">{t.bestSeasonLabel}</label>
+                      <label className="block text-sm font-medium text-[#52525B] mb-2">{t.bestSeasonLabel}</label>
                       <select
                         value={formData.bestSeason}
                         onChange={(e) => updateField('bestSeason', e.target.value)}
-                        className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white focus:outline-none focus:border-orange-500 transition-colors"
+                        className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white focus:outline-none focus:border-[#FF6B35] transition-colors"
                       >
                         <option value="">{t.selectPlaceholder}</option>
                         {BEST_SEASON_VALUES.map((s) => (
@@ -1506,7 +1506,7 @@ export default function PublierLieuPage() {
 
                     {/* Features checkboxes */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-3">{t.amenitiesServicesLabel}</label>
+                      <label className="block text-sm font-medium text-[#52525B] mb-3">{t.amenitiesServicesLabel}</label>
                       <div className="grid grid-cols-2 gap-3">
                         {[
                           { key: 'isAccessible' as const, label: t.featAccessible },
@@ -1521,12 +1521,12 @@ export default function PublierLieuPage() {
                             className={`flex items-center gap-3 p-3 rounded-xl transition-all ${
                               formData[feat.key]
                                 ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-400'
-                                : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-500'
+                                : 'bg-[#0A0A0F] border border-[#27272A] text-[#71717A]'
                             }`}
                           >
                             <div
                               className={`w-5 h-5 rounded-md flex items-center justify-center ${
-                                formData[feat.key] ? 'bg-emerald-500' : 'bg-[#1e1e2e]'
+                                formData[feat.key] ? 'bg-emerald-500' : 'bg-[#1A1A1F]'
                               }`}
                             >
                               {formData[feat.key] && <Check className="w-3 h-3 text-white" />}
@@ -1539,7 +1539,7 @@ export default function PublierLieuPage() {
 
                     {/* Highlights */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">{t.highlightsLabel}</label>
+                      <label className="block text-sm font-medium text-[#52525B] mb-2">{t.highlightsLabel}</label>
                       <div className="flex gap-2 mb-2">
                         <input
                           type="text"
@@ -1547,12 +1547,12 @@ export default function PublierLieuPage() {
                           onChange={(e) => setHighlightInput(e.target.value)}
                           onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addHighlight())}
                           placeholder={t.highlightsPlaceholder}
-                          className="flex-1 px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                          className="flex-1 px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                         />
                         <button
                           type="button"
                           onClick={addHighlight}
-                          className="px-4 py-3 bg-[#1e1e2e] rounded-xl text-gray-400 hover:text-white transition-colors"
+                          className="px-4 py-3 bg-[#1A1A1F] rounded-xl text-[#71717A] hover:text-white transition-colors"
                         >
                           <Plus className="w-5 h-5" />
                         </button>
@@ -1562,11 +1562,11 @@ export default function PublierLieuPage() {
                           {formData.highlights.map((h, i) => (
                             <span
                               key={i}
-                              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1e1e2e] rounded-lg text-sm text-gray-300"
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A1A1F] rounded-lg text-sm text-[#52525B]"
                             >
                               {h}
                               <button type="button" onClick={() => removeHighlight(i)}>
-                                <X className="w-3.5 h-3.5 text-gray-500 hover:text-red-400" />
+                                <X className="w-3.5 h-3.5 text-[#71717A] hover:text-red-400" />
                               </button>
                             </span>
                           ))}
@@ -1581,7 +1581,7 @@ export default function PublierLieuPage() {
                   <>
                     {/* Star Rating */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">{t.starsClassLabel}</label>
+                      <label className="block text-sm font-medium text-[#52525B] mb-2">{t.starsClassLabel}</label>
                       <div className="flex gap-2">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <button
@@ -1591,21 +1591,21 @@ export default function PublierLieuPage() {
                             className={`p-3 rounded-xl transition-all ${
                               star <= formData.starRating
                                 ? 'bg-purple-500/20 border border-purple-500/50 text-yellow-400'
-                                : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-600 hover:border-gray-600'
+                                : 'bg-[#0A0A0F] border border-[#27272A] text-[#A1A1AA] hover:border-[#3F3F46]'
                             }`}
                           >
                             <Star className={`w-5 h-5 ${star <= formData.starRating ? 'fill-yellow-400' : ''}`} />
                           </button>
                         ))}
                         {formData.starRating > 0 && (
-                          <span className="flex items-center text-sm text-gray-400 ml-2">{formData.starRating} {formData.starRating > 1 ? t.starsSuffixPlural : t.starsSuffixSingle}</span>
+                          <span className="flex items-center text-sm text-[#71717A] ml-2">{formData.starRating} {formData.starRating > 1 ? t.starsSuffixPlural : t.starsSuffixSingle}</span>
                         )}
                       </div>
                     </div>
 
                     {/* Amenities */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-3">{t.hotelAmenitiesLabel}</label>
+                      <label className="block text-sm font-medium text-[#52525B] mb-3">{t.hotelAmenitiesLabel}</label>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         {HOTEL_AMENITY_VALUES.map((amenity) => (
                           <button
@@ -1620,12 +1620,12 @@ export default function PublierLieuPage() {
                             className={`flex items-center gap-2 p-3 rounded-xl transition-all ${
                               formData.hotelAmenities.includes(amenity.value)
                                 ? 'bg-purple-500/10 border border-purple-500/30 text-purple-400'
-                                : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-500 hover:border-gray-600'
+                                : 'bg-[#0A0A0F] border border-[#27272A] text-[#71717A] hover:border-[#3F3F46]'
                             }`}
                           >
                             <div
                               className={`w-5 h-5 rounded-md flex items-center justify-center ${
-                                formData.hotelAmenities.includes(amenity.value) ? 'bg-purple-500' : 'bg-[#1e1e2e]'
+                                formData.hotelAmenities.includes(amenity.value) ? 'bg-purple-500' : 'bg-[#1A1A1F]'
                               }`}
                             >
                               {formData.hotelAmenities.includes(amenity.value) && <Check className="w-3 h-3 text-white" />}
@@ -1640,7 +1640,7 @@ export default function PublierLieuPage() {
                     {/* Check-in / Check-out */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-[#52525B] mb-2">
                           <Clock className="w-4 h-4 inline mr-1" />
                           {t.checkInTimeLabel}
                         </label>
@@ -1648,11 +1648,11 @@ export default function PublierLieuPage() {
                           type="time"
                           value={formData.checkInTime}
                           onChange={(e) => updateField('checkInTime', e.target.value)}
-                          className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white focus:outline-none focus:border-purple-500 transition-colors"
+                          className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white focus:outline-none focus:border-purple-500 transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-[#52525B] mb-2">
                           <Clock className="w-4 h-4 inline mr-1" />
                           {t.checkOutTimeLabel}
                         </label>
@@ -1660,7 +1660,7 @@ export default function PublierLieuPage() {
                           type="time"
                           value={formData.checkOutTime}
                           onChange={(e) => updateField('checkOutTime', e.target.value)}
-                          className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white focus:outline-none focus:border-purple-500 transition-colors"
+                          className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white focus:outline-none focus:border-purple-500 transition-colors"
                         />
                       </div>
                     </div>
@@ -1668,7 +1668,7 @@ export default function PublierLieuPage() {
                     {/* Room Types */}
                     <div>
                       <div className="flex items-center justify-between mb-3">
-                        <label className="block text-sm font-medium text-gray-300">{t.roomTypesLabel}</label>
+                        <label className="block text-sm font-medium text-[#52525B]">{t.roomTypesLabel}</label>
                         <button
                           type="button"
                           onClick={() => updateField('roomTypes', [...formData.roomTypes, { name: '', capacity: '2', pricePerNight: '' }])}
@@ -1679,20 +1679,20 @@ export default function PublierLieuPage() {
                         </button>
                       </div>
                       {formData.roomTypes.length === 0 && (
-                        <p className="text-sm text-gray-600 italic">{t.noRoomsHint}</p>
+                        <p className="text-sm text-[#A1A1AA] italic">{t.noRoomsHint}</p>
                       )}
                       <div className="space-y-3">
                         {formData.roomTypes.map((room, i) => (
-                          <div key={i} className="p-4 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl space-y-3">
+                          <div key={i} className="p-4 bg-[#0A0A0F] border border-[#27272A] rounded-xl space-y-3">
                             <div className="flex items-center justify-between">
-                              <span className="text-sm font-medium text-gray-400">{t.roomLabel} {i + 1}</span>
+                              <span className="text-sm font-medium text-[#71717A]">{t.roomLabel} {i + 1}</span>
                               <button
                                 type="button"
                                 onClick={() => {
                                   const updated = formData.roomTypes.filter((_, idx) => idx !== i);
                                   updateField('roomTypes', updated);
                                 }}
-                                className="p-1.5 text-gray-500 hover:text-red-400 transition-colors"
+                                className="p-1.5 text-[#71717A] hover:text-red-400 transition-colors"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </button>
@@ -1707,7 +1707,7 @@ export default function PublierLieuPage() {
                                   updateField('roomTypes', updated);
                                 }}
                                 placeholder={t.roomNamePlaceholder}
-                                className="px-3 py-2 bg-[#070710] border border-[#1e1e2e] rounded-lg text-white text-sm placeholder:text-gray-600 focus:outline-none focus:border-purple-500"
+                                className="px-3 py-2 bg-[#0A0A0F] border border-[#27272A] rounded-lg text-white text-sm placeholder:text-[#A1A1AA] focus:outline-none focus:border-purple-500"
                               />
                               <input
                                 type="number"
@@ -1720,7 +1720,7 @@ export default function PublierLieuPage() {
                                 placeholder={t.roomCapacityPlaceholder}
                                 min="1"
                                 max="20"
-                                className="px-3 py-2 bg-[#070710] border border-[#1e1e2e] rounded-lg text-white text-sm placeholder:text-gray-600 focus:outline-none focus:border-purple-500"
+                                className="px-3 py-2 bg-[#0A0A0F] border border-[#27272A] rounded-lg text-white text-sm placeholder:text-[#A1A1AA] focus:outline-none focus:border-purple-500"
                               />
                               <input
                                 type="number"
@@ -1731,7 +1731,7 @@ export default function PublierLieuPage() {
                                   updateField('roomTypes', updated);
                                 }}
                                 placeholder={t.roomPricePlaceholder}
-                                className="px-3 py-2 bg-[#070710] border border-[#1e1e2e] rounded-lg text-white text-sm placeholder:text-gray-600 focus:outline-none focus:border-purple-500"
+                                className="px-3 py-2 bg-[#0A0A0F] border border-[#27272A] rounded-lg text-white text-sm placeholder:text-[#A1A1AA] focus:outline-none focus:border-purple-500"
                               />
                             </div>
                           </div>
@@ -1746,7 +1746,7 @@ export default function PublierLieuPage() {
                   <>
                     {/* Cuisine Types */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">{t.cuisineLabel}</label>
+                      <label className="block text-sm font-medium text-[#52525B] mb-2">{t.cuisineLabel}</label>
                       <div className="flex flex-wrap gap-2">
                         {CUISINE_TYPE_VALUES.map((cuisine) => (
                           <button
@@ -1761,7 +1761,7 @@ export default function PublierLieuPage() {
                             className={`px-3 py-2 rounded-lg text-sm transition-all ${
                               formData.cuisineTypes.includes(cuisine.value)
                                 ? 'bg-amber-500/20 border border-amber-500/50 text-amber-400'
-                                : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:border-gray-600'
+                                : 'bg-[#0A0A0F] border border-[#27272A] text-[#71717A] hover:border-[#3F3F46]'
                             }`}
                           >
                             {tt[cuisine.tKey]}
@@ -1773,7 +1773,7 @@ export default function PublierLieuPage() {
 
                     {/* Price Range */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-[#52525B] mb-2">
                         {t.priceRangeLabel} <span className="text-red-400">*</span>
                       </label>
                       <div className="grid grid-cols-2 gap-2">
@@ -1785,7 +1785,7 @@ export default function PublierLieuPage() {
                             className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                               formData.priceRange === range.value
                                 ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-white'
-                                : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-400 hover:text-white hover:border-gray-600'
+                                : 'bg-[#0A0A0F] border border-[#27272A] text-[#71717A] hover:text-white hover:border-[#3F3F46]'
                             }`}
                           >
                             {tt[range.tKey]}
@@ -1798,30 +1798,30 @@ export default function PublierLieuPage() {
                     {/* Average prices */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.avgMainCourseLabel}</label>
+                        <label className="block text-sm font-medium text-[#52525B] mb-2">{t.avgMainCourseLabel}</label>
                         <input
                           type="number"
                           value={formData.avgMainCourse}
                           onChange={(e) => updateField('avgMainCourse', e.target.value)}
                           placeholder={t.avgMainCoursePlaceholder}
-                          className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-amber-500 transition-colors"
+                          className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-amber-500 transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">{t.avgBeerLabel}</label>
+                        <label className="block text-sm font-medium text-[#52525B] mb-2">{t.avgBeerLabel}</label>
                         <input
                           type="number"
                           value={formData.avgBeer}
                           onChange={(e) => updateField('avgBeer', e.target.value)}
                           placeholder={t.avgBeerPlaceholder}
-                          className="w-full px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-amber-500 transition-colors"
+                          className="w-full px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-amber-500 transition-colors"
                         />
                       </div>
                     </div>
 
                     {/* Services */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-3">{t.servicesLabel}</label>
+                      <label className="block text-sm font-medium text-[#52525B] mb-3">{t.servicesLabel}</label>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                         {([
                           { key: 'hasDelivery' as const, label: t.svcDelivery },
@@ -1838,12 +1838,12 @@ export default function PublierLieuPage() {
                             className={`flex items-center gap-2 p-3 rounded-xl transition-all ${
                               formData[feat.key]
                                 ? 'bg-amber-500/10 border border-amber-500/30 text-amber-400'
-                                : 'bg-[#0c0c16] border border-[#1e1e2e] text-gray-500 hover:border-gray-600'
+                                : 'bg-[#0A0A0F] border border-[#27272A] text-[#71717A] hover:border-[#3F3F46]'
                             }`}
                           >
                             <div
                               className={`w-5 h-5 rounded-md flex items-center justify-center ${
-                                formData[feat.key] ? 'bg-amber-500' : 'bg-[#1e1e2e]'
+                                formData[feat.key] ? 'bg-amber-500' : 'bg-[#1A1A1F]'
                               }`}
                             >
                               {formData[feat.key] && <Check className="w-3 h-3 text-white" />}
@@ -1856,7 +1856,7 @@ export default function PublierLieuPage() {
 
                     {/* Specialties */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">{t.specialtiesLabel}</label>
+                      <label className="block text-sm font-medium text-[#52525B] mb-2">{t.specialtiesLabel}</label>
                       <div className="flex gap-2 mb-2">
                         <input
                           type="text"
@@ -1872,7 +1872,7 @@ export default function PublierLieuPage() {
                             }
                           }}
                           placeholder={t.specialtiesPlaceholder}
-                          className="flex-1 px-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-amber-500 transition-colors"
+                          className="flex-1 px-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-amber-500 transition-colors"
                         />
                         <button
                           type="button"
@@ -1882,7 +1882,7 @@ export default function PublierLieuPage() {
                               setHighlightInput('');
                             }
                           }}
-                          className="px-4 py-3 bg-[#1e1e2e] rounded-xl text-gray-400 hover:text-white transition-colors"
+                          className="px-4 py-3 bg-[#1A1A1F] rounded-xl text-[#71717A] hover:text-white transition-colors"
                         >
                           <Plus className="w-5 h-5" />
                         </button>
@@ -1892,14 +1892,14 @@ export default function PublierLieuPage() {
                           {formData.specialties.map((s, i) => (
                             <span
                               key={i}
-                              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1e1e2e] rounded-lg text-sm text-gray-300"
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A1A1F] rounded-lg text-sm text-[#52525B]"
                             >
                               {s}
                               <button
                                 type="button"
                                 onClick={() => updateField('specialties', formData.specialties.filter((_, idx) => idx !== i))}
                               >
-                                <X className="w-3.5 h-3.5 text-gray-500 hover:text-red-400" />
+                                <X className="w-3.5 h-3.5 text-[#71717A] hover:text-red-400" />
                               </button>
                             </span>
                           ))}
@@ -1916,13 +1916,13 @@ export default function PublierLieuPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="text-xl font-bold mb-1">{t.step4Title}</h2>
-                  <p className="text-gray-500 text-sm">{t.step4Subtitle}</p>
+                  <p className="text-[#71717A] text-sm">{t.step4Subtitle}</p>
                 </div>
 
                 {/* Photo upload - Drag & Drop */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-3">
-                    {t.photosLabel} <span className="text-gray-600">{t.photosHint}</span>
+                  <label className="block text-sm font-medium text-[#52525B] mb-3">
+                    {t.photosLabel} <span className="text-[#A1A1AA]">{t.photosHint}</span>
                   </label>
 
                   {/* Drag & Drop zone */}
@@ -1933,21 +1933,21 @@ export default function PublierLieuPage() {
                       onDrop={handlePhotoDrop}
                       className={`relative mb-4 rounded-xl border-2 border-dashed transition-all duration-200 ${
                         dragOver
-                          ? 'border-orange-500 bg-orange-500/10 scale-[1.01]'
-                          : 'border-[#2a2a3e] hover:border-orange-500/40'
+                          ? 'border-[#FF6B35] bg-[#FF6B35]/10 scale-[1.01]'
+                          : 'border-[#3F3F46] hover:border-[#FF6B35]/40'
                       }`}
                     >
                       <label className="flex flex-col items-center justify-center py-8 cursor-pointer">
                         <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-3 transition-colors ${
-                          dragOver ? 'bg-orange-500/20' : 'bg-[#1e1e2e]'
+                          dragOver ? 'bg-[#FF6B35]/20' : 'bg-[#1A1A1F]'
                         }`}>
-                          <Camera className={`w-7 h-7 ${dragOver ? 'text-orange-400' : 'text-gray-500'}`} />
+                          <Camera className={`w-7 h-7 ${dragOver ? 'text-[#FDBA74]' : 'text-[#71717A]'}`} />
                         </div>
-                        <p className="text-sm font-medium text-gray-300 mb-1">
+                        <p className="text-sm font-medium text-[#52525B] mb-1">
                           {dragOver ? t.dropHere : t.dragDropHint}
                         </p>
-                        <p className="text-xs text-gray-600 mb-3">{t.orClickHint}</p>
-                        <span className="px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-sm font-medium rounded-lg">
+                        <p className="text-xs text-[#A1A1AA] mb-3">{t.orClickHint}</p>
+                        <span className="px-4 py-2 bg-[#FF6B35] text-white text-sm font-medium rounded-lg">
                           {t.choosePhotos}
                         </span>
                         <input
@@ -1968,14 +1968,14 @@ export default function PublierLieuPage() {
                         <div
                           key={`${url}-${i}`}
                           className={`relative aspect-video rounded-xl overflow-hidden border-2 transition-all cursor-pointer group ${
-                            i === 0 ? 'border-orange-500 ring-2 ring-orange-500/20' : 'border-[#1e1e2e] hover:border-orange-500/40'
+                            i === 0 ? 'border-[#FF6B35] ring-2 ring-orange-500/20' : 'border-[#27272A] hover:border-[#FF6B35]/40'
                           }`}
                           onClick={() => setCoverPhoto(i)}
                         >
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img src={url} alt={`Photo ${i + 1}`} className="w-full h-full object-cover" />
                           {i === 0 && (
-                            <span className="absolute top-2 left-2 px-2.5 py-1 bg-orange-500 text-white text-[10px] font-bold rounded-full shadow-lg">
+                            <span className="absolute top-2 left-2 px-2.5 py-1 bg-[#FF6B35] text-white text-[10px] font-bold rounded-full shadow-lg">
                               {t.coverBadge}
                             </span>
                           )}
@@ -1998,7 +1998,7 @@ export default function PublierLieuPage() {
 
                   {/* Upload progress */}
                   {uploadProgress && (
-                    <div className="flex items-center gap-2 text-sm text-orange-400 mb-3">
+                    <div className="flex items-center gap-2 text-sm text-[#FDBA74] mb-3">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       {uploadProgress}
                     </div>
@@ -2007,79 +2007,79 @@ export default function PublierLieuPage() {
 
                 {/* Contact fields */}
                 <div className="space-y-4">
-                  <h3 className="text-sm font-medium text-gray-300">{t.contactSectionTitle} <span className="text-gray-600">{t.contactOptional}</span></h3>
+                  <h3 className="text-sm font-medium text-[#52525B]">{t.contactSectionTitle} <span className="text-[#A1A1AA]">{t.contactOptional}</span></h3>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="relative">
-                      <Phone className="absolute left-3 top-3.5 w-4 h-4 text-gray-600" />
+                      <Phone className="absolute left-3 top-3.5 w-4 h-4 text-[#A1A1AA]" />
                       <input
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => updateField('phone', e.target.value)}
                         placeholder={t.contactPhonePlaceholder}
-                        className="w-full pl-10 pr-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                        className="w-full pl-10 pr-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                       />
                     </div>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-3.5 w-4 h-4 text-gray-600" />
+                      <Mail className="absolute left-3 top-3.5 w-4 h-4 text-[#A1A1AA]" />
                       <input
                         type="email"
                         value={formData.email}
                         onChange={(e) => updateField('email', e.target.value)}
                         placeholder={t.contactEmailPlaceholder}
-                        className="w-full pl-10 pr-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                        className="w-full pl-10 pr-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                       />
                     </div>
                     <div className="relative">
-                      <Globe className="absolute left-3 top-3.5 w-4 h-4 text-gray-600" />
+                      <Globe className="absolute left-3 top-3.5 w-4 h-4 text-[#A1A1AA]" />
                       <input
                         type="url"
                         value={formData.website}
                         onChange={(e) => updateField('website', e.target.value)}
                         placeholder={t.contactWebsitePlaceholder}
-                        className="w-full pl-10 pr-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                        className="w-full pl-10 pr-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                       />
                     </div>
                     <div className="relative">
-                      <svg className="absolute left-3 top-3.5 w-4 h-4 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0022 12.06C22 6.53 17.5 2.04 12 2.04Z"/></svg>
+                      <svg className="absolute left-3 top-3.5 w-4 h-4 text-[#A1A1AA]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0022 12.06C22 6.53 17.5 2.04 12 2.04Z"/></svg>
                       <input
                         type="text"
                         value={formData.facebook}
                         onChange={(e) => updateField('facebook', e.target.value)}
                         placeholder={t.contactFacebookPlaceholder}
-                        className="w-full pl-10 pr-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                        className="w-full pl-10 pr-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                       />
                     </div>
                     <div className="relative">
-                      <Instagram className="absolute left-3 top-3.5 w-4 h-4 text-gray-600" />
+                      <Instagram className="absolute left-3 top-3.5 w-4 h-4 text-[#A1A1AA]" />
                       <input
                         type="text"
                         value={formData.instagram}
                         onChange={(e) => updateField('instagram', e.target.value)}
                         placeholder={t.contactInstagramPlaceholder}
-                        className="w-full pl-10 pr-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                        className="w-full pl-10 pr-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                       />
                     </div>
                     <div className="relative">
-                      <MessageCircle className="absolute left-3 top-3.5 w-4 h-4 text-gray-600" />
+                      <MessageCircle className="absolute left-3 top-3.5 w-4 h-4 text-[#A1A1AA]" />
                       <input
                         type="tel"
                         value={formData.whatsapp}
                         onChange={(e) => updateField('whatsapp', e.target.value)}
                         placeholder={t.contactWhatsappPlaceholder}
-                        className="w-full pl-10 pr-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
+                        className="w-full pl-10 pr-4 py-3 bg-[#0A0A0F] border border-[#27272A] rounded-xl text-white placeholder:text-[#A1A1AA] focus:outline-none focus:border-[#FF6B35] transition-colors"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Recap */}
-                <div className="p-4 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl space-y-2">
-                  <h3 className="text-sm font-bold text-gray-300 mb-3">{t.recapTitle}</h3>
+                <div className="p-4 bg-[#0A0A0F] border border-[#27272A] rounded-xl space-y-2">
+                  <h3 className="text-sm font-bold text-[#52525B] mb-3">{t.recapTitle}</h3>
                   <div className="grid grid-cols-2 gap-2 text-sm">
-                    <p className="text-gray-500">{t.recapName}</p>
+                    <p className="text-[#71717A]">{t.recapName}</p>
                     <p className="text-white">{formData.name || t.recapDash}</p>
-                    <p className="text-gray-500">{t.recapType}</p>
+                    <p className="text-[#71717A]">{t.recapType}</p>
                     <p className="text-white">
                       {(() => {
                         if (formData.establishmentType === 'PROVIDER') {
@@ -2097,36 +2097,36 @@ export default function PublierLieuPage() {
                         return ATTRACTION_TYPES.find((x) => x.value === formData.attractionType)?.label || t.recapDash;
                       })()}
                     </p>
-                    <p className="text-gray-500">{t.recapCity}</p>
+                    <p className="text-[#71717A]">{t.recapCity}</p>
                     <p className="text-white">{formData.city || t.recapDash}</p>
-                    <p className="text-gray-500">{t.recapRegion}</p>
+                    <p className="text-[#71717A]">{t.recapRegion}</p>
                     <p className="text-white">{formData.region || t.recapDash}</p>
                     {formData.establishmentType === 'PROVIDER' ? (
                       <>
-                        <p className="text-gray-500">{t.recapPrice}</p>
+                        <p className="text-[#71717A]">{t.recapPrice}</p>
                         <p className="text-white">{formData.priceFrom ? `${formData.priceFrom} MGA` : t.recapDash}{formData.priceUnit ? ` ${formData.priceUnit}` : ''}</p>
                       </>
                     ) : formData.establishmentType === 'HOTEL' ? (
                       <>
-                        <p className="text-gray-500">{t.recapStars}</p>
+                        <p className="text-[#71717A]">{t.recapStars}</p>
                         <p className="text-white">{formData.starRating ? `${formData.starRating} ${formData.starRating > 1 ? t.starsSuffixPlural : t.starsSuffixSingle}` : t.recapDash}</p>
-                        <p className="text-gray-500">{t.recapRooms}</p>
+                        <p className="text-[#71717A]">{t.recapRooms}</p>
                         <p className="text-white">{formData.roomTypes.length} {t.recapRoomTypes}</p>
                       </>
                     ) : formData.establishmentType === 'RESTAURANT' ? (
                       <>
-                        <p className="text-gray-500">{t.recapRangeLabel}</p>
+                        <p className="text-[#71717A]">{t.recapRangeLabel}</p>
                         <p className="text-white">{(() => { const r = PRICE_RANGE_VALUES.find((x) => x.value === formData.priceRange); return r ? tt[r.tKey] : t.recapDash; })()}</p>
-                        <p className="text-gray-500">{t.recapCuisine}</p>
+                        <p className="text-[#71717A]">{t.recapCuisine}</p>
                         <p className="text-white">{formData.cuisineTypes.length > 0 ? formData.cuisineTypes.map((c) => { const f = CUISINE_TYPE_VALUES.find((x) => x.value === c); return f ? tt[f.tKey] : c; }).join(', ') : t.recapDash}</p>
                       </>
                     ) : (
                       <>
-                        <p className="text-gray-500">{t.recapPrice}</p>
+                        <p className="text-[#71717A]">{t.recapPrice}</p>
                         <p className="text-white">{formData.isFree ? t.recapFree : formData.entryFeeLocal ? `${formData.entryFeeLocal} MGA` : t.recapDash}</p>
                       </>
                     )}
-                    <p className="text-gray-500">{t.recapPhotos}</p>
+                    <p className="text-[#71717A]">{t.recapPhotos}</p>
                     <p className="text-white">{formData.photoUrls.length} {t.recapPhotoCount}</p>
                   </div>
                 </div>
@@ -2136,12 +2136,12 @@ export default function PublierLieuPage() {
         </AnimatePresence>
 
         {/* Navigation buttons */}
-        <div className="flex items-center justify-between mt-8 pt-6 border-t border-[#1e1e2e]">
+        <div className="flex items-center justify-between mt-8 pt-6 border-t border-[#27272A]">
           <button
             type="button"
             onClick={() => setStep((s) => Math.max(1, s - 1))}
             disabled={step === 1}
-            className="flex items-center gap-2 px-5 py-3 text-gray-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center gap-2 px-5 py-3 text-[#71717A] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             {t.previousBtn}
@@ -2152,7 +2152,7 @@ export default function PublierLieuPage() {
               type="button"
               onClick={() => setStep((s) => s + 1)}
               disabled={!canProceed()}
-              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-orange-500/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="flex items-center gap-2 px-6 py-3 bg-[#FF6B35] text-white font-medium rounded-xl hover:shadow-lg hover:shadow-orange-500/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               {t.nextBtn}
               <ArrowRight className="w-4 h-4" />
@@ -2195,14 +2195,14 @@ export default function PublierLieuPage() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-md bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-6"
+              className="w-full max-w-md bg-[#0A0A0F] border border-[#27272A] rounded-2xl p-6"
             >
               <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-orange-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <LogIn className="w-8 h-8 text-orange-400" />
+                <div className="w-16 h-16 bg-[#FF6B35]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <LogIn className="w-8 h-8 text-[#FDBA74]" />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">{t.authRequiredTitle}</h3>
-                <p className="text-gray-400 text-sm">
+                <p className="text-[#71717A] text-sm">
                   {t.authRequiredDesc}
                 </p>
               </div>
@@ -2210,14 +2210,14 @@ export default function PublierLieuPage() {
               <div className="space-y-3">
                 <button
                   onClick={() => saveFormAndRedirect('/login?redirect=/publier-lieu')}
-                  className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all"
+                  className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-[#FF6B35] text-white font-medium rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all"
                 >
                   <LogIn className="w-5 h-5" />
                   {t.authLoginBtn}
                 </button>
                 <button
                   onClick={() => saveFormAndRedirect('/register?redirect=/publier-lieu')}
-                  className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-[#1e1e2e] text-white font-medium rounded-xl hover:bg-[#2a2a3e] transition-colors"
+                  className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-[#1A1A1F] text-white font-medium rounded-xl hover:bg-[#1A1A1F] transition-colors"
                 >
                   <UserPlus className="w-5 h-5" />
                   {t.authRegisterBtn}
@@ -2226,7 +2226,7 @@ export default function PublierLieuPage() {
 
               <button
                 onClick={() => setShowAuthModal(false)}
-                className="w-full mt-4 py-2 text-sm text-gray-500 hover:text-gray-300 transition-colors"
+                className="w-full mt-4 py-2 text-sm text-[#71717A] hover:text-[#52525B] transition-colors"
               >
                 {t.authContinueBtn}
               </button>

@@ -54,7 +54,7 @@ const TYPE_SPECIFIC_LINKS: SidebarLink[] = [
 
 // Bleu Lagon for hotel, orange for others
 function getAccentColor(userType?: UserType | null): string {
-  return userType === 'HOTEL' ? '#0891b2' : '#ff6b35'
+  return userType === 'HOTEL' ? '#06B6D4' : '#FF6B35'
 }
 
 const BOTTOM_LINKS: SidebarLink[] = [
@@ -111,17 +111,20 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       {/* Logo / Brand */}
-      <div className="p-4 border-b border-white/10">
+      <div className="p-4 border-b border-[#27272A]">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: `linear-gradient(135deg, ${accent}, ${user.userType === 'HOTEL' ? '#06b6d4' : '#ec4899'})` }}>
+          <div
+            className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+            style={{ backgroundColor: accent }}
+          >
             <UserTypeIcon className="w-5 h-5 text-white" />
           </div>
           {!collapsed && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-w-0">
-              <p className="text-sm font-semibold text-white truncate">
+              <p className="text-sm font-semibold text-[#FAFAFA] truncate">
                 {user.clientProfile?.companyName || `${user.firstName} ${user.lastName}`}
               </p>
-              <p className="text-xs text-gray-400">{getUserTypeLabel(user.userType)}</p>
+              <p className="text-xs text-[#71717A]">{getUserTypeLabel(user.userType)}</p>
             </motion.div>
           )}
         </div>
@@ -137,17 +140,17 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
               key={link.href + link.label}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all relative group ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all relative group ${
                 active
-                  ? 'text-white'
-                  : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                  ? ''
+                  : 'text-[#A1A1AA] hover:bg-[#111114] hover:text-[#FAFAFA]'
               }`}
-              style={active ? { backgroundColor: `${accent}20`, color: accent } : undefined}
+              style={active ? { backgroundColor: `${accent}14`, color: accent } : undefined}
             >
               {active && (
                 <motion.div
                   layoutId="sidebar-active"
-                  className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 rounded-r-full"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-6 rounded-r-full"
                   style={{ backgroundColor: accent }}
                 />
               )}
@@ -173,7 +176,7 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
       </nav>
 
       {/* Bottom Section */}
-      <div className="border-t border-white/10 p-3 space-y-1">
+      <div className="border-t border-[#27272A] p-3 space-y-1">
         {BOTTOM_LINKS.map((link) => {
           const active = isActive(link.href)
           return (
@@ -181,8 +184,8 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${
-                active ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-gray-300'
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
+                active ? 'bg-[#1A1A1F] text-[#FAFAFA]' : 'text-[#A1A1AA] hover:bg-[#111114] hover:text-[#FAFAFA]'
               }`}
             >
               {(() => { const Icon = link.icon as React.ComponentType<{ className?: string }>; return <Icon className="w-5 h-5 flex-shrink-0" /> })()}
@@ -193,7 +196,7 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
 
         <button
           onClick={onLogout}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-400 hover:bg-red-500/10 transition-colors w-full"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[#EF4444] hover:bg-[#EF4444]/10 transition-colors w-full"
         >
           <LogOut className="w-5 h-5 flex-shrink-0" />
           {!collapsed && <span>Déconnexion</span>}
@@ -203,7 +206,7 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
       {/* Collapse Toggle */}
       <button
         onClick={() => setCollapsed(!collapsed)}
-        className="hidden lg:flex items-center justify-center p-3 border-t border-white/10 text-gray-400 hover:text-white transition-colors"
+        className="hidden lg:flex items-center justify-center p-3 border-t border-[#27272A] text-[#71717A] hover:text-[#FAFAFA] transition-colors"
       >
         {collapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
       </button>
@@ -215,7 +218,7 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
       {/* Mobile Toggle */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[#1a1a24] border border-white/10 rounded-xl text-white"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[#111114] border border-[#27272A] rounded-xl text-[#FAFAFA]"
       >
         <Menu className="w-5 h-5" />
       </button>
@@ -228,7 +231,7 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setMobileOpen(false)}
-            className="lg:hidden fixed inset-0 bg-black/60 z-40"
+            className="lg:hidden fixed inset-0 bg-black/70 z-40"
           />
         )}
       </AnimatePresence>
@@ -241,11 +244,11 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
             animate={{ x: 0 }}
             exit={{ x: -280 }}
             transition={{ type: 'spring', damping: 25 }}
-            className="lg:hidden fixed left-0 top-0 bottom-0 w-[280px] bg-[#0f0f17] border-r border-white/10 z-50"
+            className="lg:hidden fixed left-0 top-0 bottom-0 w-[280px] bg-[#0A0A0F] border-r border-[#27272A] z-50"
           >
             <button
               onClick={() => setMobileOpen(false)}
-              className="absolute top-4 right-4 p-1 text-gray-400 hover:text-white"
+              className="absolute top-4 right-4 p-1 text-[#71717A] hover:text-[#FAFAFA]"
             >
               <X className="w-5 h-5" />
             </button>
@@ -256,7 +259,7 @@ export default function DashboardSidebar({ user, unreadMessages, todayBookings, 
 
       {/* Desktop Sidebar */}
       <aside
-        className={`hidden lg:flex flex-col bg-[#0f0f17] border-r border-white/10 transition-all duration-300 ${
+        className={`hidden lg:flex flex-col bg-[#0A0A0F] border-r border-[#27272A] transition-all duration-300 ${
           collapsed ? 'w-[72px]' : 'w-[260px]'
         }`}
       >

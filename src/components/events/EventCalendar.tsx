@@ -41,7 +41,7 @@ const DAY_NAMES = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
 // Badge colors by eventType
 const EVENT_TYPE_DOT: Record<string, { color: string; glow: string }> = {
   EVENT: { color: 'bg-emerald-400', glow: 'shadow-emerald-400/50' },
-  PROMOTION: { color: 'bg-orange-400', glow: 'shadow-orange-400/50' },
+  PROMOTION: { color: 'bg-[#FF6B35]', glow: 'shadow-[#FF6B35]/50' },
   ADVERTISEMENT: { color: 'bg-purple-400', glow: 'shadow-purple-400/50' },
 };
 
@@ -127,14 +127,14 @@ export default function EventCalendar({
   return (
     <div className="relative bg-[#0a0a14] rounded-2xl border border-[#1a1a2a] p-4 sm:p-5 overflow-hidden">
       {/* Subtle background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/[0.03] via-transparent to-purple-500/[0.03] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#FF6B35]/[0.03] via-transparent to-purple-500/[0.03] pointer-events-none" />
 
       {/* Header */}
       <div className="relative flex items-center justify-between mb-5">
         <button
           onClick={handlePrevMonth}
           aria-label="Mois précédent"
-          className="p-2 rounded-xl hover:bg-white/5 text-gray-500 hover:text-white transition-all active:scale-95"
+          className="p-2 rounded-xl hover:bg-[#1A1A1F] text-[#71717A] hover:text-white transition-all active:scale-95"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
@@ -153,7 +153,7 @@ export default function EventCalendar({
         <button
           onClick={handleNextMonth}
           aria-label="Mois suivant"
-          className="p-2 rounded-xl hover:bg-white/5 text-gray-500 hover:text-white transition-all active:scale-95"
+          className="p-2 rounded-xl hover:bg-[#1A1A1F] text-[#71717A] hover:text-white transition-all active:scale-95"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
@@ -164,7 +164,7 @@ export default function EventCalendar({
         {DAY_NAMES.map((day) => (
           <div
             key={day}
-            className="text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider py-2"
+            className="text-center text-[10px] font-semibold text-[#A1A1AA] uppercase tracking-wider py-2"
           >
             {day}
           </div>
@@ -205,27 +205,27 @@ export default function EventCalendar({
                 className={`
                   relative aspect-square flex flex-col items-center justify-center rounded-xl
                   text-sm transition-all duration-300 group
-                  ${!inCurrentMonth ? 'text-gray-800 opacity-40' : 'text-gray-400'}
+                  ${!inCurrentMonth ? 'text-[#FAFAFA] opacity-40' : 'text-[#71717A]'}
                   ${isSelected
-                    ? 'bg-gradient-to-br from-[#ff6b35] via-[#ff3d7f] to-[#7c3aed] text-white shadow-lg shadow-orange-500/20 scale-110 z-10'
+                    ? 'bg-gradient-to-br from-[#FF6B35] via-[#ff3d7f] to-[#7c3aed] text-white shadow-lg shadow-[#FF6B35]/20 scale-110 z-10'
                     : isCurrentDay
-                      ? 'bg-gradient-to-br from-orange-500/15 to-purple-500/15 ring-1 ring-orange-500/40 text-orange-300'
+                      ? 'bg-gradient-to-br from-[#FF6B35]/15 to-purple-500/15 ring-1 ring-orange-500/40 text-[#FDBA74]'
                       : hasEvents
-                        ? 'hover:bg-white/[0.06] cursor-pointer hover:scale-105'
+                        ? 'hover:bg-[#111114]/[0.06] cursor-pointer hover:scale-105'
                         : 'cursor-default'
                   }
                 `}
               >
                 {/* VIP fire indicator */}
                 {isVip && !isSelected && inCurrentMonth && (
-                  <Flame className="absolute -top-1 -right-1 w-3 h-3 text-orange-400 animate-pulse" />
+                  <Flame className="absolute -top-1 -right-1 w-3 h-3 text-[#FDBA74] animate-pulse" />
                 )}
 
                 <span
                   className={`
                     relative z-10 font-medium
                     ${isSelected ? 'text-white font-bold text-base' : ''}
-                    ${isCurrentDay && !isSelected ? 'text-orange-400 font-bold' : ''}
+                    ${isCurrentDay && !isSelected ? 'text-[#FDBA74] font-bold' : ''}
                   `}
                 >
                   {format(day, 'd')}
@@ -240,7 +240,7 @@ export default function EventCalendar({
                         <span
                           key={type}
                           className={`w-[5px] h-[5px] rounded-full ${dot.color} ${
-                            isSelected ? 'bg-white shadow-sm shadow-white/50' : `shadow-sm ${dot.glow}`
+                            isSelected ? 'bg-[#111114] shadow-sm shadow-white/50' : `shadow-sm ${dot.glow}`
                           }`}
                         />
                       );
@@ -250,7 +250,7 @@ export default function EventCalendar({
 
                 {/* Event count badge */}
                 {dayEvents.length > 2 && inCurrentMonth && !isSelected && (
-                  <span className="absolute -top-0.5 -left-0.5 w-3.5 h-3.5 rounded-full bg-orange-500/80 text-[7px] font-bold text-white flex items-center justify-center">
+                  <span className="absolute -top-0.5 -left-0.5 w-3.5 h-3.5 rounded-full bg-[#FF6B35]/80 text-[7px] font-bold text-white flex items-center justify-center">
                     {dayEvents.length}
                   </span>
                 )}
@@ -264,12 +264,12 @@ export default function EventCalendar({
       <div className="relative mt-4 pt-3 border-t border-[#1a1a2a] flex items-center justify-center gap-4">
         {[
           { type: 'EVENT', label: 'Event', color: 'bg-emerald-400' },
-          { type: 'PROMOTION', label: 'Promo', color: 'bg-orange-400' },
+          { type: 'PROMOTION', label: 'Promo', color: 'bg-[#FF6B35]' },
           { type: 'ADVERTISEMENT', label: 'Pub', color: 'bg-purple-400' },
         ].map(({ label, color }) => (
           <div key={label} className="flex items-center gap-1.5">
             <span className={`w-2 h-2 rounded-full ${color}`} />
-            <span className="text-[10px] text-gray-500">{label}</span>
+            <span className="text-[10px] text-[#71717A]">{label}</span>
           </div>
         ))}
       </div>

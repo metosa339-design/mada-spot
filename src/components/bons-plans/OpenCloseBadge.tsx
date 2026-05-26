@@ -175,7 +175,7 @@ export default memo(function OpenCloseBadge({
         {status.isOpen ? 'Ouvert' : 'Fermé'}
       </div>
       {showNextOpen && !status.isOpen && status.nextOpen && (
-        <span className="text-xs text-gray-500 flex items-center gap-1">
+        <span className="text-xs text-[#71717A] flex items-center gap-1">
           <Clock className="w-3 h-3" />
           {status.nextOpen}
         </span>

@@ -19,7 +19,7 @@ export default memo(function SocialLinks({ website, facebook, instagram }: Socia
           href={website}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 text-sm text-slate-400 hover:text-orange-400 transition-colors"
+          className="flex items-center gap-2 text-sm text-[#71717A] hover:text-[#FDBA74] transition-colors"
         >
           <Globe className="w-4 h-4" />
           Voir le site web
@@ -30,7 +30,7 @@ export default memo(function SocialLinks({ website, facebook, instagram }: Socia
           href={facebook}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 text-sm text-slate-400 hover:text-orange-400 transition-colors"
+          className="flex items-center gap-2 text-sm text-[#71717A] hover:text-[#FDBA74] transition-colors"
         >
           <Facebook className="w-4 h-4" />
           Page Facebook
@@ -41,7 +41,7 @@ export default memo(function SocialLinks({ website, facebook, instagram }: Socia
           href={instagram}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 text-sm text-slate-400 hover:text-orange-400 transition-colors"
+          className="flex items-center gap-2 text-sm text-[#71717A] hover:text-[#FDBA74] transition-colors"
         >
           <Instagram className="w-4 h-4" />
           Instagram

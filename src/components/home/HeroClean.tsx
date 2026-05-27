@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
   Search,
@@ -37,6 +38,18 @@ const TABS: { key: Tab; label: string; icon: typeof Building2 }[] = [
  */
 export default function HeroClean() {
   const [tab, setTab] = useState<Tab>('hotels');
+  const [destination, setDestination] = useState('');
+  const router = useRouter();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = destination.trim();
+    const params = new URLSearchParams();
+    if (q) params.set('q', q);
+    if (tab) params.set('type', tab);
+    const qs = params.toString();
+    router.push(qs ? `/search?${qs}` : '/search');
+  };
 
   return (
     <section className="relative bg-[#F8FAFC]">
@@ -124,6 +137,7 @@ export default function HeroClean() {
       {/* Search bar à cheval bleu/blanc (style Booking) */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 -mt-8 sm:-mt-10 relative z-10">
         <motion.form
+          onSubmit={handleSearch}
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: EASE, delay: 0.2 }}
@@ -138,6 +152,8 @@ export default function HeroClean() {
               </p>
               <input
                 type="text"
+                value={destination}
+                onChange={(e) => setDestination(e.target.value)}
                 placeholder="Où voulez-vous aller ?"
                 className="w-full outline-none text-[14px] font-semibold text-[#0F172A] placeholder:text-[#94A3B8] placeholder:font-normal bg-transparent"
               />

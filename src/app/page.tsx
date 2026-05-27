@@ -611,6 +611,35 @@ function getInitials(name: string): string {
 function NewsletterSection({ t }: { t: Record<string, string> }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [message, setMessage] = useState('');
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setStatus('loading');
+    setMessage('');
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data?.success !== false) {
+        setStatus('success');
+        setMessage('Merci ! Vous êtes inscrit.');
+        setEmail('');
+      } else {
+        setStatus('error');
+        setMessage(data?.error || 'Une erreur est survenue, réessayez.');
+      }
+    } catch {
+      setStatus('error');
+      setMessage('Impossible de joindre le serveur.');
+    }
+  };
 
   return (
     <section ref={ref} className="bg-[#F8FAFC] py-16 sm:py-20">
@@ -637,20 +666,35 @@ function NewsletterSection({ t }: { t: Record<string, string> }) {
           <motion.form
             variants={fadeUp}
             className="mt-7 flex flex-col sm:flex-row gap-2.5 max-w-md mx-auto"
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={handleSubscribe}
           >
             <input
               type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={status === 'loading'}
               placeholder={t.emailPlaceholderHome}
-              className="flex-1 px-4 py-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-[14px] text-[#0F172A] placeholder:text-[#94A3B8] outline-none focus:border-[#FF6B35]/40 transition-colors"
+              className="flex-1 px-4 py-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-[14px] text-[#0F172A] placeholder:text-[#94A3B8] outline-none focus:border-[#FF6B35]/40 transition-colors disabled:opacity-60"
             />
             <button
               type="submit"
-              className="px-5 py-3 rounded-lg bg-[#FF6B35] hover:bg-[#F97316] text-white text-[14px] font-medium whitespace-nowrap transition-colors shadow-[0_8px_30px_rgba(255,107,53,0.25)]"
+              disabled={status === 'loading'}
+              className="px-5 py-3 rounded-lg bg-[#FF6B35] hover:bg-[#F97316] text-white text-[14px] font-medium whitespace-nowrap transition-colors shadow-[0_8px_30px_rgba(255,107,53,0.25)] disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {t.subscribeHome}
+              {status === 'loading' ? '...' : t.subscribeHome}
             </button>
           </motion.form>
+          {message && (
+            <motion.p
+              variants={fadeUp}
+              className={`mt-3 text-center text-[13px] ${
+                status === 'success' ? 'text-[#10B981]' : 'text-[#EF4444]'
+              }`}
+            >
+              {message}
+            </motion.p>
+          )}
         </motion.div>
       </div>
     </section>

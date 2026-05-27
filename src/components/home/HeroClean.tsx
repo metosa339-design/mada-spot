@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -36,17 +36,41 @@ const TABS: { key: Tab; label: string; icon: typeof Building2 }[] = [
  *  - Search bar simplifiée 1 ligne en bas, dépasse à cheval bleu/blanc
  *  - Bordure orange MadaSpot autour de la search box (signature)
  */
+function formatDateRangeFR(ci: string, co: string): string {
+  if (!ci && !co) return 'Choisir';
+  const fmt = (d: string) =>
+    new Date(d + 'T00:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+  if (ci && co) return `${fmt(ci)} → ${fmt(co)}`;
+  if (ci) return `Dès ${fmt(ci)}`;
+  return `Jusqu'au ${fmt(co)}`;
+}
+
 export default function HeroClean() {
   const [tab, setTab] = useState<Tab>('hotels');
   const [destination, setDestination] = useState('');
+  const [checkIn, setCheckIn] = useState('');
+  const [checkOut, setCheckOut] = useState('');
+  const [adults, setAdults] = useState(2);
+  const [children, setChildren] = useState(0);
+  const [openPopover, setOpenPopover] = useState<'dates' | 'guests' | null>(null);
   const router = useRouter();
+
+  const todayISO = new Date().toISOString().slice(0, 10);
+  const guestsLabel = `${adults} adulte${adults > 1 ? 's' : ''}${
+    children > 0 ? `, ${children} enfant${children > 1 ? 's' : ''}` : ''
+  }`;
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    setOpenPopover(null);
     const q = destination.trim();
     const params = new URLSearchParams();
     if (q) params.set('q', q);
     if (tab) params.set('type', tab);
+    if (checkIn) params.set('checkin', checkIn);
+    if (checkOut) params.set('checkout', checkOut);
+    if (adults !== 2) params.set('adults', String(adults));
+    if (children > 0) params.set('children', String(children));
     const qs = params.toString();
     router.push(qs ? `/search?${qs}` : '/search');
   };
@@ -141,7 +165,7 @@ export default function HeroClean() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: EASE, delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1fr_auto] gap-0 bg-white rounded-xl border-2 border-[#FF6B35] shadow-[0_8px_24px_rgba(15,23,42,0.10)] overflow-hidden"
+          className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1fr_auto] gap-0 bg-white rounded-xl border-2 border-[#FF6B35] shadow-[0_8px_24px_rgba(15,23,42,0.10)]"
         >
           {/* Destination */}
           <label className="flex items-center gap-3 px-4 py-3.5 border-b md:border-b-0 md:border-r border-[#FF6B35]/30">
@@ -161,32 +185,173 @@ export default function HeroClean() {
           </label>
 
           {/* Dates */}
-          <label className="flex items-center gap-3 px-4 py-3.5 border-b md:border-b-0 md:border-r border-[#FF6B35]/30 cursor-pointer">
-            <Calendar className="w-5 h-5 text-[#64748B] shrink-0" />
-            <div className="flex-1 min-w-0">
-              <p className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">
-                Dates
-              </p>
-              <p className="text-[14px] font-semibold text-[#94A3B8]">Choisir</p>
-            </div>
-          </label>
+          <div className="relative border-b md:border-b-0 md:border-r border-[#FF6B35]/30">
+            <button
+              type="button"
+              onClick={() => setOpenPopover(openPopover === 'dates' ? null : 'dates')}
+              className="w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-[#FFF7ED]/40 transition-colors"
+            >
+              <Calendar className="w-5 h-5 text-[#64748B] shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">Dates</p>
+                <p
+                  className={`text-[14px] font-semibold truncate ${
+                    checkIn || checkOut ? 'text-[#0F172A]' : 'text-[#94A3B8]'
+                  }`}
+                >
+                  {formatDateRangeFR(checkIn, checkOut)}
+                </p>
+              </div>
+            </button>
+            <AnimatePresence>
+              {openPopover === 'dates' && (
+                <>
+                  <div
+                    className="fixed inset-0 z-30"
+                    onClick={() => setOpenPopover(null)}
+                    aria-hidden="true"
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 4 }}
+                    transition={{ duration: 0.18 }}
+                    className="absolute top-full left-0 right-0 md:right-auto md:min-w-[300px] mt-2 z-40 bg-white border border-[#E2E8F0] rounded-xl shadow-[0_12px_36px_rgba(15,23,42,0.15)] p-4"
+                  >
+                    <div className="space-y-3">
+                      <div>
+                        <label
+                          htmlFor="hero-checkin"
+                          className="block text-[11px] font-bold text-[#64748B] uppercase tracking-wider mb-1.5"
+                        >
+                          Arrivée
+                        </label>
+                        <input
+                          id="hero-checkin"
+                          type="date"
+                          min={todayISO}
+                          value={checkIn}
+                          onChange={(e) => {
+                            const v = e.target.value;
+                            setCheckIn(v);
+                            if (checkOut && v && v > checkOut) setCheckOut('');
+                          }}
+                          className="w-full px-3 py-2 border border-[#E2E8F0] rounded-md text-[14px] text-[#0F172A] outline-none focus:border-[#FF6B35] transition-colors"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="hero-checkout"
+                          className="block text-[11px] font-bold text-[#64748B] uppercase tracking-wider mb-1.5"
+                        >
+                          Départ
+                        </label>
+                        <input
+                          id="hero-checkout"
+                          type="date"
+                          min={checkIn || todayISO}
+                          value={checkOut}
+                          onChange={(e) => setCheckOut(e.target.value)}
+                          className="w-full px-3 py-2 border border-[#E2E8F0] rounded-md text-[14px] text-[#0F172A] outline-none focus:border-[#FF6B35] transition-colors"
+                        />
+                      </div>
+                      <div className="flex justify-between items-center pt-1">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCheckIn('');
+                            setCheckOut('');
+                          }}
+                          className="text-[12px] text-[#64748B] hover:text-[#0F172A] font-medium"
+                        >
+                          Effacer
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setOpenPopover(null)}
+                          className="px-3 py-1.5 rounded-md bg-[#FF6B35] hover:bg-[#F97316] text-white text-[12px] font-semibold transition-colors"
+                        >
+                          Valider
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </div>
 
           {/* Voyageurs */}
-          <label className="flex items-center gap-3 px-4 py-3.5 cursor-pointer md:border-r border-[#FF6B35]/30">
-            <Users className="w-5 h-5 text-[#64748B] shrink-0" />
-            <div className="flex-1 min-w-0">
-              <p className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">
-                Voyageurs
-              </p>
-              <p className="text-[14px] font-semibold text-[#0F172A]">2 adultes</p>
-            </div>
-            <ChevronDown className="w-4 h-4 text-[#64748B]" />
-          </label>
+          <div className="relative md:border-r border-[#FF6B35]/30">
+            <button
+              type="button"
+              onClick={() => setOpenPopover(openPopover === 'guests' ? null : 'guests')}
+              className="w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-[#FFF7ED]/40 transition-colors"
+            >
+              <Users className="w-5 h-5 text-[#64748B] shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">
+                  Voyageurs
+                </p>
+                <p className="text-[14px] font-semibold text-[#0F172A] truncate">{guestsLabel}</p>
+              </div>
+              <ChevronDown
+                className={`w-4 h-4 text-[#64748B] transition-transform ${
+                  openPopover === 'guests' ? 'rotate-180' : ''
+                }`}
+              />
+            </button>
+            <AnimatePresence>
+              {openPopover === 'guests' && (
+                <>
+                  <div
+                    className="fixed inset-0 z-30"
+                    onClick={() => setOpenPopover(null)}
+                    aria-hidden="true"
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 4 }}
+                    transition={{ duration: 0.18 }}
+                    className="absolute top-full left-0 right-0 md:right-auto md:min-w-[300px] mt-2 z-40 bg-white border border-[#E2E8F0] rounded-xl shadow-[0_12px_36px_rgba(15,23,42,0.15)] p-4"
+                  >
+                    <GuestRow
+                      label="Adultes"
+                      sub="13 ans et +"
+                      value={adults}
+                      min={1}
+                      max={20}
+                      onChange={setAdults}
+                    />
+                    <div className="h-px bg-[#E2E8F0] my-3" />
+                    <GuestRow
+                      label="Enfants"
+                      sub="0 - 12 ans"
+                      value={children}
+                      min={0}
+                      max={10}
+                      onChange={setChildren}
+                    />
+                    <div className="flex justify-end pt-3">
+                      <button
+                        type="button"
+                        onClick={() => setOpenPopover(null)}
+                        className="px-3 py-1.5 rounded-md bg-[#FF6B35] hover:bg-[#F97316] text-white text-[12px] font-semibold transition-colors"
+                      >
+                        Valider
+                      </button>
+                    </div>
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </div>
 
           {/* CTA Rechercher */}
           <button
             type="submit"
-            className="bg-[#FF6B35] hover:bg-[#F97316] text-white font-semibold px-6 py-3.5 transition-colors text-[15px] flex items-center justify-center gap-2 whitespace-nowrap"
+            className="bg-[#FF6B35] hover:bg-[#F97316] text-white font-semibold px-6 py-3.5 transition-colors text-[15px] flex items-center justify-center gap-2 whitespace-nowrap rounded-b-[10px] md:rounded-b-none md:rounded-r-[10px]"
           >
             <Search className="w-4 h-4" />
             Rechercher
@@ -269,6 +434,54 @@ function TrustItem({
         )}
       </div>
       <p className="text-[12px] sm:text-[13px] text-[#64748B] mt-1">{label}</p>
+    </div>
+  );
+}
+
+function GuestRow({
+  label,
+  sub,
+  value,
+  min,
+  max,
+  onChange,
+}: {
+  label: string;
+  sub: string;
+  value: number;
+  min: number;
+  max: number;
+  onChange: (n: number) => void;
+}) {
+  return (
+    <div className="flex items-center justify-between">
+      <div>
+        <p className="text-[14px] font-semibold text-[#0F172A]">{label}</p>
+        <p className="text-[11px] text-[#94A3B8]">{sub}</p>
+      </div>
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={() => onChange(Math.max(min, value - 1))}
+          disabled={value <= min}
+          aria-label={`Diminuer ${label.toLowerCase()}`}
+          className="w-8 h-8 rounded-full border border-[#E2E8F0] text-[#FF6B35] font-bold text-[16px] flex items-center justify-center hover:border-[#FF6B35] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+        >
+          −
+        </button>
+        <span className="w-6 text-center text-[14px] font-semibold text-[#0F172A] tabular-nums">
+          {value}
+        </span>
+        <button
+          type="button"
+          onClick={() => onChange(Math.min(max, value + 1))}
+          disabled={value >= max}
+          aria-label={`Augmenter ${label.toLowerCase()}`}
+          className="w-8 h-8 rounded-full border border-[#E2E8F0] text-[#FF6B35] font-bold text-[16px] flex items-center justify-center hover:border-[#FF6B35] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+        >
+          +
+        </button>
+      </div>
     </div>
   );
 }

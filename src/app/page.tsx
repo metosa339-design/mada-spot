@@ -156,9 +156,6 @@ function HomePage() {
         <RecommendedSection t={t} attractions={featuredAttractions} />
       )}
 
-      {/* ===== BANNIÈRE INSCRIPTION PROS ===== */}
-      <ProBannerSection t={t} />
-
       {/* ===== POURQUOI MADA SPOT ===== */}
       <WhyMadaSpotSection t={t} />
 
@@ -167,6 +164,9 @@ function HomePage() {
 
       {/* ===== NEWSLETTER ===== */}
       <NewsletterSection t={t} />
+
+      {/* ===== BANNIÈRE INSCRIPTION PROS (B2B, juste avant footer) ===== */}
+      <ProBannerSection t={t} />
 
       <Footer />
 
@@ -322,8 +322,8 @@ function RecommendedSection({
                   />
                 </div>
                 <div className="p-4 border-t border-[#E2E8F0]">
-                  <h3 className="text-[14px] font-semibold text-[#0F172A] line-clamp-1">{a.name}</h3>
-                  <p className="text-[12px] text-[#94A3B8] mt-0.5">{a.city}</p>
+                  <h3 className="text-[13px] sm:text-[14px] font-semibold text-[#0F172A] line-clamp-2 leading-snug min-h-[2.4em]">{a.name}</h3>
+                  <p className="text-[12px] text-[#94A3B8] mt-1">{a.city}</p>
                   <div className="flex items-center gap-1.5 mt-2.5">
                     <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
                     <span className="text-[13px] font-semibold text-[#0F172A] font-mono tabular-nums">
@@ -387,7 +387,7 @@ function ProBannerSection({ t }: { t: Record<string, string> }) {
                 href="/inscrire-etablissement"
                 className="group inline-flex items-center gap-2 px-6 py-3.5 bg-[#FF6B35] hover:bg-[#F97316] text-white rounded-xl text-[14px] font-semibold transition-colors shadow-[0_4px_14px_rgba(255,107,53,0.25)] hover:shadow-[0_12px_40px_rgba(255,107,53,0.35)]"
               >
-                {t.bannerCta}
+                Ajouter mon établissement (Gratuit)
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </motion.div>

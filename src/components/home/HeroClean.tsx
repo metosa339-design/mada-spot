@@ -123,19 +123,6 @@ export default function HeroClean() {
               <p className="mt-2.5 sm:mt-5 text-[14px] sm:text-[18px] text-white/85 max-w-xl leading-relaxed mx-auto lg:mx-0">
                 Hôtels, restaurants, guides et activités vérifiés sur place. Réservation directe, sans intermédiaire.
               </p>
-
-              {/* CTA */}
-              <div className="mt-4 sm:mt-8 flex justify-center lg:justify-start">
-                <Link
-                  href="/attractions"
-                  className="group inline-flex items-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 bg-[#FF6B35] hover:bg-[#F97316] text-white font-semibold rounded-xl text-[14px] sm:text-[15px] transition-all shadow-[0_8px_30px_rgba(255,107,53,0.30)] hover:shadow-[0_12px_40px_rgba(255,107,53,0.45)]"
-                >
-                  Explorer Madagascar
-                  <svg className="w-4 h-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14M13 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              </div>
             </motion.div>
 
             {/* Photo immersive */}
@@ -363,45 +350,14 @@ export default function HeroClean() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.7, ease: EASE, delay: 0.35 }}
-          className="mt-6 sm:mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8"
+          className="mt-6 sm:mt-10 grid grid-cols-3 gap-3 sm:gap-8"
         >
           <TrustItem value="230+" label="Établissements vérifiés" />
           <TrustItem value="18" label="Régions couvertes" />
           <TrustItem value="4.7" suffix="★" label="Note moyenne" highlight />
-          <TrustItem value="100%" label="Gratuit pour les pros" />
         </motion.div>
       </div>
 
-      {/* Bandeau pros */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-10 sm:mt-16">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.6, ease: EASE }}
-          className="bg-white border border-[#E2E8F0] rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-5 shadow-[0_2px_12px_rgba(15,23,42,0.04)]"
-        >
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-[#FFF7ED] flex items-center justify-center shrink-0">
-              <Building2 className="w-6 h-6 text-[#FF6B35]" />
-            </div>
-            <div>
-              <p className="font-bold text-[16px] text-[#0F172A]">
-                Vous gérez un établissement à Madagascar ?
-              </p>
-              <p className="text-[14px] text-[#64748B] mt-0.5 leading-relaxed">
-                Inscrivez-vous gratuitement et recevez des contacts de voyageurs dès cette semaine.
-              </p>
-            </div>
-          </div>
-          <Link
-            href="/inscrire-etablissement"
-            className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-[#FF6B35] hover:bg-[#F97316] text-white font-semibold rounded-xl text-[14px] transition-colors whitespace-nowrap shadow-[0_4px_14px_rgba(255,107,53,0.25)]"
-          >
-            Devenir partenaire
-          </Link>
-        </motion.div>
-      </div>
     </section>
   );
 }

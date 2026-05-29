@@ -485,13 +485,29 @@ function WhyMadaSpotSection({ t }: { t: Record<string, string> }) {
 function TestimonialsSection({ t }: { t: Record<string, string> }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
+  const sectionInView = useInView(ref, { margin: '-80px' });
   const [index, setIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const pageSize = 3;
   const maxIndex = Math.max(0, REVIEWS.length - pageSize);
 
-  const goPrev = () => setIndex((i) => Math.max(0, i - 1));
-  const goNext = () => setIndex((i) => Math.min(maxIndex, i + 1));
+  const goPrev = () => {
+    setIsPaused(true);
+    setIndex((i) => (i <= 0 ? maxIndex : i - 1));
+  };
+  const goNext = () => {
+    setIsPaused(true);
+    setIndex((i) => (i >= maxIndex ? 0 : i + 1));
+  };
   const visibleDots = Math.ceil(REVIEWS.length / pageSize);
+
+  useEffect(() => {
+    if (isPaused || !sectionInView) return;
+    const id = setInterval(() => {
+      setIndex((i) => (i >= maxIndex ? 0 : i + 1));
+    }, 4500);
+    return () => clearInterval(id);
+  }, [isPaused, sectionInView, maxIndex]);
 
   return (
     <section ref={ref} className="relative bg-[#F8FAFC] py-16 sm:py-20 border-b border-[#E2E8F0] overflow-hidden">
@@ -516,25 +532,20 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
             >
               {t.reviewsTitle}
             </motion.h2>
-            <motion.p variants={fadeUp} className="mt-3 text-[14px] text-[#64748B]">
-              {REVIEWS.length}+ {t.reviewsTrustSuffix}
-            </motion.p>
           </div>
 
           <motion.div variants={fadeUp} className="flex items-center gap-2">
             <button
               onClick={goPrev}
-              disabled={index === 0}
               aria-label="Précédent"
-              className="w-10 h-10 rounded-md bg-white border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+              className="w-10 h-10 rounded-md bg-white border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-colors"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={goNext}
-              disabled={index >= maxIndex}
               aria-label="Suivant"
-              className="w-10 h-10 rounded-md bg-white border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+              className="w-10 h-10 rounded-md bg-white border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-colors"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -542,7 +553,12 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
         </motion.div>
 
         {/* Carrousel */}
-        <div className="overflow-hidden">
+        <div
+          className="overflow-hidden"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+        >
           <motion.div
             className="flex gap-4 sm:gap-5"
             animate={{ x: `calc(-${index} * (100% / ${pageSize}) - ${index} * 1.25rem / ${pageSize})` }}
@@ -585,7 +601,10 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
             return (
               <button
                 key={i}
-                onClick={() => setIndex(target)}
+                onClick={() => {
+                  setIsPaused(true);
+                  setIndex(target);
+                }}
                 aria-label={`Page ${i + 1}`}
                 className={`h-1 rounded-full transition-all ${
                   isActive ? 'w-8 bg-[#FF6B35]' : 'w-1.5 bg-[#CBD5E1] hover:bg-[#94A3B8]'

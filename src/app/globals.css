@@ -355,6 +355,37 @@ main {
   animation: slideInUp 0.5s ease-out forwards;
 }
 
+/*
+ * Hero entrance animations — CSS pur (pas de JS).
+ * Les éléments candidats LCP (h1, image) s'animent en transform UNIQUEMENT
+ * et restent à opacity:1 : ils sont peints dès le premier rendu HTML, sans
+ * attendre l'hydratation React. Les éléments non-LCP (form, trust) peuvent
+ * garder un fondu.
+ */
+@keyframes heroRise {
+  from { transform: translateY(16px); }
+  to { transform: translateY(0); }
+}
+@keyframes heroZoom {
+  from { transform: scale(1.04); }
+  to { transform: scale(1); }
+}
+@keyframes heroFadeRise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.hero-rise { animation: heroRise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.hero-zoom { animation: heroZoom 1.2s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.hero-fade-rise { animation: heroFadeRise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.hero-fade { animation: heroFade 0.7s ease both; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise, .hero-zoom, .hero-fade-rise, .hero-fade { animation: none; }
+}
+
 /* Card Hover Effects */
 .card-hover {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

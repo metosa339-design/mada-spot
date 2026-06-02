@@ -2,7 +2,6 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
@@ -16,8 +15,6 @@ import {
   Mountain,
   Briefcase,
 } from 'lucide-react';
-
-const EASE = [0.16, 1, 0.3, 1] as const;
 
 type Tab = 'hotels' | 'restaurants' | 'attractions' | 'guides';
 
@@ -100,13 +97,8 @@ export default function HeroClean() {
 
           {/* Contenu hero : grid 2 cols (texte 45% / image 55%) */}
           <div className="grid lg:grid-cols-[9fr_11fr] gap-5 sm:gap-8 lg:gap-12 items-stretch mt-5 sm:mt-10">
-            {/* Texte */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: EASE }}
-              className="text-center lg:text-left flex flex-col justify-center py-3 sm:py-10"
-            >
+            {/* Texte — candidat LCP : transform-only (opacity:1), peint immédiatement */}
+            <div className="hero-rise text-center lg:text-left flex flex-col justify-center py-3 sm:py-10">
               {/* Eyebrow */}
               <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-[12px] text-white/90 font-medium mb-5 border border-white/15 mx-auto lg:mx-0 w-fit">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B35]" />
@@ -123,36 +115,29 @@ export default function HeroClean() {
               <p className="mt-2.5 sm:mt-5 text-[14px] sm:text-[18px] text-white/85 max-w-xl leading-relaxed mx-auto lg:mx-0">
                 Hôtels, restaurants, guides et activités vérifiés sur place. Réservation directe, sans intermédiaire.
               </p>
-            </motion.div>
+            </div>
 
-            {/* Photo immersive */}
-            <motion.div
-              initial={{ opacity: 0, y: 24, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.9, ease: EASE, delay: 0.15 }}
-              className="relative h-[200px] sm:h-[360px] lg:h-full lg:min-h-[460px] w-full rounded-2xl overflow-hidden border border-white/15 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.4)] bg-[#0F172A]"
-            >
+            {/* Photo immersive — candidat LCP : zoom CSS sur l'image (opacity:1), priority utile */}
+            <div className="relative h-[200px] sm:h-[360px] lg:h-full lg:min-h-[460px] w-full rounded-2xl overflow-hidden border border-white/15 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.4)] bg-[#0F172A]">
               <Image
                 src="/images/highlights/hero-pool-madagascar.jpg"
                 alt="Madagascar"
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 55vw"
-                className="object-cover object-center"
+                className="object-cover object-center hero-zoom"
               />
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Search bar à cheval bleu/blanc (style Booking) */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 -mt-6 sm:-mt-10 relative z-10">
-        <motion.form
+        <form
           onSubmit={handleSearch}
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: EASE, delay: 0.2 }}
-          className="grid grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr_auto] gap-0 bg-white rounded-xl border-2 border-[#FF6B35] shadow-[0_8px_24px_rgba(15,23,42,0.10)]"
+          style={{ animationDelay: '0.2s' }}
+          className="hero-fade-rise grid grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr_auto] gap-0 bg-white rounded-xl border-2 border-[#FF6B35] shadow-[0_8px_24px_rgba(15,23,42,0.10)]"
         >
           {/* Destination */}
           <label className="col-span-2 md:col-span-1 flex items-center gap-3 px-3.5 sm:px-4 py-2.5 sm:py-3.5 border-b md:border-b-0 md:border-r border-[#FF6B35]/30">
@@ -343,19 +328,17 @@ export default function HeroClean() {
             <Search className="w-4 h-4" />
             Rechercher
           </button>
-        </motion.form>
+        </form>
 
         {/* Trust signals */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.7, ease: EASE, delay: 0.35 }}
-          className="mt-6 sm:mt-10 grid grid-cols-3 gap-3 sm:gap-8"
+        <div
+          style={{ animationDelay: '0.35s' }}
+          className="hero-fade mt-6 sm:mt-10 grid grid-cols-3 gap-3 sm:gap-8"
         >
           <TrustItem value="230+" label="Établissements vérifiés" />
           <TrustItem value="18" label="Régions couvertes" />
           <TrustItem value="4.7" suffix="★" label="Note moyenne" highlight />
-        </motion.div>
+        </div>
       </div>
 
     </section>

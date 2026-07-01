@@ -98,6 +98,7 @@ export default function EstablishmentPage() {
   const [activeTab, setActiveTab] = useState<Tab>(initialTab)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [formMsg, setFormMsg] = useState<{ type: 'error' | 'info'; text: string } | null>(null)
   const [loading, setLoading] = useState(true)
   const [uploadingImages, setUploadingImages] = useState(false)
   const { csrfToken } = useCsrf()
@@ -149,6 +150,18 @@ export default function EstablishmentPage() {
   }
 
   const handleSave = async () => {
+    // Validation des champs indispensables (evite les fiches fantomes invisibles)
+    if (!data.name.trim()) {
+      setActiveTab('general')
+      setFormMsg({ type: 'error', text: "Le nom de l'établissement est requis." })
+      return
+    }
+    if (!data.city.trim() || data.city.trim().toLowerCase() === 'non spécifié') {
+      setActiveTab('general')
+      setFormMsg({ type: 'error', text: 'La ville est requise pour que votre fiche soit trouvable par les voyageurs.' })
+      return
+    }
+    setFormMsg(null)
     setSaving(true)
     setSaved(false)
     try {
@@ -163,10 +176,14 @@ export default function EstablishmentPage() {
           setData(prev => ({ ...prev, id: json.establishment.id }))
         }
         setSaved(true)
-        setTimeout(() => setSaved(false), 3000)
+        setTimeout(() => setSaved(false), 5000)
+      } else {
+        const j = await res.json().catch(() => ({}))
+        setFormMsg({ type: 'error', text: j.error || "L'enregistrement a échoué. Vérifiez votre connexion et réessayez." })
       }
     } catch (err) {
       console.error('Error saving:', err)
+      setFormMsg({ type: 'error', text: "Erreur réseau — votre fiche n'a pas été enregistrée. Réessayez." })
     } finally {
       setSaving(false)
     }
@@ -267,6 +284,12 @@ export default function EstablishmentPage() {
           {saving ? t.saving : saved ? t.saved : t.save}
         </button>
       </div>
+
+      {formMsg && (
+        <div className={`mt-3 px-4 py-3 rounded-xl text-sm ${formMsg.type === 'error' ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-blue-50 text-blue-700 border border-blue-200'}`}>
+          {formMsg.text}
+        </div>
+      )}
 
       {/* Tab Navigation */}
       <div className="flex gap-1 bg-white border border-[#E2E8F0] rounded-xl p-1 overflow-x-auto">
@@ -434,14 +457,17 @@ export default function EstablishmentPage() {
                 <button
                   onClick={() => {
                     if (navigator.geolocation) {
+                      setFormMsg({ type: 'info', text: 'Récupération de votre position… (cela peut prendre quelques secondes)' })
                       navigator.geolocation.getCurrentPosition(
-                        (pos) => setData(prev => ({
+                        (pos) => { setData(prev => ({
                           ...prev,
                           latitude: pos.coords.latitude,
                           longitude: pos.coords.longitude,
-                        })),
-                        () => alert(t.positionUnavailable)
+                        })); setFormMsg(null) },
+                        () => setFormMsg({ type: 'info', text: 'Position non récupérée. Vous pouvez saisir la latitude et la longitude manuellement dans les champs ci-dessus (facultatif).' })
                       )
+                    } else {
+                      setFormMsg({ type: 'info', text: "La géolocalisation n'est pas disponible sur cet appareil. Saisissez la position manuellement ci-dessus (facultatif)." })
                     }
                   }}
                   className="mt-2 text-sm text-[#FF6B35] hover:text-[#FDBA74] flex items-center gap-1"

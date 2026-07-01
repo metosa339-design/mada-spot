@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import LazyCustomCursor from "@/components/ui/LazyCustomCursor";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import CookieConsent from "@/components/CookieConsent";
@@ -128,7 +127,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${plusJakarta.variable} antialiased`}
       >
         <GoogleAnalytics />
-        <LazyCustomCursor />
         <ServiceWorkerRegister />
         <ThemeProvider>
           <QueryProvider>

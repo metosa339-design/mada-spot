@@ -9,6 +9,16 @@ import { checkRateLimit, getClientIdentifier, getRateLimitHeaders } from '@/lib/
 import { verifyCsrfToken } from '@/lib/csrf'
 
 import { logger } from '@/lib/logger';
+import { v2 as cloudinary } from 'cloudinary';
+
+// Cloudinary : stockage cloud (fonctionne en serverless, contrairement au disque local)
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+const HAS_CLOUDINARY = !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
+
 // Route segment config pour Next.js App Router
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -122,32 +132,45 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      // Créer le dossier de destination
-      const uploadDir = path.join(process.cwd(), 'public', 'uploads', fileType)
+      const bytes = await file.arrayBuffer()
+      const buffer = Buffer.from(bytes)
+      let fileUrl: string
 
-      if (!existsSync(uploadDir)) {
-        await mkdir(uploadDir, { recursive: true })
+      if (HAS_CLOUDINARY) {
+        // Upload vers Cloudinary (fiable, y compris sur hébergement serverless)
+        try {
+          const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
+            cloudinary.uploader.upload_stream(
+              { folder: `madaspot/${fileType}`, resource_type: 'auto' },
+              (err, res) => (err || !res ? reject(err || new Error('upload failed')) : resolve(res as { secure_url: string }))
+            ).end(buffer)
+          })
+          fileUrl = result.secure_url
+        } catch (upErr) {
+          logger.error('Erreur upload Cloudinary:', upErr)
+          return NextResponse.json(
+            { error: `Erreur lors de l'envoi de "${file.name}". Réessayez dans un instant.` },
+            { status: 500 }
+          )
+        }
+      } else {
+        // Repli : disque local (développement / auto-hébergement persistant)
+        const uploadDir = path.join(process.cwd(), 'public', 'uploads', fileType)
+        if (!existsSync(uploadDir)) {
+          await mkdir(uploadDir, { recursive: true })
+        }
+        const fileName = generateFileName(file.name)
+        try {
+          await writeFile(path.join(uploadDir, fileName), buffer)
+        } catch (writeError) {
+          logger.error('Erreur écriture fichier:', writeError)
+          return NextResponse.json(
+            { error: `Erreur lors de l'enregistrement du fichier "${file.name}"` },
+            { status: 500 }
+          )
+        }
+        fileUrl = `/uploads/${fileType}/${fileName}`
       }
-
-      // Générer un nom de fichier unique
-      const fileName = generateFileName(file.name)
-      const filePath = path.join(uploadDir, fileName)
-
-      // Convertir le fichier en buffer et écrire
-      try {
-        const bytes = await file.arrayBuffer()
-        const buffer = Buffer.from(bytes)
-        await writeFile(filePath, buffer)
-      } catch (writeError) {
-        logger.error('Erreur écriture fichier:', writeError)
-        return NextResponse.json(
-          { error: `Erreur lors de l'enregistrement du fichier "${file.name}"` },
-          { status: 500 }
-        )
-      }
-
-      // URL publique du fichier
-      const fileUrl = `/uploads/${fileType}/${fileName}`
 
       uploadedFiles.push({
         url: fileUrl,

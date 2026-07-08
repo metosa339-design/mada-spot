@@ -2102,3 +2102,126 @@ model FollowUp {
   @@index([status, dueAt])
   @@index([dueAt])
 }
+
+// ============================================
+// CAMPAGNES E-MAIL (CRM — envoi groupé)
+// ============================================
+
+enum CampaignStatus {
+  DRAFT // Brouillon en cours de composition
+  READY // Destinataires calculés, prêt à envoyer
+  SENDING // Envoi en cours (par lots)
+  PAUSED // Mis en pause par un admin
+  DONE // Terminé
+}
+
+enum CampaignRecipientStatus {
+  PENDING
+  SENT
+  FAILED
+  SKIPPED // désinscrit / doublon
+}
+
+model Campaign {
+  id      String @id @default(cuid())
+  name    String
+  channel String @default("brevo") // brevo | gmail
+
+  subject  String
+  htmlBody String @db.Text // supporte {{prenom}}, {{type}}, {{ville}}, {{etablissement}}
+
+  // Ciblage : filtre de segment sérialisé en JSON
+  // ex: {"audience":"users","userType":"HOTEL","ficheStatus":"without","city":"Nosy Be"}
+  segment String @db.Text
+
+  status          CampaignStatus @default(DRAFT)
+  dailyLimit      Int            @default(300)
+  totalRecipients Int            @default(0)
+  sentCount       Int            @default(0)
+  failedCount     Int            @default(0)
+
+  createdById String? // admin (pas de relation pour isoler le modèle)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  sentAt      DateTime?
+
+  recipients CampaignRecipient[]
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model CampaignRecipient {
+  id         String   @id @default(cuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  email             String
+  firstName         String?
+  establishmentName String?
+  city              String?
+  typeLabel         String?
+
+  status  CampaignRecipientStatus @default(PENDING)
+  error   String?
+  sentAt  DateTime?
+  opened  Boolean                 @default(false)
+  clicked Boolean                 @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@unique([campaignId, email])
+  @@index([campaignId, status])
+}
+
+// ============================================
+// BOOSTS / MISE EN AVANT (monétisation)
+// ============================================
+
+enum BoostStatus {
+  ACTIVE
+  SCHEDULED
+  EXPIRED
+  CANCELLED
+}
+
+model Boost {
+  id              String @id @default(cuid())
+  establishmentId String // pas de relation pour isoler le modèle
+  establishmentName String?
+
+  type     String @default("featured") // featured | top_ranking | homepage
+  priority Int    @default(100) // plus haut = passe devant
+
+  startDate DateTime @default(now())
+  endDate   DateTime
+
+  status BoostStatus @default(ACTIVE)
+
+  // Facturation
+  price    Float   @default(0)
+  currency String  @default("EUR")
+  isPaid   Boolean @default(false)
+  note     String?
+
+  createdById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([establishmentId])
+  @@index([status, endDate])
+  @@index([type, status])
+}
+
+// Segment enregistré (réutilisable pour campagnes / WhatsApp)
+model SavedSegment {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  filter      String   @db.Text // SegmentFilter sérialisé
+  createdById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([createdAt])
+}

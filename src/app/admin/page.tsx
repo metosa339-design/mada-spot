@@ -38,6 +38,10 @@ import {
   Menu,
   BookOpen,
   Contact,
+  Filter,
+  Megaphone,
+  Rocket,
+  MessageCircle,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
@@ -72,6 +76,13 @@ const DuplicateDetector = dynamic(() => import('@/components/admin/DuplicateDete
 const SlowProviders = dynamic(() => import('@/components/admin/SlowProviders'), { loading: DynLoading });
 const BlogManager = dynamic(() => import('@/components/admin/BlogManager'), { loading: DynLoading });
 const CRMSection = dynamic(() => import('@/components/admin/CRMSection'), { loading: DynLoading });
+const FunnelDashboard = dynamic(() => import('@/components/admin/FunnelDashboard'), { loading: DynLoading });
+const CampaignManager = dynamic(() => import('@/components/admin/CampaignManager'), { loading: DynLoading });
+const BoostManager = dynamic(() => import('@/components/admin/BoostManager'), { loading: DynLoading });
+const Contact360 = dynamic(() => import('@/components/admin/Contact360'), { loading: DynLoading });
+const WhatsappTool = dynamic(() => import('@/components/admin/WhatsappTool'), { loading: DynLoading });
+const EditorialCalendar = dynamic(() => import('@/components/admin/EditorialCalendar'), { loading: DynLoading });
+const ConformityManager = dynamic(() => import('@/components/admin/ConformityManager'), { loading: DynLoading });
 
 // ============================================================
 // TYPES
@@ -90,6 +101,13 @@ interface NotificationItem {
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Tableau de Bord', icon: LayoutDashboard },
   { id: 'crm', label: 'CRM', icon: Contact, hasBadge: true },
+  { id: 'funnel', label: 'Entonnoir', icon: Filter },
+  { id: 'campaigns', label: 'Campagnes', icon: Megaphone },
+  { id: 'whatsapp', label: 'WhatsApp', icon: MessageCircle },
+  { id: 'contact360', label: 'Fiche contact', icon: Contact },
+  { id: 'conformity', label: 'Conformité fiches', icon: ShieldAlert },
+  { id: 'editorial', label: 'Calendrier édito', icon: CalendarDays },
+  { id: 'boost', label: 'Boosts', icon: Rocket },
   { id: 'moderation', label: 'Moderation', icon: ClipboardCheck, hasBadge: true },
   { id: 'establishments', label: 'Etablissements', icon: Building2, hasBadge: true },
   { id: 'claims', label: 'Revendications', icon: Flag, hasBadge: true },
@@ -134,6 +152,76 @@ function TabContent({ tabId, setActiveTab }: { tabId: string; setActiveTab: (t: 
             <p className="text-sm text-gray-500">Clients, prospects, conversations multi-canal (email, Messenger, chat) et suivis</p>
           </div>
           <CRMSection />
+        </div>
+      );
+    case 'funnel':
+      return (
+        <div>
+          <div className="mb-6">
+            <h3 className="text-xl font-bold">Entonnoir d&apos;acquisition</h3>
+            <p className="text-sm text-gray-500">Prospect → inscrit → fiche → validée → actif. Là où on perd le plus de monde.</p>
+          </div>
+          <FunnelDashboard />
+        </div>
+      );
+    case 'campaigns':
+      return (
+        <div>
+          <div className="mb-6">
+            <h3 className="text-xl font-bold">Campagnes e-mail</h3>
+            <p className="text-sm text-gray-500">Cibler un segment, composer, envoyer et suivre les résultats</p>
+          </div>
+          <CampaignManager />
+        </div>
+      );
+    case 'boost':
+      return (
+        <div>
+          <div className="mb-6">
+            <h3 className="text-xl font-bold">Boosts &amp; mise en avant</h3>
+            <p className="text-sm text-gray-500">Qui passe en premier — boosts payants avec expiration automatique</p>
+          </div>
+          <BoostManager />
+        </div>
+      );
+    case 'whatsapp':
+      return (
+        <div>
+          <div className="mb-6">
+            <h3 className="text-xl font-bold">WhatsApp</h3>
+            <p className="text-sm text-gray-500">Cibler un segment et ouvrir WhatsApp avec le message pré-rempli (depuis ton numéro)</p>
+          </div>
+          <WhatsappTool />
+        </div>
+      );
+    case 'contact360':
+      return (
+        <div>
+          <div className="mb-6">
+            <h3 className="text-xl font-bold">Fiche contact 360°</h3>
+            <p className="text-sm text-gray-500">Vue unifiée d&apos;un contact : profil, score, historique complet</p>
+          </div>
+          <Contact360 />
+        </div>
+      );
+    case 'conformity':
+      return (
+        <div>
+          <div className="mb-6">
+            <h3 className="text-xl font-bold">Conformité des fiches</h3>
+            <p className="text-sm text-gray-500">Repérer les fiches incomplètes, les corriger à 100% ou envoyer un mail auto-rédigé</p>
+          </div>
+          <ConformityManager />
+        </div>
+      );
+    case 'editorial':
+      return (
+        <div>
+          <div className="mb-6">
+            <h3 className="text-xl font-bold">Calendrier éditorial</h3>
+            <p className="text-sm text-gray-500">Articles, événements, promotions, campagnes et boosts sur une seule vue</p>
+          </div>
+          <EditorialCalendar />
         </div>
       );
     case 'moderation':

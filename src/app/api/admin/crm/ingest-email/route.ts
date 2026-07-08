@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 import { apiError, apiSuccess } from '@/lib/api-response';
 import { prisma } from '@/lib/db';
+import { notifyAdminsNewMessage } from '@/lib/crm';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -91,6 +92,8 @@ export async function POST(request: NextRequest) {
     const bump = prospect.status === 'NEW' || prospect.status === 'CONTACTED' ? { status: 'ENGAGED' as const } : {};
     await prisma.prospect.update({ where: { id: prospect.id }, data: { lastInboundAt: receivedAt, ...bump } });
   }
+
+  await notifyAdminsNewMessage(conversation.id, content).catch(() => {});
 
   return apiSuccess({ conversationId: conversation.id, linked: user ? 'user' : prospect ? 'prospect' : 'none' }, 201);
 }

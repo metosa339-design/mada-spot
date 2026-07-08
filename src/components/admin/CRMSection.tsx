@@ -131,7 +131,7 @@ const STATUS_COLOR: Record<ProspectStatus, string> = {
 
 type Tab = 'overview' | 'clients' | 'prospects' | 'inbox' | 'followups';
 
-export default function CRMSection() {
+export default function CRMSection({ onOpenContact }: { onOpenContact?: (email: string) => void } = {}) {
   const [tab, setTab] = useState<Tab>('overview');
 
   return (
@@ -145,7 +145,7 @@ export default function CRMSection() {
       </div>
 
       {tab === 'overview' && <OverviewTab />}
-      {tab === 'inbox' && <InboxTab />}
+      {tab === 'inbox' && <InboxTab onOpenContact={onOpenContact} />}
       {tab === 'clients' && <ClientsTab />}
       {tab === 'prospects' && <ProspectsTab />}
       {tab === 'followups' && <FollowUpsTab />}
@@ -260,7 +260,7 @@ function Row({ label, value, pillClass }: { label: string; value: number; pillCl
 // ============================================================================
 // BOÎTE DE RÉCEPTION UNIFIÉE
 // ============================================================================
-function InboxTab() {
+function InboxTab({ onOpenContact }: { onOpenContact?: (email: string) => void }) {
   const [items, setItems] = useState<ConversationListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -439,6 +439,15 @@ function InboxTab() {
                   {CHANNEL_LABEL[detail.channel]} · {detail.user?.email || detail.prospect?.email || detail.prospect?.messengerPsid || ''}
                 </p>
               </div>
+              {onOpenContact && (detail.user?.email || detail.prospect?.email) && (
+                <button
+                  onClick={() => onOpenContact((detail.user?.email || detail.prospect?.email) as string)}
+                  className="text-xs px-2.5 py-1 rounded-lg border border-orange-200 text-orange-600 hover:bg-orange-50 whitespace-nowrap"
+                  title="Ouvrir la fiche 360° du contact"
+                >
+                  Fiche 360°
+                </button>
+              )}
               <select
                 value={detail.status}
                 onChange={async (e) => {

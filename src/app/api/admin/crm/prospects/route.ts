@@ -3,6 +3,7 @@ import { checkAdminAuth } from '@/lib/api/admin-auth';
 import { apiError, apiSuccess } from '@/lib/api-response';
 import { prisma } from '@/lib/db';
 import { logAudit, getRequestMeta } from '@/lib/audit';
+import { nextRefCode } from '@/lib/crm/refcode';
 
 // GET /api/admin/crm/prospects — liste des prospects avec filtres
 export async function GET(request: NextRequest) {
@@ -83,6 +84,7 @@ export async function POST(request: NextRequest) {
     if (existing) return apiError('Un prospect avec cet email existe déjà', 409);
   }
 
+  const refCode = await nextRefCode().catch(() => null);
   const prospect = await prisma.prospect.create({
     data: {
       email: email || null,
@@ -96,6 +98,7 @@ export async function POST(request: NextRequest) {
       sourceNote: sourceNote || null,
       status: status || 'NEW',
       ownerId: admin.id,
+      refCode: refCode || undefined,
     },
   });
 

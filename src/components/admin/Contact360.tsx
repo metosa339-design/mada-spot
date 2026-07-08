@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Search, User, Mail, Phone, Building2, Star, CalendarDays, MessageSquare, StickyNote, Bell, Megaphone } from 'lucide-react';
 
 const ICONS: Record<string, any> = {
@@ -20,14 +20,14 @@ export default function Contact360() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
-  const search = async (e?: React.FormEvent) => {
-    e?.preventDefault();
-    if (!email.trim()) return;
+  const doSearch = useCallback(async (target: string) => {
+    const q = target.trim();
+    if (!q) return;
     setLoading(true);
     setErr(null);
     setData(null);
     try {
-      const res = await fetch(`/api/admin/crm/contact?email=${encodeURIComponent(email.trim())}`);
+      const res = await fetch(`/api/admin/crm/contact?email=${encodeURIComponent(q)}`);
       const json = await res.json();
       if (json.success) setData(json.data);
       else setErr(json.error);
@@ -36,7 +36,25 @@ export default function Contact360() {
     } finally {
       setLoading(false);
     }
+  }, []);
+
+  const search = (e?: React.FormEvent) => {
+    e?.preventDefault();
+    doSearch(email);
   };
+
+  // Ouverture depuis la boîte de réception (clic « Fiche 360° »)
+  useEffect(() => {
+    let preset: string | null = null;
+    try {
+      preset = sessionStorage.getItem('crm360email');
+      if (preset) sessionStorage.removeItem('crm360email');
+    } catch { /* ignore */ }
+    if (preset) {
+      setEmail(preset);
+      doSearch(preset);
+    }
+  }, [doSearch]);
 
   return (
     <div className="max-w-3xl">
@@ -53,6 +71,8 @@ export default function Contact360() {
         <button className="px-4 py-2 rounded-lg bg-orange-500 text-white text-sm font-semibold">Voir la fiche</button>
       </form>
 
+      <BackfillIds />
+
       {loading && <p className="text-gray-400 text-center py-8">Chargement…</p>}
       {err && <p className="text-red-500 text-center py-8">{err}</p>}
 
@@ -62,6 +82,9 @@ export default function Contact360() {
           <div className="rounded-xl border border-gray-200 dark:border-gray-700 p-5">
             <div className="flex items-start justify-between">
               <div>
+                {data.refCode && (
+                  <span className="inline-block text-xs font-mono font-bold text-orange-600 bg-orange-50 border border-orange-200 rounded px-2 py-0.5 mb-1">{data.refCode}</span>
+                )}
                 <h3 className="text-lg font-bold">
                   {(data.user?.firstName || data.prospect?.firstName || '') + ' ' + (data.user?.lastName || data.prospect?.lastName || '')}
                   {!data.user?.firstName && !data.prospect?.firstName && data.email}
@@ -120,6 +143,32 @@ export default function Contact360() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function BackfillIds() {
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<string | null>(null);
+  const run = async () => {
+    setBusy(true);
+    setMsg(null);
+    try {
+      const res = await fetch('/api/admin/crm/refcode-backfill', { method: 'POST' });
+      const json = await res.json();
+      setMsg(json.success ? `${json.data.assigned} ID attribués (dernier : ID${String(json.data.counter).padStart(3, '0')}).` : json.error);
+    } catch {
+      setMsg('Erreur');
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <div className="flex items-center gap-3 mb-6 -mt-3">
+      <button onClick={run} disabled={busy} className="text-xs text-gray-500 underline disabled:opacity-50">
+        {busy ? 'Attribution…' : 'Générer les ID manquants (ID001…) pour tous les contacts'}
+      </button>
+      {msg && <span className="text-xs text-green-600">{msg}</span>}
     </div>
   );
 }

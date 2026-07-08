@@ -151,7 +151,7 @@ function TabContent({ tabId, setActiveTab }: { tabId: string; setActiveTab: (t: 
             <h3 className="text-xl font-bold">CRM</h3>
             <p className="text-sm text-gray-500">Clients, prospects, conversations multi-canal (email, Messenger, chat) et suivis</p>
           </div>
-          <CRMSection />
+          <CRMSection onOpenContact={(email: string) => { try { sessionStorage.setItem('crm360email', email); } catch { /* ignore */ } setActiveTab('contact360'); }} />
         </div>
       );
     case 'funnel':

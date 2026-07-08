@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { RefreshCw, PencilLine, Mail, X, Send, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import AdminFicheEditor from './AdminFicheEditor';
+import AdminFicheCreate from './AdminFicheCreate';
 
 interface Item {
   id: string;
@@ -23,6 +24,7 @@ export default function ConformityManager() {
   const [search, setSearch] = useState('');
   const [type, setType] = useState('all');
   const [editing, setEditing] = useState<string | null>(null);
+  const [creating, setCreating] = useState(false);
   const [notify, setNotify] = useState<{ id: string; name: string } | null>(null);
 
   const load = useCallback(async () => {
@@ -42,12 +44,20 @@ export default function ConformityManager() {
     load();
   }, [load]);
 
+  if (creating) {
+    return <AdminFicheCreate onBack={() => setCreating(false)} onCreated={(id) => { setCreating(false); setEditing(id); load(); }} />;
+  }
   if (editing) {
     return <AdminFicheEditor id={editing} onBack={() => setEditing(null)} onSaved={load} />;
   }
 
   return (
     <div>
+      <div className="flex justify-end mb-3">
+        <button onClick={() => setCreating(true)} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 text-white text-sm font-semibold">
+          + Nouvelle fiche
+        </button>
+      </div>
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-5">
         <Stat label="Fiches scannées" value={data?.totalScanned ?? 0} />

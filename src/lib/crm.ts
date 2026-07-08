@@ -154,7 +154,33 @@ export async function appendConversationMessage(params: AppendMessageParams) {
     }),
   ]);
 
+  // Notifier les admins d'un message entrant (best-effort)
+  if (direction === 'INBOUND') {
+    await notifyAdminsNewMessage(conversationId, preview).catch(() => {});
+  }
+
   return message;
+}
+
+/**
+ * Crée une notification "nouveau message" pour tous les admins actifs.
+ */
+export async function notifyAdminsNewMessage(conversationId: string, preview: string) {
+  const admins = await prisma.user.findMany({
+    where: { role: 'ADMIN', isActive: true },
+    select: { id: true },
+  });
+  if (admins.length === 0) return;
+  await prisma.notification.createMany({
+    data: admins.map((a) => ({
+      userId: a.id,
+      type: 'MESSAGE_NEW' as const,
+      title: 'Nouveau message',
+      message: preview.slice(0, 140) || 'Nouveau message reçu',
+      entityType: 'conversation',
+      entityId: conversationId,
+    })),
+  });
 }
 
 /**

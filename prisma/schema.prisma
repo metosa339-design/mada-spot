@@ -93,6 +93,9 @@ model User {
   // Loyalty
   loyaltyPoints Int @default(0)
 
+  // Identifiant CRM lisible (ID001, ID002…) — compteur unique partagé avec Prospect
+  refCode String? @unique
+
   // Notification preferences (JSON: { [NotificationType]: boolean }), null = all enabled
   notificationPreferences Json?
 
@@ -1912,6 +1915,9 @@ model Prospect {
   sourceNote String?
   score      Int            @default(0) // Lead scoring 0-100
 
+  // Identifiant CRM lisible (ID001…) — compteur unique partagé avec User
+  refCode String? @unique
+
   // Préférences
   preferredChannel ConversationChannel @default(EMAIL)
   optInEmail       Boolean             @default(true)
@@ -2211,6 +2217,13 @@ model Boost {
   @@index([establishmentId])
   @@index([status, endDate])
   @@index([type, status])
+}
+
+// Compteur atomique (ex: identifiants CRM lisibles ID001)
+model Counter {
+  name      String   @id
+  value     Int      @default(0)
+  updatedAt DateTime @updatedAt
 }
 
 // Segment enregistré (réutilisable pour campagnes / WhatsApp)

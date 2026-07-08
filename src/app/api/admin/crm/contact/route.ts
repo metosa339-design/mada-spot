@@ -3,6 +3,7 @@ import { checkAdminAuth } from '@/lib/api/admin-auth';
 import { apiError, apiSuccess } from '@/lib/api-response';
 import { prisma } from '@/lib/db';
 import { computeScore } from '@/lib/crm/scoring';
+import { ensureUserRefCode, ensureProspectRefCode } from '@/lib/crm/refcode';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,19 +25,26 @@ export async function GET(request: NextRequest) {
   const [user, prospect] = await Promise.all([
     prisma.user.findFirst({
       where: { email },
-      select: { id: true, email: true, phone: true, firstName: true, lastName: true, userType: true, createdAt: true, isActive: true, isBanned: true },
+      select: { id: true, email: true, phone: true, firstName: true, lastName: true, userType: true, createdAt: true, isActive: true, isBanned: true, refCode: true },
     }),
     prisma.prospect.findFirst({
       where: { email },
       select: {
         id: true, email: true, phone: true, firstName: true, lastName: true, company: true, city: true,
         status: true, source: true, score: true, contactAttempts: true,
-        lastContactedAt: true, lastInboundAt: true, convertedAt: true, createdAt: true,
+        lastContactedAt: true, lastInboundAt: true, convertedAt: true, createdAt: true, refCode: true,
       },
     }),
   ]);
 
   if (!user && !prospect) return apiError('Aucun contact avec cet email', 404);
+
+  // Assigne un ID lisible à la volée si absent
+  let refCode: string | null = user?.refCode || prospect?.refCode || null;
+  if (!refCode) {
+    if (user) refCode = await ensureUserRefCode(user.id, null).catch(() => null);
+    else if (prospect) refCode = await ensureProspectRefCode(prospect.id, null).catch(() => null);
+  }
 
   const userIds = user ? [user.id] : [];
   const prospectIds = prospect ? [prospect.id] : [];
@@ -119,6 +127,7 @@ export async function GET(request: NextRequest) {
 
   return apiSuccess({
     email,
+    refCode,
     user,
     prospect,
     score: liveScore,

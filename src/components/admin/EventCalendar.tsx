@@ -259,11 +259,7 @@ export default function EventCalendar() {
     setSaving(true);
     try {
       if (viewMode === 'create') {
-        // Fetch CSRF token
-        const csrfRes = await fetch('/api/csrf', { credentials: 'include' });
-        const csrfData = await csrfRes.json();
-
-        const res = await fetch('/api/events', {
+        const res = await fetch('/api/admin/events', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -273,7 +269,6 @@ export default function EventCalendar() {
             endDate: form.endDate || null,
             linkedProductType: form.linkedProductType || null,
             linkedProductId: form.linkedProductId || null,
-            csrfToken: csrfData.token,
           }),
         });
         if (res.ok) {
@@ -369,7 +364,7 @@ export default function EventCalendar() {
   // ============================================================
   if (viewMode === 'create' || viewMode === 'edit') {
     return (
-      <div className="space-y-6">
+      <div className="space-y-6 bg-[#0b0b14] text-gray-200 rounded-2xl p-6 border border-[#1e1e2e]">
         {/* Header */}
         <div className="flex items-center justify-between">
           <h3 className="text-base font-semibold flex items-center gap-2">

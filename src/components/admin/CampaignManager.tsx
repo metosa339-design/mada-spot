@@ -377,6 +377,19 @@ function CampaignDetail({ id, onBack }: { id: string; onBack: () => void }) {
     }
   };
 
+  const retryFailed = async () => {
+    setMsg(null);
+    setSending(true);
+    try {
+      const res = await fetch(`/api/admin/crm/campaigns/${id}/retry`, { method: 'POST' });
+      const json = await res.json();
+      setMsg(json.success ? `${json.data.reset} échec(s) remis en attente. Cliquez « Envoyer un lot ».` : json.error);
+      load();
+    } finally {
+      setSending(false);
+    }
+  };
+
   const del = async () => {
     if (!confirm('Supprimer cette campagne ?')) return;
     await fetch(`/api/admin/crm/campaigns/${id}`, { method: 'DELETE' });
@@ -423,8 +436,13 @@ function CampaignDetail({ id, onBack }: { id: string; onBack: () => void }) {
             <button onClick={buildRecipients} disabled={sending} className="text-sm text-gray-500 underline">Recalculer</button>
           </div>
         )}
-        {c.status === 'DONE' && (
+        {c.status === 'DONE' && s.PENDING === 0 && s.FAILED === 0 && (
           <p className="text-sm text-green-600 inline-flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> Campagne terminée.</p>
+        )}
+        {s.FAILED > 0 && (
+          <button onClick={retryFailed} disabled={sending} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-red-200 text-red-600 text-sm font-semibold disabled:opacity-50">
+            Réessayer les {s.FAILED} échec(s)
+          </button>
         )}
         <p className="text-xs text-gray-400">
           L&apos;envoi se fait par lots pour préserver la délivrabilité (max 100/lot). Relancez « Envoyer un lot » jusqu&apos;à épuisement.

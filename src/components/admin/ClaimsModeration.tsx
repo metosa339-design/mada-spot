@@ -25,16 +25,35 @@ export default function ClaimsModeration() {
   useEffect(() => { fetchClaims(); }, [fetchClaims]);
 
   const handleAction = async (claimId: string, action: 'approve' | 'reject') => {
+    let rejectionReason: string | undefined;
+    if (action === 'reject') {
+      const r = prompt('Motif du refus (visible par le demandeur) :');
+      if (r === null) return; // annulé
+      rejectionReason = r || 'Justificatifs insuffisants';
+    }
     setActionLoading(claimId);
     try {
       await fetch('/api/admin/claims', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ claimId, action }),
+        body: JSON.stringify({ claimId, action, rejectionReason }),
       });
       fetchClaims();
     } catch {}
     setActionLoading(null);
+  };
+
+  // Indice de correspondance : l'e-mail du demandeur colle-t-il à la fiche ?
+  const matchScore = (claim: any): { ok: boolean; label: string } | null => {
+    const ce = (claim.claimantEmail || '').toLowerCase();
+    if (!ce) return null;
+    const ee = (claim.establishment?.email || '').toLowerCase();
+    if (ee && ee === ce) return { ok: true, label: 'E-mail identique à la fiche' };
+    const site = (claim.establishment?.website || '').toLowerCase();
+    const dom = ce.split('@')[1] || '';
+    if (dom && site.includes(dom)) return { ok: true, label: 'Domaine = site web' };
+    if (dom && !['gmail.com', 'yahoo.fr', 'yahoo.com', 'hotmail.com', 'hotmail.fr', 'outlook.com', 'outlook.fr', 'moov.mg'].includes(dom)) return { ok: true, label: 'E-mail professionnel' };
+    return { ok: false, label: 'E-mail générique — à vérifier' };
   };
 
   const roleLabels: Record<string, string> = {
@@ -54,7 +73,7 @@ export default function ClaimsModeration() {
             className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
               filter === s
                 ? 'bg-[#ff6b35] text-white'
-                : 'bg-[#080810] border border-[#1e1e2e] text-gray-400 hover:text-white'
+                : 'bg-gray-50 border border-gray-200 text-gray-400 hover:text-gray-900'
             }`}
           >
             {s === 'PENDING' ? 'En attente' : s === 'APPROVED' ? 'Approuvees' : 'Refusees'}
@@ -73,7 +92,7 @@ export default function ClaimsModeration() {
         <div className="space-y-3">
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {claims.map((claim: any) => (
-            <div key={claim.id} className="p-5 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl space-y-3">
+            <div key={claim.id} className="p-5 bg-white border border-gray-200 rounded-xl space-y-3">
               {/* Establishment info */}
               <div className="flex items-center gap-3">
                 {claim.establishment?.coverImage ? (
@@ -81,7 +100,7 @@ export default function ClaimsModeration() {
                     <Image src={getImageUrl(claim.establishment.coverImage)} alt={claim.establishment.name || 'Etablissement'} fill sizes="48px" className="rounded-lg object-cover" />
                   </div>
                 ) : (
-                  <div className="w-12 h-12 rounded-lg bg-[#080810] flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-lg bg-gray-50 flex items-center justify-center">
                     <Building2 className="w-5 h-5 text-gray-600" />
                   </div>
                 )}
@@ -92,22 +111,28 @@ export default function ClaimsModeration() {
               </div>
 
               {/* Claimant info */}
-              <div className="p-3 bg-[#080810] rounded-lg space-y-1.5">
+              <div className="p-3 bg-gray-50 rounded-lg space-y-1.5">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium">{claim.claimantName}</p>
                   <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400">
                     {roleLabels[claim.claimantRole] || claim.claimantRole}
                   </span>
                 </div>
-                <p className="text-xs text-gray-400">{claim.claimantEmail}</p>
-                {claim.claimantPhone && <p className="text-xs text-gray-400">{claim.claimantPhone}</p>}
+                <p className="text-xs text-gray-500">{claim.claimantEmail}</p>
+                {claim.claimantPhone && <p className="text-xs text-gray-500">{claim.claimantPhone}</p>}
+                {(() => { const m = matchScore(claim); return m ? (
+                  <span className={`inline-block text-[10px] px-2 py-0.5 rounded-full font-medium ${m.ok ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
+                    {m.ok ? '✓ ' : '⚠ '}{m.label}
+                  </span>
+                ) : null; })()}
                 {claim.proofDescription && (
-                  <p className="text-xs text-gray-300 mt-2 pt-2 border-t border-[#1e1e2e]">{claim.proofDescription}</p>
+                  <p className="text-xs text-gray-700 mt-2 pt-2 border-t border-gray-200">{claim.proofDescription}</p>
                 )}
               </div>
 
-              <p className="text-[10px] text-gray-600">
+              <p className="text-[10px] text-gray-500">
                 Soumis le {new Date(claim.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                {claim.reviewedAt && ` · Traité le ${new Date(claim.reviewedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}`}
               </p>
 
               {/* Actions */}

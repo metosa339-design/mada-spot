@@ -33,7 +33,8 @@ function reviewEmail(firstName: string | null, estName: string, estId: string): 
 // Auth : CRON_SECRET (cron) OU session admin (bouton manuel).
 export async function POST(request: NextRequest) {
   const secret = request.headers.get('x-cron-secret') || new URL(request.url).searchParams.get('secret');
-  const cronOk = process.env.CRON_SECRET && secret === process.env.CRON_SECRET;
+  // Cohérent avec les autres crons : si CRON_SECRET non configuré, on autorise (localhost) ; sinon secret requis OU session admin.
+  const cronOk = !process.env.CRON_SECRET || secret === process.env.CRON_SECRET;
   const admin = cronOk ? true : await checkAdminAuth(request);
   if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 

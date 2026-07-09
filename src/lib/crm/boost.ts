@@ -32,14 +32,16 @@ export async function expireStaleBoosts(): Promise<number> {
 export async function syncEstablishmentFeature(establishmentId: string): Promise<void> {
   const active = await prisma.boost.findMany({
     where: { establishmentId, status: 'ACTIVE' },
-    select: { type: true },
+    select: { type: true, priority: true },
   });
   const featured = active.length > 0;
   const premium = active.some((b) => b.type === 'homepage');
+  // displayOrder (le public trie displayOrder DESC) = priorité max des boosts actifs, sinon 0.
+  const displayOrder = featured ? Math.max(0, ...active.map((b) => b.priority || 0)) : 0;
   await prisma.establishment
     .update({
       where: { id: establishmentId },
-      data: { isFeatured: featured, ...(premium ? { isPremium: true } : {}) },
+      data: { isFeatured: featured, displayOrder, ...(premium ? { isPremium: true } : {}) },
     })
     .catch(() => {});
 }

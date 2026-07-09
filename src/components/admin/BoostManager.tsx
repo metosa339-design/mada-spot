@@ -63,8 +63,8 @@ export default function BoostManager() {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
         <MiniStat label="Boosts actifs" value={data?.activeCount ?? 0} accent />
-        <MiniStat label="Revenus encaissés" value={`${(data?.revenuePaid ?? 0).toFixed(0)} €`} />
-        <MiniStat label="En attente de paiement" value={`${(data?.revenuePending ?? 0).toFixed(0)} €`} />
+        <MiniStat label="Revenus encaissés" value={`${(data?.revenuePaid ?? 0).toLocaleString('fr-FR')} AR`} />
+        <MiniStat label="En attente de paiement" value={`${(data?.revenuePending ?? 0).toLocaleString('fr-FR')} AR`} />
       </div>
 
       <CreateBoost onCreated={load} />
@@ -93,9 +93,8 @@ function CreateBoost({ onCreated }: { onCreated: () => void }) {
   const [results, setResults] = useState<EstResult[]>([]);
   const [selected, setSelected] = useState<EstResult | null>(null);
   const [type, setType] = useState('featured');
-  const [durationDays, setDurationDays] = useState(30);
-  const [priority, setPriority] = useState(100);
-  const [price, setPrice] = useState(0);
+  const [durationDays, setDurationDays] = useState(15);
+  const [price, setPrice] = useState(15000);
   const [isPaid, setIsPaid] = useState(false);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
@@ -127,7 +126,7 @@ function CreateBoost({ onCreated }: { onCreated: () => void }) {
       const res = await fetch('/api/admin/crm/boosts', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ establishmentId: selected.id, type, durationDays, priority, price, isPaid }),
+        body: JSON.stringify({ establishmentId: selected.id, type, durationDays, price, isPaid }),
       });
       const json = await res.json();
       if (json.success) {
@@ -174,9 +173,27 @@ function CreateBoost({ onCreated }: { onCreated: () => void }) {
         )}
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      {/* Offres prédéfinies */}
+      <div className="mb-3">
+        <span className="block text-xs text-gray-500 mb-1">Offres (Ariary)</span>
+        <div className="flex flex-wrap gap-2">
+          {OFFERS.map((o) => {
+            const activeSel = price === o.price && durationDays === o.days && type === o.type;
+            return (
+              <button key={o.label} onClick={() => { setPrice(o.price); setDurationDays(o.days); setType(o.type); }}
+                className={`text-left px-3 py-2 rounded-lg border text-xs ${activeSel ? 'border-orange-400 bg-orange-50' : 'border-gray-200 dark:border-gray-700 hover:border-orange-300'}`}>
+                <div className="font-bold">{o.label}</div>
+                <div className="text-gray-500">{o.price.toLocaleString('fr-FR')} AR · {o.days} j</div>
+                <div className="text-orange-500">{Math.round(o.price / o.days).toLocaleString('fr-FR')} AR/j</div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="grid sm:grid-cols-3 gap-3">
         <label className="block">
-          <span className="block text-xs text-gray-500 mb-1">Type</span>
+          <span className="block text-xs text-gray-500 mb-1">Type de mise en avant</span>
           <select value={type} onChange={(e) => setType(e.target.value)} className="w-full px-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-transparent">
             <option value="featured">Mise en avant</option>
             <option value="top_ranking">Haut de classement</option>
@@ -185,16 +202,17 @@ function CreateBoost({ onCreated }: { onCreated: () => void }) {
         </label>
         <label className="block">
           <span className="block text-xs text-gray-500 mb-1">Durée (jours)</span>
-          <input type="number" value={durationDays} onChange={(e) => setDurationDays(parseInt(e.target.value, 10) || 30)} className="w-full px-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-transparent" />
+          <input type="number" min={1} max={365} value={durationDays} onChange={(e) => setDurationDays(Math.min(Math.max(parseInt(e.target.value, 10) || 1, 1), 365))} className="w-full px-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-transparent" />
         </label>
         <label className="block">
-          <span className="block text-xs text-gray-500 mb-1">Priorité</span>
-          <input type="number" value={priority} onChange={(e) => setPriority(parseInt(e.target.value, 10) || 100)} className="w-full px-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-transparent" />
+          <span className="block text-xs text-gray-500 mb-1">Prix (AR, 5 000 – 1 000 000)</span>
+          <input type="number" min={5000} max={1000000} step={1000} value={price} onChange={(e) => setPrice(parseInt(e.target.value, 10) || 0)} className="w-full px-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-transparent" />
         </label>
-        <label className="block">
-          <span className="block text-xs text-gray-500 mb-1">Prix (€)</span>
-          <input type="number" value={price} onChange={(e) => setPrice(parseFloat(e.target.value) || 0)} className="w-full px-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-transparent" />
-        </label>
+      </div>
+
+      <div className="mt-2 text-xs bg-gray-50 dark:bg-gray-800 rounded-lg p-2 text-gray-600">
+        Classement calculé : <strong className="text-orange-600">{Math.round(Math.min(Math.max(price, 5000), 1000000) / Math.max(durationDays, 1)).toLocaleString('fr-FR')} AR/jour</strong>.
+        Plus le tarif journalier est élevé, plus la fiche passe devant. (Ex : 10 000 AR sur 15 j passe devant 10 000 AR sur 30 j.)
       </div>
 
       <div className="flex items-center gap-4 mt-3">
@@ -209,6 +227,15 @@ function CreateBoost({ onCreated }: { onCreated: () => void }) {
     </div>
   );
 }
+
+const OFFERS: { label: string; price: number; days: number; type: string }[] = [
+  { label: 'Flash', price: 5000, days: 7, type: 'featured' },
+  { label: 'Découverte', price: 15000, days: 15, type: 'featured' },
+  { label: 'Visibilité', price: 30000, days: 30, type: 'featured' },
+  { label: 'Booster+', price: 60000, days: 15, type: 'top_ranking' },
+  { label: 'Premium', price: 150000, days: 30, type: 'homepage' },
+  { label: 'VIP', price: 500000, days: 30, type: 'homepage' },
+];
 
 function BoostRow({ b, onChange }: { b: Boost; onChange: () => void }) {
   const [busy, setBusy] = useState(false);
@@ -238,12 +265,12 @@ function BoostRow({ b, onChange }: { b: Boost; onChange: () => void }) {
       <div className="flex-1 min-w-0">
         <div className="font-semibold truncate">{b.establishmentName || b.establishmentId}</div>
         <div className="text-xs text-gray-500">
-          {TYPE_LABELS[b.type] || b.type} · priorité {b.priority}
+          {TYPE_LABELS[b.type] || b.type} · {(b.priority || 0).toLocaleString('fr-FR')} AR/j
           {b.status === 'ACTIVE' && <span className="text-orange-500"> · <Clock className="w-3 h-3 inline" /> {daysLeft > 0 ? `${daysLeft} j restants` : 'expire'}</span>}
         </div>
       </div>
       <div className="text-right text-xs shrink-0">
-        <div className="font-semibold">{b.price > 0 ? `${b.price} ${b.currency}` : 'Gratuit'}</div>
+        <div className="font-semibold">{b.price > 0 ? `${b.price.toLocaleString('fr-FR')} ${b.currency}` : 'Gratuit'}</div>
         <div className={b.isPaid ? 'text-green-600' : 'text-orange-500'}>{b.price > 0 ? (b.isPaid ? 'payé' : 'à encaisser') : ''}</div>
       </div>
       <span className={`text-xs px-2 py-1 rounded-full shrink-0 ${STATUS_BADGE[b.status] || 'bg-gray-100'}`}>{b.status}</span>

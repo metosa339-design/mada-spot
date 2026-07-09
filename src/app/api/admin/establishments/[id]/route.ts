@@ -116,6 +116,11 @@ export async function PUT(
       establishmentData.images = Array.isArray(data.images) ? JSON.stringify(data.images) : data.images;
     }
 
+    // Documents (JSON array de {url,type,name,label})
+    if (data.documents !== undefined) {
+      establishmentData.documents = Array.isArray(data.documents) ? JSON.stringify(data.documents) : data.documents;
+    }
+
     // Auto moderation logic
     if (data.moderationStatus === 'approved') establishmentData.isActive = true;
     if (data.moderationStatus === 'rejected') establishmentData.isActive = false;

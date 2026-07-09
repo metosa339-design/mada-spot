@@ -395,6 +395,7 @@ model Establishment {
   coverImage String?
   images     String? // JSON array of image URLs
   gallery    String? // JSON array of {url, caption} objects
+  documents  String? // JSON array of {url, type, name, label} — documents à fournir (NIF, STAT, licence…)
 
   // Ratings
   rating      Float @default(0)

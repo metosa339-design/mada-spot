@@ -5,6 +5,7 @@ import { writeFile, mkdir } from 'fs/promises'
 import { existsSync } from 'fs'
 import path from 'path'
 import { getAuthUser } from '@/lib/auth'
+import { checkAdminAuth } from '@/lib/api/admin-auth'
 import { checkRateLimit, getClientIdentifier, getRateLimitHeaders } from '@/lib/rate-limit'
 import { verifyCsrfToken } from '@/lib/csrf'
 
@@ -77,11 +78,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Vérifier l'authentification
+    // Vérifier l'authentification (session utilisateur OU session admin)
     const sessionUser = await getAuthUser(request)
-    if (!sessionUser) {
+    const adminUser = sessionUser ? null : await checkAdminAuth(request)
+    if (!sessionUser && !adminUser) {
       return apiError('Non authentifié', 401)
     }
+    const isAdmin = !!adminUser
 
     // Parser le formData
     let formData
@@ -94,10 +97,12 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // CSRF verification (mandatory)
-    const csrfToken = formData.get('csrfToken') as string | null
-    if (!csrfToken || !verifyCsrfToken(csrfToken)) {
-      return NextResponse.json({ error: 'Token CSRF invalide ou manquant' }, { status: 403 })
+    // CSRF verification (obligatoire pour les sessions utilisateur ; levée pour les admins déjà authentifiés)
+    if (!isAdmin) {
+      const csrfToken = formData.get('csrfToken') as string | null
+      if (!csrfToken || !verifyCsrfToken(csrfToken)) {
+        return NextResponse.json({ error: 'Token CSRF invalide ou manquant' }, { status: 403 })
+      }
     }
 
     const files = formData.getAll('files') as File[]

@@ -937,6 +937,7 @@ model Booking {
   // Relance automatique
   lastRelanceAt DateTime? // Date de la dernière relance envoyée
   relanceCount  Int       @default(0) // Nombre de relances envoyées
+  reviewRequestedAt DateTime? // Demande d'avis (notation) envoyée après le passage
   expiredAt     DateTime? // Date d'expiration automatique
 
   // Référence

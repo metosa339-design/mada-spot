@@ -103,7 +103,7 @@ export default function ReviewModeration() {
           ].map(s => {
             const Icon = s.icon;
             return (
-              <div key={s.label} className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-4">
+              <div key={s.label} className="bg-white border border-gray-200 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${s.color}15` }}>
                     <Icon className="w-4 h-4" style={{ color: s.color }} />
@@ -126,6 +126,21 @@ export default function ReviewModeration() {
 
         <div className="flex-1" />
 
+        <button
+          onClick={async () => {
+            if (!confirm("Envoyer un mail de notation aux clients passés il y a 2-3 jours (sans avis) ?")) return;
+            try {
+              const res = await fetch('/api/cron/review-requests', { method: 'POST', credentials: 'include' });
+              const j = await res.json();
+              alert(j.success ? `Demandes d'avis envoyées : ${j.sent} (${j.skipped} ignorés sur ${j.scanned} analysés)` : (j.error || 'Erreur'));
+            } catch { alert('Erreur réseau'); }
+          }}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-500 text-white text-xs font-semibold"
+          title="Envoie un e-mail de notation aux clients récents. Aussi planifié automatiquement chaque jour."
+        >
+          Demander les avis ★
+        </button>
+
         {/* Status filters */}
         <div className="flex gap-2">
           {[
@@ -135,13 +150,13 @@ export default function ReviewModeration() {
             { value: 'flagged', label: 'Signalés' },
           ].map(s => (
             <button key={s.value} onClick={() => setStatus(s.value)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${status === s.value ? 'bg-[#ff6b35] text-white' : 'bg-[#080810] border border-[#1e1e2e] text-gray-400'}`}>
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${status === s.value ? 'bg-[#ff6b35] text-white' : 'bg-gray-50 border border-gray-200 text-gray-400'}`}>
               {s.label}
             </button>
           ))}
         </div>
 
-        <button onClick={fetchReviews} className="p-2 rounded-xl bg-[#0c0c16] border border-[#1e1e2e] hover:border-[#ff6b35]/30">
+        <button onClick={fetchReviews} className="p-2 rounded-xl bg-white border border-gray-200 hover:border-[#ff6b35]/30">
           <RefreshCw className="w-4 h-4 text-gray-400" />
         </button>
       </div>
@@ -157,12 +172,12 @@ export default function ReviewModeration() {
               <p className="text-sm">Aucun avis trouvé</p>
             </div>
           ) : estReviews.map(r => (
-            <div key={r.id} className={`bg-[#0c0c16] border rounded-xl p-5 ${!r.isPublished ? 'border-yellow-500/30 bg-yellow-500/5' : 'border-[#1e1e2e]'}`}>
+            <div key={r.id} className={`bg-white border rounded-xl p-5 ${!r.isPublished ? 'border-yellow-500/30 bg-yellow-500/5' : 'border-gray-200'}`}>
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     {renderStars(r.rating)}
-                    {r.title && <span className="text-sm font-medium text-white">{r.title}</span>}
+                    {r.title && <span className="text-sm font-medium text-gray-900">{r.title}</span>}
                     {r.isVerified && (
                       <span className="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-semibold rounded-full">Vérifié</span>
                     )}
@@ -191,7 +206,7 @@ export default function ReviewModeration() {
                   )}
                   <div className="flex items-center gap-4 mt-3 text-[10px] text-gray-500">
                     <span>Pour : <strong className="text-gray-300">{r.establishment.name}</strong></span>
-                    <span className="px-1.5 py-0.5 rounded-full bg-[#080810]">{r.establishment.type}</span>
+                    <span className="px-1.5 py-0.5 rounded-full bg-gray-50">{r.establishment.type}</span>
                     <span>{r.establishment.city}</span>
                     <span>Par : {r.authorName || 'Anonyme'}</span>
                     <span>{new Date(r.createdAt).toLocaleDateString('fr-FR')}</span>
@@ -218,10 +233,10 @@ export default function ReviewModeration() {
                   {deleteConfirm === r.id ? (
                     <div className="flex gap-1">
                       <button onClick={() => handleAction(r.id, 'delete')} className="p-2 rounded-lg bg-red-500/20 border border-red-500/30 text-red-400 text-[10px] font-medium">Oui</button>
-                      <button onClick={() => setDeleteConfirm(null)} className="p-2 rounded-lg bg-[#080810] border border-[#1e1e2e] text-gray-400 text-[10px]">Non</button>
+                      <button onClick={() => setDeleteConfirm(null)} className="p-2 rounded-lg bg-gray-50 border border-gray-200 text-gray-400 text-[10px]">Non</button>
                     </div>
                   ) : (
-                    <button onClick={() => setDeleteConfirm(r.id)} className="p-2 rounded-lg bg-[#080810] hover:bg-red-500/10 border border-[#1e1e2e]" title="Supprimer">
+                    <button onClick={() => setDeleteConfirm(r.id)} className="p-2 rounded-lg bg-gray-50 hover:bg-red-500/10 border border-gray-200" title="Supprimer">
                       <Trash2 className="w-4 h-4 text-gray-500" />
                     </button>
                   )}

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { RefreshCw, BookOpen, CalendarDays, Tag, Megaphone, Rocket } from 'lucide-react';
+import { RefreshCw, BookOpen, CalendarDays, Tag, Megaphone, Rocket, Facebook, X, Copy, Check, Loader2 } from 'lucide-react';
 
 const TYPE_META: Record<string, { label: string; color: string; icon: any }> = {
   article: { label: 'Article', color: 'text-blue-600 bg-blue-50', icon: BookOpen },
@@ -15,6 +15,29 @@ export default function EditorialCalendar() {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [types, setTypes] = useState<Set<string>>(new Set(Object.keys(TYPE_META)));
+  const [fb, setFb] = useState<{ item: any; loading: boolean; result: any } | null>(null);
+
+  const publishFb = async (item: any) => {
+    setFb({ item, loading: true, result: null });
+    try {
+      const res = await fetch('/api/admin/crm/facebook-post', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          title: item.title,
+          description: item.description,
+          city: item.city,
+          dateLabel: new Date(item.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
+          imageUrl: item.image,
+          link: item.link,
+        }),
+      });
+      const json = await res.json();
+      setFb({ item, loading: false, result: json.success ? json.data : { posted: false, text: '', reason: json.error } });
+    } catch {
+      setFb({ item, loading: false, result: { posted: false, text: '', reason: 'Erreur réseau' } });
+    }
+  };
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -82,6 +105,11 @@ export default function EditorialCalendar() {
                       <span className={`w-7 h-7 rounded-lg flex items-center justify-center ${m.color}`}><Icon className="w-4 h-4" /></span>
                       <span className="flex-1 text-sm truncate">{i.title}</span>
                       {i.status && <span className="text-xs text-gray-400">{i.status}</span>}
+                      {['article', 'event', 'promotion'].includes(i.type) && (
+                        <button onClick={() => publishFb(i)} title="Publier sur Facebook" className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-lg bg-[#1877F2] text-white font-medium shrink-0">
+                          <Facebook className="w-3.5 h-3.5" /> Publier
+                        </button>
+                      )}
                     </div>
                   );
                 })}
@@ -90,6 +118,42 @@ export default function EditorialCalendar() {
           ))}
         </div>
       )}
+
+      {fb && <FbModal state={fb} onClose={() => setFb(null)} />}
+    </div>
+  );
+}
+
+function FbModal({ state, onClose }: { state: { item: any; loading: boolean; result: any }; onClose: () => void }) {
+  const [copied, setCopied] = useState(false);
+  const r = state.result;
+  return (
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={onClose}>
+      <div className="bg-white dark:bg-gray-900 rounded-2xl max-w-lg w-full max-h-[85vh] overflow-auto p-5" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-bold inline-flex items-center gap-2"><Facebook className="w-4 h-4 text-[#1877F2]" /> Publication Facebook</h3>
+          <button onClick={onClose} className="text-gray-400"><X className="w-5 h-5" /></button>
+        </div>
+        {state.loading ? (
+          <p className="text-gray-400 text-sm inline-flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /> Publication…</p>
+        ) : r?.posted ? (
+          <p className="text-green-600 text-sm">✅ Publié sur la page Facebook !</p>
+        ) : (
+          <>
+            <p className="text-xs text-orange-600 mb-2">⚠ Publication auto indisponible ({r?.reason || 'jeton FB à reconnecter'}). Copiez le texte ci-dessous et collez-le sur Facebook :</p>
+            <textarea readOnly value={r?.text || ''} rows={10} className="w-full text-sm border border-gray-200 rounded-lg p-2 font-mono bg-gray-50" />
+            <div className="flex gap-2 mt-2">
+              <button
+                onClick={() => { navigator.clipboard?.writeText(r?.text || ''); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 text-white text-sm font-semibold"
+              >
+                {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />} {copied ? 'Copié' : 'Copier le texte'}
+              </button>
+              {state.item?.image && <a href={state.item.image} target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg border border-gray-200 text-sm">Ouvrir l&apos;image</a>}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

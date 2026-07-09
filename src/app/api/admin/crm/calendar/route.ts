@@ -10,6 +10,10 @@ interface CalItem {
   date: string;
   title: string;
   status?: string;
+  description?: string | null;
+  city?: string | null;
+  image?: string | null;
+  link?: string | null;
 }
 
 // GET /api/admin/crm/calendar — calendrier éditorial unifié
@@ -24,17 +28,17 @@ export async function GET(request: NextRequest) {
   const [articles, events, promos, campaigns, boosts] = await Promise.all([
     prisma.article.findMany({
       where: { OR: [{ publishedAt: { gte: from, lte: to } }, { createdAt: { gte: from, lte: to } }] },
-      select: { title: true, status: true, publishedAt: true, createdAt: true },
+      select: { title: true, status: true, publishedAt: true, createdAt: true, slug: true },
       take: 200,
     }),
     prisma.event.findMany({
       where: { startDate: { gte: from, lte: to } },
-      select: { title: true, status: true, startDate: true },
+      select: { title: true, status: true, startDate: true, slug: true, description: true, city: true, coverImage: true },
       take: 200,
     }),
     prisma.promotion.findMany({
       where: { startDate: { gte: from, lte: to } },
-      select: { title: true, isActive: true, startDate: true },
+      select: { title: true, isActive: true, startDate: true, description: true },
       take: 200,
     }),
     prisma.campaign.findMany({
@@ -50,9 +54,9 @@ export async function GET(request: NextRequest) {
   ]);
 
   const items: CalItem[] = [];
-  for (const a of articles) items.push({ type: 'article', date: (a.publishedAt || a.createdAt).toISOString(), title: a.title, status: a.status });
-  for (const e of events) items.push({ type: 'event', date: e.startDate.toISOString(), title: e.title, status: e.status });
-  for (const p of promos) items.push({ type: 'promotion', date: p.startDate.toISOString(), title: p.title, status: p.isActive ? 'active' : 'inactive' });
+  for (const a of articles) items.push({ type: 'article', date: (a.publishedAt || a.createdAt).toISOString(), title: a.title, status: a.status, link: `https://madaspot.com/blog/${a.slug}` });
+  for (const e of events) items.push({ type: 'event', date: e.startDate.toISOString(), title: e.title, status: e.status, description: e.description, city: e.city, image: e.coverImage, link: `https://madaspot.com/evenements/${e.slug}` });
+  for (const p of promos) items.push({ type: 'promotion', date: p.startDate.toISOString(), title: p.title, status: p.isActive ? 'active' : 'inactive', description: p.description, link: 'https://madaspot.com/offres' });
   for (const c of campaigns) items.push({ type: 'campaign', date: (c.sentAt || c.createdAt).toISOString(), title: c.name, status: c.status });
   for (const b of boosts) items.push({ type: 'boost', date: b.startDate.toISOString(), title: b.establishmentName || 'Boost', status: b.status });
 

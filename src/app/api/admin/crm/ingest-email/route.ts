@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server';
 import { apiError, apiSuccess } from '@/lib/api-response';
 import { prisma } from '@/lib/db';
 import { notifyAdminsNewMessage } from '@/lib/crm';
+import { nextRefCode } from '@/lib/crm/refcode';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -26,6 +27,7 @@ export async function POST(request: NextRequest) {
   if (!from || !content) return apiError('from et text requis', 400);
 
   const subject = body?.subject ? String(body.subject).slice(0, 300) : null;
+  const fromName = body?.fromName ? String(body.fromName).slice(0, 120) : null;
   const messageId = body?.messageId ? String(body.messageId) : null;
   const receivedAt = body?.receivedAt ? new Date(body.receivedAt) : new Date();
 
@@ -36,10 +38,30 @@ export async function POST(request: NextRequest) {
   }
 
   // Relier au contact (user OU prospect) par e-mail
-  const [user, prospect] = await Promise.all([
+  const [user, existingProspect] = await Promise.all([
     prisma.user.findFirst({ where: { email: from }, select: { id: true } }),
     prisma.prospect.findFirst({ where: { email: from }, select: { id: true, status: true } }),
   ]);
+
+  // Expéditeur inconnu (ni user ni prospect) => on crée un prospect (source e-mail entrant)
+  let prospect = existingProspect;
+  if (!user && !prospect) {
+    const code = await nextRefCode().catch(() => null);
+    const first = fromName ? fromName.split(/[<@]/)[0].trim().slice(0, 60) : null;
+    prospect = await prisma.prospect
+      .create({
+        data: {
+          email: from,
+          firstName: first || null,
+          source: 'CONTACT_FORM',
+          status: 'ENGAGED',
+          lastInboundAt: receivedAt,
+          refCode: code || undefined,
+        },
+        select: { id: true, status: true },
+      })
+      .catch(() => null);
+  }
 
   // Trouver une conversation e-mail ouverte, sinon en créer une
   let conversation = await prisma.conversation.findFirst({

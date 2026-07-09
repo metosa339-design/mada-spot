@@ -212,10 +212,32 @@ export async function GET(request: NextRequest) {
     if (statusParam && VALID_STATUSES.includes(statusParam)) where.moderationStatus = statusParam;
     if (typeParam && VALID_TYPES.includes(typeParam)) where.type = typeParam;
     if (search) {
+      const s = search.trim();
+      // Recherche multi-champs : nom, ville, quartier, région, adresse, tél, email, ID + propriétaire (nom/prénom/email/tél/ID)
+      const owners = await prisma.user.findMany({
+        where: {
+          OR: [
+            { firstName: { contains: s, mode: 'insensitive' } },
+            { lastName: { contains: s, mode: 'insensitive' } },
+            { email: { contains: s, mode: 'insensitive' } },
+            { phone: { contains: s } },
+            { refCode: { equals: s, mode: 'insensitive' } },
+          ],
+        },
+        select: { id: true },
+        take: 200,
+      });
+      const ownerIds = owners.map((o) => o.id);
       where.OR = [
-        { name: { contains: search, mode: 'insensitive' } },
-        { city: { contains: search, mode: 'insensitive' } },
-        { district: { contains: search, mode: 'insensitive' } },
+        { name: { contains: s, mode: 'insensitive' } },
+        { city: { contains: s, mode: 'insensitive' } },
+        { district: { contains: s, mode: 'insensitive' } },
+        { region: { contains: s, mode: 'insensitive' } },
+        { address: { contains: s, mode: 'insensitive' } },
+        { phone: { contains: s } },
+        { email: { contains: s, mode: 'insensitive' } },
+        { id: s },
+        ...(ownerIds.length ? [{ claimedByUserId: { in: ownerIds } }, { createdByUserId: { in: ownerIds } }] : []),
       ];
     }
 

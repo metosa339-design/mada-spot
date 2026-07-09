@@ -8,6 +8,7 @@ import {
   Search, Loader2, Building2, Plus, Edit3, CheckCircle, XCircle, Trash2,
   Hotel, UtensilsCrossed, Compass, Star,
 } from 'lucide-react';
+import { evaluateFiche } from '@/lib/crm/conformity';
 
 const EstablishmentEditor = dynamic(() => import('@/components/admin/EstablishmentEditor'), {
   loading: () => <div className="flex items-center justify-center p-12"><Loader2 className="w-8 h-8 animate-spin text-blue-500" /></div>,
@@ -98,7 +99,7 @@ export default function EstablishmentModerationList() {
     <div className="space-y-4">
       {/* Stats bar */}
       <div className="flex items-center gap-4 mb-2">
-        <span className="text-xs text-gray-500">Total : <strong className="text-white">{total}</strong></span>
+        <span className="text-xs text-gray-500">Total : <strong className="text-gray-900">{total}</strong></span>
         {pendingCount > 0 && (
           <span className="text-xs px-2 py-0.5 bg-yellow-500/10 border border-yellow-500/20 rounded-full text-yellow-400">
             {pendingCount} en attente
@@ -116,10 +117,10 @@ export default function EstablishmentModerationList() {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
           <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Rechercher par nom, ville..."
-            className="w-full pl-10 pr-4 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white placeholder-gray-600 focus:border-[#ff6b35] focus:outline-none" />
+            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:border-[#ff6b35] focus:outline-none" />
         </div>
         <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)}
-          className="px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none">
+          className="px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:border-[#ff6b35] focus:outline-none">
           <option value="">Tous types</option>
           <option value="HOTEL">Hotels</option>
           <option value="RESTAURANT">Restaurants</option>
@@ -139,7 +140,7 @@ export default function EstablishmentModerationList() {
             className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
               filter === s.value
                 ? 'bg-[#ff6b35] text-white'
-                : 'bg-[#080810] border border-[#1e1e2e] text-gray-400 hover:text-white'
+                : 'bg-gray-50 border border-gray-200 text-gray-400 hover:text-gray-900'
             }`}>
             {s.label}
           </button>
@@ -159,14 +160,16 @@ export default function EstablishmentModerationList() {
           {establishments.map((est: any) => {
             const TypeIcon = typeIcons[est.type] || Building2;
             const color = typeColors[est.type] || '#6b7280';
+            const conf = evaluateFiche(est);
+            const hasOwner = !!(est.claimedByUserId || est.createdByUserId);
             return (
-              <div key={est.id} className="flex items-center gap-4 p-4 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl hover:border-[#2e2e3e] transition-colors">
+              <div key={est.id} className="flex items-center gap-4 p-4 bg-white border border-gray-200 rounded-xl hover:border-gray-300 transition-colors">
                 {est.coverImage ? (
                   <div className="relative w-16 h-16 rounded-xl flex-shrink-0">
                     <Image src={getImageUrl(est.coverImage)} alt={est.name || 'Etablissement'} fill sizes="64px" className="rounded-xl object-cover" />
                   </div>
                 ) : (
-                  <div className="w-16 h-16 rounded-xl bg-[#080810] flex items-center justify-center flex-shrink-0">
+                  <div className="w-16 h-16 rounded-xl bg-gray-50 flex items-center justify-center flex-shrink-0">
                     <TypeIcon className="w-6 h-6" style={{ color }} />
                   </div>
                 )}
@@ -174,8 +177,12 @@ export default function EstablishmentModerationList() {
                   <div className="flex items-center gap-2">
                     <p className="text-sm font-semibold truncate">{est.name}</p>
                     <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium" style={{ backgroundColor: `${color}20`, color }}>{est.type}</span>
-                    {est.isFeatured && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-yellow-500/10 text-yellow-400 font-medium">Featured</span>}
-                    {est.moderationStatus === 'pending_review' && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-yellow-500/10 text-yellow-400 font-medium">En attente</span>}
+                    {est.isFeatured && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-yellow-100 text-yellow-700 font-medium">Featured</span>}
+                    {est.moderationStatus === 'pending_review' && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-700 font-medium">En attente</span>}
+                    <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${conf.conforme ? 'bg-green-100 text-green-700' : conf.score >= 60 ? 'bg-orange-100 text-orange-700' : 'bg-red-100 text-red-600'}`} title={conf.conforme ? 'Fiche conforme' : 'Manque : ' + conf.failing.map((x) => x.label).join(', ')}>
+                      Conformité {conf.score}%
+                    </span>
+                    {!hasOwner && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-500 font-medium">Sans propriétaire</span>}
                   </div>
                   <p className="text-xs text-gray-500 mt-0.5">{est.city}{est.district ? `, ${est.district}` : ''}</p>
                   <div className="flex items-center gap-3 mt-0.5">
@@ -191,7 +198,7 @@ export default function EstablishmentModerationList() {
                     className={`p-2.5 border rounded-xl transition-colors ${
                       est.isFeatured
                         ? 'bg-yellow-500/10 border-yellow-500/20 hover:bg-yellow-500/20'
-                        : 'bg-[#080810] border-[#1e1e2e] hover:bg-yellow-500/10 hover:border-yellow-500/20'
+                        : 'bg-gray-50 border-gray-200 hover:bg-yellow-500/10 hover:border-yellow-500/20'
                     }`}
                     title={est.isFeatured ? 'Retirer de la Une' : 'Mettre en Une'}>
                     <Star className={`w-4 h-4 ${est.isFeatured ? 'fill-yellow-400 text-yellow-400' : 'text-gray-500'}`} />
@@ -218,11 +225,11 @@ export default function EstablishmentModerationList() {
                   {deleteConfirm === est.id ? (
                     <div className="flex gap-1">
                       <button onClick={() => handleDelete(est.id)} className="p-2.5 bg-red-500/20 border border-red-500/30 rounded-xl text-red-400 text-xs font-medium">Oui</button>
-                      <button onClick={() => setDeleteConfirm(null)} className="p-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-gray-400 text-xs">Non</button>
+                      <button onClick={() => setDeleteConfirm(null)} className="p-2.5 bg-gray-50 border border-gray-200 rounded-xl text-gray-400 text-xs">Non</button>
                     </div>
                   ) : (
                     <button onClick={() => setDeleteConfirm(est.id)}
-                      className="p-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl hover:bg-red-500/10 hover:border-red-500/20 transition-colors" title="Supprimer">
+                      className="p-2.5 bg-gray-50 border border-gray-200 rounded-xl hover:bg-red-500/10 hover:border-red-500/20 transition-colors" title="Supprimer">
                       <Trash2 className="w-4 h-4 text-gray-500 hover:text-red-400" />
                     </button>
                   )}

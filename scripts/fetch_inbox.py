@@ -114,12 +114,17 @@ def main():
     M.login(user, pwd)
     M.select("INBOX", readonly=True)  # readonly = ne change pas l'état lu/non-lu
 
-    since = (datetime.utcnow() - timedelta(days=3)).strftime("%d-%b-%Y")
-    typ, data = M.search(None, f'(SINCE {since})')
+    full = "--all" in sys.argv
+    if full:
+        typ, data = M.search(None, "ALL")
+    else:
+        since = (datetime.utcnow() - timedelta(days=3)).strftime("%d-%b-%Y")
+        typ, data = M.search(None, f'(SINCE {since})')
     ids = data[0].split() if data and data[0] else []
+    cap = 3000 if full else 100
 
     ok = dedup = err = 0
-    for num in ids[-100:]:  # borne de sécurité
+    for num in ids[-cap:]:  # borne de sécurité
         typ, msg_data = M.fetch(num, "(BODY.PEEK[])")
         if not msg_data or not msg_data[0]:
             continue

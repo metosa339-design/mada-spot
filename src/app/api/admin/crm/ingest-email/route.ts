@@ -79,12 +79,21 @@ export async function POST(request: NextRequest) {
       content,
       isDelivered: true,
       deliveredAt: receivedAt,
+      createdAt: receivedAt, // vraie date de l'e-mail => historique dans le bon ordre
     },
   });
 
+  // lastMessageAt = le plus récent des messages (l'import d'historique ne doit pas rétrograder la date)
+  const newest = conversation.lastMessageAt && conversation.lastMessageAt > receivedAt ? conversation.lastMessageAt : receivedAt;
+  const isNewest = !conversation.lastMessageAt || receivedAt >= conversation.lastMessageAt;
   await prisma.conversation.update({
     where: { id: conversation.id },
-    data: { isUnread: true, status: 'OPEN', lastMessageAt: receivedAt, lastMessagePreview: content.slice(0, 140) },
+    data: {
+      isUnread: true,
+      status: 'OPEN',
+      lastMessageAt: newest,
+      ...(isNewest ? { lastMessagePreview: content.slice(0, 140) } : {}),
+    },
   });
 
   // Le prospect a répondu → réchauffe le statut + horodate

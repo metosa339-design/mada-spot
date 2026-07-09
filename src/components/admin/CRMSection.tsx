@@ -5,7 +5,7 @@ import {
   Loader2, Search, Plus, Mail, MessageCircle, Users, UserPlus, Inbox,
   Send, CalendarClock, CheckCircle2, AlertCircle,
   Facebook, Phone, Smartphone, X, RefreshCw,
-  TrendingUp, Trash2, Upload,
+  TrendingUp, Trash2, Upload, Paperclip, ArrowDownUp, FileText,
 } from 'lucide-react';
 
 type Channel = 'EMAIL' | 'MESSENGER' | 'IN_APP' | 'PHONE' | 'WHATSAPP' | 'SMS';
@@ -260,6 +260,73 @@ function Row({ label, value, pillClass }: { label: string; value: number; pillCl
 // ============================================================================
 // BOÎTE DE RÉCEPTION UNIFIÉE
 // ============================================================================
+// Nettoie le corps d'un e-mail entrant : coupe les citations/signatures, masque les liens de tracking.
+function cleanEmailBody(raw: string): { text: string; truncated: boolean } {
+  if (!raw) return { text: '', truncated: false };
+  const lines = raw.replace(/\r/g, '').split('\n');
+  const out: string[] = [];
+  let truncated = false;
+  for (const line of lines) {
+    const t = line.trim();
+    if (/^>/.test(t)) { truncated = true; break; }
+    if (/^Le .+ a écrit\s*:?$/i.test(t)) { truncated = true; break; }
+    if (/^On .+ wrote:?$/i.test(t)) { truncated = true; break; }
+    if (/^-{3,}\s*(message|original)/i.test(t)) { truncated = true; break; }
+    if (/vous recevez ce message car/i.test(t)) { truncated = true; break; }
+    if (/^se d[ée]sinscrire/i.test(t)) { truncated = true; break; }
+    if (/^<https?:\/\/\S+>$/.test(t)) { truncated = true; continue; } // ligne = URL de tracking seule
+    out.push(line);
+  }
+  const text = out
+    .join('\n')
+    .replace(/<(https?:\/\/[^>]+)>/g, '') // <url> => rien
+    .replace(/https?:\/\/\S{70,}/g, '🔗') // URL de tracking très longue => icône
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+  return { text, truncated };
+}
+
+function parseAttachments(raw: unknown): { url: string; type?: string; name?: string }[] {
+  if (!raw || typeof raw !== 'string') return [];
+  try {
+    const a = JSON.parse(raw);
+    return Array.isArray(a) ? a : [];
+  } catch { return []; }
+}
+
+function MessageBubble({ m }: { m: any }) {
+  const [showRaw, setShowRaw] = useState(false);
+  const isOut = m.direction === 'OUTBOUND';
+  const cleaned = isOut ? { text: m.content, truncated: false } : cleanEmailBody(m.content);
+  const attachments = parseAttachments(m.attachments);
+  return (
+    <div className={`flex ${isOut ? 'justify-end' : 'justify-start'}`}>
+      <div className={`max-w-[78%] rounded-2xl px-3 py-2 text-sm shadow-sm ${isOut ? 'bg-gradient-to-br from-orange-500 to-pink-500 text-white' : 'bg-white text-gray-900 border border-gray-200'}`}>
+        <div className="whitespace-pre-wrap break-words leading-relaxed">{showRaw ? m.content : (cleaned.text || '(vide)')}</div>
+        {attachments.length > 0 && (
+          <div className="mt-2 space-y-1">
+            {attachments.map((a, i) => (
+              <a key={i} href={a.url} target="_blank" rel="noopener noreferrer" className={`flex items-center gap-1.5 text-xs underline ${isOut ? 'text-white/90' : 'text-orange-600'}`}>
+                {(a.type || '').startsWith('image') ? <img src={a.url} alt="" className="max-h-32 rounded-lg" /> : <><FileText className="w-3.5 h-3.5" /> {a.name || 'pièce jointe'}</>}
+              </a>
+            ))}
+          </div>
+        )}
+        {cleaned.truncated && (
+          <button onClick={() => setShowRaw(v => !v)} className={`text-[10px] mt-1 underline ${isOut ? 'text-white/80' : 'text-gray-400'}`}>
+            {showRaw ? 'Masquer' : 'Voir l\'original'}
+          </button>
+        )}
+        <div className={`text-[10px] mt-1 ${isOut ? 'text-white/80' : 'text-gray-400'}`}>
+          {new Date(m.createdAt).toLocaleString('fr-FR')}
+          {isOut && (m.isDelivered ? ' · Envoyé' : ' · ⚠ non envoyé')}
+          {m.errorMessage && <span title={m.errorMessage}> · ⚠</span>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function InboxTab({ onOpenContact }: { onOpenContact?: (email: string) => void }) {
   const [items, setItems] = useState<ConversationListItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -271,7 +338,42 @@ function InboxTab({ onOpenContact }: { onOpenContact?: (email: string) => void }
   const [draft, setDraft] = useState('');
   const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState<'recent' | 'old' | 'az' | 'za'>('recent');
+  const [uploading, setUploading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const contactLabel = (it: ConversationListItem) =>
+    (it.user ? `${it.user.firstName} ${it.user.lastName}` : `${it.prospect?.firstName || ''} ${it.prospect?.lastName || ''}`.trim() || it.prospect?.facebookName || it.prospect?.email || '—');
+
+  const sortedItems = [...items].sort((a, b) => {
+    if (sortBy === 'recent') return new Date(b.lastMessageAt).getTime() - new Date(a.lastMessageAt).getTime();
+    if (sortBy === 'old') return new Date(a.lastMessageAt).getTime() - new Date(b.lastMessageAt).getTime();
+    const cmp = contactLabel(a).localeCompare(contactLabel(b), 'fr', { sensitivity: 'base' });
+    return sortBy === 'az' ? cmp : -cmp;
+  });
+
+  const uploadAttachment = async (file: File) => {
+    setUploading(true);
+    setSendError(null);
+    try {
+      const csrfRes = await fetch('/api/csrf', { credentials: 'include' });
+      const csrf = (await csrfRes.json())?.token || '';
+      const fd = new FormData();
+      fd.append('files', file);
+      fd.append('csrfToken', csrf);
+      const res = await fetch('/api/upload', { method: 'POST', credentials: 'include', body: fd });
+      const data = await res.json();
+      const url = data?.files?.[0]?.url;
+      if (url) setDraft(d => (d ? d + '\n' : '') + url);
+      else setSendError(data?.error || 'Échec de l\'envoi du fichier');
+    } catch {
+      setSendError('Erreur lors de l\'upload');
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
 
   const refresh = useCallback(async () => {
     setLoading(true);
@@ -365,6 +467,15 @@ function InboxTab({ onOpenContact }: { onOpenContact?: (email: string) => void }
               <input type="checkbox" checked={unreadOnly} onChange={e => setUnreadOnly(e.target.checked)} />
               Non lus
             </label>
+            <div className="flex items-center gap-1 text-xs text-gray-500">
+              <ArrowDownUp className="w-3.5 h-3.5" />
+              <select value={sortBy} onChange={e => setSortBy(e.target.value as any)} className="text-xs px-1.5 py-1 rounded-md border border-gray-200">
+                <option value="recent">Récent</option>
+                <option value="old">Ancien</option>
+                <option value="az">A → Z</option>
+                <option value="za">Z → A</option>
+              </select>
+            </div>
             <button onClick={refresh} className="ml-auto p-1 rounded hover:bg-gray-100" title="Rafraîchir">
               <RefreshCw className="w-4 h-4 text-gray-500" />
             </button>
@@ -373,8 +484,8 @@ function InboxTab({ onOpenContact }: { onOpenContact?: (email: string) => void }
 
         <div className="overflow-y-auto flex-1">
           {loading ? <Spinner /> :
-            items.length === 0 ? <Empty msg="Aucune conversation" /> :
-            items.map(it => {
+            sortedItems.length === 0 ? <Empty msg="Aucune conversation" /> :
+            sortedItems.map(it => {
               const ChannelIcon = CHANNEL_ICON[it.channel];
               const contactName = it.user
                 ? `${it.user.firstName} ${it.user.lastName}`
@@ -468,20 +579,7 @@ function InboxTab({ onOpenContact }: { onOpenContact?: (email: string) => void }
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
-              {detail.messages.map(m => (
-                <div key={m.id} className={`flex ${m.direction === 'OUTBOUND' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[75%] rounded-2xl px-3 py-2 text-sm shadow-sm ${
-                    m.direction === 'OUTBOUND' ? 'bg-gradient-to-br from-orange-500 to-pink-500 text-white' : 'bg-white text-gray-900 border border-gray-200'
-                  }`}>
-                    <div className="whitespace-pre-wrap break-words">{m.content}</div>
-                    <div className={`text-[10px] mt-1 ${m.direction === 'OUTBOUND' ? 'text-white/80' : 'text-gray-400'}`}>
-                      {new Date(m.createdAt).toLocaleString('fr-FR')}
-                      {m.direction === 'OUTBOUND' && (m.isDelivered ? ' · Envoyé' : ' · ⚠ non envoyé')}
-                      {m.errorMessage && <span title={m.errorMessage}> · ⚠</span>}
-                    </div>
-                  </div>
-                </div>
-              ))}
+              {detail.messages.map(m => <MessageBubble key={m.id} m={m} />)}
               <div ref={messagesEndRef} />
             </div>
 
@@ -490,6 +588,21 @@ function InboxTab({ onOpenContact }: { onOpenContact?: (email: string) => void }
             )}
 
             <div className="p-3 border-t border-gray-200 flex items-end gap-2">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*,application/pdf,.doc,.docx"
+                className="hidden"
+                onChange={e => { const f = e.target.files?.[0]; if (f) uploadAttachment(f); }}
+              />
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+                title="Joindre une photo / un PDF"
+                className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50"
+              >
+                {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Paperclip className="w-4 h-4" />}
+              </button>
               <textarea
                 value={draft}
                 onChange={e => setDraft(e.target.value)}
@@ -497,6 +610,9 @@ function InboxTab({ onOpenContact }: { onOpenContact?: (email: string) => void }
                   if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) sendMessage();
                 }}
                 rows={2}
+                spellCheck
+                lang="fr"
+                autoCorrect="on"
                 placeholder={`Répondre via ${CHANNEL_LABEL[detail.channel]}... (Ctrl+Entrée pour envoyer)`}
                 className="flex-1 resize-none px-3 py-2 text-sm rounded-lg border border-gray-200 focus:outline-none focus:border-orange-400"
               />

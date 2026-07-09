@@ -23,6 +23,8 @@ export default function Contact360() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [editingFiche, setEditingFiche] = useState<string | null>(null);
+  // Filtres de la liste remontés ici pour survivre à l'ouverture d'un contact
+  const [listFilters, setListFilters] = useState({ kind: 'all', service: 'all', sortBy: 'id', search: '' });
 
   const doSearch = useCallback(async (target: string) => {
     const q = target.trim();
@@ -66,17 +68,18 @@ export default function Contact360() {
     );
   }
 
-  return <ContactList onOpen={(email) => doSearch(email)} />;
+  return <ContactList onOpen={(email) => doSearch(email)} filters={listFilters} setFilters={setListFilters} />;
 }
 
-function ContactList({ onOpen }: { onOpen: (email: string) => void }) {
+function ContactList({ onOpen, filters, setFilters }: { onOpen: (email: string) => void; filters: { kind: string; service: string; sortBy: string; search: string }; setFilters: (fn: (f: any) => any) => void }) {
   const [items, setItems] = useState<any[]>([]);
   const [meta, setMeta] = useState<{ total: number; withId: number } | null>(null);
   const [loading, setLoading] = useState(true);
-  const [kind, setKind] = useState('all');
-  const [service, setService] = useState('all');
-  const [sortBy, setSortBy] = useState('id');
-  const [search, setSearch] = useState('');
+  const { kind, service, sortBy, search } = filters;
+  const setKind = (v: string) => setFilters((f) => ({ ...f, kind: v }));
+  const setService = (v: string) => setFilters((f) => ({ ...f, service: v }));
+  const setSortBy = (v: string) => setFilters((f) => ({ ...f, sortBy: v }));
+  const setSearch = (v: string) => setFilters((f) => ({ ...f, search: v }));
   const [backfilling, setBackfilling] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
 

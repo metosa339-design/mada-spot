@@ -4,6 +4,7 @@ import { apiError, apiSuccess } from '@/lib/api-response';
 import { prisma } from '@/lib/db';
 import { computeScore } from '@/lib/crm/scoring';
 import { ensureUserRefCode, ensureProspectRefCode } from '@/lib/crm/refcode';
+import { evaluateFiche } from '@/lib/crm/conformity';
 
 export const dynamic = 'force-dynamic';
 
@@ -62,18 +63,54 @@ export async function GET(request: NextRequest) {
     take: 50,
   });
 
-  // Éléments liés au compte user
+  // Éléments liés au compte user (centré établissement)
+  let establishments: any[] = [];
   let bookings: any[] = [];
-  let reviews: any[] = [];
+  let reviews: any[] = []; // avis REÇUS sur ses fiches
   let notes: any[] = [];
   let followUps: any[] = [];
   let campaignSends: any[] = [];
+  const verification = { verified: 0, pending: 0, rejected: 0 };
+  let boosts: any[] = [];
 
   if (user) {
-    [bookings, reviews] = await Promise.all([
-      prisma.booking.findMany({ where: { userId: user.id }, select: { reference: true, status: true, checkIn: true, createdAt: true }, orderBy: { createdAt: 'desc' }, take: 20 }),
-      prisma.establishmentReview.findMany({ where: { userId: user.id }, select: { rating: true, comment: true, createdAt: true }, orderBy: { createdAt: 'desc' }, take: 20 }),
+    const est = await prisma.establishment.findMany({
+      where: { OR: [{ claimedByUserId: user.id }, { createdByUserId: user.id }] },
+      select: {
+        id: true, name: true, type: true, slug: true, city: true, address: true, description: true,
+        latitude: true, longitude: true, phone: true, email: true, website: true, coverImage: true, images: true,
+        moderationStatus: true, isActive: true, isFeatured: true, isPremium: true, rating: true, reviewCount: true, trustScore: true,
+      },
+    });
+    const estIds = est.map((e) => e.id);
+    establishments = est.map((e) => {
+      const conf = evaluateFiche(e);
+      let imgs: string[] = [];
+      try { const a = JSON.parse(e.images || '[]'); if (Array.isArray(a)) imgs = a; } catch { /* ignore */ }
+      return {
+        id: e.id, name: e.name, type: e.type, slug: e.slug, city: e.city,
+        coverImage: e.coverImage, images: imgs,
+        moderationStatus: e.moderationStatus, isActive: e.isActive, isFeatured: e.isFeatured, isPremium: e.isPremium,
+        rating: e.rating, reviewCount: e.reviewCount, trustScore: e.trustScore,
+        phone: e.phone, email: e.email, website: e.website,
+        conformity: { score: conf.score, conforme: conf.conforme, failing: conf.failing.map((f) => ({ key: f.key, label: f.label })) },
+      };
+    });
+
+    const [bk, rv, vdocs, bst] = await Promise.all([
+      estIds.length ? prisma.booking.findMany({ where: { establishmentId: { in: estIds } }, select: { reference: true, status: true, checkIn: true, guestName: true, totalPrice: true, createdAt: true }, orderBy: { createdAt: 'desc' }, take: 20 }) : Promise.resolve([]),
+      estIds.length ? prisma.establishmentReview.findMany({ where: { establishmentId: { in: estIds }, isPublished: true }, select: { rating: true, comment: true, authorName: true, ownerResponse: true, createdAt: true }, orderBy: { createdAt: 'desc' }, take: 20 }) : Promise.resolve([]),
+      prisma.verificationDocument.groupBy({ by: ['status'], where: { userId: user.id }, _count: { _all: true } }),
+      estIds.length ? prisma.boost.findMany({ where: { establishmentId: { in: estIds }, status: 'ACTIVE' }, select: { type: true, endDate: true }, orderBy: { endDate: 'desc' } }) : Promise.resolve([]),
     ]);
+    bookings = bk;
+    reviews = rv;
+    boosts = bst;
+    for (const v of vdocs) {
+      if (v.status === 'VERIFIED') verification.verified = v._count._all;
+      else if (v.status === 'PENDING') verification.pending = v._count._all;
+      else if (v.status === 'REJECTED') verification.rejected = v._count._all;
+    }
   }
 
   [notes, followUps] = await Promise.all([
@@ -104,7 +141,7 @@ export async function GET(request: NextRequest) {
   if (prospect) push('prospect', prospect.createdAt, 'Prospect capturé', `source ${prospect.source}`);
   for (const c of conversations) push('conversation', c.lastMessageAt, `Message ${c.channel}`, c.lastMessagePreview || c.subject || undefined);
   for (const b of bookings) push('booking', b.createdAt, `Réservation ${b.reference}`, b.status);
-  for (const r of reviews) push('review', r.createdAt, `Avis ${r.rating}★`, r.comment?.slice(0, 80));
+  for (const r of reviews) push('review', r.createdAt, `Avis reçu ${r.rating}★`, r.comment?.slice(0, 80));
   for (const n of notes) push('note', n.createdAt, 'Note interne', n.content?.slice(0, 80));
   for (const f of followUps) push('followup', f.dueAt, `Relance : ${f.title}`, f.status);
   for (const s of campaignSends) push('campaign', s.sentAt, 'E-mail de campagne envoyé');
@@ -131,7 +168,15 @@ export async function GET(request: NextRequest) {
     user,
     prospect,
     score: liveScore,
+    establishments,
+    reviewsList: reviews,
+    bookingsList: bookings,
+    verification,
+    boosts,
+    notesList: notes,
+    followUpsList: followUps,
     counts: {
+      establishments: establishments.length,
       conversations: conversations.length,
       bookings: bookings.length,
       reviews: reviews.length,

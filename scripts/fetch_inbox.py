@@ -135,6 +135,8 @@ def main():
         subject = decode_str(msg.get("Subject", ""))
         message_id = (msg.get("Message-ID") or "").strip() or None
         body = get_body(msg).strip()
+        if not body:
+            body = subject or "(message sans contenu texte)"  # évite le rejet des e-mails HTML sans texte
         date_hdr = msg.get("Date")
         try:
             received = email.utils.parsedate_to_datetime(date_hdr).isoformat()
@@ -150,7 +152,7 @@ def main():
             err += 1
 
     M.logout()
-    print(f"[{datetime.now()}] IMAP {len(ids)} msgs (3j) -> ingérés/ok:{ok} erreurs:{err}")
+    print(f"[{datetime.now()}] IMAP {len(ids)} msgs ({'tout' if full else '3j'}) -> ingérés/ok:{ok} erreurs:{err}")
 
 
 if __name__ == "__main__":

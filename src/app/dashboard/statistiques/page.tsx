@@ -260,7 +260,7 @@ export default function StatistiquesPage() {
             {(stats?.topSources || []).map((source, i) => (
               <div key={i}>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm text-[#CBD5E1]">{source.source}</span>
+                  <span className="text-sm text-[#334155]">{source.source}</span>
                   <span className="text-xs text-[#94A3B8]">{source.count} ({source.percentage}%)</span>
                 </div>
                 <div className="h-2 bg-white rounded-full overflow-hidden">
@@ -313,7 +313,7 @@ export default function StatistiquesPage() {
               return (
                 <div key={step.label}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm text-[#CBD5E1]">{step.label}</span>
+                    <span className="text-sm text-[#334155]">{step.label}</span>
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-medium text-[#0F172A]">{step.value.toLocaleString('fr-FR')}</span>
                       {convRate !== null && (

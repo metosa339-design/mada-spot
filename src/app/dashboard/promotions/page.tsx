@@ -377,7 +377,7 @@ export default function PromotionsPage() {
               <div key={promo.key} className="bg-white border border-[#E2E8F0] rounded-xl p-4 flex items-center justify-between opacity-60">
                 <div>
                   <span className="text-xs text-[#94A3B8]">{promo.establishmentName}</span>
-                  <p className="text-[#CBD5E1] font-medium">{promo.title}</p>
+                  <p className="text-[#334155] font-medium">{promo.title}</p>
                   <p className="text-xs text-[#94A3B8] flex items-center gap-1 mt-1">
                     <Tag className="w-3 h-3" /> -{promo.discountPercent}% • {new Date(promo.endDate).toLocaleDateString('fr-FR')}
                   </p>

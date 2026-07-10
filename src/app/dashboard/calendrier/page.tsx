@@ -391,7 +391,7 @@ export default function CalendrierPage() {
                     <div className={`text-[10px] font-medium ${isToday ? 'text-cyan-400' : 'text-[#94A3B8]'}`}>
                       {t[DAY_SHORT_KEYS[dayOfWeek]]}
                     </div>
-                    <div className={`text-sm font-bold ${isToday ? 'text-cyan-400' : isBlocked ? 'text-red-400' : 'text-[#CBD5E1]'}`}>
+                    <div className={`text-sm font-bold ${isToday ? 'text-cyan-400' : isBlocked ? 'text-red-400' : 'text-[#334155]'}`}>
                       {day}
                     </div>
                     {isBlocked && <Lock className="w-2.5 h-2.5 text-red-400 mx-auto" />}

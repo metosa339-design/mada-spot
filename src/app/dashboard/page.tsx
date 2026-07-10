@@ -599,7 +599,7 @@ export default function DashboardHome() {
                         {new Date(review.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
                       </span>
                     </div>
-                    <p className="text-sm text-[#CBD5E1] line-clamp-2">{review.comment}</p>
+                    <p className="text-sm text-[#334155] line-clamp-2">{review.comment}</p>
                     {!review.ownerResponse && (
                       <Link href="/dashboard/avis" className="text-xs text-cyan-400 mt-2 inline-block hover:underline">
                         {t.reply}
@@ -761,7 +761,7 @@ export default function DashboardHome() {
                       {new Date(review.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
                     </span>
                   </div>
-                  <p className="text-sm text-[#CBD5E1] line-clamp-2">{review.comment}</p>
+                  <p className="text-sm text-[#334155] line-clamp-2">{review.comment}</p>
                   {!review.ownerResponse && (
                     <Link href="/dashboard/avis" className="text-xs text-[#FF6B35] mt-2 inline-block hover:underline">
                       {t.reply}

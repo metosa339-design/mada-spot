@@ -283,7 +283,7 @@ export default function AvisPage() {
                   )}
 
                   {/* Review comment */}
-                  <p className="text-sm text-[#CBD5E1] leading-relaxed">{review.comment}</p>
+                  <p className="text-sm text-[#334155] leading-relaxed">{review.comment}</p>
 
                   {/* Flag reason */}
                   {review.isFlagged && review.flagReason && (
@@ -297,7 +297,7 @@ export default function AvisPage() {
                   {review.ownerResponse && (
                     <div className="mt-4 pl-4 border-l-2 border-[#FF6B35]/30 bg-[#FF6B35]/5 rounded-r-xl p-3">
                       <p className="text-xs font-medium text-[#FF6B35] mb-1">{t.yourReplyTitle}</p>
-                      <p className="text-sm text-[#CBD5E1]">{review.ownerResponse}</p>
+                      <p className="text-sm text-[#334155]">{review.ownerResponse}</p>
                       {review.respondedAt && (
                         <p className="text-[10px] text-[#94A3B8] mt-2">
                           {t.repliedOn} {new Date(review.respondedAt).toLocaleDateString('fr-FR', {
@@ -337,7 +337,7 @@ export default function AvisPage() {
                             <button
                               onClick={() => submitResponse(review.id)}
                               disabled={!replyText.trim() || submitting}
-                              className="flex items-center gap-1.5 px-4 py-1.5 bg-[#FF6B35] hover:bg-[#F97316] disabled:bg-[#F1F5F9] disabled:text-[#CBD5E1] text-white rounded-lg text-xs font-medium transition-colors"
+                              className="flex items-center gap-1.5 px-4 py-1.5 bg-[#FF6B35] hover:bg-[#F97316] disabled:bg-[#F1F5F9] disabled:text-[#334155] text-white rounded-lg text-xs font-medium transition-colors"
                             >
                               {submitting ? (
                                 <Loader2 className="w-3.5 h-3.5 animate-spin" />

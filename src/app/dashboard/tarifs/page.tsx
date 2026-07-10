@@ -213,7 +213,7 @@ export default function TarifsPage() {
                     <tbody>
                       {estab.prices.map((price, idx) => (
                         <tr key={idx} className="border-b border-[#E2E8F0] last:border-0">
-                          <td className="py-2.5 pr-4 text-[#CBD5E1]">{price.label}</td>
+                          <td className="py-2.5 pr-4 text-[#334155]">{price.label}</td>
                           <td className="py-2.5 pr-4 text-right text-[#0F172A] font-medium">{formatMGA(price.value)}</td>
                           {seasons.filter(s => s.isActive).map((season) => {
                             const multiplier = getMultiplierForPrice(season, price.label)
@@ -359,7 +359,7 @@ export default function TarifsPage() {
                       <div key={label} className="space-y-1">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <span className="text-xs text-[#CBD5E1]">{label}</span>
+                            <span className="text-xs text-[#334155]">{label}</span>
                             {hasCustom && (
                               <button
                                 onClick={() => {

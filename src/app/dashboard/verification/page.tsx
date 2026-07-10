@@ -160,7 +160,7 @@ export default function VerificationPage() {
             return (
               <div key={i} className="flex items-start gap-2 p-3 bg-white rounded-xl">
                 <Icon className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: item.color }} />
-                <span className="text-xs text-[#CBD5E1]">{t[item.textKey]}</span>
+                <span className="text-xs text-[#334155]">{t[item.textKey]}</span>
               </div>
             )
           })}

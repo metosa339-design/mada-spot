@@ -326,7 +326,7 @@ export default function EstablishmentPage() {
             <div className="space-y-6">
               {/* Type */}
               <div>
-                <label className="block text-sm font-medium text-[#CBD5E1] mb-2">
+                <label className="block text-sm font-medium text-[#334155] mb-2">
                   {t.establishmentCategoryLabel}
                 </label>
                 {userType ? (
@@ -354,7 +354,7 @@ export default function EstablishmentPage() {
 
               {/* Name */}
               <div>
-                <label className="block text-sm font-medium text-[#CBD5E1] mb-2">
+                <label className="block text-sm font-medium text-[#334155] mb-2">
                   {t.establishmentNameLabel}
                 </label>
                 <input
@@ -368,7 +368,7 @@ export default function EstablishmentPage() {
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-medium text-[#CBD5E1] mb-2">
+                <label className="block text-sm font-medium text-[#334155] mb-2">
                   {t.descriptionLabel}
                 </label>
                 <textarea
@@ -382,7 +382,7 @@ export default function EstablishmentPage() {
 
               {/* Short Description */}
               <div>
-                <label className="block text-sm font-medium text-[#CBD5E1] mb-2">
+                <label className="block text-sm font-medium text-[#334155] mb-2">
                   {t.shortDescriptionLabel}
                 </label>
                 <input
@@ -398,7 +398,7 @@ export default function EstablishmentPage() {
               {/* Location */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-[#CBD5E1] mb-2">{t.cityLabel}</label>
+                  <label className="block text-sm font-medium text-[#334155] mb-2">{t.cityLabel}</label>
                   <input
                     type="text"
                     value={data.city}
@@ -408,7 +408,7 @@ export default function EstablishmentPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[#CBD5E1] mb-2">{t.regionLabel}</label>
+                  <label className="block text-sm font-medium text-[#334155] mb-2">{t.regionLabel}</label>
                   <input
                     type="text"
                     value={data.region}
@@ -420,7 +420,7 @@ export default function EstablishmentPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#CBD5E1] mb-2">{t.fullAddressLabel}</label>
+                <label className="block text-sm font-medium text-[#334155] mb-2">{t.fullAddressLabel}</label>
                 <input
                   type="text"
                   value={data.address}
@@ -432,7 +432,7 @@ export default function EstablishmentPage() {
 
               {/* Map Geolocation */}
               <div>
-                <label className="block text-sm font-medium text-[#CBD5E1] mb-2">
+                <label className="block text-sm font-medium text-[#334155] mb-2">
                   <MapPin className="w-4 h-4 inline mr-1" />
                   {t.gpsCoordsLabel}
                 </label>
@@ -524,7 +524,7 @@ export default function EstablishmentPage() {
             <div className="space-y-6">
               {/* Cover Image */}
               <div>
-                <label className="block text-sm font-medium text-[#CBD5E1] mb-3">{t.coverImageLabel}</label>
+                <label className="block text-sm font-medium text-[#334155] mb-3">{t.coverImageLabel}</label>
                 <div className="relative">
                   {data.coverImage ? (
                     <div className="relative w-full h-48 rounded-xl overflow-hidden">
@@ -554,7 +554,7 @@ export default function EstablishmentPage() {
 
               {/* Gallery with descriptions */}
               <div>
-                <label className="block text-sm font-medium text-[#CBD5E1] mb-1">
+                <label className="block text-sm font-medium text-[#334155] mb-1">
                   {t.galleryLabel} ({data.images.length}/20)
                 </label>
                 <p className="text-xs text-[#94A3B8] mb-3">{t.galleryHint}</p>
@@ -642,7 +642,7 @@ export default function EstablishmentPage() {
                       className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${
                         selected
                           ? 'border-[#FF6B35] bg-[#FFF7ED] text-[#FF6B35]'
-                          : 'border-[#E2E8F0] text-[#94A3B8] hover:border-[#CBD5E1] hover:text-[#CBD5E1]'
+                          : 'border-[#E2E8F0] text-[#94A3B8] hover:border-[#CBD5E1] hover:text-[#334155]'
                       }`}
                     >
                       <amenity.icon className="w-6 h-6" />
@@ -674,7 +674,7 @@ export default function EstablishmentPage() {
                   const label = (t as Record<string, string>)[`day_${dayKey}`]
                   return (
                     <div key={dayKey} className="flex items-center gap-4 p-3 bg-white rounded-xl">
-                      <span className="w-24 text-sm font-medium text-[#CBD5E1]">{label}</span>
+                      <span className="w-24 text-sm font-medium text-[#334155]">{label}</span>
 
                       <button
                         onClick={() => updateHours(dayKey, 'closed', !hours.closed)}
@@ -730,7 +730,7 @@ export default function EstablishmentPage() {
 
               {/* Jours fériés */}
               <div className="mt-6">
-                <h3 className="text-sm font-medium text-[#CBD5E1] mb-3">
+                <h3 className="text-sm font-medium text-[#334155] mb-3">
                   <AlertCircle className="w-4 h-4 inline mr-1" />
                   {t.holidaysTitle}
                 </h3>
@@ -793,7 +793,7 @@ export default function EstablishmentPage() {
             <div className="space-y-6">
               {/* Cuisine Types */}
               <div>
-                <label className="block text-sm font-medium text-[#CBD5E1] mb-3">{t.cuisineTypesLabel}</label>
+                <label className="block text-sm font-medium text-[#334155] mb-3">{t.cuisineTypesLabel}</label>
                 <div className="flex gap-2 flex-wrap">
                   {CUISINE_KEYS.map(({ id, value }) => {
                     const label = (t as Record<string, string>)[`cuisine_${id}`]
@@ -823,7 +823,7 @@ export default function EstablishmentPage() {
 
               {/* Menu Photos */}
               <div>
-                <label className="block text-sm font-medium text-[#CBD5E1] mb-3">{t.menuPhotosLabel}</label>
+                <label className="block text-sm font-medium text-[#334155] mb-3">{t.menuPhotosLabel}</label>
                 <div className="grid grid-cols-3 gap-3">
                   {data.menuImages.map((img, index) => (
                     <div key={index} className="relative aspect-[3/4] rounded-xl overflow-hidden group">
@@ -860,7 +860,7 @@ export default function EstablishmentPage() {
                   <div key={opt.field} className="flex items-center justify-between p-3 bg-white rounded-xl">
                     <div className="flex items-center gap-3">
                       <opt.icon className="w-5 h-5 text-[#94A3B8]" />
-                      <span className="text-sm text-[#CBD5E1]">{opt.label}</span>
+                      <span className="text-sm text-[#334155]">{opt.label}</span>
                     </div>
                     <button
                       onClick={() => setData(prev => ({ ...prev, [opt.field]: !prev[opt.field] }))}

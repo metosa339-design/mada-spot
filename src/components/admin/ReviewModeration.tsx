@@ -135,7 +135,7 @@ export default function ReviewModeration() {
               alert(j.success ? `Demandes d'avis envoyées : ${j.sent} (${j.skipped} ignorés sur ${j.scanned} analysés)` : (j.error || 'Erreur'));
             } catch { alert('Erreur réseau'); }
           }}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-500 text-white text-xs font-semibold"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-500 text-gray-900 text-xs font-semibold"
           title="Envoie un e-mail de notation aux clients récents. Aussi planifié automatiquement chaque jour."
         >
           Demander les avis ★
@@ -150,7 +150,7 @@ export default function ReviewModeration() {
             { value: 'flagged', label: 'Signalés' },
           ].map(s => (
             <button key={s.value} onClick={() => setStatus(s.value)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${status === s.value ? 'bg-[#ff6b35] text-white' : 'bg-gray-50 border border-gray-200 text-gray-400'}`}>
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${status === s.value ? 'bg-[#ff6b35] text-gray-900' : 'bg-gray-50 border border-gray-200 text-gray-400'}`}>
               {s.label}
             </button>
           ))}
@@ -192,7 +192,7 @@ export default function ReviewModeration() {
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-gray-300 mb-2">{r.comment}</p>
+                  <p className="text-sm text-gray-700 mb-2">{r.comment}</p>
                   {r.isFlagged && r.flagReason && (
                     <div className="mb-2 p-2 bg-red-500/5 border border-red-500/10 rounded-lg">
                       <p className="text-[10px] text-red-400 font-medium">Raison : {r.flagReason}</p>
@@ -205,7 +205,7 @@ export default function ReviewModeration() {
                     </div>
                   )}
                   <div className="flex items-center gap-4 mt-3 text-[10px] text-gray-500">
-                    <span>Pour : <strong className="text-gray-300">{r.establishment.name}</strong></span>
+                    <span>Pour : <strong className="text-gray-700">{r.establishment.name}</strong></span>
                     <span className="px-1.5 py-0.5 rounded-full bg-gray-50">{r.establishment.type}</span>
                     <span>{r.establishment.city}</span>
                     <span>Par : {r.authorName || 'Anonyme'}</span>

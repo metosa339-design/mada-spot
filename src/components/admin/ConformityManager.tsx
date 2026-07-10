@@ -54,7 +54,7 @@ export default function ConformityManager() {
   return (
     <div>
       <div className="flex justify-end mb-3">
-        <button onClick={() => setCreating(true)} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 text-white text-sm font-semibold">
+        <button onClick={() => setCreating(true)} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 text-gray-900 text-sm font-semibold">
           + Nouvelle fiche
         </button>
       </div>
@@ -103,7 +103,7 @@ export default function ConformityManager() {
                 </div>
               </div>
               <div className="flex flex-col gap-1.5 shrink-0">
-                <button onClick={() => setEditing(it.id)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-500 text-white text-xs font-semibold">
+                <button onClick={() => setEditing(it.id)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-500 text-gray-900 text-xs font-semibold">
                   <PencilLine className="w-3.5 h-3.5" /> Corriger
                 </button>
                 <button onClick={() => setNotify({ id: it.id, name: it.name })} disabled={!it.ownerEmail} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 text-xs font-semibold disabled:opacity-40">
@@ -172,7 +172,7 @@ function NotifyModal({ id, name, onClose, onSent }: { id: string; name: string; 
               </ul>
             </div>
             <div className="flex gap-2">
-              <button onClick={send} disabled={sending} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 text-white text-sm font-semibold disabled:opacity-50">
+              <button onClick={send} disabled={sending} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 text-gray-900 text-sm font-semibold disabled:opacity-50">
                 <Send className="w-4 h-4" /> {sending ? 'Envoi…' : 'Envoyer le mail'}
               </button>
               <button onClick={onClose} className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-sm">Annuler</button>

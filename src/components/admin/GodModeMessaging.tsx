@@ -197,8 +197,8 @@ export default function GodModeMessaging() {
 
       <div className="flex gap-4 h-[550px]">
         {/* Thread list */}
-        <div className="w-80 flex-shrink-0 bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl flex flex-col overflow-hidden">
-          <div className="p-3 border-b border-[#1e1e2e]">
+        <div className="w-80 flex-shrink-0 bg-white border border-gray-200 rounded-2xl flex flex-col overflow-hidden">
+          <div className="p-3 border-b border-gray-200">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
               <input
@@ -206,7 +206,7 @@ export default function GodModeMessaging() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Rechercher conversation..."
-                className="w-full pl-9 pr-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-red-500/50"
+                className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder:text-gray-600 focus:outline-none focus:border-red-500/50"
               />
             </div>
           </div>
@@ -224,12 +224,12 @@ export default function GodModeMessaging() {
                 <button
                   key={thread.threadId}
                   onClick={() => fetchMessages(thread)}
-                  className={`w-full text-left p-3 border-b border-[#1e1e2e] hover:bg-[#1a1a2e] transition-colors ${
+                  className={`w-full text-left p-3 border-b border-gray-200 hover:bg-white transition-colors ${
                     selectedThread?.threadId === thread.threadId ? 'bg-red-500/5 border-l-2 border-l-red-500' : ''
                   }`}
                 >
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-[#1e1e2e] flex items-center justify-center flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
                       <User className="w-4 h-4 text-gray-500" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -250,21 +250,21 @@ export default function GodModeMessaging() {
             )}
           </div>
 
-          <div className="p-2 border-t border-[#1e1e2e] space-y-1">
+          <div className="p-2 border-t border-gray-200 space-y-1">
             <button
               onClick={() => setShowDirectMsg(true)}
               className="w-full flex items-center justify-center gap-2 py-2 text-xs text-[#ff6b35] bg-[#ff6b35]/10 rounded-lg hover:bg-[#ff6b35]/20 font-medium"
             >
               <Send className="w-3.5 h-3.5" /> Nouveau message
             </button>
-            <button onClick={fetchThreads} className="w-full flex items-center justify-center gap-2 py-2 text-xs text-gray-500 hover:text-white">
+            <button onClick={fetchThreads} className="w-full flex items-center justify-center gap-2 py-2 text-xs text-gray-500 hover:text-gray-900">
               <RefreshCw className="w-3.5 h-3.5" /> Actualiser
             </button>
           </div>
         </div>
 
         {/* Messages panel */}
-        <div className="flex-1 bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl flex flex-col overflow-hidden">
+        <div className="flex-1 bg-white border border-gray-200 rounded-2xl flex flex-col overflow-hidden">
           {!selectedThread ? (
             <div className="flex-1 flex items-center justify-center text-gray-500">
               <div className="text-center">
@@ -276,7 +276,7 @@ export default function GodModeMessaging() {
           ) : (
             <>
               {/* Header */}
-              <div className="p-3 border-b border-[#1e1e2e] flex items-center gap-2">
+              <div className="p-3 border-b border-gray-200 flex items-center gap-2">
                 <div className="flex-1">
                   <p className="text-sm font-medium">
                     {selectedThread.participants.map(p => participantName(p)).join(' ↔ ')}
@@ -310,7 +310,7 @@ export default function GodModeMessaging() {
                         <div className={`max-w-[80%] rounded-xl p-3 ${
                           isAdmin
                             ? 'bg-red-500/10 border-2 border-red-500/30'
-                            : 'bg-[#1a1a2e] border border-[#2e2e3e]'
+                            : 'bg-white border border-gray-200'
                         }`}>
                           <div className="flex items-center gap-2 mb-1">
                             <span className={`text-[10px] font-semibold ${isAdmin ? 'text-red-400' : 'text-[#ff6b35]'}`}>
@@ -320,7 +320,7 @@ export default function GodModeMessaging() {
                               {new Date(msg.createdAt).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
                             </span>
                           </div>
-                          <p className="text-xs text-gray-300">{isAdmin ? msg.content.replace('[Admin MadaSpot] ', '') : msg.content}</p>
+                          <p className="text-xs text-gray-700">{isAdmin ? msg.content.replace('[Admin MadaSpot] ', '') : msg.content}</p>
                         </div>
                       </div>
                     );
@@ -348,7 +348,7 @@ export default function GodModeMessaging() {
                           className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                             interveneTarget === p.id
                               ? 'bg-red-500/20 text-red-400 border border-red-500/30'
-                              : 'bg-[#080810] border border-[#1e1e2e] text-gray-400'
+                              : 'bg-gray-50 border border-gray-200 text-gray-400'
                           }`}
                         >
                           {participantName(p)}
@@ -362,7 +362,7 @@ export default function GodModeMessaging() {
                     value={interveneReason}
                     onChange={(e) => setInterveneReason(e.target.value)}
                     placeholder="Raison de l'intervention (obligatoire)..."
-                    className="w-full p-2.5 bg-[#080810] border border-red-500/20 rounded-lg text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-red-500/40"
+                    className="w-full p-2.5 bg-gray-50 border border-red-500/20 rounded-lg text-sm text-gray-900 placeholder:text-gray-600 focus:outline-none focus:border-red-500/40"
                   />
 
                   <div className="flex gap-2">
@@ -371,7 +371,7 @@ export default function GodModeMessaging() {
                       value={interveneContent}
                       onChange={(e) => setInterveneContent(e.target.value)}
                       placeholder="Message admin..."
-                      className="flex-1 p-2.5 bg-[#080810] border border-red-500/20 rounded-lg text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-red-500/40"
+                      className="flex-1 p-2.5 bg-gray-50 border border-red-500/20 rounded-lg text-sm text-gray-900 placeholder:text-gray-600 focus:outline-none focus:border-red-500/40"
                       onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleIntervene(); } }}
                     />
                     <button
@@ -396,12 +396,12 @@ export default function GodModeMessaging() {
           onClick={() => setShowDirectMsg(false)}
         >
           <div
-            className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-6 w-full max-w-md"
+            className="bg-white border border-gray-200 rounded-2xl p-6 w-full max-w-md"
             onClick={e => e.stopPropagation()}
           >
             <div className="flex items-center gap-2 mb-4">
               <Shield className="w-5 h-5 text-[#ff6b35]" />
-              <h3 className="text-lg font-bold text-white">Nouveau message admin</h3>
+              <h3 className="text-lg font-bold text-gray-900">Nouveau message admin</h3>
             </div>
 
             {/* User search */}
@@ -414,7 +414,7 @@ export default function GodModeMessaging() {
                     value={directSearch}
                     onChange={e => handleDirectSearch(e.target.value)}
                     placeholder="Rechercher un utilisateur..."
-                    className="w-full pl-10 pr-4 py-3 bg-[#080810] border border-[#1e1e2e] rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-[#ff6b35] text-sm"
+                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#ff6b35] text-sm"
                     autoFocus
                   />
                 </div>
@@ -427,9 +427,9 @@ export default function GodModeMessaging() {
                       <button
                         key={u.id}
                         onClick={() => setDirectTarget({ id: u.id, name: `${u.firstName} ${u.lastName}` })}
-                        className="w-full text-left p-3 bg-[#080810] border border-[#1e1e2e] rounded-xl hover:border-[#ff6b35]/50 transition-colors"
+                        className="w-full text-left p-3 bg-gray-50 border border-gray-200 rounded-xl hover:border-[#ff6b35]/50 transition-colors"
                       >
-                        <p className="text-sm font-medium text-white">{u.firstName} {u.lastName}</p>
+                        <p className="text-sm font-medium text-gray-900">{u.firstName} {u.lastName}</p>
                         <p className="text-xs text-gray-500">{u.email || u.phone || 'N/A'} {u.userType ? `· ${u.userType}` : '· Voyageur'}</p>
                       </button>
                     ))}
@@ -439,12 +439,12 @@ export default function GodModeMessaging() {
             ) : (
               <div className="space-y-4">
                 {/* Selected user */}
-                <div className="flex items-center justify-between p-3 bg-[#080810] rounded-xl">
+                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                   <div className="flex items-center gap-2">
                     <User className="w-4 h-4 text-[#ff6b35]" />
-                    <span className="text-sm font-medium text-white">{directTarget.name}</span>
+                    <span className="text-sm font-medium text-gray-900">{directTarget.name}</span>
                   </div>
-                  <button onClick={() => setDirectTarget(null)} className="text-xs text-gray-500 hover:text-white">Changer</button>
+                  <button onClick={() => setDirectTarget(null)} className="text-xs text-gray-500 hover:text-gray-900">Changer</button>
                 </div>
 
                 <textarea
@@ -452,7 +452,7 @@ export default function GodModeMessaging() {
                   onChange={e => setDirectContent(e.target.value)}
                   placeholder="Votre message..."
                   rows={4}
-                  className="w-full px-4 py-3 bg-[#080810] border border-[#1e1e2e] rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-[#ff6b35] text-sm resize-none"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#ff6b35] text-sm resize-none"
                 />
 
                 <input
@@ -460,20 +460,20 @@ export default function GodModeMessaging() {
                   value={directReason}
                   onChange={e => setDirectReason(e.target.value)}
                   placeholder="Raison audit (obligatoire)..."
-                  className="w-full px-4 py-3 bg-[#080810] border border-[#1e1e2e] rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-[#ff6b35] text-sm"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#ff6b35] text-sm"
                 />
 
                 <div className="flex gap-3">
                   <button
                     onClick={() => setShowDirectMsg(false)}
-                    className="flex-1 py-3 bg-[#1e1e2e] text-gray-400 rounded-xl font-medium"
+                    className="flex-1 py-3 bg-gray-100 text-gray-400 rounded-xl font-medium"
                   >
                     Annuler
                   </button>
                   <button
                     onClick={handleDirectSend}
                     disabled={!directContent.trim() || !directReason.trim() || directSending}
-                    className="flex-1 py-3 bg-[#ff6b35] text-white rounded-xl font-medium disabled:opacity-40 flex items-center justify-center gap-2"
+                    className="flex-1 py-3 bg-[#ff6b35] text-gray-900 rounded-xl font-medium disabled:opacity-40 flex items-center justify-center gap-2"
                   >
                     {directSending ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Send className="w-4 h-4" /> Envoyer</>}
                   </button>

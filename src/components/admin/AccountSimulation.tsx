@@ -106,7 +106,7 @@ export default function AccountSimulation() {
           value={search}
           onChange={(e) => { setSearch(e.target.value); searchUsers(e.target.value); }}
           placeholder="Rechercher un utilisateur (nom, email, telephone)..."
-          className="w-full pl-12 pr-4 py-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
+          className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
         />
         {searching && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 animate-spin text-gray-500" />}
       </div>
@@ -127,16 +127,16 @@ export default function AccountSimulation() {
               className={`w-full text-left flex items-center gap-4 p-4 rounded-xl border transition-all ${
                 selectedUser?.id === user.id
                   ? 'bg-[#ff6b35]/5 border-[#ff6b35]/20'
-                  : 'bg-[#0c0c16] border-[#1e1e2e] hover:border-[#2e2e3e]'
+                  : 'bg-white border-gray-200 hover:border-gray-200'
               }`}
             >
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff1493] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff1493] flex items-center justify-center text-gray-900 text-xs font-bold flex-shrink-0">
                 {user.firstName?.[0]}{user.lastName?.[0]}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-semibold truncate">{user.firstName} {user.lastName}</p>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium bg-[#1e1e2e] text-gray-400">
+                  <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium bg-gray-100 text-gray-400">
                     {user.role}
                   </span>
                   {user.userType && (
@@ -159,7 +159,7 @@ export default function AccountSimulation() {
         </div>
 
         {/* Detail panel */}
-        <div className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-5">
+        <div className="bg-white border border-gray-200 rounded-2xl p-5">
           {detailLoading ? (
             <div className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto text-gray-500" /></div>
           ) : !selectedUser ? (
@@ -171,12 +171,12 @@ export default function AccountSimulation() {
             <div className="space-y-4">
               {/* Avatar + name */}
               <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff1493] flex items-center justify-center text-white text-lg font-bold mx-auto">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff1493] flex items-center justify-center text-gray-900 text-lg font-bold mx-auto">
                   {selectedUser.firstName?.[0]}{selectedUser.lastName?.[0]}
                 </div>
                 <h4 className="text-base font-bold mt-2">{selectedUser.firstName} {selectedUser.lastName}</h4>
                 <div className="flex items-center justify-center gap-2 mt-1">
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#1e1e2e] text-gray-400">{selectedUser.role}</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-400">{selectedUser.role}</span>
                   {selectedUser.userType && (
                     <span className="text-[10px] px-2 py-0.5 rounded-full"
                       style={{ backgroundColor: `${TYPE_COLORS[selectedUser.userType] || '#6b7280'}20`, color: TYPE_COLORS[selectedUser.userType] || '#6b7280' }}>
@@ -200,7 +200,7 @@ export default function AccountSimulation() {
               </div>
 
               {/* Contact info */}
-              <div className="space-y-2 p-3 bg-[#080810] rounded-lg">
+              <div className="space-y-2 p-3 bg-gray-50 rounded-lg">
                 {selectedUser.email && (
                   <p className="text-xs text-gray-400 flex items-center gap-2"><Mail className="w-3.5 h-3.5" />{selectedUser.email}</p>
                 )}
@@ -229,7 +229,7 @@ export default function AccountSimulation() {
                 ].map(stat => {
                   const Icon = stat.icon;
                   return (
-                    <div key={stat.label} className="p-2.5 bg-[#080810] rounded-lg text-center">
+                    <div key={stat.label} className="p-2.5 bg-gray-50 rounded-lg text-center">
                       <Icon className="w-4 h-4 mx-auto mb-1" style={{ color: stat.color }} />
                       <p className="text-sm font-bold">{stat.value}</p>
                       <p className="text-[9px] text-gray-600">{stat.label}</p>

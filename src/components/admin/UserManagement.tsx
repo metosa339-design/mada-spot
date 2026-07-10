@@ -160,7 +160,7 @@ export default function UserManagement() {
           { label: 'Bannis', value: stats.banned, icon: ShieldBan, color: 'text-red-400' },
           { label: 'Prestataires', value: stats.hotels + stats.restaurants + stats.attractions + stats.providers, icon: Briefcase, color: 'text-[#ff6b35]' },
         ].map(kpi => (
-          <div key={kpi.label} className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-4">
+          <div key={kpi.label} className="bg-white border border-gray-200 rounded-xl p-4">
             <div className="flex items-center justify-between mb-2">
               <kpi.icon className={`w-5 h-5 ${kpi.color}`} />
             </div>
@@ -181,14 +181,14 @@ export default function UserManagement() {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
                 activeTab === tab.id
-                  ? 'bg-[#ff6b35] text-white'
-                  : 'bg-[#0c0c16] text-gray-400 border border-[#1e1e2e] hover:border-[#ff6b35]/50'
+                  ? 'bg-[#ff6b35] text-gray-900'
+                  : 'bg-white text-gray-400 border border-gray-200 hover:border-[#ff6b35]/50'
               }`}
             >
               <TabIcon className="w-4 h-4" />
               {tab.label}
               <span className={`px-1.5 py-0.5 rounded-full text-xs ${
-                activeTab === tab.id ? 'bg-white/20' : 'bg-[#1e1e2e]'
+                activeTab === tab.id ? 'bg-white/20' : 'bg-gray-100'
               }`}>{count}</span>
             </button>
           )
@@ -204,13 +204,13 @@ export default function UserManagement() {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Rechercher par nom, email, téléphone..."
-            className="w-full pl-10 pr-4 py-2.5 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#ff6b35] text-sm"
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-[#ff6b35] text-sm"
           />
         </div>
         <select
           value={statusFilter}
           onChange={e => setStatusFilter(e.target.value)}
-          className="px-4 py-2.5 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-gray-300 text-sm focus:outline-none focus:border-[#ff6b35]"
+          className="px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-700 text-sm focus:outline-none focus:border-[#ff6b35]"
         >
           <option value="all">Tous les statuts</option>
           <option value="active">Actifs</option>
@@ -236,12 +236,12 @@ export default function UserManagement() {
               key={user.id}
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`bg-[#0c0c16] border rounded-xl p-4 transition-all ${
+              className={`bg-white border rounded-xl p-4 transition-all ${
                 user.isBanned
                   ? 'border-red-500/30 bg-red-500/5'
                   : !user.isActive
                   ? 'border-gray-600/30 opacity-60'
-                  : 'border-[#1e1e2e] hover:border-[#ff6b35]/30'
+                  : 'border-gray-200 hover:border-[#ff6b35]/30'
               }`}
             >
               <div className="flex items-center gap-4">
@@ -259,7 +259,7 @@ export default function UserManagement() {
                 {/* Info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-medium text-white">{user.firstName} {user.lastName}</span>
+                    <span className="font-medium text-gray-900">{user.firstName} {user.lastName}</span>
                     {user.isBanned && (
                       <span className="px-2 py-0.5 bg-red-500/20 text-red-400 rounded-full text-xs font-medium">Banni</span>
                     )}
@@ -279,15 +279,15 @@ export default function UserManagement() {
                 {/* Stats */}
                 <div className="hidden lg:flex items-center gap-6 text-xs text-gray-500">
                   <div className="text-center">
-                    <p className="text-white font-medium">{user._count.bookings}</p>
+                    <p className="text-gray-900 font-medium">{user._count.bookings}</p>
                     <p>Résa.</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-white font-medium">{user._count.establishmentReviews}</p>
+                    <p className="text-gray-900 font-medium">{user._count.establishmentReviews}</p>
                     <p>Avis</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-white font-medium">{user._count.sentMessages}</p>
+                    <p className="text-gray-900 font-medium">{user._count.sentMessages}</p>
                     <p>Msgs</p>
                   </div>
                   {user.userType && (
@@ -310,7 +310,7 @@ export default function UserManagement() {
                 <div className="flex items-center gap-1 flex-shrink-0">
                   <button
                     onClick={() => setShowMessageModal(user)}
-                    className="p-2 rounded-lg text-gray-400 hover:text-[#ff6b35] hover:bg-[#1e1e2e] transition-colors"
+                    className="p-2 rounded-lg text-gray-400 hover:text-[#ff6b35] hover:bg-gray-100 transition-colors"
                     title="Envoyer un message"
                   >
                     <MessageSquare className="w-4 h-4" />
@@ -372,7 +372,7 @@ export default function UserManagement() {
           <button
             onClick={() => setOffset(Math.max(0, offset - limit))}
             disabled={offset === 0}
-            className="px-4 py-2 bg-[#0c0c16] border border-[#1e1e2e] rounded-lg text-gray-400 disabled:opacity-30 hover:border-[#ff6b35]/50 text-sm"
+            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-400 disabled:opacity-30 hover:border-[#ff6b35]/50 text-sm"
           >
             Précédent
           </button>
@@ -382,7 +382,7 @@ export default function UserManagement() {
           <button
             onClick={() => setOffset(offset + limit)}
             disabled={currentPage >= totalPages}
-            className="px-4 py-2 bg-[#0c0c16] border border-[#1e1e2e] rounded-lg text-gray-400 disabled:opacity-30 hover:border-[#ff6b35]/50 text-sm"
+            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-400 disabled:opacity-30 hover:border-[#ff6b35]/50 text-sm"
           >
             Suivant
           </button>
@@ -403,10 +403,10 @@ export default function UserManagement() {
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.95 }}
-              className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-6 w-full max-w-md"
+              className="bg-white border border-gray-200 rounded-2xl p-6 w-full max-w-md"
               onClick={e => e.stopPropagation()}
             >
-              <h3 className="text-lg font-bold text-white mb-2">Bannir l&apos;utilisateur</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Bannir l&apos;utilisateur</h3>
               <p className="text-sm text-gray-400 mb-4">
                 {showBanModal.firstName} {showBanModal.lastName} ({showBanModal.email || showBanModal.phone})
               </p>
@@ -415,12 +415,12 @@ export default function UserManagement() {
                 onChange={e => setBanReason(e.target.value)}
                 placeholder="Raison du bannissement (obligatoire)..."
                 rows={3}
-                className="w-full px-4 py-3 bg-[#080810] border border-[#1e1e2e] rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-red-500 text-sm resize-none mb-4"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:border-red-500 text-sm resize-none mb-4"
               />
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowBanModal(null)}
-                  className="flex-1 py-3 bg-[#1e1e2e] text-gray-400 rounded-xl font-medium"
+                  className="flex-1 py-3 bg-gray-100 text-gray-400 rounded-xl font-medium"
                 >
                   Annuler
                 </button>
@@ -451,10 +451,10 @@ export default function UserManagement() {
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.95 }}
-              className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-6 w-full max-w-md"
+              className="bg-white border border-gray-200 rounded-2xl p-6 w-full max-w-md"
               onClick={e => e.stopPropagation()}
             >
-              <h3 className="text-lg font-bold text-white mb-2">Envoyer un message</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Envoyer un message</h3>
               <p className="text-sm text-gray-400 mb-4">
                 À : {showMessageModal.firstName} {showMessageModal.lastName}
               </p>
@@ -464,27 +464,27 @@ export default function UserManagement() {
                   onChange={e => setMessageContent(e.target.value)}
                   placeholder="Votre message..."
                   rows={4}
-                  className="w-full px-4 py-3 bg-[#080810] border border-[#1e1e2e] rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-[#ff6b35] text-sm resize-none"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#ff6b35] text-sm resize-none"
                 />
                 <input
                   type="text"
                   value={messageReason}
                   onChange={e => setMessageReason(e.target.value)}
                   placeholder="Raison audit (obligatoire)..."
-                  className="w-full px-4 py-3 bg-[#080810] border border-[#1e1e2e] rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-[#ff6b35] text-sm"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#ff6b35] text-sm"
                 />
               </div>
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowMessageModal(null)}
-                  className="flex-1 py-3 bg-[#1e1e2e] text-gray-400 rounded-xl font-medium"
+                  className="flex-1 py-3 bg-gray-100 text-gray-400 rounded-xl font-medium"
                 >
                   Annuler
                 </button>
                 <button
                   onClick={handleSendMessage}
                   disabled={!messageContent.trim() || !messageReason.trim() || messageSending}
-                  className="flex-1 py-3 bg-[#ff6b35] text-white rounded-xl font-medium disabled:opacity-40 flex items-center justify-center gap-2"
+                  className="flex-1 py-3 bg-[#ff6b35] text-gray-900 rounded-xl font-medium disabled:opacity-40 flex items-center justify-center gap-2"
                 >
                   {messageSending ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Send className="w-4 h-4" /> Envoyer</>}
                 </button>

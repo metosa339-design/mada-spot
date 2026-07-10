@@ -157,7 +157,7 @@ export default function VerificationReview() {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Rechercher par nom, email, téléphone..."
-            className="w-full pl-10 pr-4 py-2.5 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#ff6b35] text-sm"
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-[#ff6b35] text-sm"
           />
         </div>
         <div className="flex gap-2">
@@ -167,8 +167,8 @@ export default function VerificationReview() {
               onClick={() => setFilter(f)}
               className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 filter === f
-                  ? 'bg-[#ff6b35] text-white'
-                  : 'bg-[#0c0c16] text-gray-400 border border-[#1e1e2e] hover:border-[#ff6b35]/50'
+                  ? 'bg-[#ff6b35] text-gray-900'
+                  : 'bg-white text-gray-400 border border-gray-200 hover:border-[#ff6b35]/50'
               }`}
             >
               {f === 'all' ? 'Tous' : STATUS_CONFIG[f].label}
@@ -201,7 +201,7 @@ export default function VerificationReview() {
                 key={doc.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-4 hover:border-[#ff6b35]/30 transition-all"
+                className="bg-white border border-gray-200 rounded-xl p-4 hover:border-[#ff6b35]/30 transition-all"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4 flex-1 min-w-0">
@@ -212,7 +212,7 @@ export default function VerificationReview() {
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-medium text-white">
+                        <span className="font-medium text-gray-900">
                           {doc.user.firstName} {doc.user.lastName}
                         </span>
                         {doc.user.userType && (
@@ -228,7 +228,7 @@ export default function VerificationReview() {
 
                     {/* Document type */}
                     <div className="hidden md:block flex-shrink-0">
-                      <p className="text-sm font-medium text-white">{DOC_TYPE_LABELS[doc.documentType] || doc.documentType}</p>
+                      <p className="text-sm font-medium text-gray-900">{DOC_TYPE_LABELS[doc.documentType] || doc.documentType}</p>
                       <p className="text-xs text-gray-500">{new Date(doc.createdAt).toLocaleDateString('fr-FR')}</p>
                     </div>
 
@@ -243,7 +243,7 @@ export default function VerificationReview() {
                   <div className="flex items-center gap-2 ml-4">
                     <button
                       onClick={() => setPreviewUrl(doc.documentUrl)}
-                      className="p-2 bg-[#1e1e2e] rounded-lg text-gray-400 hover:text-white transition-colors"
+                      className="p-2 bg-gray-100 rounded-lg text-gray-400 hover:text-gray-900 transition-colors"
                       title="Voir le document"
                     >
                       <Eye className="w-4 h-4" />
@@ -287,21 +287,21 @@ export default function VerificationReview() {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-6 w-full max-w-lg"
+              className="bg-white border border-gray-200 rounded-2xl p-6 w-full max-w-lg"
               onClick={e => e.stopPropagation()}
             >
-              <h3 className="text-lg font-bold text-white mb-4">Examiner le document</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Examiner le document</h3>
 
               {/* Doc info */}
               <div className="space-y-3 mb-6">
-                <div className="p-4 bg-[#080810] rounded-xl">
+                <div className="p-4 bg-gray-50 rounded-xl">
                   <p className="text-sm text-gray-400 mb-1">Prestataire</p>
-                  <p className="text-white font-medium">{selectedDoc.user.firstName} {selectedDoc.user.lastName}</p>
+                  <p className="text-gray-900 font-medium">{selectedDoc.user.firstName} {selectedDoc.user.lastName}</p>
                   <p className="text-xs text-gray-500">{selectedDoc.user.email || selectedDoc.user.phone}</p>
                 </div>
-                <div className="p-4 bg-[#080810] rounded-xl">
+                <div className="p-4 bg-gray-50 rounded-xl">
                   <p className="text-sm text-gray-400 mb-1">Document</p>
-                  <p className="text-white font-medium">{DOC_TYPE_LABELS[selectedDoc.documentType]}</p>
+                  <p className="text-gray-900 font-medium">{DOC_TYPE_LABELS[selectedDoc.documentType]}</p>
                   <a
                     href={selectedDoc.documentUrl}
                     target="_blank"
@@ -322,7 +322,7 @@ export default function VerificationReview() {
                   onChange={e => setReviewNote(e.target.value)}
                   placeholder="Raison du rejet ou commentaire..."
                   rows={3}
-                  className="w-full px-4 py-3 bg-[#080810] border border-[#1e1e2e] rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-[#ff6b35] text-sm resize-none"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#ff6b35] text-sm resize-none"
                 />
               </div>
 
@@ -330,7 +330,7 @@ export default function VerificationReview() {
               <div className="flex gap-3">
                 <button
                   onClick={() => setSelectedDoc(null)}
-                  className="flex-1 py-3 bg-[#1e1e2e] text-gray-400 rounded-xl font-medium hover:bg-[#2a2a3a] transition-colors"
+                  className="flex-1 py-3 bg-gray-100 text-gray-400 rounded-xl font-medium hover:bg-gray-100 transition-colors"
                 >
                   Annuler
                 </button>
@@ -368,12 +368,12 @@ export default function VerificationReview() {
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.95 }}
-              className="relative w-full max-w-4xl max-h-[90vh] bg-[#0c0c16] rounded-2xl overflow-hidden"
+              className="relative w-full max-w-4xl max-h-[90vh] bg-white rounded-2xl overflow-hidden"
               onClick={e => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between p-4 border-b border-[#1e1e2e]">
-                <h3 className="text-white font-medium">Aperçu du document</h3>
-                <button onClick={() => setPreviewUrl(null)} className="text-gray-400 hover:text-white">
+              <div className="flex items-center justify-between p-4 border-b border-gray-200">
+                <h3 className="text-gray-900 font-medium">Aperçu du document</h3>
+                <button onClick={() => setPreviewUrl(null)} className="text-gray-400 hover:text-gray-900">
                   <XCircle className="w-5 h-5" />
                 </button>
               </div>

@@ -151,7 +151,7 @@ export default function ImageManager() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => setSelected(null)}
-            className="p-2 bg-[#080810] border border-[#1e1e2e] rounded-xl hover:bg-[#1e1e2e] transition-colors"
+            className="p-2 bg-gray-50 border border-gray-200 rounded-xl hover:bg-gray-100 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -171,7 +171,7 @@ export default function ImageManager() {
           className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all ${
             dragOver
               ? 'border-[#ff6b35] bg-[#ff6b35]/5'
-              : 'border-[#1e1e2e] hover:border-[#ff6b35]/50 hover:bg-[#080810]'
+              : 'border-gray-200 hover:border-[#ff6b35]/50 hover:bg-gray-50'
           }`}
         >
           {uploading ? (
@@ -208,19 +208,19 @@ export default function ImageManager() {
               <div
                 key={imgPath}
                 className={`relative group rounded-xl overflow-hidden border-2 transition-all ${
-                  isCover ? 'border-[#ff6b35]' : 'border-[#1e1e2e] hover:border-[#2e2e3e]'
+                  isCover ? 'border-[#ff6b35]' : 'border-gray-200 hover:border-gray-200'
                 }`}
               >
                 <div className="aspect-[4/3] relative">
                   <Image src={imgPath} alt={selected.name} fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover" />
                   {isCover && (
-                    <div className="absolute top-2 left-2 px-2 py-0.5 bg-[#ff6b35] text-white text-[10px] font-bold rounded-full flex items-center gap-1">
+                    <div className="absolute top-2 left-2 px-2 py-0.5 bg-[#ff6b35] text-gray-900 text-[10px] font-bold rounded-full flex items-center gap-1">
                       <Star className="w-3 h-3" /> Couverture
                     </div>
                   )}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                     {actionLoading === imgPath ? (
-                      <Loader2 className="w-5 h-5 animate-spin text-white" />
+                      <Loader2 className="w-5 h-5 animate-spin text-gray-900" />
                     ) : (
                       <>
                         {!isCover && (
@@ -229,7 +229,7 @@ export default function ImageManager() {
                             title="Definir comme couverture"
                             className="p-2 bg-[#ff6b35]/90 rounded-xl hover:bg-[#ff6b35] transition-colors"
                           >
-                            <Star className="w-4 h-4 text-white" />
+                            <Star className="w-4 h-4 text-gray-900" />
                           </button>
                         )}
                         <button
@@ -237,13 +237,13 @@ export default function ImageManager() {
                           title="Supprimer"
                           className="p-2 bg-red-500/90 rounded-xl hover:bg-red-500 transition-colors"
                         >
-                          <Trash2 className="w-4 h-4 text-white" />
+                          <Trash2 className="w-4 h-4 text-gray-900" />
                         </button>
                       </>
                     )}
                   </div>
                 </div>
-                <div className="p-2 bg-[#080810]">
+                <div className="p-2 bg-gray-50">
                   <p className="text-[10px] text-gray-500 truncate">{imgPath.split('/').pop()}</p>
                 </div>
               </div>
@@ -280,19 +280,19 @@ export default function ImageManager() {
       {/* Stats */}
       {!loading && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div className="p-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-center">
-            <p className="text-2xl font-bold text-white">{stats.total}</p>
+          <div className="p-3 bg-white border border-gray-200 rounded-xl text-center">
+            <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
             <p className="text-[10px] text-gray-500 uppercase tracking-wider">Attractions</p>
           </div>
-          <div className="p-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-center">
+          <div className="p-3 bg-white border border-gray-200 rounded-xl text-center">
             <p className="text-2xl font-bold text-green-400">{stats.withImages}</p>
             <p className="text-[10px] text-gray-500 uppercase tracking-wider">Avec images</p>
           </div>
-          <div className="p-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-center">
+          <div className="p-3 bg-white border border-gray-200 rounded-xl text-center">
             <p className="text-2xl font-bold text-red-400">{stats.noImages}</p>
             <p className="text-[10px] text-gray-500 uppercase tracking-wider">Sans images</p>
           </div>
-          <div className="p-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-center">
+          <div className="p-3 bg-white border border-gray-200 rounded-xl text-center">
             <p className="text-2xl font-bold text-[#ff6b35]">{stats.totalPhotos}</p>
             <p className="text-[10px] text-gray-500 uppercase tracking-wider">Photos total</p>
           </div>
@@ -308,7 +308,7 @@ export default function ImageManager() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher une attraction..."
-            className="w-full pl-10 pr-4 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
+            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
           />
         </div>
         <button
@@ -334,8 +334,8 @@ export default function ImageManager() {
             onClick={() => setTypeFilter(key)}
             className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
               typeFilter === key
-                ? 'text-white'
-                : 'bg-[#080810] text-gray-400 border border-[#1e1e2e] hover:text-white'
+                ? 'text-gray-900'
+                : 'bg-gray-50 text-gray-400 border border-gray-200 hover:text-gray-900'
             }`}
             style={typeFilter === key ? { backgroundColor: `${color}20`, color, borderColor: `${color}40`, border: `1px solid ${color}40` } : {}}
           >
@@ -358,7 +358,7 @@ export default function ImageManager() {
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                 filter === key
                   ? key === 'no_images' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-[#ff6b35]/20 text-[#ff6b35] border border-[#ff6b35]/30'
-                  : 'bg-[#080810] text-gray-400 border border-[#1e1e2e] hover:text-white'
+                  : 'bg-gray-50 text-gray-400 border border-gray-200 hover:text-gray-900'
               }`}
             >
               {label}
@@ -377,7 +377,7 @@ export default function ImageManager() {
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                 sortBy === key
                   ? 'bg-[#ff6b35]/20 text-[#ff6b35] border border-[#ff6b35]/30'
-                  : 'bg-[#080810] text-gray-400 border border-[#1e1e2e] hover:text-white'
+                  : 'bg-gray-50 text-gray-400 border border-gray-200 hover:text-gray-900'
               }`}
             >
               {label}
@@ -409,7 +409,7 @@ export default function ImageManager() {
               className={`w-full flex items-center gap-4 p-3 border rounded-xl hover:border-[#ff6b35]/30 transition-all text-left ${
                 a.totalImages === 0
                   ? 'bg-red-500/5 border-red-500/20'
-                  : 'bg-[#0c0c16] border-[#1e1e2e]'
+                  : 'bg-white border-gray-200'
               }`}
             >
               {a.coverImage ? (
@@ -417,7 +417,7 @@ export default function ImageManager() {
                   <Image src={getImageUrl(a.coverImage)} alt={a.name || 'Image'} fill sizes="56px" className="rounded-lg object-cover" />
                 </div>
               ) : (
-                <div className="w-14 h-14 rounded-lg bg-[#080810] flex items-center justify-center flex-shrink-0 border border-red-500/20">
+                <div className="w-14 h-14 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0 border border-red-500/20">
                   <ImageIcon className="w-5 h-5 text-red-400" />
                 </div>
               )}

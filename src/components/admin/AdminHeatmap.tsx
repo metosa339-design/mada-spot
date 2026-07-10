@@ -93,7 +93,7 @@ export default function AdminHeatmap({ period }: AdminHeatmapProps) {
   const center: [number, number] = [-18.9, 47.5];
 
   return (
-    <div className="relative rounded-xl overflow-hidden border border-[#1e1e2e]" style={{ height: 400 }}>
+    <div className="relative rounded-xl overflow-hidden border border-gray-200" style={{ height: 400 }}>
       <MapContainer
         center={center}
         zoom={6}
@@ -135,7 +135,7 @@ export default function AdminHeatmap({ period }: AdminHeatmapProps) {
       </MapContainer>
 
       {/* Legend */}
-      <div className="absolute bottom-3 right-3 bg-[#0c0c16]/90 border border-[#1e1e2e] rounded-lg p-2.5 text-[10px] text-gray-400 space-y-1 z-[1000]">
+      <div className="absolute bottom-3 right-3 bg-white/90 border border-gray-200 rounded-lg p-2.5 text-[10px] text-gray-400 space-y-1 z-[1000]">
         <div className="flex items-center gap-2">
           <span className="w-3 h-3 rounded-full bg-[#ef4444]" /> Haute densite
         </div>

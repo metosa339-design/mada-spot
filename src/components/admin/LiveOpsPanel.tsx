@@ -130,7 +130,7 @@ export default function LiveOpsPanel() {
               key={t.id}
               onClick={() => { setTab(t.id); resetForm() }}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                tab === t.id ? 'bg-[#ff6b35] text-white' : 'bg-[#0c0c16] text-gray-400 border border-[#1e1e2e] hover:border-[#ff6b35]/50'
+                tab === t.id ? 'bg-[#ff6b35] text-gray-900' : 'bg-white text-gray-400 border border-gray-200 hover:border-[#ff6b35]/50'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -140,7 +140,7 @@ export default function LiveOpsPanel() {
         })}
         <button
           onClick={() => { setShowForm(true); setEditingId(null) }}
-          className="ml-auto flex items-center gap-2 px-4 py-2.5 bg-[#ff6b35] text-white rounded-xl text-sm font-medium hover:bg-[#ff6b35]/90 transition-colors"
+          className="ml-auto flex items-center gap-2 px-4 py-2.5 bg-[#ff6b35] text-gray-900 rounded-xl text-sm font-medium hover:bg-[#ff6b35]/90 transition-colors"
         >
           <Plus className="w-4 h-4" />
           Ajouter
@@ -152,26 +152,26 @@ export default function LiveOpsPanel() {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="bg-[#0c0c16] border border-[#ff6b35]/30 rounded-xl p-4"
+          className="bg-white border border-[#ff6b35]/30 rounded-xl p-4"
         >
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-medium text-white">{editingId ? 'Modifier' : 'Nouveau'}</span>
-            <button onClick={resetForm} className="text-gray-500 hover:text-white"><X className="w-4 h-4" /></button>
+            <span className="text-sm font-medium text-gray-900">{editingId ? 'Modifier' : 'Nouveau'}</span>
+            <button onClick={resetForm} className="text-gray-500 hover:text-gray-900"><X className="w-4 h-4" /></button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {tab === 'pharmacies' && (
               <>
-                <input value={pharmaForm.name} onChange={e => setPharmaForm(p => ({ ...p, name: e.target.value }))} placeholder="Nom" className="px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]" />
-                <input value={pharmaForm.city} onChange={e => setPharmaForm(p => ({ ...p, city: e.target.value }))} placeholder="Ville" className="px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]" />
-                <input value={pharmaForm.phone} onChange={e => setPharmaForm(p => ({ ...p, phone: e.target.value }))} placeholder="T\u00e9l\u00e9phone" className="px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]" />
-                <input value={pharmaForm.address} onChange={e => setPharmaForm(p => ({ ...p, address: e.target.value }))} placeholder="Adresse" className="px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]" />
+                <input value={pharmaForm.name} onChange={e => setPharmaForm(p => ({ ...p, name: e.target.value }))} placeholder="Nom" className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]" />
+                <input value={pharmaForm.city} onChange={e => setPharmaForm(p => ({ ...p, city: e.target.value }))} placeholder="Ville" className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]" />
+                <input value={pharmaForm.phone} onChange={e => setPharmaForm(p => ({ ...p, phone: e.target.value }))} placeholder="T\u00e9l\u00e9phone" className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]" />
+                <input value={pharmaForm.address} onChange={e => setPharmaForm(p => ({ ...p, address: e.target.value }))} placeholder="Adresse" className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]" />
               </>
             )}
             {tab === 'urgences' && (
               <>
-                <input value={emergencyForm.name} onChange={e => setEmergencyForm(p => ({ ...p, name: e.target.value }))} placeholder="Nom" className="px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]" />
-                <input value={emergencyForm.phone} onChange={e => setEmergencyForm(p => ({ ...p, phone: e.target.value }))} placeholder="T\u00e9l\u00e9phone" className="px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]" />
-                <select value={emergencyForm.type} onChange={e => setEmergencyForm(p => ({ ...p, type: e.target.value }))} className="px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]">
+                <input value={emergencyForm.name} onChange={e => setEmergencyForm(p => ({ ...p, name: e.target.value }))} placeholder="Nom" className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]" />
+                <input value={emergencyForm.phone} onChange={e => setEmergencyForm(p => ({ ...p, phone: e.target.value }))} placeholder="T\u00e9l\u00e9phone" className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]" />
+                <select value={emergencyForm.type} onChange={e => setEmergencyForm(p => ({ ...p, type: e.target.value }))} className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]">
                   <option value="police">Police</option>
                   <option value="gendarmerie">Gendarmerie</option>
                   <option value="pompiers">Pompiers</option>
@@ -179,32 +179,32 @@ export default function LiveOpsPanel() {
                   <option value="hopital">H\u00f4pital</option>
                   <option value="ambassade">Ambassade</option>
                 </select>
-                <input value={emergencyForm.city} onChange={e => setEmergencyForm(p => ({ ...p, city: e.target.value }))} placeholder="Ville" className="px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]" />
+                <input value={emergencyForm.city} onChange={e => setEmergencyForm(p => ({ ...p, city: e.target.value }))} placeholder="Ville" className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]" />
               </>
             )}
             {tab === 'meteo' && (
               <>
-                <select value={weatherForm.type} onChange={e => setWeatherForm(p => ({ ...p, type: e.target.value }))} className="px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]">
+                <select value={weatherForm.type} onChange={e => setWeatherForm(p => ({ ...p, type: e.target.value }))} className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]">
                   <option value="cyclone">Cyclone</option>
                   <option value="flood">Inondation</option>
                   <option value="storm">Temp\u00eate</option>
                   <option value="heatwave">Canicule</option>
                 </select>
-                <select value={weatherForm.level} onChange={e => setWeatherForm(p => ({ ...p, level: e.target.value }))} className="px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]">
+                <select value={weatherForm.level} onChange={e => setWeatherForm(p => ({ ...p, level: e.target.value }))} className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]">
                   <option value="green">Vert</option>
                   <option value="yellow">Jaune</option>
                   <option value="orange">Orange</option>
                   <option value="red">Rouge</option>
                 </select>
-                <input value={weatherForm.title} onChange={e => setWeatherForm(p => ({ ...p, title: e.target.value }))} placeholder="Titre" className="col-span-2 px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]" />
-                <textarea value={weatherForm.message} onChange={e => setWeatherForm(p => ({ ...p, message: e.target.value }))} placeholder="Message" rows={2} className="col-span-2 px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35] resize-none" />
-                <input value={weatherForm.regions} onChange={e => setWeatherForm(p => ({ ...p, regions: e.target.value }))} placeholder="R\u00e9gions (s\u00e9par\u00e9es par virgule)" className="px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]" />
-                <input type="date" value={weatherForm.startDate} onChange={e => setWeatherForm(p => ({ ...p, startDate: e.target.value }))} className="px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-white text-sm focus:outline-none focus:border-[#ff6b35]" />
+                <input value={weatherForm.title} onChange={e => setWeatherForm(p => ({ ...p, title: e.target.value }))} placeholder="Titre" className="col-span-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]" />
+                <textarea value={weatherForm.message} onChange={e => setWeatherForm(p => ({ ...p, message: e.target.value }))} placeholder="Message" rows={2} className="col-span-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35] resize-none" />
+                <input value={weatherForm.regions} onChange={e => setWeatherForm(p => ({ ...p, regions: e.target.value }))} placeholder="R\u00e9gions (s\u00e9par\u00e9es par virgule)" className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]" />
+                <input type="date" value={weatherForm.startDate} onChange={e => setWeatherForm(p => ({ ...p, startDate: e.target.value }))} className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm focus:outline-none focus:border-[#ff6b35]" />
               </>
             )}
           </div>
           <div className="flex justify-end mt-3">
-            <button onClick={handleSave} disabled={saving} className="flex items-center gap-2 px-4 py-2 bg-[#ff6b35] text-white rounded-lg text-sm hover:bg-[#ff6b35]/90 transition-colors disabled:opacity-50">
+            <button onClick={handleSave} disabled={saving} className="flex items-center gap-2 px-4 py-2 bg-[#ff6b35] text-gray-900 rounded-lg text-sm hover:bg-[#ff6b35]/90 transition-colors disabled:opacity-50">
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               Enregistrer
             </button>
@@ -221,14 +221,14 @@ export default function LiveOpsPanel() {
         <div className="space-y-2">
           {tab === 'pharmacies' && pharmacies.map((p, i) => (
             <motion.div key={p.id} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.02 }}
-              className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-3 flex items-center gap-3 hover:border-[#ff6b35]/20 transition-all"
+              className="bg-white border border-gray-200 rounded-xl p-3 flex items-center gap-3 hover:border-[#ff6b35]/20 transition-all"
             >
               <Pill className="w-5 h-5 text-emerald-400 flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-white truncate">{p.name}</p>
+                <p className="text-sm font-medium text-gray-900 truncate">{p.name}</p>
                 <p className="text-xs text-gray-500">{p.city} {p.phone && `\u00b7 ${p.phone}`}</p>
               </div>
-              <button onClick={() => toggleGuard(p.id, p.isOnGuard)} className={`p-1.5 rounded-lg transition-colors ${p.isOnGuard ? 'bg-emerald-500/20 text-emerald-400' : 'bg-[#1e1e2e] text-gray-600'}`} title={p.isOnGuard ? 'De garde' : 'Pas de garde'}>
+              <button onClick={() => toggleGuard(p.id, p.isOnGuard)} className={`p-1.5 rounded-lg transition-colors ${p.isOnGuard ? 'bg-emerald-500/20 text-emerald-400' : 'bg-gray-100 text-gray-600'}`} title={p.isOnGuard ? 'De garde' : 'Pas de garde'}>
                 {p.isOnGuard ? <ToggleRight className="w-5 h-5" /> : <ToggleLeft className="w-5 h-5" />}
               </button>
               <button onClick={() => handleDelete(p.id)} className="p-1.5 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors">
@@ -239,12 +239,12 @@ export default function LiveOpsPanel() {
 
           {tab === 'urgences' && emergencies.map((e, i) => (
             <motion.div key={e.id} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.02 }}
-              className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-3 flex items-center gap-3 hover:border-[#ff6b35]/20 transition-all"
+              className="bg-white border border-gray-200 rounded-xl p-3 flex items-center gap-3 hover:border-[#ff6b35]/20 transition-all"
             >
               <Phone className="w-5 h-5 text-red-400 flex-shrink-0" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <p className="text-sm font-medium text-white truncate">{e.name}</p>
+                  <p className="text-sm font-medium text-gray-900 truncate">{e.name}</p>
                   <span className="px-1.5 py-0.5 bg-cyan-500/20 text-cyan-400 rounded text-[10px]">{e.type}</span>
                   {e.is24h && <span className="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">24h</span>}
                 </div>
@@ -258,15 +258,15 @@ export default function LiveOpsPanel() {
 
           {tab === 'meteo' && weatherAlerts.map((w, i) => (
             <motion.div key={w.id} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.02 }}
-              className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-3 hover:border-[#ff6b35]/20 transition-all"
+              className="bg-white border border-gray-200 rounded-xl p-3 hover:border-[#ff6b35]/20 transition-all"
             >
               <div className="flex items-center gap-3">
                 <AlertTriangle className={`w-5 h-5 flex-shrink-0 ${w.level === 'red' ? 'text-red-400' : w.level === 'orange' ? 'text-orange-400' : 'text-amber-400'}`} />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="text-sm font-medium text-white truncate">{w.title}</p>
+                    <p className="text-sm font-medium text-gray-900 truncate">{w.title}</p>
                     <span className={`px-1.5 py-0.5 rounded text-[10px] ${LEVEL_COLORS[w.level] || ''}`}>{w.level}</span>
-                    <span className="px-1.5 py-0.5 bg-[#1e1e2e] text-gray-400 rounded text-[10px]">{w.type}</span>
+                    <span className="px-1.5 py-0.5 bg-gray-100 text-gray-400 rounded text-[10px]">{w.type}</span>
                   </div>
                   <p className="text-xs text-gray-500 truncate">{w.message.slice(0, 80)}{w.message.length > 80 ? '...' : ''}</p>
                   {w.regions && <p className="text-[10px] text-gray-600 mt-0.5">R\u00e9gions: {w.regions}</p>}

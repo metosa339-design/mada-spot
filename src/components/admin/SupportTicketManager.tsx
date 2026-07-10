@@ -152,7 +152,7 @@ export default function SupportTicketManager() {
           { label: 'Résolus', value: stats.resolved, color: 'text-emerald-400', bg: 'bg-emerald-500/10', icon: CheckCircle },
         ].map((kpi, i) => (
           <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-            className={`${kpi.bg} border border-[#1e1e2e] rounded-xl p-4`}
+            className={`${kpi.bg} border border-gray-200 rounded-xl p-4`}
           >
             <div className="flex items-center justify-between">
               <div>
@@ -168,11 +168,11 @@ export default function SupportTicketManager() {
       {/* Filters */}
       <div className="flex gap-3 items-center">
         <Filter className="w-4 h-4 text-gray-500" />
-        <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="px-3 py-2 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-gray-300 text-sm focus:outline-none focus:border-[#ff6b35]">
+        <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="px-3 py-2 bg-white border border-gray-200 rounded-xl text-gray-700 text-sm focus:outline-none focus:border-[#ff6b35]">
           <option value="">Tous les statuts</option>
           {Object.entries(STATUS_CONFIG).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
         </select>
-        <select value={priorityFilter} onChange={e => setPriorityFilter(e.target.value)} className="px-3 py-2 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-gray-300 text-sm focus:outline-none focus:border-[#ff6b35]">
+        <select value={priorityFilter} onChange={e => setPriorityFilter(e.target.value)} className="px-3 py-2 bg-white border border-gray-200 rounded-xl text-gray-700 text-sm focus:outline-none focus:border-[#ff6b35]">
           <option value="">Toutes les priorités</option>
           {Object.entries(PRIORITY_CONFIG).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
         </select>
@@ -201,7 +201,7 @@ export default function SupportTicketManager() {
               {/* Ticket row */}
               <button
                 onClick={() => openDetail(ticket.id)}
-                className="w-full bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-3 hover:border-[#ff6b35]/20 transition-all text-left"
+                className="w-full bg-white border border-gray-200 rounded-xl p-3 hover:border-[#ff6b35]/20 transition-all text-left"
               >
                 <div className="flex items-center gap-3">
                   <Ticket className="w-4 h-4 text-gray-500 flex-shrink-0" />
@@ -215,7 +215,7 @@ export default function SupportTicketManager() {
                         {PRIORITY_CONFIG[ticket.priority]?.label || ticket.priority}
                       </span>
                     </div>
-                    <p className="text-sm text-white truncate mt-0.5">{ticket.subject}</p>
+                    <p className="text-sm text-gray-900 truncate mt-0.5">{ticket.subject}</p>
                     <div className="flex items-center gap-2 text-[10px] text-gray-600 mt-0.5">
                       <span>{ticket.user ? `${ticket.user.firstName} ${ticket.user.lastName}` : ticket.email}</span>
                       <span>·</span>
@@ -237,15 +237,15 @@ export default function SupportTicketManager() {
                     exit={{ opacity: 0, height: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="bg-[#080810] border border-[#1e1e2e] border-t-0 rounded-b-xl p-4 space-y-4">
+                    <div className="bg-gray-50 border border-gray-200 border-t-0 rounded-b-xl p-4 space-y-4">
                       {detailLoading ? (
                         <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 text-[#ff6b35] animate-spin" /></div>
                       ) : detail ? (
                         <>
                           {/* Description */}
-                          <div className="p-3 bg-[#0c0c16] rounded-lg">
+                          <div className="p-3 bg-white rounded-lg">
                             <p className="text-xs text-gray-500 mb-1">Description</p>
-                            <p className="text-sm text-gray-300 whitespace-pre-wrap">{detail.description}</p>
+                            <p className="text-sm text-gray-700 whitespace-pre-wrap">{detail.description}</p>
                           </div>
 
                           {/* Status/Priority controls */}
@@ -253,14 +253,14 @@ export default function SupportTicketManager() {
                             <select
                               value={detail.status}
                               onChange={e => updateTicket(detail.id, { status: e.target.value })}
-                              className="px-3 py-1.5 bg-[#0c0c16] border border-[#1e1e2e] rounded-lg text-gray-300 text-xs focus:outline-none focus:border-[#ff6b35]"
+                              className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-gray-700 text-xs focus:outline-none focus:border-[#ff6b35]"
                             >
                               {Object.entries(STATUS_CONFIG).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
                             </select>
                             <select
                               value={detail.priority}
                               onChange={e => updateTicket(detail.id, { priority: e.target.value })}
-                              className="px-3 py-1.5 bg-[#0c0c16] border border-[#1e1e2e] rounded-lg text-gray-300 text-xs focus:outline-none focus:border-[#ff6b35]"
+                              className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-gray-700 text-xs focus:outline-none focus:border-[#ff6b35]"
                             >
                               {Object.entries(PRIORITY_CONFIG).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
                             </select>
@@ -276,7 +276,7 @@ export default function SupportTicketManager() {
                                   className={`p-3 rounded-lg text-sm ${
                                     reply.authorType === 'admin'
                                       ? 'bg-[#ff6b35]/10 border border-[#ff6b35]/20 ml-6'
-                                      : 'bg-[#0c0c16] border border-[#1e1e2e]'
+                                      : 'bg-white border border-gray-200'
                                   }`}
                                 >
                                   <div className="flex items-center gap-2 mb-1">
@@ -285,7 +285,7 @@ export default function SupportTicketManager() {
                                     </span>
                                     <span className="text-[10px] text-gray-600">{timeAgo(reply.createdAt)}</span>
                                   </div>
-                                  <p className="text-gray-300 whitespace-pre-wrap">{reply.content}</p>
+                                  <p className="text-gray-700 whitespace-pre-wrap">{reply.content}</p>
                                 </div>
                               ))}
                             </div>
@@ -298,7 +298,7 @@ export default function SupportTicketManager() {
                               onChange={e => setReplyContent(e.target.value)}
                               placeholder="Écrire une réponse..."
                               rows={3}
-                              className="w-full px-3 py-2 bg-[#0c0c16] border border-[#1e1e2e] rounded-lg text-white text-sm resize-none focus:outline-none focus:border-[#ff6b35] placeholder-gray-600"
+                              className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-gray-900 text-sm resize-none focus:outline-none focus:border-[#ff6b35] placeholder-gray-400"
                             />
                             <div className="flex items-center justify-between">
                               <label className="flex items-center gap-2 text-xs text-gray-400 cursor-pointer">
@@ -306,14 +306,14 @@ export default function SupportTicketManager() {
                                   type="checkbox"
                                   checked={setWaiting}
                                   onChange={e => setSetWaiting(e.target.checked)}
-                                  className="rounded border-[#1e1e2e] bg-[#080810] text-[#ff6b35] focus:ring-[#ff6b35]"
+                                  className="rounded border-gray-200 bg-gray-50 text-[#ff6b35] focus:ring-[#ff6b35]"
                                 />
                                 Mettre en attente utilisateur
                               </label>
                               <button
                                 onClick={sendReply}
                                 disabled={!replyContent.trim() || replying}
-                                className="flex items-center gap-2 px-4 py-2 bg-[#ff6b35] text-white rounded-lg text-sm hover:bg-[#ff6b35]/90 disabled:opacity-50 transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 bg-[#ff6b35] text-gray-900 rounded-lg text-sm hover:bg-[#ff6b35]/90 disabled:opacity-50 transition-colors"
                               >
                                 {replying ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                                 Envoyer

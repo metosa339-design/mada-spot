@@ -300,7 +300,7 @@ export default function BlogManager() {
             <button
               onClick={handleSave}
               disabled={saving}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600 disabled:opacity-50 transition-colors"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-orange-500 text-gray-900 rounded-xl font-semibold hover:bg-orange-600 disabled:opacity-50 transition-colors"
             >
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               {isNew ? 'Creer l\'article' : 'Enregistrer'}
@@ -326,7 +326,7 @@ export default function BlogManager() {
         </div>
         <button
           onClick={openNew}
-          className="flex items-center gap-2 px-4 py-2.5 bg-orange-500 text-white rounded-xl font-medium hover:bg-orange-600 transition-colors"
+          className="flex items-center gap-2 px-4 py-2.5 bg-orange-500 text-gray-900 rounded-xl font-medium hover:bg-orange-600 transition-colors"
         >
           <Plus className="w-4 h-4" />
           Nouvel article
@@ -349,7 +349,7 @@ export default function BlogManager() {
                 <img src={article.imageUrl} alt="" className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <ImageIcon className="w-6 h-6 text-gray-300" />
+                  <ImageIcon className="w-6 h-6 text-gray-700" />
                 </div>
               )}
             </div>

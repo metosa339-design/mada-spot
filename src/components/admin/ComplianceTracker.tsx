@@ -142,7 +142,7 @@ export default function ComplianceTracker() {
               key={s.id}
               onClick={() => setActiveSection(s.id)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                activeSection === s.id ? 'bg-[#ff6b35] text-white' : 'bg-[#0c0c16] text-gray-400 border border-[#1e1e2e] hover:border-[#ff6b35]/50'
+                activeSection === s.id ? 'bg-[#ff6b35] text-gray-900' : 'bg-white text-gray-400 border border-gray-200 hover:border-[#ff6b35]/50'
               }`}
             >
               <s.icon className="w-4 h-4" />
@@ -156,14 +156,14 @@ export default function ComplianceTracker() {
           <select
             value={period}
             onChange={e => setPeriod(e.target.value)}
-            className="px-3 py-2.5 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-gray-300 text-sm focus:outline-none focus:border-[#ff6b35]"
+            className="px-3 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-700 text-sm focus:outline-none focus:border-[#ff6b35]"
           >
             {PERIOD_OPTIONS.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
           </select>
           <select
             value={typeFilter}
             onChange={e => setTypeFilter(e.target.value)}
-            className="px-3 py-2.5 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-gray-300 text-sm focus:outline-none focus:border-[#ff6b35]"
+            className="px-3 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-700 text-sm focus:outline-none focus:border-[#ff6b35]"
           >
             <option value="all">Tous les types</option>
             <option value="HOTEL">Hôtels</option>
@@ -197,7 +197,7 @@ export default function ComplianceTracker() {
                     key={reg.id}
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-4"
+                    className="bg-white border border-gray-200 rounded-xl p-4"
                   >
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#ff6b35]/20 to-orange-500/20 flex items-center justify-center flex-shrink-0">
@@ -205,7 +205,7 @@ export default function ComplianceTracker() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-medium text-white">{reg.firstName} {reg.lastName}</span>
+                          <span className="font-medium text-gray-900">{reg.firstName} {reg.lastName}</span>
                           {reg.userType ? (
                             <span className="px-2 py-0.5 bg-cyan-500/20 text-cyan-400 rounded-full text-xs">{TYPE_LABELS[reg.userType] || reg.userType}</span>
                           ) : (
@@ -224,7 +224,7 @@ export default function ComplianceTracker() {
                           <p className={`text-sm font-bold ${getCompletionColor(reg.profileCompletion)}`}>{reg.profileCompletion}%</p>
                           <p className="text-[10px] text-gray-500">Profil</p>
                         </div>
-                        <div className="w-16 h-1.5 bg-[#1e1e2e] rounded-full overflow-hidden">
+                        <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                           <div className={`h-full ${getCompletionBg(reg.profileCompletion)} rounded-full transition-all`} style={{ width: `${reg.profileCompletion}%` }} />
                         </div>
                       </div>
@@ -265,18 +265,18 @@ export default function ComplianceTracker() {
 
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                 {[
-                  { label: 'Total Pros', value: docCompliance.totalPros, color: 'text-white' },
+                  { label: 'Total Pros', value: docCompliance.totalPros, color: 'text-gray-900' },
                   { label: 'Avec NIF', value: docCompliance.withNif, color: 'text-emerald-400' },
                   { label: 'Avec STAT', value: docCompliance.withStat, color: 'text-emerald-400' },
                   { label: 'Avec Licence', value: docCompliance.withLicense, color: 'text-cyan-400' },
                   { label: 'Avec CIN', value: docCompliance.withIdCard, color: 'text-cyan-400' },
                   { label: 'Tout vérifié', value: docCompliance.fullyVerified, color: 'text-emerald-400' },
                 ].map(item => (
-                  <div key={item.label} className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-4 text-center">
+                  <div key={item.label} className="bg-white border border-gray-200 rounded-xl p-4 text-center">
                     <p className={`text-2xl font-bold ${item.color}`}>{item.value}</p>
                     <p className="text-xs text-gray-500 mt-1">{item.label}</p>
                     {docCompliance.totalPros > 0 && (
-                      <div className="mt-2 w-full h-1 bg-[#1e1e2e] rounded-full overflow-hidden">
+                      <div className="mt-2 w-full h-1 bg-gray-100 rounded-full overflow-hidden">
                         <div className="h-full bg-[#ff6b35] rounded-full" style={{ width: `${Math.round((item.value / docCompliance.totalPros) * 100)}%` }} />
                       </div>
                     )}
@@ -316,12 +316,12 @@ export default function ComplianceTracker() {
                     key={est.id}
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-4"
+                    className="bg-white border border-gray-200 rounded-xl p-4"
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-medium text-white">{est.name}</span>
+                          <span className="font-medium text-gray-900">{est.name}</span>
                           <span className="px-2 py-0.5 bg-cyan-500/20 text-cyan-400 rounded-full text-xs">{TYPE_LABELS[est.type] || est.type}</span>
                         </div>
                         <p className="text-sm text-gray-500">{est.city}{est.claimedByName ? ` — ${est.claimedByName}` : ''}</p>
@@ -338,7 +338,7 @@ export default function ComplianceTracker() {
                         if (!config) return null
                         const IssueIcon = config.icon
                         return (
-                          <span key={issue} className="flex items-center gap-1.5 px-2.5 py-1 bg-[#1e1e2e] rounded-lg text-xs">
+                          <span key={issue} className="flex items-center gap-1.5 px-2.5 py-1 bg-gray-100 rounded-lg text-xs">
                             <IssueIcon className={`w-3 h-3 ${config.color}`} />
                             <span className="text-gray-400">{config.label}</span>
                           </span>

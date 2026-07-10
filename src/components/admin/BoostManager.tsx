@@ -219,7 +219,7 @@ function CreateBoost({ onCreated }: { onCreated: () => void }) {
         <label className="inline-flex items-center gap-2 text-sm">
           <input type="checkbox" checked={isPaid} onChange={(e) => setIsPaid(e.target.checked)} /> Déjà payé
         </label>
-        <button onClick={create} disabled={saving || !selected} className="px-4 py-2 rounded-lg bg-orange-500 text-white text-sm font-semibold disabled:opacity-50">
+        <button onClick={create} disabled={saving || !selected} className="px-4 py-2 rounded-lg bg-orange-500 text-gray-900 text-sm font-semibold disabled:opacity-50">
           {saving ? 'Création…' : 'Booster'}
         </button>
         {msg && <span className={`text-sm ${msg.startsWith('✅') ? 'text-green-600' : 'text-red-500'}`}>{msg}</span>}

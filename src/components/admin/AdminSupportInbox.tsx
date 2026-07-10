@@ -100,8 +100,8 @@ export default function AdminSupportInbox() {
   return (
     <div className="flex gap-4 h-[600px]">
       {/* Thread list */}
-      <div className="w-80 flex-shrink-0 bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl flex flex-col overflow-hidden">
-        <div className="p-3 border-b border-[#1e1e2e]">
+      <div className="w-80 flex-shrink-0 bg-white border border-gray-200 rounded-2xl flex flex-col overflow-hidden">
+        <div className="p-3 border-b border-gray-200">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
             <input
@@ -109,7 +109,7 @@ export default function AdminSupportInbox() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Rechercher..."
-              className="w-full pl-9 pr-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-lg text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
+              className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
             />
           </div>
         </div>
@@ -127,12 +127,12 @@ export default function AdminSupportInbox() {
               <button
                 key={thread.threadId}
                 onClick={() => fetchMessages(thread)}
-                className={`w-full text-left p-3 border-b border-[#1e1e2e] hover:bg-[#1a1a2e] transition-colors ${
-                  selectedThread?.threadId === thread.threadId ? 'bg-[#1a1a2e]' : ''
+                className={`w-full text-left p-3 border-b border-gray-200 hover:bg-white transition-colors ${
+                  selectedThread?.threadId === thread.threadId ? 'bg-white' : ''
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-[#1e1e2e] flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
                     <User className="w-4 h-4 text-gray-500" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -141,7 +141,7 @@ export default function AdminSupportInbox() {
                         {thread.participants.map(p => participantName(p)).join(' ↔ ')}
                       </p>
                       {thread.unreadCount > 0 && (
-                        <span className="ml-1 px-1.5 py-0.5 bg-[#ff6b35] rounded-full text-[9px] font-bold text-white flex-shrink-0">
+                        <span className="ml-1 px-1.5 py-0.5 bg-[#ff6b35] rounded-full text-[9px] font-bold text-gray-900 flex-shrink-0">
                           {thread.unreadCount}
                         </span>
                       )}
@@ -160,15 +160,15 @@ export default function AdminSupportInbox() {
           )}
         </div>
 
-        <div className="p-2 border-t border-[#1e1e2e]">
-          <button onClick={fetchThreads} className="w-full flex items-center justify-center gap-2 py-2 text-xs text-gray-500 hover:text-white transition-colors">
+        <div className="p-2 border-t border-gray-200">
+          <button onClick={fetchThreads} className="w-full flex items-center justify-center gap-2 py-2 text-xs text-gray-500 hover:text-gray-900 transition-colors">
             <RefreshCw className="w-3.5 h-3.5" /> Actualiser
           </button>
         </div>
       </div>
 
       {/* Messages panel */}
-      <div className="flex-1 bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl flex flex-col overflow-hidden">
+      <div className="flex-1 bg-white border border-gray-200 rounded-2xl flex flex-col overflow-hidden">
         {!selectedThread ? (
           <div className="flex-1 flex items-center justify-center text-gray-500">
             <div className="text-center">
@@ -180,7 +180,7 @@ export default function AdminSupportInbox() {
         ) : (
           <>
             {/* Header */}
-            <div className="p-3 border-b border-[#1e1e2e] flex items-center gap-2">
+            <div className="p-3 border-b border-gray-200 flex items-center gap-2">
               <div className="flex-1">
                 <p className="text-sm font-medium">
                   {selectedThread.participants.map(p => participantName(p)).join(' ↔ ')}
@@ -206,7 +206,7 @@ export default function AdminSupportInbox() {
                       <div className={`max-w-[80%] rounded-xl p-3 ${
                         isAdmin
                           ? 'bg-red-500/10 border border-red-500/20 text-red-300'
-                          : 'bg-[#1a1a2e] border border-[#2e2e3e]'
+                          : 'bg-white border border-gray-200'
                       }`}>
                         <div className="flex items-center gap-2 mb-1">
                           <span className="text-[10px] font-semibold" style={{ color: isAdmin ? '#ef4444' : '#ff6b35' }}>
@@ -216,7 +216,7 @@ export default function AdminSupportInbox() {
                             {new Date(msg.createdAt).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
                           </span>
                         </div>
-                        <p className="text-xs text-gray-300">{isAdmin ? msg.content.replace('[Admin MadaSpot] ', '') : msg.content}</p>
+                        <p className="text-xs text-gray-700">{isAdmin ? msg.content.replace('[Admin MadaSpot] ', '') : msg.content}</p>
                       </div>
                     </div>
                   );

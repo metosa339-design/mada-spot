@@ -199,10 +199,10 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#1a1a24] rounded-2xl w-full max-w-5xl max-h-[95vh] overflow-hidden flex flex-col">
+      <div className="bg-white rounded-2xl w-full max-w-5xl max-h-[95vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="p-4 border-b border-[#2a2a36] flex items-center justify-between bg-[#12121a]">
-          <h2 className="text-xl font-bold text-white">
+        <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-white">
+          <h2 className="text-xl font-bold text-gray-900">
             {article?.id ? 'Modifier l\'article' : 'Nouvel article'}
           </h2>
           <button
@@ -214,7 +214,7 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
         </div>
 
         {/* Tabs */}
-        <div className="border-b border-[#2a2a36] bg-[#12121a]/50">
+        <div className="border-b border-gray-200 bg-white/50">
           <div className="flex">
             {tabs.map((tab) => {
               const Icon = tab.icon;
@@ -226,8 +226,8 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-2 px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
                     isActive
-                      ? 'border-[#ff6b35] text-[#ff6b35] bg-[#1a1a24]'
-                      : 'border-transparent text-gray-500 hover:text-gray-300 hover:bg-white/10'
+                      ? 'border-[#ff6b35] text-[#ff6b35] bg-white'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-white/10'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -278,7 +278,7 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
                 {/* Title with bold option */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <label className="block text-sm font-medium text-gray-300">
+                    <label className="block text-sm font-medium text-gray-700">
                       Titre *
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer">
@@ -296,7 +296,7 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
                     type="text"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className={`w-full px-4 py-3 border border-[#2a2a36] bg-[#12121a] text-white rounded-lg focus:ring-2 focus:ring-[#ff6b35]/20 focus:border-[#ff6b35] outline-none ${
+                    className={`w-full px-4 py-3 border border-gray-200 bg-white text-gray-900 rounded-lg focus:ring-2 focus:ring-[#ff6b35]/20 focus:border-[#ff6b35] outline-none ${
                       formData.titleBold ? 'font-black text-xl' : 'font-semibold text-lg'
                     }`}
                     placeholder="Titre de l'article"
@@ -306,13 +306,13 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
 
                 {/* Summary */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Résumé
                   </label>
                   <textarea
                     value={formData.summary || ''}
                     onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
-                    className="w-full px-4 py-2 border border-[#2a2a36] bg-[#12121a] text-white rounded-lg focus:ring-2 focus:ring-[#ff6b35]/20 focus:border-[#ff6b35] outline-none resize-none"
+                    className="w-full px-4 py-2 border border-gray-200 bg-white text-gray-900 rounded-lg focus:ring-2 focus:ring-[#ff6b35]/20 focus:border-[#ff6b35] outline-none resize-none"
                     rows={2}
                     placeholder="Bref résumé de l'article"
                   />
@@ -320,7 +320,7 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
 
                 {/* Rich text content */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     Contenu *
                   </label>
                   <RichTextEditor
@@ -334,13 +334,13 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
                 {/* Category and Source */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Catégorie
                     </label>
                     <select
                       value={formData.categoryId || ''}
                       onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-                      className="w-full px-4 py-2 border border-[#2a2a36] bg-[#12121a] text-white rounded-lg focus:ring-2 focus:ring-[#ff6b35]/20 focus:border-[#ff6b35] outline-none"
+                      className="w-full px-4 py-2 border border-gray-200 bg-white text-gray-900 rounded-lg focus:ring-2 focus:ring-[#ff6b35]/20 focus:border-[#ff6b35] outline-none"
                     >
                       <option value="">Aucune catégorie</option>
                       {categories.map((cat) => (
@@ -351,14 +351,14 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Source
                     </label>
                     <input
                       type="text"
                       value={formData.sourceName || ''}
                       onChange={(e) => setFormData({ ...formData, sourceName: e.target.value })}
-                      className="w-full px-4 py-2 border border-[#2a2a36] bg-[#12121a] text-white rounded-lg focus:ring-2 focus:ring-[#ff6b35]/20 focus:border-[#ff6b35] outline-none"
+                      className="w-full px-4 py-2 border border-gray-200 bg-white text-gray-900 rounded-lg focus:ring-2 focus:ring-[#ff6b35]/20 focus:border-[#ff6b35] outline-none"
                       placeholder="Nom de la source"
                     />
                   </div>
@@ -366,7 +366,7 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
 
                 {/* Source URL */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     <Link className="w-4 h-4 inline-block mr-1" />
                     Lien source original
                   </label>
@@ -374,14 +374,14 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
                     type="url"
                     value={formData.sourceUrl || ''}
                     onChange={(e) => setFormData({ ...formData, sourceUrl: e.target.value })}
-                    className="w-full px-4 py-2 border border-[#2a2a36] bg-[#12121a] text-white rounded-lg focus:ring-2 focus:ring-[#ff6b35]/20 focus:border-[#ff6b35] outline-none"
+                    className="w-full px-4 py-2 border border-gray-200 bg-white text-gray-900 rounded-lg focus:ring-2 focus:ring-[#ff6b35]/20 focus:border-[#ff6b35] outline-none"
                     placeholder="https://..."
                   />
                 </div>
 
                 {/* Scheduling */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     <Calendar className="w-4 h-4 inline-block mr-1" />
                     Publication programmée
                   </label>
@@ -389,7 +389,7 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
                     type="datetime-local"
                     value={formData.scheduledAt || ''}
                     onChange={(e) => setFormData({ ...formData, scheduledAt: e.target.value })}
-                    className="w-full px-4 py-2 border border-[#2a2a36] bg-[#12121a] text-white rounded-lg focus:ring-2 focus:ring-[#ff6b35]/20 focus:border-[#ff6b35] outline-none"
+                    className="w-full px-4 py-2 border border-gray-200 bg-white text-gray-900 rounded-lg focus:ring-2 focus:ring-[#ff6b35]/20 focus:border-[#ff6b35] outline-none"
                   />
                 </div>
 
@@ -403,7 +403,7 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
                       className="w-4 h-4 text-[#ff6b35] border-gray-300 rounded focus:ring-[#ff6b35]"
                     />
                     <Star className="w-4 h-4 text-amber-500" />
-                    <span className="text-sm text-gray-300">Article à la une</span>
+                    <span className="text-sm text-gray-700">Article à la une</span>
                   </label>
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
@@ -413,7 +413,7 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
                       className="w-4 h-4 text-[#ff6b35] border-gray-300 rounded focus:ring-[#ff6b35]"
                     />
                     <Zap className="w-4 h-4 text-red-500" />
-                    <span className="text-sm text-gray-300">Breaking news</span>
+                    <span className="text-sm text-gray-700">Breaking news</span>
                   </label>
                 </div>
               </div>
@@ -431,7 +431,7 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
                 </div>
 
                 {/* Preview */}
-                <div className="border border-[#2a2a36] rounded-xl p-4">
+                <div className="border border-gray-200 rounded-xl p-4">
                   <ArticlePreview
                     title={formData.title}
                     titleBold={formData.titleBold || false}
@@ -447,7 +447,7 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
         </form>
 
         {/* Footer */}
-        <div className="p-4 border-t border-[#2a2a36] bg-[#12121a]">
+        <div className="p-4 border-t border-gray-200 bg-white">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-500">Statut:</span>
@@ -457,7 +457,7 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
                     ? 'bg-green-100 text-green-700'
                     : formData.status === 'scheduled'
                     ? 'bg-blue-100 text-blue-700'
-                    : 'bg-white/5 text-gray-300'
+                    : 'bg-white/5 text-gray-700'
                 }`}
               >
                 {formData.status === 'published'
@@ -472,7 +472,7 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-gray-300 hover:bg-white/10 rounded-lg transition-colors"
+                className="px-4 py-2 text-gray-700 hover:bg-white/10 rounded-lg transition-colors"
               >
                 Annuler
               </button>
@@ -480,7 +480,7 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
                 type="submit"
                 form="article-form"
                 disabled={isSaving}
-                className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors flex items-center gap-2"
+                className="px-4 py-2 bg-gray-500 text-gray-900 rounded-lg hover:bg-gray-600 transition-colors flex items-center gap-2"
               >
                 {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 Brouillon
@@ -490,7 +490,7 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
                   type="button"
                   onClick={handleSchedule}
                   disabled={isSaving}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+                  className="px-4 py-2 bg-blue-600 text-gray-900 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
                 >
                   <Clock className="w-4 h-4" />
                   Programmer
@@ -500,7 +500,7 @@ export default function ArticleEditor({ article, onSave, onClose }: ArticleEdito
                 type="button"
                 onClick={handlePublish}
                 disabled={isSaving}
-                className="px-6 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all flex items-center gap-2 font-semibold shadow-lg shadow-green-200"
+                className="px-6 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-gray-900 rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all flex items-center gap-2 font-semibold shadow-lg shadow-green-200"
               >
                 {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Eye className="w-4 h-4" />}
                 Publier maintenant

@@ -221,7 +221,7 @@ export default function BookingManagement() {
                         <button
                           onClick={() => handleAction(booking.id, 'confirm')}
                           disabled={isLoading}
-                          className="flex items-center gap-1 px-3 py-1.5 bg-green-500 text-white rounded-lg text-sm hover:bg-green-600 disabled:opacity-50"
+                          className="flex items-center gap-1 px-3 py-1.5 bg-green-500 text-gray-900 rounded-lg text-sm hover:bg-green-600 disabled:opacity-50"
                         >
                           {isLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Check className="w-3 h-3" />}
                           Confirmer
@@ -229,7 +229,7 @@ export default function BookingManagement() {
                         <button
                           onClick={() => handleAction(booking.id, 'cancel', 'Refusée par admin')}
                           disabled={isLoading}
-                          className="flex items-center gap-1 px-3 py-1.5 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600 disabled:opacity-50"
+                          className="flex items-center gap-1 px-3 py-1.5 bg-red-500 text-gray-900 rounded-lg text-sm hover:bg-red-600 disabled:opacity-50"
                         >
                           <X className="w-3 h-3" />
                           Refuser
@@ -241,7 +241,7 @@ export default function BookingManagement() {
                         <button
                           onClick={() => handleAction(booking.id, 'complete')}
                           disabled={isLoading}
-                          className="flex items-center gap-1 px-3 py-1.5 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 disabled:opacity-50"
+                          className="flex items-center gap-1 px-3 py-1.5 bg-blue-500 text-gray-900 rounded-lg text-sm hover:bg-blue-600 disabled:opacity-50"
                         >
                           <CheckCircle className="w-3 h-3" />
                           Terminer
@@ -249,7 +249,7 @@ export default function BookingManagement() {
                         <button
                           onClick={() => handleAction(booking.id, 'no_show')}
                           disabled={isLoading}
-                          className="flex items-center gap-1 px-3 py-1.5 bg-gray-500 text-white rounded-lg text-sm hover:bg-gray-600 disabled:opacity-50"
+                          className="flex items-center gap-1 px-3 py-1.5 bg-gray-500 text-gray-900 rounded-lg text-sm hover:bg-gray-600 disabled:opacity-50"
                         >
                           <UserX className="w-3 h-3" />
                           No Show

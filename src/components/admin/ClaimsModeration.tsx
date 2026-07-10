@@ -72,7 +72,7 @@ export default function ClaimsModeration() {
             onClick={() => setFilter(s)}
             className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
               filter === s
-                ? 'bg-[#ff6b35] text-white'
+                ? 'bg-[#ff6b35] text-gray-900'
                 : 'bg-gray-50 border border-gray-200 text-gray-400 hover:text-gray-900'
             }`}
           >

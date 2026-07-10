@@ -62,7 +62,7 @@ export default function AdminFicheCreate({ onBack, onCreated }: { onBack: () => 
 
       {err && <p className="text-red-500 text-sm mt-3">{err}</p>}
       <div className="flex gap-3 mt-4">
-        <button onClick={create} disabled={saving} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-orange-500 text-white font-semibold disabled:opacity-50">
+        <button onClick={create} disabled={saving} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-orange-500 text-gray-900 font-semibold disabled:opacity-50">
           <Plus className="w-4 h-4" /> {saving ? 'Création…' : 'Créer la fiche'}
         </button>
         <button onClick={onBack} className="px-5 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700">Annuler</button>

@@ -119,15 +119,15 @@ export default function DBCleanupTool() {
           <p className="text-xs font-semibold text-red-400">Zone de nettoyage</p>
           <p className="text-[10px] text-gray-500">Utilisez toujours l&apos;apercu avant de nettoyer. Les suppressions sont irreversibles.</p>
         </div>
-        <button onClick={fetchPreview} className="ml-auto p-2 rounded-lg hover:bg-[#1e1e2e] transition-colors">
+        <button onClick={fetchPreview} className="ml-auto p-2 rounded-lg hover:bg-gray-100 transition-colors">
           <RefreshCw className="w-4 h-4 text-gray-400" />
         </button>
       </div>
 
       {/* Total */}
       {preview && (
-        <div className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-5 text-center">
-          <p className="text-3xl font-bold text-white">{preview.totalCleanable.toLocaleString('fr-FR')}</p>
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 text-center">
+          <p className="text-3xl font-bold text-gray-900">{preview.totalCleanable.toLocaleString('fr-FR')}</p>
           <p className="text-xs text-gray-500 mt-1">Elements nettoyables au total</p>
         </div>
       )}
@@ -140,7 +140,7 @@ export default function DBCleanupTool() {
           const result = results[item.type];
 
           return (
-            <div key={item.type} className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-5">
+            <div key={item.type} className="bg-white border border-gray-200 rounded-xl p-5">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
                   style={{ backgroundColor: `${item.color}15` }}>
@@ -197,7 +197,7 @@ export default function DBCleanupTool() {
                       </button>
                       <button
                         onClick={() => setConfirmDelete(null)}
-                        className="px-3 py-2 bg-[#080810] border border-[#1e1e2e] text-gray-400 text-xs rounded-lg"
+                        className="px-3 py-2 bg-gray-50 border border-gray-200 text-gray-400 text-xs rounded-lg"
                       >
                         Annuler
                       </button>

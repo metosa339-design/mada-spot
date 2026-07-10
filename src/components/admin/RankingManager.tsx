@@ -172,8 +172,8 @@ export default function RankingManager() {
                 onClick={() => setTypeFilter(tab.id)}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
                   typeFilter === tab.id
-                    ? 'bg-[#ff6b35] text-white'
-                    : 'bg-[#0c0c16] text-gray-400 border border-[#1e1e2e] hover:border-[#ff6b35]/50'
+                    ? 'bg-[#ff6b35] text-gray-900'
+                    : 'bg-white text-gray-400 border border-gray-200 hover:border-[#ff6b35]/50'
                 }`}
               >
                 <TabIcon className="w-4 h-4" />
@@ -191,14 +191,14 @@ export default function RankingManager() {
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Rechercher..."
-              className="w-full pl-10 pr-4 py-2.5 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#ff6b35] text-sm"
+              className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-[#ff6b35] text-sm"
             />
           </div>
           {cities.length > 0 && (
             <select
               value={cityFilter}
               onChange={e => setCityFilter(e.target.value)}
-              className="px-3 py-2.5 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-gray-300 text-sm focus:outline-none focus:border-[#ff6b35] max-w-[200px]"
+              className="px-3 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-700 text-sm focus:outline-none focus:border-[#ff6b35] max-w-[200px]"
             >
               <option value="">Toutes les villes</option>
               {cities.map(c => <option key={c} value={c}>{c}</option>)}
@@ -212,14 +212,14 @@ export default function RankingManager() {
         <div className="flex gap-2">
           <button
             onClick={autoRank}
-            className="flex items-center gap-2 px-4 py-2 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-gray-400 text-sm hover:border-[#ff6b35]/50 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-gray-400 text-sm hover:border-[#ff6b35]/50 transition-colors"
           >
             <Sparkles className="w-4 h-4" />
             Auto-numéroter
           </button>
           <button
             onClick={() => { fetchData(); setHasChanges(false) }}
-            className="flex items-center gap-2 px-4 py-2 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-gray-400 text-sm hover:border-[#ff6b35]/50 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-gray-400 text-sm hover:border-[#ff6b35]/50 transition-colors"
           >
             <RotateCcw className="w-4 h-4" />
             Réinitialiser
@@ -237,8 +237,8 @@ export default function RankingManager() {
             disabled={!hasChanges || saving}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${
               hasChanges
-                ? 'bg-[#ff6b35] text-white hover:bg-[#ff6b35]/90'
-                : 'bg-[#1e1e2e] text-gray-500 cursor-not-allowed'
+                ? 'bg-[#ff6b35] text-gray-900 hover:bg-[#ff6b35]/90'
+                : 'bg-gray-100 text-gray-500 cursor-not-allowed'
             }`}
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
@@ -265,7 +265,7 @@ export default function RankingManager() {
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.02 }}
-              className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-3 hover:border-[#ff6b35]/20 transition-all group"
+              className="bg-white border border-gray-200 rounded-xl p-3 hover:border-[#ff6b35]/20 transition-all group"
             >
               <div className="flex items-center gap-3">
                 {/* Position */}
@@ -288,7 +288,7 @@ export default function RankingManager() {
                 </div>
 
                 {/* Image */}
-                <div className="w-12 h-12 rounded-lg overflow-hidden bg-[#1e1e2e] flex-shrink-0 relative">
+                <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0 relative">
                   {est.coverImage ? (
                     <Image src={getImageUrl(est.coverImage)} alt="" fill sizes="48px" className="object-cover" />
                   ) : (
@@ -301,7 +301,7 @@ export default function RankingManager() {
                 {/* Info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="font-medium text-white text-sm truncate">{est.name}</span>
+                    <span className="font-medium text-gray-900 text-sm truncate">{est.name}</span>
                     {est.isFeatured && (
                       <Crown className="w-3.5 h-3.5 text-amber-400" />
                     )}
@@ -321,7 +321,7 @@ export default function RankingManager() {
                 <div className="hidden md:flex items-center gap-4 text-xs text-gray-500">
                   <div className="flex items-center gap-1">
                     <Star className="w-3 h-3 text-amber-400" />
-                    <span className="text-white">{est.rating.toFixed(1)}</span>
+                    <span className="text-gray-900">{est.rating.toFixed(1)}</span>
                     <span className="text-gray-600">({est.reviewCount})</span>
                   </div>
                   <div className="flex items-center gap-1">
@@ -340,7 +340,7 @@ export default function RankingManager() {
                       onChange={e => setEditValue(e.target.value)}
                       onBlur={() => setOrder(est.id, parseInt(editValue) || 0)}
                       onKeyDown={e => { if (e.key === 'Enter') setOrder(est.id, parseInt(editValue) || 0) }}
-                      className="w-16 px-2 py-1 bg-[#080810] border border-[#ff6b35] rounded-lg text-white text-sm text-center focus:outline-none"
+                      className="w-16 px-2 py-1 bg-gray-50 border border-[#ff6b35] rounded-lg text-gray-900 text-sm text-center focus:outline-none"
                       autoFocus
                     />
                   ) : (
@@ -349,7 +349,7 @@ export default function RankingManager() {
                       className={`w-16 px-2 py-1 rounded-lg text-sm text-center transition-all ${
                         est.displayOrder > 0
                           ? 'bg-[#ff6b35]/20 text-[#ff6b35] border border-[#ff6b35]/30 font-bold'
-                          : 'bg-[#1e1e2e] text-gray-500 border border-transparent'
+                          : 'bg-gray-100 text-gray-500 border border-transparent'
                       }`}
                     >
                       {est.displayOrder}
@@ -363,7 +363,7 @@ export default function RankingManager() {
                   className={`p-2 rounded-lg transition-all ${
                     est.isFeatured
                       ? 'bg-amber-500/20 text-amber-400'
-                      : 'bg-[#1e1e2e] text-gray-600 hover:text-amber-400'
+                      : 'bg-gray-100 text-gray-600 hover:text-amber-400'
                   }`}
                   title={est.isFeatured ? 'Retirer en vedette' : 'Mettre en vedette'}
                 >

@@ -147,11 +147,11 @@ export default function WhatsappTool() {
           )}
           <input value={filter.city} onChange={(e) => set({ city: e.target.value })} placeholder="Ville (option)" className="input" />
         </div>
-        <button onClick={fetchRecipients} className="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-orange-500 text-white text-sm font-semibold">
+        <button onClick={fetchRecipients} className="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-orange-500 text-gray-900 text-sm font-semibold">
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /> Charger les contacts
         </button>
         {meta && (
-          <p className="text-sm mt-2 text-gray-600 dark:text-gray-300">
+          <p className="text-sm mt-2 text-gray-600 dark:text-gray-700">
             <strong className="text-orange-600">{meta.withPhone}</strong> contact(s) avec téléphone sur {meta.total} dans le segment.
           </p>
         )}
@@ -181,7 +181,7 @@ export default function WhatsappTool() {
                 <button onClick={() => copyMsg(i, text)} title="Copier le message" className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500">
                   {copiedIdx === i ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
                 </button>
-                <a href={wa} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-500 text-white text-sm font-semibold">
+                <a href={wa} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-500 text-gray-900 text-sm font-semibold">
                   <MessageCircle className="w-4 h-4" /> Ouvrir WhatsApp
                 </a>
               </div>

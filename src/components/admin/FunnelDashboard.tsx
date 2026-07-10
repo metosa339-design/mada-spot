@@ -78,7 +78,7 @@ export default function FunnelDashboard() {
     return (
       <div className="py-16 text-center">
         <p className="text-red-500 mb-3">{error}</p>
-        <button onClick={load} className="px-4 py-2 rounded-lg bg-orange-500 text-white text-sm font-semibold">Réessayer</button>
+        <button onClick={load} className="px-4 py-2 rounded-lg bg-orange-500 text-gray-900 text-sm font-semibold">Réessayer</button>
       </div>
     );
   }
@@ -111,17 +111,17 @@ export default function FunnelDashboard() {
 
       {/* Entonnoir */}
       <div>
-        <h4 className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-4">Entonnoir d&apos;acquisition</h4>
+        <h4 className="text-sm font-bold text-gray-700 dark:text-gray-700 mb-4">Entonnoir d&apos;acquisition</h4>
         <div className="space-y-2">
           {data.funnel.map((stage) => (
             <div key={stage.key} className="flex items-center gap-3">
-              <div className="w-48 text-sm text-gray-600 dark:text-gray-300 shrink-0">{stage.label}</div>
+              <div className="w-48 text-sm text-gray-600 dark:text-gray-700 shrink-0">{stage.label}</div>
               <div className="flex-1 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden h-9 relative">
                 <div
                   className="h-full bg-gradient-to-r from-orange-500 to-orange-400 flex items-center px-3 rounded-lg transition-all"
                   style={{ width: `${Math.max((stage.count / maxCount) * 100, 6)}%` }}
                 >
-                  <span className="text-white text-sm font-bold">{stage.count}</span>
+                  <span className="text-gray-900 text-sm font-bold">{stage.count}</span>
                 </div>
               </div>
               <div className="w-20 text-right text-xs shrink-0">
@@ -131,7 +131,7 @@ export default function FunnelDashboard() {
                     {stage.ofPrevious}%
                   </span>
                 ) : (
-                  <span className="text-gray-300">—</span>
+                  <span className="text-gray-700">—</span>
                 )}
               </div>
             </div>
@@ -150,7 +150,7 @@ export default function FunnelDashboard() {
 
       {/* Fiches par statut de modération */}
       <div>
-        <h4 className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">Fiches par statut de modération</h4>
+        <h4 className="text-sm font-bold text-gray-700 dark:text-gray-700 mb-3">Fiches par statut de modération</h4>
         <div className="grid grid-cols-3 gap-4">
           <MiniStat label="Approuvées" value={data.fiches.approved} color="text-green-600" />
           <MiniStat label="En attente" value={data.fiches.pending} color="text-orange-500" />
@@ -200,14 +200,14 @@ function Breakdown({ title, map, labels }: { title: string; map: Record<string, 
   const total = entries.reduce((s, [, v]) => s + v, 0) || 1;
   return (
     <div>
-      <h4 className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">{title}</h4>
+      <h4 className="text-sm font-bold text-gray-700 dark:text-gray-700 mb-3">{title}</h4>
       {entries.length === 0 ? (
         <p className="text-xs text-gray-400">Aucun prospect enregistré.</p>
       ) : (
         <div className="space-y-1.5">
           {entries.map(([k, v]) => (
             <div key={k} className="flex items-center gap-2">
-              <div className="w-28 text-xs text-gray-600 dark:text-gray-300 shrink-0">{labels[k] || k}</div>
+              <div className="w-28 text-xs text-gray-600 dark:text-gray-700 shrink-0">{labels[k] || k}</div>
               <div className="flex-1 bg-gray-100 dark:bg-gray-800 rounded h-5 overflow-hidden">
                 <div className="h-full bg-orange-400/70 rounded" style={{ width: `${(v / total) * 100}%` }} />
               </div>

@@ -65,7 +65,7 @@ export default function ClickAnalytics() {
           { label: 'Établissements', value: data.topEstablishments.length, color: 'text-purple-400', bg: 'bg-purple-500/10' },
         ].map((kpi, i) => (
           <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-            className={`${kpi.bg} border border-[#1e1e2e] rounded-xl p-4`}
+            className={`${kpi.bg} border border-gray-200 rounded-xl p-4`}
           >
             <p className="text-xs text-gray-500">{kpi.label}</p>
             <p className={`text-2xl font-bold ${kpi.color}`}>{kpi.value}</p>
@@ -74,8 +74,8 @@ export default function ClickAnalytics() {
       </div>
 
       {/* Daily chart */}
-      <div className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-4">
-        <h3 className="text-sm font-medium text-white mb-4 flex items-center gap-2">
+      <div className="bg-white border border-gray-200 rounded-xl p-4">
+        <h3 className="text-sm font-medium text-gray-900 mb-4 flex items-center gap-2">
           <TrendingUp className="w-4 h-4 text-[#ff6b35]" />
           Clics par jour (30 jours)
         </h3>
@@ -112,8 +112,8 @@ export default function ClickAnalytics() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Type distribution */}
-        <div className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-4">
-          <h3 className="text-sm font-medium text-white mb-4">Répartition par type</h3>
+        <div className="bg-white border border-gray-200 rounded-xl p-4">
+          <h3 className="text-sm font-medium text-gray-900 mb-4">Répartition par type</h3>
           <div className="space-y-3">
             {Object.entries(data.byType).sort((a, b) => b[1] - a[1]).map(([type, count]) => {
               const Icon = TYPE_ICONS[type] || MousePointer
@@ -123,7 +123,7 @@ export default function ClickAnalytics() {
                 <div key={type} className="flex items-center gap-3">
                   <Icon className="w-4 h-4 flex-shrink-0" style={{ color }} />
                   <span className="text-xs text-gray-400 w-20">{type}</span>
-                  <div className="flex-1 h-6 bg-[#1e1e2e] rounded-full overflow-hidden relative">
+                  <div className="flex-1 h-6 bg-gray-100 rounded-full overflow-hidden relative">
                     <motion.div
                       className="h-full rounded-full"
                       style={{ backgroundColor: color }}
@@ -131,7 +131,7 @@ export default function ClickAnalytics() {
                       animate={{ width: `${width}%` }}
                       transition={{ duration: 0.6 }}
                     />
-                    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-white font-medium">{count}</span>
+                    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-gray-900 font-medium">{count}</span>
                   </div>
                 </div>
               )
@@ -140,14 +140,14 @@ export default function ClickAnalytics() {
         </div>
 
         {/* Top establishments */}
-        <div className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-4">
-          <h3 className="text-sm font-medium text-white mb-4">Top 10 établissements</h3>
+        <div className="bg-white border border-gray-200 rounded-xl p-4">
+          <h3 className="text-sm font-medium text-gray-900 mb-4">Top 10 établissements</h3>
           <div className="space-y-2">
             {data.topEstablishments.map((est, i) => (
               <div key={est.id} className="flex items-center gap-3 text-sm">
                 <span className="text-xs text-gray-600 w-5">{i + 1}.</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-white truncate text-xs">{est.name}</p>
+                  <p className="text-gray-900 truncate text-xs">{est.name}</p>
                   <p className="text-[10px] text-gray-600">{est.city}</p>
                 </div>
                 <span className="text-xs font-bold text-[#ff6b35]">{est.clicks}</span>

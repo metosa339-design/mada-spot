@@ -49,8 +49,8 @@ export default function SEOTrends() {
   return (
     <div className="space-y-6">
       {/* Volume chart */}
-      <div className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-4">
-        <h3 className="text-sm font-medium text-white mb-4 flex items-center gap-2">
+      <div className="bg-white border border-gray-200 rounded-xl p-4">
+        <h3 className="text-sm font-medium text-gray-900 mb-4 flex items-center gap-2">
           <TrendingUp className="w-4 h-4 text-[#ff6b35]" />
           Volume de recherches (30 jours)
         </h3>
@@ -98,8 +98,8 @@ export default function SEOTrends() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Top keywords */}
-        <div className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-4">
-          <h3 className="text-sm font-medium text-white mb-4 flex items-center gap-2">
+        <div className="bg-white border border-gray-200 rounded-xl p-4">
+          <h3 className="text-sm font-medium text-gray-900 mb-4 flex items-center gap-2">
             <Search className="w-4 h-4 text-cyan-400" />
             Top 10 mots-clés (7 jours)
           </h3>
@@ -119,7 +119,7 @@ export default function SEOTrends() {
                         animate={{ width: `${width}%` }}
                         transition={{ delay: i * 0.05, duration: 0.4 }}
                       />
-                      <span className="absolute left-2 top-1/2 -translate-y-1/2 text-xs text-gray-300">{kw.keyword}</span>
+                      <span className="absolute left-2 top-1/2 -translate-y-1/2 text-xs text-gray-700">{kw.keyword}</span>
                     </div>
                     <span className="text-xs font-bold text-cyan-400 w-10 text-right">{kw.count}</span>
                   </div>
@@ -130,8 +130,8 @@ export default function SEOTrends() {
         </div>
 
         {/* Zero-result queries */}
-        <div className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-4">
-          <h3 className="text-sm font-medium text-white mb-4 flex items-center gap-2">
+        <div className="bg-white border border-gray-200 rounded-xl p-4">
+          <h3 className="text-sm font-medium text-gray-900 mb-4 flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-amber-400" />
             Recherches sans résultat
           </h3>
@@ -140,9 +140,9 @@ export default function SEOTrends() {
           ) : (
             <div className="space-y-1.5 max-h-64 overflow-y-auto">
               {data.zeroResultQueries.map((q) => (
-                <div key={q.query} className="flex items-center gap-2 p-2 bg-[#080810] rounded-lg">
+                <div key={q.query} className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
                   <Hash className="w-3 h-3 text-amber-400 flex-shrink-0" />
-                  <span className="text-xs text-gray-300 flex-1 truncate">{q.query}</span>
+                  <span className="text-xs text-gray-700 flex-1 truncate">{q.query}</span>
                   <span className="text-[10px] text-gray-500">{q.count}x</span>
                 </div>
               ))}

@@ -106,7 +106,7 @@ export default function EditorialCalendar() {
                       <span className="flex-1 text-sm truncate">{i.title}</span>
                       {i.status && <span className="text-xs text-gray-400">{i.status}</span>}
                       {['article', 'event', 'promotion'].includes(i.type) && (
-                        <button onClick={() => publishFb(i)} title="Publier sur Facebook" className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-lg bg-[#1877F2] text-white font-medium shrink-0">
+                        <button onClick={() => publishFb(i)} title="Publier sur Facebook" className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-lg bg-[#1877F2] text-gray-900 font-medium shrink-0">
                           <Facebook className="w-3.5 h-3.5" /> Publier
                         </button>
                       )}
@@ -145,7 +145,7 @@ function FbModal({ state, onClose }: { state: { item: any; loading: boolean; res
             <div className="flex gap-2 mt-2">
               <button
                 onClick={() => { navigator.clipboard?.writeText(r?.text || ''); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 text-white text-sm font-semibold"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 text-gray-900 text-sm font-semibold"
               >
                 {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />} {copied ? 'Copié' : 'Copier le texte'}
               </button>

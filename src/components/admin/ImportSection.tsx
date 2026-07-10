@@ -38,7 +38,7 @@ function ImportUploadZone() {
   return (
     <div className="space-y-4">
       <div
-        className="border-2 border-dashed border-[#2e2e3e] rounded-xl p-8 text-center hover:border-[#ff6b35]/50 transition-colors cursor-pointer"
+        className="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center hover:border-[#ff6b35]/50 transition-colors cursor-pointer"
         onClick={() => document.getElementById('import-file-input')?.click()}
         onDragOver={(e) => { e.preventDefault(); e.currentTarget.classList.add('border-[#ff6b35]'); }}
         onDragLeave={(e) => { e.currentTarget.classList.remove('border-[#ff6b35]'); }}
@@ -50,7 +50,7 @@ function ImportUploadZone() {
         }}
       >
         <Upload className="w-10 h-10 text-gray-500 mx-auto mb-3" />
-        <p className="text-sm text-gray-300">
+        <p className="text-sm text-gray-700">
           {file ? file.name : 'Glissez un fichier CSV ou JSON ici'}
         </p>
         <p className="text-xs text-gray-500 mt-1">ou cliquez pour selectionner</p>
@@ -65,14 +65,14 @@ function ImportUploadZone() {
 
       {file && (
         <div className="flex items-center gap-3">
-          <div className="flex-1 p-3 bg-[#080810] border border-[#1e1e2e] rounded-xl">
+          <div className="flex-1 p-3 bg-gray-50 border border-gray-200 rounded-xl">
             <p className="text-sm font-medium">{file.name}</p>
             <p className="text-xs text-gray-500">{(file.size / 1024).toFixed(1)} Ko</p>
           </div>
           <button
             onClick={handleUpload}
             disabled={uploading}
-            className="px-6 py-3 bg-gradient-to-r from-[#ff6b35] to-[#ff1493] text-white font-semibold rounded-xl hover:opacity-90 disabled:opacity-50 flex items-center gap-2"
+            className="px-6 py-3 bg-gradient-to-r from-[#ff6b35] to-[#ff1493] text-gray-900 font-semibold rounded-xl hover:opacity-90 disabled:opacity-50 flex items-center gap-2"
           >
             {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
             {uploading ? 'Import...' : 'Importer'}
@@ -88,7 +88,7 @@ function ImportUploadZone() {
             <div className="space-y-2">
               <p className="text-sm font-medium text-green-400">Import termine</p>
               <div className="flex gap-4 text-sm">
-                <span className="text-gray-300">Total : {result.total}</span>
+                <span className="text-gray-700">Total : {result.total}</span>
                 <span className="text-green-400">Reussis : {result.success}</span>
                 <span className="text-red-400">Erreurs : {result.errors}</span>
               </div>
@@ -136,7 +136,7 @@ function ImportHistory() {
     <div className="space-y-3">
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       {batches.map((batch: any) => (
-        <div key={batch.id} className="flex items-center gap-4 p-4 bg-[#080810] border border-[#1e1e2e] rounded-xl">
+        <div key={batch.id} className="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-xl">
           <div className={`w-3 h-3 rounded-full ${batch.status === 'completed' ? 'bg-green-500' : batch.status === 'failed' ? 'bg-red-500' : 'bg-amber-500 animate-pulse'}`} />
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium truncate">{batch.fileName || `Import ${batch.source}`}</p>
@@ -165,13 +165,13 @@ export default function ImportSection() {
       </div>
 
       {/* CSV Upload */}
-      <div className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-6 mb-6">
+      <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-6">
         <h4 className="text-lg font-semibold mb-4">Importer un fichier</h4>
         <ImportUploadZone />
       </div>
 
       {/* Templates */}
-      <div className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-6 mb-6">
+      <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-6">
         <h4 className="text-lg font-semibold mb-4">Telecharger un template CSV</h4>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[
@@ -183,7 +183,7 @@ export default function ImportSection() {
               key={type}
               href={`/api/admin/import/template?type=${type}`}
               download
-              className="flex items-center gap-3 p-4 bg-[#080810] border border-[#1e1e2e] rounded-xl hover:border-[#2e2e3e] transition-colors"
+              className="flex items-center gap-3 p-4 bg-gray-50 border border-gray-200 rounded-xl hover:border-gray-200 transition-colors"
             >
               <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: `${color}15` }}>
                 <Icon className="w-5 h-5" style={{ color }} />
@@ -199,7 +199,7 @@ export default function ImportSection() {
       </div>
 
       {/* Import History */}
-      <div className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-6">
+      <div className="bg-white border border-gray-200 rounded-2xl p-6">
         <h4 className="text-lg font-semibold mb-4">Historique des imports</h4>
         <ImportHistory />
       </div>

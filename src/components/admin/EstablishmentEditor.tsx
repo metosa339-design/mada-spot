@@ -294,7 +294,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <button onClick={onClose} className="p-2 rounded-xl bg-[#080810] border border-[#1e1e2e] hover:bg-[#1e1e2e] transition-colors">
+          <button onClick={onClose} className="p-2 rounded-xl bg-gray-50 border border-gray-200 hover:bg-gray-100 transition-colors">
             <ArrowLeft className="w-4 h-4" />
           </button>
           <div>
@@ -302,7 +302,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
             <p className="text-xs text-gray-500">{isNew ? 'Créer un nouvel établissement' : establishmentId}</p>
           </div>
         </div>
-        <button onClick={handleSave} disabled={saving} className="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] text-white rounded-xl font-medium hover:bg-[#e55a2b] transition-colors disabled:opacity-50">
+        <button onClick={handleSave} disabled={saving} className="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] text-gray-900 rounded-xl font-medium hover:bg-[#e55a2b] transition-colors disabled:opacity-50">
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           {saving ? 'Sauvegarde...' : 'Enregistrer'}
         </button>
@@ -323,7 +323,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
             const color = typeColors[t];
             return (
               <button key={t} onClick={() => updateField('type', t)}
-                className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-xl border transition-all ${form.type === t ? 'border-[#ff6b35] bg-[#ff6b35]/10' : 'border-[#1e1e2e] bg-[#080810] hover:bg-[#0c0c16]'}`}>
+                className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-xl border transition-all ${form.type === t ? 'border-[#ff6b35] bg-[#ff6b35]/10' : 'border-gray-200 bg-gray-50 hover:bg-white'}`}>
                 <Icon className="w-5 h-5" style={{ color }} />
                 <span className="text-sm font-medium">{t === 'HOTEL' ? 'Hôtel' : t === 'RESTAURANT' ? 'Restaurant' : 'Attraction'}</span>
               </button>
@@ -333,10 +333,10 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
       )}
 
       {/* Tabs */}
-      <div className="flex gap-1 bg-[#080810] border border-[#1e1e2e] rounded-xl p-1 overflow-x-auto">
+      <div className="flex gap-1 bg-gray-50 border border-gray-200 rounded-xl p-1 overflow-x-auto">
         {TABS.map(tab => (
           <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${activeTab === tab.id ? 'bg-[#ff6b35] text-white' : 'text-gray-400 hover:text-white hover:bg-[#1e1e2e]'}`}>
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${activeTab === tab.id ? 'bg-[#ff6b35] text-gray-900' : 'text-gray-400 hover:text-gray-900 hover:bg-gray-100'}`}>
             <tab.icon className="w-3.5 h-3.5" />
             {tab.label}
           </button>
@@ -344,7 +344,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
       </div>
 
       {/* Tab Content */}
-      <div className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-6 space-y-5">
+      <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-5">
 
         {/* ===== GENERAL ===== */}
         {activeTab === 'general' && (
@@ -352,7 +352,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
             <InputField label="Nom *" value={form.name} onChange={v => updateField('name', v)} placeholder="Nom de l'établissement" />
             <TextareaField label="Description" value={form.description} onChange={v => updateField('description', v)} placeholder="Description complète..." rows={4} />
             <InputField label="Description courte" value={form.shortDescription} onChange={v => updateField('shortDescription', v)} placeholder="Pour les cartes et aperçus" />
-            <div className="border-t border-[#1e1e2e] pt-4 mt-4">
+            <div className="border-t border-gray-200 pt-4 mt-4">
               <p className="text-xs text-gray-500 mb-3 flex items-center gap-1"><Globe className="w-3 h-3" /> Version anglaise</p>
               <div className="space-y-4">
                 <InputField label="Name (EN)" value={form.nameEn} onChange={v => updateField('nameEn', v)} placeholder="English name" />
@@ -371,7 +371,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
               <div>
                 <label className="block text-xs font-medium text-gray-400 mb-1.5">Ville *</label>
                 <select value={form.city} onChange={e => updateField('city', e.target.value)}
-                  className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none">
+                  className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:border-[#ff6b35] focus:outline-none">
                   <option value="">Sélectionner...</option>
                   {MADAGASCAR_CITIES_BY_PROVINCE.map((p) => (
                     <optgroup key={p.province} label={p.province}>
@@ -414,7 +414,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
           <>
             <InputField label="Image de couverture (URL)" value={form.coverImage} onChange={v => updateField('coverImage', v)} placeholder="https://..." />
             {form.coverImage && (
-              <div className="relative w-40 h-28 rounded-xl overflow-hidden border border-[#1e1e2e]">
+              <div className="relative w-40 h-28 rounded-xl overflow-hidden border border-gray-200">
                 <NextImage src={getImageUrl(form.coverImage)} alt="Image de couverture" fill sizes="160px" className="object-cover" />
               </div>
             )}
@@ -422,19 +422,19 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
               <label className="block text-xs font-medium text-gray-400 mb-1.5">Galerie d'images</label>
               <div className="flex gap-2 mb-3">
                 <input value={newImageUrl} onChange={e => setNewImageUrl(e.target.value)} placeholder="URL de l'image..."
-                  className="flex-1 px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none"
+                  className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:border-[#ff6b35] focus:outline-none"
                   onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addImage())} />
-                <button onClick={addImage} className="px-3 py-2 bg-[#ff6b35] text-white rounded-xl text-sm hover:bg-[#e55a2b]">
+                <button onClick={addImage} className="px-3 py-2 bg-[#ff6b35] text-gray-900 rounded-xl text-sm hover:bg-[#e55a2b]">
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                 {form.images.map((img, idx) => (
-                  <div key={idx} className="relative group rounded-xl overflow-hidden border border-[#1e1e2e] aspect-video">
+                  <div key={idx} className="relative group rounded-xl overflow-hidden border border-gray-200 aspect-video">
                     <NextImage src={img} alt={`Photo ${idx + 1} de la galerie`} fill sizes="25vw" className="object-cover" />
                     <button onClick={() => removeImage(idx)}
                       className="absolute top-1 right-1 p-1 bg-red-500/80 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                      <X className="w-3 h-3 text-white" />
+                      <X className="w-3 h-3 text-gray-900" />
                     </button>
                   </div>
                 ))}
@@ -462,7 +462,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
               <div>
                 <label className="block text-xs font-medium text-gray-400 mb-1.5">Type d'hôtel</label>
                 <select value={form.hotel.hotelType} onChange={e => updateHotel('hotelType', e.target.value)}
-                  className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none">
+                  className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:border-[#ff6b35] focus:outline-none">
                   <option value="">Sélectionner...</option>
                   {HOTEL_TYPES.map(t => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
                 </select>
@@ -479,7 +479,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
               <div className="flex flex-wrap gap-2">
                 {HOTEL_AMENITIES.map(a => (
                   <button key={a} onClick={() => toggleAmenity(a)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${form.hotel.amenities.includes(a) ? 'bg-[#ff6b35] text-white' : 'bg-[#080810] border border-[#1e1e2e] text-gray-400 hover:text-white'}`}>
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${form.hotel.amenities.includes(a) ? 'bg-[#ff6b35] text-gray-900' : 'bg-gray-50 border border-gray-200 text-gray-400 hover:text-gray-900'}`}>
                     {a.replace('_', ' ')}
                   </button>
                 ))}
@@ -496,7 +496,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
               </div>
               <div className="space-y-3">
                 {form.hotel.roomTypes.map((room, idx) => (
-                  <div key={idx} className="p-4 bg-[#080810] border border-[#1e1e2e] rounded-xl space-y-3">
+                  <div key={idx} className="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-gray-500">Chambre #{idx + 1}</span>
                       <button onClick={() => removeRoom(idx)} className="p-1 text-red-400 hover:text-red-300"><Trash2 className="w-3.5 h-3.5" /></button>
@@ -526,14 +526,14 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
               <div>
                 <label className="block text-xs font-medium text-gray-400 mb-1.5">Catégorie</label>
                 <select value={form.restaurant.category} onChange={e => updateRestaurant('category', e.target.value)}
-                  className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none">
+                  className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:border-[#ff6b35] focus:outline-none">
                   {['GARGOTE', 'RESTAURANT', 'LOUNGE', 'CAFE', 'FAST_FOOD', 'STREET_FOOD'].map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-xs font-medium text-gray-400 mb-1.5">Gamme de prix</label>
                 <select value={form.restaurant.priceRange} onChange={e => updateRestaurant('priceRange', e.target.value)}
-                  className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none">
+                  className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:border-[#ff6b35] focus:outline-none">
                   <option value="BUDGET">Budget (&lt;20 000 MGA)</option>
                   <option value="MODERATE">Modéré (20-50k MGA)</option>
                   <option value="UPSCALE">Haut de gamme (50-150k MGA)</option>
@@ -552,7 +552,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
                       ? form.restaurant.cuisineTypes.filter(x => x !== c)
                       : [...form.restaurant.cuisineTypes, c];
                     updateRestaurant('cuisineTypes', list);
-                  }} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${form.restaurant.cuisineTypes.includes(c) ? 'bg-[#ff6b35] text-white' : 'bg-[#080810] border border-[#1e1e2e] text-gray-400 hover:text-white'}`}>
+                  }} className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${form.restaurant.cuisineTypes.includes(c) ? 'bg-[#ff6b35] text-gray-900' : 'bg-gray-50 border border-gray-200 text-gray-400 hover:text-gray-900'}`}>
                     {c.replace('_', ' ')}
                   </button>
                 ))}
@@ -564,14 +564,14 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
               <label className="block text-xs font-medium text-gray-400 mb-1.5">Spécialités</label>
               <div className="flex gap-2 mb-2">
                 <input value={newSpecialty} onChange={e => setNewSpecialty(e.target.value)} placeholder="Ajouter une spécialité..."
-                  className="flex-1 px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none"
+                  className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:border-[#ff6b35] focus:outline-none"
                   onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); if (newSpecialty.trim()) { updateRestaurant('specialties', [...form.restaurant.specialties, newSpecialty.trim()]); setNewSpecialty(''); } } }} />
                 <button onClick={() => { if (newSpecialty.trim()) { updateRestaurant('specialties', [...form.restaurant.specialties, newSpecialty.trim()]); setNewSpecialty(''); } }}
-                  className="px-3 py-2 bg-[#ff6b35] text-white rounded-xl text-sm"><Plus className="w-4 h-4" /></button>
+                  className="px-3 py-2 bg-[#ff6b35] text-gray-900 rounded-xl text-sm"><Plus className="w-4 h-4" /></button>
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {form.restaurant.specialties.map((s, i) => (
-                  <span key={i} className="flex items-center gap-1 px-2 py-1 bg-[#080810] border border-[#1e1e2e] rounded-lg text-xs text-gray-300">
+                  <span key={i} className="flex items-center gap-1 px-2 py-1 bg-gray-50 border border-gray-200 rounded-lg text-xs text-gray-700">
                     {s} <button onClick={() => updateRestaurant('specialties', form.restaurant.specialties.filter((_, idx) => idx !== i))}><X className="w-3 h-3 text-gray-500 hover:text-red-400" /></button>
                   </span>
                 ))}
@@ -606,7 +606,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
               <div>
                 <label className="block text-xs font-medium text-gray-400 mb-1.5">Type d'attraction</label>
                 <select value={form.attraction.attractionType} onChange={e => updateAttraction('attractionType', e.target.value)}
-                  className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none">
+                  className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:border-[#ff6b35] focus:outline-none">
                   {ATTRACTION_TYPES.map(t => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
                 </select>
               </div>
@@ -614,7 +614,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
             </div>
 
             {/* Pricing */}
-            <div className="p-4 bg-[#080810] border border-[#1e1e2e] rounded-xl space-y-3">
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-3">
               <ToggleField label="Entrée gratuite" value={form.attraction.isFree} onChange={v => updateAttraction('isFree', v)} />
               {!form.attraction.isFree && (
                 <div className="grid grid-cols-2 gap-4">
@@ -634,14 +634,14 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
               <label className="block text-xs font-medium text-gray-400 mb-1.5">Points forts</label>
               <div className="flex gap-2 mb-2">
                 <input value={newHighlight} onChange={e => setNewHighlight(e.target.value)} placeholder="Ajouter un point fort..."
-                  className="flex-1 px-3 py-2 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35] focus:outline-none"
+                  className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:border-[#ff6b35] focus:outline-none"
                   onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); if (newHighlight.trim()) { updateAttraction('highlights', [...form.attraction.highlights, newHighlight.trim()]); setNewHighlight(''); } } }} />
                 <button onClick={() => { if (newHighlight.trim()) { updateAttraction('highlights', [...form.attraction.highlights, newHighlight.trim()]); setNewHighlight(''); } }}
-                  className="px-3 py-2 bg-[#ff6b35] text-white rounded-xl text-sm"><Plus className="w-4 h-4" /></button>
+                  className="px-3 py-2 bg-[#ff6b35] text-gray-900 rounded-xl text-sm"><Plus className="w-4 h-4" /></button>
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {form.attraction.highlights.map((h, i) => (
-                  <span key={i} className="flex items-center gap-1 px-2 py-1 bg-[#080810] border border-[#1e1e2e] rounded-lg text-xs text-gray-300">
+                  <span key={i} className="flex items-center gap-1 px-2 py-1 bg-gray-50 border border-gray-200 rounded-lg text-xs text-gray-700">
                     {h} <button onClick={() => updateAttraction('highlights', form.attraction.highlights.filter((_, idx) => idx !== i))}><X className="w-3 h-3 text-gray-500 hover:text-red-400" /></button>
                   </span>
                 ))}
@@ -678,7 +678,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
                   <button key={s.value} onClick={() => updateField('moderationStatus', s.value)}
                     className={`px-4 py-2 rounded-xl text-xs font-medium border transition-all ${form.moderationStatus === s.value
                       ? `bg-${s.color}-500/10 border-${s.color}-500/30 text-${s.color}-400`
-                      : 'bg-[#080810] border-[#1e1e2e] text-gray-500 hover:text-white'}`}>
+                      : 'bg-gray-50 border-gray-200 text-gray-500 hover:text-gray-900'}`}>
                     {s.label}
                   </button>
                 ))}
@@ -686,7 +686,7 @@ export default function EstablishmentEditor({ establishmentId, onClose }: { esta
             </div>
             <TextareaField label="Note de modération" value={form.moderationNote} onChange={v => updateField('moderationNote', v)} placeholder="Note interne..." rows={2} />
 
-            <div className="border-t border-[#1e1e2e] pt-4 mt-4">
+            <div className="border-t border-gray-200 pt-4 mt-4">
               <p className="text-xs text-gray-500 mb-3">SEO</p>
               <InputField label="Meta Title" value={form.metaTitle} onChange={v => updateField('metaTitle', v)} placeholder="Titre pour les moteurs de recherche" />
               <div className="mt-3">
@@ -710,7 +710,7 @@ function InputField({ label, value, onChange, placeholder, type = 'text' }: {
     <div>
       <label className="block text-xs font-medium text-gray-400 mb-1.5">{label}</label>
       <input type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder}
-        className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white placeholder-gray-600 focus:border-[#ff6b35] focus:outline-none transition-colors" />
+        className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:border-[#ff6b35] focus:outline-none transition-colors" />
     </div>
   );
 }
@@ -722,7 +722,7 @@ function TextareaField({ label, value, onChange, placeholder, rows = 3 }: {
     <div>
       <label className="block text-xs font-medium text-gray-400 mb-1.5">{label}</label>
       <textarea value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} rows={rows}
-        className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white placeholder-gray-600 focus:border-[#ff6b35] focus:outline-none transition-colors resize-none" />
+        className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:border-[#ff6b35] focus:outline-none transition-colors resize-none" />
     </div>
   );
 }
@@ -731,11 +731,11 @@ function ToggleField({ label, value, onChange }: {
   label: string; value: boolean; onChange: (v: boolean) => void;
 }) {
   return (
-    <button onClick={() => onChange(!value)} className="flex items-center gap-2 p-2 rounded-lg hover:bg-[#080810] transition-colors w-full text-left">
-      <div className={`w-8 h-4.5 rounded-full relative transition-colors ${value ? 'bg-[#ff6b35]' : 'bg-[#1e1e2e]'}`}>
+    <button onClick={() => onChange(!value)} className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50 transition-colors w-full text-left">
+      <div className={`w-8 h-4.5 rounded-full relative transition-colors ${value ? 'bg-[#ff6b35]' : 'bg-gray-100'}`}>
         <div className={`absolute top-0.5 w-3.5 h-3.5 rounded-full bg-white transition-all ${value ? 'left-[18px]' : 'left-0.5'}`} />
       </div>
-      <span className="text-xs text-gray-300">{label}</span>
+      <span className="text-xs text-gray-700">{label}</span>
     </button>
   );
 }

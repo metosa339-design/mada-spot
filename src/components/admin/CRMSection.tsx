@@ -158,7 +158,7 @@ function TabBtn({ active, onClick, icon: Icon, label }: { active: boolean; onCli
     <button
       onClick={onClick}
       className={`flex items-center gap-2 px-4 py-2 text-sm rounded-t-lg whitespace-nowrap transition-colors ${
-        active ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white' : 'text-gray-600 hover:bg-gray-100'
+        active ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-gray-900' : 'text-gray-600 hover:bg-gray-100'
       }`}
     >
       <Icon className="w-4 h-4" /> {label}
@@ -301,23 +301,23 @@ function MessageBubble({ m }: { m: any }) {
   const attachments = parseAttachments(m.attachments);
   return (
     <div className={`flex ${isOut ? 'justify-end' : 'justify-start'}`}>
-      <div className={`max-w-[78%] rounded-2xl px-3 py-2 text-sm shadow-sm ${isOut ? 'bg-gradient-to-br from-orange-500 to-pink-500 text-white' : 'bg-white text-gray-900 border border-gray-200'}`}>
+      <div className={`max-w-[78%] rounded-2xl px-3 py-2 text-sm shadow-sm ${isOut ? 'bg-gradient-to-br from-orange-500 to-pink-500 text-gray-900' : 'bg-white text-gray-900 border border-gray-200'}`}>
         <div className="whitespace-pre-wrap break-words leading-relaxed">{showRaw ? m.content : (cleaned.text || '(vide)')}</div>
         {attachments.length > 0 && (
           <div className="mt-2 space-y-1">
             {attachments.map((a, i) => (
-              <a key={i} href={a.url} target="_blank" rel="noopener noreferrer" className={`flex items-center gap-1.5 text-xs underline ${isOut ? 'text-white/90' : 'text-orange-600'}`}>
+              <a key={i} href={a.url} target="_blank" rel="noopener noreferrer" className={`flex items-center gap-1.5 text-xs underline ${isOut ? 'text-gray-900/90' : 'text-orange-600'}`}>
                 {(a.type || '').startsWith('image') ? <img src={a.url} alt="" className="max-h-32 rounded-lg" /> : <><FileText className="w-3.5 h-3.5" /> {a.name || 'pièce jointe'}</>}
               </a>
             ))}
           </div>
         )}
         {cleaned.truncated && (
-          <button onClick={() => setShowRaw(v => !v)} className={`text-[10px] mt-1 underline ${isOut ? 'text-white/80' : 'text-gray-400'}`}>
+          <button onClick={() => setShowRaw(v => !v)} className={`text-[10px] mt-1 underline ${isOut ? 'text-gray-900/80' : 'text-gray-400'}`}>
             {showRaw ? 'Masquer' : 'Voir l\'original'}
           </button>
         )}
-        <div className={`text-[10px] mt-1 ${isOut ? 'text-white/80' : 'text-gray-400'}`}>
+        <div className={`text-[10px] mt-1 ${isOut ? 'text-gray-900/80' : 'text-gray-400'}`}>
           {new Date(m.createdAt).toLocaleString('fr-FR')}
           {isOut && (m.isDelivered ? ' · Envoyé' : ' · ⚠ non envoyé')}
           {m.errorMessage && <span title={m.errorMessage}> · ⚠</span>}
@@ -619,7 +619,7 @@ function InboxTab({ onOpenContact }: { onOpenContact?: (email: string) => void }
               <button
                 onClick={sendMessage}
                 disabled={sending || !draft.trim()}
-                className="flex items-center gap-1 px-4 py-2 rounded-lg text-white text-sm bg-gradient-to-r from-orange-500 to-pink-500 disabled:opacity-50"
+                className="flex items-center gap-1 px-4 py-2 rounded-lg text-gray-900 text-sm bg-gradient-to-r from-orange-500 to-pink-500 disabled:opacity-50"
               >
                 {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                 Envoyer
@@ -792,7 +792,7 @@ function ProspectsTab() {
           <option value="EVENT">Événement</option>
           <option value="REFERRAL">Parrainage</option>
         </select>
-        <button onClick={() => setShowCreate(true)} className="flex items-center gap-1 px-3 py-2 rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 text-white text-sm">
+        <button onClick={() => setShowCreate(true)} className="flex items-center gap-1 px-3 py-2 rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 text-gray-900 text-sm">
           <Plus className="w-4 h-4" /> Nouveau
         </button>
         <button onClick={() => setShowImport(true)} className="flex items-center gap-1 px-3 py-2 rounded-lg border border-gray-200 text-sm">
@@ -806,7 +806,7 @@ function ProspectsTab() {
           <p className="text-sm text-blue-900 flex-1">
             <strong>{newsletterOrphans.length}</strong> abonnés newsletter ne sont pas encore dans ton CRM.
           </p>
-          <button onClick={importFromNewsletter} className="text-xs px-3 py-1.5 rounded bg-blue-600 text-white">
+          <button onClick={importFromNewsletter} className="text-xs px-3 py-1.5 rounded bg-blue-600 text-gray-900">
             Tous les importer
           </button>
         </div>
@@ -919,7 +919,7 @@ function CreateProspectModal({ onClose, onCreated }: { onClose: () => void; onCr
       {error && <div className="mt-2 text-sm text-red-600">{error}</div>}
       <div className="mt-4 flex justify-end gap-2">
         <button onClick={onClose} className="px-3 py-2 text-sm rounded-lg border border-gray-200">Annuler</button>
-        <button onClick={submit} disabled={saving} className="px-3 py-2 text-sm rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 text-white disabled:opacity-50">
+        <button onClick={submit} disabled={saving} className="px-3 py-2 text-sm rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 text-gray-900 disabled:opacity-50">
           {saving ? 'Enregistrement...' : 'Enregistrer'}
         </button>
       </div>
@@ -970,7 +970,7 @@ function ImportProspectsModal({ onClose, onImported }: { onClose: () => void; on
       )}
       <div className="mt-4 flex justify-end gap-2">
         <button onClick={onClose} className="px-3 py-2 text-sm rounded-lg border border-gray-200">Fermer</button>
-        <button onClick={submit} disabled={importing || !csv.trim()} className="px-3 py-2 text-sm rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 text-white disabled:opacity-50">
+        <button onClick={submit} disabled={importing || !csv.trim()} className="px-3 py-2 text-sm rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 text-gray-900 disabled:opacity-50">
           {importing ? 'Import...' : 'Importer'}
         </button>
       </div>
@@ -1019,7 +1019,7 @@ function FollowUpsTab() {
           <button
             key={k}
             onClick={() => setFilter(k)}
-            className={`text-xs px-3 py-1.5 rounded-full ${filter === k ? 'bg-orange-500 text-white' : 'bg-gray-100 text-gray-700'}`}
+            className={`text-xs px-3 py-1.5 rounded-full ${filter === k ? 'bg-orange-500 text-gray-900' : 'bg-gray-100 text-gray-700'}`}
           >
             {k === 'pending' ? 'En cours' : k === 'overdue' ? 'En retard' : k === 'done' ? 'Terminés' : 'Tous'}
           </button>
@@ -1051,7 +1051,7 @@ function FollowUpsTab() {
                   </div>
                 </div>
                 {f.status === 'PENDING' && (
-                  <button onClick={() => markDone(f.id)} className="px-3 py-1.5 text-xs rounded-lg bg-emerald-500 text-white flex items-center gap-1">
+                  <button onClick={() => markDone(f.id)} className="px-3 py-1.5 text-xs rounded-lg bg-emerald-500 text-gray-900 flex items-center gap-1">
                     <CheckCircle2 className="w-3 h-3" /> Marquer fait
                   </button>
                 )}

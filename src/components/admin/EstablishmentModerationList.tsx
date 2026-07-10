@@ -107,7 +107,7 @@ export default function EstablishmentModerationList() {
         )}
         <div className="flex-1" />
         <button onClick={() => { setEditingId(null); setShowEditor(true); }}
-          className="flex items-center gap-2 px-4 py-2 bg-[#ff6b35] text-white rounded-xl text-sm font-medium hover:bg-[#e55a2b] transition-colors">
+          className="flex items-center gap-2 px-4 py-2 bg-[#ff6b35] text-gray-900 rounded-xl text-sm font-medium hover:bg-[#e55a2b] transition-colors">
           <Plus className="w-4 h-4" /> Nouvel Etablissement
         </button>
       </div>
@@ -139,7 +139,7 @@ export default function EstablishmentModerationList() {
           <button key={s.value} onClick={() => setFilter(s.value)}
             className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
               filter === s.value
-                ? 'bg-[#ff6b35] text-white'
+                ? 'bg-[#ff6b35] text-gray-900'
                 : 'bg-gray-50 border border-gray-200 text-gray-400 hover:text-gray-900'
             }`}>
             {s.label}

@@ -93,7 +93,7 @@ export default function AdminFicheEditor({ id, onBack, onSaved }: { id: string; 
         <button onClick={onBack} className="inline-flex items-center gap-1 text-sm text-gray-500"><ChevronLeft className="w-4 h-4" /> Retour</button>
         <div className="flex items-center gap-3">
           <a href={`https://madaspot.com/${typeUrl}/${f.slug}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-sm text-orange-500">Voir en ligne <ExternalLink className="w-3.5 h-3.5" /></a>
-          <button onClick={save} disabled={saving} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 text-white text-sm font-semibold disabled:opacity-50"><Save className="w-4 h-4" /> {saving ? 'Enregistrement…' : 'Enregistrer'}</button>
+          <button onClick={save} disabled={saving} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 text-gray-900 text-sm font-semibold disabled:opacity-50"><Save className="w-4 h-4" /> {saving ? 'Enregistrement…' : 'Enregistrer'}</button>
         </div>
       </div>
       <h3 className="text-lg font-bold">{f.name}</h3>
@@ -124,7 +124,7 @@ export default function AdminFicheEditor({ id, onBack, onSaved }: { id: string; 
 
           <Section title="Photos">
             <div className="flex items-center gap-3 mb-2">
-              {f.coverImage ? <img src={f.coverImage} alt="" className="h-16 w-24 object-cover rounded-lg" /> : <div className="h-16 w-24 bg-gray-100 rounded-lg flex items-center justify-center"><ImageIcon className="w-5 h-5 text-gray-300" /></div>}
+              {f.coverImage ? <img src={f.coverImage} alt="" className="h-16 w-24 object-cover rounded-lg" /> : <div className="h-16 w-24 bg-gray-100 rounded-lg flex items-center justify-center"><ImageIcon className="w-5 h-5 text-gray-700" /></div>}
               <label className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 text-sm cursor-pointer hover:bg-gray-50">
                 {upBusy === 'cover' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />} Parcourir (couverture)
                 <input type="file" accept="image/*" className="hidden" onChange={(e) => doUpload(e.target.files, 'cover')} />
@@ -140,7 +140,7 @@ export default function AdminFicheEditor({ id, onBack, onSaved }: { id: string; 
                 {images.map((url, i) => (
                   <div key={i} className="relative">
                     <img src={url} alt="" className="h-16 w-20 object-cover rounded-lg" />
-                    <button onClick={() => setImages((p) => p.filter((_, j) => j !== i))} className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center"><X className="w-2.5 h-2.5" /></button>
+                    <button onClick={() => setImages((p) => p.filter((_, j) => j !== i))} className="absolute -top-1.5 -right-1.5 bg-red-500 text-gray-900 rounded-full w-4 h-4 flex items-center justify-center"><X className="w-2.5 h-2.5" /></button>
                   </div>
                 ))}
               </div>
@@ -208,11 +208,11 @@ export default function AdminFicheEditor({ id, onBack, onSaved }: { id: string; 
           <div className="rounded-xl border border-gray-200 overflow-hidden">
             <div className="px-3 py-2 bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-500 flex items-center gap-1"><Eye className="w-3.5 h-3.5" /> Aperçu client</div>
             <div>
-              {f.coverImage ? <img src={f.coverImage} alt="" className="w-full h-32 object-cover" /> : <div className="w-full h-32 bg-gray-100 flex items-center justify-center"><ImageIcon className="w-6 h-6 text-gray-300" /></div>}
+              {f.coverImage ? <img src={f.coverImage} alt="" className="w-full h-32 object-cover" /> : <div className="w-full h-32 bg-gray-100 flex items-center justify-center"><ImageIcon className="w-6 h-6 text-gray-700" /></div>}
               <div className="p-3">
                 <div className="font-bold text-sm">{f.name || 'Sans nom'}</div>
                 <div className="text-xs text-gray-500">{f.city || 'Ville ?'} · {f.type}</div>
-                <div className="text-xs text-yellow-600 mt-1">{'★'.repeat(Math.round(f.rating || 0))}<span className="text-gray-300">{'★'.repeat(5 - Math.round(f.rating || 0))}</span> <span className="text-gray-400">({f.reviewCount || 0})</span></div>
+                <div className="text-xs text-yellow-600 mt-1">{'★'.repeat(Math.round(f.rating || 0))}<span className="text-gray-700">{'★'.repeat(5 - Math.round(f.rating || 0))}</span> <span className="text-gray-400">({f.reviewCount || 0})</span></div>
                 {f.shortDescription && <p className="text-xs text-gray-600 mt-1 line-clamp-2">{f.shortDescription}</p>}
                 <div className="text-[10px] text-gray-400 mt-1">{images.length + (f.coverImage ? 1 : 0)} photo(s)</div>
               </div>

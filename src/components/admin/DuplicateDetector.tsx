@@ -63,14 +63,14 @@ export default function DuplicateDetector() {
         <div className="flex items-center gap-3">
           <Copy className="w-5 h-5 text-[#ff6b35]" />
           <div>
-            <h3 className="text-sm font-medium text-white">Détection de doublons</h3>
+            <h3 className="text-sm font-medium text-gray-900">Détection de doublons</h3>
             <p className="text-xs text-gray-500">Identifiez et fusionnez les fiches en double</p>
           </div>
         </div>
         <button
           onClick={scan}
           disabled={scanning}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] text-white rounded-xl text-sm font-medium hover:bg-[#ff6b35]/90 disabled:opacity-50 transition-colors"
+          className="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35] text-gray-900 rounded-xl text-sm font-medium hover:bg-[#ff6b35]/90 disabled:opacity-50 transition-colors"
         >
           {scanning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
           Scanner les doublons
@@ -88,7 +88,7 @@ export default function DuplicateDetector() {
       {scanned && !scanning && duplicates.length === 0 && (
         <div className="text-center py-16">
           <CheckCircle className="w-12 h-12 text-emerald-400 mx-auto mb-3" />
-          <p className="text-white font-medium">Aucun doublon détecté</p>
+          <p className="text-gray-900 font-medium">Aucun doublon détecté</p>
           <p className="text-xs text-gray-500 mt-1">Votre base de données est propre</p>
         </div>
       )}
@@ -106,7 +106,7 @@ export default function DuplicateDetector() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: isMerged ? 0.4 : 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className={`bg-[#0c0c16] border rounded-xl p-4 ${isMerged ? 'border-emerald-500/30' : 'border-[#1e1e2e]'}`}
+                  className={`bg-white border rounded-xl p-4 ${isMerged ? 'border-emerald-500/30' : 'border-gray-200'}`}
                 >
                   {isMerged ? (
                     <div className="flex items-center gap-2 text-emerald-400 text-sm">
@@ -126,8 +126,8 @@ export default function DuplicateDetector() {
                       {/* Side-by-side comparison */}
                       <div className="grid grid-cols-[1fr_auto_1fr] gap-3 items-center">
                         {/* Left */}
-                        <div className="p-3 bg-[#080810] rounded-lg">
-                          <p className="text-sm font-medium text-white truncate">{pair.a.name}</p>
+                        <div className="p-3 bg-gray-50 rounded-lg">
+                          <p className="text-sm font-medium text-gray-900 truncate">{pair.a.name}</p>
                           <div className="flex items-center gap-2 mt-1">
                             <span className="px-1.5 py-0.5 bg-cyan-500/20 text-cyan-400 rounded text-[10px]">
                               {TYPE_LABELS[pair.a.type] || pair.a.type}
@@ -139,8 +139,8 @@ export default function DuplicateDetector() {
                         <ArrowRight className="w-4 h-4 text-gray-600" />
 
                         {/* Right */}
-                        <div className="p-3 bg-[#080810] rounded-lg">
-                          <p className="text-sm font-medium text-white truncate">{pair.b.name}</p>
+                        <div className="p-3 bg-gray-50 rounded-lg">
+                          <p className="text-sm font-medium text-gray-900 truncate">{pair.b.name}</p>
                           <div className="flex items-center gap-2 mt-1">
                             <span className="px-1.5 py-0.5 bg-cyan-500/20 text-cyan-400 rounded text-[10px]">
                               {TYPE_LABELS[pair.b.type] || pair.b.type}

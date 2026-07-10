@@ -86,7 +86,7 @@ export default function CampaignManager() {
         <button onClick={loadList} className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-800">
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /> Actualiser
         </button>
-        <button onClick={() => setView('create')} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 text-white text-sm font-semibold hover:bg-orange-600">
+        <button onClick={() => setView('create')} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 text-gray-900 text-sm font-semibold hover:bg-orange-600">
           <Plus className="w-4 h-4" /> Nouvelle campagne
         </button>
       </div>
@@ -309,7 +309,7 @@ function CreateCampaign({ onCancel, onCreated }: { onCancel: () => void; onCreat
 
       {err && <p className="text-red-500 text-sm mb-3">{err}</p>}
       <div className="flex gap-3">
-        <button onClick={save} disabled={saving} className="px-5 py-2.5 rounded-lg bg-orange-500 text-white font-semibold disabled:opacity-50">
+        <button onClick={save} disabled={saving} className="px-5 py-2.5 rounded-lg bg-orange-500 text-gray-900 font-semibold disabled:opacity-50">
           {saving ? 'Création…' : 'Créer la campagne'}
         </button>
         <button onClick={onCancel} className="px-5 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700">Annuler</button>
@@ -422,7 +422,7 @@ function CampaignDetail({ id, onBack }: { id: string; onBack: () => void }) {
       {/* Actions */}
       <div className="rounded-xl border border-gray-200 dark:border-gray-700 p-4 mb-4 space-y-3">
         {c.status === 'DRAFT' && (
-          <button onClick={buildRecipients} disabled={sending} className="px-4 py-2 rounded-lg bg-blue-500 text-white text-sm font-semibold disabled:opacity-50">
+          <button onClick={buildRecipients} disabled={sending} className="px-4 py-2 rounded-lg bg-blue-500 text-gray-900 text-sm font-semibold disabled:opacity-50">
             {sending ? 'Calcul…' : 'Calculer les destinataires'}
           </button>
         )}
@@ -430,7 +430,7 @@ function CampaignDetail({ id, onBack }: { id: string; onBack: () => void }) {
           <div className="flex items-center gap-3 flex-wrap">
             <label className="text-sm text-gray-500">Taille du lot</label>
             <input type="number" value={batch} onChange={(e) => setBatch(Math.min(parseInt(e.target.value, 10) || 40, 100))} className="w-20 px-2 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-transparent" />
-            <button onClick={sendBatch} disabled={sending || s.PENDING === 0} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 text-white text-sm font-semibold disabled:opacity-50">
+            <button onClick={sendBatch} disabled={sending || s.PENDING === 0} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 text-gray-900 text-sm font-semibold disabled:opacity-50">
               <Send className="w-4 h-4" /> {sending ? 'Envoi…' : `Envoyer un lot (${Math.min(batch, s.PENDING)})`}
             </button>
             <button onClick={buildRecipients} disabled={sending} className="text-sm text-gray-500 underline">Recalculer</button>
@@ -450,7 +450,7 @@ function CampaignDetail({ id, onBack }: { id: string; onBack: () => void }) {
       </div>
 
       {msg && (
-        <p className={`text-sm mb-4 ${msg.startsWith('⚠️') ? 'text-red-500' : 'text-gray-700 dark:text-gray-200'}`}>
+        <p className={`text-sm mb-4 ${msg.startsWith('⚠️') ? 'text-red-500' : 'text-gray-700 dark:text-gray-700'}`}>
           {msg.startsWith('⚠️') && <AlertTriangle className="w-4 h-4 inline mr-1" />}
           {msg}
         </p>

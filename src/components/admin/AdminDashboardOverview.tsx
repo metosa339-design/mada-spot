@@ -121,7 +121,7 @@ const cardVariants = {
 // ---------------------------------------------------------------------------
 
 function SkeletonPulse({ className = '' }: { className?: string }) {
-  return <div className={`animate-pulse rounded-xl bg-[#1a1a2e] ${className}`} />;
+  return <div className={`animate-pulse rounded-xl bg-white ${className}`} />;
 }
 
 function LoadingSkeleton() {
@@ -404,7 +404,7 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
     return (
       <div className="flex flex-col items-center justify-center py-24 text-gray-500">
         <AlertTriangle className="w-12 h-12 mb-4 opacity-40" />
-        <p className="text-lg font-medium text-white">Impossible de charger les statistiques</p>
+        <p className="text-lg font-medium text-gray-900">Impossible de charger les statistiques</p>
         <p className="text-sm mt-1">Veuillez reessayer ulterieurement.</p>
       </div>
     );
@@ -535,16 +535,16 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
     <div className="space-y-6">
       {/* Period selector */}
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-white">Vue d&apos;ensemble</h2>
-        <div className="flex items-center gap-1 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-1">
+        <h2 className="text-xl font-bold text-gray-900">Vue d&apos;ensemble</h2>
+        <div className="flex items-center gap-1 bg-white border border-gray-200 rounded-xl p-1">
           {(['7d', '30d', '90d'] as const).map((p) => (
             <button
               key={p}
               onClick={() => setPeriod(p)}
               className={`px-3 py-1.5 text-sm rounded-lg font-medium transition-all ${
                 period === p
-                  ? 'bg-[#ef4444] text-white shadow-lg shadow-red-500/20'
-                  : 'text-gray-400 hover:text-white'
+                  ? 'bg-[#ef4444] text-gray-900 shadow-lg shadow-red-500/20'
+                  : 'text-gray-400 hover:text-gray-900'
               }`}
             >
               {p === '7d' ? '7j' : p === '30d' ? '30j' : '90j'}
@@ -566,7 +566,7 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
               variants={cardVariants}
               initial="hidden"
               animate="visible"
-              className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-5 flex flex-col gap-3"
+              className="bg-white border border-gray-200 rounded-2xl p-5 flex flex-col gap-3"
             >
               <div className="flex items-center justify-between">
                 <div
@@ -578,7 +578,7 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
                 <TrendBadge value={kpi.trend} />
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">{kpi.value}</div>
+                <div className="text-2xl font-bold text-gray-900">{kpi.value}</div>
                 <div className="text-sm text-gray-400 mt-0.5">{kpi.label}</div>
               </div>
             </motion.div>
@@ -599,7 +599,7 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
               variants={cardVariants}
               initial="hidden"
               animate="visible"
-              className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-4 flex items-center gap-3"
+              className="bg-white border border-gray-200 rounded-2xl p-4 flex items-center gap-3"
             >
               <div
                 className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
@@ -608,7 +608,7 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
                 <Icon className="w-4 h-4" style={{ color: kpi.color }} />
               </div>
               <div>
-                <div className="text-lg font-bold text-white">{kpi.value}</div>
+                <div className="text-lg font-bold text-gray-900">{kpi.value}</div>
                 <div className="text-xs text-gray-500">{kpi.label}</div>
               </div>
             </motion.div>
@@ -626,9 +626,9 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
           variants={cardVariants}
           initial="hidden"
           animate="visible"
-          className="lg:col-span-2 bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-5"
+          className="lg:col-span-2 bg-white border border-gray-200 rounded-2xl p-5"
         >
-          <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+          <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-[#ef4444]" />
             File de moderation
           </h3>
@@ -648,7 +648,7 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
                     <TileIcon className="w-5 h-5" style={{ color: tile.color }} />
                   </div>
                   <div className="text-left">
-                    <div className="text-xl font-bold text-white">{tile.count}</div>
+                    <div className="text-xl font-bold text-gray-900">{tile.count}</div>
                     <div className="text-xs text-gray-400">{tile.label}</div>
                   </div>
                 </button>
@@ -663,9 +663,9 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
           variants={cardVariants}
           initial="hidden"
           animate="visible"
-          className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-5"
+          className="bg-white border border-gray-200 rounded-2xl p-5"
         >
-          <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+          <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <Building2 className="w-4 h-4 text-[#ef4444]" />
             Repartition par type
           </h3>
@@ -679,12 +679,12 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
                 return (
                   <div key={item.type}>
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm text-gray-300">
+                      <span className="text-sm text-gray-700">
                         {BREAKDOWN_LABELS[item.type] || item.type}
                       </span>
-                      <span className="text-sm font-semibold text-white">{item.count}</span>
+                      <span className="text-sm font-semibold text-gray-900">{item.count}</span>
                     </div>
-                    <div className="w-full h-2.5 bg-[#1a1a2e] rounded-full overflow-hidden">
+                    <div className="w-full h-2.5 bg-white rounded-full overflow-hidden">
                       <motion.div
                         className="h-full rounded-full"
                         style={{ backgroundColor: color }}
@@ -710,9 +710,9 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
           variants={cardVariants}
           initial="hidden"
           animate="visible"
-          className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-5"
+          className="bg-white border border-gray-200 rounded-2xl p-5"
         >
-          <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+          <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <Users className="w-4 h-4 text-[#3b82f6]" />
             Inscriptions par type
           </h3>
@@ -728,9 +728,9 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
           variants={cardVariants}
           initial="hidden"
           animate="visible"
-          className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-5"
+          className="bg-white border border-gray-200 rounded-2xl p-5"
         >
-          <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+          <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <Mail className="w-4 h-4 text-[#8b5cf6]" />
             Tendance messages
           </h3>
@@ -751,9 +751,9 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
           variants={cardVariants}
           initial="hidden"
           animate="visible"
-          className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-5"
+          className="bg-white border border-gray-200 rounded-2xl p-5"
         >
-          <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+          <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <Users className="w-4 h-4 text-[#06b6d4]" />
             Croissance utilisateurs
           </h3>
@@ -769,9 +769,9 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
           variants={cardVariants}
           initial="hidden"
           animate="visible"
-          className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-5"
+          className="bg-white border border-gray-200 rounded-2xl p-5"
         >
-          <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+          <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <CalendarDays className="w-4 h-4 text-[#f59e0b]" />
             Tendance reservations
           </h3>
@@ -791,9 +791,9 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
         variants={cardVariants}
         initial="hidden"
         animate="visible"
-        className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-5"
+        className="bg-white border border-gray-200 rounded-2xl p-5"
       >
-        <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+        <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2">
           <Map className="w-4 h-4 text-[#ff6b35]" />
           Carte de chaleur — Zones les plus consultees
         </h3>
@@ -810,9 +810,9 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
           variants={cardVariants}
           initial="hidden"
           animate="visible"
-          className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-5"
+          className="bg-white border border-gray-200 rounded-2xl p-5"
         >
-          <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+          <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <Trophy className="w-4 h-4 text-[#eab308]" />
             Top 5 Etablissements
           </h3>
@@ -828,7 +828,7 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1 * i }}
-                    className="flex items-center gap-3 p-3 rounded-xl bg-[#12122a] hover:bg-[#181838] transition-colors"
+                    className="flex items-center gap-3 p-3 rounded-xl bg-white hover:bg-gray-100 transition-colors"
                   >
                     <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold text-sm"
                       style={{
@@ -841,7 +841,7 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-white truncate">{est.name}</span>
+                        <span className="text-sm font-medium text-gray-900 truncate">{est.name}</span>
                         <span
                           className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md uppercase"
                           style={{
@@ -881,9 +881,9 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
           variants={cardVariants}
           initial="hidden"
           animate="visible"
-          className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-5"
+          className="bg-white border border-gray-200 rounded-2xl p-5"
         >
-          <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+          <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <Clock className="w-4 h-4 text-[#06b6d4]" />
             Activite recente
           </h3>
@@ -899,13 +899,13 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
                     initial={{ opacity: 0, x: 10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.05 * i }}
-                    className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-[#12122a] transition-colors"
+                    className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-white transition-colors"
                   >
-                    <div className="w-7 h-7 rounded-lg bg-[#1a1a2e] flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-7 h-7 rounded-lg bg-white flex items-center justify-center shrink-0 mt-0.5">
                       <ActionIcon className="w-3.5 h-3.5 text-gray-400" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-gray-300 leading-snug">
+                      <p className="text-sm text-gray-700 leading-snug">
                         {item.details || `${item.action} ${item.entityType}`}
                         {item.entityId && (
                           <span className="text-gray-600 font-mono text-[10px] ml-1">

@@ -364,7 +364,7 @@ export default function EventCalendar() {
   // ============================================================
   if (viewMode === 'create' || viewMode === 'edit') {
     return (
-      <div className="space-y-6 bg-[#0b0b14] text-gray-200 rounded-2xl p-6 border border-[#1e1e2e]">
+      <div className="space-y-6 bg-white text-gray-700 rounded-2xl p-6 border border-gray-200">
         {/* Header */}
         <div className="flex items-center justify-between">
           <h3 className="text-base font-semibold flex items-center gap-2">
@@ -372,7 +372,7 @@ export default function EventCalendar() {
             {viewMode === 'create' ? 'Créer un événement / promo' : 'Modifier l\'événement'}
           </h3>
           <button onClick={() => { setViewMode('calendar'); setSelectedEvent(null); }}
-            className="p-2 rounded-lg hover:bg-[#1e1e2e] text-gray-400 hover:text-white transition-colors">
+            className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-900 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -390,7 +390,7 @@ export default function EventCalendar() {
                     className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-medium transition-all border ${
                       form.eventType === key
                         ? 'bg-[#ff6b35]/15 text-[#ff6b35] border-[#ff6b35]/30'
-                        : 'bg-[#080810] border-[#1e1e2e] text-gray-400 hover:text-white'
+                        : 'bg-gray-50 border-gray-200 text-gray-400 hover:text-gray-900'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -405,7 +405,7 @@ export default function EventCalendar() {
               <label className="text-xs text-gray-400 mb-1.5 block">Titre *</label>
               <input type="text" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
                 placeholder="Ex: Festival Donia à Nosy Be"
-                className="w-full px-4 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white placeholder-gray-600 focus:border-[#ff6b35]/50 focus:outline-none" />
+                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:border-[#ff6b35]/50 focus:outline-none" />
             </div>
 
             {/* Description */}
@@ -413,7 +413,7 @@ export default function EventCalendar() {
               <label className="text-xs text-gray-400 mb-1.5 block">Description</label>
               <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
                 rows={3} placeholder="Description de l'événement..."
-                className="w-full px-4 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white placeholder-gray-600 focus:border-[#ff6b35]/50 focus:outline-none resize-none" />
+                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:border-[#ff6b35]/50 focus:outline-none resize-none" />
             </div>
 
             {/* Dates */}
@@ -421,12 +421,12 @@ export default function EventCalendar() {
               <div>
                 <label className="text-xs text-gray-400 mb-1.5 block">Date début *</label>
                 <input type="datetime-local" value={form.startDate} onChange={e => setForm(f => ({ ...f, startDate: e.target.value }))}
-                  className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35]/50 focus:outline-none" />
+                  className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:border-[#ff6b35]/50 focus:outline-none" />
               </div>
               <div>
                 <label className="text-xs text-gray-400 mb-1.5 block">Date fin</label>
                 <input type="datetime-local" value={form.endDate} onChange={e => setForm(f => ({ ...f, endDate: e.target.value }))}
-                  className="w-full px-3 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white focus:border-[#ff6b35]/50 focus:outline-none" />
+                  className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:border-[#ff6b35]/50 focus:outline-none" />
               </div>
             </div>
 
@@ -435,12 +435,12 @@ export default function EventCalendar() {
               <div>
                 <label className="text-xs text-gray-400 mb-1.5 block">Ville *</label>
                 <input type="text" value={form.city} onChange={e => setForm(f => ({ ...f, city: e.target.value }))}
-                  placeholder="Nosy Be" className="w-full px-4 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white placeholder-gray-600 focus:border-[#ff6b35]/50 focus:outline-none" />
+                  placeholder="Nosy Be" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:border-[#ff6b35]/50 focus:outline-none" />
               </div>
               <div>
                 <label className="text-xs text-gray-400 mb-1.5 block">Lieu</label>
                 <input type="text" value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))}
-                  placeholder="Hôtel XYZ" className="w-full px-4 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white placeholder-gray-600 focus:border-[#ff6b35]/50 focus:outline-none" />
+                  placeholder="Hôtel XYZ" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:border-[#ff6b35]/50 focus:outline-none" />
               </div>
             </div>
 
@@ -449,12 +449,12 @@ export default function EventCalendar() {
               <div>
                 <label className="text-xs text-gray-400 mb-1.5 block">Région</label>
                 <input type="text" value={form.region} onChange={e => setForm(f => ({ ...f, region: e.target.value }))}
-                  placeholder="Diana" className="w-full px-4 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white placeholder-gray-600 focus:border-[#ff6b35]/50 focus:outline-none" />
+                  placeholder="Diana" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:border-[#ff6b35]/50 focus:outline-none" />
               </div>
               <div>
                 <label className="text-xs text-gray-400 mb-1.5 block">Organisateur</label>
                 <input type="text" value={form.organizer} onChange={e => setForm(f => ({ ...f, organizer: e.target.value }))}
-                  placeholder="Office du Tourisme" className="w-full px-4 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white placeholder-gray-600 focus:border-[#ff6b35]/50 focus:outline-none" />
+                  placeholder="Office du Tourisme" className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:border-[#ff6b35]/50 focus:outline-none" />
               </div>
             </div>
 
@@ -466,7 +466,7 @@ export default function EventCalendar() {
                   <button key={key}
                     onClick={() => setForm(f => ({ ...f, category: key }))}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${
-                      form.category === key ? 'text-white' : 'bg-[#080810] border-[#1e1e2e] text-gray-400 hover:text-white'
+                      form.category === key ? 'text-gray-900' : 'bg-gray-50 border-gray-200 text-gray-400 hover:text-gray-900'
                     }`}
                     style={form.category === key ? { backgroundColor: `${CATEGORY_COLORS[key]}20`, borderColor: `${CATEGORY_COLORS[key]}40`, color: CATEGORY_COLORS[key] } : {}}
                   >
@@ -484,9 +484,9 @@ export default function EventCalendar() {
               <label className="text-xs text-gray-400 mb-1.5 block">Image de couverture (URL)</label>
               <input type="url" value={form.coverImage} onChange={e => setForm(f => ({ ...f, coverImage: e.target.value }))}
                 placeholder="https://images.unsplash.com/..."
-                className="w-full px-4 py-2.5 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white placeholder-gray-600 focus:border-[#ff6b35]/50 focus:outline-none" />
+                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:border-[#ff6b35]/50 focus:outline-none" />
               {form.coverImage && (
-                <div className="mt-2 relative w-full aspect-video rounded-xl overflow-hidden border border-[#1e1e2e]">
+                <div className="mt-2 relative w-full aspect-video rounded-xl overflow-hidden border border-gray-200">
                   <Image src={getImageUrl(form.coverImage)} alt="Preview" fill className="object-cover" unoptimized />
                 </div>
               )}
@@ -502,7 +502,7 @@ export default function EventCalendar() {
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border flex items-center gap-1.5 ${
                       form.badge === b.value
                         ? (b.color || 'bg-[#ff6b35]/15 text-[#ff6b35] border-[#ff6b35]/30')
-                        : 'bg-[#080810] border-[#1e1e2e] text-gray-400 hover:text-white'
+                        : 'bg-gray-50 border-gray-200 text-gray-400 hover:text-gray-900'
                     }`}
                   >
                     {b.value && <Sparkles className="w-3 h-3" />}
@@ -513,17 +513,17 @@ export default function EventCalendar() {
             </div>
 
             {/* Pin to top toggle */}
-            <div className="flex items-center justify-between p-3 bg-[#080810] border border-[#1e1e2e] rounded-xl">
+            <div className="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-xl">
               <div className="flex items-center gap-2">
                 <Pin className="w-4 h-4 text-orange-400" />
                 <div>
-                  <span className="text-sm text-white font-medium">Mettre en avant</span>
+                  <span className="text-sm text-gray-900 font-medium">Mettre en avant</span>
                   <p className="text-[10px] text-gray-500">Épingler dans le carrousel Hero</p>
                 </div>
               </div>
               <button
                 onClick={() => setForm(f => ({ ...f, isPinned: !f.isPinned }))}
-                className={`w-11 h-6 rounded-full transition-colors relative ${form.isPinned ? 'bg-orange-500' : 'bg-[#1e1e2e]'}`}
+                className={`w-11 h-6 rounded-full transition-colors relative ${form.isPinned ? 'bg-orange-500' : 'bg-gray-100'}`}
               >
                 <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform ${form.isPinned ? 'left-5.5 translate-x-0' : 'left-0.5'}`}
                   style={{ left: form.isPinned ? '22px' : '2px' }} />
@@ -540,7 +540,7 @@ export default function EventCalendar() {
                     className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-medium transition-all border ${
                       form.targetAudience === value
                         ? 'bg-[#ff6b35]/15 text-[#ff6b35] border-[#ff6b35]/30'
-                        : 'bg-[#080810] border-[#1e1e2e] text-gray-400 hover:text-white'
+                        : 'bg-gray-50 border-gray-200 text-gray-400 hover:text-gray-900'
                     }`}
                   >
                     <Icon className="w-3.5 h-3.5" />
@@ -551,44 +551,44 @@ export default function EventCalendar() {
             </div>
 
             {/* CTA fields */}
-            <div className="p-4 bg-[#080810] border border-[#1e1e2e] rounded-xl space-y-3">
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-3">
               <div className="flex items-center gap-2 mb-1">
                 <ExternalLink className="w-4 h-4 text-orange-400" />
-                <span className="text-sm text-white font-medium">Bouton d&apos;action (CTA)</span>
+                <span className="text-sm text-gray-900 font-medium">Bouton d&apos;action (CTA)</span>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-[10px] text-gray-500 mb-1 block">Libellé</label>
                   <input type="text" value={form.ctaLabel} onChange={e => setForm(f => ({ ...f, ctaLabel: e.target.value }))}
-                    placeholder="S'inscrire" className="w-full px-3 py-2 bg-[#0c0c16] border border-[#1e1e2e] rounded-lg text-xs text-white placeholder-gray-600 focus:border-[#ff6b35]/50 focus:outline-none" />
+                    placeholder="S'inscrire" className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs text-gray-900 placeholder-gray-400 focus:border-[#ff6b35]/50 focus:outline-none" />
                 </div>
                 <div>
                   <label className="text-[10px] text-gray-500 mb-1 block">Lien</label>
                   <input type="url" value={form.ctaLink} onChange={e => setForm(f => ({ ...f, ctaLink: e.target.value }))}
-                    placeholder="https://..." className="w-full px-3 py-2 bg-[#0c0c16] border border-[#1e1e2e] rounded-lg text-xs text-white placeholder-gray-600 focus:border-[#ff6b35]/50 focus:outline-none" />
+                    placeholder="https://..." className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs text-gray-900 placeholder-gray-400 focus:border-[#ff6b35]/50 focus:outline-none" />
                 </div>
               </div>
             </div>
 
             {/* Régie Pub - Promotion & Priority */}
-            <div className="p-4 bg-[#080810] border border-[#1e1e2e] rounded-xl space-y-3">
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-3">
               <div className="flex items-center gap-2 mb-1">
                 <Crown className="w-4 h-4 text-amber-400" />
-                <span className="text-sm text-white font-medium">Régie Publicitaire</span>
+                <span className="text-sm text-gray-900 font-medium">Régie Publicitaire</span>
               </div>
 
               {/* isPromotion toggle */}
-              <div className="flex items-center justify-between p-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl">
+              <div className="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-xl">
                 <div className="flex items-center gap-2">
                   <Zap className="w-4 h-4 text-orange-400" />
                   <div>
-                    <span className="text-sm text-white font-medium">Promotion</span>
+                    <span className="text-sm text-gray-900 font-medium">Promotion</span>
                     <p className="text-[10px] text-gray-500">Marquer comme contenu promotionnel</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setForm(f => ({ ...f, isPromotion: !f.isPromotion }))}
-                  className={`w-11 h-6 rounded-full transition-colors relative ${form.isPromotion ? 'bg-orange-500' : 'bg-[#1e1e2e]'}`}
+                  className={`w-11 h-6 rounded-full transition-colors relative ${form.isPromotion ? 'bg-orange-500' : 'bg-gray-100'}`}
                 >
                   <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform`}
                     style={{ left: form.isPromotion ? '22px' : '2px' }} />
@@ -604,7 +604,7 @@ export default function EventCalendar() {
                     min={0} max={10}
                     value={form.priorityScore}
                     onChange={e => setForm(f => ({ ...f, priorityScore: parseInt(e.target.value) }))}
-                    className="flex-1 h-2 rounded-full appearance-none bg-[#1e1e2e] accent-orange-500"
+                    className="flex-1 h-2 rounded-full appearance-none bg-gray-100 accent-orange-500"
                   />
                   <span className={`text-sm font-bold min-w-[2rem] text-center ${
                     form.priorityScore >= 5 ? 'text-amber-400' : form.priorityScore > 0 ? 'text-orange-400' : 'text-gray-500'
@@ -620,10 +620,10 @@ export default function EventCalendar() {
             </div>
 
             {/* Lien Produit */}
-            <div className="p-4 bg-[#080810] border border-[#1e1e2e] rounded-xl space-y-3">
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-3">
               <div className="flex items-center gap-2 mb-1">
                 <Link2 className="w-4 h-4 text-purple-400" />
-                <span className="text-sm text-white font-medium">Lien avec un produit</span>
+                <span className="text-sm text-gray-900 font-medium">Lien avec un produit</span>
               </div>
               <div>
                 <label className="text-[10px] text-gray-500 mb-1.5 block">Type de produit</label>
@@ -634,7 +634,7 @@ export default function EventCalendar() {
                       className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${
                         form.linkedProductType === pt.value
                           ? 'bg-purple-500/15 text-purple-400 border-purple-500/30'
-                          : 'bg-[#0c0c16] border-[#1e1e2e] text-gray-400 hover:text-white'
+                          : 'bg-white border-gray-200 text-gray-400 hover:text-gray-900'
                       }`}>
                       {pt.label}
                     </button>
@@ -646,14 +646,14 @@ export default function EventCalendar() {
                   <label className="text-[10px] text-gray-500 mb-1 block">ID du produit lié</label>
                   <input type="text" value={form.linkedProductId} onChange={e => setForm(f => ({ ...f, linkedProductId: e.target.value }))}
                     placeholder="ID ou slug du produit..."
-                    className="w-full px-3 py-2 bg-[#0c0c16] border border-[#1e1e2e] rounded-lg text-xs text-white placeholder-gray-600 focus:border-purple-500/50 focus:outline-none" />
+                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs text-gray-900 placeholder-gray-400 focus:border-purple-500/50 focus:outline-none" />
                 </div>
               )}
             </div>
 
             {/* Preview badge result */}
             {(form.badge || form.isPinned) && (
-              <div className="p-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl">
+              <div className="p-3 bg-white border border-gray-200 rounded-xl">
                 <p className="text-[10px] text-gray-500 mb-2">Aperçu des tags</p>
                 <div className="flex flex-wrap gap-2">
                   {form.isPinned && (
@@ -675,13 +675,13 @@ export default function EventCalendar() {
         </div>
 
         {/* Save button */}
-        <div className="flex justify-end gap-3 pt-4 border-t border-[#1e1e2e]">
+        <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
           <button onClick={() => { setViewMode('calendar'); setSelectedEvent(null); }}
-            className="px-5 py-2.5 bg-[#080810] border border-[#1e1e2e] text-gray-400 text-sm rounded-xl hover:text-white transition-colors">
+            className="px-5 py-2.5 bg-gray-50 border border-gray-200 text-gray-400 text-sm rounded-xl hover:text-gray-900 transition-colors">
             Annuler
           </button>
           <button onClick={handleSave} disabled={saving}
-            className="px-6 py-2.5 bg-[#ff6b35] hover:bg-[#ff6b35]/80 text-white text-sm font-medium rounded-xl transition-colors flex items-center gap-2 disabled:opacity-50">
+            className="px-6 py-2.5 bg-[#ff6b35] hover:bg-[#ff6b35]/80 text-gray-900 text-sm font-medium rounded-xl transition-colors flex items-center gap-2 disabled:opacity-50">
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             {viewMode === 'create' ? 'Créer' : 'Enregistrer'}
           </button>
@@ -698,7 +698,7 @@ export default function EventCalendar() {
       {/* Stats & Create button */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <span className="text-xs text-gray-500">Total : <strong className="text-white">{events.length}</strong></span>
+          <span className="text-xs text-gray-500">Total : <strong className="text-gray-900">{events.length}</strong></span>
           {pendingCount > 0 && (
             <span className="text-xs px-2 py-0.5 bg-yellow-500/10 border border-yellow-500/20 rounded-full text-yellow-400">
               {pendingCount} en attente
@@ -716,7 +716,7 @@ export default function EventCalendar() {
           )}
         </div>
         <button onClick={openCreate}
-          className="flex items-center gap-2 px-4 py-2 bg-[#ff6b35] hover:bg-[#ff6b35]/80 text-white text-xs font-medium rounded-xl transition-colors">
+          className="flex items-center gap-2 px-4 py-2 bg-[#ff6b35] hover:bg-[#ff6b35]/80 text-gray-900 text-xs font-medium rounded-xl transition-colors">
           <Plus className="w-4 h-4" />
           Nouveau
         </button>
@@ -735,7 +735,7 @@ export default function EventCalendar() {
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                 statusFilter === s.value
                   ? 'bg-[#ff6b35]/20 text-[#ff6b35] border border-[#ff6b35]/30'
-                  : 'bg-[#080810] border border-[#1e1e2e] text-gray-400 hover:text-white'
+                  : 'bg-gray-50 border border-gray-200 text-gray-400 hover:text-gray-900'
               }`}>
               {s.label}
             </button>
@@ -745,7 +745,7 @@ export default function EventCalendar() {
           {Object.entries(CATEGORY_LABELS).map(([key, label]) => (
             <button key={key} onClick={() => setCategoryFilter(categoryFilter === key ? '' : key)}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                categoryFilter === key ? 'text-white border' : 'bg-[#080810] border border-[#1e1e2e] text-gray-400 hover:text-white'
+                categoryFilter === key ? 'text-gray-900 border' : 'bg-gray-50 border border-gray-200 text-gray-400 hover:text-gray-900'
               }`}
               style={categoryFilter === key ? { backgroundColor: `${CATEGORY_COLORS[key]}20`, borderColor: `${CATEGORY_COLORS[key]}40`, color: CATEGORY_COLORS[key] } : {}}>
               {label}
@@ -756,13 +756,13 @@ export default function EventCalendar() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Calendar grid */}
-        <div className="lg:col-span-2 bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-5">
+        <div className="lg:col-span-2 bg-white border border-gray-200 rounded-2xl p-5">
           <div className="flex items-center justify-between mb-4">
-            <button onClick={prevMonth} className="p-2 rounded-lg hover:bg-[#1e1e2e] transition-colors">
+            <button onClick={prevMonth} className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
               <ChevronLeft className="w-5 h-5 text-gray-400" />
             </button>
             <h4 className="text-base font-semibold">{MONTH_NAMES[month]} {year}</h4>
-            <button onClick={nextMonth} className="p-2 rounded-lg hover:bg-[#1e1e2e] transition-colors">
+            <button onClick={nextMonth} className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
               <ChevronRight className="w-5 h-5 text-gray-400" />
             </button>
           </div>
@@ -787,10 +787,10 @@ export default function EventCalendar() {
                 <button key={day} onClick={() => setSelectedDay(isSelected ? null : day)}
                   className={`aspect-square rounded-lg flex flex-col items-center justify-start p-1 transition-all relative ${
                     isSelected ? 'bg-[#ff6b35]/10 border border-[#ff6b35]/30' :
-                    isToday ? 'bg-[#1a1a2e] border border-[#2e2e3e]' :
-                    'hover:bg-[#1a1a2e] border border-transparent'
+                    isToday ? 'bg-white border border-gray-200' :
+                    'hover:bg-white border border-transparent'
                   }`}>
-                  <span className={`text-xs ${isToday ? 'text-[#ff6b35] font-bold' : isSelected ? 'text-white font-medium' : 'text-gray-400'}`}>
+                  <span className={`text-xs ${isToday ? 'text-[#ff6b35] font-bold' : isSelected ? 'text-gray-900 font-medium' : 'text-gray-400'}`}>
                     {day}
                   </span>
                   {dayEvts.length > 0 && (
@@ -814,12 +814,12 @@ export default function EventCalendar() {
         </div>
 
         {/* Detail panel */}
-        <div className="bg-[#0c0c16] border border-[#1e1e2e] rounded-2xl p-5 max-h-[600px] overflow-y-auto">
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 max-h-[600px] overflow-y-auto">
           {selectedEvent ? (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <h4 className="text-sm font-semibold">Détail</h4>
-                <button onClick={() => setSelectedEvent(null)} className="p-1 rounded hover:bg-[#1e1e2e]">
+                <button onClick={() => setSelectedEvent(null)} className="p-1 rounded hover:bg-gray-100">
                   <X className="w-4 h-4 text-gray-500" />
                 </button>
               </div>
@@ -916,17 +916,17 @@ export default function EventCalendar() {
                     className={`flex-1 py-2 text-xs font-medium rounded-xl flex items-center justify-center gap-1.5 border ${
                       selectedEvent.isPinned
                         ? 'bg-orange-500/10 border-orange-500/20 text-orange-400 hover:bg-orange-500/20'
-                        : 'bg-[#080810] border-[#1e1e2e] text-gray-400 hover:text-orange-400'
+                        : 'bg-gray-50 border-gray-200 text-gray-400 hover:text-orange-400'
                     }`}>
                     <Pin className="w-3.5 h-3.5" />
                     {selectedEvent.isPinned ? 'Désépingler' : 'Épingler'}
                   </button>
                   <button onClick={() => openEdit(selectedEvent)}
-                    className="flex-1 py-2 bg-[#080810] border border-[#1e1e2e] text-gray-400 text-xs font-medium rounded-xl hover:text-white flex items-center justify-center gap-1.5">
+                    className="flex-1 py-2 bg-gray-50 border border-gray-200 text-gray-400 text-xs font-medium rounded-xl hover:text-gray-900 flex items-center justify-center gap-1.5">
                     <Save className="w-3.5 h-3.5" /> Modifier
                   </button>
                   <button onClick={() => handleDelete(selectedEvent.id)} disabled={actionLoading === selectedEvent.id}
-                    className="py-2 px-3 bg-[#080810] border border-[#1e1e2e] text-gray-500 text-xs rounded-xl hover:bg-red-500/10 hover:text-red-400 flex items-center gap-1.5">
+                    className="py-2 px-3 bg-gray-50 border border-gray-200 text-gray-500 text-xs rounded-xl hover:bg-red-500/10 hover:text-red-400 flex items-center gap-1.5">
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -940,7 +940,7 @@ export default function EventCalendar() {
               ) : (
                 dayEvents.map(ev => (
                   <button key={ev.id} onClick={() => setSelectedEvent(ev)}
-                    className="w-full text-left p-3 rounded-xl border border-[#1e1e2e] hover:border-[#ff6b35]/30 transition-colors">
+                    className="w-full text-left p-3 rounded-xl border border-gray-200 hover:border-[#ff6b35]/30 transition-colors">
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: isEventExpired(ev) ? '#ef4444' : STATUS_COLORS[ev.status] }} />
                       <p className={`text-sm font-medium truncate ${isEventExpired(ev) ? 'line-through text-gray-600' : ''}`}>{ev.title}</p>

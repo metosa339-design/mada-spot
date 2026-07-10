@@ -104,7 +104,7 @@ export default function ModerationPipeline() {
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 isActive
                   ? 'bg-[#ff6b35]/10 text-[#ff6b35] border border-[#ff6b35]/20'
-                  : 'bg-[#080810] border border-[#1e1e2e] text-gray-400 hover:text-white'
+                  : 'bg-gray-50 border border-gray-200 text-gray-400 hover:text-gray-900'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -184,7 +184,7 @@ function ValidationFiches() {
     <div className="space-y-4">
       <p className="text-xs text-gray-500">{establishments.length} fiche{establishments.length > 1 ? 's' : ''} en attente</p>
       {establishments.map((est) => (
-        <div key={est.id} className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-5 space-y-4">
+        <div key={est.id} className="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
           {/* Header */}
           <div className="flex items-center gap-4">
             {est.coverImage ? (
@@ -192,7 +192,7 @@ function ValidationFiches() {
                 <Image src={getImageUrl(est.coverImage)} alt={est.name} fill sizes="64px" className="rounded-xl object-cover" />
               </div>
             ) : (
-              <div className="w-16 h-16 rounded-xl bg-[#080810] flex items-center justify-center flex-shrink-0">
+              <div className="w-16 h-16 rounded-xl bg-gray-50 flex items-center justify-center flex-shrink-0">
                 <Building2 className="w-6 h-6 text-gray-600" />
               </div>
             )}
@@ -217,9 +217,9 @@ function ValidationFiches() {
 
           {/* Submitter */}
           {est.submitter && (
-            <div className="p-3 bg-[#080810] rounded-lg">
+            <div className="p-3 bg-gray-50 rounded-lg">
               <p className="text-xs text-gray-400">
-                Soumis par: <strong className="text-gray-300">{est.submitter.firstName} {est.submitter.lastName}</strong>
+                Soumis par: <strong className="text-gray-700">{est.submitter.firstName} {est.submitter.lastName}</strong>
                 <span className="ml-2 text-gray-600">{est.submitter.email}</span>
               </p>
             </div>
@@ -242,7 +242,7 @@ function ValidationFiches() {
                         ? 'bg-green-500/5 border-green-500/20'
                         : doc.status === 'REJECTED'
                         ? 'bg-red-500/5 border-red-500/20'
-                        : 'bg-[#080810] border-[#1e1e2e] hover:border-[#ff6b35]/30'
+                        : 'bg-gray-50 border-gray-200 hover:border-[#ff6b35]/30'
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -256,7 +256,7 @@ function ValidationFiches() {
                       </span>
                     </div>
                     {expandedDoc === doc.id && (
-                      <div className="mt-2 pt-2 border-t border-[#1e1e2e]">
+                      <div className="mt-2 pt-2 border-t border-gray-200">
                         <a href={doc.documentUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#ff6b35] hover:underline">
                           Voir le document
                         </a>
@@ -275,7 +275,7 @@ function ValidationFiches() {
               value={moderationNote[est.id] || ''}
               onChange={(e) => setModerationNote(prev => ({ ...prev, [est.id]: e.target.value }))}
               placeholder="Note de moderation (optionnel)..."
-              className="w-full p-3 bg-[#080810] border border-[#1e1e2e] rounded-xl text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50 resize-none h-16"
+              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50 resize-none h-16"
             />
             <div className="flex gap-2">
               <button
@@ -391,7 +391,7 @@ function GhostManagement() {
     <div className="space-y-4">
       <p className="text-xs text-gray-500">{ghosts.length} lieu{ghosts.length > 1 ? 'x' : ''} fantome{ghosts.length > 1 ? 's' : ''}</p>
       {ghosts.map((ghost) => (
-        <div key={ghost.id} className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-5 space-y-4">
+        <div key={ghost.id} className="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
           {/* Header */}
           <div className="flex items-center gap-4">
             {ghost.coverImage ? (
@@ -399,7 +399,7 @@ function GhostManagement() {
                 <Image src={getImageUrl(ghost.coverImage)} alt={ghost.name} fill sizes="56px" className="rounded-xl object-cover" />
               </div>
             ) : (
-              <div className="w-14 h-14 rounded-xl bg-[#080810] flex items-center justify-center flex-shrink-0 border border-purple-500/20">
+              <div className="w-14 h-14 rounded-xl bg-gray-50 flex items-center justify-center flex-shrink-0 border border-purple-500/20">
                 <Ghost className="w-5 h-5 text-purple-400" />
               </div>
             )}
@@ -427,7 +427,7 @@ function GhostManagement() {
 
           {/* Merge UI */}
           {mergeTarget === ghost.id && (
-            <div className="p-4 bg-[#080810] border border-[#1e1e2e] rounded-xl space-y-3">
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-3">
               <p className="text-xs font-medium text-gray-400">Fusionner vers un etablissement existant :</p>
               <div className="relative">
                 <input
@@ -435,7 +435,7 @@ function GhostManagement() {
                   value={mergeSearch}
                   onChange={(e) => { setMergeSearch(e.target.value); searchEstablishments(e.target.value); }}
                   placeholder="Rechercher l'etablissement cible..."
-                  className="w-full p-2.5 bg-[#0c0c16] border border-[#1e1e2e] rounded-lg text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
+                  className="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 placeholder:text-gray-600 focus:outline-none focus:border-[#ff6b35]/50"
                 />
                 {searching && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-gray-500" />}
               </div>
@@ -447,7 +447,7 @@ function GhostManagement() {
                       key={result.id}
                       onClick={() => handleMerge(ghost.id, result.id)}
                       disabled={actionLoading === ghost.id}
-                      className="w-full flex items-center gap-3 p-3 bg-[#0c0c16] border border-[#1e1e2e] rounded-lg hover:border-green-500/30 transition-colors text-left"
+                      className="w-full flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg hover:border-green-500/30 transition-colors text-left"
                     >
                       <ArrowRightLeft className="w-4 h-4 text-green-400 flex-shrink-0" />
                       <div className="flex-1 min-w-0">
@@ -461,7 +461,7 @@ function GhostManagement() {
               )}
               <button
                 onClick={() => { setMergeTarget(null); setMergeSearch(''); setSearchResults([]); }}
-                className="text-xs text-gray-500 hover:text-white"
+                className="text-xs text-gray-500 hover:text-gray-900"
               >
                 Annuler
               </button>
@@ -557,8 +557,8 @@ function AuditReviewsPhotos() {
               onClick={() => setFilter(key)}
               className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                 filter === key
-                  ? 'text-white border'
-                  : 'bg-[#080810] border border-[#1e1e2e] text-gray-400 hover:text-white'
+                  ? 'text-gray-900 border'
+                  : 'bg-gray-50 border border-gray-200 text-gray-400 hover:text-gray-900'
               }`}
               style={filter === key ? { backgroundColor: `${color}15`, borderColor: `${color}30`, color } : {}}
             >
@@ -568,7 +568,7 @@ function AuditReviewsPhotos() {
           ))}
         </div>
         <div className="flex-1" />
-        <button onClick={fetchReviews} className="p-2 rounded-xl bg-[#0c0c16] border border-[#1e1e2e] hover:border-[#ff6b35]/30">
+        <button onClick={fetchReviews} className="p-2 rounded-xl bg-white border border-gray-200 hover:border-[#ff6b35]/30">
           <RefreshCw className="w-4 h-4 text-gray-400" />
         </button>
       </div>
@@ -581,7 +581,7 @@ function AuditReviewsPhotos() {
       ) : (
         <div className="space-y-3">
           {reviews.map((r) => (
-            <div key={r.id} className={`bg-[#0c0c16] border rounded-xl p-5 ${r.isFlagged ? 'border-red-500/20' : 'border-[#1e1e2e]'}`}>
+            <div key={r.id} className={`bg-white border rounded-xl p-5 ${r.isFlagged ? 'border-red-500/20' : 'border-gray-200'}`}>
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
@@ -596,14 +596,14 @@ function AuditReviewsPhotos() {
                       <span className="px-2 py-0.5 bg-yellow-500/10 text-yellow-400 text-[10px] font-semibold rounded-full">Masque</span>
                     )}
                   </div>
-                  <p className="text-sm text-gray-300 mb-2">{r.comment}</p>
+                  <p className="text-sm text-gray-700 mb-2">{r.comment}</p>
                   {r.flagReason && (
                     <div className="mb-2 p-2 bg-red-500/5 border border-red-500/10 rounded-lg">
                       <p className="text-[10px] text-red-400">Raison : {r.flagReason}</p>
                     </div>
                   )}
                   <div className="flex items-center gap-4 text-[10px] text-gray-500">
-                    <span>Pour : <strong className="text-gray-300">{r.establishment.name}</strong></span>
+                    <span>Pour : <strong className="text-gray-700">{r.establishment.name}</strong></span>
                     <span>{r.establishment.city}</span>
                     <span>Par : {r.authorName || 'Anonyme'}</span>
                     <span>{new Date(r.createdAt).toLocaleDateString('fr-FR')}</span>
@@ -628,7 +628,7 @@ function AuditReviewsPhotos() {
                     </button>
                   )}
                   <button onClick={() => handleAction(r.id, 'delete')} disabled={actionLoading === r.id}
-                    className="p-2 rounded-lg bg-[#080810] hover:bg-red-500/10 border border-[#1e1e2e]" title="Supprimer">
+                    className="p-2 rounded-lg bg-gray-50 hover:bg-red-500/10 border border-gray-200" title="Supprimer">
                     <Trash2 className="w-4 h-4 text-gray-500" />
                   </button>
                 </div>

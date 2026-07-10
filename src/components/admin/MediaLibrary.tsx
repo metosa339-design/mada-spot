@@ -180,10 +180,10 @@ export default function MediaLibrary({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#1a1a24] rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="bg-white rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="p-4 border-b border-[#2a2a36] flex items-center justify-between bg-[#12121a]">
-          <h2 className="text-xl font-bold text-white flex items-center gap-2">
+        <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-white">
+          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
             <ImageIcon className="w-6 h-6" />
             Bibliothèque de médias
           </h2>
@@ -197,7 +197,7 @@ export default function MediaLibrary({
         </div>
 
         {/* Toolbar */}
-        <div className="p-4 border-b border-[#2a2a36] flex items-center gap-4">
+        <div className="p-4 border-b border-gray-200 flex items-center gap-4">
           <div className="relative flex-1 max-w-xs">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
@@ -205,20 +205,20 @@ export default function MediaLibrary({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Rechercher..."
-              className="w-full pl-10 pr-4 py-2 border border-[#2a2a36] bg-[#12121a] text-white rounded-lg focus:ring-2 focus:ring-[#ff6b35]/20 focus:border-[#ff6b35] outline-none"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 bg-white text-gray-900 rounded-lg focus:ring-2 focus:ring-[#ff6b35]/20 focus:border-[#ff6b35] outline-none"
             />
           </div>
           <select
             value={folder}
             onChange={(e) => setFolder(e.target.value)}
-            className="px-4 py-2 border border-[#2a2a36] bg-[#12121a] text-white rounded-lg focus:ring-2 focus:ring-[#ff6b35]/20 focus:border-[#ff6b35] outline-none"
+            className="px-4 py-2 border border-gray-200 bg-white text-gray-900 rounded-lg focus:ring-2 focus:ring-[#ff6b35]/20 focus:border-[#ff6b35] outline-none"
           >
             <option value="">Tous les dossiers</option>
             <option value="articles">Articles</option>
             <option value="vlogs">Vlogs</option>
             <option value="general">Général</option>
           </select>
-          <label className="px-4 py-2 bg-gradient-to-r from-[#ff6b35] to-[#ff3d7f] text-white rounded-lg cursor-pointer hover:opacity-90 transition-opacity flex items-center gap-2">
+          <label className="px-4 py-2 bg-gradient-to-r from-[#ff6b35] to-[#ff3d7f] text-gray-900 rounded-lg cursor-pointer hover:opacity-90 transition-opacity flex items-center gap-2">
             <Upload className="w-4 h-4" />
             Télécharger
             <input
@@ -247,7 +247,7 @@ export default function MediaLibrary({
             </div>
           ) : filteredMedia.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-64 text-gray-500">
-              <FolderOpen className="w-16 h-16 mb-4 text-gray-300" />
+              <FolderOpen className="w-16 h-16 mb-4 text-gray-700" />
               <p className="text-lg font-medium">Aucun média</p>
               <p className="text-sm">Glissez-déposez des fichiers ici ou cliquez sur Télécharger</p>
             </div>
@@ -270,7 +270,7 @@ export default function MediaLibrary({
                   />
                   {selectedIds.has(item.id) && (
                     <div className="absolute top-2 left-2 w-6 h-6 bg-[#ff6b35] rounded-full flex items-center justify-center">
-                      <Check className="w-4 h-4 text-white" />
+                      <Check className="w-4 h-4 text-gray-900" />
                     </div>
                   )}
                   <button
@@ -278,14 +278,14 @@ export default function MediaLibrary({
                       e.stopPropagation();
                       handleDelete(item.id);
                     }}
-                    className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full opacity-0 hover:opacity-100 transition-opacity"
+                    className="absolute top-2 right-2 p-1 bg-red-500 text-gray-900 rounded-full opacity-0 hover:opacity-100 transition-opacity"
                     aria-label="Supprimer le fichier"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
                   <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/70 to-transparent">
-                    <p className="text-white text-xs truncate">{item.originalName}</p>
-                    <p className="text-white/70 text-xs">{formatFileSize(item.size)}</p>
+                    <p className="text-gray-900 text-xs truncate">{item.originalName}</p>
+                    <p className="text-gray-900/70 text-xs">{formatFileSize(item.size)}</p>
                   </div>
                 </div>
               ))}
@@ -294,7 +294,7 @@ export default function MediaLibrary({
 
           {isUploading && (
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-              <div className="bg-[#1a1a24] rounded-lg p-6 flex items-center gap-4">
+              <div className="bg-white rounded-lg p-6 flex items-center gap-4">
                 <Loader2 className="w-6 h-6 animate-spin text-[#ff6b35]" />
                 <span>Téléchargement en cours...</span>
               </div>
@@ -313,21 +313,21 @@ export default function MediaLibrary({
 
         {/* Footer */}
         {onSelect && (
-          <div className="p-4 border-t border-[#2a2a36] bg-[#12121a] flex items-center justify-between">
+          <div className="p-4 border-t border-gray-200 bg-white flex items-center justify-between">
             <p className="text-sm text-gray-500">
               {selectedIds.size} fichier(s) sélectionné(s)
             </p>
             <div className="flex items-center gap-3">
               <button
                 onClick={onClose}
-                className="px-4 py-2 text-gray-300 hover:bg-white/10 rounded-lg transition-colors"
+                className="px-4 py-2 text-gray-700 hover:bg-white/10 rounded-lg transition-colors"
               >
                 Annuler
               </button>
               <button
                 onClick={handleConfirmSelection}
                 disabled={selectedIds.size === 0}
-                className="px-4 py-2 bg-gradient-to-r from-[#ff6b35] to-[#ff3d7f] text-white rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-4 py-2 bg-gradient-to-r from-[#ff6b35] to-[#ff3d7f] text-gray-900 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 <Check className="w-4 h-4" />
                 Sélectionner

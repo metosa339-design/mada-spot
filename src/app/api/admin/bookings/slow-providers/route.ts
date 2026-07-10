@@ -1,12 +1,12 @@
 // GET /api/admin/bookings/slow-providers — Liste des prestataires lents
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { requireAdmin } from '@/lib/auth/middleware';
+import { checkAdminAuth } from '@/lib/api/admin-auth';
 import { logger } from '@/lib/logger';
 
 export async function GET(request: NextRequest) {
-  const auth = await requireAdmin(request);
-  if (auth instanceof NextResponse) return auth;
+  const admin = await checkAdminAuth(request);
+  if (!admin) return NextResponse.json({ success: false, error: 'Non autorisé' }, { status: 401 });
 
   try {
     const { searchParams } = new URL(request.url);

@@ -110,7 +110,7 @@ export default function MessageScanAlerts() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className={`${kpi.bg} border border-[#1e1e2e] rounded-xl p-4`}
+            className={`${kpi.bg} border border-gray-200 rounded-xl p-4`}
           >
             <div className="flex items-center justify-between">
               <div>
@@ -129,7 +129,7 @@ export default function MessageScanAlerts() {
         <select
           value={statusFilter}
           onChange={e => setStatusFilter(e.target.value)}
-          className="px-3 py-2 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-gray-300 text-sm focus:outline-none focus:border-[#ff6b35]"
+          className="px-3 py-2 bg-white border border-gray-200 rounded-xl text-gray-700 text-sm focus:outline-none focus:border-[#ff6b35]"
         >
           <option value="">Tous les statuts</option>
           <option value="PENDING">En attente</option>
@@ -140,7 +140,7 @@ export default function MessageScanAlerts() {
         <select
           value={typeFilter}
           onChange={e => setTypeFilter(e.target.value)}
-          className="px-3 py-2 bg-[#0c0c16] border border-[#1e1e2e] rounded-xl text-gray-300 text-sm focus:outline-none focus:border-[#ff6b35]"
+          className="px-3 py-2 bg-white border border-gray-200 rounded-xl text-gray-700 text-sm focus:outline-none focus:border-[#ff6b35]"
         >
           <option value="">Tous les types</option>
           <option value="phone">T&eacute;l&eacute;phone</option>
@@ -177,7 +177,7 @@ export default function MessageScanAlerts() {
                 initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.02 }}
-                className="bg-[#0c0c16] border border-[#1e1e2e] rounded-xl p-4 hover:border-[#ff6b35]/20 transition-all"
+                className="bg-white border border-gray-200 rounded-xl p-4 hover:border-[#ff6b35]/20 transition-all"
               >
                 <div className="flex items-start gap-3">
                   {/* Match type icon */}
@@ -200,7 +200,7 @@ export default function MessageScanAlerts() {
                     </div>
 
                     {/* Content */}
-                    <p className="text-sm text-gray-300 mb-1">
+                    <p className="text-sm text-gray-700 mb-1">
                       {alert.content.length > 100 ? alert.content.slice(0, 100) + '...' : alert.content}
                     </p>
 

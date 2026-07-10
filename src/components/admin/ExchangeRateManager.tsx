@@ -94,7 +94,7 @@ export default function ExchangeRateManager() {
           </button>
           <button
             onClick={() => setShowForm(!showForm)}
-            className="flex items-center gap-1 px-3 py-1.5 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600"
+            className="flex items-center gap-1 px-3 py-1.5 bg-blue-500 text-gray-900 rounded-lg text-sm hover:bg-blue-600"
           >
             <Plus className="w-4 h-4" />
             Ajouter
@@ -149,7 +149,7 @@ export default function ExchangeRateManager() {
             <button
               onClick={handleSave}
               disabled={saving || !form.rate}
-              className="flex items-center gap-1 px-3 py-1.5 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 disabled:opacity-50"
+              className="flex items-center gap-1 px-3 py-1.5 bg-blue-500 text-gray-900 rounded-lg text-sm hover:bg-blue-600 disabled:opacity-50"
             >
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               Enregistrer

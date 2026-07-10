@@ -148,7 +148,7 @@ function ContactList({ onOpen, filters, setFilters }: { onOpen: (email: string) 
       {meta && meta.withId < meta.total && (
         <div className="flex items-center gap-3 mb-4 p-3 rounded-lg bg-orange-50 border border-orange-200 text-sm">
           <span className="text-orange-800">{meta.total - meta.withId} contact(s) sans ID.</span>
-          <button onClick={backfill} disabled={backfilling} className="px-3 py-1 rounded-lg bg-orange-500 text-white text-xs font-semibold disabled:opacity-50">
+          <button onClick={backfill} disabled={backfilling} className="px-3 py-1 rounded-lg bg-orange-500 text-gray-900 text-xs font-semibold disabled:opacity-50">
             {backfilling ? 'Attribution…' : 'Générer les ID manquants (ID001…)'}
           </button>
           {msg && <span className="text-green-600 text-xs">{msg}</span>}
@@ -237,7 +237,7 @@ function Detail({ data, onEditFiche }: { data: any; onEditFiche: (id: string) =>
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <a href={`https://madaspot.com/${typeUrl(e.type)}/${e.slug}`} target="_blank" rel="noopener noreferrer" className="text-xs text-gray-500 inline-flex items-center gap-1">Voir <ExternalLink className="w-3 h-3" /></a>
-              <button onClick={() => onEditFiche(e.id)} className="text-xs px-2.5 py-1 rounded-lg bg-orange-500 text-white font-semibold inline-flex items-center gap-1"><PencilLine className="w-3 h-3" /> Modifier</button>
+              <button onClick={() => onEditFiche(e.id)} className="text-xs px-2.5 py-1 rounded-lg bg-orange-500 text-gray-900 font-semibold inline-flex items-center gap-1"><PencilLine className="w-3 h-3" /> Modifier</button>
             </div>
           </div>
 
@@ -281,7 +281,7 @@ function Detail({ data, onEditFiche }: { data: any; onEditFiche: (id: string) =>
               <div key={i} className="border border-gray-100 dark:border-gray-800 rounded-lg p-3">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">{r.authorName || 'Anonyme'}</span>
-                  <span className="text-yellow-600 text-xs">{'★'.repeat(r.rating)}<span className="text-gray-300">{'★'.repeat(5 - r.rating)}</span></span>
+                  <span className="text-yellow-600 text-xs">{'★'.repeat(r.rating)}<span className="text-gray-700">{'★'.repeat(5 - r.rating)}</span></span>
                 </div>
                 {r.comment && <p className="text-xs text-gray-600 mt-1">{r.comment}</p>}
                 {r.ownerResponse && <p className="text-xs text-gray-500 mt-1 pl-3 border-l-2 border-orange-200"><strong>Réponse :</strong> {r.ownerResponse}</p>}

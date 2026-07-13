@@ -28,15 +28,14 @@ export async function POST(request: NextRequest) {
     for (const cur of TARGETS) {
       if (!r[cur]) continue;
       const mgaPerUnit = Math.round((mgaPerEur / r[cur]) * 100) / 100; // Ariary pour 1 unité de `cur`
-      await prisma.exchangeRate.create({
-        data: { baseCurrency: 'MGA', targetCurrency: cur, rate: mgaPerUnit, source: 'open.er-api.com' },
+      // Une seule ligne par paire (contrainte unique) → on met à jour au lieu de créer.
+      await prisma.exchangeRate.upsert({
+        where: { baseCurrency_targetCurrency: { baseCurrency: 'MGA', targetCurrency: cur } },
+        update: { rate: mgaPerUnit, source: 'open.er-api.com', fetchedAt: new Date() },
+        create: { baseCurrency: 'MGA', targetCurrency: cur, rate: mgaPerUnit, source: 'open.er-api.com' },
       });
       created[cur] = mgaPerUnit;
     }
-
-    // Purge : garder ~120 derniers relevés par devise (évite la croissance infinie)
-    const old = await prisma.exchangeRate.findMany({ orderBy: { fetchedAt: 'desc' }, skip: 120 * TARGETS.length, select: { id: true } });
-    if (old.length) await prisma.exchangeRate.deleteMany({ where: { id: { in: old.map((o) => o.id) } } });
 
     // Rafraîchit la page publique tout de suite (sinon cache ISR jusqu'à 1h)
     revalidatePath('/taux-de-change');

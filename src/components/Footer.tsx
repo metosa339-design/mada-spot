@@ -136,6 +136,21 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/destinations" className="text-[13px] text-[#64748B] hover:text-[#0F172A] transition-colors">
+                  Destinations
+                </Link>
+              </li>
+              <li>
+                <Link href="/taux-de-change" className="text-[13px] text-[#64748B] hover:text-[#0F172A] transition-colors">
+                  Taux de change
+                </Link>
+              </li>
+              <li>
+                <Link href="/urgences" className="text-[13px] text-[#64748B] hover:text-[#0F172A] transition-colors">
+                  Numéros d&apos;urgence
+                </Link>
+              </li>
+              <li>
                 <Link href="/blog" className="text-[13px] text-[#64748B] hover:text-[#0F172A] transition-colors">
                   Blog
                 </Link>

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { revalidatePath } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -36,6 +37,9 @@ export async function POST(request: NextRequest) {
     // Purge : garder ~120 derniers relevés par devise (évite la croissance infinie)
     const old = await prisma.exchangeRate.findMany({ orderBy: { fetchedAt: 'desc' }, skip: 120 * TARGETS.length, select: { id: true } });
     if (old.length) await prisma.exchangeRate.deleteMany({ where: { id: { in: old.map((o) => o.id) } } });
+
+    // Rafraîchit la page publique tout de suite (sinon cache ISR jusqu'à 1h)
+    revalidatePath('/taux-de-change');
 
     return NextResponse.json({ success: true, updatedAt: data.time_last_update_utc, rates: created });
   } catch (e) {

@@ -57,6 +57,7 @@ export default function Header() {
     { name: t.attractions, href: '/attractions', icon: Mountain },
     { name: t.providers, href: '/prestataires', icon: Users },
     { name: 'Destinations', href: '/destinations', icon: Map },
+    { name: 'Taux de change', href: '/taux-de-change', icon: Tag },
     { name: t.interactiveMap, href: '/carte', icon: Map },
     { name: t.currentDeals, href: '/offres', icon: Tag },
     { name: t.culinaryGuide, href: '/guide-culinaire', icon: ChefHat },

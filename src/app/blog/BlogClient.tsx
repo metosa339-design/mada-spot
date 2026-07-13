@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -22,6 +23,11 @@ function formatDate(date: Date | string) {
 
 export default function BlogClient({ categories, featured, rest }: BlogClientProps) {
   const t = useTrans('blog');
+  const [activeCat, setActiveCat] = useState<string | null>(null);
+
+  const all = [featured, ...rest].filter(Boolean);
+  const gridArticles = activeCat ? all.filter((a: any) => a.category?.id === activeCat) : rest;
+  const showFeatured = !activeCat && featured;
 
   return (
     <>
@@ -45,16 +51,20 @@ export default function BlogClient({ categories, featured, rest }: BlogClientPro
       {categories.length > 0 && (
         <section className="max-w-6xl mx-auto px-4 mb-10">
           <div className="flex flex-wrap gap-2 justify-center">
-            <span className="px-3.5 py-1.5 rounded-lg text-[12px] font-medium bg-[#FF6B35] text-white border border-[#FF6B35]">
+            <button
+              onClick={() => setActiveCat(null)}
+              className={`px-3.5 py-1.5 rounded-lg text-[12px] font-medium border transition-colors ${activeCat === null ? 'bg-[#FF6B35] text-white border-[#FF6B35]' : 'bg-white text-[#64748B] hover:text-[#0F172A] border-[#E2E8F0] hover:border-[#CBD5E1]'}`}
+            >
               {t.allCategories}
-            </span>
+            </button>
             {categories.map((cat: any) => (
-              <span
+              <button
                 key={cat.id}
-                className="px-3.5 py-1.5 rounded-lg text-[12px] font-medium bg-white text-[#64748B] hover:text-[#0F172A] border border-[#E2E8F0] hover:border-[#CBD5E1] transition-colors cursor-pointer"
+                onClick={() => setActiveCat(cat.id)}
+                className={`px-3.5 py-1.5 rounded-lg text-[12px] font-medium border transition-colors ${activeCat === cat.id ? 'bg-[#FF6B35] text-white border-[#FF6B35]' : 'bg-white text-[#64748B] hover:text-[#0F172A] border-[#E2E8F0] hover:border-[#CBD5E1]'}`}
               >
                 {cat.name}
-              </span>
+              </button>
             ))}
           </div>
         </section>
@@ -62,7 +72,7 @@ export default function BlogClient({ categories, featured, rest }: BlogClientPro
 
       <div className="max-w-6xl mx-auto px-4 pb-20">
         {/* Featured Article */}
-        {featured && (
+        {showFeatured && (
           <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }} className="mb-12">
             <Link href={`/blog/${featured.slug}`} className="block group">
               <article className="relative rounded-xl overflow-hidden bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] transition-colors">
@@ -112,9 +122,9 @@ export default function BlogClient({ categories, featured, rest }: BlogClientPro
         )}
 
         {/* Articles Grid */}
-        {rest.length > 0 ? (
+        {gridArticles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {rest.map((article: any) => (
+            {gridArticles.map((article: any) => (
               <motion.div key={article.id} whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
                 <Link href={`/blog/${article.slug}`} className="group block h-full">
                   <article className="h-full rounded-xl overflow-hidden bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] transition-colors">
@@ -156,9 +166,9 @@ export default function BlogClient({ categories, featured, rest }: BlogClientPro
               </motion.div>
             ))}
           </div>
-        ) : !featured ? (
+        ) : !showFeatured ? (
           <div className="text-center py-20">
-            <p className="text-[22px] font-semibold text-[#0F172A] mb-2">{t.noArticlesYet}</p>
+            <p className="text-[22px] font-semibold text-[#0F172A] mb-2">{activeCat ? 'Aucun article dans cette catégorie' : t.noArticlesYet}</p>
             <p className="text-[#64748B] text-[13px]">{t.comeBackSoon}</p>
           </div>
         ) : null}

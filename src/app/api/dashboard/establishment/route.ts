@@ -3,6 +3,17 @@ import { cookies } from 'next/headers'
 import { prisma } from '@/lib/db'
 import { verifySession, SESSION_COOKIE_NAME } from '@/lib/auth/session'
 import { logger } from '@/lib/logger'
+import { computeCompleteness } from '@/lib/crm/completeness'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function scoreOf(b: any): number {
+  return computeCompleteness({
+    coverImage: b.coverImage, images: JSON.stringify(b.images || []), description: b.description,
+    shortDescription: b.shortDescription, phone: b.phone, email: b.email, website: b.website,
+    address: b.address, latitude: b.latitude, longitude: b.longitude, city: b.city,
+    facebook: b.facebook, instagram: b.instagram, whatsapp: b.whatsapp,
+  });
+}
 
 function slugify(text: string): string {
   return text
@@ -129,6 +140,7 @@ export async function POST(request: NextRequest) {
         claimedAt: new Date(),
         dataSource: 'user_contribution',
         moderationStatus: 'pending_review',
+        completenessScore: scoreOf(body),
       },
     })
 
@@ -230,6 +242,7 @@ export async function PUT(request: NextRequest) {
         coverImage: body.coverImage || null,
         images: JSON.stringify(body.images || []),
         gallery: JSON.stringify(body.gallery || []),
+        completenessScore: scoreOf(body),
       },
     })
 

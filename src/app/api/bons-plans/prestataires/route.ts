@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
         include: {
           provider: true,
         },
-        orderBy: [{ displayOrder: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }],
+        orderBy: [{ displayOrder: 'desc' }, { isFeatured: 'desc' }, { completenessScore: 'desc' }, { rating: 'desc' }],
         skip: offset,
         take: limit,
       }),

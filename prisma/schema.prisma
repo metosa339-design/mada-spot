@@ -413,6 +413,7 @@ model Establishment {
   // Stats
   viewCount    Int @default(0)
   displayOrder Int @default(0) // Manual ranking: higher = appears first
+  completenessScore Int @default(0) // Complétude de la fiche 0-100 : tri public (les plus complètes en 1er)
 
   // Import & Source
   dataSource        String? // "manual", "csv_import", "nominatim", "google_places"

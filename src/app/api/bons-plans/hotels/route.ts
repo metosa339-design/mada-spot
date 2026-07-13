@@ -83,7 +83,7 @@ export async function GET(request: NextRequest) {
         orderBy:
           sortBy === 'stars'
             ? { hotel: { starRating: 'desc' } }
-            : [{ displayOrder: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }],
+            : [{ displayOrder: 'desc' }, { isFeatured: 'desc' }, { completenessScore: 'desc' }, { rating: 'desc' }],
         skip: offset,
         take: limit,
       }),

@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { prisma } from '@/lib/db';
 import { SITE_URL } from '@/lib/constants';
+import { getCities } from '@/lib/data/cities';
 
 const db = prisma as any;
 
@@ -25,6 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/mentions-legales`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE_URL}/politique-confidentialite`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE_URL}/blog`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
+    { url: `${SITE_URL}/destinations`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
   ];
 
   // Pages dynamiques — Establishments (hotels, restaurants, attractions)
@@ -62,5 +64,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...establishmentPages, ...articlePages];
+  // Pages destinations (villes)
+  const cities = await getCities();
+  const cityPages: MetadataRoute.Sitemap = cities.map((c) => ({
+    url: `${SITE_URL}/destinations/${c.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.75,
+  }));
+
+  return [...staticPages, ...establishmentPages, ...articlePages, ...cityPages];
 }

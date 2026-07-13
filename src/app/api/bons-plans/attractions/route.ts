@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
       ? attractionWhere
       : { isNot: null };
 
-    const orderBy: any[] = [{ displayOrder: 'desc' }, { isFeatured: 'desc' }, { completenessScore: 'desc' }, { rating: 'desc' }];
+    const orderBy: any[] = [{ displayOrder: 'desc' }, { completenessScore: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }];
     if (sortBy === 'price') {
       orderBy.unshift({ attraction: { entryFeeLocal: 'asc' } });
     }

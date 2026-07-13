@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
         orderBy:
           sortBy === 'price'
             ? { restaurant: { avgMainCourse: 'asc' } }
-            : [{ displayOrder: 'desc' }, { isFeatured: 'desc' }, { completenessScore: 'desc' }, { rating: 'desc' }],
+            : [{ displayOrder: 'desc' }, { completenessScore: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }],
         skip: offset,
         take: limit,
       }),

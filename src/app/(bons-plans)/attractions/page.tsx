@@ -35,6 +35,7 @@ import {
 } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
 import { getEstablishmentImage } from '@/lib/establishment-image';
+import FicheImage from '@/components/bons-plans/FicheImage';
 import PhotoSlider from '@/components/ui/PhotoSlider';
 import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 import { useTrans } from '@/i18n';
@@ -533,13 +534,18 @@ function AttractionsPageContent() {
                       href={`/attractions/${attraction.slug}`}
                       className="group flex lg:block bg-[#1a1a24] rounded-2xl overflow-hidden border border-[#2a2a36] hover:border-orange-500/50 transition-all h-full"
                     >
-                      {/* Image avec background-image */}
-                      <div
-                        className="relative w-32 sm:w-40 lg:w-full aspect-square lg:aspect-[4/3] shrink-0 overflow-hidden bg-cover bg-center group-hover:scale-105 transition-transform duration-300"
-                        style={{
-                          backgroundImage: `url(${attraction.coverImage ? getAttractionImage(attraction.name, attraction.coverImage) : getEstablishmentImage('ATTRACTION', attraction.city, attraction.name)})`
-                        }}
-                      >
+                      {/* Image : vraie photo si dispo, sinon placeholder « Photo à venir » */}
+                      <div className="relative w-32 sm:w-40 lg:w-full aspect-square lg:aspect-[4/3] shrink-0 overflow-hidden">
+                        <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-300">
+                          <FicheImage
+                            type="ATTRACTION"
+                            name={attraction.name}
+                            coverImage={attraction.coverImage}
+                            images={attraction.images}
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            className="object-cover"
+                          />
+                        </div>
                         {/* Gradient overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a24] via-transparent to-transparent opacity-60" />
 

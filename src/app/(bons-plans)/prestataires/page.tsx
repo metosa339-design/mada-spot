@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import FicheImage from '@/components/bons-plans/FicheImage';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, MapPin, Star, X, Users, SlidersHorizontal, Car, Camera, Globe, Map as MapIcon, Compass, Briefcase, Ship, ArrowRight, Plus } from 'lucide-react';
@@ -373,10 +374,11 @@ function PrestatairesPageContent() {
                   className="group bg-[#1a1a24] rounded-2xl overflow-hidden border border-[#2a2a36] hover:border-orange-500/50 transition-all flex lg:block"
                 >
                   <div className="relative w-32 sm:w-40 lg:w-full aspect-square lg:aspect-[4/3] shrink-0 bg-gradient-to-br from-gray-100 to-gray-200 lg:from-[#1a1a24] lg:to-[#2a2a36]">
-                    <Image
-                      src={getEstablishmentImage('PROVIDER', provider.city, provider.name, provider.coverImage)}
-                      alt={provider.name}
-                      fill
+                    <FicheImage
+                      type="PROVIDER"
+                      name={provider.name}
+                      coverImage={provider.coverImage}
+                      images={provider.images}
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />

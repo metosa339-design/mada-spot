@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
+import FicheImage from '@/components/bons-plans/FicheImage';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Search, MapPin, Star, Building2, Filter, Wifi, Car, Utensils, Waves, Zap, Snowflake, Loader2, SlidersHorizontal } from 'lucide-react';
 import { getEstablishmentImage } from '@/lib/establishment-image';
@@ -428,10 +429,11 @@ function HotelsPage() {
                   >
                     {/* Image — horizontal on mobile, vertical on desktop */}
                     <div className="relative w-32 sm:w-40 lg:w-full aspect-square lg:aspect-[4/3] bg-[#2a2a36] shrink-0">
-                      <Image
-                        src={getEstablishmentImage('HOTEL', hotel.city, hotel.name, hotel.coverImage)}
-                        alt={hotel.name}
-                        fill
+                      <FicheImage
+                        type="HOTEL"
+                        name={hotel.name}
+                        coverImage={hotel.coverImage}
+                        images={hotel.images}
                         sizes="(max-width: 1024px) 160px, 33vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />

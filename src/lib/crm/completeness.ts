@@ -26,6 +26,45 @@ function imgCount(raw?: string | null): number {
   }
 }
 
+/**
+ * Une URL correspond-elle à une VRAIE photo (uploadée pour cet établissement) ?
+ * - /uploads/… (upload VPS) ou res.cloudinary.com/… (upload Cloudinary) => vraie photo
+ * - /images/… (packs génériques/IA bundlés) ou unsplash => générique, PAS une vraie photo
+ * - autre URL distante => considérée réelle
+ */
+function isRealPhotoUrl(u?: string | null): boolean {
+  if (!u) return false;
+  const s = u.trim();
+  if (!s) return false;
+  if (s.startsWith('/uploads/')) return true;
+  if (s.includes('res.cloudinary.com')) return true;
+  if (s.startsWith('/images/')) return false;
+  if (s.includes('unsplash')) return false;
+  if (/^https?:\/\//.test(s)) return true;
+  return false;
+}
+
+/**
+ * La fiche a-t-elle au moins une vraie photo uploadée (cover ou galerie) ?
+ * Sert au tri public : les fiches avec vraie photo remontent avant les images
+ * IA/génériques (que les visiteurs jugent peu crédibles).
+ */
+export function hasRealPhoto(f: Pick<CompletenessInput, 'coverImage' | 'images'>): boolean {
+  if (isRealPhotoUrl(f.coverImage)) return true;
+  try {
+    const arr = JSON.parse(f.images || '[]');
+    if (Array.isArray(arr)) {
+      for (const item of arr) {
+        const url = item && typeof item === 'object' ? item.url : item;
+        if (typeof url === 'string' && isRealPhotoUrl(url)) return true;
+      }
+    }
+  } catch {
+    /* ignore */
+  }
+  return false;
+}
+
 export function computeCompleteness(f: CompletenessInput): number {
   let s = 0;
   // Photos (35)

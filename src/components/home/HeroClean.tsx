@@ -15,15 +15,10 @@ import {
   Mountain,
   Briefcase,
 } from 'lucide-react';
+import { useTrans } from '@/i18n';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 type Tab = 'hotels' | 'restaurants' | 'attractions' | 'guides';
-
-const TABS: { key: Tab; label: string; icon: typeof Building2 }[] = [
-  { key: 'hotels', label: 'Hébergements', icon: Building2 },
-  { key: 'restaurants', label: 'Restaurants', icon: UtensilsCrossed },
-  { key: 'attractions', label: 'Activités', icon: Mountain },
-  { key: 'guides', label: 'Guides', icon: Briefcase },
-];
 
 /**
  * HeroClean — Booking.com inspired hero.
@@ -33,16 +28,9 @@ const TABS: { key: Tab; label: string; icon: typeof Building2 }[] = [
  *  - Search bar simplifiée 1 ligne en bas, dépasse à cheval bleu/blanc
  *  - Bordure orange MadaSpot autour de la search box (signature)
  */
-function formatDateRangeFR(ci: string, co: string): string {
-  if (!ci && !co) return 'Choisir';
-  const fmt = (d: string) =>
-    new Date(d + 'T00:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
-  if (ci && co) return `${fmt(ci)} → ${fmt(co)}`;
-  if (ci) return `Dès ${fmt(ci)}`;
-  return `Jusqu'au ${fmt(co)}`;
-}
-
 export default function HeroClean() {
+  const t = useTrans('home');
+  const { locale } = useLanguage();
   const [tab, setTab] = useState<Tab>('hotels');
   const [destination, setDestination] = useState('');
   const [checkIn, setCheckIn] = useState('');
@@ -52,9 +40,26 @@ export default function HeroClean() {
   const [openPopover, setOpenPopover] = useState<'dates' | 'guests' | null>(null);
   const router = useRouter();
 
+  const dateLocale = locale === 'en' ? 'en-US' : 'fr-FR';
+  const formatDateRange = (ci: string, co: string): string => {
+    if (!ci && !co) return t.datesChoose;
+    const fmt = (d: string) =>
+      new Date(d + 'T00:00:00').toLocaleDateString(dateLocale, { day: 'numeric', month: 'short' });
+    if (ci && co) return `${fmt(ci)} → ${fmt(co)}`;
+    if (ci) return `${t.datesFrom} ${fmt(ci)}`;
+    return `${t.datesUntil} ${fmt(co)}`;
+  };
+
+  const TABS: { key: Tab; label: string; icon: typeof Building2 }[] = [
+    { key: 'hotels', label: t.tabAccommodation, icon: Building2 },
+    { key: 'restaurants', label: t.restaurantsLabel, icon: UtensilsCrossed },
+    { key: 'attractions', label: t.tabActivities, icon: Mountain },
+    { key: 'guides', label: t.tabGuides, icon: Briefcase },
+  ];
+
   const todayISO = new Date().toISOString().slice(0, 10);
-  const guestsLabel = `${adults} adulte${adults > 1 ? 's' : ''}${
-    children > 0 ? `, ${children} enfant${children > 1 ? 's' : ''}` : ''
+  const guestsLabel = `${adults} ${adults > 1 ? t.adultPlural : t.adultSingular}${
+    children > 0 ? `, ${children} ${children > 1 ? t.childPlural : t.childSingular}` : ''
   }`;
 
   const handleSearch = (e: React.FormEvent) => {
@@ -102,18 +107,18 @@ export default function HeroClean() {
               {/* Eyebrow */}
               <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-[12px] text-white/90 font-medium mb-5 border border-white/15 mx-auto lg:mx-0 w-fit">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B35]" />
-                <span>230+ établissements vérifiés à Madagascar</span>
+                <span>{t.heroBadge}</span>
               </div>
 
               <h1
                 className="text-white text-[28px] sm:text-[44px] lg:text-[56px] font-bold leading-[1.05] tracking-[-0.025em]"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
-                Découvrez le vrai{' '}
-                <span className="text-[#FF6B35]">Madagascar</span>
+                {t.heroMainTitle1}{' '}
+                <span className="text-[#FF6B35]">{t.heroMainTitle2}</span>
               </h1>
               <p className="mt-2.5 sm:mt-5 text-[14px] sm:text-[18px] text-white/85 max-w-xl leading-relaxed mx-auto lg:mx-0">
-                Hôtels, restaurants, guides et activités vérifiés sur place. Réservation directe, sans intermédiaire.
+                {t.heroMainSubtitle}
               </p>
             </div>
 
@@ -144,13 +149,13 @@ export default function HeroClean() {
             <MapPin className="w-5 h-5 text-[#FF6B35] shrink-0" />
             <div className="flex-1 min-w-0">
               <p className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">
-                Destination
+                {t.destinationLabel}
               </p>
               <input
                 type="text"
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
-                placeholder="Où voulez-vous aller ?"
+                placeholder={t.destinationPlaceholder}
                 className="w-full outline-none text-[14px] font-semibold text-[#0F172A] placeholder:text-[#94A3B8] placeholder:font-normal bg-transparent"
               />
             </div>
@@ -165,13 +170,13 @@ export default function HeroClean() {
             >
               <Calendar className="w-5 h-5 text-[#64748B] shrink-0" />
               <div className="flex-1 min-w-0">
-                <p className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">Dates</p>
+                <p className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">{t.datesLabel}</p>
                 <p
                   className={`text-[14px] font-semibold truncate ${
                     checkIn || checkOut ? 'text-[#0F172A]' : 'text-[#94A3B8]'
                   }`}
                 >
-                  {formatDateRangeFR(checkIn, checkOut)}
+                  {formatDateRange(checkIn, checkOut)}
                 </p>
               </div>
             </button>
@@ -196,7 +201,7 @@ export default function HeroClean() {
                           htmlFor="hero-checkin"
                           className="block text-[11px] font-bold text-[#64748B] uppercase tracking-wider mb-1.5"
                         >
-                          Arrivée
+                          {t.arrival}
                         </label>
                         <input
                           id="hero-checkin"
@@ -216,7 +221,7 @@ export default function HeroClean() {
                           htmlFor="hero-checkout"
                           className="block text-[11px] font-bold text-[#64748B] uppercase tracking-wider mb-1.5"
                         >
-                          Départ
+                          {t.departure}
                         </label>
                         <input
                           id="hero-checkout"
@@ -236,14 +241,14 @@ export default function HeroClean() {
                           }}
                           className="text-[12px] text-[#64748B] hover:text-[#0F172A] font-medium"
                         >
-                          Effacer
+                          {t.clearDates}
                         </button>
                         <button
                           type="button"
                           onClick={() => setOpenPopover(null)}
                           className="px-3 py-1.5 rounded-md bg-[#FF6B35] hover:bg-[#F97316] text-white text-[12px] font-semibold transition-colors"
                         >
-                          Valider
+                          {t.validate}
                         </button>
                       </div>
                     </div>
@@ -263,7 +268,7 @@ export default function HeroClean() {
               <Users className="w-5 h-5 text-[#64748B] shrink-0" />
               <div className="flex-1 min-w-0">
                 <p className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">
-                  Voyageurs
+                  {t.travelers}
                 </p>
                 <p className="text-[14px] font-semibold text-[#0F172A] truncate">{guestsLabel}</p>
               </div>
@@ -289,21 +294,25 @@ export default function HeroClean() {
                     className="absolute top-full left-0 right-0 md:right-auto md:min-w-[300px] mt-2 z-40 bg-white border border-[#E2E8F0] rounded-xl shadow-[0_12px_36px_rgba(15,23,42,0.15)] p-4"
                   >
                     <GuestRow
-                      label="Adultes"
-                      sub="13 ans et +"
+                      label={t.adultsLabel}
+                      sub={t.adultsAge}
                       value={adults}
                       min={1}
                       max={20}
                       onChange={setAdults}
+                      decreaseLabel={t.decrease}
+                      increaseLabel={t.increase}
                     />
                     <div className="h-px bg-[#E2E8F0] my-3" />
                     <GuestRow
-                      label="Enfants"
-                      sub="0 - 12 ans"
+                      label={t.childrenLabel}
+                      sub={t.childrenAge}
                       value={children}
                       min={0}
                       max={10}
                       onChange={setChildren}
+                      decreaseLabel={t.decrease}
+                      increaseLabel={t.increase}
                     />
                     <div className="flex justify-end pt-3">
                       <button
@@ -311,7 +320,7 @@ export default function HeroClean() {
                         onClick={() => setOpenPopover(null)}
                         className="px-3 py-1.5 rounded-md bg-[#FF6B35] hover:bg-[#F97316] text-white text-[12px] font-semibold transition-colors"
                       >
-                        Valider
+                        {t.validate}
                       </button>
                     </div>
                   </motion.div>
@@ -326,7 +335,7 @@ export default function HeroClean() {
             className="col-span-2 md:col-span-1 bg-[#FF6B35] hover:bg-[#F97316] text-white font-semibold px-6 py-3 sm:py-3.5 transition-colors text-[14px] sm:text-[15px] flex items-center justify-center gap-2 whitespace-nowrap rounded-b-[10px] md:rounded-b-none md:rounded-r-[10px]"
           >
             <Search className="w-4 h-4" />
-            Rechercher
+            {t.searchBtn}
           </button>
         </form>
 
@@ -335,9 +344,9 @@ export default function HeroClean() {
           style={{ animationDelay: '0.35s' }}
           className="hero-fade mt-6 sm:mt-10 grid grid-cols-3 gap-3 sm:gap-8"
         >
-          <TrustItem value="230+" label="Établissements vérifiés" />
-          <TrustItem value="18" label="Régions couvertes" />
-          <TrustItem value="4.7" suffix="★" label="Note moyenne" highlight />
+          <TrustItem value="230+" label={t.trustVerified} />
+          <TrustItem value="18" label={t.trustRegions} />
+          <TrustItem value="4.7" suffix="★" label={t.averageRating} highlight />
         </div>
       </div>
 
@@ -384,6 +393,8 @@ function GuestRow({
   min,
   max,
   onChange,
+  decreaseLabel,
+  increaseLabel,
 }: {
   label: string;
   sub: string;
@@ -391,6 +402,8 @@ function GuestRow({
   min: number;
   max: number;
   onChange: (n: number) => void;
+  decreaseLabel: string;
+  increaseLabel: string;
 }) {
   return (
     <div className="flex items-center justify-between">
@@ -403,7 +416,7 @@ function GuestRow({
           type="button"
           onClick={() => onChange(Math.max(min, value - 1))}
           disabled={value <= min}
-          aria-label={`Diminuer ${label.toLowerCase()}`}
+          aria-label={`${decreaseLabel} ${label.toLowerCase()}`}
           className="w-8 h-8 rounded-full border border-[#E2E8F0] text-[#FF6B35] font-bold text-[16px] flex items-center justify-center hover:border-[#FF6B35] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
         >
           −
@@ -415,7 +428,7 @@ function GuestRow({
           type="button"
           onClick={() => onChange(Math.min(max, value + 1))}
           disabled={value >= max}
-          aria-label={`Augmenter ${label.toLowerCase()}`}
+          aria-label={`${increaseLabel} ${label.toLowerCase()}`}
           className="w-8 h-8 rounded-full border border-[#E2E8F0] text-[#FF6B35] font-bold text-[16px] flex items-center justify-center hover:border-[#FF6B35] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
         >
           +

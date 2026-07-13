@@ -523,7 +523,7 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
               variants={fadeUp}
               className="text-[11px] uppercase tracking-[0.12em] text-[#FF6B35] font-medium mb-3"
             >
-              Témoignages
+              {t.reviewsEyebrow}
             </motion.p>
             <motion.h2
               variants={fadeUp}
@@ -537,14 +537,14 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
           <motion.div variants={fadeUp} className="flex items-center gap-2">
             <button
               onClick={goPrev}
-              aria-label="Précédent"
+              aria-label={t.previous}
               className="w-10 h-10 rounded-md bg-white border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-colors"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={goNext}
-              aria-label="Suivant"
+              aria-label={t.next}
               className="w-10 h-10 rounded-md bg-white border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-colors"
             >
               <ChevronRight className="w-4 h-4" />
@@ -648,15 +648,15 @@ function NewsletterSection({ t }: { t: Record<string, string> }) {
       const data = await res.json().catch(() => ({}));
       if (res.ok && data?.success !== false) {
         setStatus('success');
-        setMessage('Merci ! Vous êtes inscrit.');
+        setMessage(t.newsletterSuccess);
         setEmail('');
       } else {
         setStatus('error');
-        setMessage(data?.error || 'Une erreur est survenue, réessayez.');
+        setMessage(data?.error || t.newsletterError);
       }
     } catch {
       setStatus('error');
-      setMessage('Impossible de joindre le serveur.');
+      setMessage(t.newsletterError);
     }
   };
 

@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
         include: {
           provider: true,
         },
-        orderBy: [{ displayOrder: 'desc' }, { completenessScore: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }],
+        orderBy: [{ hasRealPhoto: 'desc' }, { displayOrder: 'desc' }, { completenessScore: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }],
         skip: offset,
         take: limit,
       }),

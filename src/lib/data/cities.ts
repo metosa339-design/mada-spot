@@ -11,6 +11,10 @@ export function citySlug(name: string): string {
 }
 
 const EXCLUDE = new Set(['partout-a-madagascar', 'non-specifie', 'autre', '']);
+
+function titleCase(s: string): string {
+  return s.trim().toLowerCase().replace(/(^|[\s\-'])([a-zà-ÿ])/g, (_m, sep, ch) => sep + ch.toUpperCase());
+}
 const TYPE_PATH: Record<string, string> = { HOTEL: 'hotels', RESTAURANT: 'restaurants', ATTRACTION: 'attractions', PROVIDER: 'prestataires' };
 
 export interface CityInfo { name: string; slug: string; count: number }
@@ -28,8 +32,8 @@ export async function getCities(minCount = 2): Promise<CityInfo[]> {
     const slug = citySlug(name);
     if (!name || EXCLUDE.has(slug)) continue;
     const cur = map.get(slug);
-    if (cur) { cur.count += r._count._all; if (name.length < cur.name.length) cur.name = name; }
-    else map.set(slug, { name, slug, count: r._count._all });
+    if (cur) { cur.count += r._count._all; }
+    else map.set(slug, { name: titleCase(name), slug, count: r._count._all });
   }
   return [...map.values()].filter((c) => c.count >= minCount).sort((a, b) => b.count - a.count);
 }

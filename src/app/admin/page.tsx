@@ -42,6 +42,7 @@ import {
   Megaphone,
   Rocket,
   MessageCircle,
+  ChevronDown,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
@@ -98,44 +99,78 @@ interface NotificationItem {
   entityId?: string;
 }
 
-const NAV_ITEMS = [
-  { id: 'dashboard', label: 'Tableau de Bord', icon: LayoutDashboard },
-  { id: 'crm', label: 'CRM', icon: Contact, hasBadge: true },
-  { id: 'funnel', label: 'Entonnoir', icon: Filter },
-  { id: 'campaigns', label: 'Campagnes', icon: Megaphone },
-  { id: 'whatsapp', label: 'WhatsApp', icon: MessageCircle },
-  { id: 'contact360', label: 'Fiche contact', icon: Contact },
-  { id: 'conformity', label: 'Conformité fiches', icon: ShieldAlert },
-  { id: 'editorial', label: 'Calendrier édito', icon: CalendarDays },
-  { id: 'boost', label: 'Boosts', icon: Rocket },
-  { id: 'moderation', label: 'Moderation', icon: ClipboardCheck, hasBadge: true },
-  { id: 'establishments', label: 'Etablissements', icon: Building2, hasBadge: true },
-  { id: 'claims', label: 'Revendications', icon: Flag, hasBadge: true },
-  { id: 'reviews', label: 'Avis', icon: MessageSquare },
-  { id: 'bookings', label: 'Reservations', icon: CalendarDays },
-  { id: 'slow-providers', label: 'Prestataires Lents', icon: Clock },
-  { id: 'blog', label: 'Blog', icon: BookOpen },
-  { id: 'events', label: 'Evenements', icon: CalendarDays },
-  { id: 'images', label: 'Images', icon: ImageIcon },
-  { id: 'support', label: 'Support', icon: Headphones },
-  { id: 'godmode', label: 'God Mode', icon: Shield },
-  { id: 'users', label: 'Utilisateurs', icon: Users },
-  { id: 'verification', label: 'Verification', icon: ShieldCheck },
-  { id: 'import', label: 'Import', icon: BarChart3 },
-  { id: 'ranking', label: 'Classement', icon: Trophy },
-  { id: 'nonconformity', label: 'Conformite', icon: ShieldAlert },
-  { id: 'simulation', label: 'Simulation', icon: Eye },
-  { id: 'cleanup', label: 'Nettoyage', icon: Trash2 },
-  { id: 'scanner', label: 'Anti-Contournement', icon: Zap },
-  { id: 'liveops', label: 'Live Ops', icon: Radio },
-  { id: 'clicks', label: 'Click Analytics', icon: MousePointer },
-  { id: 'tickets', label: 'Tickets Support', icon: Ticket },
-  { id: 'seo', label: 'SEO Trends', icon: TrendingUp },
-  { id: 'duplicates', label: 'Doublons', icon: Copy },
-  { id: 'exchange', label: 'Devises', icon: FileText },
-  { id: 'audit', label: 'Audit', icon: FileText },
-  { id: 'stats', label: 'Statistiques', icon: BarChart3 },
+// Menu regroupé par grands pôles d'activité (les ids d'onglets restent identiques).
+const NAV_GROUPS = [
+  {
+    title: 'Pilotage',
+    items: [
+      { id: 'dashboard', label: 'Tableau de Bord', icon: LayoutDashboard },
+      { id: 'stats', label: 'Statistiques', icon: BarChart3 },
+      { id: 'seo', label: 'SEO Trends', icon: TrendingUp },
+      { id: 'clicks', label: 'Click Analytics', icon: MousePointer },
+    ],
+  },
+  {
+    title: 'Établissements',
+    items: [
+      { id: 'establishments', label: 'Fiches', icon: Building2, hasBadge: true },
+      { id: 'claims', label: 'Revendications', icon: Flag, hasBadge: true },
+      { id: 'moderation', label: 'Modération', icon: ClipboardCheck, hasBadge: true },
+      { id: 'verification', label: 'Vérification', icon: ShieldCheck },
+      { id: 'conformity', label: 'Conformité fiches', icon: ShieldAlert },
+      { id: 'nonconformity', label: 'Non-conformités', icon: ShieldAlert },
+      { id: 'scanner', label: 'Anti-Contournement', icon: Zap },
+      { id: 'ranking', label: 'Classement', icon: Trophy },
+      { id: 'duplicates', label: 'Doublons', icon: Copy },
+      { id: 'cleanup', label: 'Nettoyage', icon: Trash2 },
+    ],
+  },
+  {
+    title: 'Contenus & Interactions',
+    items: [
+      { id: 'reviews', label: 'Avis', icon: MessageSquare },
+      { id: 'events', label: 'Événements', icon: CalendarDays },
+      { id: 'blog', label: 'Blog', icon: BookOpen },
+      { id: 'editorial', label: 'Calendrier édito', icon: CalendarDays },
+      { id: 'images', label: 'Images / Médias', icon: ImageIcon },
+    ],
+  },
+  {
+    title: 'Relation client & Commerce',
+    items: [
+      { id: 'crm', label: 'CRM / Prospects', icon: Contact, hasBadge: true },
+      { id: 'funnel', label: 'Entonnoir', icon: Filter },
+      { id: 'campaigns', label: 'Campagnes', icon: Megaphone },
+      { id: 'boost', label: 'Boosts', icon: Rocket },
+      { id: 'bookings', label: 'Réservations', icon: CalendarDays },
+      { id: 'slow-providers', label: 'Prestataires Lents', icon: Clock },
+      { id: 'contact360', label: 'Fiche contact 360°', icon: Contact },
+      { id: 'whatsapp', label: 'WhatsApp', icon: MessageCircle },
+      { id: 'support', label: 'Support', icon: Headphones },
+      { id: 'tickets', label: 'Tickets Support', icon: Ticket },
+    ],
+  },
+  {
+    title: 'Utilisateurs',
+    items: [
+      { id: 'users', label: 'Utilisateurs', icon: Users },
+    ],
+  },
+  {
+    title: 'Configuration & Outils',
+    items: [
+      { id: 'exchange', label: 'Devises', icon: FileText },
+      { id: 'import', label: 'Import / Export', icon: BarChart3 },
+      { id: 'audit', label: 'Audit', icon: FileText },
+      { id: 'godmode', label: 'God Mode', icon: Shield },
+      { id: 'simulation', label: 'Simulation', icon: Eye },
+      { id: 'liveops', label: 'Live Ops', icon: Radio },
+    ],
+  },
 ];
+
+// Liste à plat dérivée (lookup du libellé actif, etc.)
+const NAV_ITEMS = NAV_GROUPS.flatMap((g) => g.items);
 
 // ============================================================
 // TAB CONTENT MAP
@@ -510,6 +545,18 @@ export default function AdminControlCenter() {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  // Pôles ouverts dans la sidebar : par défaut, seul le pôle contenant l'onglet actif est déplié.
+  const [openGroups, setOpenGroups] = useState<string[]>(() => {
+    const g = NAV_GROUPS.find((grp) => grp.items.some((it) => it.id === 'dashboard'));
+    return g ? [g.title] : [];
+  });
+  const toggleGroup = (title: string) =>
+    setOpenGroups((prev) => (prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title]));
+  // Déplie automatiquement le pôle de l'onglet actif (navigation programmatique).
+  useEffect(() => {
+    const g = NAV_GROUPS.find((grp) => grp.items.some((it) => it.id === activeTab));
+    if (g) setOpenGroups((prev) => (prev.includes(g.title) ? prev : [...prev, g.title]));
+  }, [activeTab]);
 
   // Notifications
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
@@ -622,18 +669,41 @@ export default function AdminControlCenter() {
             <X className="w-5 h-5" />
           </button>
         </div>
-        <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-          {NAV_ITEMS.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
+        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+          {NAV_GROUPS.map((group) => {
+            const isOpen = openGroups.includes(group.title);
+            const hasActive = group.items.some((it) => it.id === activeTab);
+            const groupBadge = group.items.some((it) => it.hasBadge) && unreadCount > 0;
             return (
-              <button key={item.id} onClick={() => { setActiveTab(item.id); setSidebarOpen(false); }} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${isActive ? 'bg-orange-500/10 text-orange-600 border border-orange-500/20' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'}`}>
-                <Icon className="w-5 h-5" />
-                {item.label}
-                {item.hasBadge && unreadCount > 0 && (
-                  <span className="ml-auto px-2.5 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full animate-pulse">{unreadCount}</span>
+              <div key={group.title}>
+                <button
+                  onClick={() => toggleGroup(group.title)}
+                  className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-colors ${hasActive ? 'text-orange-600' : 'text-gray-400 hover:text-gray-600'}`}
+                >
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isOpen ? '' : '-rotate-90'}`} />
+                  <span className="truncate">{group.title}</span>
+                  {groupBadge && !isOpen && (
+                    <span className="ml-auto w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                  )}
+                </button>
+                {isOpen && (
+                  <div className="mt-1 space-y-1">
+                    {group.items.map((item) => {
+                      const Icon = item.icon;
+                      const isActive = activeTab === item.id;
+                      return (
+                        <button key={item.id} onClick={() => { setActiveTab(item.id); setSidebarOpen(false); }} className={`w-full flex items-center gap-3 pl-6 pr-4 py-2.5 rounded-xl text-sm font-medium transition-all ${isActive ? 'bg-orange-500/10 text-orange-600 border border-orange-500/20' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'}`}>
+                          <Icon className="w-5 h-5 shrink-0" />
+                          <span className="truncate">{item.label}</span>
+                          {item.hasBadge && unreadCount > 0 && (
+                            <span className="ml-auto px-2.5 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full animate-pulse">{unreadCount}</span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
                 )}
-              </button>
+              </div>
             );
           })}
         </nav>

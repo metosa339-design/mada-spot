@@ -430,6 +430,16 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
     label: new Date(p.date).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' }),
     value: p.count,
   }));
+  const messagesHasTrend = messageTrendBars.filter((b) => b.value > 0).length >= 2;
+
+  // Inscriptions par type — totaux cumulés (1 barre colorée par type, cohérent avec la légende).
+  const signupTypeTotals = (['CLIENT', 'HOTEL', 'RESTAURANT', 'ATTRACTION', 'PROVIDER'] as const).map((type) => ({
+    type,
+    label: TYPE_LABELS[type],
+    color: TYPE_COLORS[type],
+    value: userGrowthByType.reduce((sum, d) => sum + (d[type] || 0), 0),
+  }));
+  const maxSignupType = Math.max(...signupTypeTotals.map((t) => t.value), 1);
 
   // -------------------------------------------------------------------------
   // KPI cards config
@@ -580,6 +590,7 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
               <div>
                 <div className="text-2xl font-bold text-gray-900">{kpi.value}</div>
                 <div className="text-sm text-gray-400 mt-0.5">{kpi.label}</div>
+                <div className="text-[10px] text-gray-400 mt-1">sur 30 j vs 30 j précédents</div>
               </div>
             </motion.div>
           );
@@ -716,8 +727,24 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
             <Users className="w-4 h-4 text-[#3b82f6]" />
             Inscriptions par type
           </h3>
-          {userGrowthByType.length > 0 ? (
-            <StackedBarChart data={userGrowthByType} />
+          {signupTypeTotals.some((t) => t.value > 0) ? (
+            <div className="space-y-3 py-2">
+              {signupTypeTotals.map((t) => (
+                <div key={t.type} className="flex items-center gap-3">
+                  <span className="w-24 shrink-0 text-xs text-gray-500">{t.label}</span>
+                  <div className="flex-1 h-6 bg-gray-100 rounded-md overflow-hidden">
+                    <motion.div
+                      className="h-full rounded-md"
+                      style={{ backgroundColor: t.color }}
+                      initial={{ width: 0 }}
+                      animate={{ width: `${Math.max((t.value / maxSignupType) * 100, t.value > 0 ? 4 : 0)}%` }}
+                      transition={{ duration: 0.6, ease: 'easeOut' }}
+                    />
+                  </div>
+                  <span className="w-12 shrink-0 text-right text-sm font-semibold text-gray-900">{formatNumber(t.value)}</span>
+                </div>
+              ))}
+            </div>
           ) : (
             <p className="text-sm text-gray-500 text-center py-12">Aucune donnee disponible</p>
           )}
@@ -734,10 +761,23 @@ export default function AdminDashboardOverview({ onNavigateTab }: AdminDashboard
             <Mail className="w-4 h-4 text-[#8b5cf6]" />
             Tendance messages
           </h3>
-          {messageTrendBars.length > 0 ? (
+          {messagesHasTrend ? (
             <BarChart data={messageTrendBars} color="#8b5cf6" />
           ) : (
-            <p className="text-sm text-gray-500 text-center py-12">Aucune donnee disponible</p>
+            <div className="flex flex-col items-center justify-center py-8 gap-3">
+              <div className="w-14 h-14 rounded-2xl bg-[#8b5cf6]/10 flex items-center justify-center">
+                <Mail className="w-7 h-7 text-[#8b5cf6]" />
+              </div>
+              <p className="text-3xl font-bold text-gray-900">{formatNumber(kpis.totalMessages)}</p>
+              <p className="text-sm text-gray-500">messages reçus au total</p>
+              <button
+                onClick={() => onNavigateTab?.('support')}
+                className="mt-1 text-xs font-medium text-[#8b5cf6] hover:underline"
+              >
+                Voir la messagerie →
+              </button>
+              <p className="text-[11px] text-gray-400">Pas encore assez d&apos;historique pour une tendance</p>
+            </div>
           )}
         </motion.div>
       </div>

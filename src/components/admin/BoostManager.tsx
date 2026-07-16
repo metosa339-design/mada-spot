@@ -16,14 +16,33 @@ interface Boost {
   currency: string;
   isPaid: boolean;
   note: string | null;
+  paymentMethod: string | null;
+  transactionReference: string | null;
+  createdAt: string;
 }
+
+const PAYMENT_LABELS: Record<string, string> = {
+  mvola: 'MVola',
+  orange_money: 'Orange Money',
+  airtel_money: 'Airtel Money',
+  especes: 'Espèces',
+};
 
 interface EstResult {
   id: string;
   name: string;
   city: string;
+  district?: string | null;
   type: string;
   isFeatured: boolean;
+  email?: string | null;
+  phone?: string | null;
+  whatsapp?: string | null;
+  address?: string | null;
+  isClaimed?: boolean;
+  claimedByUserId?: string | null;
+  verifiedByAgent?: string | null;
+  lastPhysicalVisit?: string | null;
 }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -69,21 +88,77 @@ export default function BoostManager() {
 
       <CreateBoost onCreated={load} />
 
+      {/* Boosts en cours */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h4 className="text-sm font-bold">Boosts</h4>
+          <h4 className="text-sm font-bold">Boosts en cours</h4>
           <button onClick={load} className="inline-flex items-center gap-2 text-sm text-gray-500"><RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /> Actualiser</button>
         </div>
-        {!data || data.items.length === 0 ? (
-          <p className="text-sm text-gray-400 py-8 text-center">Aucun boost. Créez-en un ci-dessus.</p>
-        ) : (
-          <div className="space-y-2">
-            {data.items.map((b) => (
-              <BoostRow key={b.id} b={b} onChange={load} />
-            ))}
-          </div>
-        )}
+        {(() => {
+          const current = (data?.items || []).filter((b) => b.status === 'ACTIVE' || b.status === 'SCHEDULED');
+          return current.length === 0 ? (
+            <p className="text-sm text-gray-400 py-8 text-center">Aucun boost en cours. Créez-en un ci-dessus.</p>
+          ) : (
+            <div className="space-y-2">
+              {current.map((b) => (
+                <BoostRow key={b.id} b={b} onChange={load} />
+              ))}
+            </div>
+          );
+        })()}
       </div>
+
+      {/* Historique complet (tous statuts, plus récent d'abord) */}
+      <BoostHistory items={data?.items || []} />
+    </div>
+  );
+}
+
+function BoostHistory({ items }: { items: Boost[] }) {
+  const history = [...items].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  const fmt = (d: string) => new Date(d).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: '2-digit' });
+  const totalPaid = items.filter((b) => b.isPaid).reduce((s, b) => s + (b.price || 0), 0);
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-3">
+        <h4 className="text-sm font-bold">Historique complet des boosts</h4>
+        <span className="text-xs text-gray-500">{history.length} boost{history.length > 1 ? 's' : ''} · {totalPaid.toLocaleString('fr-FR')} AR encaissés</span>
+      </div>
+      {history.length === 0 ? (
+        <p className="text-sm text-gray-400 py-8 text-center">Aucun historique.</p>
+      ) : (
+        <div className="overflow-x-auto border border-gray-200 dark:border-gray-700 rounded-xl">
+          <table className="w-full text-sm min-w-[720px]">
+            <thead>
+              <tr className="text-left text-xs text-gray-500 border-b border-gray-200 dark:border-gray-700">
+                <th className="px-3 py-2 font-medium">Établissement</th>
+                <th className="px-3 py-2 font-medium">Type</th>
+                <th className="px-3 py-2 font-medium">Période</th>
+                <th className="px-3 py-2 font-medium">Montant</th>
+                <th className="px-3 py-2 font-medium">Paiement</th>
+                <th className="px-3 py-2 font-medium">Réf.</th>
+                <th className="px-3 py-2 font-medium">Statut</th>
+              </tr>
+            </thead>
+            <tbody>
+              {history.map((b) => (
+                <tr key={b.id} className="border-b border-gray-100 dark:border-gray-800 last:border-0">
+                  <td className="px-3 py-2 font-medium max-w-[180px] truncate">{b.establishmentName || b.establishmentId}</td>
+                  <td className="px-3 py-2 text-gray-500 text-xs">{TYPE_LABELS[b.type] || b.type}</td>
+                  <td className="px-3 py-2 text-gray-500 text-xs whitespace-nowrap">{fmt(b.startDate)} → {fmt(b.endDate)}</td>
+                  <td className="px-3 py-2 whitespace-nowrap">
+                    {b.price > 0 ? `${b.price.toLocaleString('fr-FR')} ${b.currency}` : 'Gratuit'}
+                    <span className={`ml-1 text-[10px] ${b.isPaid ? 'text-green-600' : 'text-orange-500'}`}>{b.price > 0 ? (b.isPaid ? '· payé' : '· dû') : ''}</span>
+                  </td>
+                  <td className="px-3 py-2 text-gray-500 text-xs">{b.paymentMethod ? PAYMENT_LABELS[b.paymentMethod] || b.paymentMethod : '—'}</td>
+                  <td className="px-3 py-2 text-gray-400 text-xs max-w-[120px] truncate">{b.transactionReference || '—'}</td>
+                  <td className="px-3 py-2"><span className={`text-xs px-2 py-1 rounded-full ${STATUS_BADGE[b.status] || 'bg-gray-100'}`}>{b.status}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
@@ -169,15 +244,43 @@ function CreateBoost({ onCreated }: { onCreated: () => void }) {
               <button
                 key={r.id}
                 onClick={() => { setSelected(r); setResults([]); }}
-                className="w-full text-left px-3 py-2 text-sm hover:bg-orange-50 dark:hover:bg-gray-800 flex items-center justify-between"
+                className="w-full text-left px-3 py-2 text-sm hover:bg-orange-50 dark:hover:bg-gray-800 border-b border-gray-100 dark:border-gray-800 last:border-0"
               >
-                <span>{r.name} <span className="text-gray-400">— {r.city}</span></span>
-                {r.isFeatured && <span className="text-xs text-orange-500">déjà en avant</span>}
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-medium truncate">{r.name} <span className="text-gray-400 font-normal">— {r.city}{r.district ? `, ${r.district}` : ''}</span></span>
+                  <span className="flex items-center gap-1 shrink-0">
+                    {r.isClaimed && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-700" title="Fiche revendiquée par un compte propriétaire">revendiqué</span>}
+                    {(r.verifiedByAgent || r.lastPhysicalVisit) && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-green-100 text-green-700" title="Vérifié physiquement par un agent">✓ vérifié</span>}
+                    {r.isFeatured && <span className="text-[10px] text-orange-500">déjà en avant</span>}
+                  </span>
+                </div>
+                {(r.email || r.phone || r.whatsapp || r.address) && (
+                  <div className="mt-0.5 text-[11px] text-gray-500 truncate">
+                    {[r.email, r.phone || r.whatsapp, r.address].filter(Boolean).join('  ·  ')}
+                  </div>
+                )}
               </button>
             ))}
           </div>
         )}
       </div>
+
+      {/* Confirmation d'identité de la fiche sélectionnée */}
+      {selected && (
+        <div className="mb-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 p-3 text-xs">
+          <div className="font-semibold text-sm mb-1 flex items-center gap-2">
+            {selected.name}
+            {selected.isClaimed && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-700">revendiqué</span>}
+            {(selected.verifiedByAgent || selected.lastPhysicalVisit) && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-green-100 text-green-700">✓ vérifié</span>}
+          </div>
+          <div className="text-gray-500 space-y-0.5">
+            <div>📍 {[selected.address, selected.district, selected.city].filter(Boolean).join(', ')}</div>
+            {selected.email && <div>✉️ {selected.email}</div>}
+            {(selected.phone || selected.whatsapp) && <div>📞 {[selected.phone, selected.whatsapp].filter(Boolean).join(' · ')}</div>}
+          </div>
+          <div className="mt-1.5 text-[11px] text-amber-600">Vérifiez que ces coordonnées correspondent bien au payeur Mobile Money.</div>
+        </div>
+      )}
 
       {/* Offres prédéfinies */}
       <div className="mb-3">

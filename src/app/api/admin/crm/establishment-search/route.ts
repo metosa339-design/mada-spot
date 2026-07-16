@@ -13,14 +13,27 @@ export async function GET(request: NextRequest) {
   const q = new URL(request.url).searchParams.get('q')?.trim() || '';
   if (q.length < 2) return apiSuccess({ items: [] });
 
+  // On peut chercher par nom, ville, mais AUSSI par email / téléphone / WhatsApp / adresse
+  // (le plus fiable pour confirmer qu'on cible la bonne personne : le payeur donne souvent son numéro).
+  const digits = q.replace(/\D/g, '');
+  const or: Record<string, unknown>[] = [
+    { name: { contains: q, mode: 'insensitive' } },
+    { city: { contains: q, mode: 'insensitive' } },
+    { email: { contains: q, mode: 'insensitive' } },
+    { address: { contains: q, mode: 'insensitive' } },
+  ];
+  if (digits.length >= 5) {
+    or.push({ phone: { contains: digits } }, { phone2: { contains: digits } }, { whatsapp: { contains: digits } });
+  }
+
   const items = await prisma.establishment.findMany({
-    where: {
-      OR: [
-        { name: { contains: q, mode: 'insensitive' } },
-        { city: { contains: q, mode: 'insensitive' } },
-      ],
+    where: { OR: or },
+    select: {
+      id: true, name: true, city: true, district: true, type: true,
+      isFeatured: true, isPremium: true, displayOrder: true,
+      email: true, phone: true, whatsapp: true, address: true,
+      isClaimed: true, claimedByUserId: true, verifiedByAgent: true, lastPhysicalVisit: true,
     },
-    select: { id: true, name: true, city: true, type: true, isFeatured: true, isPremium: true, displayOrder: true },
     take: 12,
     orderBy: { name: 'asc' },
   });

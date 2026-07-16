@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
         orderBy:
           sortBy === 'price'
             ? { restaurant: { avgMainCourse: 'asc' } }
-            : [{ hasRealPhoto: 'desc' }, { displayOrder: 'desc' }, { completenessScore: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }],
+            : [{ hasRealPhoto: 'desc' }, { rankScore: 'desc' }, { displayOrder: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }],
         skip: offset,
         take: limit,
       }),

@@ -3,6 +3,7 @@ import { checkAdminAuth } from '@/lib/api/admin-auth'
 import { prisma } from '@/lib/db'
 import { logAudit, getRequestMeta } from '@/lib/audit'
 import { logger } from '@/lib/logger'
+import { calculateCompletenessScore, calculateRankScore } from '@/lib/ranking'
 
 // GET: List establishments ordered by displayOrder for ranking management
 export async function GET(request: NextRequest) {
@@ -41,15 +42,27 @@ export async function GET(request: NextRequest) {
           type: true,
           city: true,
           coverImage: true,
+          images: true,
+          description: true,
+          phone: true,
+          phone2: true,
+          whatsapp: true,
+          email: true,
+          facebook: true,
+          latitude: true,
+          longitude: true,
           rating: true,
           reviewCount: true,
           viewCount: true,
           isFeatured: true,
           isPremium: true,
+          isVerified: true,
           displayOrder: true,
           isClaimed: true,
+          rankScore: true,
         },
         orderBy: [
+          { rankScore: 'desc' },
           { displayOrder: 'desc' },
           { isFeatured: 'desc' },
           { rating: 'desc' },
@@ -67,8 +80,22 @@ export async function GET(request: NextRequest) {
       }),
     ])
 
+    // Enrichit chaque fiche avec complétude (0-1000 -> %) + alertes, sans renvoyer les gros champs.
+    const enriched = establishments.map((e) => {
+      const comp = calculateCompletenessScore(e)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { description, images, phone2, latitude, longitude, ...rest } = e
+      return {
+        ...rest,
+        completenessScore: comp.score,
+        completenessPercent: comp.percent,
+        completenessWarnings: comp.warnings,
+        rankScore: e.rankScore || calculateRankScore(e, comp.score),
+      }
+    })
+
     return NextResponse.json({
-      establishments,
+      establishments: enriched,
       total,
       cities: cities.map(c => c.city),
     })
@@ -125,6 +152,45 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ success: true, updated: rankings.length })
   } catch (error) {
     logger.error('Admin ranking PUT error:', error)
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
+  }
+}
+
+// PATCH: marquer une fiche "Vérifiée / Conforme" (bonus classement) + recalcul du rankScore
+export async function PATCH(request: NextRequest) {
+  try {
+    const admin = await checkAdminAuth(request)
+    if (!admin) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+
+    const body = await request.json().catch(() => null)
+    const id = body?.id as string | undefined
+    const isVerified = !!body?.isVerified
+    if (!id) return NextResponse.json({ error: 'id requis' }, { status: 400 })
+
+    await prisma.establishment.update({ where: { id }, data: { isVerified } })
+
+    // Recalcule le rankScore avec le nouveau statut vérifié
+    const e = await prisma.establishment.findUnique({
+      where: { id },
+      select: {
+        description: true, coverImage: true, images: true, phone: true, phone2: true, whatsapp: true,
+        email: true, facebook: true, latitude: true, longitude: true, isVerified: true,
+        rating: true, reviewCount: true, viewCount: true, isFeatured: true,
+      },
+    })
+    let rankScore = 0
+    if (e) {
+      const comp = calculateCompletenessScore(e).score
+      rankScore = calculateRankScore(e, comp)
+      await prisma.establishment.update({ where: { id }, data: { rankScore } }).catch(() => {})
+    }
+
+    const meta = getRequestMeta(request)
+    logAudit({ userId: admin.id, action: 'update', entityType: 'establishment', entityId: id, details: { isVerified }, ...meta })
+
+    return NextResponse.json({ success: true, isVerified, rankScore })
+  } catch (error) {
+    logger.error('Admin ranking PATCH error:', error)
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }
 }

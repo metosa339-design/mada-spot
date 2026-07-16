@@ -21,8 +21,13 @@ interface RankedEstablishment {
   viewCount: number
   isFeatured: boolean
   isPremium: boolean
+  isVerified?: boolean
   displayOrder: number
   isClaimed: boolean
+  rankScore?: number
+  completenessScore?: number
+  completenessPercent?: number
+  completenessWarnings?: string[]
 }
 
 const TYPE_TABS = [
@@ -99,6 +104,23 @@ export default function RankingManager() {
     setEditingId(null)
   }
 
+  const toggleVerified = async (id: string, current: boolean) => {
+    // Optimiste, puis persiste + recalcule le rankScore côté serveur
+    setEstablishments(prev => prev.map(e => e.id === id ? { ...e, isVerified: !current } : e))
+    try {
+      const res = await fetch('/api/admin/ranking', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ id, isVerified: !current }),
+      })
+      const json = await res.json()
+      if (json?.success) {
+        setEstablishments(prev => prev.map(e => e.id === id ? { ...e, isVerified: json.isVerified, rankScore: json.rankScore } : e))
+      }
+    } catch { /* ignore */ }
+  }
+
   const toggleFeatured = (id: string) => {
     setEstablishments(prev =>
       prev.map(e => e.id === id ? { ...e, isFeatured: !e.isFeatured } : e)
@@ -153,9 +175,9 @@ export default function RankingManager() {
       <div className="flex items-center gap-3 p-4 bg-[#ff6b35]/5 border border-[#ff6b35]/20 rounded-xl">
         <Trophy className="w-5 h-5 text-[#ff6b35] flex-shrink-0" />
         <div>
-          <p className="text-sm font-medium text-[#ff6b35]">Classement Manuel</p>
+          <p className="text-sm font-medium text-[#ff6b35]">Classement automatique + ajustement manuel</p>
           <p className="text-xs text-gray-500">
-            Les établissements avec un displayOrder &gt; 0 apparaissent en premier. Tri : displayOrder DESC &rarr; Featured &rarr; Note.
+            Tri par <strong>score de pertinence</strong> : Boost (10 000) + Conformité (0-1000) + Note + Avis + Vues. La jauge « Conformité » montre la qualité de chaque fiche ; les ⚠️ indiquent ce qui la pénalise. « Vérifier » = +200 pts. Le <em>displayOrder</em> reste un ajustement manuel prioritaire.
           </p>
         </div>
       </div>
@@ -317,6 +339,20 @@ export default function RankingManager() {
                   </div>
                 </div>
 
+                {/* Conformité (jauge + alertes) */}
+                <div className="hidden lg:flex flex-col gap-1 w-40 flex-shrink-0" title={(est.completenessWarnings || []).join('\n') || 'Fiche complète ✅'}>
+                  <div className="flex items-center justify-between text-[10px]">
+                    <span className="text-gray-500">Conformité</span>
+                    <span className={`font-semibold ${(est.completenessPercent ?? 0) >= 70 ? 'text-emerald-600' : (est.completenessPercent ?? 0) >= 40 ? 'text-amber-600' : 'text-red-500'}`}>{est.completenessPercent ?? 0}%</span>
+                  </div>
+                  <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
+                    <div className={`h-full rounded-full ${(est.completenessPercent ?? 0) >= 70 ? 'bg-emerald-500' : (est.completenessPercent ?? 0) >= 40 ? 'bg-amber-500' : 'bg-red-500'}`} style={{ width: `${est.completenessPercent ?? 0}%` }} />
+                  </div>
+                  {(est.completenessWarnings || []).length > 0 && (
+                    <span className="text-[10px] text-red-500 truncate">{est.completenessWarnings![0]}</span>
+                  )}
+                </div>
+
                 {/* Stats */}
                 <div className="hidden md:flex items-center gap-4 text-xs text-gray-500">
                   <div className="flex items-center gap-1">
@@ -329,6 +365,19 @@ export default function RankingManager() {
                     <span>{est.viewCount}</span>
                   </div>
                 </div>
+
+                {/* Toggle Vérifiée / Conforme (+200 pts) */}
+                <button
+                  onClick={() => toggleVerified(est.id, !!est.isVerified)}
+                  title={est.isVerified ? 'Vérifiée / Conforme' : 'Marquer comme vérifiée'}
+                  className={`px-2 py-1 rounded-lg text-[10px] font-semibold border flex-shrink-0 transition-all ${
+                    est.isVerified
+                      ? 'bg-emerald-500/15 text-emerald-600 border-emerald-500/30'
+                      : 'bg-gray-100 text-gray-400 border-transparent hover:text-gray-600'
+                  }`}
+                >
+                  {est.isVerified ? '✓ Vérifiée' : 'Vérifier'}
+                </button>
 
                 {/* Display order input */}
                 <div className="flex items-center gap-2 flex-shrink-0">

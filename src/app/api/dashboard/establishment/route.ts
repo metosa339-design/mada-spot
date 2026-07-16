@@ -4,6 +4,7 @@ import { prisma } from '@/lib/db'
 import { verifySession, SESSION_COOKIE_NAME } from '@/lib/auth/session'
 import { logger } from '@/lib/logger'
 import { computeCompleteness, hasRealPhoto } from '@/lib/crm/completeness'
+import { calculateCompletenessScore, calculateRankScore } from '@/lib/ranking'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function scoreOf(b: any): number {
@@ -18,6 +19,21 @@ function scoreOf(b: any): number {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function photoOf(b: any): boolean {
   return hasRealPhoto({ coverImage: b.coverImage, images: JSON.stringify(b.images || []) });
+}
+
+// Recalcule et met en cache le rankScore (classement global) à partir de la fiche enregistrée.
+async function refreshRankScore(id: string): Promise<void> {
+  const e = await prisma.establishment.findUnique({
+    where: { id },
+    select: {
+      description: true, coverImage: true, images: true, phone: true, phone2: true, whatsapp: true,
+      email: true, facebook: true, latitude: true, longitude: true, isVerified: true,
+      rating: true, reviewCount: true, viewCount: true, isFeatured: true,
+    },
+  })
+  if (!e) return
+  const comp = calculateCompletenessScore(e).score
+  await prisma.establishment.update({ where: { id }, data: { rankScore: calculateRankScore(e, comp) } }).catch(() => {})
 }
 
 function slugify(text: string): string {
@@ -202,6 +218,8 @@ export async function POST(request: NextRequest) {
       data: { userType: body.type || 'HOTEL' },
     })
 
+    await refreshRankScore(establishment.id)
+
     return NextResponse.json({ establishment: { id: establishment.id } }, { status: 201 })
   } catch (error) {
     logger.error('Error creating establishment', error instanceof Error ? error : undefined)
@@ -281,6 +299,8 @@ export async function PUT(request: NextRequest) {
         },
       })
     }
+
+    await refreshRankScore(body.id)
 
     return NextResponse.json({ establishment: { id: body.id } })
   } catch (error) {

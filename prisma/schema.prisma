@@ -415,6 +415,8 @@ model Establishment {
   displayOrder Int @default(0) // Manual ranking: higher = appears first
   completenessScore Int @default(0) // Complétude de la fiche 0-100 : tri public (les plus complètes en 1er)
   hasRealPhoto      Boolean @default(false) // Vraie photo uploadée (pas image IA/générique) : tri public (vraies photos en 1er)
+  isVerified        Boolean @default(false) // Marquée "Vérifiée / Conforme" par un admin (bonus classement +200)
+  rankScore         Float   @default(0) // Score de pertinence global mis en cache (boost + complétude + note + avis + vues)
 
   // Import & Source
   dataSource        String? // "manual", "csv_import", "nominatim", "google_places"

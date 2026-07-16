@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import {
   Trophy, Search, ArrowUp, ArrowDown, Star, Eye, Save, Loader2,
   Hotel, UtensilsCrossed, MapPin, Briefcase,
-  CheckCircle, Crown, RotateCcw, Sparkles
+  CheckCircle, Crown, RotateCcw, Sparkles, ShieldCheck
 } from 'lucide-react'
 import Image from 'next/image'
 import { getImageUrl } from '@/lib/image-url'
@@ -390,14 +390,18 @@ export default function RankingManager() {
                 {/* Toggle Vérifiée / Conforme (+200 pts) */}
                 <button
                   onClick={() => toggleVerified(est.id, !!est.isVerified)}
-                  title={est.isVerified ? 'Vérifiée / Conforme' : 'Marquer comme vérifiée'}
-                  className={`px-2 py-1 rounded-lg text-[10px] font-semibold border flex-shrink-0 transition-all ${
+                  title={est.isVerified ? 'Fiche vérifiée — cliquer pour retirer' : 'Marquer comme vérifiée / conforme (+200 pts)'}
+                  className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold border flex-shrink-0 transition-all ${
                     est.isVerified
-                      ? 'bg-emerald-500/15 text-emerald-600 border-emerald-500/30'
-                      : 'bg-gray-100 text-gray-400 border-transparent hover:text-gray-600'
+                      ? 'bg-emerald-500 text-white border-emerald-500 hover:bg-emerald-600'
+                      : 'bg-white text-amber-600 border-amber-400 hover:bg-amber-50 shadow-sm'
                   }`}
                 >
-                  {est.isVerified ? '✓ Vérifiée' : 'Vérifier'}
+                  {est.isVerified ? (
+                    <><CheckCircle className="w-3.5 h-3.5" /> Vérifiée</>
+                  ) : (
+                    <><ShieldCheck className="w-3.5 h-3.5" /> Vérifier</>
+                  )}
                 </button>
 
                 {/* Display order input */}

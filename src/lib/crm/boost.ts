@@ -45,3 +45,21 @@ export async function syncEstablishmentFeature(establishmentId: string): Promise
     })
     .catch(() => {});
 }
+
+/**
+ * Une fiche est-elle actuellement boostée ? Renvoie l'état + la date de fin la plus lointaine.
+ * (Le tri public s'appuie déjà sur isFeatured, synchronisé par syncEstablishmentFeature ;
+ * ce helper expose l'info proprement pour l'UI/API.)
+ */
+export async function isEstablishmentBoosted(
+  establishmentId: string,
+): Promise<{ boosted: boolean; boostedUntil: Date | null }> {
+  const now = new Date();
+  const active = await prisma.boost.findMany({
+    where: { establishmentId, status: 'ACTIVE', endDate: { gt: now } },
+    select: { endDate: true },
+    orderBy: { endDate: 'desc' },
+    take: 1,
+  });
+  return { boosted: active.length > 0, boostedUntil: active[0]?.endDate ?? null };
+}

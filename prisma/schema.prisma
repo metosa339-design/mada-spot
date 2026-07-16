@@ -2209,10 +2209,15 @@ model Boost {
   status BoostStatus @default(ACTIVE)
 
   // Facturation
-  price    Float   @default(0)
-  currency String  @default("EUR")
+  price    Float   @default(0) // montant en Ariary (AR)
+  currency String  @default("AR")
   isPaid   Boolean @default(false)
   note     String?
+
+  // Paiement Mobile Money (gestion manuelle)
+  paymentMethod        String? // mvola | orange_money | airtel_money | especes
+  transactionReference String? // ID du reçu Mobile Money collé depuis Messenger
+  expiryReminderSentAt DateTime? // anti-doublon relance J-1
 
   createdById String?
   createdAt   DateTime @default(now())

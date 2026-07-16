@@ -4,6 +4,7 @@ import { apiError, apiSuccess } from '@/lib/api-response';
 import { prisma } from '@/lib/db';
 import { logAudit, getRequestMeta } from '@/lib/audit';
 import { expireStaleBoosts, syncEstablishmentFeature } from '@/lib/crm/boost';
+import { sendBoostActivationEmail } from '@/lib/crm/boost-emails';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,7 +36,7 @@ export async function POST(request: NextRequest) {
     return apiError('JSON invalide', 400);
   }
 
-  const { establishmentId, type, durationDays, price, currency, isPaid, note } = body || {};
+  const { establishmentId, type, durationDays, price, currency, isPaid, note, paymentMethod, transactionReference, startDate } = body || {};
   if (!establishmentId) return apiError('establishmentId requis', 400);
 
   const est = await prisma.establishment.findUnique({
@@ -45,7 +46,12 @@ export async function POST(request: NextRequest) {
   if (!est) return apiError('Établissement introuvable', 404);
 
   const days = Math.min(Math.max(parseInt(durationDays, 10) || 7, 1), 365);
-  const endDate = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+  // Date de début : saisie ou aujourd'hui ; end = début + durée.
+  const start = startDate ? new Date(startDate) : new Date();
+  if (isNaN(start.getTime())) return apiError('startDate invalide', 400);
+  const endDate = new Date(start.getTime() + days * 24 * 60 * 60 * 1000);
+  const ALLOWED_PM = ['mvola', 'orange_money', 'airtel_money', 'especes'];
+  const pm = ALLOWED_PM.includes(paymentMethod) ? paymentMethod : null;
 
   // Prix en Ariary, borné 5 000 – 1 000 000 AR
   const amount = Math.min(Math.max(typeof price === 'number' ? price : parseFloat(price) || 0, 5000), 1000000);
@@ -58,18 +64,39 @@ export async function POST(request: NextRequest) {
       establishmentName: est.name,
       type: ['featured', 'top_ranking', 'homepage'].includes(type) ? type : 'featured',
       priority: computedPriority,
+      startDate: start,
       endDate,
       status: 'ACTIVE',
       price: amount,
       currency: currency || 'AR',
       isPaid: !!isPaid,
       note: note || null,
+      paymentMethod: pm,
+      transactionReference: (transactionReference || '').toString().trim() || null,
       createdById: admin.id,
     },
   });
 
   // Applique la mise en avant
   await syncEstablishmentFeature(est.id);
+
+  // EMAIL 1 — confirmation d'activation (immédiat, non bloquant)
+  let emailSent = false;
+  let emailReason: string | undefined;
+  try {
+    const r = await sendBoostActivationEmail({
+      establishmentId: est.id,
+      establishmentName: est.name,
+      startDate: start,
+      endDate,
+      paymentMethod: pm,
+      price: amount,
+    });
+    emailSent = r.sent;
+    emailReason = r.reason;
+  } catch (e) {
+    emailReason = e instanceof Error ? e.message : 'erreur envoi';
+  }
 
   const meta = getRequestMeta(request);
   await logAudit({
@@ -81,5 +108,5 @@ export async function POST(request: NextRequest) {
     ...meta,
   }).catch(() => {});
 
-  return apiSuccess(boost, 201);
+  return apiSuccess({ ...boost, emailSent, emailReason }, 201);
 }

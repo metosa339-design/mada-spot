@@ -96,6 +96,9 @@ function CreateBoost({ onCreated }: { onCreated: () => void }) {
   const [durationDays, setDurationDays] = useState(15);
   const [price, setPrice] = useState(15000);
   const [isPaid, setIsPaid] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('mvola');
+  const [transactionReference, setTransactionReference] = useState('');
+  const [startDate, setStartDate] = useState('');
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   const timer = useRef<any>(null);
@@ -126,14 +129,17 @@ function CreateBoost({ onCreated }: { onCreated: () => void }) {
       const res = await fetch('/api/admin/crm/boosts', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ establishmentId: selected.id, type, durationDays, price, isPaid }),
+        body: JSON.stringify({ establishmentId: selected.id, type, durationDays, price, isPaid, paymentMethod, transactionReference, startDate: startDate || undefined }),
       });
       const json = await res.json();
       if (json.success) {
-        setMsg(`✅ ${selected.name} boosté pour ${durationDays} jours.`);
+        const mailed = json.data?.emailSent ? ' — email de confirmation envoyé' : ' — email non envoyé (pas d\'adresse propriétaire)';
+        setMsg(`✅ ${selected.name} boosté pour ${durationDays} jours.${mailed}`);
         setSelected(null);
         setQ('');
         setResults([]);
+        setTransactionReference('');
+        setStartDate('');
         onCreated();
       } else setMsg(json.error);
     } finally {
@@ -213,6 +219,26 @@ function CreateBoost({ onCreated }: { onCreated: () => void }) {
       <div className="mt-2 text-xs bg-gray-50 dark:bg-gray-800 rounded-lg p-2 text-gray-600">
         Classement calculé : <strong className="text-orange-600">{Math.round(Math.min(Math.max(price, 5000), 1000000) / Math.max(durationDays, 1)).toLocaleString('fr-FR')} AR/jour</strong>.
         Plus le tarif journalier est élevé, plus la fiche passe devant. (Ex : 10 000 AR sur 15 j passe devant 10 000 AR sur 30 j.)
+      </div>
+
+      <div className="grid sm:grid-cols-3 gap-3 mt-3">
+        <label className="block">
+          <span className="block text-xs text-gray-500 mb-1">Moyen de paiement</span>
+          <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} className="w-full px-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-transparent">
+            <option value="mvola">MVola</option>
+            <option value="orange_money">Orange Money</option>
+            <option value="airtel_money">Airtel Money</option>
+            <option value="especes">Espèces</option>
+          </select>
+        </label>
+        <label className="block">
+          <span className="block text-xs text-gray-500 mb-1">Réf. transaction (reçu Mobile Money)</span>
+          <input type="text" value={transactionReference} onChange={(e) => setTransactionReference(e.target.value)} placeholder="ex : 123456789" className="w-full px-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-transparent" />
+        </label>
+        <label className="block">
+          <span className="block text-xs text-gray-500 mb-1">Date de début (défaut : aujourd&apos;hui)</span>
+          <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full px-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-transparent" />
+        </label>
       </div>
 
       <div className="flex items-center gap-4 mt-3">

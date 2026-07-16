@@ -51,6 +51,7 @@ export default function RankingManager() {
   const [hasChanges, setHasChanges] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editValue, setEditValue] = useState('')
+  const [sortBy, setSortBy] = useState<'rank' | 'completeness' | 'rating' | 'views'>('rank')
 
   const fetchData = useCallback(async () => {
     setLoading(true)
@@ -169,6 +170,15 @@ export default function RankingManager() {
     finally { setSaving(false) }
   }
 
+  const displayList = sortBy === 'rank'
+    ? establishments
+    : [...establishments].sort((a, b) => {
+        if (sortBy === 'completeness') return (b.completenessPercent ?? 0) - (a.completenessPercent ?? 0)
+        if (sortBy === 'rating') return (b.rating || 0) - (a.rating || 0)
+        if (sortBy === 'views') return (b.viewCount || 0) - (a.viewCount || 0)
+        return 0
+      })
+
   return (
     <div className="space-y-6">
       {/* Info banner */}
@@ -226,6 +236,17 @@ export default function RankingManager() {
               {cities.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
           )}
+          <select
+            value={sortBy}
+            onChange={e => setSortBy(e.target.value as typeof sortBy)}
+            className="px-3 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-700 text-sm focus:outline-none focus:border-[#ff6b35]"
+            title="Trier la liste affichée"
+          >
+            <option value="rank">Tri : Score global</option>
+            <option value="completeness">Tri : Conformité %</option>
+            <option value="rating">Tri : Note</option>
+            <option value="views">Tri : Vues</option>
+          </select>
         </div>
       </div>
 
@@ -281,7 +302,7 @@ export default function RankingManager() {
         </div>
       ) : (
         <div className="space-y-2">
-          {establishments.map((est, index) => (
+          {displayList.map((est, index) => (
             <motion.div
               key={est.id}
               initial={{ opacity: 0, y: 5 }}
@@ -294,7 +315,7 @@ export default function RankingManager() {
                 <div className="flex flex-col items-center gap-0.5 w-8 flex-shrink-0">
                   <button
                     onClick={() => moveUp(index)}
-                    disabled={index === 0}
+                    disabled={index === 0 || sortBy !== 'rank'}
                     className="p-0.5 text-gray-600 hover:text-[#ff6b35] disabled:opacity-20 transition-colors"
                   >
                     <ArrowUp className="w-3.5 h-3.5" />
@@ -302,7 +323,7 @@ export default function RankingManager() {
                   <span className="text-xs font-bold text-gray-500">{index + 1}</span>
                   <button
                     onClick={() => moveDown(index)}
-                    disabled={index >= establishments.length - 1}
+                    disabled={index >= displayList.length - 1 || sortBy !== 'rank'}
                     className="p-0.5 text-gray-600 hover:text-[#ff6b35] disabled:opacity-20 transition-colors"
                   >
                     <ArrowDown className="w-3.5 h-3.5" />

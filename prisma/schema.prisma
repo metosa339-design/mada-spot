@@ -2217,6 +2217,8 @@ model Boost {
   // Paiement Mobile Money (gestion manuelle)
   paymentMethod        String? // mvola | orange_money | airtel_money | especes
   transactionReference String? // ID du reçu Mobile Money collé depuis Messenger
+  payerName            String? // nom de la personne qui a payé (peut différer du contact fiche)
+  payerPhone           String? // numéro Mobile Money du payeur
   expiryReminderSentAt DateTime? // anti-doublon relance J-1
 
   createdById String?

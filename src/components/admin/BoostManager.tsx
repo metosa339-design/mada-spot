@@ -18,6 +18,8 @@ interface Boost {
   note: string | null;
   paymentMethod: string | null;
   transactionReference: string | null;
+  payerName: string | null;
+  payerPhone: string | null;
   createdAt: string;
 }
 
@@ -136,6 +138,7 @@ function BoostHistory({ items }: { items: Boost[] }) {
                 <th className="px-3 py-2 font-medium">Période</th>
                 <th className="px-3 py-2 font-medium">Montant</th>
                 <th className="px-3 py-2 font-medium">Paiement</th>
+                <th className="px-3 py-2 font-medium">Payeur</th>
                 <th className="px-3 py-2 font-medium">Réf.</th>
                 <th className="px-3 py-2 font-medium">Statut</th>
               </tr>
@@ -151,6 +154,7 @@ function BoostHistory({ items }: { items: Boost[] }) {
                     <span className={`ml-1 text-[10px] ${b.isPaid ? 'text-green-600' : 'text-orange-500'}`}>{b.price > 0 ? (b.isPaid ? '· payé' : '· dû') : ''}</span>
                   </td>
                   <td className="px-3 py-2 text-gray-500 text-xs">{b.paymentMethod ? PAYMENT_LABELS[b.paymentMethod] || b.paymentMethod : '—'}</td>
+                  <td className="px-3 py-2 text-gray-500 text-xs max-w-[140px] truncate">{[b.payerName, b.payerPhone].filter(Boolean).join(' · ') || '—'}</td>
                   <td className="px-3 py-2 text-gray-400 text-xs max-w-[120px] truncate">{b.transactionReference || '—'}</td>
                   <td className="px-3 py-2"><span className={`text-xs px-2 py-1 rounded-full ${STATUS_BADGE[b.status] || 'bg-gray-100'}`}>{b.status}</span></td>
                 </tr>
@@ -173,6 +177,8 @@ function CreateBoost({ onCreated }: { onCreated: () => void }) {
   const [isPaid, setIsPaid] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('mvola');
   const [transactionReference, setTransactionReference] = useState('');
+  const [payerName, setPayerName] = useState('');
+  const [payerPhone, setPayerPhone] = useState('');
   const [startDate, setStartDate] = useState('');
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
@@ -204,7 +210,7 @@ function CreateBoost({ onCreated }: { onCreated: () => void }) {
       const res = await fetch('/api/admin/crm/boosts', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ establishmentId: selected.id, type, durationDays, price, isPaid, paymentMethod, transactionReference, startDate: startDate || undefined }),
+        body: JSON.stringify({ establishmentId: selected.id, type, durationDays, price, isPaid, paymentMethod, transactionReference, payerName, payerPhone, startDate: startDate || undefined }),
       });
       const json = await res.json();
       if (json.success) {
@@ -214,6 +220,8 @@ function CreateBoost({ onCreated }: { onCreated: () => void }) {
         setQ('');
         setResults([]);
         setTransactionReference('');
+        setPayerName('');
+        setPayerPhone('');
         setStartDate('');
         onCreated();
       } else setMsg(json.error);
@@ -341,6 +349,17 @@ function CreateBoost({ onCreated }: { onCreated: () => void }) {
         <label className="block">
           <span className="block text-xs text-gray-500 mb-1">Date de début (défaut : aujourd&apos;hui)</span>
           <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full px-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-transparent" />
+        </label>
+      </div>
+
+      <div className="grid sm:grid-cols-2 gap-3 mt-3">
+        <label className="block">
+          <span className="block text-xs text-gray-500 mb-1">Payeur (nom) — si différent de la fiche</span>
+          <input type="text" value={payerName} onChange={(e) => setPayerName(e.target.value)} placeholder="ex : Rakoto Jean" className="w-full px-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-transparent" />
+        </label>
+        <label className="block">
+          <span className="block text-xs text-gray-500 mb-1">Téléphone du paiement (Mobile Money)</span>
+          <input type="tel" value={payerPhone} onChange={(e) => setPayerPhone(e.target.value)} placeholder="ex : 034 12 345 67" className="w-full px-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-transparent" />
         </label>
       </div>
 

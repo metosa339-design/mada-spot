@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     return apiError('JSON invalide', 400);
   }
 
-  const { establishmentId, type, durationDays, price, currency, isPaid, note, paymentMethod, transactionReference, startDate } = body || {};
+  const { establishmentId, type, durationDays, price, currency, isPaid, note, paymentMethod, transactionReference, startDate, payerName, payerPhone } = body || {};
   if (!establishmentId) return apiError('establishmentId requis', 400);
 
   const est = await prisma.establishment.findUnique({
@@ -73,6 +73,8 @@ export async function POST(request: NextRequest) {
       note: note || null,
       paymentMethod: pm,
       transactionReference: (transactionReference || '').toString().trim() || null,
+      payerName: (payerName || '').toString().trim() || null,
+      payerPhone: (payerPhone || '').toString().trim() || null,
       createdById: admin.id,
     },
   });

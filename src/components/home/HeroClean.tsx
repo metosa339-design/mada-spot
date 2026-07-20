@@ -142,7 +142,7 @@ export default function HeroClean() {
         <form
           onSubmit={handleSearch}
           style={{ animationDelay: '0.2s' }}
-          className="hero-fade-rise grid grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr_auto] gap-0 bg-white rounded-xl border-2 border-[#FF6B35] shadow-[0_8px_24px_rgba(15,23,42,0.10)]"
+          className="hero-fade-rise relative z-20 grid grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr_auto] gap-0 bg-white rounded-xl border-2 border-[#FF6B35] shadow-[0_8px_24px_rgba(15,23,42,0.10)]"
         >
           {/* Destination */}
           <label className="col-span-2 md:col-span-1 flex items-center gap-3 px-3.5 sm:px-4 py-2.5 sm:py-3.5 border-b md:border-b-0 md:border-r border-[#FF6B35]/30">

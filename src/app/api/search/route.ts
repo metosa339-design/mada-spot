@@ -119,8 +119,8 @@ export async function GET(request: NextRequest) {
       case 'newest':
         orderBy = [{ createdAt: 'desc' }];
         break;
-      default: // relevance
-        orderBy = [{ isFeatured: 'desc' }, { rating: 'desc' }];
+      default: // relevance — les fiches les plus completes d'abord
+        orderBy = [{ completenessScore: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }];
         break;
     }
 
@@ -138,6 +138,7 @@ export async function GET(request: NextRequest) {
       shortDescription: true,
       isFeatured: true,
       isPremium: true,
+      completenessScore: true,
       hotel: { select: { starRating: true } },
       restaurant: { select: { priceRange: true, category: true } },
       attraction: { select: { attractionType: true, isFree: true } },
@@ -160,6 +161,9 @@ export async function GET(request: NextRequest) {
     // Re-sort by completeness: prioritize establishments with images and complete profiles
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const byCompleteness = (a: any, b: any) => {
+      // Priorite absolue : la completude de la fiche (les hotels complets d'abord)
+      const cs = (b.completenessScore || 0) - (a.completenessScore || 0);
+      if (cs !== 0) return cs;
       const scoreA = (a.coverImage ? 10 : 0) + (a.rating > 0 ? 2 : 0) + (a.isFeatured ? 5 : 0);
       const scoreB = (b.coverImage ? 10 : 0) + (b.rating > 0 ? 2 : 0) + (b.isFeatured ? 5 : 0);
       return scoreB - scoreA;
@@ -198,7 +202,7 @@ export async function GET(request: NextRequest) {
       let fbResults = await prisma.establishment.findMany({
         where: fbWhere,
         select: selectFields,
-        orderBy: [{ isFeatured: 'desc' }, { rating: 'desc' }],
+        orderBy: [{ completenessScore: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }],
         take: limit,
       });
 
@@ -209,7 +213,7 @@ export async function GET(request: NextRequest) {
         fbResults = await prisma.establishment.findMany({
           where: fbWhere,
           select: selectFields,
-          orderBy: [{ isFeatured: 'desc' }, { rating: 'desc' }],
+          orderBy: [{ completenessScore: 'desc' }, { isFeatured: 'desc' }, { rating: 'desc' }],
           take: limit,
         });
       }

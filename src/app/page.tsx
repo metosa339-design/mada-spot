@@ -193,7 +193,7 @@ function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
     return 'md:col-span-4 h-[140px] sm:h-[165px]';
   };
 
-  const destinations = [
+  const destinations: { name: string; city?: string; img: string }[] = [
     { name: 'Nosy Be', img: '/images/Attractions/nosy-be/nosy-be-2.jpg' },
     { name: 'Antananarivo', img: '/images/Attractions/antananarivo/antananarivo.jpg' },
     { name: 'Tsingy', img: '/images/Attractions/bemaraha/tsingy-bemaraha.jpg' },
@@ -207,6 +207,23 @@ function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
     { name: 'Ifaty', img: '/images/Attractions/ifaty/ifaty-tulear.jpg' },
     { name: 'Ankarana', img: '/images/Attractions/ankarana/ankarana.jpg' },
   ];
+
+  // Compte d'hôtels par ville → priorise les villes les mieux fournies (grandes cartes en haut).
+  const [hotelCounts, setHotelCounts] = useState<Record<string, number>>({});
+  useEffect(() => {
+    fetch('/api/bons-plans/hotel-counts')
+      .then((r) => (r.ok ? r.json() : { counts: {} }))
+      .then((d) => setHotelCounts(d.counts || {}))
+      .catch(() => {});
+  }, []);
+
+  const slugify = (s: string) =>
+    s.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+  // Tri stable : à nombre d'hôtels égal, l'ordre curé d'origine est conservé.
+  const ordered = destinations
+    .map((d) => ({ ...d, count: hotelCounts[slugify(d.city || d.name)] || 0 }))
+    .sort((a, b) => b.count - a.count);
 
   return (
     <section ref={ref} className="relative bg-[#F8FAFC] py-10 sm:py-12 border-b border-[#E2E8F0]">
@@ -238,10 +255,10 @@ function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
           variants={stagger}
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-4 w-full"
         >
-          {destinations.map((dest, i) => (
+          {ordered.map((dest, i) => (
             <motion.div key={dest.name} variants={fadeUp} className={layout(i)}>
               <Link
-                href={`/search?city=${encodeURIComponent(dest.name)}&type=HOTEL`}
+                href={`/search?city=${encodeURIComponent(dest.city || dest.name)}&type=HOTEL`}
                 className="group relative block w-full h-full rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
               >
                 <Image

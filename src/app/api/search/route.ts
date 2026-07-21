@@ -51,10 +51,17 @@ export async function GET(request: NextRequest) {
       ];
     }
 
-    // Type filter
-    const validTypes = ['HOTEL', 'RESTAURANT', 'ATTRACTION', 'PROVIDER'];
-    if (type && validTypes.includes(type.toUpperCase())) {
-      where.type = type.toUpperCase();
+    // Type filter — tolérant aux alias (pluriel, minuscule, clés d'onglet du hero)
+    const TYPE_ALIASES: Record<string, string> = {
+      hotel: 'HOTEL', hotels: 'HOTEL', hebergement: 'HOTEL', hebergements: 'HOTEL',
+      restaurant: 'RESTAURANT', restaurants: 'RESTAURANT',
+      attraction: 'ATTRACTION', attractions: 'ATTRACTION', activite: 'ATTRACTION', activites: 'ATTRACTION',
+      provider: 'PROVIDER', providers: 'PROVIDER', guide: 'PROVIDER', guides: 'PROVIDER',
+      prestataire: 'PROVIDER', prestataires: 'PROVIDER',
+    };
+    const normType = type ? (TYPE_ALIASES[type.toLowerCase()] || type.toUpperCase()) : '';
+    if (normType && ['HOTEL', 'RESTAURANT', 'ATTRACTION', 'PROVIDER'].includes(normType)) {
+      where.type = normType;
     }
 
     // City filter

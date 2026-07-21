@@ -106,18 +106,18 @@ export default function SearchResultCard({ establishment }: SearchResultCardProp
   };
 
   return (
-    <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+    <motion.div>
       <Link
         href={detailUrl}
-        className="group block bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-xl overflow-hidden transition-colors"
+        className="group block bg-white border border-[#E2E8F0] hover:border-[#FF6B35]/30 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
       >
         {/* Cover image */}
-        <div className="relative aspect-video bg-white">
+        <div className="relative aspect-video bg-white overflow-hidden">
           <Image
             src={getEstablishmentImage(establishment.type, establishment.city, establishment.name, establishment.coverImage)}
             alt={establishment.name}
             fill
-            className="object-cover"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
 
@@ -138,7 +138,7 @@ export default function SearchResultCard({ establishment }: SearchResultCardProp
 
         {/* Content */}
         <div className="p-4">
-          <h3 className="text-[15px] font-semibold text-[#0F172A] group-hover:text-[#FF6B35] transition-colors line-clamp-1">
+          <h3 className="text-[15px] font-semibold text-slate-800 group-hover:text-[#FF6B35] transition-colors line-clamp-1">
             {establishment.name}
           </h3>
 
@@ -152,9 +152,11 @@ export default function SearchResultCard({ establishment }: SearchResultCardProp
 
           <div className="flex items-center gap-3 mt-3">
             {establishment.rating > 0 && (
-              <div className="flex items-center gap-1">
-                <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
-                <span className="text-[13px] font-mono text-[#0F172A]">{establishment.rating.toFixed(1)}</span>
+              <div className="flex items-center gap-1.5">
+                <span className="inline-flex items-center gap-1 rounded-lg bg-[#FFF7ED] px-2 py-1">
+                  <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
+                  <span className="text-[13px] font-semibold text-slate-800 font-mono tabular-nums">{establishment.rating.toFixed(1)}</span>
+                </span>
                 <span className="text-[11px] text-[#94A3B8]">({establishment.reviewCount})</span>
               </div>
             )}

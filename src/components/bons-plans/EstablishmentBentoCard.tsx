@@ -59,14 +59,10 @@ export default memo(function EstablishmentBentoCard({
     : establishment.subtype || null;
 
   return (
-    <motion.div
-      whileHover={{ y: -2 }}
-      transition={{ duration: 0.2 }}
-      className={size === 'large' ? 'col-span-2 row-span-2' : ''}
-    >
+    <motion.div className={size === 'large' ? 'col-span-2 row-span-2' : ''}>
       <Link
         href={detailUrl}
-        className="group relative block overflow-hidden rounded-xl bg-white border border-[#E2E8F0] hover:border-[#FF6B35]/30 hover:shadow-[0_8px_30px_rgba(255,107,53,0.08)] transition-all duration-300"
+        className="group relative block overflow-hidden rounded-2xl bg-white border border-[#E2E8F0] hover:border-[#FF6B35]/30 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
       >
         {/* Cover Image */}
         <div className={`relative overflow-hidden ${size === 'large' ? 'h-64' : 'aspect-[4/3]'}`}>
@@ -80,7 +76,7 @@ export default memo(function EstablishmentBentoCard({
             alt={establishment.name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
 
           {/* Gradient overlay subtle */}
@@ -115,7 +111,7 @@ export default memo(function EstablishmentBentoCard({
 
         {/* Content */}
         <div className="p-4 border-t border-[#E2E8F0]">
-          <h3 className="text-[14px] font-semibold text-[#0F172A] leading-tight group-hover:text-[#FF6B35] transition-colors line-clamp-1 tracking-[-0.01em]">
+          <h3 className="text-[14px] font-semibold text-slate-800 leading-tight group-hover:text-[#FF6B35] transition-colors line-clamp-1 tracking-[-0.01em]">
             {establishment.name}
           </h3>
 
@@ -139,9 +135,11 @@ export default memo(function EstablishmentBentoCard({
           {/* Rating + Price */}
           <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#E2E8F0]">
             <div className="flex items-center gap-1.5">
-              <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
-              <span className="text-[13px] font-semibold text-[#0F172A] font-mono tabular-nums">
-                {establishment.rating.toFixed(1)}
+              <span className="inline-flex items-center gap-1 rounded-lg bg-[#FFF7ED] px-2 py-1">
+                <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
+                <span className="text-[13px] font-semibold text-slate-800 font-mono tabular-nums">
+                  {establishment.rating.toFixed(1)}
+                </span>
               </span>
               <span className="text-[11px] text-[#94A3B8]">({establishment.reviewCount})</span>
             </div>

@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import {
   Search,
   MapPin,
@@ -40,6 +40,56 @@ export default function HeroClean() {
   const [openPopover, setOpenPopover] = useState<'dates' | 'guests' | null>(null);
   const router = useRouter();
 
+  // --- Autocomplete Destination ---
+  const [cities, setCities] = useState<{ name: string; slug: string; count?: number }[]>([]);
+  const [showSug, setShowSug] = useState(false);
+  const [sugIndex, setSugIndex] = useState(-1);
+
+  useEffect(() => {
+    fetch('/api/bons-plans/cities')
+      .then((r) => (r.ok ? r.json() : { cities: [] }))
+      .then((d) => setCities(Array.isArray(d?.cities) ? d.cities : []))
+      .catch(() => {});
+  }, []);
+
+  const normalize = (s: string) =>
+    s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+
+  const suggestions = useMemo(() => {
+    const q = normalize(destination.trim());
+    if (!q) return [] as typeof cities;
+    const starts: typeof cities = [];
+    const includes: typeof cities = [];
+    for (const c of cities) {
+      const n = normalize(c.name);
+      if (n.startsWith(q)) starts.push(c);
+      else if (n.includes(q)) includes.push(c);
+    }
+    return [...starts, ...includes].slice(0, 8);
+  }, [destination, cities]);
+
+  const selectCity = (name: string) => {
+    setDestination(name);
+    setShowSug(false);
+    setSugIndex(-1);
+  };
+
+  const onDestinationKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!showSug || suggestions.length === 0) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSugIndex((i) => Math.min(i + 1, suggestions.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSugIndex((i) => Math.max(i - 1, 0));
+    } else if (e.key === 'Enter' && sugIndex >= 0 && sugIndex < suggestions.length) {
+      e.preventDefault();
+      selectCity(suggestions[sugIndex].name);
+    } else if (e.key === 'Escape') {
+      setShowSug(false);
+    }
+  };
+
   const dateLocale = locale === 'en' ? 'en-US' : 'fr-FR';
   const formatDateRange = (ci: string, co: string): string => {
     if (!ci && !co) return t.datesChoose;
@@ -65,10 +115,22 @@ export default function HeroClean() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setOpenPopover(null);
+    setShowSug(false);
     const q = destination.trim();
     const params = new URLSearchParams();
     if (q) params.set('q', q);
-    if (tab) params.set('type', tab);
+    // L'API attend HOTEL / RESTAURANT / ATTRACTION / PROVIDER, pas les clés d'onglet.
+    const TYPE_API: Record<Tab, string> = {
+      hotels: 'HOTEL',
+      restaurants: 'RESTAURANT',
+      attractions: 'ATTRACTION',
+      guides: 'PROVIDER',
+    };
+    if (tab) params.set('type', TYPE_API[tab]);
+    // Si la destination correspond exactement à une ville connue, on filtre
+    // précisément par ville (ex : "Hébergement" + "Ambositra" => hôtels à Ambositra).
+    const matchedCity = cities.find((c) => normalize(c.name) === normalize(q));
+    if (matchedCity) params.set('city', matchedCity.name);
     if (checkIn) params.set('checkin', checkIn);
     if (checkOut) params.set('checkout', checkOut);
     if (adults !== 2) params.set('adults', String(adults));
@@ -142,27 +204,75 @@ export default function HeroClean() {
         <form
           onSubmit={handleSearch}
           style={{ animationDelay: '0.2s' }}
-          className="hero-fade-rise relative z-20 grid grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr_auto] gap-0 bg-white rounded-xl border-2 border-[#FF6B35] shadow-[0_8px_24px_rgba(15,23,42,0.10)]"
+          className="hero-fade-rise relative z-20 grid grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr_auto] gap-0 bg-white rounded-2xl border border-[#FF6B35]/60 shadow-[0_12px_36px_-10px_rgba(15,23,42,0.16)] ring-1 ring-black/[0.02]"
         >
-          {/* Destination */}
-          <label className="col-span-2 md:col-span-1 flex items-center gap-3 px-3.5 sm:px-4 py-2.5 sm:py-3.5 border-b md:border-b-0 md:border-r border-[#FF6B35]/30">
-            <MapPin className="w-5 h-5 text-[#FF6B35] shrink-0" />
-            <div className="flex-1 min-w-0">
-              <p className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">
-                {t.destinationLabel}
-              </p>
-              <input
-                type="text"
-                value={destination}
-                onChange={(e) => setDestination(e.target.value)}
-                placeholder={t.destinationPlaceholder}
-                className="w-full outline-none text-[14px] font-semibold text-[#0F172A] placeholder:text-[#94A3B8] placeholder:font-normal bg-transparent"
-              />
-            </div>
-          </label>
+          {/* Destination + autocomplete */}
+          <div className="relative col-span-2 md:col-span-1 border-b md:border-b-0 md:border-r border-gray-100">
+            <label className="flex items-center gap-3 px-3.5 sm:px-4 py-2.5 sm:py-3.5 transition-colors hover:bg-gray-50/50">
+              <MapPin className="w-5 h-5 text-[#FF6B35] shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">
+                  {t.destinationLabel}
+                </p>
+                <input
+                  type="text"
+                  value={destination}
+                  autoComplete="off"
+                  onChange={(e) => {
+                    setDestination(e.target.value);
+                    setShowSug(true);
+                    setSugIndex(-1);
+                  }}
+                  onFocus={() => {
+                    if (destination.trim()) setShowSug(true);
+                  }}
+                  onKeyDown={onDestinationKeyDown}
+                  placeholder={t.destinationPlaceholder}
+                  className="w-full outline-none text-[14px] font-semibold text-[#0F172A] placeholder:text-[#94A3B8] placeholder:font-normal bg-transparent"
+                />
+              </div>
+            </label>
+            <AnimatePresence>
+              {showSug && suggestions.length > 0 && (
+                <>
+                  <div
+                    className="fixed inset-0 z-30"
+                    onClick={() => setShowSug(false)}
+                    aria-hidden="true"
+                  />
+                  <motion.ul
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 4 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute top-full left-0 right-0 md:min-w-[280px] mt-2 z-40 bg-white border border-[#E2E8F0] rounded-2xl shadow-[0_12px_36px_rgba(15,23,42,0.15)] overflow-hidden max-h-72 overflow-y-auto py-1"
+                  >
+                    {suggestions.map((c, i) => (
+                      <li key={c.slug}>
+                        <button
+                          type="button"
+                          onMouseDown={(e) => {
+                            e.preventDefault();
+                            selectCity(c.name);
+                          }}
+                          onMouseEnter={() => setSugIndex(i)}
+                          className={`w-full text-left px-4 py-2.5 flex items-center gap-2.5 text-[14px] transition-colors ${
+                            i === sugIndex ? 'bg-[#FFF7ED]' : 'hover:bg-gray-50'
+                          }`}
+                        >
+                          <MapPin className="w-4 h-4 text-[#FF6B35] shrink-0" />
+                          <span className="font-medium text-[#0F172A] truncate">{c.name}</span>
+                        </button>
+                      </li>
+                    ))}
+                  </motion.ul>
+                </>
+              )}
+            </AnimatePresence>
+          </div>
 
           {/* Dates */}
-          <div className="relative border-b md:border-b-0 border-r md:border-r border-[#FF6B35]/30">
+          <div className="relative border-b md:border-b-0 border-r md:border-r border-gray-100">
             <button
               type="button"
               onClick={() => setOpenPopover(openPopover === 'dates' ? null : 'dates')}
@@ -259,7 +369,7 @@ export default function HeroClean() {
           </div>
 
           {/* Voyageurs */}
-          <div className="relative border-b md:border-b-0 md:border-r border-[#FF6B35]/30">
+          <div className="relative border-b md:border-b-0 md:border-r border-gray-100">
             <button
               type="button"
               onClick={() => setOpenPopover(openPopover === 'guests' ? null : 'guests')}
@@ -332,7 +442,7 @@ export default function HeroClean() {
           {/* CTA Rechercher */}
           <button
             type="submit"
-            className="col-span-2 md:col-span-1 bg-[#FF6B35] hover:bg-[#F97316] text-white font-semibold px-6 py-3 sm:py-3.5 transition-colors text-[14px] sm:text-[15px] flex items-center justify-center gap-2 whitespace-nowrap rounded-b-[10px] md:rounded-b-none md:rounded-r-[10px]"
+            className="col-span-2 md:col-span-1 bg-[#FF6B35] hover:bg-[#F97316] text-white font-semibold px-6 py-3 sm:py-3.5 transition-all duration-200 hover:scale-[1.02] active:scale-100 hover:shadow-[0_8px_20px_-6px_rgba(255,107,53,0.55)] text-[14px] sm:text-[15px] flex items-center justify-center gap-2 whitespace-nowrap rounded-b-2xl md:rounded-b-none md:rounded-r-2xl"
           >
             <Search className="w-4 h-4" />
             {t.searchBtn}
@@ -342,7 +452,7 @@ export default function HeroClean() {
         {/* Trust signals */}
         <div
           style={{ animationDelay: '0.35s' }}
-          className="hero-fade mt-6 sm:mt-10 grid grid-cols-3 gap-3 sm:gap-8"
+          className="hero-fade mt-7 sm:mt-12 grid grid-cols-3 gap-4 sm:gap-10 px-1 sm:px-2"
         >
           <TrustItem value="230+" label={t.trustVerified} />
           <TrustItem value="18" label={t.trustRegions} />
@@ -368,20 +478,20 @@ function TrustItem({
   return (
     <div className="flex flex-col">
       <div className="flex items-baseline gap-0.5">
-        <span className="text-[24px] sm:text-[28px] font-bold text-[#0F172A] tracking-[-0.02em] font-mono tabular-nums">
+        <span className="text-[24px] sm:text-[30px] font-bold text-[#1E293B] tracking-[-0.03em] font-mono tabular-nums">
           {value}
         </span>
         {suffix && (
           <span
             className={`text-[18px] sm:text-[22px] font-bold ${
-              highlight ? 'text-[#FF6B35]' : 'text-[#64748B]'
+              highlight ? 'text-[#FF6B35]' : 'text-[#94A3B8]'
             }`}
           >
             {suffix}
           </span>
         )}
       </div>
-      <p className="text-[12px] sm:text-[13px] text-[#64748B] mt-1">{label}</p>
+      <p className="text-[12px] sm:text-[13px] text-[#475569] tracking-tight mt-1.5 leading-snug">{label}</p>
     </div>
   );
 }

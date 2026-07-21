@@ -188,7 +188,7 @@ export default function DirectionsWidget({
         <button
           onClick={handleGeolocation}
           disabled={isLocating}
-          className="flex items-center gap-2 w-full px-4 py-2.5 bg-[#F8FAFC] border border-[#2a2a36] rounded-xl text-sm text-white hover:border-[#ff6b35] transition-colors disabled:opacity-50"
+          className="flex items-center gap-2 w-full px-4 py-2.5 bg-[#F8FAFC] border border-[#2a2a36] rounded-xl text-sm text-slate-800 hover:border-[#ff6b35] transition-colors disabled:opacity-50"
         >
           <Crosshair className={`w-4 h-4 text-blue-400 ${isLocating ? 'animate-spin' : ''}`} />
           <span>{userPosition ? td.positionDetected : td.useMyPosition}</span>
@@ -255,7 +255,7 @@ export default function DirectionsWidget({
         {distance !== null && (
           <div className="flex items-center justify-between px-4 py-3 bg-[#F8FAFC] rounded-xl">
             <div className="text-center">
-              <p className="text-lg font-bold text-white">{distance < 1 ? `${Math.round(distance * 1000)} m` : `${distance.toFixed(1)} km`}</p>
+              <p className="text-lg font-bold text-slate-900">{distance < 1 ? `${Math.round(distance * 1000)} m` : `${distance.toFixed(1)} km`}</p>
               <p className="text-xs text-gray-500">{td.distance}</p>
             </div>
             <div className="w-px h-8 bg-[#2a2a36]" />

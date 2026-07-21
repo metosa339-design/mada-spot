@@ -10,6 +10,7 @@ import { motion } from 'framer-motion';
 
 const DirectionsWidget = dynamic(() => import('@/components/maps/DirectionsWidget'), { ssr: false });
 import BookingChatWidget from '@/components/bons-plans/BookingChatWidget';
+import EstablishmentDescription from '@/components/bons-plans/EstablishmentDescription';
 import CategorizedGallery from '@/components/bons-plans/CategorizedGallery';
 import PhotoGallerySection from '@/components/bons-plans/PhotoGallerySection';
 import { getEstablishmentImage } from '@/lib/establishment-image';
@@ -232,8 +233,8 @@ export default function ProviderDetail() {
                 <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-4">
                   Présentation
                 </h2>
-                <div className={`text-[#334155] leading-relaxed max-w-[65ch] ${!showAllDescription && description.length > 400 ? 'line-clamp-4' : ''}`}>
-                  {description}
+                <div className={`max-w-[65ch] ${!showAllDescription && description.length > 400 ? 'max-h-32 overflow-hidden' : ''}`}>
+                  <EstablishmentDescription text={description} />
                 </div>
                 {description.length > 400 && (
                   <button

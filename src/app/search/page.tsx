@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
-import { Search, SlidersHorizontal, X, Loader2, ChevronDown } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Loader2, ChevronDown, MapPin } from 'lucide-react';
 import { useSearchFilters } from '@/hooks/useSearchFilters';
 import { SORT_OPTIONS } from '@/lib/data/search-constants';
 import SearchFilters from '@/components/search/SearchFilters';
@@ -39,6 +39,7 @@ function SearchPageContent() {
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
+  const [fallback, setFallback] = useState<{ scope: 'region' | 'popular'; city: string; region: string | null } | null>(null);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
 
@@ -83,6 +84,7 @@ function SearchPageContent() {
       if (data.success) {
         setEstablishments(data.establishments || []);
         setTotalCount(data.totalCount || 0);
+        setFallback(data.fallback?.applied ? data.fallback : null);
       }
     } catch (err) {
       if (err instanceof DOMException && err.name === 'AbortError') {
@@ -133,6 +135,10 @@ function SearchPageContent() {
     newest: t.sortRecent,
   };
   const currentSortLabel = sortLabelMap[filters.sortBy || 'relevance'] || t.sortRelevance;
+
+  const typeLabelMap: Record<string, string> = { HOTEL: 'hôtel', RESTAURANT: 'restaurant', ATTRACTION: 'attraction', PROVIDER: 'prestataire' };
+  const fallbackTypeLabel = typeLabelMap[filters.type] || 'établissement';
+  const fallbackDe = /^[aeiouyhàâäéèêëîïôöûü]/i.test(fallbackTypeLabel) ? "d'" : 'de ';
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
@@ -327,6 +333,22 @@ function SearchPageContent() {
                 <p className="text-[18px] font-semibold text-[#0F172A]">{t.initialTitle}</p>
                 <p className="text-[13px] text-[#64748B] mt-2">
                   {t.initialHint}
+                </p>
+              </div>
+            )}
+
+            {/* Bannière de repli : ville sans résultat pour la catégorie */}
+            {!loading && fallback && establishments.length > 0 && (
+              <div className="mb-5 flex items-start gap-3 p-4 rounded-xl bg-[#FFF7ED] border border-[#FF6B35]/30">
+                <MapPin className="w-5 h-5 text-[#FF6B35] shrink-0 mt-0.5" />
+                <p className="text-[13px] text-[#9A3412] leading-relaxed">
+                  Aucun {fallbackTypeLabel} disponible à{' '}
+                  <span className="font-semibold">{fallback.city}</span> pour le moment.{' '}
+                  {fallback.scope === 'region' ? (
+                    <>Découvrez les {fallbackTypeLabel}s à proximité{fallback.region ? ` (${fallback.region})` : ''} :</>
+                  ) : (
+                    <>Découvrez une sélection {fallbackDe}{fallbackTypeLabel}s populaires :</>
+                  )}
                 </p>
               </div>
             )}

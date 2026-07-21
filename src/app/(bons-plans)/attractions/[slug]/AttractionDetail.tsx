@@ -9,6 +9,7 @@ import dynamic from 'next/dynamic';
 
 const DirectionsWidget = dynamic(() => import('@/components/maps/DirectionsWidget'), { ssr: false });
 import SourceAttribution from '@/components/bons-plans/SourceAttribution';
+import EstablishmentDescription from '@/components/bons-plans/EstablishmentDescription';
 import BookingChatWidget from '@/components/bons-plans/BookingChatWidget';
 import { getEstablishmentImage, getHighlightImage } from '@/lib/establishment-image';
 import SocialLinks from '@/components/bons-plans/SocialLinks';
@@ -320,9 +321,10 @@ export default function AttractionDetail() {
               <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-4">
                 Présentation
               </h2>
-              <p className="text-[#334155] leading-relaxed whitespace-pre-line max-w-[65ch]">
-                {t(attraction.description || attraction.shortDescription, attraction.descriptionEn || attraction.shortDescriptionEn)}
-              </p>
+              <EstablishmentDescription
+                className="max-w-[65ch]"
+                text={t(attraction.description || attraction.shortDescription, attraction.descriptionEn || attraction.shortDescriptionEn)}
+              />
             </motion.section>
 
             {/* Photo Gallery */}

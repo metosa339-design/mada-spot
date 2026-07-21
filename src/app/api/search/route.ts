@@ -124,36 +124,32 @@ export async function GET(request: NextRequest) {
         break;
     }
 
+    // Champs sélectionnés — réutilisés par la requête de repli (fallback)
+    const selectFields = {
+      id: true,
+      name: true,
+      slug: true,
+      type: true,
+      city: true,
+      region: true,
+      coverImage: true,
+      rating: true,
+      reviewCount: true,
+      shortDescription: true,
+      isFeatured: true,
+      isPremium: true,
+      hotel: { select: { starRating: true } },
+      restaurant: { select: { priceRange: true, category: true } },
+      attraction: { select: { attractionType: true, isFree: true } },
+      provider: { select: { serviceType: true } },
+    };
+
     // Execute findMany + count in parallel
-    const [establishments, totalCount] = await Promise.all([
+    // eslint-disable-next-line prefer-const
+    let [establishments, totalCount] = await Promise.all([
       prisma.establishment.findMany({
         where,
-        select: {
-          id: true,
-          name: true,
-          slug: true,
-          type: true,
-          city: true,
-          region: true,
-          coverImage: true,
-          rating: true,
-          reviewCount: true,
-          shortDescription: true,
-          isFeatured: true,
-          isPremium: true,
-          hotel: {
-            select: { starRating: true },
-          },
-          restaurant: {
-            select: { priceRange: true, category: true },
-          },
-          attraction: {
-            select: { attractionType: true, isFree: true },
-          },
-          provider: {
-            select: { serviceType: true },
-          },
-        },
+        select: selectFields,
         orderBy,
         take: limit,
         skip: offset,
@@ -162,16 +158,75 @@ export async function GET(request: NextRequest) {
     ]);
 
     // Re-sort by completeness: prioritize establishments with images and complete profiles
-    establishments.sort((a: any, b: any) => {
-      const scoreA = (a.coverImage ? 10 : 0) + (a.description ? 3 : 0) + (a.rating > 0 ? 2 : 0) + (a.isFeatured ? 5 : 0);
-      const scoreB = (b.coverImage ? 10 : 0) + (b.description ? 3 : 0) + (b.rating > 0 ? 2 : 0) + (b.isFeatured ? 5 : 0);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const byCompleteness = (a: any, b: any) => {
+      const scoreA = (a.coverImage ? 10 : 0) + (a.rating > 0 ? 2 : 0) + (a.isFeatured ? 5 : 0);
+      const scoreB = (b.coverImage ? 10 : 0) + (b.rating > 0 ? 2 : 0) + (b.isFeatured ? 5 : 0);
       return scoreB - scoreA;
-    });
+    };
+    establishments.sort(byCompleteness);
+
+    // --- Repli (fallback) : ville + catégorie sans aucun résultat ---
+    // Évite la page vide. On élargit : d'abord les mêmes établissements dans la
+    // région de la ville demandée, sinon une sélection populaire de la catégorie.
+    let fallback:
+      | { applied: true; scope: 'region' | 'popular'; city: string; region: string | null }
+      | null = null;
+    if (totalCount === 0 && city && offset === 0) {
+      // Région de la ville demandée (déduite d'une fiche portant ce nom de ville)
+      const cityRow = await prisma.establishment.findFirst({
+        where: {
+          isActive: true,
+          archivedAt: null,
+          city: { contains: city, mode: 'insensitive' },
+          NOT: { region: null },
+        },
+        select: { region: true },
+      });
+      const fbRegion = cityRow?.region || region || '';
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const fbWhere: any = { isActive: true, archivedAt: null };
+      if (normType) fbWhere.type = normType;
+
+      let scope: 'region' | 'popular' = 'popular';
+      if (fbRegion) {
+        fbWhere.region = { contains: fbRegion, mode: 'insensitive' };
+        scope = 'region';
+      }
+
+      let fbResults = await prisma.establishment.findMany({
+        where: fbWhere,
+        select: selectFields,
+        orderBy: [{ isFeatured: 'desc' }, { rating: 'desc' }],
+        take: limit,
+      });
+
+      // Rien dans la région → on élargit aux plus populaires de la catégorie
+      if (fbResults.length === 0 && fbRegion) {
+        delete fbWhere.region;
+        scope = 'popular';
+        fbResults = await prisma.establishment.findMany({
+          where: fbWhere,
+          select: selectFields,
+          orderBy: [{ isFeatured: 'desc' }, { rating: 'desc' }],
+          take: limit,
+        });
+      }
+
+      if (fbResults.length > 0) {
+        fbResults.sort(byCompleteness);
+        establishments = fbResults;
+        totalCount = fbResults.length;
+        fallback = { applied: true, scope, city, region: scope === 'region' ? fbRegion : null };
+      }
+    }
 
     const response = NextResponse.json({
       success: true,
       establishments,
       totalCount,
+      fallback,
       pagination: {
         offset,
         limit,

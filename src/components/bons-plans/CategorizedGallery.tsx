@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X, ZoomIn, Building2 } from 'lucide-react';
 import Image from 'next/image';
@@ -64,6 +64,28 @@ export default function CategorizedGallery({
   const prev = useCallback(() => {
     setCurrentIndex((i) => (i - 1 + currentImages.length) % currentImages.length);
   }, [currentImages.length]);
+
+  // Autoplay du carrousel de couverture (toutes les 5 s), en pause quand la
+  // visionneuse plein écran est ouverte.
+  useEffect(() => {
+    if (lightbox || currentImages.length <= 1) return;
+    const id = setInterval(() => {
+      setCurrentIndex((i) => (i + 1) % currentImages.length);
+    }, 5000);
+    return () => clearInterval(id);
+  }, [lightbox, currentImages.length, activeTab]);
+
+  // Navigation clavier dans la visionneuse plein écran.
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightbox(false);
+      else if (e.key === 'ArrowLeft') prev();
+      else if (e.key === 'ArrowRight') next();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [lightbox, prev, next]);
 
   if (allImages.length === 0) {
     return (
@@ -187,38 +209,43 @@ export default function CategorizedGallery({
           >
             <button
               onClick={() => setLightbox(false)}
-              className="absolute top-4 right-4 p-2.5 bg-white/80 backdrop-blur-md border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-lg text-[#0F172A] z-10"
+              aria-label="Fermer"
+              className="absolute top-4 right-4 z-20 flex items-center justify-center w-11 h-11 rounded-full bg-white/10 hover:bg-white/25 text-white border border-white/25 backdrop-blur-md transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-6 h-6" />
             </button>
 
             {currentImages.length > 1 && (
               <>
                 <button
                   onClick={(e) => { e.stopPropagation(); prev(); }}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/80 backdrop-blur-md border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-lg text-[#0F172A]"
+                  aria-label="Image précédente"
+                  className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 text-white border border-white/25 backdrop-blur-md transition-colors"
                 >
-                  <ChevronLeft className="w-6 h-6" />
+                  <ChevronLeft className="w-7 h-7" />
                 </button>
                 <button
                   onClick={(e) => { e.stopPropagation(); next(); }}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/80 backdrop-blur-md border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-lg text-[#0F172A]"
+                  aria-label="Image suivante"
+                  className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 text-white border border-white/25 backdrop-blur-md transition-colors"
                 >
-                  <ChevronRight className="w-6 h-6" />
+                  <ChevronRight className="w-7 h-7" />
                 </button>
               </>
             )}
 
-            <div className="relative w-full h-full max-w-5xl max-h-[85vh] mx-4" onClick={(e) => e.stopPropagation()}>
+            <div className="relative w-[95vw] h-[88vh] max-w-[1600px]" onClick={(e) => e.stopPropagation()}>
               <Image
                 src={currentImages[currentIndex]}
                 alt={`${establishmentName} - photo ${currentIndex + 1}`}
                 fill
+                sizes="95vw"
                 className="object-contain"
+                priority
               />
             </div>
 
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[#64748B] text-[12px] font-mono">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white/80 text-[12px] font-mono">
               {currentIndex + 1} / {currentImages.length}
             </div>
           </motion.div>

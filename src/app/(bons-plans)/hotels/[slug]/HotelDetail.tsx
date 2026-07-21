@@ -10,6 +10,7 @@ import Image from 'next/image';
 
 const DirectionsWidget = dynamic(() => import('@/components/maps/DirectionsWidget'), { ssr: false });
 import SourceAttribution from '@/components/bons-plans/SourceAttribution';
+import EstablishmentDescription from '@/components/bons-plans/EstablishmentDescription';
 import BookingChatWidget from '@/components/bons-plans/BookingChatWidget';
 import SocialLinks from '@/components/bons-plans/SocialLinks';
 import OpenCloseBadge from '@/components/bons-plans/OpenCloseBadge';
@@ -340,9 +341,10 @@ export default function HotelDetail() {
               <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-4">
                 Présentation
               </h2>
-              <p className="text-[#334155] leading-relaxed whitespace-pre-line max-w-[65ch]">
-                {t(hotel.description || hotel.shortDescription, hotel.descriptionEn || hotel.shortDescriptionEn)}
-              </p>
+              <EstablishmentDescription
+                className="max-w-[65ch]"
+                text={t(hotel.description || hotel.shortDescription, hotel.descriptionEn || hotel.shortDescriptionEn)}
+              />
             </section>
 
             {/* Photo Gallery */}

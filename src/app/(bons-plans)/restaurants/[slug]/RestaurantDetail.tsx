@@ -10,6 +10,7 @@ import Image from 'next/image';
 
 const DirectionsWidget = dynamic(() => import('@/components/maps/DirectionsWidget'), { ssr: false });
 import SourceAttribution from '@/components/bons-plans/SourceAttribution';
+import EstablishmentDescription from '@/components/bons-plans/EstablishmentDescription';
 import BookingChatWidget from '@/components/bons-plans/BookingChatWidget';
 import SocialLinks from '@/components/bons-plans/SocialLinks';
 import LanguageToggle from '@/components/ui/LanguageToggle';
@@ -584,9 +585,10 @@ export default function RestaurantDetail() {
               <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#0F172A] mb-4">
                 L&apos;établissement
               </h2>
-              <p className="text-[#334155] leading-relaxed whitespace-pre-line max-w-[65ch]">
-                {t(restaurant.description || restaurant.shortDescription, restaurant.descriptionEn || restaurant.shortDescriptionEn)}
-              </p>
+              <EstablishmentDescription
+                className="max-w-[65ch]"
+                text={t(restaurant.description || restaurant.shortDescription, restaurant.descriptionEn || restaurant.shortDescriptionEn)}
+              />
 
               {restaurant.cuisineTypes?.length > 0 && (
                 <div className="mt-5 pt-5 border-t border-[#E2E8F0]">

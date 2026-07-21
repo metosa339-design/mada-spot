@@ -184,23 +184,38 @@ function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
+  // Grille asymétrique (style Booking) : les 12 destinations pavent parfaitement
+  // une grille de 12 colonnes → 2×(6) + 3×(4) + 4×(3) + 3×(4).
+  const layout = (i: number): string => {
+    if (i < 2) return 'md:col-span-6 h-[150px] sm:h-[190px]';
+    if (i < 5) return 'md:col-span-4 h-[140px] sm:h-[165px]';
+    if (i < 9) return 'md:col-span-3 h-[130px] sm:h-[150px]';
+    return 'md:col-span-4 h-[140px] sm:h-[165px]';
+  };
+
   const destinations = [
-    { name: 'Nosy Be', region: t.regionBeaches, img: '/images/Attractions/nosy-be/nosy-be-2.jpg' },
-    { name: 'Antananarivo', region: t.regionCapital, img: '/images/Attractions/antananarivo/antananarivo.jpg' },
-    { name: 'Tsingy', region: t.regionAdventure, img: '/images/Attractions/bemaraha/tsingy-bemaraha.jpg' },
-    { name: 'Isalo', region: t.regionHiking, img: '/images/Attractions/isalo/parc-isalo.jpg' },
-    { name: 'Diego Suarez', region: t.regionBays, img: '/images/Attractions/diego-suarez/diego-suarez.jpg' },
-    { name: 'Sainte-Marie', region: t.regionIsland, img: '/images/Attractions/sainte-marie/ile-sainte-marie.jpg' },
+    { name: 'Nosy Be', img: '/images/Attractions/nosy-be/nosy-be-2.jpg' },
+    { name: 'Antananarivo', img: '/images/Attractions/antananarivo/antananarivo.jpg' },
+    { name: 'Tsingy', img: '/images/Attractions/bemaraha/tsingy-bemaraha.jpg' },
+    { name: 'Isalo', img: '/images/Attractions/isalo/parc-isalo.jpg' },
+    { name: 'Diego Suarez', img: '/images/Attractions/diego-suarez/diego-suarez.jpg' },
+    { name: 'Sainte-Marie', img: '/images/Attractions/sainte-marie/ile-sainte-marie.jpg' },
+    { name: 'Morondava', img: '/images/Attractions/baobabs/allee-des-baobabs.jpg' },
+    { name: 'Antsirabe', img: '/images/Attractions/antsirabe/antsirabe.jpg' },
+    { name: 'Andasibe', img: '/images/Attractions/andasibe/andasibe-mantadia.jpg' },
+    { name: 'Fianarantsoa', img: '/images/Attractions/fianarantsoa/fianarantsoa.jpg' },
+    { name: 'Ifaty', img: '/images/Attractions/ifaty/ifaty-tulear.jpg' },
+    { name: 'Ankarana', img: '/images/Attractions/ankarana/ankarana.jpg' },
   ];
 
   return (
-    <section ref={ref} className="relative bg-[#F8FAFC] py-16 sm:py-20 border-b border-[#E2E8F0]">
+    <section ref={ref} className="relative bg-[#F8FAFC] py-10 sm:py-12 border-b border-[#E2E8F0]">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
         <motion.div
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
           variants={stagger}
-          className="mb-8"
+          className="mb-6"
         >
           <motion.p
             variants={fadeUp}
@@ -221,28 +236,28 @@ function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
           variants={stagger}
-          className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-5"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-4 w-full"
         >
-          {destinations.map((dest) => (
-            <motion.div key={dest.name} variants={fadeUp} whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+          {destinations.map((dest, i) => (
+            <motion.div key={dest.name} variants={fadeUp} className={layout(i)}>
               <Link
-                href={`/attractions?search=${encodeURIComponent(dest.name)}`}
-                className="group block bg-white rounded-xl border border-[#E2E8F0] overflow-hidden hover:border-[#FF6B35]/30 hover:shadow-[0_8px_30px_rgba(255,107,53,0.08)] transition-all duration-300"
+                href={`/search?city=${encodeURIComponent(dest.name)}&type=HOTEL`}
+                className="group relative block w-full h-full rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
               >
-                <div className="relative aspect-[3/4] overflow-hidden">
-                  <Image
-                    src={dest.img}
-                    alt={dest.name}
-                    fill
-                    sizes="(max-width: 640px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                </div>
-                <div className="px-4 py-3.5 border-t border-[#E2E8F0]">
-                  <p className="text-[15px] font-semibold text-[#0F172A] tracking-[-0.01em]">{dest.name}</p>
-                  <p className="text-[12px] text-[#94A3B8] mt-0.5">{dest.region}</p>
-                </div>
+                <Image
+                  src={dest.img}
+                  alt={dest.name}
+                  fill
+                  quality={90}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 640px"
+                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                />
+                {/* Dégradé sombre prononcé : lisibilité parfaite du texte */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-transparent" />
+                {/* Nom incrusté en haut à gauche */}
+                <span className="absolute top-0 left-0 z-10 p-4 text-white font-semibold text-lg md:text-xl drop-shadow-sm">
+                  {dest.name}
+                </span>
               </Link>
             </motion.div>
           ))}

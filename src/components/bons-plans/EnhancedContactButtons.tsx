@@ -65,7 +65,7 @@ export default function EnhancedContactButtons({
           <a
             href={`tel:${phone2}`}
             onClick={() => trackClick(establishmentId, 'phone')}
-            className="flex items-center justify-center gap-2 w-full py-2.5 border border-[#2a2a36] text-[#CBD5E1] font-medium rounded-xl hover:bg-[#2a2a36] transition-colors text-sm"
+            className="flex items-center justify-center gap-2 w-full py-2.5 border border-slate-200 text-slate-700 font-medium rounded-xl hover:text-slate-900 hover:bg-slate-50 hover:border-slate-300 transition-colors text-sm"
           >
             <Phone className="w-4 h-4" />
             {phone2}
@@ -75,7 +75,7 @@ export default function EnhancedContactButtons({
           <a
             href={`mailto:${email}`}
             onClick={() => trackClick(establishmentId, 'email')}
-            className="flex items-center justify-center gap-2 w-full py-2.5 border border-[#2a2a36] text-[#CBD5E1] font-medium rounded-xl hover:bg-[#2a2a36] transition-colors text-sm"
+            className="flex items-center justify-center gap-2 w-full py-2.5 border border-slate-200 text-slate-700 font-medium rounded-xl hover:text-slate-900 hover:bg-slate-50 hover:border-slate-300 transition-colors text-sm"
           >
             <Mail className="w-4 h-4" />
             Email

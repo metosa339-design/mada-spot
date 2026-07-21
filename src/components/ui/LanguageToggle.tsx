@@ -8,12 +8,12 @@ export default function LanguageToggle() {
   return (
     <button
       onClick={() => setLocale(locale === 'fr' ? 'en' : 'fr')}
-      className="flex items-center gap-1 px-2.5 py-1.5 bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-full text-xs font-semibold transition-colors"
+      className="flex items-center gap-1 px-2.5 py-1.5 bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-lg text-xs font-semibold transition-colors"
       title={locale === 'fr' ? 'Switch to English' : 'Passer en Français'}
     >
-      <span className={locale === 'fr' ? 'text-[#FF6B35]' : 'text-[#94A3B8]'}>FR</span>
-      <span className="text-[#CBD5E1]">/</span>
-      <span className={locale === 'en' ? 'text-[#FF6B35]' : 'text-[#94A3B8]'}>EN</span>
+      <span className={locale === 'fr' ? 'text-[#FF6B35]' : 'text-slate-500'}>FR</span>
+      <span className="text-slate-300">/</span>
+      <span className={locale === 'en' ? 'text-[#FF6B35]' : 'text-slate-500'}>EN</span>
     </button>
   );
 }

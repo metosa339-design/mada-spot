@@ -121,7 +121,7 @@ export default function Header() {
       <SkipToContent />
       <header
         role="banner"
-        className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#E2E8F0] shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+        className="sticky top-0 z-50 bg-white border-b border-slate-100 shadow-[0_1px_3px_rgba(15,23,42,0.05)]"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-[68px]">
@@ -244,7 +244,7 @@ export default function Header() {
               <button
                 onClick={() => router.push('/search')}
                 aria-label={t.searchOnMadaSpot}
-                className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-md bg-white border border-[#E2E8F0] text-[#64748B] hover:text-[#0F172A] hover:border-[#CBD5E1] transition-colors"
+                className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-600 hover:text-slate-900 hover:border-slate-300 transition-colors"
               >
                 <Search className="w-3.5 h-3.5" aria-hidden="true" />
                 <span className="text-[13px]">{t.search}</span>
@@ -372,13 +372,13 @@ export default function Header() {
                     <div className="hidden md:flex items-center gap-2">
                       <Link
                         href="/login"
-                        className="px-3 py-1.5 rounded-md text-[13px] font-medium text-[#334155] hover:text-[#0F172A] transition-colors"
+                        className="px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:text-slate-900 transition-colors"
                       >
                         {t.login}
                       </Link>
                       <Link
                         href="/register"
-                        className="px-3.5 py-1.5 rounded-md text-[13px] font-medium text-white bg-[#FF6B35] hover:bg-[#F97316] transition-colors shadow-[0_8px_30px_rgba(255,107,53,0.25)] hover:shadow-[0_12px_40px_rgba(255,107,53,0.35)]"
+                        className="px-4 py-1.5 rounded-xl text-[13px] font-semibold text-white bg-[#FF6B35] hover:bg-[#e55a2b] hover:scale-[1.02] active:scale-100 transition-all shadow-[0_8px_24px_-6px_rgba(255,107,53,0.45)]"
                       >
                         {t.register}
                       </Link>
@@ -485,14 +485,14 @@ export default function Header() {
                     <Link
                       href="/login"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="block w-full px-4 py-2.5 text-center text-[13px] font-medium text-[#0F172A] bg-white border border-[#E2E8F0] rounded-lg hover:border-[#CBD5E1] transition-colors"
+                      className="block w-full px-4 py-2.5 text-center text-[13px] font-medium text-slate-600 bg-slate-50 border border-slate-200 rounded-xl hover:border-slate-300 transition-colors"
                     >
                       {t.login}
                     </Link>
                     <Link
                       href="/register"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="block w-full px-4 py-2.5 text-center text-[13px] font-medium text-white bg-[#FF6B35] hover:bg-[#F97316] rounded-lg shadow-[0_8px_30px_rgba(255,107,53,0.25)] transition-colors"
+                      className="block w-full px-4 py-2.5 text-center text-[13px] font-semibold text-white bg-[#FF6B35] hover:bg-[#e55a2b] rounded-xl shadow-[0_8px_24px_-6px_rgba(255,107,53,0.45)] transition-all"
                     >
                       {t.registerFree}
                     </Link>

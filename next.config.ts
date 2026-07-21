@@ -43,6 +43,9 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
+    // Qualités autorisées par l'optimiseur. Next 16 rejette avec un 400 toute
+    // quality non listée ici (défaut = [75]). On autorise 90 pour les visuels HD.
+    qualities: [75, 90],
     // Permettre les URLs locales
     localPatterns: [
       {

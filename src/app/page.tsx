@@ -194,18 +194,18 @@ function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
   };
 
   const destinations: { name: string; city?: string; img: string }[] = [
-    { name: 'Nosy Be', img: '/images/Attractions/nosy-be/nosy-be-2.jpg' },
-    { name: 'Antananarivo', img: '/images/Attractions/antananarivo/antananarivo.jpg' },
-    { name: 'Tsingy', img: '/images/Attractions/bemaraha/tsingy-bemaraha.jpg' },
-    { name: 'Isalo', img: '/images/Attractions/isalo/parc-isalo.jpg' },
+    { name: 'Nosy Be', img: '/images/Attractions/nosy-be/nosy-be-12.jpg' },
+    { name: 'Antananarivo', img: '/images/Attractions/antananarivo/antananarivo-12.jpg' },
+    { name: 'Tsingy', img: '/images/Attractions/bemaraha/tsingy-de-bemaraha-260.jpg' },
+    { name: 'Isalo', img: '/images/Attractions/isalo/isalo-12.jpg' },
     { name: 'Diego Suarez', img: '/images/Attractions/diego-suarez/diego-suarez.jpg' },
     { name: 'Sainte-Marie', img: '/images/Attractions/sainte-marie/ile-sainte-marie.jpg' },
-    { name: 'Morondava', img: '/images/Attractions/baobabs/allee-des-baobabs.jpg' },
-    { name: 'Antsirabe', img: '/images/Attractions/antsirabe/antsirabe.jpg' },
-    { name: 'Andasibe', img: '/images/Attractions/andasibe/andasibe-mantadia.jpg' },
-    { name: 'Fianarantsoa', img: '/images/Attractions/fianarantsoa/fianarantsoa.jpg' },
+    { name: 'Morondava', img: '/images/Attractions/baobabs/avenue-des-baobabs-a-madagascar-130.jpg' },
+    { name: 'Antsirabe', img: '/images/Attractions/antsirabe/antsirabe-12.jpg' },
+    { name: 'Andasibe', img: '/images/Attractions/andasibe/Andasibe-386.jpg' },
+    { name: 'Fianarantsoa', img: '/images/Attractions/fianarantsoa/fianarantsoa-12.jpg' },
     { name: 'Ifaty', img: '/images/Attractions/ifaty/ifaty-tulear.jpg' },
-    { name: 'Ankarana', img: '/images/Attractions/ankarana/ankarana.jpg' },
+    { name: 'Ankarana', img: '/images/Attractions/ankarana/ankarana-12.jpg' },
   ];
 
   // Compte d'hôtels par ville → priorise les villes les mieux fournies (grandes cartes en haut).

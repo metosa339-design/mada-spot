@@ -138,6 +138,7 @@ export async function GET(request: NextRequest) {
       shortDescription: true,
       isFeatured: true,
       isPremium: true,
+      isVerified: true,
       completenessScore: true,
       hotel: { select: { starRating: true } },
       restaurant: { select: { priceRange: true, category: true } },

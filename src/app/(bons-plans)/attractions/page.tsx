@@ -635,11 +635,15 @@ function AttractionsPageContent() {
 
                         {/* Rating */}
                         <div className="flex items-center justify-between pt-3 border-t border-[#2a2a36]">
-                          <div className="flex items-center gap-1">
-                            <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                            <span style={{ color: '#ffffff' }} className="font-medium">{attraction.rating?.toFixed(1)}</span>
-                            <span style={{ color: '#94a3b8' }} className="text-sm">({attraction.reviewCount})</span>
-                          </div>
+                          {attraction.reviewCount > 0 ? (
+                            <div className="flex items-center gap-1">
+                              <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+                              <span style={{ color: '#ffffff' }} className="font-medium">{attraction.rating?.toFixed(1)}</span>
+                              <span style={{ color: '#94a3b8' }} className="text-sm">({attraction.reviewCount})</span>
+                            </div>
+                          ) : (
+                            <span />
+                          )}
                           {!attraction.isFree && attraction.entryFeeForeign && (
                             <span style={{ color: '#94a3b8' }} className="text-xs">
                               {t.tourists}: {attraction.entryFeeForeign.toLocaleString()} Ar

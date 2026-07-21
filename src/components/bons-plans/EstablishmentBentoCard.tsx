@@ -134,15 +134,19 @@ export default memo(function EstablishmentBentoCard({
 
           {/* Rating + Price */}
           <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#E2E8F0]">
-            <div className="flex items-center gap-1.5">
-              <span className="inline-flex items-center gap-1 rounded-lg bg-[#FFF7ED] px-2 py-1">
-                <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
-                <span className="text-[13px] font-semibold text-slate-800 font-mono tabular-nums">
-                  {establishment.rating.toFixed(1)}
+            {establishment.reviewCount > 0 ? (
+              <div className="flex items-center gap-1.5">
+                <span className="inline-flex items-center gap-1 rounded-lg bg-[#FFF7ED] px-2 py-1">
+                  <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
+                  <span className="text-[13px] font-semibold text-slate-800 font-mono tabular-nums">
+                    {establishment.rating.toFixed(1)}
+                  </span>
                 </span>
-              </span>
-              <span className="text-[11px] text-[#94A3B8]">({establishment.reviewCount})</span>
-            </div>
+                <span className="text-[11px] text-[#94A3B8]">({establishment.reviewCount})</span>
+              </div>
+            ) : (
+              <span />
+            )}
 
             {establishment.priceIndicator && (
               <span className="text-[12px] font-medium font-mono text-[#0F172A]">

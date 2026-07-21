@@ -483,11 +483,15 @@ function HotelsPage() {
 
                       {/* Rating & Price */}
                       <div className="flex items-center justify-between mt-2 lg:mt-4 lg:pt-4 lg:border-t lg:border-[#2a2a36]">
-                        <div className="flex items-center gap-1">
-                          <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-                          <span className="font-bold text-white text-sm">{hotel.rating.toFixed(1)}</span>
-                          <span className="text-xs text-gray-400">({hotel.reviewCount})</span>
-                        </div>
+                        {hotel.reviewCount > 0 ? (
+                          <div className="flex items-center gap-1">
+                            <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                            <span className="font-bold text-white text-sm">{hotel.rating.toFixed(1)}</span>
+                            <span className="text-xs text-gray-400">({hotel.reviewCount})</span>
+                          </div>
+                        ) : (
+                          <span />
+                        )}
                         {hotel.lowestPrice ? (
                           <div className="text-right">
                             <p className="font-bold text-[#ff6b35] text-sm">

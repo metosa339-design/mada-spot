@@ -7,6 +7,7 @@ import Link from 'next/link';
 import {
   Star,
   ArrowRight,
+  BadgeCheck,
   ChevronLeft,
   ChevronRight,
   Shield,
@@ -23,7 +24,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import HeroClean from '@/components/home/HeroClean';
 import { useTrans } from '@/i18n';
-import { getImageUrl } from '@/lib/image-url';
+import { getEstablishmentImage } from '@/lib/establishment-image';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -37,46 +38,18 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.08 } },
 };
 
-interface Attraction {
+interface FeaturedHotel {
   id: string;
   name: string;
   slug: string;
   city: string;
-  coverImage?: string;
+  coverImage?: string | null;
   rating: number;
   reviewCount: number;
-  isFeatured: boolean;
+  isFeatured?: boolean;
+  isVerified?: boolean;
+  completenessScore?: number;
 }
-
-// Images locales pour les cartes d'attractions
-const ATTRACTION_IMAGES: Record<string, string[]> = {
-  tsingy: ['/images/Attractions/bemaraha/tsingy-bemaraha.jpg', '/images/highlights/tsingy.jpg'],
-  baobab: ['/images/Attractions/baobabs/allee-des-baobabs.jpg', '/images/highlights/baobabs.jpg'],
-  ile: ['/images/Attractions/nosy-be/nosy-be.jpg', '/images/Attractions/sainte-marie/ile-sainte-marie.jpg'],
-  plage: ['/images/Attractions/ifaty/ifaty-tulear.jpg', '/images/highlights/plage.jpg'],
-  montagne: ['/images/Attractions/divers/massif-andringitra.jpg', '/images/highlights/montagne.jpg'],
-  parc: ['/images/Attractions/isalo/parc-isalo.jpg', '/images/Attractions/andasibe/andasibe-mantadia.jpg'],
-  reserve: ['/images/Attractions/divers/reserve-anja.jpg', '/images/Attractions/ankarana/ankarana.jpg'],
-  train: ['/images/highlights/train.jpg', '/images/Attractions/fianarantsoa/fianarantsoa.jpg'],
-};
-
-const ATTRACTION_KEYWORDS: Record<string, string[]> = {
-  tsingy: ['tsingy', 'bemaraha'],
-  baobab: ['baobab', 'morondava', 'allée'],
-  ile: ['nosy', 'île', 'ile', 'iranja', 'sainte-marie'],
-  plage: ['plage', 'beach', 'ifaty', 'tuléar', 'toliara'],
-  montagne: ['montagne', 'andringitra', 'massif', 'isalo'],
-  parc: ['parc', 'ranomafana', 'andasibe', 'masoala', 'mantadia'],
-  reserve: ['réserve', 'reserve', 'anja', 'berenty', 'ankarana'],
-  train: ['train', 'fce', 'fianarantsoa'],
-};
-
-const DEFAULT_IMAGES = [
-  '/images/Attractions/antananarivo/antananarivo.jpg',
-  '/images/Attractions/diego-suarez/diego-suarez.jpg',
-  '/images/Attractions/antsirabe/antsirabe.jpg',
-  '/images/highlights/sunset.jpg',
-];
 
 // Avis prestataires / voyageurs (sélection)
 const REVIEWS = [
@@ -91,26 +64,6 @@ const REVIEWS = [
   { name: 'Rivo Andrianasolo', role: 'Plongée Nautilus', city: 'Nosy Be', stars: 5, text: 'Centre de plongée : 12 réservations confirmées via Mada Spot ce trimestre. Les voyageurs comparent et choisissent vite.' },
 ];
 
-function getAttractionImage(name: string, coverImage?: string): string {
-  if (coverImage && (coverImage.startsWith('/') || coverImage.startsWith('http'))) {
-    return getImageUrl(coverImage) || encodeURI(coverImage);
-  }
-  const lowerName = name.toLowerCase();
-  for (const [category, keywords] of Object.entries(ATTRACTION_KEYWORDS)) {
-    for (const keyword of keywords) {
-      if (lowerName.includes(keyword)) {
-        const images = ATTRACTION_IMAGES[category];
-        let hash = 0;
-        for (let i = 0; i < name.length; i++) hash = ((hash << 5) - hash) + name.charCodeAt(i);
-        return getImageUrl(images[Math.abs(hash) % images.length]);
-      }
-    }
-  }
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = ((hash << 5) - hash) + name.charCodeAt(i);
-  return getImageUrl(DEFAULT_IMAGES[Math.abs(hash) % DEFAULT_IMAGES.length]);
-}
-
 export default function HomePageWrapper() {
   return (
     <Suspense fallback={<div className="min-h-screen bg-[#F8FAFC]" />}>
@@ -121,16 +74,66 @@ export default function HomePageWrapper() {
 
 function HomePage() {
   const t = useTrans('home');
-  const [featuredAttractions, setFeaturedAttractions] = useState<Attraction[]>([]);
+  const [featuredHotels, setFeaturedHotels] = useState<FeaturedHotel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const attRes = await fetch('/api/bons-plans/attractions?limit=4&featured=true');
-        if (attRes.ok) {
-          const data = await attRes.json();
-          setFeaturedAttractions(data.attractions || []);
+        // On récupère un large pool d'hôtels (tri par défaut = complétude), puis
+        // on ne garde QUE ceux ayant une vraie photo chargée par le propriétaire
+        // (upload local /uploads/ ou hébergement Cloudinary), jamais un visuel
+        // générique de repli. Classés par conformité (completenessScore) puis note.
+        const res = await fetch('/api/search?type=HOTEL&limit=40');
+        if (res.ok) {
+          const data = await res.json();
+          const isRealOwnerPhoto = (cover?: string | null) => {
+            const c = (cover || '').trim();
+            return (
+              c.startsWith('/uploads/') ||
+              c.includes('cloudinary.com') ||
+              c.startsWith('http')
+            );
+          };
+          // Exclusions manuelles : fiches dont la couverture n'est pas une vraie
+          // photo de l'établissement (logo, affiche publicitaire avec coordonnées),
+          // ou que l'on ne souhaite pas mettre en avant ici.
+          // Vérifiées à l'oeil — à compléter/retirer ici au besoin.
+          const EXCLUDED_SLUGS = new Set<string>([
+            'green-park-hotel-mrjfmqkv', // logo « GREEN PARK », pas de photo du bâtiment
+            'chambres-d-hotes-le-bon-endroit-mo18d8uu', // affiche pub (tél/mail incrustés)
+            'souimanga-hotel', // bannière Facebook (texte + logo + adresse incrustés)
+            'vakinahandro', // collage promotionnel avec logo au centre
+            'nosy-saba-private-island-spa-mq51h408', // retiré à la demande (vue d'île)
+            'manga-lodge-mr52tmih', // retiré à la demande
+          ]);
+          // Hôtels épinglés en tête (dans cet ordre), quelle que soit leur
+          // complétude. Vérifiés à l'oeil (vraie photo). Modifiable ici.
+          const PINNED_SLUGS: string[] = [
+            'hotel-antemoro-mq4zsjhk', // Hôtel Antemoro (Manakara) — bungalows
+            'samirah-hotel-majunga-mqho61z2', // Samirah Hotel Majunga — villas + piscine
+          ];
+
+          const eligible: FeaturedHotel[] = (data.establishments || []).filter(
+            (h: FeaturedHotel) =>
+              isRealOwnerPhoto(h.coverImage) && !EXCLUDED_SLUGS.has(h.slug),
+          );
+          // Épinglés d'abord (dans l'ordre de PINNED_SLUGS), puis le reste trié
+          // par conformité (complétude → note → slug pour un ordre stable).
+          const pinned = PINNED_SLUGS.map((slug) =>
+            eligible.find((h) => h.slug === slug),
+          ).filter((h): h is FeaturedHotel => Boolean(h));
+          const pinnedSet = new Set(pinned.map((h) => h.slug));
+          const rest = eligible
+            .filter((h) => !pinnedSet.has(h.slug))
+            .sort(
+              (a, b) =>
+                (b.completenessScore || 0) - (a.completenessScore || 0) ||
+                (b.rating || 0) - (a.rating || 0) ||
+                a.slug.localeCompare(b.slug),
+            );
+          const hotels: FeaturedHotel[] = [...pinned, ...rest].slice(0, 8);
+          setFeaturedHotels(hotels);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -151,9 +154,9 @@ function HomePage() {
       {/* ===== DESTINATIONS POPULAIRES ===== */}
       <PopularDestinationsSection t={t} />
 
-      {/* ===== LIEUX RECOMMANDÉS ===== */}
-      {!isLoading && featuredAttractions.length > 0 && (
-        <RecommendedSection t={t} attractions={featuredAttractions} />
+      {/* ===== SÉLECTION PREMIUM — HÔTELS ===== */}
+      {!isLoading && featuredHotels.length > 0 && (
+        <FeaturedHotelsSection hotels={featuredHotels} />
       )}
 
       {/* ===== POURQUOI MADA SPOT ===== */}
@@ -285,15 +288,9 @@ function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
 }
 
 /* ============================================================
-   Section : Lieux recommandés
+   Section : Sélection premium — Hôtels coups de cœur et de confiance
    ============================================================ */
-function RecommendedSection({
-  t,
-  attractions,
-}: {
-  t: ReturnType<typeof useTrans<'home'>>;
-  attractions: Attraction[];
-}) {
+function FeaturedHotelsSection({ hotels }: { hotels: FeaturedHotel[] }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
@@ -311,22 +308,22 @@ function RecommendedSection({
               variants={fadeUp}
               className="text-[11px] uppercase tracking-[0.12em] text-[#FF6B35] font-medium mb-3"
             >
-              {t.featured}
+              SÉLECTION PREMIUM
             </motion.p>
             <motion.h2
               variants={fadeUp}
               className="text-[32px] sm:text-[44px] lg:text-[52px] leading-[1.05] font-semibold tracking-[-0.03em] text-[#0F172A]"
               style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
             >
-              {t.recommendedPlaces}
+              Hôtels coups de cœur et de confiance
             </motion.h2>
           </div>
           <motion.div variants={fadeUp}>
             <Link
-              href="/attractions"
+              href="/hotels"
               className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[13px] font-medium text-[#0F172A] bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] transition-colors"
             >
-              {t.seeAll}
+              Voir tout
               <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </motion.div>
@@ -338,30 +335,49 @@ function RecommendedSection({
           variants={stagger}
           className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5"
         >
-          {attractions.slice(0, 4).map((a) => (
-            <motion.div key={a.id} variants={fadeUp} whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+          {hotels.map((h) => (
+            <motion.div key={h.id} variants={fadeUp} whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
               <Link
-                href={`/attractions/${a.slug}`}
-                className="group block bg-white rounded-xl border border-[#E2E8F0] overflow-hidden hover:border-[#FF6B35]/30 hover:shadow-[0_8px_30px_rgba(255,107,53,0.08)] transition-all duration-300"
+                href={`/hotels/${h.slug}`}
+                className="group block bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden hover:border-[#FF6B35]/30 hover:shadow-md transition-all duration-300"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
-                    src={getAttractionImage(a.name, a.coverImage)}
-                    alt={a.name}
+                    src={getEstablishmentImage('HOTEL', h.city, h.name, h.coverImage)}
+                    alt={h.name}
                     fill
+                    quality={90}
                     sizes="(max-width: 640px) 50vw, 25vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                   />
+                  {/* Badge note — uniquement si de vrais avis existent */}
+                  {h.rating > 0 && (
+                    <div className="absolute top-2.5 left-2.5 inline-flex items-center gap-1 rounded-lg bg-white/90 backdrop-blur-sm px-2 py-1 shadow-sm">
+                      <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
+                      <span className="text-[12px] font-semibold text-slate-800 font-mono tabular-nums">
+                        {h.rating.toFixed(1)}
+                      </span>
+                    </div>
+                  )}
+                  {/* Badge conformité : vérifié par un admin, ou fiche 100% complète */}
+                  {(h.isVerified || (h.completenessScore || 0) >= 100) && (
+                    <div className="absolute top-2.5 right-2.5 inline-flex items-center gap-1 rounded-lg bg-emerald-500/95 text-white px-2 py-1 shadow-sm">
+                      <BadgeCheck className="w-3.5 h-3.5" />
+                      <span className="text-[10px] font-semibold uppercase tracking-wide">
+                        {h.isVerified ? 'Vérifié' : 'Fiche complète'}
+                      </span>
+                    </div>
+                  )}
                 </div>
                 <div className="p-4 border-t border-[#E2E8F0]">
-                  <h3 className="text-[13px] sm:text-[14px] font-semibold text-[#0F172A] line-clamp-2 leading-snug min-h-[2.4em]">{a.name}</h3>
-                  <p className="text-[12px] text-[#94A3B8] mt-1">{a.city}</p>
-                  <div className="flex items-center gap-1.5 mt-2.5">
-                    <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
-                    <span className="text-[13px] font-semibold text-[#0F172A] font-mono tabular-nums">
-                      {a.rating?.toFixed(1) || '—'}
-                    </span>
-                    <span className="text-[11px] text-[#94A3B8]">({a.reviewCount})</span>
+                  <h3 className="text-[13px] sm:text-[14px] font-semibold text-slate-800 line-clamp-1 leading-snug group-hover:text-[#FF6B35] transition-colors">
+                    {h.name}
+                  </h3>
+                  <div className="flex items-center justify-between gap-2 mt-1.5">
+                    <p className="text-[12px] text-[#94A3B8] truncate">{h.city}</p>
+                    {h.reviewCount > 0 && (
+                      <span className="text-[11px] text-[#94A3B8] shrink-0">{h.reviewCount} avis</span>
+                    )}
                   </div>
                 </div>
               </Link>

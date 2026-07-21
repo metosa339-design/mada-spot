@@ -496,13 +496,15 @@ function RestaurantsPageContent() {
                       )}
 
                       {/* Rating */}
-                      <div className="flex items-center justify-between pt-3 border-t border-[#2a2a36]">
-                        <div className="flex items-center gap-1">
-                          <Star className="w-4 h-4 text-[#ff6b35] fill-[#ff6b35]" />
-                          <span className="font-medium text-[#ff6b35]">{restaurant.rating?.toFixed(1)}</span>
-                          <span className="text-sm text-slate-400">({restaurant.reviewCount} {t.reviewsCount})</span>
+                      {restaurant.reviewCount > 0 && (
+                        <div className="flex items-center justify-between pt-3 border-t border-[#2a2a36]">
+                          <div className="flex items-center gap-1">
+                            <Star className="w-4 h-4 text-[#ff6b35] fill-[#ff6b35]" />
+                            <span className="font-medium text-[#ff6b35]">{restaurant.rating?.toFixed(1)}</span>
+                            <span className="text-sm text-slate-400">({restaurant.reviewCount} {t.reviewsCount})</span>
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                   </Link>
                 </motion.div>

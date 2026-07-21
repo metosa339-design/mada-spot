@@ -2,3 +2,13 @@ node_modules/
 .next/
 .env
 .image-backups/
+
+# Uploaded owner images (server-side only; live on the VPS, never in git)
+/public/uploads/image/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

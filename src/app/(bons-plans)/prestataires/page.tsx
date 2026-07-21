@@ -436,13 +436,15 @@ function PrestatairesPageContent() {
                         </div>
                       )}
 
-                      <div className="flex items-center justify-between pt-3 border-t border-[#2a2a36]">
-                        <div className="flex items-center gap-1">
-                          <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                          <span className="font-medium text-white">{provider.rating?.toFixed(1)}</span>
-                          <span className="text-sm text-slate-400">({provider.reviewCount} {t.reviewsCount})</span>
+                      {provider.reviewCount > 0 && (
+                        <div className="flex items-center justify-between pt-3 border-t border-[#2a2a36]">
+                          <div className="flex items-center gap-1">
+                            <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+                            <span className="font-medium text-white">{provider.rating?.toFixed(1)}</span>
+                            <span className="text-sm text-slate-400">({provider.reviewCount} {t.reviewsCount})</span>
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                   </Link>
                 </motion.div>

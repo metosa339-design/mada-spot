@@ -408,11 +408,17 @@ export default function RestaurantDetail() {
               </span>
 
               {/* Note communautaire */}
-              <span className="flex items-center gap-1.5 bg-white/70 backdrop-blur-md border border-[#E2E8F0] px-3 py-1 rounded-md">
-                <Star className="w-4 h-4 text-[#FF6B35] fill-[#FF6B35]" />
-                <span className="font-mono text-[#0F172A]">{restaurant.rating?.toFixed(1)}</span>
-                <span className="text-[#64748B] text-[12px]">({restaurant.reviewCount} avis)</span>
-              </span>
+              {restaurant.reviewCount > 0 ? (
+                <span className="flex items-center gap-1.5 bg-white/70 backdrop-blur-md border border-[#E2E8F0] px-3 py-1 rounded-md">
+                  <Star className="w-4 h-4 text-[#FF6B35] fill-[#FF6B35]" />
+                  <span className="font-mono text-[#0F172A]">{restaurant.rating?.toFixed(1)}</span>
+                  <span className="text-[#64748B] text-[12px]">({restaurant.reviewCount} avis)</span>
+                </span>
+              ) : (
+                <span className="bg-white/70 backdrop-blur-md border border-[#E2E8F0] px-3 py-1 rounded-md text-[#64748B] text-[12px]">
+                  Nouveau
+                </span>
+              )}
             </div>
           </div>
         </div>

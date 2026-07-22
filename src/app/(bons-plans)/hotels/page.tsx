@@ -11,6 +11,7 @@ import { getEstablishmentImage } from '@/lib/establishment-image';
 import PhotoSlider from '@/components/ui/PhotoSlider';
 import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 import { useTrans } from '@/i18n';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface Hotel {
   id: string;
@@ -65,6 +66,7 @@ export default function HotelsPageWrapper() {
 
 function HotelsPage() {
   const t = useTrans('bonsPlans');
+  const { convert } = useCurrency();
   const amenityLabels: Record<string, string> = {
     wifi: t.amenityWifi,
     parking: t.amenityParking,
@@ -252,11 +254,11 @@ function HotelsPage() {
                 exit={{ height: 0, opacity: 0 }}
                 className="overflow-hidden"
               >
-                <div className="pt-4 mt-4 border-t border-[#2a2a36]">
+                <div className="pt-4 mt-4 border-t border-[#E2E8F0]">
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="font-semibold text-white">{t.advancedFilters}</h2>
+                    <h2 className="font-semibold text-[#0F172A]">{t.advancedFilters}</h2>
                     {hasActiveFilters && (
-                      <button onClick={clearFilters} className="text-sm text-orange-400 hover:underline">
+                      <button onClick={clearFilters} className="text-sm text-[#FF6B35] hover:underline">
                         {t.reset}
                       </button>
                     )}
@@ -265,7 +267,7 @@ function HotelsPage() {
                   <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {/* Stars */}
                     <div>
-                      <label className="text-sm font-medium text-slate-400 mb-2 block">
+                      <label className="text-sm font-medium text-[#64748B] mb-2 block">
                         {t.minStars}
                       </label>
                       <div className="flex gap-1">
@@ -273,15 +275,15 @@ function HotelsPage() {
                           <button
                             key={star}
                             onClick={() => setMinStars(minStars === star.toString() ? '' : star.toString())}
-                            className={`p-2 rounded-lg transition-colors ${
-                              parseInt(minStars) >= star ? 'bg-amber-500/20' : 'bg-[#1a1a24] hover:bg-[#2a2a36]'
+                            className={`p-2 rounded-lg border transition-colors ${
+                              parseInt(minStars) >= star ? 'bg-amber-50 border-amber-200' : 'bg-white border-[#E2E8F0] hover:bg-[#F1F5F9]'
                             }`}
                           >
                             <Star
                               className={`w-5 h-5 ${
                                 parseInt(minStars) >= star
-                                  ? 'text-amber-400 fill-amber-400'
-                                  : 'text-slate-500'
+                                  ? 'text-amber-500 fill-amber-500'
+                                  : 'text-[#CBD5E1]'
                               }`}
                             />
                           </button>
@@ -291,7 +293,7 @@ function HotelsPage() {
 
                     {/* Price Range */}
                     <div>
-                      <label className="text-sm font-medium text-slate-400 mb-2 block">
+                      <label className="text-sm font-medium text-[#64748B] mb-2 block">
                         {t.pricePerNight}
                       </label>
                       <div className="flex items-center gap-2">
@@ -300,28 +302,28 @@ function HotelsPage() {
                           placeholder={t.min}
                           value={minPrice}
                           onChange={(e) => setMinPrice(e.target.value)}
-                          className="w-full px-3 py-2 bg-[#0d1520] border border-[#2a2a36] rounded-lg text-sm text-white outline-none placeholder:text-slate-500"
+                          className="w-full px-3 py-2 bg-white border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A] outline-none focus:border-[#FF6B35] placeholder:text-[#94A3B8]"
                         />
-                        <span className="text-slate-500">-</span>
+                        <span className="text-[#94A3B8]">-</span>
                         <input
                           type="number"
                           placeholder={t.max}
                           value={maxPrice}
                           onChange={(e) => setMaxPrice(e.target.value)}
-                          className="w-full px-3 py-2 bg-[#0d1520] border border-[#2a2a36] rounded-lg text-sm text-white outline-none placeholder:text-slate-500"
+                          className="w-full px-3 py-2 bg-white border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A] outline-none focus:border-[#FF6B35] placeholder:text-[#94A3B8]"
                         />
                       </div>
                     </div>
 
                     {/* Sort */}
                     <div>
-                      <label className="text-sm font-medium text-slate-400 mb-2 block">
+                      <label className="text-sm font-medium text-[#64748B] mb-2 block">
                         {t.sortBy}
                       </label>
                       <select
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value)}
-                        className="w-full px-3 py-2 bg-[#0d1520] border border-[#2a2a36] rounded-lg text-sm text-white outline-none cursor-pointer"
+                        className="w-full px-3 py-2 bg-white border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A] outline-none focus:border-[#FF6B35] cursor-pointer"
                       >
                         <option value="rating">{t.bestRating}</option>
                         <option value="price">{t.priceLowToHigh}</option>
@@ -331,7 +333,7 @@ function HotelsPage() {
 
                     {/* Amenities */}
                     <div>
-                      <label className="text-sm font-medium text-slate-400 mb-2 block">
+                      <label className="text-sm font-medium text-[#64748B] mb-2 block">
                         {t.amenities}
                       </label>
                       <div className="flex flex-wrap gap-2">
@@ -341,10 +343,10 @@ function HotelsPage() {
                             <button
                               key={key}
                               onClick={() => toggleAmenity(key)}
-                              className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs transition-colors ${
+                              className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs border transition-colors ${
                                 selectedAmenities.includes(key)
-                                  ? 'bg-orange-500/20 text-orange-400'
-                                  : 'bg-[#1a1a24] text-slate-400 hover:bg-[#2a2a36]'
+                                  ? 'bg-[#FF6B35]/10 border-[#FF6B35]/30 text-[#FF6B35]'
+                                  : 'bg-white border-[#E2E8F0] text-[#64748B] hover:bg-[#F1F5F9]'
                               }`}
                             >
                               <Icon className="w-3 h-3" />
@@ -363,10 +365,10 @@ function HotelsPage() {
       </section>
 
       {/* Popular Destinations */}
-      <section className="py-4 border-b border-[#2a2a36]">
+      <section className="py-4 border-b border-[#E2E8F0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
-            <span className="text-xs text-slate-500 shrink-0">{t.destinationsLabel}</span>
+            <span className="text-xs text-[#64748B] shrink-0">{t.destinationsLabel}</span>
             {POPULAR_DESTINATIONS.map((dest) => (
               <button
                 key={dest.value}
@@ -374,7 +376,7 @@ function HotelsPage() {
                 className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                   selectedCity === dest.value
                     ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                    : 'bg-[#1a1a24] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50 hover:text-white'
+                    : 'bg-white border border-[#E2E8F0] text-[#64748B] hover:border-[#FF6B35]/50 hover:text-[#0F172A]'
                 }`}
               >
                 <MapPin className="w-3 h-3 inline mr-1" />
@@ -390,8 +392,8 @@ function HotelsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Results header */}
           <div className="flex items-center justify-between mb-6">
-            <p className="text-slate-400">
-              <span className="font-semibold text-white">{isLoading ? '...' : total}</span> {t.hotelsFound}
+            <p className="text-[#64748B]">
+              <span className="font-semibold text-[#0F172A]">{isLoading ? '...' : total}</span> {t.hotelsFound}
               {selectedCity && selectedCity !== 'Toutes les villes' && (
                 <span className="text-gray-400 lg:text-slate-500"> {t.inCity} {selectedCity}</span>
               )}
@@ -495,7 +497,7 @@ function HotelsPage() {
                         {hotel.lowestPrice ? (
                           <div className="text-right">
                             <p className="font-bold text-[#ff6b35] text-sm">
-                              {hotel.lowestPrice.toLocaleString()} Ar<span className="text-[10px] text-gray-400 font-normal"> {t.perNight}</span>
+                              {convert(hotel.lowestPrice)}<span className="text-[10px] text-gray-400 font-normal"> {t.perNight}</span>
                             </p>
                           </div>
                         ) : (
@@ -526,8 +528,8 @@ function HotelsPage() {
           {!isLoading && hotels.length === 0 && (
             <div className="text-center py-16">
               <Building2 className="w-16 h-16 mx-auto text-slate-600 mb-4" />
-              <h2 className="text-xl font-semibold text-white mb-2">{t.noHotelFound}</h2>
-              <p className="text-slate-400 mb-6">{t.modifyCriteria}</p>
+              <h2 className="text-xl font-semibold text-[#0F172A] mb-2">{t.noHotelFound}</h2>
+              <p className="text-[#64748B] mb-6">{t.modifyCriteria}</p>
               <button
                 onClick={() => {
                   setSearchQuery('');

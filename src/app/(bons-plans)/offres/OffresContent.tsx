@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { MapPin, Star, Flame, ArrowRight, Filter, Search, Clock, Tag } from 'lucide-react';
 import { getImageUrl } from '@/lib/image-url';
 import { useTrans } from '@/i18n';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface Offre {
   id: string;
@@ -35,8 +36,6 @@ const CATEGORIES_RAW: { id: string; labelKey: 'categoryAll' | 'categoryHotels' |
   { id: 'attraction', labelKey: 'categoryAttractions' },
   { id: 'activite', labelKey: 'categoryActivities' },
 ];
-
-const formatPrice = (price: number) => price.toLocaleString('fr-FR') + ' Ar';
 
 function Countdown({ endDate }: { endDate: string }) {
   const t = useTrans('offres');
@@ -96,6 +95,7 @@ export function OffresHero() {
 
 export default function OffresContent({ offres }: { offres: Offre[] }) {
   const t = useTrans('offres');
+  const { convert } = useCurrency();
   const [activeCategory, setActiveCategory] = useState('all');
 
   const filteredOffres = activeCategory === 'all'
@@ -234,15 +234,15 @@ export default function OffresContent({ offres }: { offres: Offre[] }) {
                     {offre.discountedPrice && offre.price ? (
                       <div className="flex items-center gap-2 flex-wrap">
                         <p className="text-[18px] font-semibold font-mono text-[#0F172A]">
-                          {formatPrice(offre.discountedPrice)}
+                          {convert(offre.discountedPrice)}
                         </p>
                         <p className="text-[12px] font-mono text-[#94A3B8] line-through">
-                          {formatPrice(offre.price)}
+                          {convert(offre.price)}
                         </p>
                       </div>
                     ) : offre.price ? (
                       <p className="text-[18px] font-semibold font-mono text-[#0F172A]">
-                        {formatPrice(offre.price)}
+                        {convert(offre.price)}
                       </p>
                     ) : (
                       <span className="text-[12px] text-[#64748B]">{t.priceOnRequest}</span>

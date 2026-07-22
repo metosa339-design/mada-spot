@@ -12,6 +12,7 @@ import FicheImage from '@/components/bons-plans/FicheImage';
 import PhotoSlider from '@/components/ui/PhotoSlider';
 import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 import { useTrans } from '@/i18n';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface Restaurant {
   id: string;
@@ -48,6 +49,7 @@ export default function RestaurantsPage() {
 
 function RestaurantsPageContent() {
   const t = useTrans('bonsPlans');
+  const { convert } = useCurrency();
   const categories = [
     { value: '', label: t.allCategories, icon: UtensilsCrossed },
     { value: 'GARGOTE', label: t.categoryGargote, icon: Coffee },
@@ -230,7 +232,7 @@ function RestaurantsPageContent() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Catégorie */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-400 mb-2">
+                      <label className="block text-sm font-medium text-[#64748B] mb-2">
                         {t.categoryLabel}
                       </label>
                       <div className="flex flex-wrap gap-2">
@@ -241,7 +243,7 @@ function RestaurantsPageContent() {
                             className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                               selectedCategory === cat.value
                                 ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                                : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
+                                : 'bg-white border border-[#E2E8F0] text-[#64748B] hover:border-[#FF6B35]/50'
                             }`}
                           >
                             <cat.icon className="w-4 h-4" />
@@ -253,7 +255,7 @@ function RestaurantsPageContent() {
 
                     {/* Prix */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-400 mb-2">
+                      <label className="block text-sm font-medium text-[#64748B] mb-2">
                         {t.priceRangeLabel}
                       </label>
                       <div className="flex flex-wrap gap-2">
@@ -264,7 +266,7 @@ function RestaurantsPageContent() {
                             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                               selectedPriceRange === range.value
                                 ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                                : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
+                                : 'bg-white border border-[#E2E8F0] text-[#64748B] hover:border-[#FF6B35]/50'
                             }`}
                           >
                             {range.label}
@@ -275,13 +277,13 @@ function RestaurantsPageContent() {
 
                     {/* Tri */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-400 mb-2">
+                      <label className="block text-sm font-medium text-[#64748B] mb-2">
                         {t.sortBy}
                       </label>
                       <select
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value)}
-                        className="w-full px-4 py-2 bg-[#0d1520] border border-[#2a2a36] rounded-lg text-white appearance-none cursor-pointer outline-none"
+                        className="w-full px-4 py-2 bg-white border border-[#E2E8F0] rounded-lg text-[#0F172A] appearance-none cursor-pointer outline-none focus:border-[#FF6B35]"
                       >
                         {sortOptions.map((opt) => (
                           <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -292,8 +294,8 @@ function RestaurantsPageContent() {
 
                   {/* Active filters */}
                   {hasActiveFilters && (
-                    <div className="mt-4 pt-4 border-t border-[#2a2a36] flex items-center gap-2 flex-wrap">
-                      <span className="text-sm text-slate-400">{t.activeFilters}</span>
+                    <div className="mt-4 pt-4 border-t border-[#E2E8F0] flex items-center gap-2 flex-wrap">
+                      <span className="text-sm text-[#64748B]">{t.activeFilters}</span>
                       {selectedCity && (
                         <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-500/20 text-orange-400 rounded-full text-sm">
                           {selectedCity}
@@ -341,8 +343,8 @@ function RestaurantsPageContent() {
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Results count */}
         <div className="flex items-center justify-between mb-6">
-          <p className="text-slate-400">
-            <span className="font-semibold text-white">{total}</span> {t.restaurantsFound}
+          <p className="text-[#64748B]">
+            <span className="font-semibold text-[#0F172A]">{total}</span> {t.restaurantsFound}
           </p>
         </div>
 
@@ -483,13 +485,13 @@ function RestaurantsPageContent() {
                           {restaurant.avgMainCourse && (
                             <span className="flex items-center gap-1">
                               <UtensilsCrossed className="w-3 h-3" />
-                              ~{restaurant.avgMainCourse.toLocaleString()} Ar
+                              ~{convert(restaurant.avgMainCourse)}
                             </span>
                           )}
                           {restaurant.avgBeer && (
                             <span className="flex items-center gap-1">
                               <Coffee className="w-3 h-3" />
-                              ~{restaurant.avgBeer.toLocaleString()} Ar
+                              ~{convert(restaurant.avgBeer)}
                             </span>
                           )}
                         </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { useCsrf } from '@/hooks/useCsrf'
 import PhoneInput from '@/components/ui/PhoneInput'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -22,6 +22,8 @@ const WEEKDAYS = ['Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di']
 
 export default function BookingChatWidget({ establishmentId, establishmentName, establishmentType, ownerId, pricePerNight }: Props) {
   const router = useRouter()
+  const pathname = usePathname()
+  const loginRedirect = () => `/login?redirect=${encodeURIComponent(pathname)}`
   const { csrfToken } = useCsrf()
   const [showBooking, setShowBooking] = useState(false)
   const [showChat, setShowChat] = useState(false)
@@ -115,7 +117,7 @@ export default function BookingChatWidget({ establishmentId, establishmentName, 
   const handleSendChat = async () => {
     if (!chatMessage.trim() || !ownerId) return
     if (!user) {
-      router.push(`/login?redirect=/bons-plans/${establishmentType}s`)
+      router.push(loginRedirect())
       return
     }
 
@@ -169,7 +171,7 @@ export default function BookingChatWidget({ establishmentId, establishmentName, 
     if (isBlocked(day) || isPast(day)) return
     if (isOccupied(day)) return // occupied by another traveler
     if (user?.userType) return // providers can't book
-    if (!user) { router.push('/login?redirect=/bons-plans'); return }
+    if (!user) { router.push(loginRedirect()); return }
 
     const dateStr = toDateStr(day)
 
@@ -220,7 +222,7 @@ export default function BookingChatWidget({ establishmentId, establishmentName, 
         ) : (
           <button
             onClick={() => {
-              if (!user) { router.push(`/login?redirect=/bons-plans`); return }
+              if (!user) { router.push(loginRedirect()); return }
               setShowBooking(true)
             }}
             className="flex items-center justify-center gap-2 w-full py-3 bg-[#FF6B35] text-[#0F172A] font-medium rounded-xl hover:shadow-lg hover:shadow-[#FF6B35]/25 transition-all"
@@ -234,7 +236,7 @@ export default function BookingChatWidget({ establishmentId, establishmentName, 
         {ownerId && (
           <button
             onClick={() => {
-              if (!user) { router.push(`/login?redirect=/bons-plans`); return }
+              if (!user) { router.push(loginRedirect()); return }
               setShowChat(true)
             }}
             className="flex items-center justify-center gap-2 w-full py-3 bg-white border border-[#FF6B35]/30 text-[#FF6B35] font-medium rounded-xl hover:bg-[#FFF7ED] transition-all"

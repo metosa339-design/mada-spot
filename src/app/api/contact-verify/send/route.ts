@@ -153,11 +153,13 @@ export async function POST(request: NextRequest) {
       expiresAt: Date.now() + 10 * 60_000, // 10 minutes
     })
 
-    // Always log clearly in the terminal
-    console.log('\n╔══════════════════════════════════════╗')
-    console.log(`║  OTP CODE pour ${email}`)
-    console.log(`║  CODE : ${code}`)
-    console.log('╚══════════════════════════════════════╝\n')
+    // Dev only : ne JAMAIS logguer le code OTP en clair en production
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('\n╔══════════════════════════════════════╗')
+      console.log(`║  OTP CODE pour ${email}`)
+      console.log(`║  CODE : ${code}`)
+      console.log('╚══════════════════════════════════════╝\n')
+    }
 
     // Send email DIRECTLY (no self-fetch)
     const result = await sendEmailDirect(

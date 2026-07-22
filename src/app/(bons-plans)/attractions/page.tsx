@@ -39,6 +39,7 @@ import FicheImage from '@/components/bons-plans/FicheImage';
 import PhotoSlider from '@/components/ui/PhotoSlider';
 import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 import { useTrans } from '@/i18n';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface Attraction {
   id: string;
@@ -172,6 +173,7 @@ export default function AttractionsPage() {
 
 function AttractionsPageContent() {
   const t = useTrans('bonsPlans');
+  const { convert } = useCurrency();
   const attractionTypes = [
     { value: '', label: t.typeAllAttractions, icon: Camera },
     { value: 'parc_national', label: t.typeNationalPark, icon: Trees },
@@ -347,7 +349,7 @@ function AttractionsPageContent() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Type */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-400 mb-2">
+                      <label className="block text-sm font-medium text-[#64748B] mb-2">
                         {t.attractionTypeLabel}
                       </label>
                       <div className="flex flex-wrap gap-2">
@@ -358,7 +360,7 @@ function AttractionsPageContent() {
                             className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                               selectedType === type.value
                                 ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                                : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
+                                : 'bg-white border border-[#E2E8F0] text-[#64748B] hover:border-[#FF6B35]/50'
                             }`}
                           >
                             <type.icon className="w-4 h-4" />
@@ -370,7 +372,7 @@ function AttractionsPageContent() {
 
                     {/* Prix */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-400 mb-2">
+                      <label className="block text-sm font-medium text-[#64748B] mb-2">
                         {t.priceLabel}
                       </label>
                       <div className="flex gap-2">
@@ -379,7 +381,7 @@ function AttractionsPageContent() {
                           className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                             !showFreeOnly
                               ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                              : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
+                              : 'bg-white border border-[#E2E8F0] text-[#64748B] hover:border-[#FF6B35]/50'
                           }`}
                         >
                           {t.allLabel}
@@ -389,7 +391,7 @@ function AttractionsPageContent() {
                           className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                             showFreeOnly
                               ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                              : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-orange-500/50'
+                              : 'bg-white border border-[#E2E8F0] text-[#64748B] hover:border-[#FF6B35]/50'
                           }`}
                         >
                           {t.freeOnly}
@@ -399,13 +401,13 @@ function AttractionsPageContent() {
 
                     {/* Tri */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-400 mb-2">
+                      <label className="block text-sm font-medium text-[#64748B] mb-2">
                         {t.sortBy}
                       </label>
                       <select
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value)}
-                        className="w-full px-4 py-2 bg-[#0d1520] border border-[#2a2a36] rounded-lg text-white appearance-none cursor-pointer focus:border-orange-500/50 focus:outline-none"
+                        className="w-full px-4 py-2 bg-white border border-[#E2E8F0] rounded-lg text-[#0F172A] appearance-none cursor-pointer focus:border-[#FF6B35] focus:outline-none"
                       >
                         {sortOptions.map((opt) => (
                           <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -416,8 +418,8 @@ function AttractionsPageContent() {
 
                   {/* Active filters */}
                   {(selectedType || selectedCity || showFreeOnly) && (
-                    <div className="mt-4 pt-4 border-t border-[#2a2a36] flex items-center gap-2 flex-wrap">
-                      <span className="text-sm text-slate-400">{t.activeFilters}</span>
+                    <div className="mt-4 pt-4 border-t border-[#E2E8F0] flex items-center gap-2 flex-wrap">
+                      <span className="text-sm text-[#64748B]">{t.activeFilters}</span>
                       {selectedCity && (
                         <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded-full text-sm">
                           {selectedCity}
@@ -483,8 +485,8 @@ function AttractionsPageContent() {
       {/* Results - Dark */}
       <div className="max-w-7xl mx-auto px-4 pb-16">
         <div className="flex items-center justify-between mb-6">
-          <p style={{ color: '#94a3b8' }}>
-            <span style={{ color: '#ffffff' }} className="font-semibold">{total}</span> {t.attractionsFound}
+          <p style={{ color: '#64748B' }}>
+            <span style={{ color: '#0F172A' }} className="font-semibold">{total}</span> {t.attractionsFound}
           </p>
         </div>
 
@@ -503,9 +505,9 @@ function AttractionsPageContent() {
           </div>
         ) : attractions.length === 0 ? (
           <div className="text-center py-16">
-            <Mountain className="w-16 h-16 mx-auto text-slate-600 mb-4" />
-            <h2 style={{ color: '#ffffff' }} className="text-xl font-semibold mb-2">{t.noAttractionFound}</h2>
-            <p style={{ color: '#94a3b8' }} className="mb-6">{t.modifyCriteria}</p>
+            <Mountain className="w-16 h-16 mx-auto text-slate-300 mb-4" />
+            <h2 style={{ color: '#0F172A' }} className="text-xl font-semibold mb-2">{t.noAttractionFound}</h2>
+            <p style={{ color: '#64748B' }} className="mb-6">{t.modifyCriteria}</p>
             <button
               onClick={() => {
                 setSearchQuery('');
@@ -570,7 +572,7 @@ function AttractionsPageContent() {
                             </span>
                           ) : (
                             <span className="px-2.5 py-1 bg-[#1a1a24]/80 text-orange-400 backdrop-blur-sm rounded-lg text-xs font-medium">
-                              {attraction.entryFeeLocal?.toLocaleString()} Ar
+                              {convert(attraction.entryFeeLocal)}
                             </span>
                           )}
                         </div>
@@ -646,7 +648,7 @@ function AttractionsPageContent() {
                           )}
                           {!attraction.isFree && attraction.entryFeeForeign && (
                             <span style={{ color: '#94a3b8' }} className="text-xs">
-                              {t.tourists}: {attraction.entryFeeForeign.toLocaleString()} Ar
+                              {t.tourists}: {convert(attraction.entryFeeForeign)}
                             </span>
                           )}
                         </div>

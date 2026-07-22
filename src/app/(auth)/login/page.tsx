@@ -26,7 +26,12 @@ function LoginForm() {
   const t = useTrans('auth');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get('redirect');
+  const rawRedirect = searchParams.get('redirect');
+  // Sécurité : n'accepter qu'un chemin interne (empêche l'open-redirect ?redirect=https://evil.com)
+  const redirectTo =
+    rawRedirect && rawRedirect.startsWith('/') && !rawRedirect.startsWith('//')
+      ? rawRedirect
+      : null;
   const prefillEmail = searchParams.get('email') || '';
 
   const [formData, setFormData] = useState({

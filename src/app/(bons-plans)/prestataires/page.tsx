@@ -11,6 +11,7 @@ import { getEstablishmentImage } from '@/lib/establishment-image';
 import PhotoSlider from '@/components/ui/PhotoSlider';
 import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 import { useTrans } from '@/i18n';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface Provider {
   id: string;
@@ -47,6 +48,7 @@ export default function PrestatairesPage() {
 
 function PrestatairesPageContent() {
   const t = useTrans('bonsPlans');
+  const { convert } = useCurrency();
   const serviceTypes = [
     { value: '', label: t.serviceTypeAll, icon: Users },
     { value: 'GUIDE', label: t.serviceTypeGuide, icon: Compass },
@@ -223,7 +225,7 @@ function PrestatairesPageContent() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Type de service */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-400 mb-2">{t.serviceTypeLabel}</label>
+                      <label className="block text-sm font-medium text-[#64748B] mb-2">{t.serviceTypeLabel}</label>
                       <div className="flex flex-wrap gap-2">
                         {serviceTypes.slice(0, 6).map((type) => (
                           <button
@@ -232,7 +234,7 @@ function PrestatairesPageContent() {
                             className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                               selectedServiceType === type.value
                                 ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white'
-                                : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-cyan-500/50'
+                                : 'bg-white border border-[#E2E8F0] text-[#64748B] hover:border-cyan-500/50'
                             }`}
                           >
                             <type.icon className="w-4 h-4" />
@@ -248,7 +250,7 @@ function PrestatairesPageContent() {
                             className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                               selectedServiceType === type.value
                                 ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white'
-                                : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-cyan-500/50'
+                                : 'bg-white border border-[#E2E8F0] text-[#64748B] hover:border-cyan-500/50'
                             }`}
                           >
                             <type.icon className="w-4 h-4" />
@@ -260,7 +262,7 @@ function PrestatairesPageContent() {
 
                     {/* Prix */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-400 mb-2">{t.priceRangeLabel}</label>
+                      <label className="block text-sm font-medium text-[#64748B] mb-2">{t.priceRangeLabel}</label>
                       <div className="flex flex-wrap gap-2">
                         {priceRanges.map((range) => (
                           <button
@@ -269,7 +271,7 @@ function PrestatairesPageContent() {
                             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                               selectedPriceRange === range.value
                                 ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white'
-                                : 'bg-[#0d1520] border border-[#2a2a36] text-slate-400 hover:border-cyan-500/50'
+                                : 'bg-white border border-[#E2E8F0] text-[#64748B] hover:border-cyan-500/50'
                             }`}
                           >
                             {range.label}
@@ -280,11 +282,11 @@ function PrestatairesPageContent() {
 
                     {/* Tri */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-400 mb-2">{t.sortBy}</label>
+                      <label className="block text-sm font-medium text-[#64748B] mb-2">{t.sortBy}</label>
                       <select
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value)}
-                        className="w-full px-4 py-2 bg-[#0d1520] border border-[#2a2a36] rounded-lg text-white appearance-none cursor-pointer outline-none"
+                        className="w-full px-4 py-2 bg-white border border-[#E2E8F0] rounded-lg text-[#0F172A] appearance-none cursor-pointer outline-none focus:border-cyan-500"
                       >
                         {sortOptions.map((opt) => (
                           <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -294,8 +296,8 @@ function PrestatairesPageContent() {
                   </div>
 
                   {hasActiveFilters && (
-                    <div className="mt-4 pt-4 border-t border-[#2a2a36] flex items-center gap-2 flex-wrap">
-                      <span className="text-sm text-slate-400">{t.activeFilters}</span>
+                    <div className="mt-4 pt-4 border-t border-[#E2E8F0] flex items-center gap-2 flex-wrap">
+                      <span className="text-sm text-[#64748B]">{t.activeFilters}</span>
                       {selectedCity && (
                         <span className="inline-flex items-center gap-1 px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm">
                           {selectedCity}
@@ -332,8 +334,8 @@ function PrestatairesPageContent() {
       {/* Results */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-6">
-          <p className="text-slate-400">
-            <span className="font-semibold text-white">{total}</span> {t.providersFound}
+          <p className="text-[#64748B]">
+            <span className="font-semibold text-[#0F172A]">{total}</span> {t.providersFound}
           </p>
         </div>
 
@@ -352,9 +354,9 @@ function PrestatairesPageContent() {
           </div>
         ) : providers.length === 0 ? (
           <div className="text-center py-16">
-            <Users className="w-16 h-16 mx-auto text-slate-600 mb-4" />
-            <h2 className="text-xl font-semibold text-white mb-2">{t.noProviderFound}</h2>
-            <p className="text-slate-400 mb-6">{t.modifyCriteria}</p>
+            <Users className="w-16 h-16 mx-auto text-slate-300 mb-4" />
+            <h2 className="text-xl font-semibold text-[#0F172A] mb-2">{t.noProviderFound}</h2>
+            <p className="text-[#64748B] mb-6">{t.modifyCriteria}</p>
             <button
               onClick={() => { setSearchQuery(''); setSelectedCity(''); setSelectedServiceType(''); setSelectedPriceRange(''); }}
               className="px-6 py-3 bg-[#ff6b35] text-white font-medium rounded-xl hover:shadow-lg transition-all"
@@ -426,7 +428,7 @@ function PrestatairesPageContent() {
                         <div className="flex items-center gap-4 text-sm text-slate-400 mb-3 p-2 bg-[#0d1520] rounded-lg">
                           {provider.priceFrom && (
                             <span className="text-cyan-400 font-medium">
-                              {t.fromLabel} {provider.priceFrom.toLocaleString()} Ar
+                              {t.fromLabel} {convert(provider.priceFrom)}
                               {provider.priceUnit && ` ${provider.priceUnit}`}
                             </span>
                           )}

@@ -383,10 +383,14 @@ export default function CarteInteractivePage() {
                                 {marker.city}
                               </div>
                               <div className="flex items-center gap-3 mt-1.5">
-                                <div className="flex items-center gap-1">
-                                  <Star className="w-3 h-3 text-[#FF6B35] fill-[#FF6B35]" />
-                                  <span className="text-[12px] font-mono text-[#0F172A]">{marker.rating.toFixed(1)}</span>
-                                </div>
+                                {marker.reviewCount > 0 ? (
+                                  <div className="flex items-center gap-1">
+                                    <Star className="w-3 h-3 text-[#FF6B35] fill-[#FF6B35]" />
+                                    <span className="text-[12px] font-mono text-[#0F172A]">{marker.rating?.toFixed(1)}</span>
+                                  </div>
+                                ) : (
+                                  <span className="text-[12px] text-[#94A3B8]">Nouveau</span>
+                                )}
                                 {marker.priceIndicator && (
                                   <span className="text-[12px] font-mono text-[#FF6B35]">
                                     {marker.priceIndicator}
@@ -492,11 +496,15 @@ export default function CarteInteractivePage() {
                               </div>
 
                               <div className="flex items-center gap-4 mt-2.5">
-                                <div className="flex items-center gap-1">
-                                  <Star className="w-3.5 h-3.5 text-[#FF6B35] fill-[#FF6B35]" />
-                                  <span className="font-mono text-[#0F172A] text-[13px]">{marker.rating.toFixed(1)}</span>
-                                  <span className="text-[#94A3B8] text-[12px]">({marker.reviewCount})</span>
-                                </div>
+                                {marker.reviewCount > 0 ? (
+                                  <div className="flex items-center gap-1">
+                                    <Star className="w-3.5 h-3.5 text-[#FF6B35] fill-[#FF6B35]" />
+                                    <span className="font-mono text-[#0F172A] text-[13px]">{marker.rating?.toFixed(1)}</span>
+                                    <span className="text-[#94A3B8] text-[12px]">({marker.reviewCount})</span>
+                                  </div>
+                                ) : (
+                                  <span className="text-[#94A3B8] text-[12px]">Nouveau</span>
+                                )}
                                 {marker.priceIndicator && (
                                   <span className="font-mono font-semibold text-[#FF6B35] text-[13px]">
                                     {marker.priceIndicator}

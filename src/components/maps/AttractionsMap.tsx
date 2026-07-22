@@ -220,11 +220,15 @@ export default function AttractionsMap({
 
                 {/* Rating & Price */}
                 <div className="flex items-center justify-between mb-3 pb-3 border-b border-slate-100">
-                  <div className="flex items-center gap-1">
-                    <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                    <span className="font-semibold text-sm">{attraction.rating.toFixed(1)}</span>
-                    <span className="text-xs text-slate-500">({attraction.reviewCount})</span>
-                  </div>
+                  {attraction.reviewCount > 0 ? (
+                    <div className="flex items-center gap-1">
+                      <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+                      <span className="font-semibold text-sm">{attraction.rating?.toFixed(1)}</span>
+                      <span className="text-xs text-slate-500">({attraction.reviewCount})</span>
+                    </div>
+                  ) : (
+                    <span className="text-xs text-slate-400">Nouveau</span>
+                  )}
                   <div className="text-sm font-semibold text-emerald-600">
                     {attraction.isFree
                       ? 'Gratuit'

@@ -23,11 +23,11 @@ export default function OwnerBio({ owner, establishmentName }: OwnerBioProps) {
     <motion.section
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-2xl p-6 md:p-8 border border-[#2a2a36]"
+      className="bg-white rounded-2xl p-6 md:p-8 border border-[#E2E8F0]"
     >
       <div className="flex items-center gap-2 mb-4">
-        <UserCircle2 className="w-5 h-5 text-[#FDBA74]" />
-        <h2 className="text-xl font-bold text-white">Le Mot de l&apos;Hote</h2>
+        <UserCircle2 className="w-5 h-5 text-[#FF6B35]" />
+        <h2 className="text-xl font-bold text-[#0F172A]">Le Mot de l&apos;Hôte</h2>
       </div>
 
       <div className="flex items-center gap-4">
@@ -51,13 +51,13 @@ export default function OwnerBio({ owner, establishmentName }: OwnerBioProps) {
         {/* Info */}
         <div>
           <div className="flex items-center gap-2">
-            <h3 className="text-lg font-semibold text-white">
+            <h3 className="text-lg font-semibold text-[#0F172A]">
               {owner.firstName} {owner.lastName}
             </h3>
-            <BadgeCheck className="w-4 h-4 text-emerald-400" />
+            <BadgeCheck className="w-4 h-4 text-emerald-500" />
           </div>
-          <p className="text-sm text-[#94A3B8]">
-            Gerant de {establishmentName}
+          <p className="text-sm text-[#64748B]">
+            Gérant de {establishmentName}
           </p>
           <div className="flex items-center gap-1 mt-1 text-xs text-[#94A3B8]">
             <Calendar className="w-3 h-3" />

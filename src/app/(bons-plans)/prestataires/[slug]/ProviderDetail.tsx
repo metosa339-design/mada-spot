@@ -18,6 +18,7 @@ import SocialLinks from '@/components/bons-plans/SocialLinks';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/contexts/ToastContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface Provider {
   id: string;
@@ -99,6 +100,7 @@ export default function ProviderDetail() {
   const { slug } = useParams();
   const { locale } = useLanguage();
   const toast = useToast();
+  const { convert } = useCurrency();
 
   const [provider, setProvider] = useState<Provider | null>(null);
   const [similarProviders, setSimilarProviders] = useState<SimilarProvider[]>([]);
@@ -217,13 +219,20 @@ export default function ProviderDetail() {
               </div>
 
               {/* Rating */}
-              <div className="flex items-center gap-3 p-4 bg-white border border-[#E2E8F0] rounded-lg">
-                <div className="flex items-center gap-1.5">
-                  <Star className="w-5 h-5 text-[#FF6B35] fill-[#FF6B35]" />
-                  <span className="text-[20px] font-semibold font-mono text-[#0F172A]">{provider.rating?.toFixed(1)}</span>
+              {provider.reviewCount > 0 ? (
+                <div className="flex items-center gap-3 p-4 bg-white border border-[#E2E8F0] rounded-lg">
+                  <div className="flex items-center gap-1.5">
+                    <Star className="w-5 h-5 text-[#FF6B35] fill-[#FF6B35]" />
+                    <span className="text-[20px] font-semibold font-mono text-[#0F172A]">{provider.rating?.toFixed(1)}</span>
+                  </div>
+                  <span className="text-[#64748B] text-[13px]">{provider.reviewCount} avis</span>
                 </div>
-                <span className="text-[#64748B] text-[13px]">{provider.reviewCount} avis</span>
-              </div>
+              ) : (
+                <div className="flex items-center gap-2 p-4 bg-white border border-[#E2E8F0] rounded-lg">
+                  <Star className="w-5 h-5 text-[#CBD5E1]" />
+                  <span className="text-[#64748B] text-[13px]">Pas encore d&apos;avis</span>
+                </div>
+              )}
             </div>
 
             {/* Description */}
@@ -334,7 +343,7 @@ export default function ProviderDetail() {
                   <div className="flex items-baseline gap-2 flex-wrap">
                     {provider.priceFrom && (
                       <span className="text-[26px] font-semibold font-mono text-[#0F172A]">
-                        {provider.priceFrom.toLocaleString()} Ar
+                        {convert(provider.priceFrom)}
                       </span>
                     )}
                     {provider.priceTo && provider.priceFrom && (
@@ -342,7 +351,7 @@ export default function ProviderDetail() {
                     )}
                     {provider.priceTo && (
                       <span className="text-[26px] font-semibold font-mono text-[#0F172A]">
-                        {provider.priceTo.toLocaleString()} Ar
+                        {convert(provider.priceTo)}
                       </span>
                     )}
                     {provider.priceUnit && (

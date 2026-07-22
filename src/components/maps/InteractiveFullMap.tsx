@@ -94,7 +94,7 @@ function SelectedMarkerHandler({ selectedMarker }: { selectedMarker: MapMarker |
   const map = useMap();
 
   useEffect(() => {
-    if (selectedMarker) {
+    if (selectedMarker && isInMadagascar(selectedMarker.latitude, selectedMarker.longitude)) {
       map.setView([selectedMarker.latitude, selectedMarker.longitude], map.getZoom(), {
         animate: true,
         duration: 0.5,
@@ -105,6 +105,19 @@ function SelectedMarkerHandler({ selectedMarker }: { selectedMarker: MapMarker |
   return null;
 }
 
+// Bounding box de Madagascar (marge de sécurité incluse) — filtre les
+// coordonnées aberrantes (lat positive, 0/0…) qui feraient dériver la carte
+// vers l'Afrique de l'Est.
+const MADAGASCAR_BOUNDS = { minLat: -26, maxLat: -11, minLng: 42, maxLng: 51 };
+
+function isInMadagascar(lat: number, lng: number): boolean {
+  return (
+    Number.isFinite(lat) && Number.isFinite(lng) &&
+    lat >= MADAGASCAR_BOUNDS.minLat && lat <= MADAGASCAR_BOUNDS.maxLat &&
+    lng >= MADAGASCAR_BOUNDS.minLng && lng <= MADAGASCAR_BOUNDS.maxLng
+  );
+}
+
 // Component to fit bounds on initial load
 function FitBounds({ markers }: { markers: MapMarker[] }) {
   const map = useMap();
@@ -112,10 +125,12 @@ function FitBounds({ markers }: { markers: MapMarker[] }) {
 
   useEffect(() => {
     if (markers.length > 0 && !hasFitted) {
-      const bounds = L.latLngBounds(
-        markers.map((m) => [m.latitude, m.longitude])
-      );
-      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 10 });
+      const valid = markers.filter((m) => isInMadagascar(m.latitude, m.longitude));
+      if (valid.length > 0) {
+        const bounds = L.latLngBounds(valid.map((m) => [m.latitude, m.longitude]));
+        map.fitBounds(bounds, { padding: [50, 50], maxZoom: 10 });
+      }
+      // Si aucun marqueur valide, on garde la vue Madagascar par défaut.
       setHasFitted(true);
     }
   }, [markers, map, hasFitted]);
@@ -232,6 +247,14 @@ function createPopupContent(marker: MapMarker): string {
     ? `<div style="font-size:13px;font-weight:600;color:#10b981;">${marker.priceIndicator}</div>`
     : '';
 
+  const ratingSection = marker.reviewCount > 0
+    ? `<div style="display:flex;align-items:center;gap:4px;">
+          <span style="color:#f59e0b;">⭐</span>
+          <span style="font-weight:600;font-size:13px;">${marker.rating?.toFixed(1) ?? ''}</span>
+          <span style="font-size:12px;color:#94a3b8;">(${marker.reviewCount} avis)</span>
+        </div>`
+    : `<span style="font-size:12px;color:#94a3b8;">Nouveau</span>`;
+
   return `
     <div style="padding:12px;font-family:system-ui,-apple-system,sans-serif;">
       ${imageSection}
@@ -242,11 +265,7 @@ function createPopupContent(marker: MapMarker): string {
         📍 ${marker.city}${marker.district ? ', ' + marker.district : ''}
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #f1f5f9;">
-        <div style="display:flex;align-items:center;gap:4px;">
-          <span style="color:#f59e0b;">⭐</span>
-          <span style="font-weight:600;font-size:13px;">${marker.rating.toFixed(1)}</span>
-          <span style="font-size:12px;color:#94a3b8;">(${marker.reviewCount} avis)</span>
-        </div>
+        ${ratingSection}
         ${priceSection}
       </div>
       <a href="${detailUrl}"

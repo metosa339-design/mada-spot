@@ -692,7 +692,7 @@ export default function AttractionDetail() {
                             </span>
                           ) : (
                             <span className="px-2.5 py-1 bg-white/80 backdrop-blur-md text-[#0F172A] rounded-md text-[12px] font-mono font-semibold border border-[#E2E8F0]">
-                              {a.entryFeeLocal?.toLocaleString()} Ar
+                              {convert(a.entryFeeLocal)}
                             </span>
                           )}
                         </div>

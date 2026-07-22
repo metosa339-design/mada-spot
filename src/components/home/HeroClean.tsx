@@ -185,7 +185,7 @@ export default function HeroClean() {
             </div>
 
             {/* Photo immersive — candidat LCP : zoom CSS sur l'image (opacity:1), priority utile */}
-            <div className="relative h-[200px] sm:h-[360px] lg:h-full lg:min-h-[460px] w-full rounded-2xl overflow-hidden border border-white/15 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.4)] bg-[#0F172A]">
+            <div className="relative h-[200px] sm:h-[360px] lg:h-full lg:min-h-[460px] w-full rounded-2xl overflow-hidden border border-white/15 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.4)] bg-gradient-to-br from-[#003B95] via-[#0F172A] to-[#FF6B35]/40">
               <Image
                 src="/images/highlights/hero-pool-madagascar.jpg"
                 alt="Madagascar"

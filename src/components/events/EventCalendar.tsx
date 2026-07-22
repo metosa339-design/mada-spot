@@ -134,7 +134,7 @@ export default function EventCalendar({
         <button
           onClick={handlePrevMonth}
           aria-label="Mois précédent"
-          className="p-2 rounded-xl hover:bg-white text-[#94A3B8] hover:text-white transition-all active:scale-95"
+          className="p-2 rounded-xl hover:bg-white/10 text-[#94A3B8] hover:text-white transition-all active:scale-95"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
@@ -153,7 +153,7 @@ export default function EventCalendar({
         <button
           onClick={handleNextMonth}
           aria-label="Mois suivant"
-          className="p-2 rounded-xl hover:bg-white text-[#94A3B8] hover:text-white transition-all active:scale-95"
+          className="p-2 rounded-xl hover:bg-white/10 text-[#94A3B8] hover:text-white transition-all active:scale-95"
         >
           <ChevronRight className="w-5 h-5" />
         </button>

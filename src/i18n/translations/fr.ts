@@ -1927,6 +1927,7 @@ export const fr = {
     loginBtn: 'Se connecter',
     dashboardBtn: 'Accéder à mon tableau de bord',
     redirecting: 'Redirection vers votre tableau de bord…',
+    phoneRequired: 'Votre numéro de téléphone est requis.',
     inviteHeader: 'Vous êtes invité à revendiquer',
     typeHotel: 'Hôtel',
     typeRestaurant: 'Restaurant',

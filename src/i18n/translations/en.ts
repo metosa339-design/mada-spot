@@ -1926,6 +1926,7 @@ export const en: Translations = {
     loginBtn: 'Sign in',
     dashboardBtn: 'Go to my dashboard',
     redirecting: 'Redirecting to your dashboard…',
+    phoneRequired: 'Your phone number is required.',
     inviteHeader: 'You are invited to claim',
     typeHotel: 'Hotel',
     typeRestaurant: 'Restaurant',

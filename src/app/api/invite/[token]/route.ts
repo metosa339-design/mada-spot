@@ -6,6 +6,17 @@ import { apiError } from '@/lib/api-response'
 import { hashPassword, createSession, getSessionCookieConfig } from '@/lib/auth'
 import { logger } from '@/lib/logger'
 
+// Normalise un numéro malgache en format international sans "+" (ex: 261341112233)
+function toIntlPhone(raw: string | null | undefined): string | null {
+  if (!raw) return null
+  const d = String(raw).replace(/[^\d]/g, '')
+  if (!d) return null
+  if (d.startsWith('261')) return d
+  if (d.startsWith('0')) return '261' + d.slice(1)
+  if (d.length === 9) return '261' + d
+  return d
+}
+
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ token: string }> }) {
   const { token } = await params
 
@@ -23,7 +34,8 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
 
   return NextResponse.json({
     establishment: claim.establishment,
-    email: claim.claimantEmail,
+    email: claim.claimantEmail || null, // '' (claim par téléphone) => null
+    phone: claim.claimantPhone || null,
     alreadyClaimed: claim.status === 'APPROVED',
     expiresAt: claim.invitationExpiry,
   })
@@ -46,43 +58,47 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
   if (!claim) return apiError('Invitation invalide ou expirée', 404)
 
-  const email = claim.claimantEmail
-  if (!email) {
-    // Une invitation est toujours émise vers un email ; sans lui on ne peut pas
-    // rattacher de compte de façon fiable.
-    return apiError('Invitation incomplète (email manquant). Contactez le support.', 400)
+  // Identité : email si présent, sinon téléphone (marché WhatsApp-first).
+  // Re-connexion ultérieure : par email (mot de passe oublié) ou par OTP téléphone.
+  const email = claim.claimantEmail?.trim() || null
+  const ownerPhone = toIntlPhone(claim.claimantPhone || (typeof phone === 'string' ? phone : ''))
+
+  if (!email && !ownerPhone) {
+    return apiError('Invitation incomplète (ni email ni téléphone). Contactez le support.', 400)
   }
 
+  const findExistingUser = async () =>
+    (email ? await prisma.user.findUnique({ where: { email }, select: { id: true, userType: true } }) : null) ||
+    (ownerPhone ? await prisma.user.findFirst({ where: { phone: ownerPhone }, select: { id: true, userType: true } }) : null)
+
   // 1. Trouver ou créer le compte propriétaire (onboarding par lien magique, sans mot de passe)
-  let user = await prisma.user.findUnique({
-    where: { email },
-    select: { id: true, userType: true },
-  })
+  let user = await findExistingUser()
 
   if (!user) {
     const trimmed = (typeof name === 'string' ? name : '').trim()
     const [firstName, ...rest] = trimmed ? trimmed.split(/\s+/) : []
-    // Mot de passe aléatoire : le compte est passwordless (le propriétaire définira
-    // son mot de passe via « Mot de passe oublié » depuis son tableau de bord).
+    // Mot de passe aléatoire : le compte est passwordless.
     const randomPassword = await hashPassword(randomUUID() + randomUUID())
     try {
       user = await prisma.user.create({
         data: {
-          email,
-          firstName: firstName || email.split('@')[0],
+          email: email || null,
+          phone: ownerPhone || null,
+          firstName: firstName || (email ? email.split('@')[0] : 'Propriétaire'),
           lastName: rest.join(' ') || '-',
           password: randomPassword,
           role: 'CLIENT',
           userType: claim.establishment.type as Prisma.UserCreateInput['userType'],
-          emailVerified: true,
+          emailVerified: !!email,
+          phoneVerified: !!ownerPhone,
           isVerified: true,
         },
         select: { id: true, userType: true },
       })
     } catch (err) {
-      // Collision (course entre deux clics) : on récupère le compte existant.
+      // Collision email OU téléphone (course entre deux clics) : on récupère l'existant.
       if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
-        user = await prisma.user.findUnique({ where: { email }, select: { id: true, userType: true } })
+        user = await findExistingUser()
       } else {
         throw err
       }

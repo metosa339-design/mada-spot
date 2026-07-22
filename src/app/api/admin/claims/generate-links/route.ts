@@ -82,9 +82,11 @@ export async function POST(request: NextRequest) {
   const skippedNoContact: string[] = []
 
   for (const est of establishments) {
-    // Il faut un email pour créer/rattacher le compte à la revendication
-    // (le flux /invite exige claimantEmail). On saute les fiches sans email.
-    if (!est.email) {
+    const waNumber = toWhatsappNumber(est.whatsapp || est.phone)
+    // Revendicable si on a un email OU un numéro (le claim par téléphone crée
+    // le compte via le numéro, re-connexion ultérieure par OTP). On ne saute que
+    // les fiches sans aucun moyen de contact.
+    if (!est.email && !waNumber) {
       skippedNoContact.push(est.name)
       continue
     }
@@ -109,7 +111,8 @@ export async function POST(request: NextRequest) {
         data: {
           establishmentId: est.id,
           claimantName: '',
-          claimantEmail: est.email,
+          claimantEmail: est.email || '', // '' = revendication par téléphone
+          claimantPhone: waNumber,
           claimantRole: 'owner',
           invitationToken: token,
           invitationExpiry: expiry,
@@ -120,7 +123,6 @@ export async function POST(request: NextRequest) {
     }
 
     const claimUrl = `${SITE_URL}/invite/${token}`
-    const waNumber = toWhatsappNumber(est.whatsapp || est.phone)
     const waText = `Bonjour ! Votre établissement "${est.name}" est déjà référencé sur Mada Spot. Revendiquez-le gratuitement (badge Vérifié) en 2 min : ${claimUrl}`
     const whatsappLink = waNumber ? `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}` : null
 
@@ -144,17 +146,20 @@ export async function POST(request: NextRequest) {
   )
   const csv = [csvHeader, ...csvRows].join('\n')
 
-  // Combien de fiches non-revendiquées SANS email (cible WhatsApp-only, phase 2)
-  const whatsappOnlyCount = await prisma.establishment.count({
-    where: { isClaimed: false, email: null, whatsapp: { not: null } },
+  // Fiches non-revendiquées SANS aucun moyen de contact (ni email, ni tel, ni whatsapp)
+  const noContactCount = await prisma.establishment.count({
+    where: { isClaimed: false, email: null, phone: null, whatsapp: null },
   })
+
+  const byEmail = recipients.filter((r) => r.email).length
+  const byPhoneOnly = recipients.filter((r) => !r.email && r.whatsappLink).length
 
   await logAudit({
     userId: admin.id,
     action: 'claim_links_generated',
     entityType: 'establishment',
     entityId: 'bulk',
-    details: { matched: establishments.length, created, reused, skippedNoContact: skippedNoContact.length },
+    details: { matched: establishments.length, created, reused, byEmail, byPhoneOnly },
     ...getRequestMeta(request),
   })
 
@@ -167,13 +172,15 @@ export async function POST(request: NextRequest) {
       linksReady: recipients.length,
       created,
       reused,
-      skippedNoEmail: skippedNoContact.length,
+      byEmail, // revendicables par email
+      byPhoneOnly, // revendicables par téléphone (sans email)
       whatsappEligible: recipients.filter((r) => r.whatsappLink).length,
-      whatsappOnlyNoEmail: whatsappOnlyCount, // nécessite claim par téléphone (phase 2)
+      skippedNoContact: skippedNoContact.length, // dans le lot ciblé, aucun contact
+      unclaimedNoContactTotal: noContactCount, // total base : fiches non joignables
       expiresAt: expiry,
     },
     recipients,
     csv,
-    skippedNoEmailSample: skippedNoContact.slice(0, 20),
+    skippedNoContactSample: skippedNoContact.slice(0, 20),
   })
 }

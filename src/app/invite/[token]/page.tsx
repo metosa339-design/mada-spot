@@ -34,6 +34,10 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
           if (data.establishment) {
             setEstablishment(data.establishment)
             setEmail(data.email || '')
+            // Claim par téléphone (pas d'email) : préremplir le numéro connu
+            if (!data.email && data.phone) {
+              setForm(prev => ({ ...prev, phone: data.phone }))
+            }
           } else {
             setError(data.error || t.invalidDefault)
           }
@@ -47,6 +51,11 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!form.name.trim()) return
+    // Claim par téléphone (pas d'email) : le numéro devient l'identifiant, requis
+    if (!email && !form.phone.trim()) {
+      setError(t.phoneRequired)
+      return
+    }
     setSubmitting(true)
     setError('')
 
@@ -172,20 +181,23 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
             />
           </div>
 
-          <div>
-            <label className="block text-sm text-gray-400 mb-1">{t.emailLabel}</label>
-            <input
-              type="email"
-              value={email}
-              disabled
-              className="w-full px-4 py-3 bg-[#080810] border border-[#1e1e2e] rounded-xl text-gray-500 cursor-not-allowed"
-            />
-          </div>
+          {email && (
+            <div>
+              <label className="block text-sm text-gray-400 mb-1">{t.emailLabel}</label>
+              <input
+                type="email"
+                value={email}
+                disabled
+                className="w-full px-4 py-3 bg-[#080810] border border-[#1e1e2e] rounded-xl text-gray-500 cursor-not-allowed"
+              />
+            </div>
+          )}
 
           <div>
-            <label className="block text-sm text-gray-400 mb-1">{t.phoneLabel}</label>
+            <label className="block text-sm text-gray-400 mb-1">{t.phoneLabel}{!email ? ' *' : ''}</label>
             <input
               type="tel"
+              required={!email}
               value={form.phone}
               onChange={e => setForm(prev => ({ ...prev, phone: e.target.value }))}
               className="w-full px-4 py-3 bg-[#080810] border border-[#1e1e2e] rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-[#ff6b35]"

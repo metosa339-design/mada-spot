@@ -185,6 +185,31 @@ export async function POST(request: NextRequest) {
               bestTimeToVisit: data.bestTimeToVisit || null,
             },
           };
+        } else if (data.type === 'PROVIDER') {
+          // Convertit une valeur "JSON array" ou "a, b, c" en JSON array stocké
+          const toJsonArray = (v?: string): string | null => {
+            if (!v) return null;
+            try { JSON.parse(v); return v; } catch {
+              const arr = String(v).split(',').map((s) => s.trim()).filter(Boolean);
+              return arr.length ? JSON.stringify(arr) : null;
+            }
+          };
+          typeData.provider = {
+            create: {
+              serviceType: data.serviceType || 'OTHER',
+              languages: toJsonArray(data.languages),
+              experience: data.experience || null,
+              priceRange: data.priceRange || null,
+              priceFrom: data.priceFrom || null,
+              priceTo: data.priceTo || null,
+              priceUnit: data.priceUnit || null,
+              operatingZone: toJsonArray(data.operatingZone),
+              vehicleType: data.vehicleType || null,
+              vehicleCapacity: data.vehicleCapacity || null,
+              licenseNumber: data.licenseNumber || null,
+              certifications: toJsonArray(data.certifications),
+            },
+          };
         }
 
         // Create establishment

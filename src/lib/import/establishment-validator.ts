@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 // Schema for validating imported establishment data
 export const importEstablishmentSchema = z.object({
-  type: z.enum(['HOTEL', 'RESTAURANT', 'ATTRACTION']),
+  type: z.enum(['HOTEL', 'RESTAURANT', 'ATTRACTION', 'PROVIDER']),
   name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
   description: z.string().optional(),
   shortDescription: z.string().optional(),
@@ -55,6 +55,30 @@ export const importEstablishmentSchema = z.object({
   entryFeeLocal: z.number().positive().optional(),
   visitDuration: z.string().optional(),
   bestTimeToVisit: z.string().optional(),
+
+  // Provider-specific (prestataires : guides, chauffeurs, agences…)
+  serviceType: z
+    .enum(['GUIDE', 'DRIVER', 'TOUR_OPERATOR', 'CAR_RENTAL', 'PHOTOGRAPHER', 'TRANSLATOR', 'TRAVEL_AGENCY', 'TRANSFER', 'BOAT_EXCURSION', 'OTHER'])
+    .optional(),
+  languages: z.string().optional(), // JSON array ou séparé par des virgules
+  experience: z.string().optional(),
+  priceFrom: z.number().positive().optional(),
+  priceTo: z.number().positive().optional(),
+  priceUnit: z.string().optional(),
+  operatingZone: z.string().optional(), // JSON array ou séparé par des virgules
+  vehicleType: z.string().optional(),
+  vehicleCapacity: z.number().int().positive().optional(),
+  licenseNumber: z.string().optional(),
+  certifications: z.string().optional(), // JSON array ou séparé par des virgules
+}).superRefine((data, ctx) => {
+  // serviceType obligatoire pour un prestataire
+  if (data.type === 'PROVIDER' && !data.serviceType) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['serviceType'],
+      message: 'serviceType est requis pour un prestataire (GUIDE, DRIVER, TOUR_OPERATOR, CAR_RENTAL, PHOTOGRAPHER, TRANSLATOR, TRAVEL_AGENCY, TRANSFER, BOAT_EXCURSION, OTHER)',
+    });
+  }
 });
 
 export type ImportEstablishmentInput = z.infer<typeof importEstablishmentSchema>;
@@ -73,7 +97,7 @@ export function transformCSVRow(row: Record<string, string>): Record<string, any
     }
 
     // Number conversions
-    if (['latitude', 'longitude', 'starRating', 'avgMainCourse', 'avgBeer', 'entryFeeForeign', 'entryFeeLocal'].includes(key)) {
+    if (['latitude', 'longitude', 'starRating', 'avgMainCourse', 'avgBeer', 'entryFeeForeign', 'entryFeeLocal', 'priceFrom', 'priceTo', 'vehicleCapacity'].includes(key)) {
       const num = parseFloat(value);
       if (!isNaN(num)) transformed[key] = num;
       continue;

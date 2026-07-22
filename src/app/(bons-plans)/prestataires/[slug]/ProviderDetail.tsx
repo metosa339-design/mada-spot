@@ -290,15 +290,25 @@ export default function ProviderDetail() {
                     </div>
                   </div>
                 )}
-                {provider.operatingZone?.length > 0 && (
-                  <div className="flex items-start gap-3 p-4 bg-white rounded-lg border border-[#E2E8F0]">
-                    <MapPin className="w-4 h-4 text-[#FF6B35] mt-0.5 shrink-0" />
-                    <div>
-                      <p className="text-[11px] uppercase tracking-[0.15em] text-[#64748B]">Zone d&apos;opération</p>
-                      <p className="text-[#0F172A] font-medium text-[13px] mt-0.5">{provider.operatingZone.join(', ')}</p>
+                {(() => {
+                  // operatingZone peut arriver en tableau OU en chaîne selon la donnée
+                  // (fiches soumises via le formulaire) — on normalise pour ne jamais planter.
+                  const zones = Array.isArray(provider.operatingZone)
+                    ? provider.operatingZone
+                    : provider.operatingZone
+                      ? [String(provider.operatingZone)]
+                      : [];
+                  if (zones.length === 0) return null;
+                  return (
+                    <div className="flex items-start gap-3 p-4 bg-white rounded-lg border border-[#E2E8F0]">
+                      <MapPin className="w-4 h-4 text-[#FF6B35] mt-0.5 shrink-0" />
+                      <div>
+                        <p className="text-[11px] uppercase tracking-[0.15em] text-[#64748B]">Zone d&apos;opération</p>
+                        <p className="text-[#0F172A] font-medium text-[13px] mt-0.5">{zones.join(', ')}</p>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  );
+                })()}
                 {provider.vehicleType && (
                   <div className="flex items-start gap-3 p-4 bg-white rounded-lg border border-[#E2E8F0]">
                     <Car className="w-4 h-4 text-[#FF6B35] mt-0.5 shrink-0" />
@@ -502,10 +512,14 @@ export default function ProviderDetail() {
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="flex items-center gap-1">
-                            <Star className="w-3 h-3 text-[#FF6B35] fill-[#FF6B35]" />
-                            <span className="text-[12px] font-mono text-[#0F172A]">{sp.rating?.toFixed(1)}</span>
-                          </div>
+                          {sp.rating > 0 ? (
+                            <div className="flex items-center gap-1">
+                              <Star className="w-3 h-3 text-[#FF6B35] fill-[#FF6B35]" />
+                              <span className="text-[12px] font-mono text-[#0F172A]">{sp.rating.toFixed(1)}</span>
+                            </div>
+                          ) : (
+                            <span className="text-[11px] text-[#94A3B8]">Nouveau</span>
+                          )}
                         </div>
                       </Link>
                     </motion.div>

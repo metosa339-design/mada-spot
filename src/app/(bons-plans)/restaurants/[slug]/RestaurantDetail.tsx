@@ -971,10 +971,14 @@ export default function RestaurantDetail() {
                   </span>
                   <span className="text-[12px] text-[#64748B]">{categoryLabels[restaurant.category]}</span>
                 </div>
-                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#E2E8F0] rounded-lg">
-                  <Star className="w-3.5 h-3.5 text-[#FF6B35] fill-[#FF6B35]" />
-                  <span className="font-mono text-[#0F172A] text-[13px]">{restaurant.rating?.toFixed(1)}</span>
-                </div>
+                {restaurant.reviewCount > 0 ? (
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#E2E8F0] rounded-lg">
+                    <Star className="w-3.5 h-3.5 text-[#FF6B35] fill-[#FF6B35]" />
+                    <span className="font-mono text-[#0F172A] text-[13px]">{restaurant.rating?.toFixed(1)}</span>
+                  </div>
+                ) : (
+                  <span className="px-3 py-1.5 bg-white border border-[#E2E8F0] rounded-lg text-[#64748B] text-[12px]">Nouveau</span>
+                )}
               </div>
 
               {/* Statut d'ouverture */}

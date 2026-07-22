@@ -1924,6 +1924,8 @@ export const en: Translations = {
     successDesc: 'Your listing',
     successDescSuffix: 'has been successfully claimed.',
     loginBtn: 'Sign in',
+    dashboardBtn: 'Go to my dashboard',
+    redirecting: 'Redirecting to your dashboard…',
     inviteHeader: 'You are invited to claim',
     typeHotel: 'Hotel',
     typeRestaurant: 'Restaurant',

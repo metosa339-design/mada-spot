@@ -59,6 +59,11 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
       const data = await res.json()
       if (data.success) {
         setSuccess(true)
+        // Le propriétaire est désormais connecté (lien magique) : on l'emmène
+        // directement sur son tableau de bord.
+        setTimeout(() => {
+          window.location.href = data.redirectTo || '/dashboard'
+        }, 1800)
       } else {
         setError(data.error || t.claimError)
       }
@@ -106,11 +111,12 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
             {t.successDesc} <strong className="text-white">{establishment?.name}</strong> {t.successDescSuffix}
           </p>
           <a
-            href="/auth/login"
+            href="/dashboard"
             className="inline-block px-6 py-3 bg-[#ff6b35] text-white rounded-xl font-medium hover:bg-[#ff6b35]/90 transition-colors"
           >
-            {t.loginBtn}
+            {t.dashboardBtn}
           </a>
+          <p className="text-gray-500 text-xs mt-3">{t.redirecting}</p>
         </div>
       </div>
     )

@@ -1925,6 +1925,8 @@ export const fr = {
     successDesc: 'Votre fiche',
     successDescSuffix: 'a été revendiquée avec succès.',
     loginBtn: 'Se connecter',
+    dashboardBtn: 'Accéder à mon tableau de bord',
+    redirecting: 'Redirection vers votre tableau de bord…',
     inviteHeader: 'Vous êtes invité à revendiquer',
     typeHotel: 'Hôtel',
     typeRestaurant: 'Restaurant',

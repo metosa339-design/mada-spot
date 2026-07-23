@@ -12,7 +12,7 @@ export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://madaspot.com';
-const MAX_SEND = 200;
+const MAX_PER_REQUEST = 50; // envoi synchrone : on borne pour rester sous le timeout
 
 function inviteEmail(estName: string, claimUrl: string): { subject: string; html: string } {
   return {
@@ -40,10 +40,11 @@ function inviteEmail(estName: string, claimUrl: string): { subject: string; html
 /**
  * POST /api/admin/claims/send-invites
  * Envoie l'invitation "revendiquez votre fiche" par email (Brevo) aux fiches
- * NON revendiquées AVEC email, en injectant le lien de revendication unique.
+ * NON revendiquées, AVEC email, PAS ENCORE INVITÉES (idempotent, sans doublon).
  *
- * SÉCURITÉ : aperçu par défaut. L'envoi réel n'a lieu que si send:true (body)
- * ou ?send=1. Auth admin OU CRON_SECRET.
+ * SÉCURITÉ : aperçu par défaut. Envoi réel seulement si send:true / ?send=1.
+ * Lots de 50 max par requête (rappeler jusqu'à totalRemaining = 0).
+ * Auth admin OU CRON_SECRET.
  *
  * Body: { filters?: {type,city,limit}, expiresDays?, send?: boolean }
  */
@@ -58,15 +59,21 @@ export async function POST(request: NextRequest) {
   const sendReal = body?.send === true || new URL(request.url).searchParams.get('send') === '1';
 
   const VALID_TYPES = ['HOTEL', 'RESTAURANT', 'ATTRACTION', 'PROVIDER'];
-  const limit = Math.min(Math.max(filters?.limit ?? 100, 1), MAX_SEND);
+  const limit = Math.min(Math.max(filters?.limit ?? 25, 1), MAX_PER_REQUEST);
   const ttlDays = Math.min(Math.max(expiresDays ?? 30, 1), 90);
   const expiry = new Date(Date.now() + ttlDays * 24 * 60 * 60 * 1000);
 
-  // Cible : NON revendiquées, AVEC email (l'invitation part par email).
-  const where: Record<string, unknown> = { isClaimed: false, email: { not: null } };
+  // Cible : NON revendiquées, AVEC email, et PAS déjà invitées (aucun claim
+  // PENDING avec token) — garantit qu'on n'envoie jamais deux fois.
+  const where: Record<string, unknown> = {
+    isClaimed: false,
+    email: { not: null },
+    claims: { none: { status: 'PENDING', invitationToken: { not: null } } },
+  };
   if (filters?.type && VALID_TYPES.includes(filters.type)) where.type = filters.type;
   if (filters?.city) where.city = filters.city;
 
+  const totalRemaining = await prisma.establishment.count({ where });
   const establishments = await prisma.establishment.findMany({
     where,
     select: { id: true, name: true, email: true },
@@ -74,74 +81,65 @@ export async function POST(request: NextRequest) {
     orderBy: { createdAt: 'desc' },
   });
 
+  // APERÇU (aucun envoi, aucune écriture)
+  if (!sendReal) {
+    return NextResponse.json({
+      ok: true,
+      mode: 'PREVIEW',
+      totalRemaining,
+      nextBatch: establishments.length,
+      sample: establishments.slice(0, 15).map((e) => `${e.name} <${e.email}>`),
+    });
+  }
+
+  // ENVOI RÉEL (lot borné)
   let sent = 0;
   let failed = 0;
   const errors: string[] = [];
-  const previewSample: string[] = [];
 
   for (const est of establishments) {
     if (!est.email) continue;
-
-    // Token de revendication (réutilise un PENDING valide, sinon crée)
-    const existing = await prisma.establishmentClaim.findFirst({
-      where: { establishmentId: est.id, status: 'PENDING', invitationToken: { not: null }, invitationExpiry: { gte: new Date() } },
-      select: { invitationToken: true },
+    const token = randomUUID();
+    await prisma.establishmentClaim.create({
+      data: {
+        establishmentId: est.id,
+        claimantName: '',
+        claimantEmail: est.email,
+        claimantRole: 'owner',
+        invitationToken: token,
+        invitationExpiry: expiry,
+        invitedAt: new Date(),
+      },
     });
-    let token = existing?.invitationToken || null;
-
-    if (!sendReal) {
-      previewSample.push(`${est.name} <${est.email}>`);
-      continue;
-    }
-
-    if (!token) {
-      token = randomUUID();
-      await prisma.establishmentClaim.create({
-        data: {
-          establishmentId: est.id,
-          claimantName: '',
-          claimantEmail: est.email,
-          claimantRole: 'owner',
-          invitationToken: token,
-          invitationExpiry: expiry,
-          invitedAt: new Date(),
-        },
-      });
-    }
-
-    const claimUrl = `${SITE_URL}/invite/${token}`;
-    const { subject, html } = inviteEmail(est.name, claimUrl);
+    const { subject, html } = inviteEmail(est.name, `${SITE_URL}/invite/${token}`);
     const res = await sendBrevoEmail({ to: est.email, subject, html, senderName: 'Mada Spot', senderEmail: 'contact@madaspot.com', tag: 'claim-invite' });
     if (res.ok) {
       sent++;
-      // Marque la date d'invitation même si le claim existait déjà
-      await prisma.establishmentClaim.updateMany({
-        where: { establishmentId: est.id, invitationToken: token },
-        data: { invitedAt: new Date() },
-      });
     } else {
       failed++;
       errors.push(`${est.email}: ${res.error || res.status}`);
-      if (res.status === 401 || res.status === 403) break; // blocage IP Brevo : on arrête
+      if (res.status === 401 || res.status === 403) break; // blocage IP Brevo : stop
     }
   }
 
-  if (sendReal) {
-    await logAudit({
-      userId: cronOk ? 'cron' : (admin as { id: string }).id,
-      action: 'claim_invites_sent',
-      entityType: 'establishment',
-      entityId: 'bulk',
-      details: { matched: establishments.length, sent, failed },
-      ...getRequestMeta(request),
-    });
-    logger.info(`[CLAIM-INVITES] ${sent} envoyés, ${failed} échecs`);
-  }
+  await logAudit({
+    userId: cronOk ? 'cron' : (admin as { id: string }).id,
+    action: 'claim_invites_sent',
+    entityType: 'establishment',
+    entityId: 'bulk',
+    details: { batch: establishments.length, sent, failed },
+    ...getRequestMeta(request),
+  });
+  logger.info(`[CLAIM-INVITES] lot ${establishments.length} → ${sent} envoyés, ${failed} échecs`);
 
   return NextResponse.json({
     ok: true,
-    mode: sendReal ? 'SENT' : 'PREVIEW',
-    matched: establishments.length,
-    ...(sendReal ? { sent, failed, errors: errors.slice(0, 10) } : { wouldSend: establishments.length, sample: previewSample.slice(0, 15) }),
+    mode: 'SENT',
+    batchSize: establishments.length,
+    sent,
+    failed,
+    totalRemainingBefore: totalRemaining,
+    remainingAfter: Math.max(0, totalRemaining - sent),
+    errors: errors.slice(0, 10),
   });
 }

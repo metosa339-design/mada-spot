@@ -63,12 +63,14 @@ export async function POST(request: NextRequest) {
   const ttlDays = Math.min(Math.max(expiresDays ?? 30, 1), 90);
   const expiry = new Date(Date.now() + ttlDays * 24 * 60 * 60 * 1000);
 
-  // Cible : NON revendiquées, AVEC email, et PAS déjà invitées (aucun claim
-  // PENDING avec token) — garantit qu'on n'envoie jamais deux fois.
+  // Cible : NON revendiquées, AVEC email, et dont l'invitation N'A PAS été
+  // réellement ENVOYÉE par email (marqueur reviewedBy='invite-emailed').
+  // NB : avoir un token (généré par generate-links pour le CSV) ne compte pas
+  // comme "emailé" — on distingue lien généré ≠ email envoyé.
   const where: Record<string, unknown> = {
     isClaimed: false,
     email: { not: null },
-    claims: { none: { status: 'PENDING', invitationToken: { not: null } } },
+    claims: { none: { reviewedBy: 'invite-emailed' } },
   };
   if (filters?.type && VALID_TYPES.includes(filters.type)) where.type = filters.type;
   if (filters?.city) where.city = filters.city;
@@ -99,22 +101,37 @@ export async function POST(request: NextRequest) {
 
   for (const est of establishments) {
     if (!est.email) continue;
-    const token = randomUUID();
-    await prisma.establishmentClaim.create({
-      data: {
-        establishmentId: est.id,
-        claimantName: '',
-        claimantEmail: est.email,
-        claimantRole: 'owner',
-        invitationToken: token,
-        invitationExpiry: expiry,
-        invitedAt: new Date(),
-      },
+
+    // Réutiliser le token existant (généré par generate-links) pour garder les
+    // liens déjà exportés valides ; sinon en créer un.
+    const existing = await prisma.establishmentClaim.findFirst({
+      where: { establishmentId: est.id, status: 'PENDING', invitationToken: { not: null }, invitationExpiry: { gte: new Date() } },
+      select: { invitationToken: true },
     });
+    const token = existing?.invitationToken || randomUUID();
+    if (!existing) {
+      await prisma.establishmentClaim.create({
+        data: {
+          establishmentId: est.id,
+          claimantName: '',
+          claimantEmail: est.email,
+          claimantRole: 'owner',
+          invitationToken: token,
+          invitationExpiry: expiry,
+          invitedAt: new Date(),
+        },
+      });
+    }
+
     const { subject, html } = inviteEmail(est.name, `${SITE_URL}/invite/${token}`);
     const res = await sendBrevoEmail({ to: est.email, subject, html, senderName: 'Mada Spot', senderEmail: 'contact@madaspot.com', tag: 'claim-invite' });
     if (res.ok) {
       sent++;
+      // Marque l'invitation comme réellement envoyée (anti-doublon des prochains lots)
+      await prisma.establishmentClaim.updateMany({
+        where: { establishmentId: est.id, invitationToken: token },
+        data: { reviewedBy: 'invite-emailed', invitedAt: new Date() },
+      });
     } else {
       failed++;
       errors.push(`${est.email}: ${res.error || res.status}`);

@@ -153,7 +153,29 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     }),
   ])
 
-  logger.info(`[CLAIM] ✓ Fiche ${claim.establishmentId} revendiquée et rattachée à ${email}`)
+  logger.info(`[CLAIM] ✓ Fiche ${claim.establishmentId} revendiquée et rattachée à ${email || ownerPhone}`)
+
+  // 2b. CRM : marquer le prospect correspondant comme CONVERTI (best-effort, non bloquant)
+  try {
+    const prospect = await prisma.prospect.findFirst({
+      where: {
+        status: { notIn: ['CONVERTED', 'UNSUBSCRIBED', 'REJECTED'] },
+        OR: [
+          ...(email ? [{ email }] : []),
+          ...(ownerPhone ? [{ phone: ownerPhone }] : []),
+        ],
+      },
+      select: { id: true },
+    })
+    if (prospect) {
+      await prisma.prospect.update({
+        where: { id: prospect.id },
+        data: { status: 'CONVERTED', convertedAt: new Date(), convertedToUserId: ownerId },
+      })
+    }
+  } catch (e) {
+    logger.warn('[CLAIM] conversion prospect échouée (non bloquant)', e as any)
+  }
 
   // 3. Connecter le propriétaire immédiatement (le lien magique fait office d'auth)
   const sessionToken = await createSession(

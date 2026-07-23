@@ -86,6 +86,14 @@ export default function EstablishmentModerationList() {
   const typeIcons: Record<string, any> = { HOTEL: Hotel, RESTAURANT: UtensilsCrossed, ATTRACTION: Compass };
   const typeColors: Record<string, string> = { HOTEL: '#3b82f6', RESTAURANT: '#f97316', ATTRACTION: '#10b981' };
 
+  // Garde-fou d'affichage : ne montrer que les fiches dont le statut correspond
+  // à l'onglet actif. Empêche qu'une fiche approuvée apparaisse sous « Refusés »
+  // même si l'API renvoie des données non filtrées (cache/ancien bundle).
+  // Onglet « Tous » (filter === '') : on affiche tout.
+  const visibleEstablishments = filter
+    ? establishments.filter((e) => e?.moderationStatus === filter)
+    : establishments;
+
   if (showEditor) {
     return (
       <EstablishmentEditor
@@ -149,7 +157,7 @@ export default function EstablishmentModerationList() {
 
       {loading ? (
         <div className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto text-gray-500" /></div>
-      ) : establishments.length === 0 ? (
+      ) : visibleEstablishments.length === 0 ? (
         <div className="text-center py-12">
           <Building2 className="w-12 h-12 text-gray-500/30 mx-auto mb-3" />
           <p className="text-gray-500">Aucun etablissement trouve</p>
@@ -157,7 +165,7 @@ export default function EstablishmentModerationList() {
       ) : (
         <div className="space-y-3">
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-          {establishments.map((est: any) => {
+          {visibleEstablishments.map((est: any) => {
             const TypeIcon = typeIcons[est.type] || Building2;
             const color = typeColors[est.type] || '#6b7280';
             const conf = evaluateFiche(est);

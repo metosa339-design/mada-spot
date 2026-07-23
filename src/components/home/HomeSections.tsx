@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -21,20 +20,9 @@ import {
   User as UserIcon,
 } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
+import Reveal from '@/components/ui/Reveal';
 import { useTrans } from '@/i18n';
 import { getEstablishmentImage } from '@/lib/establishment-image';
-
-const EASE = [0.16, 1, 0.3, 1] as const;
-
-const fadeUp = {
-  hidden: { y: 24, opacity: 0 },
-  visible: { y: 0, opacity: 1, transition: { duration: 0.7, ease: EASE } },
-};
-
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-};
 
 interface FeaturedHotel {
   id: string;
@@ -65,10 +53,9 @@ const REVIEWS = [
 /**
  * HomeSections — tout le contenu SOUS le hero.
  *
- * Chargé en `next/dynamic` depuis la page d'accueil : le HTML reste rendu côté
- * serveur (SEO), mais son JavaScript (framer-motion + carrousel + fetch) est
- * téléchargé APRÈS le premier rendu. L'image hero (élément LCP) récupère ainsi
- * la bande passante en premier sur mobile lent → LCP réduit.
+ * Chargé en `next/dynamic` depuis la page d'accueil. Les animations d'apparition
+ * utilisent le composant CSS `Reveal` (IntersectionObserver) au lieu de
+ * framer-motion → moins de JavaScript, même effet visuel.
  */
 export default function HomeSections() {
   const t = useTrans('home');
@@ -177,9 +164,6 @@ export default function HomeSections() {
    Section : Destinations populaires
    ============================================================ */
 function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-
   // Grille asymétrique (style Booking) : les 12 destinations pavent parfaitement
   // une grille de 12 colonnes → 2×(6) + 3×(4) + 4×(3) + 3×(4).
   const layout = (i: number): string => {
@@ -222,37 +206,28 @@ function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
     .sort((a, b) => b.count - a.count);
 
   return (
-    <section ref={ref} className="relative bg-[#F8FAFC] py-10 sm:py-12 border-b border-[#E2E8F0]">
+    <section className="relative bg-[#F8FAFC] py-10 sm:py-12 border-b border-[#E2E8F0]">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-        <motion.div
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          variants={stagger}
-          className="mb-6"
-        >
-          <motion.p
-            variants={fadeUp}
+        <div className="mb-6">
+          <Reveal
+            as="p"
             className="text-[11px] uppercase tracking-[0.12em] text-[#FF6B35] font-medium mb-3"
           >
             {t.discoverMadagascar}
-          </motion.p>
-          <motion.h2
-            variants={fadeUp}
+          </Reveal>
+          <Reveal
+            as="h2"
+            delay={80}
             className="text-[32px] sm:text-[44px] lg:text-[52px] leading-[1.05] font-semibold tracking-[-0.03em] text-[#0F172A]"
             style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
           >
             {t.popularDestinations}
-          </motion.h2>
-        </motion.div>
+          </Reveal>
+        </div>
 
-        <motion.div
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          variants={stagger}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-4 w-full"
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-4 w-full">
           {ordered.map((dest, i) => (
-            <motion.div key={dest.name} variants={fadeUp} className={layout(i)}>
+            <Reveal key={dest.name} delay={Math.min(i, 8) * 60} className={layout(i)}>
               <Link
                 href={`/search?city=${encodeURIComponent(dest.city || dest.name)}&type=HOTEL`}
                 className="group relative block w-full h-full rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
@@ -272,9 +247,9 @@ function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
                   {dest.name}
                 </span>
               </Link>
-            </motion.div>
+            </Reveal>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -284,34 +259,27 @@ function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
    Section : Sélection premium — Hôtels coups de cœur et de confiance
    ============================================================ */
 function FeaturedHotelsSection({ hotels }: { hotels: FeaturedHotel[] }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-
   return (
-    <section ref={ref} className="relative bg-white py-16 sm:py-20 border-b border-[#E2E8F0]">
+    <section className="relative bg-white py-16 sm:py-20 border-b border-[#E2E8F0]">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-        <motion.div
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          variants={stagger}
-          className="flex items-end justify-between mb-8 gap-4"
-        >
+        <div className="flex items-end justify-between mb-8 gap-4">
           <div>
-            <motion.p
-              variants={fadeUp}
+            <Reveal
+              as="p"
               className="text-[11px] uppercase tracking-[0.12em] text-[#FF6B35] font-medium mb-3"
             >
               SÉLECTION PREMIUM
-            </motion.p>
-            <motion.h2
-              variants={fadeUp}
+            </Reveal>
+            <Reveal
+              as="h2"
+              delay={80}
               className="text-[32px] sm:text-[44px] lg:text-[52px] leading-[1.05] font-semibold tracking-[-0.03em] text-[#0F172A]"
               style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
             >
               Hôtels coups de cœur et de confiance
-            </motion.h2>
+            </Reveal>
           </div>
-          <motion.div variants={fadeUp}>
+          <Reveal delay={120}>
             <Link
               href="/hotels"
               className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[13px] font-medium text-[#0F172A] bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] transition-colors"
@@ -319,20 +287,15 @@ function FeaturedHotelsSection({ hotels }: { hotels: FeaturedHotel[] }) {
               Voir tout
               <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
             </Link>
-          </motion.div>
-        </motion.div>
+          </Reveal>
+        </div>
 
-        <motion.div
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          variants={stagger}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5"
-        >
-          {hotels.map((h) => (
-            <motion.div key={h.id} variants={fadeUp} whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          {hotels.map((h, i) => (
+            <Reveal key={h.id} delay={Math.min(i, 8) * 60}>
               <Link
                 href={`/hotels/${h.slug}`}
-                className="group block bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden hover:border-[#FF6B35]/30 hover:shadow-md transition-all duration-300"
+                className="group block bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden hover:border-[#FF6B35]/30 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
@@ -374,9 +337,9 @@ function FeaturedHotelsSection({ hotels }: { hotels: FeaturedHotel[] }) {
                   </div>
                 </div>
               </Link>
-            </motion.div>
+            </Reveal>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -386,44 +349,37 @@ function FeaturedHotelsSection({ hotels }: { hotels: FeaturedHotel[] }) {
    Section : Bannière inscription pros
    ============================================================ */
 function ProBannerSection({ t }: { t: Record<string, string> }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-
   return (
-    <section ref={ref} className="relative bg-[#003B95] py-14 sm:py-20 overflow-hidden">
+    <section className="relative bg-[#003B95] py-14 sm:py-20 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-        <motion.div
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          variants={stagger}
-          className="grid lg:grid-cols-[1fr_1.05fr] gap-8 lg:gap-12 items-center"
-        >
+        <div className="grid lg:grid-cols-[1fr_1.05fr] gap-8 lg:gap-12 items-center">
           <div>
-            <motion.div
-              variants={fadeUp}
+            <Reveal
               className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/15 text-white rounded-full text-[12px] font-medium border border-white/20 mb-6"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B35]" />
               {t.bannerEyebrow}
-            </motion.div>
+            </Reveal>
 
-            <motion.h2
-              variants={fadeUp}
+            <Reveal
+              as="h2"
+              delay={80}
               className="text-[36px] sm:text-[48px] lg:text-[56px] leading-[1.04] font-semibold tracking-[-0.03em] text-white"
               style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
             >
               {t.bannerTitlePart1}{' '}
               <span className="text-[#FFB088]">{t.bannerTitleHighlight}</span>
-            </motion.h2>
+            </Reveal>
 
-            <motion.p
-              variants={fadeUp}
+            <Reveal
+              as="p"
+              delay={140}
               className="mt-5 text-[15px] sm:text-[17px] text-white/85 max-w-lg leading-[1.6]"
             >
               {t.bannerSubtitle}
-            </motion.p>
+            </Reveal>
 
-            <motion.div variants={fadeUp} className="mt-8">
+            <Reveal delay={200} className="mt-8">
               <Link
                 href="/inscrire-etablissement"
                 className="group inline-flex items-center gap-2 px-6 py-3.5 bg-[#FF6B35] hover:bg-[#F97316] text-white rounded-xl text-[14px] font-semibold transition-colors shadow-[0_4px_14px_rgba(255,107,53,0.25)] hover:shadow-[0_12px_40px_rgba(255,107,53,0.35)]"
@@ -431,11 +387,11 @@ function ProBannerSection({ t }: { t: Record<string, string> }) {
                 Ajouter mon établissement (Gratuit)
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
-            </motion.div>
+            </Reveal>
           </div>
 
-          <motion.div
-            variants={fadeUp}
+          <Reveal
+            delay={120}
             className="relative aspect-[5/4] sm:aspect-[4/3] lg:aspect-[5/4] w-full max-w-[560px] lg:max-w-none lg:ml-auto rounded-2xl overflow-hidden border border-white/15 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.45)]"
           >
             <Image
@@ -446,8 +402,8 @@ function ProBannerSection({ t }: { t: Record<string, string> }) {
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-          </motion.div>
-        </motion.div>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
@@ -457,9 +413,6 @@ function ProBannerSection({ t }: { t: Record<string, string> }) {
    Section : Pourquoi Mada Spot
    ============================================================ */
 function WhyMadaSpotSection({ t }: { t: Record<string, string> }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-
   const items = [
     { icon: CreditCard, title: t.securePayment, desc: t.securePaymentDesc },
     { icon: CalendarCheck, title: t.booking24, desc: t.booking24Desc },
@@ -468,42 +421,31 @@ function WhyMadaSpotSection({ t }: { t: Record<string, string> }) {
   ];
 
   return (
-    <section ref={ref} className="relative bg-white py-16 sm:py-20 border-b border-[#E2E8F0]">
+    <section className="relative bg-white py-16 sm:py-20 border-b border-[#E2E8F0]">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-        <motion.div
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          variants={stagger}
-          className="mb-8 max-w-2xl"
-        >
-          <motion.p
-            variants={fadeUp}
+        <div className="mb-8 max-w-2xl">
+          <Reveal
+            as="p"
             className="text-[11px] uppercase tracking-[0.12em] text-[#FF6B35] font-medium mb-3"
           >
             Pourquoi Mada Spot
-          </motion.p>
-          <motion.h2
-            variants={fadeUp}
+          </Reveal>
+          <Reveal
+            as="h2"
+            delay={80}
             className="text-[32px] sm:text-[44px] lg:text-[52px] leading-[1.05] font-semibold tracking-[-0.03em] text-[#0F172A]"
             style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
           >
             La plateforme tourisme la plus directe de Madagascar.
-          </motion.h2>
-        </motion.div>
+          </Reveal>
+        </div>
 
-        <motion.div
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          variants={stagger}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5"
-        >
-          {items.map((item) => (
-            <motion.div
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          {items.map((item, i) => (
+            <Reveal
               key={item.title}
-              variants={fadeUp}
-              whileHover={{ y: -2 }}
-              transition={{ duration: 0.2 }}
-              className="p-5 sm:p-6 bg-white border border-[#E2E8F0] rounded-xl hover:border-[#CBD5E1] transition-colors"
+              delay={i * 70}
+              className="p-5 sm:p-6 bg-white border border-[#E2E8F0] rounded-xl hover:border-[#CBD5E1] transition-all duration-200 hover:-translate-y-0.5"
             >
               <div className="w-11 h-11 rounded-full bg-white border border-[#E2E8F0] flex items-center justify-center mb-4">
                 <item.icon className="w-5 h-5 text-[#FDBA74]" />
@@ -512,9 +454,9 @@ function WhyMadaSpotSection({ t }: { t: Record<string, string> }) {
                 {item.title}
               </h4>
               <p className="mt-1.5 text-[13px] text-[#64748B] leading-[1.55]">{item.desc}</p>
-            </motion.div>
+            </Reveal>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -524,11 +466,9 @@ function WhyMadaSpotSection({ t }: { t: Record<string, string> }) {
    Section : Témoignages (carrousel manuel)
    ============================================================ */
 function TestimonialsSection({ t }: { t: Record<string, string> }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-  const sectionInView = useInView(ref, { margin: '-80px' });
   const [index, setIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [autoplay, setAutoplay] = useState(false);
   const pageSize = 3;
   const maxIndex = Math.max(0, REVIEWS.length - pageSize);
 
@@ -542,40 +482,55 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
   };
   const visibleDots = Math.ceil(REVIEWS.length / pageSize);
 
+  // Autoplay : uniquement quand la section a été vue et non mise en pause.
   useEffect(() => {
-    if (isPaused || !sectionInView) return;
+    if (isPaused || !autoplay) return;
     const id = setInterval(() => {
       setIndex((i) => (i >= maxIndex ? 0 : i + 1));
     }, 4500);
     return () => clearInterval(id);
-  }, [isPaused, sectionInView, maxIndex]);
+  }, [isPaused, autoplay, maxIndex]);
+
+  const carouselRef = (el: HTMLDivElement | null) => {
+    if (!el || autoplay || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setAutoplay(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: '-80px' },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  };
 
   return (
-    <section ref={ref} className="relative bg-[#F8FAFC] py-16 sm:py-20 border-b border-[#E2E8F0] overflow-hidden">
+    <section
+      ref={carouselRef}
+      className="relative bg-[#F8FAFC] py-16 sm:py-20 border-b border-[#E2E8F0] overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-        <motion.div
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          variants={stagger}
-          className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8"
-        >
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
           <div>
-            <motion.p
-              variants={fadeUp}
+            <Reveal
+              as="p"
               className="text-[11px] uppercase tracking-[0.12em] text-[#FF6B35] font-medium mb-3"
             >
               {t.reviewsEyebrow}
-            </motion.p>
-            <motion.h2
-              variants={fadeUp}
+            </Reveal>
+            <Reveal
+              as="h2"
+              delay={80}
               className="text-[32px] sm:text-[44px] lg:text-[52px] leading-[1.05] font-semibold tracking-[-0.03em] text-[#0F172A]"
               style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
             >
               {t.reviewsTitle}
-            </motion.h2>
+            </Reveal>
           </div>
 
-          <motion.div variants={fadeUp} className="flex items-center gap-2">
+          <Reveal delay={120} className="flex items-center gap-2">
             <button
               onClick={goPrev}
               aria-label={t.previous}
@@ -590,8 +545,8 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
             >
               <ChevronRight className="w-4 h-4" />
             </button>
-          </motion.div>
-        </motion.div>
+          </Reveal>
+        </div>
 
         {/* Carrousel */}
         <div
@@ -600,10 +555,12 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={() => setIsPaused(true)}
         >
-          <motion.div
+          <div
             className="flex gap-4 sm:gap-5"
-            animate={{ x: `calc(-${index} * (100% / ${pageSize}) - ${index} * 1.25rem / ${pageSize})` }}
-            transition={{ duration: 0.55, ease: EASE }}
+            style={{
+              transform: `translateX(calc(-${index} * (100% / ${pageSize}) - ${index} * 1.25rem / ${pageSize}))`,
+              transition: 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
           >
             {REVIEWS.map((review, i) => (
               <div
@@ -631,7 +588,7 @@ function TestimonialsSection({ t }: { t: Record<string, string> }) {
                 </p>
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
 
         {/* Dots */}
@@ -669,8 +626,6 @@ function getInitials(name: string): string {
    Section : Newsletter compacte
    ============================================================ */
 function NewsletterSection({ t }: { t: Record<string, string> }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
@@ -702,29 +657,19 @@ function NewsletterSection({ t }: { t: Record<string, string> }) {
   };
 
   return (
-    <section ref={ref} className="bg-[#F8FAFC] py-16 sm:py-20">
+    <section className="bg-[#F8FAFC] py-16 sm:py-20">
       <div className="max-w-3xl mx-auto px-5 sm:px-8">
-        <motion.div
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          variants={stagger}
-          className="p-8 sm:p-10 bg-white border border-[#E2E8F0] rounded-2xl"
-        >
-          <motion.h2
-            variants={fadeUp}
+        <Reveal className="p-8 sm:p-10 bg-white border border-[#E2E8F0] rounded-2xl">
+          <h2
             className="text-[24px] sm:text-[30px] font-semibold tracking-[-0.02em] text-[#0F172A] text-center"
             style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, system-ui, sans-serif" }}
           >
             {t.newsletterTitleHome}
-          </motion.h2>
-          <motion.p
-            variants={fadeUp}
-            className="mt-3 text-[14px] sm:text-[15px] text-[#64748B] text-center max-w-md mx-auto"
-          >
+          </h2>
+          <p className="mt-3 text-[14px] sm:text-[15px] text-[#64748B] text-center max-w-md mx-auto">
             {t.newsletterDescHome}
-          </motion.p>
-          <motion.form
-            variants={fadeUp}
+          </p>
+          <form
             className="mt-7 flex flex-col sm:flex-row gap-2.5 max-w-md mx-auto"
             onSubmit={handleSubscribe}
           >
@@ -744,18 +689,17 @@ function NewsletterSection({ t }: { t: Record<string, string> }) {
             >
               {status === 'loading' ? '...' : t.subscribeHome}
             </button>
-          </motion.form>
+          </form>
           {message && (
-            <motion.p
-              variants={fadeUp}
+            <p
               className={`mt-3 text-center text-[13px] ${
                 status === 'success' ? 'text-[#10B981]' : 'text-[#EF4444]'
               }`}
             >
               {message}
-            </motion.p>
+            </p>
           )}
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

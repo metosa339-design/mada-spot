@@ -1,6 +1,5 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useMemo } from 'react';
@@ -27,6 +26,9 @@ type Tab = 'hotels' | 'restaurants' | 'attractions' | 'guides';
  *  - Bandeau bleu avec tabs catégorie en haut + grid 2 cols (texte + image immersive)
  *  - Search bar simplifiée 1 ligne en bas, dépasse à cheval bleu/blanc
  *  - Bordure orange MadaSpot autour de la search box (signature)
+ *
+ * Les popovers (suggestions / dates / voyageurs) apparaissent via une petite
+ * animation CSS (.pop-in) — plus de framer-motion, pour alléger le bundle.
  */
 export default function HeroClean() {
   const t = useTrans('home');
@@ -232,43 +234,35 @@ export default function HeroClean() {
                 />
               </div>
             </label>
-            <AnimatePresence>
-              {showSug && suggestions.length > 0 && (
-                <>
-                  <div
-                    className="fixed inset-0 z-30"
-                    onClick={() => setShowSug(false)}
-                    aria-hidden="true"
-                  />
-                  <motion.ul
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 4 }}
-                    transition={{ duration: 0.15 }}
-                    className="absolute top-full left-0 right-0 md:min-w-[280px] mt-2 z-40 bg-white border border-[#E2E8F0] rounded-2xl shadow-[0_12px_36px_rgba(15,23,42,0.15)] overflow-hidden max-h-72 overflow-y-auto py-1"
-                  >
-                    {suggestions.map((c, i) => (
-                      <li key={c.slug}>
-                        <button
-                          type="button"
-                          onMouseDown={(e) => {
-                            e.preventDefault();
-                            selectCity(c.name);
-                          }}
-                          onMouseEnter={() => setSugIndex(i)}
-                          className={`w-full text-left px-4 py-2.5 flex items-center gap-2.5 text-[14px] transition-colors ${
-                            i === sugIndex ? 'bg-[#FFF7ED]' : 'hover:bg-gray-50'
-                          }`}
-                        >
-                          <MapPin className="w-4 h-4 text-[#FF6B35] shrink-0" />
-                          <span className="font-medium text-[#0F172A] truncate">{c.name}</span>
-                        </button>
-                      </li>
-                    ))}
-                  </motion.ul>
-                </>
-              )}
-            </AnimatePresence>
+            {showSug && suggestions.length > 0 && (
+              <>
+                <div
+                  className="fixed inset-0 z-30"
+                  onClick={() => setShowSug(false)}
+                  aria-hidden="true"
+                />
+                <ul className="pop-in absolute top-full left-0 right-0 md:min-w-[280px] mt-2 z-40 bg-white border border-[#E2E8F0] rounded-2xl shadow-[0_12px_36px_rgba(15,23,42,0.15)] overflow-hidden max-h-72 overflow-y-auto py-1">
+                  {suggestions.map((c, i) => (
+                    <li key={c.slug}>
+                      <button
+                        type="button"
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          selectCity(c.name);
+                        }}
+                        onMouseEnter={() => setSugIndex(i)}
+                        className={`w-full text-left px-4 py-2.5 flex items-center gap-2.5 text-[14px] transition-colors ${
+                          i === sugIndex ? 'bg-[#FFF7ED]' : 'hover:bg-gray-50'
+                        }`}
+                      >
+                        <MapPin className="w-4 h-4 text-[#FF6B35] shrink-0" />
+                        <span className="font-medium text-[#0F172A] truncate">{c.name}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
           </div>
 
           {/* Dates */}
@@ -290,82 +284,74 @@ export default function HeroClean() {
                 </p>
               </div>
             </button>
-            <AnimatePresence>
-              {openPopover === 'dates' && (
-                <>
-                  <div
-                    className="fixed inset-0 z-30"
-                    onClick={() => setOpenPopover(null)}
-                    aria-hidden="true"
-                  />
-                  <motion.div
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 4 }}
-                    transition={{ duration: 0.18 }}
-                    className="absolute top-full left-0 right-0 md:right-auto md:min-w-[300px] mt-2 z-40 bg-white border border-[#E2E8F0] rounded-xl shadow-[0_12px_36px_rgba(15,23,42,0.15)] p-4"
-                  >
-                    <div className="space-y-3">
-                      <div>
-                        <label
-                          htmlFor="hero-checkin"
-                          className="block text-[11px] font-bold text-[#64748B] uppercase tracking-wider mb-1.5"
-                        >
-                          {t.arrival}
-                        </label>
-                        <input
-                          id="hero-checkin"
-                          type="date"
-                          min={todayISO}
-                          value={checkIn}
-                          onChange={(e) => {
-                            const v = e.target.value;
-                            setCheckIn(v);
-                            if (checkOut && v && v > checkOut) setCheckOut('');
-                          }}
-                          className="w-full px-3 py-2 border border-[#E2E8F0] rounded-md text-[14px] text-[#0F172A] outline-none focus:border-[#FF6B35] transition-colors"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="hero-checkout"
-                          className="block text-[11px] font-bold text-[#64748B] uppercase tracking-wider mb-1.5"
-                        >
-                          {t.departure}
-                        </label>
-                        <input
-                          id="hero-checkout"
-                          type="date"
-                          min={checkIn || todayISO}
-                          value={checkOut}
-                          onChange={(e) => setCheckOut(e.target.value)}
-                          className="w-full px-3 py-2 border border-[#E2E8F0] rounded-md text-[14px] text-[#0F172A] outline-none focus:border-[#FF6B35] transition-colors"
-                        />
-                      </div>
-                      <div className="flex justify-between items-center pt-1">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setCheckIn('');
-                            setCheckOut('');
-                          }}
-                          className="text-[12px] text-[#64748B] hover:text-[#0F172A] font-medium"
-                        >
-                          {t.clearDates}
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setOpenPopover(null)}
-                          className="px-3 py-1.5 rounded-md bg-[#FF6B35] hover:bg-[#F97316] text-white text-[12px] font-semibold transition-colors"
-                        >
-                          {t.validate}
-                        </button>
-                      </div>
+            {openPopover === 'dates' && (
+              <>
+                <div
+                  className="fixed inset-0 z-30"
+                  onClick={() => setOpenPopover(null)}
+                  aria-hidden="true"
+                />
+                <div className="pop-in absolute top-full left-0 right-0 md:right-auto md:min-w-[300px] mt-2 z-40 bg-white border border-[#E2E8F0] rounded-xl shadow-[0_12px_36px_rgba(15,23,42,0.15)] p-4">
+                  <div className="space-y-3">
+                    <div>
+                      <label
+                        htmlFor="hero-checkin"
+                        className="block text-[11px] font-bold text-[#64748B] uppercase tracking-wider mb-1.5"
+                      >
+                        {t.arrival}
+                      </label>
+                      <input
+                        id="hero-checkin"
+                        type="date"
+                        min={todayISO}
+                        value={checkIn}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          setCheckIn(v);
+                          if (checkOut && v && v > checkOut) setCheckOut('');
+                        }}
+                        className="w-full px-3 py-2 border border-[#E2E8F0] rounded-md text-[14px] text-[#0F172A] outline-none focus:border-[#FF6B35] transition-colors"
+                      />
                     </div>
-                  </motion.div>
-                </>
-              )}
-            </AnimatePresence>
+                    <div>
+                      <label
+                        htmlFor="hero-checkout"
+                        className="block text-[11px] font-bold text-[#64748B] uppercase tracking-wider mb-1.5"
+                      >
+                        {t.departure}
+                      </label>
+                      <input
+                        id="hero-checkout"
+                        type="date"
+                        min={checkIn || todayISO}
+                        value={checkOut}
+                        onChange={(e) => setCheckOut(e.target.value)}
+                        className="w-full px-3 py-2 border border-[#E2E8F0] rounded-md text-[14px] text-[#0F172A] outline-none focus:border-[#FF6B35] transition-colors"
+                      />
+                    </div>
+                    <div className="flex justify-between items-center pt-1">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setCheckIn('');
+                          setCheckOut('');
+                        }}
+                        className="text-[12px] text-[#64748B] hover:text-[#0F172A] font-medium"
+                      >
+                        {t.clearDates}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setOpenPopover(null)}
+                        className="px-3 py-1.5 rounded-md bg-[#FF6B35] hover:bg-[#F97316] text-white text-[12px] font-semibold transition-colors"
+                      >
+                        {t.validate}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Voyageurs */}
@@ -388,55 +374,47 @@ export default function HeroClean() {
                 }`}
               />
             </button>
-            <AnimatePresence>
-              {openPopover === 'guests' && (
-                <>
-                  <div
-                    className="fixed inset-0 z-30"
-                    onClick={() => setOpenPopover(null)}
-                    aria-hidden="true"
+            {openPopover === 'guests' && (
+              <>
+                <div
+                  className="fixed inset-0 z-30"
+                  onClick={() => setOpenPopover(null)}
+                  aria-hidden="true"
+                />
+                <div className="pop-in absolute top-full left-0 right-0 md:right-auto md:min-w-[300px] mt-2 z-40 bg-white border border-[#E2E8F0] rounded-xl shadow-[0_12px_36px_rgba(15,23,42,0.15)] p-4">
+                  <GuestRow
+                    label={t.adultsLabel}
+                    sub={t.adultsAge}
+                    value={adults}
+                    min={1}
+                    max={20}
+                    onChange={setAdults}
+                    decreaseLabel={t.decrease}
+                    increaseLabel={t.increase}
                   />
-                  <motion.div
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 4 }}
-                    transition={{ duration: 0.18 }}
-                    className="absolute top-full left-0 right-0 md:right-auto md:min-w-[300px] mt-2 z-40 bg-white border border-[#E2E8F0] rounded-xl shadow-[0_12px_36px_rgba(15,23,42,0.15)] p-4"
-                  >
-                    <GuestRow
-                      label={t.adultsLabel}
-                      sub={t.adultsAge}
-                      value={adults}
-                      min={1}
-                      max={20}
-                      onChange={setAdults}
-                      decreaseLabel={t.decrease}
-                      increaseLabel={t.increase}
-                    />
-                    <div className="h-px bg-[#E2E8F0] my-3" />
-                    <GuestRow
-                      label={t.childrenLabel}
-                      sub={t.childrenAge}
-                      value={children}
-                      min={0}
-                      max={10}
-                      onChange={setChildren}
-                      decreaseLabel={t.decrease}
-                      increaseLabel={t.increase}
-                    />
-                    <div className="flex justify-end pt-3">
-                      <button
-                        type="button"
-                        onClick={() => setOpenPopover(null)}
-                        className="px-3 py-1.5 rounded-md bg-[#FF6B35] hover:bg-[#F97316] text-white text-[12px] font-semibold transition-colors"
-                      >
-                        {t.validate}
-                      </button>
-                    </div>
-                  </motion.div>
-                </>
-              )}
-            </AnimatePresence>
+                  <div className="h-px bg-[#E2E8F0] my-3" />
+                  <GuestRow
+                    label={t.childrenLabel}
+                    sub={t.childrenAge}
+                    value={children}
+                    min={0}
+                    max={10}
+                    onChange={setChildren}
+                    decreaseLabel={t.decrease}
+                    increaseLabel={t.increase}
+                  />
+                  <div className="flex justify-end pt-3">
+                    <button
+                      type="button"
+                      onClick={() => setOpenPopover(null)}
+                      className="px-3 py-1.5 rounded-md bg-[#FF6B35] hover:bg-[#F97316] text-white text-[12px] font-semibold transition-colors"
+                    >
+                      {t.validate}
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           {/* CTA Rechercher */}

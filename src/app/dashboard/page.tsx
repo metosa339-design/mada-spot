@@ -12,6 +12,7 @@ import {
 import Link from 'next/link'
 import type { DashboardStats, BookingItem, ReviewItem, DashboardUser, TodayArrival, PendingBookingItem } from '@/types/dashboard'
 import { useTrans } from '@/i18n'
+import OnboardingGuide from '@/components/dashboard/OnboardingGuide'
 type DashboardProTrans = ReturnType<typeof useTrans<'dashboardPro'>>
 
 // Mini SVG Sparkline chart
@@ -379,6 +380,8 @@ export default function DashboardHome() {
           </div>
         </div>
 
+        <OnboardingGuide firstName={user?.firstName} />
+
         {/* Hotel Stat Cards — Bleu Lagon */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Occupancy with gauge */}
@@ -644,6 +647,8 @@ export default function DashboardHome() {
           )}
         </div>
       </div>
+
+      <OnboardingGuide firstName={user?.firstName} />
 
       {/* Main Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

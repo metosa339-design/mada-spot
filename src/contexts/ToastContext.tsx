@@ -1,7 +1,6 @@
 'use client';
 
 import { createContext, useContext, useState, useCallback, useRef } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { CheckCircle, XCircle, AlertTriangle, Info, X } from 'lucide-react';
 
 type ToastType = 'success' | 'error' | 'warning' | 'info';
@@ -67,34 +66,28 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     <ToastContext.Provider value={contextValue}>
       {children}
       <div className="fixed bottom-4 right-4 z-[9999] flex flex-col gap-2 max-w-sm">
-        <AnimatePresence mode="popLayout">
-          {toasts.map((t) => {
-            const Icon = ICONS[t.type];
-            return (
-              <motion.div
-                key={t.id}
-                layout
-                initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, x: 100, scale: 0.95 }}
-                className={`flex items-start gap-3 px-4 py-3 rounded-xl border backdrop-blur-md shadow-lg ${STYLES[t.type]}`}
+        {toasts.map((t) => {
+          const Icon = ICONS[t.type];
+          return (
+            <div
+              key={t.id}
+              className={`toast-in flex items-start gap-3 px-4 py-3 rounded-xl border backdrop-blur-md shadow-lg ${STYLES[t.type]}`}
+            >
+              <Icon className="w-5 h-5 mt-0.5 shrink-0" />
+              <div className="flex-1">
+                {t.title && <p className="text-xs font-semibold text-white/70 mb-0.5">{t.title}</p>}
+                <p className="text-sm font-medium text-white/90">{t.message}</p>
+              </div>
+              <button
+                onClick={() => removeToast(t.id)}
+                aria-label="Fermer la notification"
+                className="shrink-0 opacity-60 hover:opacity-100 transition-opacity"
               >
-                <Icon className="w-5 h-5 mt-0.5 shrink-0" />
-                <div className="flex-1">
-                  {t.title && <p className="text-xs font-semibold text-white/70 mb-0.5">{t.title}</p>}
-                  <p className="text-sm font-medium text-white/90">{t.message}</p>
-                </div>
-                <button
-                  onClick={() => removeToast(t.id)}
-                  aria-label="Fermer la notification"
-                  className="shrink-0 opacity-60 hover:opacity-100 transition-opacity"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          );
+        })}
       </div>
     </ToastContext.Provider>
   );

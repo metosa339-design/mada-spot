@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu,
   X,
@@ -29,8 +28,6 @@ import SkipToContent from '@/components/ui/SkipToContent';
 import NotificationBell from '@/components/ui/NotificationBell';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import { useTrans } from '@/i18n';
-
-const EASE = [0.16, 1, 0.3, 1] as const;
 
 interface SessionUser {
   id: string;
@@ -168,15 +165,8 @@ export default function Header() {
                     />
                   </button>
 
-                  <AnimatePresence>
-                    {isBonsPlansOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 8 }}
-                        transition={{ duration: 0.18, ease: EASE }}
-                        className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-[0_12px_40px_-8px_rgba(15,23,42,0.12)]"
-                      >
+                  {isBonsPlansOpen && (
+                    <div className="pop-in absolute top-full left-0 mt-2 w-64 bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-[0_12px_40px_-8px_rgba(15,23,42,0.12)]">
                         <div className="p-1.5">
                           {bonsPlansItems.map((item) => (
                             <Link
@@ -194,9 +184,8 @@ export default function Header() {
                             </Link>
                           ))}
                         </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -277,15 +266,8 @@ export default function Header() {
                           />
                         </button>
 
-                        <AnimatePresence>
-                          {isUserMenuOpen && (
-                            <motion.div
-                              initial={{ opacity: 0, y: 8 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: 8 }}
-                              transition={{ duration: 0.18, ease: EASE }}
-                              className="absolute top-full right-0 mt-2 w-60 bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-[0_12px_40px_-8px_rgba(15,23,42,0.12)]"
-                            >
+                        {isUserMenuOpen && (
+                          <div className="pop-in absolute top-full right-0 mt-2 w-60 bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-[0_12px_40px_-8px_rgba(15,23,42,0.12)]">
                               <div className="px-4 py-3 border-b border-[#E2E8F0]">
                                 <p className="text-[14px] font-semibold text-[#0F172A]">
                                   {user.firstName} {user.lastName}
@@ -363,9 +345,8 @@ export default function Header() {
                                   {t.logout}
                                 </button>
                               </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ) : (
@@ -405,17 +386,12 @@ export default function Header() {
         </div>
 
         {/* Menu Mobile */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25, ease: EASE }}
-              className="lg:hidden bg-white border-t border-[#E2E8F0] overflow-hidden"
-              role="navigation"
-              aria-label={t.mobileMenu}
-            >
+        {isMobileMenuOpen && (
+          <div
+            className="pop-in lg:hidden bg-white border-t border-[#E2E8F0] overflow-hidden"
+            role="navigation"
+            aria-label={t.mobileMenu}
+          >
               <div className="px-4 py-4 space-y-1">
                 {/* Recherche mobile */}
                 <div className="flex items-center gap-2 px-3 py-2.5 bg-white border border-[#E2E8F0] rounded-lg mb-3">
@@ -499,9 +475,8 @@ export default function Header() {
                   </div>
                 )}
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+          </div>
+        )}
       </header>
     </>
   );

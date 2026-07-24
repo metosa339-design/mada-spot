@@ -84,6 +84,31 @@ export async function POST(request: NextRequest) {
 
     logger.info(`[REGISTER] ✓ Account created for ${email}`);
 
+    // Mail de bienvenue aux professionnels (userType renseigné) : les inviter à
+    // créer/compléter leur fiche dès l'inscription. Fire-and-forget : ne bloque
+    // jamais et ne fait jamais échouer l'inscription.
+    if (userType && email) {
+      void (async () => {
+        try {
+          const [{ buildWelcomeProEmail }, { sendBrevoEmail }] = await Promise.all([
+            import('@/lib/crm/conformity'),
+            import('@/lib/crm/brevo'),
+          ]);
+          const { subject, html } = buildWelcomeProEmail(firstName, userType);
+          await sendBrevoEmail({
+            to: email,
+            subject,
+            html,
+            senderName: 'Metosaela RANDRIAMAZAORO — Mada Spot',
+            senderEmail: 'contact@madaspot.com',
+            tag: 'onboarding-fiche',
+          });
+        } catch (e) {
+          logger.error('[REGISTER] Welcome email failed:', e as Error);
+        }
+      })();
+    }
+
     const response = NextResponse.json(
       {
         success: true,

@@ -73,3 +73,46 @@ export function buildConformityEmail(name: string | null, firstName: string | nu
 </div>`;
   return { subject, html };
 }
+
+const USER_TYPE_LABEL: Record<string, string> = {
+  HOTEL: 'votre hôtel',
+  RESTAURANT: 'votre restaurant',
+  ATTRACTION: 'votre site ou activité',
+  PROVIDER: 'votre activité',
+};
+
+/**
+ * Mail de bienvenue envoyé à un nouveau professionnel dès son inscription.
+ * À ce stade la fiche n'existe pas encore : on l'invite à la créer et la
+ * compléter lui-même (mêmes 5 critères que la conformité). Ton : auto-création.
+ */
+export function buildWelcomeProEmail(
+  firstName: string | null,
+  userType?: string | null,
+): { subject: string; html: string } {
+  const greeting = firstName ? `Bonjour ${firstName},` : 'Bonjour,';
+  const what = (userType && USER_TYPE_LABEL[userType]) || 'votre établissement';
+  const subject = 'Bienvenue sur Mada Spot — créez et complétez votre fiche';
+  // Les 5 critères d'une fiche complète (alignés sur evaluateFiche).
+  const checklist = evaluateFiche({})
+    .rules.map(
+      (r) =>
+        `<li style="margin-bottom:8px"><strong>${r.label}</strong><br><span style="color:#64748b;font-size:14px">${r.hint}</span></li>`,
+    )
+    .join('');
+  const html = `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;color:#1a1a2e">
+  <div style="padding:24px 0;text-align:center"><img src="https://madaspot.com/logo.png" width="46" height="46" style="border-radius:11px" alt="Mada Spot"></div>
+  <div style="padding:0 24px">
+    <p style="font-size:16px;line-height:1.7">${greeting}</p>
+    <p style="font-size:16px;line-height:1.7">Bienvenue sur Mada Spot, et merci de nous avoir rejoints. Pour que ${what} soit visible auprès des voyageurs, il ne reste qu'une étape : <strong>créer votre fiche</strong> et la compléter avec ces éléments essentiels :</p>
+    <ul style="font-size:16px;line-height:1.6;padding-left:20px;margin:16px 0">${checklist}</ul>
+    <p style="font-size:15px;line-height:1.7;color:#334155">Tout se fait vous-même en quelques minutes depuis votre espace — vous gardez le contrôle total de votre fiche.</p>
+    <div style="text-align:center;margin:26px 0">
+      <a href="https://madaspot.com/dashboard" style="display:inline-block;padding:15px 34px;background:#ff6b35;color:#fff;text-decoration:none;border-radius:11px;font-weight:700;font-size:16px">Créer ma fiche →</a>
+    </div>
+    <p style="font-size:16px;line-height:1.7">Bien à vous,<br><strong>Metosaela RANDRIAMAZAORO</strong><br><span style="color:#64748b;font-size:14px">Business Developer — Mada Spot</span></p>
+  </div>
+  <div style="margin-top:28px;padding:14px 24px;border-top:1px solid #eef2f7"><p style="font-size:11px;color:#94a3b8;text-align:center;margin:0">Répondez STOP pour ne plus recevoir ces messages.</p></div>
+</div>`;
+  return { subject, html };
+}

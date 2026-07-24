@@ -236,7 +236,7 @@ function PopularDestinationsSection({ t }: { t: Record<string, string> }) {
                   src={dest.img}
                   alt={dest.name}
                   fill
-                  quality={90}
+                  quality={75}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 640px"
                   className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                 />
@@ -302,7 +302,7 @@ function FeaturedHotelsSection({ hotels }: { hotels: FeaturedHotel[] }) {
                     src={getEstablishmentImage('HOTEL', h.city, h.name, h.coverImage)}
                     alt={h.name}
                     fill
-                    quality={90}
+                    quality={75}
                     sizes="(max-width: 640px) 50vw, 25vw"
                     className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                   />

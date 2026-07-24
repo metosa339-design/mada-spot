@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
             import('@/lib/crm/conformity'),
             import('@/lib/crm/brevo'),
           ]);
-          const { subject, html } = buildWelcomeProEmail(firstName, userType);
+          const { subject, html } = buildWelcomeProEmail(firstName, userType, email);
           await sendBrevoEmail({
             to: email,
             subject,

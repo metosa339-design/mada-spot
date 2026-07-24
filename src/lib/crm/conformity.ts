@@ -89,9 +89,13 @@ const USER_TYPE_LABEL: Record<string, string> = {
 export function buildWelcomeProEmail(
   firstName: string | null,
   userType?: string | null,
+  email?: string | null,
 ): { subject: string; html: string } {
   const greeting = firstName ? `Bonjour ${firstName},` : 'Bonjour,';
   const what = (userType && USER_TYPE_LABEL[userType]) || 'votre établissement';
+  // Lien vers la connexion avec l'email pré-rempli (gain de temps) + redirection
+  // vers l'espace pro après connexion. La page /login lit ?email= et ?redirect=.
+  const ctaHref = `https://madaspot.com/login?email=${encodeURIComponent(email || '')}&redirect=${encodeURIComponent('/dashboard')}`;
   const subject = 'Bienvenue sur Mada Spot — créez et complétez votre fiche';
   // Les 5 critères d'une fiche complète (alignés sur evaluateFiche).
   const checklist = evaluateFiche({})
@@ -108,7 +112,7 @@ export function buildWelcomeProEmail(
     <ul style="font-size:16px;line-height:1.6;padding-left:20px;margin:16px 0">${checklist}</ul>
     <p style="font-size:15px;line-height:1.7;color:#334155">Tout se fait vous-même en quelques minutes depuis votre espace — vous gardez le contrôle total de votre fiche.</p>
     <div style="text-align:center;margin:26px 0">
-      <a href="https://madaspot.com/dashboard" style="display:inline-block;padding:15px 34px;background:#ff6b35;color:#fff;text-decoration:none;border-radius:11px;font-weight:700;font-size:16px">Créer ma fiche →</a>
+      <a href="${ctaHref}" style="display:inline-block;padding:15px 34px;background:#ff6b35;color:#fff;text-decoration:none;border-radius:11px;font-weight:700;font-size:16px">Créer ma fiche →</a>
     </div>
     <p style="font-size:16px;line-height:1.7">Bien à vous,<br><strong>Metosaela RANDRIAMAZAORO</strong><br><span style="color:#64748b;font-size:14px">Business Developer — Mada Spot</span></p>
   </div>

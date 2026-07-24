@@ -89,13 +89,10 @@ const USER_TYPE_LABEL: Record<string, string> = {
 export function buildWelcomeProEmail(
   firstName: string | null,
   userType?: string | null,
-  email?: string | null,
+  ctaHref: string = 'https://madaspot.com/dashboard',
 ): { subject: string; html: string } {
   const greeting = firstName ? `Bonjour ${firstName},` : 'Bonjour,';
   const what = (userType && USER_TYPE_LABEL[userType]) || 'votre établissement';
-  // Lien vers la connexion avec l'email pré-rempli (gain de temps) + redirection
-  // vers l'espace pro après connexion. La page /login lit ?email= et ?redirect=.
-  const ctaHref = `https://madaspot.com/login?email=${encodeURIComponent(email || '')}&redirect=${encodeURIComponent('/dashboard')}`;
   const subject = 'Bienvenue sur Mada Spot — créez et complétez votre fiche';
   // Les 5 critères d'une fiche complète (alignés sur evaluateFiche).
   const checklist = evaluateFiche({})

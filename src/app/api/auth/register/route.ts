@@ -90,11 +90,19 @@ export async function POST(request: NextRequest) {
     if (userType && email) {
       void (async () => {
         try {
-          const [{ buildWelcomeProEmail }, { sendBrevoEmail }] = await Promise.all([
+          const [{ buildWelcomeProEmail }, { sendBrevoEmail }, { signMagicToken }] = await Promise.all([
             import('@/lib/crm/conformity'),
             import('@/lib/crm/brevo'),
+            import('@/lib/auth/magic-link'),
           ]);
-          const { subject, html } = buildWelcomeProEmail(firstName, userType, email);
+          // Lien de connexion magique (1 clic, sans mot de passe) → espace pro.
+          // Repli : si la signature est indisponible, lien vers /login pré-rempli.
+          const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://madaspot.com';
+          const magicToken = signMagicToken(user.id);
+          const ctaHref = magicToken
+            ? `${base}/api/auth/magic?token=${encodeURIComponent(magicToken)}&redirect=${encodeURIComponent('/dashboard')}&email=${encodeURIComponent(email)}`
+            : `${base}/login?email=${encodeURIComponent(email)}&redirect=${encodeURIComponent('/dashboard')}`;
+          const { subject, html } = buildWelcomeProEmail(firstName, userType, ctaHref);
           await sendBrevoEmail({
             to: email,
             subject,

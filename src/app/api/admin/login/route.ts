@@ -8,6 +8,8 @@ import { ADMIN_COOKIE_NAME } from '@/lib/constants';
 import { logAudit, getRequestMeta } from '@/lib/audit';
 import { verifyCsrfToken } from '@/lib/csrf';
 import { verifyTotp } from '@/lib/totp';
+import { apiUnavailable } from '@/lib/api-response';
+import { isDatabaseUnavailable } from '@/lib/db-health';
 
 import { logger } from '@/lib/logger';
 export async function POST(request: NextRequest) {
@@ -104,6 +106,16 @@ export async function POST(request: NextRequest) {
     return response;
   } catch (error) {
     logger.error('Login error:', error);
+    // Une base injoignable ne dit rien des identifiants saisis : l'exception part
+    // avant toute verification du mot de passe. Renvoyer un message generique
+    // laissait croire a un refus d'authentification et poussait a s'acharner sur
+    // un formulaire qui ne pouvait pas aboutir.
+    if (isDatabaseUnavailable(error)) {
+      return apiUnavailable({
+        error:
+          "Connexion impossible : la base de donnees ne repond pas. Vos identifiants n'ont pas ete verifies, reessayez dans quelques minutes.",
+      });
+    }
     return NextResponse.json(
       { success: false, error: 'Erreur serveur' },
       { status: 500 }

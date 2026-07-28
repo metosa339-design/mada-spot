@@ -10,8 +10,17 @@ export const revalidate = 3600;
 const TYPE_LABEL: Record<string, string> = { HOTEL: 'Hôtels', RESTAURANT: 'Restaurants', ATTRACTION: 'Activités & sites', PROVIDER: 'Prestataires & guides' };
 
 export async function generateStaticParams() {
-  const cities = await getCities();
-  return cities.map((c) => ({ city: c.slug }));
+  // Une base injoignable ne doit pas empecher de compiler. Sans ce filet, un
+  // incident cote base rend le build impossible, donc bloque tout deploiement au
+  // pire moment : celui ou l'on a justement besoin de livrer un correctif.
+  // Liste vide = aucune page pregeneree, les villes sont rendues a la demande.
+  try {
+    const cities = await getCities();
+    return cities.map((c) => ({ city: c.slug }));
+  } catch (error) {
+    console.error('generateStaticParams(destinations): base injoignable, build sans prerendu', error);
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ city: string }> }): Promise<Metadata> {

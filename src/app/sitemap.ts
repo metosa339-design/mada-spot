@@ -30,11 +30,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/taux-de-change`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.7 },
   ];
 
-  // Pages dynamiques — Establishments (hotels, restaurants, attractions)
-  const establishments = await prisma.establishment.findMany({
-    where: { isActive: true, moderationStatus: 'approved' },
-    select: { slug: true, type: true, updatedAt: true },
-  });
+  // Les trois blocs dynamiques ci-dessous dependent de la base. Si elle ne repond
+  // pas, on sert un sitemap reduit aux pages statiques plutot que de faire echouer
+  // la generation : un sitemap partiel vaut mieux qu'un build casse, et il se
+  // recomplete tout seul a la prochaine revalidation.
+  let establishments: Array<{ slug: string; type: string; updatedAt: Date }> = [];
+  let articles: Array<{ slug: string; updatedAt: Date }> = [];
+  let cities: Array<{ slug: string }> = [];
+
+  try {
+    establishments = await prisma.establishment.findMany({
+      where: { isActive: true, moderationStatus: 'approved' },
+      select: { slug: true, type: true, updatedAt: true },
+    });
+    articles = await db.article.findMany({
+      where: { status: 'published' },
+      select: { slug: true, updatedAt: true },
+    });
+    cities = await getCities();
+  } catch (error) {
+    console.error('sitemap: base injoignable, sitemap limite aux pages statiques', error);
+    return staticPages;
+  }
 
   const typeToPath: Record<string, string> = {
     RESTAURANT: 'restaurants',
@@ -52,12 +69,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     }));
 
-  // Blog articles
-  const articles = await db.article.findMany({
-    where: { status: 'published' },
-    select: { slug: true, updatedAt: true },
-  });
-
   const articlePages: MetadataRoute.Sitemap = articles.map((a: any) => ({
     url: `${SITE_URL}/blog/${a.slug}`,
     lastModified: a.updatedAt,
@@ -66,7 +77,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // Pages destinations (villes)
-  const cities = await getCities();
   const cityPages: MetadataRoute.Sitemap = cities.map((c) => ({
     url: `${SITE_URL}/destinations/${c.slug}`,
     lastModified: new Date(),

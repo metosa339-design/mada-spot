@@ -12,7 +12,9 @@ export const metadata: Metadata = {
 };
 
 export default async function DestinationsPage() {
-  const cities = await getCities();
+  // Meme filet que sur les autres pages pregenerees : une base indisponible ne doit
+  // pas rendre le build impossible. Le revalidate de 3600 s remplit la liste ensuite.
+  const cities = await getCities().catch(() => []);
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <nav className="text-xs text-gray-500 mb-4"><Link href="/" className="hover:text-orange-600">Accueil</Link> · <span className="text-gray-700">Destinations</span></nav>

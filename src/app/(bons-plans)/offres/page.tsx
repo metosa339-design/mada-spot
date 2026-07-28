@@ -7,6 +7,11 @@ export const metadata: Metadata = {
   description: 'Les meilleures promotions sur les hôtels, restaurants, activités et plus à Madagascar.',
 };
 
+// Sans revalidation, une page batie pendant une panne de base resterait vide jusqu'au
+// prochain deploiement. Cinq minutes suffisent pour qu'elle se remplisse d'elle-meme,
+// et les promotions n'ont pas besoin d'etre plus fraiches que cela.
+export const revalidate = 300;
+
 const TYPE_TO_CATEGORY: Record<string, string> = {
   HOTEL: 'hotel',
   RESTAURANT: 'restaurant',
@@ -115,7 +120,8 @@ async function getActivePromotions() {
 }
 
 export default async function OffresPage() {
-  const offres = await getActivePromotions();
+  // Base injoignable : page rendue sans offre plutot que build casse.
+  const offres = await getActivePromotions().catch(() => []);
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>

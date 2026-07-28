@@ -36,7 +36,12 @@ async function getArticles() {
 }
 
 export default async function BlogPage() {
-  const { articles, categories } = await getArticles();
+  // Base injoignable : on rend la page vide plutot que de faire echouer le build.
+  // Le revalidate de 300 s la repeuple des que la base repond a nouveau.
+  const { articles, categories } = await getArticles().catch(() => ({
+    articles: [],
+    categories: [],
+  }));
   const featured = articles.find((a: any) => a.isFeatured);
   const rest = articles.filter((a: any) => a.id !== featured?.id);
 

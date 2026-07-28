@@ -14,30 +14,50 @@ interface Notification {
   createdAt: string;
 }
 
-const POLL_INTERVAL = 5_000; // 5 secondes
-const POLL_INTERVAL_HIDDEN = 30_000; // 30s quand l'onglet est en arrière-plan
+const POLL_INTERVAL = 60_000; // 1 min onglet actif
+const POLL_INTERVAL_HIDDEN = 300_000; // 5 min quand l'onglet est en arrière-plan
+// Les notifications instantanees passent par le push (BroadcastChannel ci-dessous),
+// le polling n'est qu'un filet de securite : inutile de le serrer davantage, chaque
+// appel reveille la base et consomme du compute Neon.
+const MAX_CONSECUTIVE_FAILURES = 3;
 
 export function useNotifications() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const failuresRef = useRef(0);
+
+  // Coupe le polling apres plusieurs echecs d'affilee. Sans ce garde-fou, une base
+  // indisponible se fait marteler toutes les minutes par chaque onglet ouvert.
+  const stopPolling = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, []);
 
   const fetchNotifications = useCallback(async () => {
     try {
       const res = await fetch('/api/notifications?limit=20', { credentials: 'include' });
-      if (!res.ok) return;
+      if (!res.ok) {
+        failuresRef.current += 1;
+        if (failuresRef.current >= MAX_CONSECUTIVE_FAILURES) stopPolling();
+        return;
+      }
       const data = await res.json();
       if (data.success) {
+        failuresRef.current = 0;
         setNotifications(data.notifications);
         setUnreadCount(data.unreadCount);
       }
     } catch {
-      // silently fail
+      failuresRef.current += 1;
+      if (failuresRef.current >= MAX_CONSECUTIVE_FAILURES) stopPolling();
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [stopPolling]);
 
   const markAsRead = useCallback(async (notificationIds: string[]) => {
     try {
@@ -80,11 +100,14 @@ export function useNotifications() {
     fetchNotifications();
     startPolling(POLL_INTERVAL);
 
-    // Visibility-aware polling: slow down when tab is hidden
+    // Visibility-aware polling: slow down when tab is hidden.
+    // Le retour au premier plan remet le compteur d'echecs a zero : c'est le signal
+    // qu'un humain est la, on redonne une chance a l'API meme si elle etait tombee.
     const handleVisibility = () => {
       if (document.hidden) {
         startPolling(POLL_INTERVAL_HIDDEN);
       } else {
+        failuresRef.current = 0;
         fetchNotifications();
         startPolling(POLL_INTERVAL);
       }

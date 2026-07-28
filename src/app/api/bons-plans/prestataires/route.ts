@@ -1,10 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { safeJsonParse } from '@/lib/api-response';
+import { safeJsonParse, apiUnavailable } from '@/lib/api-response';
+import { isDatabaseUnavailable } from '@/lib/db-health';
 import { cachedQuery } from '@/lib/cache';
 import { logger } from '@/lib/logger';
 
 const CACHE_HEADERS = { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' };
+
+// Legacy data en DB : certains providers stockent un scalaire au lieu d'un JSON array.
+// Sans normalisation, `.join()` côté client throw.
+function toStringArray(value: unknown): string[] {
+  if (Array.isArray(value)) return value.filter((v): v is string => typeof v === 'string');
+  if (typeof value === 'string' && value.trim()) return [value];
+  return [];
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -72,14 +81,14 @@ export async function GET(request: NextRequest) {
         longitude: p.longitude,
         phone: p.phone,
         serviceType: p.provider?.serviceType,
-        languages: safeJsonParse(p.provider?.languages, []),
+        languages: toStringArray(safeJsonParse(p.provider?.languages, [])),
         experience: p.provider?.experience,
         priceRange: p.provider?.priceRange,
         priceFrom: p.provider?.priceFrom,
         priceTo: p.provider?.priceTo,
         priceUnit: p.provider?.priceUnit,
         isAvailable: p.provider?.isAvailable,
-        operatingZone: safeJsonParse(p.provider?.operatingZone, []),
+        operatingZone: toStringArray(safeJsonParse(p.provider?.operatingZone, [])),
         vehicleType: p.provider?.vehicleType,
         vehicleCapacity: p.provider?.vehicleCapacity,
       }));
@@ -91,6 +100,9 @@ export async function GET(request: NextRequest) {
     }, { headers: CACHE_HEADERS });
   } catch (error) {
     logger.error('Error fetching providers:', error);
+    if (isDatabaseUnavailable(error)) {
+      return apiUnavailable({ providers: [], total: 0, hasMore: false });
+    }
     return NextResponse.json(
       { error: 'Erreur serveur', providers: [], total: 0 },
       { status: 500 }

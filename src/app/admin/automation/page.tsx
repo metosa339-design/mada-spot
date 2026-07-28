@@ -111,8 +111,8 @@ export default function AutomationPage() {
 
   useEffect(() => {
     fetchStatus();
-    // Auto-refresh every 30 seconds
-    const interval = setInterval(fetchStatus, 30000);
+    // Auto-refresh every 2 minutes (le bouton Rafraichir reste la pour un point immediat)
+    const interval = setInterval(fetchStatus, 120000);
     return () => clearInterval(interval);
   }, [fetchStatus]);
 

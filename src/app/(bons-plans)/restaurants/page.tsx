@@ -10,6 +10,7 @@ import { getImageUrl } from '@/lib/image-url';
 import { getEstablishmentImage } from '@/lib/establishment-image';
 import FicheImage from '@/components/bons-plans/FicheImage';
 import PhotoSlider from '@/components/ui/PhotoSlider';
+import ServiceUnavailableNotice from '@/components/ui/ServiceUnavailableNotice';
 import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 import { useTrans } from '@/i18n';
 import { useCurrency } from '@/contexts/CurrencyContext';
@@ -76,6 +77,7 @@ function RestaurantsPageContent() {
 
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isUnavailable, setIsUnavailable] = useState(false);
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [selectedCity, setSelectedCity] = useState(searchParams.get('city') || '');
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
@@ -106,6 +108,13 @@ function RestaurantsPageContent() {
       const response = await fetch(`/api/bons-plans/restaurants?${params}`);
       const data = await response.json();
 
+      if (response.status === 503) {
+        setIsUnavailable(true);
+        if (reset) setRestaurants([]);
+        return;
+      }
+      setIsUnavailable(false);
+
       if (reset) {
         setRestaurants(data.restaurants || []);
         setOffset(12);
@@ -118,6 +127,7 @@ function RestaurantsPageContent() {
       setHasMore(data.hasMore || false);
     } catch (error) {
       console.error('Error fetching restaurants:', error);
+      setIsUnavailable(true);
     } finally {
       setIsLoading(false);
     }
@@ -362,6 +372,11 @@ function RestaurantsPageContent() {
               </div>
             ))}
           </div>
+        ) : isUnavailable ? (
+          <ServiceUnavailableNotice
+            subject="les restaurants"
+            onRetry={() => fetchRestaurants(true)}
+          />
         ) : restaurants.length === 0 ? (
           <div className="text-center py-16">
             <UtensilsCrossed className="w-16 h-16 mx-auto text-slate-600 mb-4" />

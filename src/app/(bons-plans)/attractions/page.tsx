@@ -37,6 +37,7 @@ import { getImageUrl } from '@/lib/image-url';
 import { getEstablishmentImage } from '@/lib/establishment-image';
 import FicheImage from '@/components/bons-plans/FicheImage';
 import PhotoSlider from '@/components/ui/PhotoSlider';
+import ServiceUnavailableNotice from '@/components/ui/ServiceUnavailableNotice';
 import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 import { useTrans } from '@/i18n';
 import { useCurrency } from '@/contexts/CurrencyContext';
@@ -194,6 +195,7 @@ function AttractionsPageContent() {
 
   const [attractions, setAttractions] = useState<Attraction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isUnavailable, setIsUnavailable] = useState(false);
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [selectedCity, setSelectedCity] = useState(searchParams.get('city') || '');
   const [selectedType, setSelectedType] = useState(searchParams.get('type') || '');
@@ -223,6 +225,13 @@ function AttractionsPageContent() {
       const response = await fetch(`/api/bons-plans/attractions?${params}`);
       const data = await response.json();
 
+      if (response.status === 503) {
+        setIsUnavailable(true);
+        if (reset) setAttractions([]);
+        return;
+      }
+      setIsUnavailable(false);
+
       if (reset) {
         setAttractions(data.attractions || []);
         setOffset(12);
@@ -235,6 +244,7 @@ function AttractionsPageContent() {
       setHasMore(data.hasMore || false);
     } catch (error) {
       console.error('Error fetching attractions:', error);
+      setIsUnavailable(true);
     } finally {
       setIsLoading(false);
     }
@@ -503,6 +513,11 @@ function AttractionsPageContent() {
               </div>
             ))}
           </div>
+        ) : isUnavailable ? (
+          <ServiceUnavailableNotice
+            subject="les sites a visiter"
+            onRetry={() => fetchAttractions(true)}
+          />
         ) : attractions.length === 0 ? (
           <div className="text-center py-16">
             <Mountain className="w-16 h-16 mx-auto text-slate-300 mb-4" />

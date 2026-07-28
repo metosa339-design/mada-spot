@@ -26,7 +26,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   useEffect(() => {
     if (!user) return
     fetchBadges()
-    const interval = setInterval(fetchBadges, 30000)
+    // Compteurs de badges : 2 min suffisent, un dashboard laisse ouvert ne doit pas
+    // maintenir la base eveillee en permanence.
+    const interval = setInterval(fetchBadges, 120000)
     return () => clearInterval(interval)
   }, [user])
 

@@ -9,6 +9,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { Search, MapPin, Star, Building2, Filter, Wifi, Car, Utensils, Waves, Zap, Snowflake, Loader2, SlidersHorizontal } from 'lucide-react';
 import { getEstablishmentImage } from '@/lib/establishment-image';
 import PhotoSlider from '@/components/ui/PhotoSlider';
+import ServiceUnavailableNotice from '@/components/ui/ServiceUnavailableNotice';
 import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 import { useTrans } from '@/i18n';
 import { useCurrency } from '@/contexts/CurrencyContext';
@@ -86,6 +87,7 @@ function HotelsPage() {
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [isUnavailable, setIsUnavailable] = useState(false);
   const [hasMore, setHasMore] = useState(false);
   const [offset, setOffset] = useState(0);
   const LIMIT = 12;
@@ -120,6 +122,7 @@ function HotelsPage() {
       const res = await fetch(`/api/bons-plans/hotels?${params.toString()}`);
       if (res.ok) {
         const data = await res.json();
+        setIsUnavailable(false);
         if (reset) {
           setHotels(data.hotels || []);
         } else {
@@ -128,9 +131,14 @@ function HotelsPage() {
         setTotal(data.total || 0);
         setHasMore(data.hasMore ?? false);
         setOffset(currentOffset + (data.hotels?.length || 0));
+      } else if (res.status === 503) {
+        setIsUnavailable(true);
+        if (reset) setHotels([]);
       }
     } catch (error) {
       console.error('Error fetching hotels:', error);
+      // Fetch en echec : pas de reponse du tout, donc panne cote serveur ou reseau.
+      setIsUnavailable(true);
     } finally {
       setIsLoading(false);
     }
@@ -524,8 +532,13 @@ function HotelsPage() {
             </div>
           )}
 
+          {/* Panne de base : on le dit, au lieu de faire croire a un catalogue vide */}
+          {!isLoading && isUnavailable && (
+            <ServiceUnavailableNotice subject="les hotels" onRetry={() => fetchHotels(true)} />
+          )}
+
           {/* Empty state */}
-          {!isLoading && hotels.length === 0 && (
+          {!isLoading && !isUnavailable && hotels.length === 0 && (
             <div className="text-center py-16">
               <Building2 className="w-16 h-16 mx-auto text-slate-600 mb-4" />
               <h2 className="text-xl font-semibold text-[#0F172A] mb-2">{t.noHotelFound}</h2>

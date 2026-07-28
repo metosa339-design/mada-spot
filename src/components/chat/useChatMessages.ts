@@ -4,10 +4,13 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useMessageChannel } from '@/hooks/useMessageChannel'
 import type { Thread, ChatMessage, PresenceState } from './types'
 
-const POLL_INTERVAL = 3_000
-const POLL_INTERVAL_HIDDEN = 15_000
-const THREAD_POLL_INTERVAL = 10_000
-const PRESENCE_INTERVAL = 15_000
+// Chaque tick reveille la base Postgres. Sur une messagerie a faible volume, un
+// rafraichissement toutes les 8 s reste vif cote ressenti et divise par pres de
+// trois le nombre de requetes par onglet ouvert.
+const POLL_INTERVAL = 8_000
+const POLL_INTERVAL_HIDDEN = 60_000
+const THREAD_POLL_INTERVAL = 30_000
+const PRESENCE_INTERVAL = 60_000
 const TYPING_DEBOUNCE = 2_000
 
 export function useChatMessages(userId: string) {

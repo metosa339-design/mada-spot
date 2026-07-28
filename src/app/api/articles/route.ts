@@ -1,6 +1,8 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { apiUnavailable } from '@/lib/api-response';
+import { isDatabaseUnavailable } from '@/lib/db-health';
 
 const db = prisma as any;
 import { safeJsonParse } from '@/lib/api-response';
@@ -65,6 +67,9 @@ export async function GET(request: NextRequest) {
     }, { headers: CACHE_HEADERS });
   } catch (error) {
     logger.error('Error fetching public articles:', error);
+    if (isDatabaseUnavailable(error)) {
+      return apiUnavailable({ articles: [], total: 0 });
+    }
     return NextResponse.json(
       { success: false, error: 'Erreur serveur' },
       { status: 500 }

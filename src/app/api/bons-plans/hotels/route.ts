@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { safeJsonParse } from '@/lib/api-response';
+import { safeJsonParse, apiUnavailable } from '@/lib/api-response';
+import { isDatabaseUnavailable } from '@/lib/db-health';
 import { cachedQuery } from '@/lib/cache';
 
 import { logger } from '@/lib/logger';
@@ -152,6 +153,9 @@ export async function GET(request: NextRequest) {
     }, { headers: CACHE_HEADERS });
   } catch (error) {
     logger.error('Error fetching hotels:', error);
+    if (isDatabaseUnavailable(error)) {
+      return apiUnavailable({ hotels: [], total: 0, hasMore: false });
+    }
     return NextResponse.json(
       { error: 'Erreur serveur', hotels: [], total: 0 },
       { status: 500 }

@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, MapPin, Star, X, Users, SlidersHorizontal, Car, Camera, Globe, Map as MapIcon, Compass, Briefcase, Ship, ArrowRight, Plus } from 'lucide-react';
 import { getEstablishmentImage } from '@/lib/establishment-image';
 import PhotoSlider from '@/components/ui/PhotoSlider';
+import ServiceUnavailableNotice from '@/components/ui/ServiceUnavailableNotice';
 import { MADAGASCAR_CITIES_BY_PROVINCE } from '@/lib/data/madagascar-locations';
 import { useTrans } from '@/i18n';
 import { useCurrency } from '@/contexts/CurrencyContext';
@@ -78,6 +79,7 @@ function PrestatairesPageContent() {
 
   const [providers, setProviders] = useState<Provider[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isUnavailable, setIsUnavailable] = useState(false);
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [selectedCity, setSelectedCity] = useState(searchParams.get('city') || '');
   const [selectedServiceType, setSelectedServiceType] = useState(searchParams.get('serviceType') || '');
@@ -107,6 +109,13 @@ function PrestatairesPageContent() {
       const response = await fetch(`/api/bons-plans/prestataires?${params}`);
       const data = await response.json();
 
+      if (response.status === 503) {
+        setIsUnavailable(true);
+        if (reset) setProviders([]);
+        return;
+      }
+      setIsUnavailable(false);
+
       if (reset) {
         setProviders(data.providers || []);
         setOffset(12);
@@ -119,6 +128,7 @@ function PrestatairesPageContent() {
       setHasMore(data.hasMore || false);
     } catch (error) {
       console.error('Error fetching providers:', error);
+      setIsUnavailable(true);
     } finally {
       setIsLoading(false);
     }
@@ -352,6 +362,11 @@ function PrestatairesPageContent() {
               </div>
             ))}
           </div>
+        ) : isUnavailable ? (
+          <ServiceUnavailableNotice
+            subject="les prestataires"
+            onRetry={() => fetchProviders(true)}
+          />
         ) : providers.length === 0 ? (
           <div className="text-center py-16">
             <Users className="w-16 h-16 mx-auto text-slate-300 mb-4" />

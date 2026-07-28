@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { apiError } from '@/lib/api-response';
+import { apiError, apiUnavailable } from '@/lib/api-response';
+import { isDatabaseUnavailable } from '@/lib/db-health';
 import { requireAdmin } from '@/lib/auth/middleware';
 
 import { logger } from '@/lib/logger';
@@ -87,6 +88,9 @@ export async function GET(request: NextRequest) {
     }, { headers: CACHE_HEADERS });
   } catch (error) {
     logger.error('Error fetching establishments:', error);
+    if (isDatabaseUnavailable(error)) {
+      return apiUnavailable({ establishments: [], total: 0, hasMore: false });
+    }
     return NextResponse.json(
       { error: 'Erreur serveur', establishments: [], total: 0 },
       { status: 500 }

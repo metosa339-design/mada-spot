@@ -88,3 +88,37 @@ export const manualCodeSchema = z.object({
     .trim()
     .regex(/^\d{6}$/, 'Code à 6 chiffres'),
 });
+
+// --- Back-office organisateur ----------------------------------------------
+
+/** Création d'un type de billet. */
+export const createTicketTypeSchema = z.object({
+  name: z.string().trim().min(2, 'Nom trop court').max(80, 'Nom trop long'),
+  priceMga: z.number().int('Prix entier en Ariary').min(0, 'Prix invalide').max(100_000_000),
+  totalQuantity: z.number().int().min(1, 'Au moins 1 place').max(1_000_000),
+  maxPerOrder: z.number().int().min(1).max(100).default(10),
+  salesEnd: z.string().datetime().optional().nullable(),
+});
+export type CreateTicketTypeInput = z.infer<typeof createTicketTypeSchema>;
+
+/** Mise à jour d'un type de billet (tous champs optionnels). */
+export const updateTicketTypeSchema = z
+  .object({
+    name: z.string().trim().min(2).max(80).optional(),
+    priceMga: z.number().int().min(0).max(100_000_000).optional(),
+    /** Nouvelle quantité totale : jamais en dessous du nombre déjà vendu. */
+    totalQuantity: z.number().int().min(0).max(1_000_000).optional(),
+    maxPerOrder: z.number().int().min(1).max(100).optional(),
+    salesEnd: z.string().datetime().nullable().optional(),
+    isActive: z.boolean().optional(),
+  })
+  .refine((v) => Object.keys(v).length > 0, 'Aucune modification fournie');
+export type UpdateTicketTypeInput = z.infer<typeof updateTicketTypeSchema>;
+
+/** Demande de virement (payout) d'un organisateur. */
+export const createPayoutSchema = z.object({
+  amount: z.number().int().min(1, 'Montant invalide').max(1_000_000_000),
+  provider: z.enum(['MVOLA', 'ORANGE_MONEY', 'AIRTEL_MONEY']),
+  mobileMoneyNumber: malagasyPhoneSchema,
+});
+export type CreatePayoutInput = z.infer<typeof createPayoutSchema>;

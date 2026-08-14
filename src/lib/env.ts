@@ -23,6 +23,18 @@ const serverEnvSchema = z.object({
   REPLICATE_API_TOKEN: z.string().optional(),
   STABILITY_API_KEY: z.string().optional(),
 
+  // Billetterie / Mobile Money
+  MOBILE_MONEY_WEBHOOK_SECRET: z.string().optional(),
+  TICKET_QR_SECRET: z.string().optional(),
+  CRON_SECRET: z.string().optional(),
+
+  // Notifications sortantes (WhatsApp / SMS)
+  GREEN_API_URL: z.string().optional(),
+  GREEN_API_TOKEN: z.string().optional(),
+  SMS_API_URL: z.string().optional(),
+  SMS_API_KEY: z.string().optional(),
+  SMS_SENDER: z.string().optional(),
+
   // Runtime
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   PORT: z.string().optional(),

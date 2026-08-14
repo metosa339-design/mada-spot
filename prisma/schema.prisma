@@ -18,6 +18,9 @@ datasource db {
 enum UserRole {
   CLIENT
   ADMIN
+  ORGANIZER
+  AGENT
+  POS_VENDOR
 }
 
 enum UserType {
@@ -137,6 +140,14 @@ model User {
   followUps              FollowUp[]             @relation("UserFollowUps")
   ownedFollowUps         FollowUp[]             @relation("FollowUpOwner")
   tagAssignments         ContactTagAssignment[] @relation("UserTagAssignments")
+
+  // Billetterie
+  ticketOrders    TicketOrder[]   @relation("ClientOrders")
+  posOrders       TicketOrder[]   @relation("PosOrders")
+  ownedTickets    EventTicket[]   @relation("OwnedTickets")
+  scannedTickets  EventTicket[]   @relation("ScannedTickets")
+  posWallet       PosWallet?      @relation("PosWalletOwner")
+  payoutRequests  PayoutRequest[] @relation("OrganizerPayouts")
 
   @@index([email])
   @@index([phone])
@@ -1557,6 +1568,10 @@ model Event {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // Billetterie
+  ticketTypes  TicketType[]
+  ticketOrders TicketOrder[]
+
   @@index([startDate])
   @@index([city])
   @@index([category])
@@ -2250,4 +2265,149 @@ model SavedSegment {
   updatedAt   DateTime @updatedAt
 
   @@index([createdAt])
+}
+
+// ============================================
+// BILLETTERIE DIGITALE (Ticketing)
+// ============================================
+
+enum TicketPaymentStatus {
+  PENDING
+  PROCESSING
+  PAID
+  FAILED
+  REFUNDED
+  EXPIRED
+}
+
+enum TicketPaymentMethod {
+  MVOLA
+  ORANGE_MONEY
+  AIRTEL_MONEY
+  CASH_POS
+  CARD
+}
+
+enum PayoutStatus {
+  PENDING
+  APPROVED
+  EXECUTED
+  REJECTED
+}
+
+/// Règles métier et commissions de la plateforme (ligne unique id = 1).
+model TicketingConfig {
+  id                        Int      @id @default(1)
+  platformCommissionPercent Decimal  @default(5.00) @db.Decimal(5, 2)
+  posCommissionPercent      Decimal  @default(2.00) @db.Decimal(5, 2)
+  minPayoutAmount           Decimal  @default(50000) @db.Decimal(14, 2)
+  reservationTtlMinutes     Int      @default(15)
+  updatedAt                 DateTime @updatedAt
+}
+
+/// Catégorie de billet d'un événement (Plein tarif, VIP, Pass, …).
+model TicketType {
+  id                String    @id @default(cuid())
+  eventId           String
+  event             Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  name              String
+  priceMga          Decimal   @db.Decimal(14, 2)
+  totalQuantity     Int
+  remainingQuantity Int
+  maxPerOrder       Int       @default(10)
+  salesEnd          DateTime?
+  isActive          Boolean   @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  tickets EventTicket[]
+
+  @@index([eventId])
+  @@index([isActive])
+}
+
+/// Commande (panier payé en une transaction Mobile Money / caisse POS).
+model TicketOrder {
+  id             String              @id @default(cuid())
+  idempotencyKey String              @unique // Anti double débit
+  clientId       String?
+  client         User?               @relation("ClientOrders", fields: [clientId], references: [id], onDelete: SetNull)
+  clientName     String
+  clientPhone    String
+  eventId        String
+  event          Event               @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  totalAmount    Decimal             @db.Decimal(14, 2)
+  platformFee    Decimal             @db.Decimal(14, 2)
+  posFee         Decimal             @default(0) @db.Decimal(14, 2)
+  organizerNet   Decimal             @db.Decimal(14, 2)
+  paymentStatus  TicketPaymentStatus @default(PENDING)
+  paymentMethod  TicketPaymentMethod
+  transactionRef String?             @unique
+  channelSource  String              @default("WEB") // WEB, WHATSAPP, POS
+  posVendorId    String?
+  posVendor      User?               @relation("PosOrders", fields: [posVendorId], references: [id], onDelete: SetNull)
+  notifyLog      Json? // journal des tentatives de notification (whatsapp/sms/pwa)
+  paidAt         DateTime?
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  expiresAt      DateTime
+
+  tickets EventTicket[]
+
+  @@index([clientPhone])
+  @@index([paymentStatus])
+  @@index([eventId])
+  @@index([expiresAt])
+}
+
+/// Billet nominatif individuel avec QR + code de secours à 6 chiffres.
+model EventTicket {
+  id           String      @id @default(cuid())
+  orderId      String
+  order        TicketOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  ticketTypeId String
+  ticketType   TicketType  @relation(fields: [ticketTypeId], references: [id])
+  ownerId      String?
+  owner        User?       @relation("OwnedTickets", fields: [ownerId], references: [id], onDelete: SetNull)
+  securityCode String      @db.VarChar(6)
+  qrHash       String      @unique
+  isScanned    Boolean     @default(false)
+  scannedAt    DateTime?
+  scannedById  String?
+  scannedBy    User?       @relation("ScannedTickets", fields: [scannedById], references: [id], onDelete: SetNull)
+  isForResale  Boolean     @default(false)
+  resalePrice  Decimal?    @db.Decimal(14, 2)
+  createdAt    DateTime    @default(now())
+
+  @@index([orderId])
+  @@index([ticketTypeId])
+  @@index([ownerId])
+  @@index([securityCode])
+}
+
+/// Portefeuille de caisse d'un vendeur physique (Cash-to-Digital).
+model PosWallet {
+  id                     String   @id @default(cuid())
+  vendorId               String   @unique
+  vendor                 User     @relation("PosWalletOwner", fields: [vendorId], references: [id], onDelete: Cascade)
+  cashBalance            Decimal  @default(0) @db.Decimal(14, 2)
+  totalCommissionsEarned Decimal  @default(0) @db.Decimal(14, 2)
+  depositCap             Decimal  @default(5000000) @db.Decimal(14, 2)
+  updatedAt              DateTime @updatedAt
+}
+
+/// Demande de retrait de trésorerie d'un organisateur.
+model PayoutRequest {
+  id                String              @id @default(cuid())
+  organizerId       String
+  organizer         User                @relation("OrganizerPayouts", fields: [organizerId], references: [id], onDelete: Cascade)
+  amount            Decimal             @db.Decimal(14, 2)
+  status            PayoutStatus        @default(PENDING)
+  mobileMoneyNumber String
+  provider          TicketPaymentMethod
+  processedAt       DateTime?
+  createdAt         DateTime            @default(now())
+
+  @@index([organizerId])
+  @@index([status])
 }

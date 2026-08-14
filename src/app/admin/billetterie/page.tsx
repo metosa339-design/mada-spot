@@ -19,13 +19,15 @@ import {
   RefreshCw,
   Ban,
   KeyRound,
+  BarChart3,
 } from 'lucide-react';
 
 const fmtMga = (n: number | string) =>
   new Intl.NumberFormat('fr-MG').format(Math.round(Number(n))) + ' Ar';
 
-type Tab = 'roles' | 'pos' | 'payouts' | 'disputes';
+type Tab = 'analytics' | 'roles' | 'pos' | 'payouts' | 'disputes';
 const TABS: { id: Tab; label: string; icon: typeof Users }[] = [
+  { id: 'analytics', label: 'Analytics', icon: BarChart3 },
   { id: 'roles', label: 'Rôles', icon: Users },
   { id: 'pos', label: 'Points de vente', icon: Store },
   { id: 'payouts', label: 'Virements', icon: Wallet },
@@ -95,11 +97,139 @@ export default function AdminBilletteriePage() {
           })}
         </nav>
 
+        {tab === 'analytics' && <AnalyticsTab />}
         {tab === 'roles' && <RolesTab csrf={csrf} />}
         {tab === 'pos' && <PosTab csrf={csrf} />}
         {tab === 'payouts' && <PayoutsTab csrf={csrf} />}
         {tab === 'disputes' && <DisputesTab csrf={csrf} />}
       </div>
+    </div>
+  );
+}
+
+// ----------------------------------------------------------------------------
+// Onglet Analytics
+// ----------------------------------------------------------------------------
+
+interface AnalyticsData {
+  gmv: string;
+  platformCommissions: string;
+  posCommissions: string;
+  organizerNet: string;
+  ordersPaid: number;
+  ticketsSold: number;
+  posVendors: number;
+  pendingPayouts: { count: number; amount: string };
+  byOperator: { method: string; orders: number; amount: string }[];
+  byChannel: { channel: string; orders: number; amount: string }[];
+}
+
+const METHOD_LABEL: Record<string, string> = {
+  MVOLA: 'MVola',
+  ORANGE_MONEY: 'Orange Money',
+  AIRTEL_MONEY: 'Airtel Money',
+  CASH_POS: 'Espèces (POS)',
+  CARD: 'Carte',
+};
+const CHANNEL_LABEL: Record<string, string> = { WEB: 'Web', WHATSAPP: 'WhatsApp', POS: 'Guichets' };
+
+function AnalyticsTab() {
+  const [data, setData] = useState<AnalyticsData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch('/api/admin/ticketing/analytics', { cache: 'no-store' });
+        const json = await res.json();
+        if (res.ok && json.success) setData(json.data);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  if (loading) return <Spinner />;
+  if (!data) {
+    return (
+      <div className="bg-white rounded-xl border border-[#E2E8F0] p-6 text-center text-[13px] text-[#64748B]">
+        Aucune donnée.
+      </div>
+    );
+  }
+
+  const maxOp = Math.max(1, ...data.byOperator.map((o) => Number(o.amount)));
+
+  return (
+    <div className="space-y-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <StatCard label="GMV (volume payé)" value={fmtMga(data.gmv)} accent />
+        <StatCard label="Commissions plateforme" value={fmtMga(data.platformCommissions)} />
+        <StatCard label="Commissions POS" value={fmtMga(data.posCommissions)} />
+        <StatCard label="Net organisateurs" value={fmtMga(data.organizerNet)} />
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <StatCard label="Commandes payées" value={String(data.ordersPaid)} small />
+        <StatCard label="Billets vendus" value={String(data.ticketsSold)} small />
+        <StatCard label="Vendeurs POS" value={String(data.posVendors)} small />
+        <StatCard
+          label="Virements en attente"
+          value={`${data.pendingPayouts.count} · ${fmtMga(data.pendingPayouts.amount)}`}
+          small
+        />
+      </div>
+
+      <div className="bg-white rounded-xl border border-[#E2E8F0] p-5">
+        <h2 className="text-[14px] font-semibold text-[#0F172A] mb-4">Flux par opérateur</h2>
+        {data.byOperator.length === 0 ? (
+          <p className="text-[13px] text-[#64748B]">Aucune vente.</p>
+        ) : (
+          <div className="space-y-3">
+            {data.byOperator.map((o) => (
+              <div key={o.method}>
+                <div className="flex items-center justify-between text-[13px] mb-1">
+                  <span className="text-[#334155] font-medium">{METHOD_LABEL[o.method] || o.method}</span>
+                  <span className="text-[#64748B]">
+                    {o.orders} cmd · {fmtMga(o.amount)}
+                  </span>
+                </div>
+                <div className="h-2 rounded-full bg-[#F1F5F9] overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-[#FF6B35] transition-all"
+                    style={{ width: `${Math.round((Number(o.amount) / maxOp) * 100)}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="bg-white rounded-xl border border-[#E2E8F0] p-5">
+        <h2 className="text-[14px] font-semibold text-[#0F172A] mb-3">Canaux de vente</h2>
+        {data.byChannel.length === 0 ? (
+          <p className="text-[13px] text-[#64748B]">Aucune vente.</p>
+        ) : (
+          <div className="flex flex-wrap gap-2">
+            {data.byChannel.map((c) => (
+              <span key={c.channel} className="text-[12px] px-3 py-1.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-[#334155]">
+                {CHANNEL_LABEL[c.channel] || c.channel} : {c.orders} · {fmtMga(c.amount)}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function StatCard({ label, value, accent, small }: { label: string; value: string; accent?: boolean; small?: boolean }) {
+  return (
+    <div className="bg-white rounded-xl border border-[#E2E8F0] p-4">
+      <p className={`font-bold text-[#0F172A] tabular-nums ${small ? 'text-[15px]' : 'text-[19px]'} ${accent ? 'text-[#FF6B35]' : ''}`}>
+        {value}
+      </p>
+      <p className="text-[12px] text-[#64748B] mt-0.5">{label}</p>
     </div>
   );
 }

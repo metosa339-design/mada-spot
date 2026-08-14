@@ -35,6 +35,13 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // Les ventes en espèces passent exclusivement par le guichet POS
+  // (/api/pos/sales), qui crédite le portefeuille du vendeur. Interdit ici
+  // pour éviter de déduire une commission POS sans vendeur associé.
+  if (parsed.data.paymentMethod === 'CASH_POS' || parsed.data.channelSource === 'POS') {
+    return apiError('Méthode de paiement non autorisée sur ce canal.', 400);
+  }
+
   try {
     const result = await createExpressOrder(parsed.data);
     if (!result.ok) {

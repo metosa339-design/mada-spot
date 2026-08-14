@@ -12,7 +12,12 @@ async function handle(request: NextRequest) {
   const secret =
     request.headers.get('x-cron-secret') || new URL(request.url).searchParams.get('secret');
   const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret && secret !== cronSecret) {
+  if (!cronSecret) {
+    // Fail-closed en production : pas de secret configuré → endpoint fermé.
+    if (process.env.NODE_ENV === 'production') {
+      return NextResponse.json({ success: false, error: 'Cron non configuré' }, { status: 503 });
+    }
+  } else if (secret !== cronSecret) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
   }
 

@@ -102,6 +102,10 @@ export async function POST(request: NextRequest) {
     }
     if (depositCap !== undefined) data.depositCap = new Prisma.Decimal(depositCap);
 
+    // Ajustement atomique (les increment/decrement sont appliqués en une seule
+    // écriture). Le plafond de dépôt est indicatif (seuil de remise en caisse) et
+    // n'est pas un verrou transactionnel : il ne bloque ni les ventes ni un
+    // ajustement admin, il est simplement affiché dans l'UI.
     const wallet = await prisma.posWallet.upsert({
       where: { vendorId },
       create: {
@@ -113,19 +117,6 @@ export async function POST(request: NextRequest) {
       update: data,
       select: { cashBalance: true, totalCommissionsEarned: true, depositCap: true },
     });
-
-    // Le solde de caisse ne peut pas dépasser le plafond de dépôt.
-    if (wallet.cashBalance.gt(wallet.depositCap)) {
-      // Annule l'ajustement en le ramenant au plafond.
-      await prisma.posWallet.update({
-        where: { vendorId },
-        data: { cashBalance: wallet.depositCap },
-      });
-      return NextResponse.json(
-        { success: false, error: 'Plafond de dépôt dépassé : solde ramené au plafond.' },
-        { status: 409 }
-      );
-    }
 
     await logAudit({
       userId: auth.admin.id,

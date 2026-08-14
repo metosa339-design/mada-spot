@@ -10,7 +10,7 @@ import { prisma } from '@/lib/db';
 import { logger } from '@/lib/logger';
 import { logAudit, getRequestMeta } from '@/lib/audit';
 import { requireAdminSession, ensureCsrf } from '@/lib/ticketing/admin';
-import { generateQrHash, generateSecurityCode } from '@/lib/ticketing/codes';
+import { generateQrHash, generateUniqueSecurityCodes } from '@/lib/ticketing/codes';
 
 export const dynamic = 'force-dynamic';
 
@@ -38,16 +38,22 @@ export async function POST(
   try {
     const ticket = await prisma.eventTicket.findUnique({
       where: { id },
-      select: { id: true, ticketTypeId: true, isScanned: true },
+      select: { id: true, ticketTypeId: true, isScanned: true, order: { select: { eventId: true } } },
     });
     if (!ticket) return apiError('Billet introuvable', 404);
 
     if (parsed.data.action === 'REGENERATE') {
+      // Nouveau code à 6 chiffres unique au sein de l'événement.
+      const existing = await prisma.eventTicket.findMany({
+        where: { order: { eventId: ticket.order.eventId }, id: { not: id } },
+        select: { securityCode: true },
+      });
+      const [newCode] = generateUniqueSecurityCodes(1, new Set(existing.map((e) => e.securityCode)));
       const updated = await prisma.eventTicket.update({
         where: { id },
         data: {
           qrHash: generateQrHash(),
-          securityCode: generateSecurityCode(),
+          securityCode: newCode,
           // Un billet régénéré redevient valable (nouvel accès).
           isScanned: false,
           scannedAt: null,

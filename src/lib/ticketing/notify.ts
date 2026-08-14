@@ -69,8 +69,9 @@ class CircuitBreaker {
   isOpen(): boolean {
     if (this.failures < this.threshold) return false;
     if (Date.now() - this.openedAt >= this.cooldownMs) {
-      // Fin du cooldown : on retente (half-open).
+      // Fin du cooldown : on repasse en half-open (une sonde retentera).
       this.failures = this.threshold - 1;
+      this.openedAt = 0;
       return false;
     }
     return true;

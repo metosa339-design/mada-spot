@@ -79,35 +79,38 @@ export async function POST(request: NextRequest) {
   const amount = new Prisma.Decimal(input.amount);
 
   try {
-    // Revalidation serveur de la trésorerie (le client ne fait pas foi).
-    const balance = await getOrganizerBalance(userId);
-    const available = new Prisma.Decimal(balance.available);
-    const minPayout = new Prisma.Decimal(balance.minPayout);
+    // Verrou consultatif par organisateur : sérialise contrôle du solde +
+    // création, pour empêcher deux demandes concurrentes de sur-débiter.
+    const outcome = await prisma.$transaction(async (tx) => {
+      await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${userId}))`;
 
-    if (amount.lt(minPayout)) {
-      return NextResponse.json(
-        { success: false, error: `Montant minimum de retrait : ${minPayout.toString()} Ar.` },
-        { status: 422 }
-      );
-    }
-    if (amount.gt(available)) {
-      return NextResponse.json(
-        { success: false, error: `Solde insuffisant. Disponible : ${available.toString()} Ar.` },
-        { status: 409 }
-      );
-    }
+      const balance = await getOrganizerBalance(userId);
+      const available = new Prisma.Decimal(balance.available);
+      const minPayout = new Prisma.Decimal(balance.minPayout);
 
-    const created = await prisma.payoutRequest.create({
-      data: {
-        organizerId: userId,
-        amount,
-        provider: input.provider,
-        mobileMoneyNumber: normalizeMalagasyPhone(input.mobileMoneyNumber),
-      },
-      select: { id: true },
+      if (amount.lt(minPayout)) {
+        return { error: `Montant minimum de retrait : ${minPayout.toString()} Ar.`, status: 422 };
+      }
+      if (amount.gt(available)) {
+        return { error: `Solde insuffisant. Disponible : ${available.toString()} Ar.`, status: 409 };
+      }
+
+      const created = await tx.payoutRequest.create({
+        data: {
+          organizerId: userId,
+          amount,
+          provider: input.provider,
+          mobileMoneyNumber: normalizeMalagasyPhone(input.mobileMoneyNumber),
+        },
+        select: { id: true },
+      });
+      return { id: created.id };
     });
 
-    return NextResponse.json({ success: true, data: { id: created.id } }, { status: 201 });
+    if ('error' in outcome) {
+      return NextResponse.json({ success: false, error: outcome.error }, { status: outcome.status });
+    }
+    return NextResponse.json({ success: true, data: { id: outcome.id } }, { status: 201 });
   } catch (err) {
     logger.error('POST /api/organizer/payouts a échoué', err, 'organizer.api');
     return apiError('Erreur serveur', 500);

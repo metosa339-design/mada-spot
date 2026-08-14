@@ -7,7 +7,7 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/db';
 import { logger } from '@/lib/logger';
 import { computeCommission, getTicketingConfig } from './commission';
-import { generateQrHash, generateSecurityCode, newIdempotencyKey } from './codes';
+import { generateQrHash, generateUniqueSecurityCodes, newIdempotencyKey } from './codes';
 import { deliverTicketNotification } from './notify';
 import { normalizeMalagasyPhone } from '@/lib/validations/ticketing';
 import type { CreateOrderInput } from '@/lib/validations/ticketing';
@@ -134,12 +134,24 @@ export async function createPosSale(
           select: { id: true },
         });
 
+        // Codes à 6 chiffres uniques au sein de l'événement.
+        const totalQty = [...quantities.values()].reduce((s, n) => s + n, 0);
+        const existingCodes = await tx.eventTicket.findMany({
+          where: { order: { eventId: input.eventId } },
+          select: { securityCode: true },
+        });
+        const codes = generateUniqueSecurityCodes(
+          totalQty,
+          new Set(existingCodes.map((c) => c.securityCode))
+        );
+
         const ticketRows: Prisma.EventTicketCreateManyInput[] = [];
         const preview: { securityCode: string; qrHash: string; category: string }[] = [];
+        let ci = 0;
         for (const t of types) {
           const qty = quantities.get(t.id)!;
           for (let i = 0; i < qty; i++) {
-            const securityCode = generateSecurityCode();
+            const securityCode = codes[ci++];
             const qrHash = generateQrHash();
             ticketRows.push({ orderId: order.id, ticketTypeId: t.id, securityCode, qrHash });
             preview.push({ securityCode, qrHash, category: t.name });

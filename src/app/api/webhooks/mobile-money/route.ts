@@ -96,6 +96,18 @@ export async function POST(request: NextRequest) {
       if (result.status === 'IGNORED') {
         return NextResponse.json({ success: true, data: { orderId: order.id, ignored: result.reason } }, { status: 200 });
       }
+      if (result.status === 'NEEDS_REFUND') {
+        // Paiement encaissé mais commande non honorable (expirée/échouée). On
+        // acquitte (200, pas de ret's) et on signale le remboursement à faire.
+        logger.error('Webhook : paiement tardif à rembourser', undefined, 'webhook.mobile-money', {
+          orderId: order.id,
+          transactionRef: evt.transactionRef,
+        });
+        return NextResponse.json(
+          { success: true, data: { orderId: order.id, status: 'NEEDS_REFUND', reason: result.reason } },
+          { status: 200 }
+        );
+      }
       return NextResponse.json(
         { success: true, data: { orderId: order.id, status: 'PAID', alreadyProcessed: result.alreadyProcessed } },
         { status: 200 }

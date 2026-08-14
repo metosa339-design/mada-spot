@@ -57,33 +57,38 @@ export async function POST(request: NextRequest) {
       firstScannedAt?: string | null;
     }> = [];
 
-    for (const scan of scans) {
-      const ticket = await prisma.eventTicket.findUnique({
-        where: { qrHash: scan.qrHash },
-        select: { id: true, isScanned: true, scannedAt: true, order: { select: { eventId: true, paymentStatus: true } } },
-      });
+    // 1) Résolution en UNE requête (au lieu d'un findUnique par scan).
+    const qrHashes = [...new Set(scans.map((s) => s.qrHash))];
+    const found = await prisma.eventTicket.findMany({
+      where: { qrHash: { in: qrHashes } },
+      select: { id: true, qrHash: true, isScanned: true, scannedAt: true, order: { select: { eventId: true, paymentStatus: true } } },
+    });
+    const byHash = new Map(found.map((t) => [t.qrHash, t]));
 
+    // 2) Décision + validation. On conserve l'heure de scan fournie par
+    //    l'appareil (plus juste que l'heure de synchronisation).
+    for (const scan of scans) {
+      const ticket = byHash.get(scan.qrHash);
       if (!ticket || ticket.order.eventId !== eventId || ticket.order.paymentStatus !== 'PAID') {
         results.push({ qrHash: scan.qrHash, status: 'NOT_FOUND' });
         continue;
       }
-
       if (ticket.isScanned) {
         results.push({ qrHash: scan.qrHash, status: 'ALREADY_SCANNED', firstScannedAt: ticket.scannedAt?.toISOString() ?? null });
         continue;
       }
 
-      // Premier scan gagne : update conditionnel sur isScanned = false.
       const scannedAt = scan.scannedAt ? new Date(scan.scannedAt) : new Date();
       const upd = await prisma.eventTicket.updateMany({
         where: { id: ticket.id, isScanned: false },
         data: { isScanned: true, scannedAt, scannedById: user.id },
       });
-
       if (upd.count === 1) {
+        // Évite une re-lecture pour les doublons du même lot.
+        ticket.isScanned = true;
+        ticket.scannedAt = scannedAt;
         results.push({ qrHash: scan.qrHash, status: 'ACCEPTED', firstScannedAt: scannedAt.toISOString() });
       } else {
-        // Course perdue : quelqu'un d'autre a validé entre-temps.
         const fresh = await prisma.eventTicket.findUnique({
           where: { id: ticket.id },
           select: { scannedAt: true },

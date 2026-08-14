@@ -56,7 +56,7 @@ async function main() {
     lastName: 'Démo',
     role: 'ORGANIZER',
   });
-  const agent = await upsertUser({
+  await upsertUser({
     email: 'agent.demo@madaspot.mg',
     phone: '+261340000002',
     firstName: 'Agent',

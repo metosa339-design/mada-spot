@@ -29,7 +29,13 @@ export async function POST(
     const result = await prisma.$transaction(async (tx) => {
       const order = await tx.ticketOrder.findUnique({
         where: { id },
-        select: { id: true, paymentStatus: true },
+        select: {
+          id: true,
+          paymentStatus: true,
+          posVendorId: true,
+          totalAmount: true,
+          posFee: true,
+        },
       });
       if (!order) return { kind: 'NOT_FOUND' as const };
       if (order.paymentStatus === 'REFUNDED') return { kind: 'ALREADY' as const };
@@ -45,6 +51,19 @@ export async function POST(
         await tx.$queryRaw(
           Prisma.sql`SELECT release_tickets(${g.ticketTypeId}::text, ${g._count._all}::int) AS ok`
         );
+      }
+
+      // Vente au guichet : on annule le crédit du portefeuille du vendeur
+      // (caisse + commission) pour que la comptabilité reste cohérente.
+      if (order.posVendorId) {
+        await tx.posWallet.updateMany({
+          where: { vendorId: order.posVendorId },
+          data: {
+            cashBalance: { decrement: order.totalAmount },
+            totalCommissionsEarned: { decrement: order.posFee },
+            updatedAt: new Date(),
+          },
+        });
       }
 
       await tx.ticketOrder.update({ where: { id }, data: { paymentStatus: 'REFUNDED' } });

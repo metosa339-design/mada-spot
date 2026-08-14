@@ -11,7 +11,7 @@ import { Prisma, type TicketPaymentMethod } from '@prisma/client';
 import { prisma } from '@/lib/db';
 import { logger } from '@/lib/logger';
 import { computeCommission, getTicketingConfig } from './commission';
-import { generateQrHash, generateSecurityCode, newIdempotencyKey } from './codes';
+import { generateQrHash, generateUniqueSecurityCodes, newIdempotencyKey } from './codes';
 import { deliverTicketNotification } from './notify';
 import type { CreateOrderInput } from '@/lib/validations/ticketing';
 import { normalizeMalagasyPhone } from '@/lib/validations/ticketing';
@@ -143,7 +143,19 @@ export async function createExpressOrder(
 
         // 3c) Matérialisation des billets (invalides tant que la commande n'est
         //     pas PAID — le scanner ne charge que les billets payés).
+        // Codes à 6 chiffres uniques au sein de l'événement (contrôle manuel).
+        const totalQty = [...quantities.values()].reduce((s, n) => s + n, 0);
+        const existingCodes = await tx.eventTicket.findMany({
+          where: { order: { eventId: input.eventId } },
+          select: { securityCode: true },
+        });
+        const codes = generateUniqueSecurityCodes(
+          totalQty,
+          new Set(existingCodes.map((c) => c.securityCode))
+        );
+
         const ticketData: Prisma.EventTicketCreateManyInput[] = [];
+        let ci = 0;
         for (const t of types) {
           const qty = quantities.get(t.id)!;
           for (let i = 0; i < qty; i++) {
@@ -151,7 +163,7 @@ export async function createExpressOrder(
               orderId: created.id,
               ticketTypeId: t.id,
               ownerId: clientId,
-              securityCode: generateSecurityCode(),
+              securityCode: codes[ci++],
               qrHash: generateQrHash(),
             });
           }
@@ -206,6 +218,7 @@ export interface FulfillArgs {
 
 export type FulfillResult =
   | { status: 'PAID'; alreadyProcessed: boolean; orderId: string }
+  | { status: 'NEEDS_REFUND'; orderId: string; reason: string }
   | { status: 'IGNORED'; reason: string };
 
 /**
@@ -232,6 +245,12 @@ export async function fulfillPaidOrder(
     if (order.paymentStatus === 'REFUNDED') {
       return { kind: 'REFUNDED' as const };
     }
+    // Paiement tardif : la réservation a expiré/échoué, les billets ont été
+    // supprimés et le stock rendu. On ne peut PAS reconstituer la commande
+    // (composition perdue) → à rembourser manuellement, jamais annoncé PAID.
+    if (order.paymentStatus === 'EXPIRED' || order.paymentStatus === 'FAILED') {
+      return { kind: 'LATE' as const };
+    }
 
     const res = await tx.ticketOrder.updateMany({
       where: { id: orderId, paymentStatus: { in: ['PENDING', 'PROCESSING'] } },
@@ -243,16 +262,46 @@ export async function fulfillPaidOrder(
       },
     });
     if (res.count === 0) {
-      // Une autre exécution concurrente a gagné la course.
-      return { kind: 'RACE' as const };
+      // Course : une autre exécution a changé le statut entre-temps. On relit
+      // pour distinguer « déjà payé » (sûr) de « devenu terminal » (à rembourser).
+      const fresh = await tx.ticketOrder.findUnique({
+        where: { id: orderId },
+        select: { paymentStatus: true },
+      });
+      if (fresh?.paymentStatus === 'PAID') return { kind: 'RACE_PAID' as const };
+      return { kind: 'LATE' as const };
     }
     return { kind: 'MARKED' as const };
   });
 
   if (marked.kind === 'NOT_FOUND') return { status: 'IGNORED', reason: 'order-not-found' };
   if (marked.kind === 'REFUNDED') return { status: 'IGNORED', reason: 'order-refunded' };
-  if (marked.kind === 'ALREADY' || marked.kind === 'RACE') {
+  if (marked.kind === 'ALREADY' || marked.kind === 'RACE_PAID') {
     return { status: 'PAID', alreadyProcessed: true, orderId };
+  }
+  if (marked.kind === 'LATE') {
+    // Trace la référence de transaction pour rapprochement/remboursement manuel.
+    try {
+      await prisma.ticketOrder.update({
+        where: { id: orderId },
+        data: {
+          notifyLog: {
+            latePayment: true,
+            needsRefund: true,
+            transactionRef: args.transactionRef,
+          } as unknown as Prisma.InputJsonValue,
+        },
+      });
+    } catch {
+      /* best-effort */
+    }
+    logger.error(
+      'Paiement tardif sur commande expirée/échouée — remboursement manuel requis',
+      undefined,
+      'ticketing.orders',
+      { orderId, transactionRef: args.transactionRef }
+    );
+    return { status: 'NEEDS_REFUND', orderId, reason: 'late-payment-order-terminal' };
   }
 
   // Distribution des billets hors transaction (ne doit jamais bloquer le règlement).

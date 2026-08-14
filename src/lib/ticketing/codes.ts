@@ -29,6 +29,24 @@ export function generateSecurityCode(): string {
 }
 
 /**
+ * Génère `count` codes à 6 chiffres UNIQUES au sein d'un événement (aucun ne
+ * figure dans `taken`, ni en doublon dans le lot). Évite qu'un contrôle manuel
+ * par code valide le mauvais billet. L'espace (10^6) est très supérieur au
+ * nombre de billets d'un événement, donc la génération converge immédiatement.
+ */
+export function generateUniqueSecurityCodes(count: number, taken: Set<string>): string[] {
+  const out: string[] = [];
+  const seen = new Set(taken);
+  while (out.length < count) {
+    const code = generateSecurityCode();
+    if (seen.has(code)) continue;
+    seen.add(code);
+    out.push(code);
+  }
+  return out;
+}
+
+/**
  * Empreinte QR unique et imprévisible (192 bits d'entropie). Encodée en
  * base64url et préfixée pour être reconnaissable. L'unicité est garantie par
  * l'index unique en base ; la valeur est stockée telle quelle dans le QR Code.

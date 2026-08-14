@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { CATEGORY_COLORS } from '@/lib/data/event-categories';
 import { useTrans } from '@/i18n';
+import EventTicketPurchase from '@/components/events/EventTicketPurchase';
 
 interface EventDetail {
   id: string;
@@ -292,6 +293,9 @@ export default function EventDetailPage() {
             </div>
           </div>
         )}
+
+        {/* Billetterie — sélecteur de billets + achat (Web / WhatsApp) */}
+        <EventTicketPurchase slug={event.slug} />
 
         {/* Linked establishment */}
         {event.establishment && (

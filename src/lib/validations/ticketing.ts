@@ -115,6 +115,16 @@ export const updateTicketTypeSchema = z
   .refine((v) => Object.keys(v).length > 0, 'Aucune modification fournie');
 export type UpdateTicketTypeInput = z.infer<typeof updateTicketTypeSchema>;
 
+/** Vente au guichet physique (POS Cash-to-Digital). */
+export const posSaleSchema = z.object({
+  eventId: z.string().min(1, 'Événement requis'),
+  clientName: z.string().trim().min(2, 'Nom trop court').max(120),
+  clientPhone: malagasyPhoneSchema,
+  items: z.array(orderItemSchema).min(1, 'Sélectionnez au moins un billet').max(20),
+  idempotencyKey: z.string().min(8).max(128).optional(),
+});
+export type PosSaleFormInput = z.infer<typeof posSaleSchema>;
+
 /** Demande de virement (payout) d'un organisateur. */
 export const createPayoutSchema = z.object({
   amount: z.number().int().min(1, 'Montant invalide').max(1_000_000_000),

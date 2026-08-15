@@ -72,10 +72,25 @@ L'attribution des rôles se fait dans **/admin/billetterie → Rôles**.
 
 ## Démarrage / démo
 
+### En une commande (aperçu local)
+
+```bash
+# Base PostgreSQL auto-démarrée via Docker + admin de démo :
+ADMIN_EMAIL="admin@toi.mg" ADMIN_PASSWORD="MadaSpot2026!" bash scripts/preview-local.sh
+# → ouvre http://localhost:3000  (schéma + fonctions + données de démo inclus)
+```
+
+`scripts/preview-local.sh` démarre une base (Docker, ou `DATABASE_URL` fourni),
+synchronise le schéma, applique les fonctions atomiques, injecte les données de
+démo, puis build + start. Il affiche l'URL et les comptes de test à la fin.
+
+### Étapes manuelles (base déjà disponible)
+
 ```bash
 npm install
 npx prisma migrate deploy   # applique la migration billetterie
 npm run db:seed:ticketing   # organisateur + agent + POS + événement billetté
+npm run build && npm start
 ```
 
 Comptes de démo (mot de passe commun `MadaSpot2026!`) :

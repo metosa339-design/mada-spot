@@ -1,0 +1,22 @@
+# Mada Spot — base PostgreSQL locale pour l'aperçu de la billetterie.
+# Lancée automatiquement par scripts/preview-local.sh (ou : docker compose -f docker-compose.preview.yml up -d)
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: madaspot-preview-db
+    environment:
+      POSTGRES_USER: mada
+      POSTGRES_PASSWORD: mada
+      POSTGRES_DB: mada_spot
+    ports:
+      - '5432:5432'
+    volumes:
+      - madaspot_preview_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U mada -d mada_spot']
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  madaspot_preview_pg:

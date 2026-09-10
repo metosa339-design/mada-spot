@@ -112,14 +112,29 @@ export async function POST(request: NextRequest) {
             ? `${base}/api/auth/magic?token=${encodeURIComponent(magicToken)}&redirect=${encodeURIComponent('/dashboard')}&email=${encodeURIComponent(email)}`
             : `${base}/login?email=${encodeURIComponent(email)}&redirect=${encodeURIComponent('/dashboard')}`;
           const { subject, html } = buildWelcomeProEmail(firstName, userType, ctaHref);
-          await sendBrevoEmail({
+          // sendBrevoEmail ne LEVE PAS sur echec : il renvoie { ok: false }. Le
+          // try/catch ne voyait donc que les pannes reseau, et un refus de Brevo
+          // (cle invalide, IP non autorisee, quota) passait totalement inapercu.
+          // C'etait le seul des neuf appels du projet a ignorer sa valeur de
+          // retour : 262 comptes crees, zero echec journalise, aucune preuve
+          // que les mails de bienvenue soient jamais partis.
+          const envoi = await sendBrevoEmail({
             to: email,
             subject,
             html,
-            senderName: 'Metosaela RANDRIAMAZAORO — Mada Spot',
+            senderName: 'Mada Spot',
             senderEmail: 'contact@madaspot.com',
             tag: 'onboarding-fiche',
           });
+          if (!envoi.ok) {
+            logger.error(
+              `[REGISTER] Mail de bienvenue REFUSE par Brevo pour ${email} — statut ${envoi.status}${
+                envoi.ipBlocked ? ' (IP non reconnue par Brevo)' : ''
+              } : ${envoi.error ?? 'sans detail'}`
+            );
+          } else {
+            logger.info(`[REGISTER] Mail de bienvenue envoyé à ${email} (${envoi.messageId ?? 'sans id'})`);
+          }
         } catch (e) {
           logger.error('[REGISTER] Welcome email failed:', e as Error);
         }

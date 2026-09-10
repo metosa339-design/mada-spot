@@ -22,7 +22,7 @@ const emptyFilter: Filter = {
 };
 
 const DEFAULT_MSG =
-  "Bonjour {{prenom}} 👋 C'est Metosaela de Mada Spot. Votre {{type}} n'a pas encore de fiche en ligne — c'est la haute saison ! Créez-la en 5 min (gratuit) : https://madaspot.com/dashboard/etablissement";
+  "Bonjour {{prenom}} 👋 Nous vous écrivons de Mada Spot. Votre {{type}} n'a pas encore de fiche en ligne — c'est la haute saison ! Créez-la en 5 min (gratuit) : https://madaspot.com/dashboard/etablissement";
 
 function personalize(t: string, r: any): string {
   return t

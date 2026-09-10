@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
     to,
     subject,
     html,
-    senderName: 'Metosaela RANDRIAMAZAORO — Mada Spot',
+    senderName: 'Mada Spot',
     senderEmail: 'contact@madaspot.com',
     tag: 'conformite-crm',
   });

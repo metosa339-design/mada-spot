@@ -64,7 +64,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       to: r.email,
       subject,
       html,
-      senderName: 'Metosaela RANDRIAMAZAORO — Mada Spot',
+      senderName: 'Mada Spot',
       senderEmail: 'contact@madaspot.com',
       tag: `campaign-${id}`,
     });

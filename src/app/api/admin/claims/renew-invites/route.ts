@@ -139,6 +139,20 @@ export async function POST(request: NextRequest) {
     take: 3000,
   });
 
+  // Une adresse qui porte DEJA un jeton valide ne doit plus etre sollicitee.
+  // Sans ce garde-fou, le dedoublonnage ne tenait qu'a l'interieur d'un lot :
+  // la premiere fiche d'une adresse etait renouvelee, sortait de la cible, et
+  // au lot suivant sa deuxieme fiche n'avait plus de doublon en face d'elle.
+  // Constate le 10/09/2026 : une adresse a recu deux mails (227 envois au lieu
+  // des 226 annonces).
+  const dejaValides = await prisma.establishmentClaim.findMany({
+    where: { invitationExpiry: { gte: now }, claimantEmail: { not: '' } },
+    select: { claimantEmail: true },
+  });
+  const adressesDejaServies = new Set(
+    dejaValides.map((c) => c.claimantEmail.trim().toLowerCase()).filter(Boolean)
+  );
+
   const bloquees = filtrerBloquees ? await fetchBrevoBlocked() : null;
 
   // Le filtre ne doit pas disparaitre en silence : sans lui on arroserait des
@@ -157,6 +171,7 @@ export async function POST(request: NextRequest) {
   let ignoreesBloquees = 0;
   let ignoreesDoublon = 0;
   let ignoreesInvalides = 0;
+  let ignoreesDejaServies = 0;
 
   for (const c of candidats) {
     const mail = c.claimantEmail.trim().toLowerCase();
@@ -166,6 +181,11 @@ export async function POST(request: NextRequest) {
     }
     if (vues.has(mail)) {
       ignoreesDoublon++;
+      continue;
+    }
+    if (adressesDejaServies.has(mail)) {
+      ignoreesDejaServies++;
+      vues.add(mail);
       continue;
     }
     vues.add(mail);
@@ -192,6 +212,7 @@ export async function POST(request: NextRequest) {
       ttlDays,
       blocklistBrevo: bloquees ? bloquees.size : 'indisponible',
       ignoreesDoublon,
+      ignoreesDejaServies,
       ignoreesInvalides,
       sample: lot.slice(0, 15).map((c) => `${c.establishment?.name ?? '?'} <${c.claimantEmail}>`),
       apercuSujet: relanceInviteEmail(lot[0]?.establishment?.name ?? 'Votre établissement', '…').subject,

@@ -31,7 +31,7 @@ const DEFAULT_HTML = `<div style="font-family:sans-serif;max-width:600px;margin:
   <p style="text-align:center;margin:26px 0">
     <a href="https://madaspot.com/dashboard/etablissement" style="background:#ff6b35;color:#fff;padding:14px 30px;border-radius:10px;text-decoration:none;font-weight:700">Créer / compléter ma fiche →</a>
   </p>
-  <p>Bien à vous,<br>Metosaela — Mada Spot</p>
+  <p>Bien à vous,<br>L'équipe Mada Spot</p>
   <p style="font-size:11px;color:#94a3b8">Répondez STOP pour ne plus recevoir ces messages.</p>
 </div>`;
 

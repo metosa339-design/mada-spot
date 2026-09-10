@@ -67,7 +67,7 @@ export function buildConformityEmail(name: string | null, firstName: string | nu
     <div style="text-align:center;margin:26px 0">
       <a href="https://madaspot.com/dashboard/etablissement" style="display:inline-block;padding:15px 34px;background:#ff6b35;color:#fff;text-decoration:none;border-radius:11px;font-weight:700;font-size:16px">Compléter ma fiche →</a>
     </div>
-    <p style="font-size:16px;line-height:1.7">Bien à vous,<br><strong>Metosaela RANDRIAMAZAORO</strong><br><span style="color:#64748b;font-size:14px">Business Developer — Mada Spot</span></p>
+    <p style="font-size:16px;line-height:1.7">Bien à vous,<br><strong>L'équipe Mada Spot</strong></p>
   </div>
   <div style="margin-top:28px;padding:14px 24px;border-top:1px solid #eef2f7"><p style="font-size:11px;color:#94a3b8;text-align:center;margin:0">Répondez STOP pour ne plus recevoir ces messages.</p></div>
 </div>`;
@@ -111,7 +111,7 @@ export function buildWelcomeProEmail(
     <div style="text-align:center;margin:26px 0">
       <a href="${ctaHref}" style="display:inline-block;padding:15px 34px;background:#ff6b35;color:#fff;text-decoration:none;border-radius:11px;font-weight:700;font-size:16px">Créer ma fiche →</a>
     </div>
-    <p style="font-size:16px;line-height:1.7">Bien à vous,<br><strong>Metosaela RANDRIAMAZAORO</strong><br><span style="color:#64748b;font-size:14px">Business Developer — Mada Spot</span></p>
+    <p style="font-size:16px;line-height:1.7">Bien à vous,<br><strong>L'équipe Mada Spot</strong></p>
   </div>
   <div style="margin-top:28px;padding:14px 24px;border-top:1px solid #eef2f7"><p style="font-size:11px;color:#94a3b8;text-align:center;margin:0">Répondez STOP pour ne plus recevoir ces messages.</p></div>
 </div>`;

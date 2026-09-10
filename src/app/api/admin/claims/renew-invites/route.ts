@@ -51,18 +51,22 @@ function relanceInviteEmail(estName: string, claimUrl: string): { subject: strin
 async function fetchBrevoBlocked(): Promise<Set<string> | null> {
   const apiKey = process.env.BREVO_API_KEY;
   if (!apiKey) return null;
+  // ATTENTION : blockedContacts plafonne a limit=100. Une valeur superieure
+  // renvoie 400, ce qui desactiverait le filtre en silence.
+  const PAGE = 100;
+  const MAX_PAGES = 30; // 3000 adresses, large au-dela des ~700 actuelles
   const blocked = new Set<string>();
   try {
-    for (let offset = 0; offset < 2000; offset += 500) {
+    for (let page = 0; page < MAX_PAGES; page++) {
       const res = await fetch(
-        `https://api.brevo.com/v3/smtp/blockedContacts?limit=500&offset=${offset}`,
+        `https://api.brevo.com/v3/smtp/blockedContacts?limit=${PAGE}&offset=${page * PAGE}`,
         { headers: { accept: 'application/json', 'api-key': apiKey } }
       );
       if (!res.ok) return blocked.size ? blocked : null;
       const data = (await res.json()) as { contacts?: Array<{ email?: string }> };
-      const page = data.contacts || [];
-      page.forEach((c) => c.email && blocked.add(c.email.toLowerCase()));
-      if (page.length < 500) break;
+      const contacts = data.contacts || [];
+      contacts.forEach((c) => c.email && blocked.add(c.email.toLowerCase()));
+      if (contacts.length < PAGE) break;
     }
     return blocked;
   } catch {
@@ -121,8 +125,8 @@ export async function POST(request: NextRequest) {
 
   const totalRemaining = await prisma.establishmentClaim.count({ where });
 
-  // On prend large : le dedoublonnage par adresse peut retirer des lignes, et on
-  // veut quand meme remplir le lot.
+  // La cible est petite (quelques centaines) : on la prend entierement pour
+  // pouvoir annoncer des chiffres exacts, et non une estimation sur un lot.
   const candidats = await prisma.establishmentClaim.findMany({
     where,
     select: {
@@ -132,43 +136,63 @@ export async function POST(request: NextRequest) {
       establishment: { select: { name: true } },
     },
     orderBy: { createdAt: 'desc' },
-    take: limit * 3,
+    take: 3000,
   });
 
   const bloquees = filtrerBloquees ? await fetchBrevoBlocked() : null;
 
+  // Le filtre ne doit pas disparaitre en silence : sans lui on arroserait des
+  // adresses que Brevo refuse de servir, ce qui degrade la reputation d'envoi.
+  if (sendReal && filtrerBloquees && bloquees === null) {
+    return apiError(
+      "Liste de blocage Brevo inaccessible : envoi interrompu par precaution. " +
+        "Reessayez, ou forcez avec skipBlocked:false en connaissance de cause.",
+      503
+    );
+  }
+
   // Une seule sollicitation par adresse, meme si elle porte plusieurs fiches.
   const vues = new Set<string>();
-  const lot: typeof candidats = [];
+  const eligibles: typeof candidats = [];
   let ignoreesBloquees = 0;
   let ignoreesDoublon = 0;
+  let ignoreesInvalides = 0;
 
   for (const c of candidats) {
-    if (lot.length >= limit) break;
     const mail = c.claimantEmail.trim().toLowerCase();
-    if (!mail || !mail.includes('@')) continue;
+    if (!mail || !mail.includes('@')) {
+      ignoreesInvalides++;
+      continue;
+    }
     if (vues.has(mail)) {
       ignoreesDoublon++;
       continue;
     }
+    vues.add(mail);
     if (bloquees?.has(mail)) {
       ignoreesBloquees++;
       continue;
     }
-    vues.add(mail);
-    lot.push(c);
+    eligibles.push(c);
   }
+
+  const lot = eligibles.slice(0, limit);
 
   if (!sendReal) {
     return NextResponse.json({
       ok: true,
       mode: 'PREVIEW',
       totalRemaining,
+      // Les adresses bloquees ne partiront jamais : elles resteront comptees
+      // dans totalRemaining. C'est ce residu, et non zero, qui signale la fin.
+      envoyablesRestantes: eligibles.length,
+      residuBloqueesInenvoyables: ignoreesBloquees,
       nextBatch: lot.length,
+      lotsRestants: Math.ceil(eligibles.length / limit),
       ttlDays,
       blocklistBrevo: bloquees ? bloquees.size : 'indisponible',
-      ignoreesBloquees,
       ignoreesDoublon,
+      ignoreesInvalides,
       sample: lot.slice(0, 15).map((c) => `${c.establishment?.name ?? '?'} <${c.claimantEmail}>`),
       apercuSujet: relanceInviteEmail(lot[0]?.establishment?.name ?? 'Votre établissement', '…').subject,
     });
@@ -228,9 +252,9 @@ export async function POST(request: NextRequest) {
     batchSize: lot.length,
     sent,
     failed,
-    ignoreesBloquees,
-    totalRemainingBefore: totalRemaining,
-    remainingAfter: Math.max(0, totalRemaining - sent),
+    residuBloqueesInenvoyables: ignoreesBloquees,
+    envoyablesAvant: eligibles.length,
+    envoyablesApres: Math.max(0, eligibles.length - sent),
     errors: errors.slice(0, 10),
   });
 }

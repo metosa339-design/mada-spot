@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyMagicToken } from '@/lib/auth/magic-link';
-import { createSession, getSessionCookieConfig } from '@/lib/auth';
+import { createSession, getSessionCookieConfig, updateLastLogin } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
@@ -37,6 +37,16 @@ export async function GET(request: NextRequest) {
       payload.userId,
       request.headers.get('user-agent') || undefined,
     );
+
+    // Une entrée par lien magique est une connexion : on l'horodate comme telle.
+    // C'était l'angle mort de la mesure — la table Session étant purgée à chaque
+    // connexion, ces entrées ne laissaient aucune trace durable.
+    // Hors chemin critique : un échec ne doit pas renvoyer l'utilisateur au
+    // formulaire de connexion alors que sa session vient d'être créée.
+    void updateLastLogin(payload.userId).catch((e) =>
+      logger.error('[MAGIC] Horodatage de connexion échoué:', e as Error)
+    );
+
     const res = NextResponse.redirect(`${base}${redirectTo}`);
     res.cookies.set(getSessionCookieConfig(sessionToken));
     return res;

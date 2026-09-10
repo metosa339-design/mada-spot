@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/db';
-import { hashPassword, createSession, getSessionCookieConfig } from '@/lib/auth';
+import { hashPassword, createSession, getSessionCookieConfig, updateLastLogin } from '@/lib/auth';
 import { registerSchema } from '@/lib/validations/auth';
 import { checkRateLimit, getClientIdentifier, getRateLimitHeaders } from '@/lib/rate-limit';
 import { verifyCsrfToken } from '@/lib/csrf';
@@ -81,6 +81,15 @@ export async function POST(request: NextRequest) {
     const deviceInfo = request.headers.get('user-agent') || undefined;
     const ipAddress = clientId;
     const sessionToken = await createSession(user.id, deviceInfo, ipAddress);
+
+    // L'inscription connecte immédiatement : on horodate cette connexion comme
+    // n'importe quelle autre. Sans cela, un pro qui s'inscrit, complète sa fiche
+    // dans cette première session puis ne revient plus jamais garde un
+    // lastLoginAt vide, et ressort des statistiques comme « jamais connecté ».
+    // Hors chemin critique : un échec d'écriture ne doit pas casser l'inscription.
+    void updateLastLogin(user.id).catch((e) =>
+      logger.error('[REGISTER] Horodatage de connexion échoué:', e as Error)
+    );
 
     logger.info(`[REGISTER] ✓ Account created for ${email}`);
 

@@ -14,7 +14,12 @@ import crypto from 'crypto';
  */
 
 const SECRET = process.env.NEXTAUTH_SECRET || process.env.EMAIL_SECRET || '';
-const DEFAULT_TTL_MS = 48 * 60 * 60 * 1000; // 48 h
+// 7 jours et non 48 h : les invitations partent par lots et sont ouvertes des
+// jours plus tard. Les 295 invitations du 22/07 n'ont recueilli que 21 clics, et
+// leurs jetons étaient morts bien avant toute relance. Le compromis de
+// réutilisabilité décrit ci-dessus s'étend donc à sept jours, ce qui reste
+// acceptable pour un lien qui ne fait qu'ouvrir l'espace de son propre compte.
+const DEFAULT_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 jours
 
 export function signMagicToken(userId: string, ttlMs: number = DEFAULT_TTL_MS): string | null {
   if (!SECRET || !userId) return null;

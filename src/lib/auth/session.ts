@@ -156,7 +156,11 @@ export async function createPasswordResetToken(email: string): Promise<string | 
   if (!user) return null;
 
   const token = crypto.randomBytes(32).toString('hex');
-  const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 heure
+  // 24 h et non 1 h : sur 113 demandes de réinitialisation, 83 n'ont jamais été
+  // utilisées, et cinq personnes ont réessayé plusieurs fois sans jamais entrer
+  // (l'une neuf fois). Le public relève ses mails de façon irrégulière, souvent
+  // le soir — une fenêtre d'une heure condamnait la plupart des liens.
+  const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 heures
 
   await prisma.passwordReset.create({
     data: {

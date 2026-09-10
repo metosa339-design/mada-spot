@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
                       Réinitialiser mon mot de passe
                     </a>
                   </div>
-                  <p style="color: #6b7280; font-size: 13px;">Ce lien expire dans 1 heure. Si vous n'avez pas fait cette demande, ignorez cet email.</p>
+                  <p style="color: #6b7280; font-size: 13px;">Ce lien expire dans 24 heures. Si vous n'avez pas fait cette demande, ignorez cet email.</p>
                 </div>
               </div>
             `,

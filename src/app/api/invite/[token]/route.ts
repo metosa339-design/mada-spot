@@ -3,7 +3,7 @@ import { randomUUID } from 'crypto'
 import { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/db'
 import { apiError } from '@/lib/api-response'
-import { hashPassword, createSession, getSessionCookieConfig } from '@/lib/auth'
+import { hashPassword, createSession, getSessionCookieConfig, updateLastLogin } from '@/lib/auth'
 import { logger } from '@/lib/logger'
 
 // Normalise un numéro malgache en format international sans "+" (ex: 261341112233)
@@ -182,6 +182,16 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     ownerId,
     request.headers.get('user-agent') || undefined,
     request.headers.get('x-forwarded-for') || undefined,
+  )
+
+  // Revendiquer par invitation EST une connexion : le lien fait office d'auth et
+  // le compte cree ici est passwordless (mot de passe aleatoire ci-dessus). Sans
+  // cet horodatage, ces proprietaires ressortaient comme « jamais connectes »
+  // alors qu'ils avaient fait exactement ce qu'on leur demandait.
+  // Hors chemin critique : la revendication est deja committee, une ecriture de
+  // mesure ne doit pas la faire echouer.
+  void updateLastLogin(ownerId).catch((e) =>
+    logger.error('[CLAIM] Horodatage de connexion échoué:', e as Error)
   )
 
   const response = NextResponse.json({
